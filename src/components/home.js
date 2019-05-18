@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Navigation from "./navigation";
+import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import { connect } from 'react-redux';
 import { authCheckState } from '../actions';
@@ -11,10 +11,10 @@ import moment from 'moment';
 import { NavLink } from 'react-router-dom';
 import '../css/home.css';
 
+
 const API_URL = process.env.REACT_APP_REST_API;
 
 var height = window.innerHeight
-var width = window.innerWidth
 
 export class Home extends Component {
 
@@ -87,8 +87,9 @@ export class Home extends Component {
 
     return (
       <div >
-        <TopNavbar />
-        {noticeStr && <div style={{ overflowX: 'hidden' }}><Marquee >{noticeStr}</Marquee></div>}
+        <TopNavbar style={{zIndex: '100'}} />
+        
+        {noticeStr && <div style={{ overflowX: 'hidden', zIndex: 0 }}><Marquee >{noticeStr}</Marquee></div>}
 
         {
           this.state.ready &&
@@ -156,7 +157,7 @@ export class Home extends Component {
             })
           }
         </div>
-
+          <Footer/>
       </div>
 
     );

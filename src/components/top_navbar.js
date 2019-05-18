@@ -4,23 +4,17 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import PersonAdd from '@material-ui/icons/PersonAdd';
 import Person from '@material-ui/icons/Person';
 import Input from '@material-ui/icons/Input';
 import Language from '@material-ui/icons/Language';
-import MailIcon from '@material-ui/icons/Mail';
-import PeopleOutline from '@material-ui/icons/PeopleOutline';
-import DirectionsRun from '@material-ui/icons/DirectionsRun';
 
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
@@ -32,16 +26,17 @@ import { logout, handle_search, setLanguage } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import AccountMenu from './account_menu';
 
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import ButtonBase from '@material-ui/core/ButtonBase';
+
 
 import Flag from 'react-flagkit';
 
@@ -51,6 +46,10 @@ const styles = theme => ({
     },
     list: {
         width: 250,
+    },
+    subMenu: {
+        width: '99%',
+        marginTop: 15
     },
     grow: {
         flexGrow: 1,
@@ -76,12 +75,13 @@ const styles = theme => ({
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
+        backgroundColor: fade(theme.palette.common.black, 0.15),
         '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: fade(theme.palette.common.black, 0.25),
         },
         marginRight: theme.spacing.unit * 2,
         marginLeft: 0,
+        marginTop: 5,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing.unit * 3,
@@ -96,7 +96,7 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: 'white'
+        color: 'black'
     },
     inputRoot: {
         color: 'inherit',
@@ -127,19 +127,113 @@ const styles = theme => ({
     },
     button: {
         margin: theme.spacing.unit,
-        textTransform: 'capitalize',
         color: 'white'
     },
+    subbutton: {
+        margin: theme.spacing.unit
+    },
     nested: {
-        paddingLeft: theme.spacing.unit * 4,
+        paddingLeft: theme.spacing.unit * 4
+    },
+    image: {
+        position: 'relative',
+        height: 200,
+        [theme.breakpoints.down('xs')]: {
+            width: '100% !important', // Overrides inline-style
+            height: 100,
+        },
+        '&:hover, &$focusVisible': {
+            zIndex: 1,
+            '& $imageBackdrop': {
+                opacity: 0.15,
+            },
+            '& $imageMarked': {
+                opacity: 0,
+            },
+            '& $imageTitle': {
+                border: '4px solid currentColor',
+            },
+        },
+    },
+    focusVisible: {},
+    imageButton: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: theme.palette.common.white,
+    },
+    imageSrc: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 40%',
+    },
+    imageBackdrop: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        backgroundColor: theme.palette.common.black,
+        opacity: 0.4,
+        transition: theme.transitions.create('opacity'),
+    },
+    imageTitle: {
+        position: 'relative',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px ${theme.spacing.unit + 6}px`,
+    },
+    imageMarked: {
+        height: 3,
+        width: 18,
+        backgroundColor: theme.palette.common.white,
+        position: 'absolute',
+        bottom: -2,
+        left: 'calc(50% - 9px)',
+        transition: theme.transitions.create('opacity'),
     },
 });
 
-const languages = [
-    { value: 'en', label: 'English' },
-    { value: 'zh-hans', label: '簡體中文' },
-    { value: 'fr', label: 'Français' }
+const images = [
+    {
+        url: '/images/sports_submenu/in_play.jpg',
+        title: 'In-play',
+        width: '18%',
+    },
+    {
+        url: '/images/sports_submenu/football.jpg',
+        title: 'Football',
+        width: '18%',
+    },
+    {
+        url: '/images/sports_submenu/basketball.jpg',
+        title: 'Basketball',
+        width: '18%',
+    },
+    {
+        url: '/images/sports_submenu/tennis.jpg',
+        title: 'Tennis',
+        width: '18%',
+    },
+    {
+        url: '/images/sports_submenu/horse_racing.jpg',
+        title: 'Horse Racing',
+        width: '18%',
+    },
+    {
+        url: '/images/sports_submenu/all_sports.jpg',
+        title: 'All Sports',
+        width: '18%',
+    },
 ];
+
 
 export class TopNavbar extends React.Component {
 
@@ -147,9 +241,15 @@ export class TopNavbar extends React.Component {
         super(props);
 
         this.state = {
-            anchorEl: null,
+            open: false,
+            subMenuType: null,
+            showSubMenu: false,
 
+            anchorEl: null,
+            showSportsMenu: false,
+            showGamesMenu: false,
             lang: 'en',
+            showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
             showLangListItems: false,
@@ -163,8 +263,34 @@ export class TopNavbar extends React.Component {
 
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
-
     }
+
+    handleSubMenuToggle = (param) => {
+        if (this.state.subMenuType == param) {
+            this.setState({ showSubMenu: false });
+            this.setState({ subMenuType: null });
+        } else {
+            this.setState({ showSubMenu: false });
+            this.setState({ showSubMenu: true });
+            this.setState({ subMenuType: param });
+        }
+    };
+
+    handleGamesToggle = () => {
+        this.setState({ showSportsMenu: false });
+        this.setState(state => ({ showGamesMenu: !state.showGamesMenu }));
+    };
+
+    handleClose = event => {
+        if (this.anchorEl.contains(event.target)) { return; }
+
+        this.setState({ showSubMenu: false });
+        this.setState({ subMenuType: null });
+    };
+
+    submenuHandleChange = (event, submenu) => {
+        this.setState({ submenu });
+    };
 
     toggleSidePanel = (side, open) => () => {
         this.setState({
@@ -175,6 +301,15 @@ export class TopNavbar extends React.Component {
     handleLanguageMenuOpen = event => {
         this.setState({ anchorEl: event.currentTarget });
     };
+
+    langMenuClicked = (event) => {
+        this.setState({ anchorEl: null });
+       this.setState({
+            lang: event.currentTarget.dataset.myValue
+        })
+        //console.log(this.state.lang)
+        this.changeLanguage(event.currentTarget.dataset.myValue);
+    }
 
     handleLanguageMenuClose = (ev) => {
         this.setState({ anchorEl: null });
@@ -222,6 +357,8 @@ export class TopNavbar extends React.Component {
     render() {
         const { anchorEl } = this.state;
         const { classes } = this.props;
+        const { showSubMenu } = this.state;
+        const { subMenuType } = this.state;
 
         const leftMobileSideList = (
             <div className={classes.list}>
@@ -262,133 +399,76 @@ export class TopNavbar extends React.Component {
             </div>
         );
 
-        const rightSideList = (
-            <div className={classes.list}>
-                <List>
-                    <ListItem button component="a" href="/profile/">
-                        <ListItemIcon>
-                            <Person />
-                        </ListItemIcon>
-                        <ListItemText>
-                            <FormattedMessage id="nav.profile" defaultMessage='Profile' />
-                        </ListItemText>
-                    </ListItem>
-
-                    <ListItem button component="a" href="/referral/">
-                        <ListItemIcon>
-                            <PeopleOutline />
-                        </ListItemIcon>
-                        <ListItemText>
-                            <FormattedMessage id="nav.referral" defaultMessage='Refer new user' />
-                        </ListItemText>
-                    </ListItem>
-
-                    <ListItem onClick={() => {
-                        this.props.logout()
-                        window.location.reload()
-                    }}>
-                        <ListItemIcon>
-                            <DirectionsRun />
-                        </ListItemIcon>
-                        <ListItemText>
-                            <FormattedMessage id="nav.logout" defaultMessage='Logout' />
-                        </ListItemText>
-                    </ListItem>
-                </List>
+        const gamesSubMenu = (
+            <div style={{ display: 'flex' }}>
+                <Button className={classes.subbutton} href="/game_type/" >Games</Button>
+                <Button className={classes.subbutton}>Tournaments</Button>
+                <div className={classes.grow} />
+                <div className={classes.sectionDesktop}>
+                    <form onSubmit={this.onFormSubmit} className="search">
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <NavLink to={`/game_search/${this.state.term}`} style={{ color: 'white' }}>
+                                    <IconButton type="submit" color="inherit">
+                                        <SearchIcon />
+                                    </IconButton>
+                                </NavLink>
+                            </div>
+                            <InputBase
+                                placeholder="Search…"
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                value={this.state.term}
+                                onChange={this.onInputChange}
+                            />
+                        </div>
+                    </form>
+                </div>
             </div>
         );
 
-        const rightMobileSideList = (
-            <div className={classes.list}>
-                <List>
-                    {
-                        this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
-                            <div>
-                                <ListItem button component="a" href="/profile/">
-                                    <ListItemIcon>
-                                        <Person />
-                                    </ListItemIcon>
-                                    <ListItemText>
-                                        <FormattedMessage id="nav.profile" defaultMessage='Profile' />
-                                    </ListItemText>
-                                </ListItem>
-
-                                <ListItem button component="a" href="/referral/">
-                                    <ListItemIcon>
-                                        <PeopleOutline />
-                                    </ListItemIcon>
-                                    <ListItemText>
-                                        <FormattedMessage id="nav.referral" defaultMessage='Refer new user' />
-                                    </ListItemText>
-                                </ListItem>
-
-                                <ListItem onClick={() => {
-                                    this.props.logout()
-                                    window.location.reload()
-                                }}>
-                                    <ListItemIcon>
-                                        <DirectionsRun />
-                                    </ListItemIcon>
-                                    <ListItemText>
-                                        <FormattedMessage id="nav.logout" defaultMessage='Logout' />
-                                    </ListItemText>
-                                </ListItem>
-                            </div>
-                            :
-                            <div>
-                                <ListItem button component="a" href="/signup/">
-                                    <ListItemIcon>
-                                        <PersonAdd />
-                                    </ListItemIcon>
-                                    <ListItemText>
-                                        <FormattedMessage id="nav.signup" defaultMessage='Signup' />
-                                    </ListItemText>
-                                </ListItem>
-                                <ListItem button component="a" href="/login/">
-                                    <ListItemIcon>
-                                        <Input />
-                                    </ListItemIcon>
-                                    <ListItemText>
-                                        <FormattedMessage id="nav.login" defaultMessage='Login' />
-                                    </ListItemText>
-                                </ListItem>
-                            </div>
-                    }
-                    <div>
-                        <Divider />
-                        <ListItem button onClick={this.toggleLanguageListItem}>
-                            <ListItemIcon>
-                                <Language />
-                            </ListItemIcon>
-                            <ListItemText inset primary="Languages" />
-                            {this.state.showLangListItems ? <ExpandLess /> : <ExpandMore />}
-                        </ListItem>
-                        <Collapse in={this.state.showLangListItems} timeout="auto" unmountOnExit>
-                            <List component="div" disablePadding>
-                                <ListItem button className={classes.nested}>
-                                    <ListItemIcon>
-                                        <Flag country="US" />
-                                    </ListItemIcon>
-                                    <ListItemText inset primary="English" onClick={() => this.changeLanguage('en')} />
-                                </ListItem>
-                                <ListItem button className={classes.nested} onClick={() => this.changeLanguage('zh-hans')}>
-                                    <ListItemIcon>
-                                        <Flag country="CN" />
-                                    </ListItemIcon>
-                                    <ListItemText inset primary="簡體中文" />
-                                </ListItem>
-                                <ListItem button className={classes.nested}>
-                                    <ListItemIcon>
-                                        <Flag country="FR" />
-                                    </ListItemIcon>
-                                    <ListItemText inset primary="Français" onClick={() => this.changeLanguage('fr')} />
-                                </ListItem>
-                            </List>
-                        </Collapse>
-                    </div>
-                </List>
+        const sportsSubMenu = (
+            <div style={{ display: 'flex' }}>
+                {images.map(image => (
+                    <ButtonBase
+                        focusRipple
+                        key={image.title}
+                        className={classes.image}
+                        focusVisibleClassName={classes.focusVisible}
+                        style={{ width: image.width }}
+                    >
+                        <span
+                            className={classes.imageSrc}
+                            style={{ backgroundImage: `url(${window.location.origin + image.url})`, }}
+                        />
+                        <span className={classes.imageBackdrop} />
+                        <span className={classes.imageButton}>
+                            <Typography
+                                component="span"
+                                variant="subtitle1"
+                                color="inherit"
+                                className={classes.imageTitle}
+                            >
+                                {image.title}
+                                <span className={classes.imageMarked} />
+                            </Typography>
+                        </span>
+                    </ButtonBase>
+                ))}
             </div>
         );
+
+
+        let subMenuItem = (<div></div>);
+
+        switch (subMenuType) {
+            case 'games':
+                subMenuItem = gamesSubMenu;
+            case 'sports':
+                subMenuItem = sportsSubMenu;
+        }
 
         return (
             <div className={classes.root}>
@@ -419,39 +499,41 @@ export class TopNavbar extends React.Component {
                         </Button>
                         </Typography>
                         <div className={classes.sectionDesktop}>
-                            <Button href="#text-buttons" className={classes.button}>
+                            <Button buttonRef={node => {
+                                this.anchorEl = node;
+                            }}
+                                aria-owns={showSubMenu ? 'menu-list-grow' : undefined}
+                                aria-haspopup="true"
+                                onClick={() => this.handleSubMenuToggle('sports')} className={classes.button}>
                                 Sports
-                        </Button>
-                            <Button href="/game_type/" className={classes.button}>
+                            </Button>
+                            <Popper open={showSubMenu} anchorEl={this.anchorEl} transition disablePortal className={classes.subMenu}>
+                                {({ TransitionProps, placement }) => (
+                                    <Grow
+                                        {...TransitionProps}
+                                        id="menu-list-grow"
+                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                    >
+                                        <Paper>
+                                            <ClickAwayListener onClickAway={this.handleClose}>
+                                                {subMenuItem}
+                                            </ClickAwayListener>
+                                        </Paper>
+                                    </Grow>
+                                )}
+                            </Popper>
+                            <Button className={classes.button} href='/game_type/'>
                                 Games
-                        </Button>
-                            <Button href="/game_type/" className={classes.button}>
+                            </Button>
+                            <Button className={classes.button}>
                                 Live Casino
-                        </Button>
-                            <Button href="#text-buttons" className={classes.button}>
+                            </Button>
+                            <Button className={classes.button}>
                                 Lottery
-                        </Button>
+                            </Button>
+                            
                         </div>
-                        <form onSubmit={this.onFormSubmit} className="search">
-                            <div className={classes.search}>
-                                <div className={classes.searchIcon}>
-                                    <NavLink to={`/game_search/${this.state.term}`} style={{ color: 'white' }}>
-                                        <IconButton type="submit" color="inherit">
-                                            <SearchIcon />
-                                        </IconButton>
-                                    </NavLink>
-                                </div>
-                                <InputBase
-                                    placeholder="Search…"
-                                    classes={{
-                                        root: classes.inputRoot,
-                                        input: classes.inputInput,
-                                    }}
-                                    value={this.state.term}
-                                    onChange={this.onInputChange}
-                                />
-                            </div>
-                        </form>
+
                         <div className={classes.grow} />
                         {
                             this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
@@ -473,27 +555,25 @@ export class TopNavbar extends React.Component {
                                         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                                         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                                         open={Boolean(anchorEl)}
-                                        onClose={this.handleLanguageMenuClose}
                                     >
-                                        <MenuItem onClick={this.handleLanguageMenuClose} data-my-value={'en'}>
+                                        <MenuItem onClick={this.langMenuClicked} data-my-value={'en'}>
                                             <ListItemIcon className={classes.icon}>
                                                 <Flag country="US" />
                                             </ListItemIcon>
                                             <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
                                         </MenuItem>
-                                        <MenuItem onClick={this.handleLanguageMenuClose} data-my-value={'zh-hans'}>
+                                        <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
                                             <ListItemIcon className={classes.icon}>
                                                 <Flag country="CN" />
                                             </ListItemIcon>
                                             <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
                                         </MenuItem>
-                                        <MenuItem onClick={this.handleLanguageMenuClose} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
+                                        <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
                                             <Flag country="FR" />
                                         </ListItemIcon>
                                             <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
                                         </MenuItem>
                                     </Menu>
-
                                     <Tooltip title="Account" placement="bottom">
                                         <IconButton
                                             className={classes.menuButton}
@@ -510,7 +590,7 @@ export class TopNavbar extends React.Component {
                                             onClick={this.toggleSidePanel('showRightPanel', false)}
                                             onKeyDown={this.toggleSidePanel('showRightPanel', false)}
                                         >
-                                            {rightSideList}
+                                            <AccountMenu />
                                         </div>
                                     </Drawer>
                                 </div>
@@ -527,28 +607,30 @@ export class TopNavbar extends React.Component {
                                         </IconButton>
                                     </Tooltip>
                                     <Menu
-                                        value={this.state.lang} onChange={this.langMenuClicked}
+                                        value={this.state.lang}
+                                        onChange={this.langMenuClicked}
                                         anchorEl={anchorEl}
                                         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                                         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                                         open={Boolean(anchorEl)}
                                         onClose={this.handleLanguageMenuClose}
                                     >
-                                        <MenuItem onClick={this.handleLanguageMenuClose} data-my-value={'en'}>
+                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}>
                                             <ListItemIcon className={classes.icon}>
                                                 <Flag country="US" />
                                             </ListItemIcon>
                                             <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
                                         </MenuItem>
-                                        <MenuItem onClick={this.handleLanguageMenuClose} data-my-value={'zh-hans'}>
+                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}>
                                             <ListItemIcon className={classes.icon}>
                                                 <Flag country="CN" />
                                             </ListItemIcon>
                                             <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
                                         </MenuItem>
-                                        <MenuItem onClick={this.handleLanguageMenuClose} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
-                                            <Flag country="FR" />
-                                        </ListItemIcon>
+                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}>
+                                            <ListItemIcon className={classes.icon}>
+                                                <Flag country="FR" />
+                                            </ListItemIcon>
                                             <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
                                         </MenuItem>
                                     </Menu>
@@ -587,7 +669,7 @@ export class TopNavbar extends React.Component {
                                     tabIndex={0}
                                     role="button"
                                 >
-                                    {rightMobileSideList}
+                                    <AccountMenu />
                                 </div>
                             </Drawer>
                         </div>
