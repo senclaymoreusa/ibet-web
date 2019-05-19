@@ -28,10 +28,12 @@ export class Home extends Component {
 
   async componentDidMount() {
 
+    console.log("API URL = " + API_URL);
+    
     this.props.authCheckState()
     axios.get(API_URL + 'operation/api/notice-message', config)
       .then(res => {
-        //   console.log(res);
+        console.log(res);
         this.setState({ notices: res.data });
       })
 
