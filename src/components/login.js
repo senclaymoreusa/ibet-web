@@ -27,7 +27,8 @@ import classNames from 'classnames';
 import TopNavbar from "./top_navbar";
 
 
-const API_URL = process.env.REACT_APP_REST_API;
+//const API_URL = process.env.REACT_APP_REST_API;
+const API_URL = 'http://52.9.147.67:8080/';
 
 var height = window.innerHeight
 var width = window.innerWidth
