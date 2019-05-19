@@ -49,9 +49,7 @@ const styles = theme => ({
   });
 
 
-//const API_URL = process.env.REACT_APP_REST_API;
-const API_URL = 'http://52.9.147.67:8080/';
-
+const API_URL = process.env.REACT_APP_REST_API;
 
 class Forget_Password extends Component {
 

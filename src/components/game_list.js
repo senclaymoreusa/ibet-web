@@ -69,8 +69,7 @@ const Arrow = ({ text, className }) => {
 const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
 const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 
-//const API_URL = process.env.REACT_APP_REST_API;
-const API_URL = 'http://52.9.147.67:8080/';
+const API_URL = process.env.REACT_APP_REST_API;
 
 class Game_List extends Component {
 
