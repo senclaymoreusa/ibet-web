@@ -65,25 +65,7 @@ export class Home extends Component {
     let notices = this.state.notices;
 
     let noticeStr = '';
-    notices.forEach(notice => {
-      let startTime = moment(notice.start_time);
-      startTime = startTime.format('MM/DD/YYYY h:mm a');
-      let endTime = moment(notice.end_time);
-      endTime = endTime.format('MM/DD/YYYY h:mm a');
-      let i18nMessage = notice.message;
-      if (this.props.lang === 'zh') {
-        i18nMessage = notice.message_zh;
-      } else if (this.props.lang === 'fr') {
-        i18nMessage = notice.message_fr;
-      } else {
-        i18nMessage = notice.message;
-      }
-      let message = startTime + " ~ " + endTime + " " + i18nMessage;
-      noticeStr += message;
-      for (let i = 0; i < 20; i++) {
-        noticeStr += "\u00A0";
-      }
-    });
+
     return (
       <div >
         <TopNavbar style={{zIndex: '100'}} />
