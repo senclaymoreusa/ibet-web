@@ -65,6 +65,7 @@ export class Home extends Component {
     let notices = this.state.notices;
 
     let noticeStr = '';
+    if(notices.length > 0) {
     notices.forEach(notice => {
       let startTime = moment(notice.start_time);
       startTime = startTime.format('MM/DD/YYYY h:mm a');
@@ -84,7 +85,7 @@ export class Home extends Component {
         noticeStr += "\u00A0";
       }
     });
-
+    }
     return (
       <div >
         <TopNavbar style={{zIndex: '100'}} />
