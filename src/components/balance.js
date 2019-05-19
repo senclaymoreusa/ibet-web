@@ -5,7 +5,8 @@ import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
 
-const API_URL = process.env.REACT_APP_REST_API;
+//const API_URL = process.env.REACT_APP_REST_API;
+const API_URL = 'http://52.9.147.67:8080/';
 
 class Balance extends Component {
     constructor(props){
