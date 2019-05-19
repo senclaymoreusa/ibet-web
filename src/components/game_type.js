@@ -26,7 +26,7 @@ class Game_Type extends Component {
                         <FormattedMessage id="games_type.sports" defaultMessage='Sports' />
                     </div>
                     <br/>
-                    <img src="http://localhost:8000/media/game_image/soccer.jpg" height = '100' width = '150' alt='Not available' ></img>
+                    <img src="http://52.9.147.67:8080/media/game_image/soccer.jpg" height = '100' width = '150' alt='Not available' ></img>
                 </NavLink>
                 
             </div>
@@ -37,7 +37,7 @@ class Game_Type extends Component {
                         <FormattedMessage id="games_type.casino" defaultMessage='Casino' />
                     </div>
                     <br/>
-                    <img src="http://localhost:8000/media/game_image/casino.jpg" height = '100' width = '150' alt='Not available' ></img>
+                    <img src="http://52.9.147.67:8080/media/game_image/casino.jpg" height = '100' width = '150' alt='Not available' ></img>
                 </NavLink>
                 
             </div>
@@ -48,7 +48,7 @@ class Game_Type extends Component {
                         <FormattedMessage id="games_type.poker" defaultMessage='Poker' />
                     </div>
                     <br/>
-                    <img src="http://localhost:8000/media/game_image/poker.jpg" height = '100' width = '150' alt='Not available' ></img>
+                    <img src="http://52.9.147.67:8080/media/game_image/poker.jpg" height = '100' width = '150' alt='Not available' ></img>
                 </NavLink>
                 
             </div>
@@ -59,7 +59,7 @@ class Game_Type extends Component {
                          <FormattedMessage id="games_type.guide" defaultMessage='Guide' />
                     </div>
                     <br/>
-                    <img src="http://localhost:8000/media/game_image/guide.png" height = '100' width = '150' alt='Not available' ></img>
+                    <img src="http://52.9.147.67:8080/media/game_image/guide.png" height = '100' width = '150' alt='Not available' ></img>
                 </NavLink>
                 
             </div>
