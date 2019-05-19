@@ -1,6 +1,7 @@
 import axios from "axios";
 import { config } from "../util_config";
-const API_URL = process.env.REACT_APP_REST_API;
+//const API_URL = process.env.REACT_APP_REST_API;
+const API_URL = 'http://52.9.147.67:8080/';
 
 const setLanguageState = (language) => {
     return {
