@@ -14,6 +14,8 @@ import '../css/home.css';
 
 const API_URL = process.env.REACT_APP_REST_API;
 
+console.log("Line 15, process env URL = " + API_URL);
+
 var height = window.innerHeight
 
 export class Home extends Component {
@@ -28,7 +30,7 @@ export class Home extends Component {
 
   async componentDidMount() {
 
-    console.log("API URL = " + API_URL);
+    console.log("API tada URL = " + API_URL);
     
     this.props.authCheckState()
     axios.get(API_URL + 'operation/api/notice-message', config)
