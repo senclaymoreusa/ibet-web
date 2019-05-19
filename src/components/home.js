@@ -12,7 +12,8 @@ import { NavLink } from 'react-router-dom';
 import '../css/home.css';
 
 
-const API_URL = process.env.REACT_APP_REST_API;
+//const API_URL = process.env.REACT_APP_REST_API;
+const API_URL = 'http://52.9.147.67:8080/';
 
 console.log("Line 15, process env URL = " + API_URL);
 
