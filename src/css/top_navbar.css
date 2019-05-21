@@ -67,3 +67,75 @@
   .bm-overlay {
     background: rgba(0, 0, 0, 0.3);
   }
+
+  .Sports {
+    width: 87px;
+    height: 22px;
+    object-fit: contain;
+    font-size: 18px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+
+  .Live-Casino {
+    width: 140px;
+    height: 22px;
+    object-fit: contain;
+    font-size: 18px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+
+  .Games {
+    width: 89px;
+    height: 22px;
+    object-fit: contain;
+    font-size: 18px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+
+  .Lottery {
+    width: 96px;
+    height: 22px;
+    object-fit: contain;
+    font-size: 18px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+  
+  .soccer {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+  }
+
+  .bet {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+  }
+
+  .games-icon {
+    width: 26px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .lottery {
+    width: 20px;
+    height: 23px;
+    object-fit: contain;
+  }
