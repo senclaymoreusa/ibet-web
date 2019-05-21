@@ -8,12 +8,103 @@ import { config } from '../util_config';
 import { errors } from './errors';
 import Calendar from 'react-calendar';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
-import IoEye from 'react-icons/lib/io/eye';
-import Dropdown from 'react-dropdown'
-import 'react-dropdown/style.css'
-import { CountryDropdown } from 'react-country-region-selector';
+//import IoEye from 'react-icons/lib/io/eye';
+//import Dropdown from 'react-dropdown'
+//import 'react-dropdown/style.css'
+//import { CountryDropdown } from 'react-country-region-selector';
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+
+
+// Material design
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Button from '@material-ui/core/Button';
+import blue from '@material-ui/core/colors/blue';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import classNames from 'classnames';
+
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import InputBase from '@material-ui/core/InputBase';
+
+import { getNameList, getData, getNames } from 'country-list';
+
+
+import TopNavbar from "./top_navbar";
+
+import '../css/signup.css';
+
+const BootstrapInput = withStyles(theme => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing.unit * 3,
+    },
+  },
+  input: {
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    width: 'auto',
+    padding: '10px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}))(InputBase);
+
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+
+  margin: {
+    margin: 'auto',
+  },
+
+  textField: {
+    flexBasis: 200,
+    width: 300,
+    height: 50
+  },
+
+  cssRoot: {
+      color: theme.palette.getContrastText(blue[300]),
+      backgroundColor: blue[300],
+      '&:hover': {
+        backgroundColor: blue[800],
+      },
+    },
+});
 
 
 const options = ['Male', 'Female']
@@ -21,7 +112,9 @@ const options = ['Male', 'Female']
 const contact = ['Email', 'SMS', 'OMS', 'Push Notification']
 
 //const API_URL = process.env.REACT_APP_REST_API;
-const API_URL = 'http://52.9.147.67:8080/';
+//const API_URL = 'http://52.9.147.67:8080/';
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
 
 var height = window.innerHeight
 var width = window.innerWidth
@@ -79,7 +172,9 @@ class Signup extends React.Component {
       live_check_zipcode: false,
       live_check_passwordmatch: false,
 
-      password_too_simple: false
+      password_too_simple: false,
+
+      all_country_name: []
     };
 
     this.onInputChange_username         = this.onInputChange_username.bind(this);
@@ -119,8 +214,12 @@ class Signup extends React.Component {
     .then(res => {
       this.setState({
         location_country_name: res.data.country_name, 
-        location_country: res.data.country})
+        location_country: res.data.country,
+        country: res.data.country_name
+      })
     })
+
+    this.setState({all_country_name: getNames()})
   }
 
   async onInputChange_username(event){
@@ -218,8 +317,8 @@ class Signup extends React.Component {
     this.setState({street_address_2: event.target.value});
   }
 
-  onInputChange_country(country){
-    this.setState({country: country});
+  onInputChange_country(event){
+    this.setState({country: event.target.value});
   }
 
   async onInputChange_city(event){
@@ -257,7 +356,7 @@ class Signup extends React.Component {
   }
 
   onInputChange_gender(event){
-    this.setState({gender: event.value})
+    this.setState({gender: event.target.value})
   }
 
   onInputChange_checkbox(event){
@@ -265,7 +364,7 @@ class Signup extends React.Component {
   }
 
   onInputChange_contact(event){
-    this.setState({contact: event.value})
+    this.setState({contact: event.target.value})
   }
 
   onInputChange_team(event){
@@ -304,7 +403,6 @@ class Signup extends React.Component {
   }
 
   check_button_disable(){
-    //console.log(this.state.username, this.state.email, this.state.first_name, this.state.last_name, this.state.date_of_birth, this.state.phone, this.state.city, this.state.country, this.state.state, this.state.zipcode)
     if (!this.state.live_check_username && this.state.username && 
       !this.state.live_check_email && this.state.email && 
       !this.state.live_check_firstname && this.state.first_name && 
@@ -346,6 +444,10 @@ class Signup extends React.Component {
     })
   }
 
+  handleClickShowPassword = () => {
+      this.setState(state => ({ showPassword: !state.showPassword }));
+  };
+
   onFormSubmit(event){
     event.preventDefault();
 
@@ -360,7 +462,6 @@ class Signup extends React.Component {
       axios.post(API_URL + `users/api/activate/`, {email: this.state.email })
       axios.get(API_URL + `users/api/sendemail/?case=signup&to_email_address=${this.state.email}&username=${this.state.username}&email=${this.state.email}`, config)
     }).catch(err => {
-      // console.log(err.response);
       if ('username' in err.response.data) {
         this.setState({username_error: err.response.data.username[0]})
       } else {
@@ -396,7 +497,6 @@ class Signup extends React.Component {
         axios.get(API_URL + `users/api/referral/?referral_id=${referrer_id}&referred=${this.state.username}`, config)
     
     }).catch(err => {
-        // console.log(err.response);
         if (err.response &&  'username' in err.response.data) {
           this.setState({username_error: err.response.data.username[0]})
         } else {
@@ -427,6 +527,11 @@ class Signup extends React.Component {
   }
 
   render() {
+
+    const { classes } = this.props;
+
+    const { formatMessage } = this.props.intl;
+    const over_eighteen = formatMessage({ id: "sign.eighteen" });
 
     const showErrors = () => {
       if (this.state.username_error) {
@@ -461,313 +566,433 @@ class Signup extends React.Component {
     return (
 
       <div> 
-        <form onSubmit={this.onFormSubmit} >
+
+        <TopNavbar />
+
+        <form onSubmit={this.onFormSubmit} className="signup-form">
+  
+        <div className="row width-max"> 
 
           <div>
-            <label><b>
-            *<FormattedMessage id="signup.username" defaultMessage='Username: ' />  
-            </b></label>
-            <input
-                placeholder="Wilson"
-                className="form-control"
-                value={this.state.username}
-                onChange={this.onInputChange_username}
-            />
-          </div>
 
-          {this.state.live_check_username && <div style={{color: 'red'}}> <FormattedMessage  id="error.username" defaultMessage='Username not valid' /> </div>}
+              <div className="field-first-column">
+                *<FormattedMessage id="signup.username" defaultMessage='Username: ' />  
+                <br/>
+                <TextField
+                    className={classNames(classes.margin, classes.textField)}
+                    variant="outlined"
+                    type={'text'}
+                    value={this.state.username}
+                    onChange={this.onInputChange_username}
+                />
+              </div>
 
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.email" defaultMessage='Email: ' />    
-            </b></label>
-            <input
-                placeholder="example@gmail.com"
-                className="form-control"
-                value={this.state.email}
-                onChange={this.onInputChange_email}
-            />
-          </div>
+              {this.state.live_check_username && <div style={{color: 'red'}}> <FormattedMessage  id="error.username" defaultMessage='Username not valid' /> </div>}
 
-          {this.state.live_check_email && <div style={{color: 'red'}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
+              <div>
+    
+                *<FormattedMessage id="signup.email" defaultMessage='Email: ' />    
+                <br/>
+                <TextField
+                    className={classNames(classes.margin, classes.textField)}
+                    variant="outlined"
+                    type={'text'}
+                    value={this.state.email}
+                    onChange={this.onInputChange_email}
+                />
+              </div>
 
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.password" defaultMessage='Password: ' />   
-            </b></label>
-            <input
-                type = {this.state.hidden ? "password" : "text"}
-                placeholder="password"
-                className="form-control"
-                value={this.state.password1}
-                onChange={this.onInputChange_password1}
-            />
+              {this.state.live_check_email && <div style={{color: 'red'}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
 
-            <span style = {{position: 'relative',  left: '-25px'}} onMouseDown={this.toggleShow} onMouseUp={this.toggleShow}> <IoEye /> </span>
+              <div>
 
-            {
-              this.state.password1 && <PasswordStrengthMeter password={this.state.password1} />
-            }
+                *<FormattedMessage id="signup.password" defaultMessage='Password: ' />   
 
-          </div>
+                <br/>
 
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.confirm" defaultMessage='Confirm: ' />   
-            </b></label>
-            <input
-                type = 'password'
-                placeholder="password"
-                className="form-control"
-                value={this.state.password2}
-                onChange={this.onInputChange_password2}
-            />
-          </div>
+                <TextField
+                    className={classNames(classes.margin, classes.textField)}
+                    variant="outlined"
+                    type={this.state.showPassword ? 'text' : 'password'}
+                    value={this.state.password1}
+                    onChange={this.onInputChange_password1}
+                    InputProps={{
+                        endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton
+                            aria-label="Toggle password visibility"
+                            onClick={this.handleClickShowPassword}
+                            >
+                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                        ),
+                    }}
+                />
 
-          {this.state.password_too_simple && <div style={{color: 'red'}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
-          {this.state.live_check_passwordmatch && <div style={{color: 'red'}}> <FormattedMessage  id="error.passwordnotmatch" defaultMessage='Two password you entered do not match' /> </div>}
+                {
+                  this.state.password1 && <PasswordStrengthMeter password={this.state.password1} />
+                }
 
-          <div>
-            <label><b>
-            <FormattedMessage id="sign.title" defaultMessage='Title: ' />  
-            </b></label>
-            <input
-                placeholder="Mr./Mrs."
-                className="form-control"
-                value={this.state.title}
-                onChange={this.onInputChange_title}
-            />
-          </div>
+              </div>
 
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.firstName" defaultMessage='First Name: ' />     
-            </b></label>
-            <input
-                placeholder="Vicky"
-                className="form-control"
-                value={this.state.first_name}
-                onChange={this.onInputChange_first_name}
-            />
-          </div>
+              <div>
 
-          {this.state.live_check_firstname && <div style={{color: 'red'}}> <FormattedMessage  id="error.firstname" defaultMessage='First name not valid' /> </div>}
+                *<FormattedMessage id="signup.confirm" defaultMessage='Confirm: ' />   
+                
+                <br/>
 
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.lastName" defaultMessage='Last Name: ' />   
-            </b></label>
-            <input
-                placeholder="Stephen"
-                className="form-control"
-                value={this.state.last_name}
-                onChange={this.onInputChange_last_name}
-            />
-          </div>
+                <TextField
+                    className={classNames(classes.margin, classes.textField)}
+                    variant="outlined"
+                    type={'password'}
+                    value={this.state.password2}
+                    onChange={this.onInputChange_password2}
+                />
+              </div>
 
-          {this.state.live_check_lastname && <div style={{color: 'red'}}> <FormattedMessage  id="error.lastname" defaultMessage='Last name not valid' /> </div>}
+              {this.state.password_too_simple && <div style={{color: 'red'}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
+              
+              {this.state.live_check_passwordmatch && <div style={{color: 'red'}}> <FormattedMessage  id="error.passwordnotmatch" defaultMessage='Two password you entered do not match' /> </div>}
 
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.phone" defaultMessage='Phone: ' />    
-            </b></label>
-            
-            <div style={{width: '250px'}}>
-              <PhoneInput
-                country={this.state.location_country}
-                placeholder="Enter phone number"
-                value={ this.state.phone }
-                onChange={ this.onInputChange_phone } 
+              <div>
+    
+                <FormattedMessage id="sign.title" defaultMessage='Title: ' />  
+                <br/>
+                <TextField
+                    className={classNames(classes.margin, classes.textField)}
+                    variant="outlined"
+                    type={'text'}
+                    value={this.state.title}
+                    onChange={this.onInputChange_title}
+                />
+              </div>
+
+              <div>
+
+                *<FormattedMessage id="signup.firstName" defaultMessage='First Name: ' />     
+                <br />
+                <TextField
+                    className={classNames(classes.margin, classes.textField)}
+                    variant="outlined"
+                    type={'text'}
+                    value={this.state.first_name}
+                    onChange={this.onInputChange_first_name}
+                />
+              </div>
+
+              {this.state.live_check_firstname && <div style={{color: 'red'}}> <FormattedMessage  id="error.firstname" defaultMessage='First name not valid' /> </div>}
+
+              <div>
+
+                *<FormattedMessage id="signup.lastName" defaultMessage='Last Name: ' />   
+
+                <br/>
+
+                <TextField
+                    className={classNames(classes.margin, classes.textField)}
+                    variant="outlined"
+                    type={'text'}
+                    value={this.state.last_name}
+                    onChange={this.onInputChange_last_name}
+                />
+              </div>
+
+              {this.state.live_check_lastname && <div style={{color: 'red'}}> <FormattedMessage  id="error.lastname" defaultMessage='Last name not valid' /> </div>}
+
+              <div>
+                <label><b>
+                *<FormattedMessage id="signup.phone" defaultMessage='Phone: ' />    
+                </b></label>
+                
+                <div style={{width: '300px'}}>
+                  <PhoneInput
+                    country={this.state.location_country}
+                    placeholder="Enter phone number"
+                    value={ this.state.phone }
+                    onChange={ this.onInputChange_phone } 
+                  />
+                </div>
+              </div>
+
+              {this.state.live_check_phone && <div style={{color: 'red'}}> <FormattedMessage  id="error.phone" defaultMessage='Phone number not valid' /> </div>}
+
+              <div className='rows'>
+                *<FormattedMessage id="signup.dob" defaultMessage='Date of birth: ' />  
+
+              </div>
+
+              <TextField
+                  className={classNames(classes.margin, classes.textField)}
+                  variant="outlined"
+                  type={'text'}
+                  value={this.state.date_of_birth}
               />
-            </div>
-          </div>
 
-          {this.state.live_check_phone && <div style={{color: 'red'}}> <FormattedMessage  id="error.phone" defaultMessage='Phone number not valid' /> </div>}
+              <div onClick={() => {this.setState({show_date: !this.state.show_date})}} style={{color: 'blue', cursor: 'pointer'}}>
+                  { 
+                      this.state.show_date ? 
+                      <FormattedMessage id="sign.close_date" defaultMessage='Close date' />
+                      :
+                      <FormattedMessage id="sign.pick_date" defaultMessage='Pick date' />
+                  }
+              </div>
 
-          <div className='rows'>
-            <label><b>
-            *<FormattedMessage id="signup.dob" defaultMessage='Date of birth: ' />  
-            </b></label>
+              {
+                  this.state.show_date && 
+                  <Calendar
+                    onChange={this.onInputChange_date}
+                  />
+              }
 
-            {
-              <div style={{color: 'blue'}}>  {this.state.date_of_birth}  </div>
-            }
-
-          </div>
-
-          <div>
-            <div onClick={() => {this.setState({show_date: !this.state.show_date})}} style={{color: 'blue'}}>
-                <FormattedMessage id="sign.show_date" defaultMessage='Show date' />
-            </div>
-          </div>
-
-            {
-              this.state.show_date && 
-              <Calendar
-                onChange={this.onInputChange_date}
-              />
-            }
-
-          {this.state.live_check_dob && <div style={{color: 'red'}}> <FormattedMessage  id="error.dateofbirth" defaultMessage='Date of birth not valid' /> </div>}
-
-          <div>
-            <label><b>
-            <FormattedMessage id="signup.street1" defaultMessage='Street Address 1: ' />    
-            </b></label>
-            <input
-                placeholder="123 World Dr"
-                className="form-control"
-                value={this.state.street_address_1}
-                onChange={this.onInputChange_street_address_1}
-            />
-          </div>     
-
-          <div>
-            <label><b>
-            <FormattedMessage id="signup.street2" defaultMessage='Street Address 2: ' />      
-            </b></label>
-            <input
-                placeholder="Suite 23"
-                className="form-control"
-                value={this.state.street_address_2}
-                onChange={this.onInputChange_street_address_2}
-            />
-          </div>                
-
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.city" defaultMessage='City: ' />  
-            </b></label>
-            <input
-                placeholder="Mountain View"
-                className="form-control"
-                value={this.state.city}
-                onChange={this.onInputChange_city}
-            />
-          </div> 
-
-          {this.state.live_check_city && <div style={{color: 'red'}}> <FormattedMessage  id="error.city" defaultMessage='City not valid' /> </div>}
-
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.state" defaultMessage='State: ' />  
-            </b></label>
-            <input
-                placeholder="CA"
-                className="form-control"
-                value={this.state.state}
-                onChange={this.onInputChange_state}
-            />
-          </div>       
-
-          {this.state.live_check_state && <div style={{color: 'red'}}> <FormattedMessage  id="error.state" defaultMessage='State not valid' /> </div>}    
-
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.country" defaultMessage='Country: ' />   
-            </b></label>
-            <CountryDropdown
-              showDefaultOption={true}
-              defaultOptionLabel={this.state.location_country_name}
-              value={this.state.country}
-              onChange={this.onInputChange_country} 
-            />
-          </div>         
+              {this.state.live_check_dob && <div style={{color: 'red'}}> <FormattedMessage  id="error.dateofbirth" defaultMessage='Date of birth not valid' /> </div>}
 
 
-          <div>
-            <label><b>
-            *<FormattedMessage id="signup.zipcode" defaultMessage='Zipcode: ' />    
-            </b></label>
-            <input
-                placeholder="92612"
-                className="form-control"
-                value={this.state.zipcode}
-                onChange={this.onInputChange_zipcode}
-            />
-          </div> 
+            </div>   
 
-          {this.state.live_check_zipcode && <div style={{color: 'red'}}> <FormattedMessage  id="error.zipcode" defaultMessage='Zipcode not valid' /> </div>}
+            <div>  
 
-          <div>
-            <label><b>
-              <FormattedMessage id="sign.gender" defaultMessage='Gender: ' />    
-            </b></label>
-            <div style = {{width: '100px', height: '15px'}}>  
-              <Dropdown 
-                options={options} 
-                onChange={this.onInputChange_gender} 
-                value={this.state.gender} 
-              />
-            </div>
-          </div>
+              <div>
 
-          <br />
+                <FormattedMessage id="signup.street1" defaultMessage='Street Address 1: ' />    
 
-          <div>
-            <label><b>
-              <FormattedMessage id="sign.eighteen" defaultMessage='Over eighteen: ' />    
-            </b></label>
-            <input
-              type="checkbox"
-              checked={this.state.check}
-              onChange={this.onInputChange_checkbox} 
-            />
-          </div>
+                <br/>
 
-          <br />
+                <TextField
+                    className={classNames(classes.margin, classes.textField)}
+                    variant="outlined"
+                    type={'text'}
+                    value={this.state.street_address_1}
+                    onChange={this.onInputChange_street_address_1}
+                />
+              </div>   
 
-          <div>
-            <label><b>
-              <FormattedMessage id="sign.contact" defaultMessage='Preferred contact method: ' />    
-            </b></label>
-            <div style = {{width: '150px', height: '15px'}}>  
-              <Dropdown 
-                options={contact} 
-                onChange={this.onInputChange_contact} 
-                value={this.state.contact} 
-              />
-            </div>
-          </div>
+              <div>
+                  <FormattedMessage id="signup.street2" defaultMessage='Street Address 2: ' />      
 
-          <br />
+                  <br/>
 
-          <div>
-            <label><b>
-              <FormattedMessage id="sign.team" defaultMessage='Preferred team: ' />    
-            </b></label>
-            <input
-                placeholder="Thunder"
-                className="form-control"
-                value={this.state.preferred_team}
-                onChange={this.onInputChange_team}
-            />
-          </div>        
+                  <TextField
+                      className={classNames(classes.margin, classes.textField)}
+                      variant="outlined"
+                      type={'text'}
+                      value={this.state.street_address_2}
+                      onChange={this.onInputChange_street_address_2}
+                  /> 
+                </div>         
+
+                <div>
+        
+                  *<FormattedMessage id="signup.city" defaultMessage='City: ' />  
+
+                  <br/>
+
+                  <TextField
+                      className={classNames(classes.margin, classes.textField)}
+                      variant="outlined"
+                      type={'text'}
+                      value={this.state.city}
+                      onChange={this.onInputChange_city}
+                  /> 
+                </div> 
+
+                {this.state.live_check_city && <div style={{color: 'red'}}> <FormattedMessage  id="error.city" defaultMessage='City not valid' /> </div>}
+
+                <div>
+                  *<FormattedMessage id="signup.state" defaultMessage='State: ' />  
+
+                  <br/>
+
+                  <TextField
+                      className={classNames(classes.margin, classes.textField)}
+                      variant="outlined"
+                      type={'text'}
+                      value={this.state.state}
+                      onChange={this.onInputChange_state}
+                  />  
+                </div>       
+
+                {this.state.live_check_state && <div style={{color: 'red'}}> <FormattedMessage  id="error.state" defaultMessage='State not valid' /> </div>}    
+
+                <div>
+
+                  *<FormattedMessage id="signup.country" defaultMessage='Country: ' />   
+
+                  <br/>
+
+                  {/* <CountryDropdown
+                    showDefaultOption={true}
+                    defaultOptionLabel={this.state.location_country_name}
+                    value={this.state.country}
+                    onChange={this.onInputChange_country} 
+                  /> */}
+      
+                <FormControl className={classes.margin}>
+                  <Select
+                    value={this.state.country}
+                    onChange={this.onInputChange_country}
+                    input={<BootstrapInput name="country" id="country-customized-select" />}
+                  >
+                    {this.state.all_country_name.map(name => (
+                    <MenuItem key={name} value={name} >
+                      {name}
+                    </MenuItem>
+                  ))}
+                  </Select>
+                </FormControl>
+
+                </div>         
+
+                <div>
+                  *<FormattedMessage id="signup.zipcode" defaultMessage='Zipcode: ' />    
+
+                  <br/>
+
+                  <TextField
+                      className={classNames(classes.margin, classes.textField)}
+                      variant="outlined"
+                      type={'text'}
+                      value={this.state.zipcode}
+                      onChange={this.onInputChange_zipcode}
+                  />
+                </div> 
+
+                {this.state.live_check_zipcode && <div style={{color: 'red'}}> <FormattedMessage  id="error.zipcode" defaultMessage='Zipcode not valid' /> </div>}
+
+                <div>
+
+                    <FormattedMessage id="sign.gender" defaultMessage='Gender: ' /> 
+
+                    <br/>   
+
+                    {/* 
+                      <Dropdown 
+                        options={options} 
+                        onChange={this.onInputChange_gender} 
+                        value={this.state.gender} 
+                      /> 
+                    */}
+
+                    <FormControl className={classes.margin}>
+                      <Select
+                        value={this.state.gender}
+                        onChange={this.onInputChange_gender}
+                        input={<BootstrapInput name="gender" id="gender-customized-select" />}
+                      >
+                        {options.map(name => (
+                        <MenuItem key={name} value={name} >
+                          {name}
+                        </MenuItem>
+                      ))}
+                      </Select>
+                    </FormControl>
+
+                </div>
+
+
+                <div>
+
+                  <FormControlLabel
+                      control={
+                          <Checkbox
+                          checked={this.state.check}
+                          onChange={this.onInputChange_checkbox}
+                          />
+                      }
+                      label = {over_eighteen}
+                  />
+                </div>
+
+
+                <div>
+
+                    <FormattedMessage id="sign.contact" defaultMessage='Preferred contact method: ' />    
+
+                    <br/>
+
+                    {/* <Dropdown 
+                      options={contact} 
+                      onChange={this.onInputChange_contact} 
+                      value={this.state.contact} 
+                    /> */}
+
+                    <FormControl className={classes.margin}>
+                      <Select
+                        value={this.state.contact}
+                        onChange={this.onInputChange_contact}
+                        input={<BootstrapInput name="contact" id="contact-customized-select" />}
+                      >
+                        {contact.map(name => (
+                        <MenuItem key={name} value={name} >
+                          {name}
+                        </MenuItem>
+                      ))}
+                      </Select>
+                    </FormControl>
+
+                </div>
+
+                <div>
+
+                  <FormattedMessage id="sign.team" defaultMessage='Preferred team: ' />    
+
+                  <br/>
+
+                  <TextField
+                      className={classNames(classes.margin, classes.textField)}
+                      variant="outlined"
+                      type={'text'}
+                      value={this.state.preferred_team}
+                      onChange={this.onInputChange_team}
+                  />
+                </div>      
+            </div>  
+          </div>  
 
           <br />  
           
-          <span className="input-group-btn">
-              <button disabled = {this.state.button_disable} type="submit" className="btn btn-secondary"> 
-                <FormattedMessage id="signup.submit" defaultMessage='Submit' />    
-              </button>
-          </span>          
+
+          <Button 
+              disabled = {this.state.button_disable} 
+              type="submit" 
+              className="submit-button"
+              variant="contained"
+              color="primary"
+          > 
+              <FormattedMessage id="signup.submit" defaultMessage='Submit' />    
+          </Button>
+         
 
         </form>
 
-        <FormattedMessage id="login.one-click" defaultMessage='Or try one click signup' />
+        <br/>
 
-        <button style={{marginLeft: width * 0.02}} onClick={this.handle_one_click}>
-            <FormattedMessage id="login.signup" defaultMessage='Signup' />
-        </button>
+        <div className='one-click'>
 
-        <br />
+          <FormattedMessage id="login.one-click" defaultMessage='Or try one click signup' />
 
-        <NavLink to='/' style={{ textDecoration: 'none', color: 'red' }}>
-            <button style={{color: 'red'}}>
-                <FormattedMessage id="signup.cancel" defaultMessage='Cancel' />
-            </button>
-        </NavLink>
+          <Button 
+              style={{marginLeft: width * 0.02}} 
+              onClick={this.handle_one_click} 
+              className='submit-button'
+              variant="contained"
+              color="primary"
+          >
+              <FormattedMessage id="login.signup" defaultMessage='Signup' />
+          </Button>
 
+          <br />
+
+          <NavLink to='/' style={{ textDecoration: 'none', color: 'red' }}>
+              <Button
+                variant="contained"
+                color="secondary"
+              >
+                  <FormattedMessage id="signup.cancel" defaultMessage='Cancel' />
+              </Button>
+          </NavLink>
+
+        </div>
 
         { showErrors() }
 
@@ -783,4 +1008,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default injectIntl(connect(mapStateToProps, {authSignup, authCheckState})(Signup));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, {authSignup, authCheckState})(Signup)));

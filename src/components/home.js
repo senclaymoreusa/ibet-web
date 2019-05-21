@@ -9,11 +9,13 @@ import axios from 'axios';
 import { config } from '../util_config';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
+
 import '../css/home.css';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;
-const API_URL = 'http://52.9.147.67:8080/';
+//const API_URL = 'http://52.9.147.67:8080/';
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 console.log("Line 15, process env URL = " + API_URL);
 
@@ -26,7 +28,10 @@ export class Home extends Component {
     sports: [],
     casino: [],
     poker: [],
-    ready: false
+    ready: false,
+    expand: false,
+
+    all_sports: []
   }
 
   async componentDidMount() {
@@ -44,7 +49,9 @@ export class Home extends Component {
 
     await axios.get(URL, config)
       .then(res => {
-        this.setState({ sports: res.data.slice(0, 3) });
+
+        this.setState({ sports: res.data.slice(0, 8) });
+        this.setState({ all_sports: res.data})
       })
 
     URL = API_URL + 'users/api/games/?term=Casino';
@@ -65,11 +72,18 @@ export class Home extends Component {
 
   }
 
+  handle_expand(){
+    this.setState({sports: this.state.all_sports})
+    this.setState({expand: true})
+  }
+
   render() {
 
     let notices = this.state.notices;
 
     let noticeStr = '';
+
+    var recent_games = JSON.parse(localStorage.getItem("recent-games"));
 
     return (
       <div >
@@ -84,38 +98,94 @@ export class Home extends Component {
           </div>
         }
 
-        <div className="rows" >
+        <div className="cont">
           {
             this.state.ready && this.state.sports.map(item => {
-              return (
-                  <div key={item.name} className='each-game' >
-                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }} onClick={()=>{
-                        }}> {item.name} </NavLink>
-                    <br/>
-                    <img src={item.image} height = "100" width="100" alt = 'Not available'/>
+                return (
+                  <div key={item.pk} className='each-game' onClick={() => {
+                     var array = JSON.parse(localStorage.getItem("recent-games"));
+                     if (!array){
+                       array = []
+                       array.push(item)
+                     }else{
+                       var check = true;
+                       array.map(thing => {
+                         if(thing.name === item.name){
+                           check = false
+                         }
+                       })
+                      if (check){
+                        array.push(item)
+                      }
+                       
+                     }
+                     if (array.length > 4){
+                       array.shift()
+                     }
+                     localStorage.setItem("recent-games", JSON.stringify(array));
+
+                  }}>
+                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
+                      <img src={item.image} height = "100" width="100" alt = 'Not available'/>
+                      <br/>
+                      {item.name} 
+                    </NavLink>
                   </div>
                 )
             })
           }
         </div>
 
+        {
+          this.state.ready && !this.state.expand && <div className='expand-icon' onClick={this.handle_expand.bind(this)}> 
+            <FormattedMessage id="home.expand" defaultMessage='View All' />
+            {' (' + this.state.all_sports.length + ')'}
+            <i className="material-icons"> expand_more </i>
+          </div>
+        }
 
         {
+          this.state.ready &&
+          <div className='games' style={{ marginTop: height * 0.1 }}>
+            <FormattedMessage id="home.recent" defaultMessage='Recently Played' />
+          </div>
+        }
+
+        <div className="cont">
+          {
+            this.state.ready && recent_games && recent_games.map(item => {
+                return (
+                  <div key={item.name} className='each-game' >
+                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
+                      <img src={item.image} height = "100" width="100" alt = 'Not available'/>
+                      <br/>
+                      {item.name} 
+                    </NavLink>
+                  </div>
+                )
+            })
+          }
+        </div>
+        
+
+
+        {/* {
           this.state.ready &&
           <div className='poker' style={{ marginTop: height * 0.1 }}>
             <FormattedMessage id="home.poker" defaultMessage='Most Popluar Poker' />
           </div>
         }
 
-        <div className="rows" >
+        <div className="row" >
           {
             this.state.ready && this.state.poker.map(item => {
               return (
                   <div key={item.name} className='each-game'>
-                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }} onClick={()=>{
-                        }}> {item.name} </NavLink>
+                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
+                    {item.name} 
                     <br/>
                     <img src={item.image} height = "100" width="100" alt = 'Not available'/>
+                    </NavLink>
                   </div>
                 )
             })
@@ -129,20 +199,21 @@ export class Home extends Component {
           </div>
         }
 
-        <div className="rows" >
+        <div className="row" >
           {
             this.state.ready && this.state.casino.map(item => {
               return (
                   <div key={item.name} className='each-game'>
-                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }} onClick={()=>{
-                        }}> {item.name} </NavLink>
+                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}>
+                    {item.name} 
                     <br/>
                     <img src={item.image} height = "100" width="100" alt = 'Not available'/>
+                    </NavLink>
                   </div>
                 )
             })
           }
-        </div>
+        </div> */}
           <Footer/>
       </div>
 

@@ -13,9 +13,33 @@
     margin-left: 40%;
 }
 
-.each-game {
-    margin: auto;
-    text-align: center;
+.row {
+    display: block;
+    flex-direction: row;
 }
 
+.cont {
+    display: flex;
+    flex-wrap: wrap;
+}
+  
+.each-game {
+    flex-grow: 1;
+    flex-basis: 25%;
+    margin: auto;
+    text-align: center;
+    margin-top: 2%;
+}
+
+.expand-icon {
+    border: 1px solid grey;
+    height: 30px;
+    width: 150px;
+    border-radius: 180px;
+    margin: auto;
+    margin-top: 3%;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
 
