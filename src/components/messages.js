@@ -13,6 +13,7 @@ export const messages = {
         'home.poker': 'Most Popluar Poker',
         'home.expand': 'View All',
         'home.recent': 'Recently Played',
+        'home.new': 'New Games',
 
         // handle navigation page message
         'nav.title': 'Home',
@@ -235,6 +236,7 @@ export const messages = {
         'home.poker': '最受欢迎的扑克游戏',
         'home.expand': '查看全部',
         'home.recent': '近期玩过',
+        'home.new': '新游戏',
 
         // handle navigation page message
         'nav.title': '首頁',
@@ -458,6 +460,7 @@ export const messages = {
         'home.poker': 'Jeu de poker le plus populaire',
         'home.expand': 'Voir tout',
         'home.recent': 'joué récemment',
+        'home.new': 'nouveaux jeux',
 
         // handle navigation page message
         'nav.title': 'Accueil',

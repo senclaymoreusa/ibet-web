@@ -112,8 +112,8 @@ export class Home extends Component {
 
         {
           this.state.ready &&
-          <div className='games' style={{ marginTop: height * 0.1 }}>
-            <FormattedMessage id="home.sports" defaultMessage='Most Popular Sports' />
+          <div className='top-title' style={{ marginTop: height * 0.1 }}>
+            <FormattedMessage id="home.new" defaultMessage='New Games' />
           </div>
         }
 
@@ -165,7 +165,7 @@ export class Home extends Component {
 
         {
           this.state.ready &&
-          <div className='games' style={{ marginTop: height * 0.1 }}>
+          <div className='top-title' style={{ marginTop: height * 0.1 }}>
             <FormattedMessage id="home.recent" defaultMessage='Recently Played' />
           </div>
         }
