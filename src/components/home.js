@@ -13,11 +13,13 @@ import { NavLink } from 'react-router-dom';
 import '../css/home.css';
 
 
+
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 console.log("Line 15, process env URL = " + API_URL);
+
 
 var height = window.innerHeight
 
@@ -36,12 +38,10 @@ export class Home extends Component {
 
   async componentDidMount() {
 
-    console.log("API tada URL = " + API_URL);
-    
     this.props.authCheckState()
     axios.get(API_URL + 'operation/api/notice-message', config)
       .then(res => {
-        console.log(res);
+        //   console.log(res);
         this.setState({ notices: res.data });
       })
 
@@ -82,6 +82,25 @@ export class Home extends Component {
     let notices = this.state.notices;
 
     let noticeStr = '';
+    notices.forEach(notice => {
+      let startTime = moment(notice.start_time);
+      startTime = startTime.format('MM/DD/YYYY h:mm a');
+      let endTime = moment(notice.end_time);
+      endTime = endTime.format('MM/DD/YYYY h:mm a');
+      let i18nMessage = notice.message;
+      if (this.props.lang === 'zh') {
+        i18nMessage = notice.message_zh;
+      } else if (this.props.lang === 'fr') {
+        i18nMessage = notice.message_fr;
+      } else {
+        i18nMessage = notice.message;
+      }
+      let message = startTime + " ~ " + endTime + " " + i18nMessage;
+      noticeStr += message;
+      for (let i = 0; i < 20; i++) {
+        noticeStr += "\u00A0";
+      }
+    });
 
     var recent_games = JSON.parse(localStorage.getItem("recent-games"));
 

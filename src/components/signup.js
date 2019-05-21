@@ -111,9 +111,11 @@ const options = ['Male', 'Female']
 
 const contact = ['Email', 'SMS', 'OMS', 'Push Notification']
 
+
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
 
 
 var height = window.innerHeight
@@ -1008,4 +1010,6 @@ const mapStateToProps = (state) => {
     }
 }
 
+
 export default withStyles(styles)(injectIntl(connect(mapStateToProps, {authSignup, authCheckState})(Signup)));
+
