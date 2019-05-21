@@ -12,6 +12,9 @@ import { NavLink } from 'react-router-dom';
 
 import '../css/home.css';
 
+// Material UI
+import { withStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;
@@ -21,7 +24,14 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 console.log("Line 15, process env URL = " + API_URL);
 
 
-var height = window.innerHeight
+const styles = theme => ({
+  fab: {
+    width: '150px'
+  },
+  extendedIcon: {
+    marginRight: theme.spacing.unit,
+  },
+});
 
 export class Home extends Component {
 
@@ -79,6 +89,8 @@ export class Home extends Component {
 
   render() {
 
+    const { classes } = this.props;
+
     let notices = this.state.notices;
 
     let noticeStr = '';
@@ -112,7 +124,7 @@ export class Home extends Component {
 
         {
           this.state.ready &&
-          <div className='top-title' style={{ marginTop: height * 0.1 }}>
+          <div className='top-title'>
             <FormattedMessage id="home.new" defaultMessage='New Games' />
           </div>
         }
@@ -156,16 +168,23 @@ export class Home extends Component {
         </div>
 
         {
-          this.state.ready && !this.state.expand && <div className='expand-icon' onClick={this.handle_expand.bind(this)}> 
-            <FormattedMessage id="home.expand" defaultMessage='View All' />
-            {' (' + this.state.all_sports.length + ')'}
-            <i className="material-icons"> expand_more </i>
+          this.state.ready && !this.state.expand && 
+          <div className='expand-icon'>
+            <Fab  
+                onClick={this.handle_expand.bind(this)}
+                className={classes.fab}
+                variant="extended"
+            > 
+              <FormattedMessage id="home.expand" defaultMessage='View All' />
+              {' (' + this.state.all_sports.length + ')'}
+              <i className="material-icons"> expand_more </i>
+            </Fab>
           </div>
         }
 
         {
           this.state.ready &&
-          <div className='top-title' style={{ marginTop: height * 0.1 }}>
+          <div className='top-title' >
             <FormattedMessage id="home.recent" defaultMessage='Recently Played' />
           </div>
         }
@@ -246,4 +265,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { authCheckState })(Home);
+export default withStyles(styles)(connect(mapStateToProps, { authCheckState })(Home));
