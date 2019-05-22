@@ -162,7 +162,7 @@ export class AccountMenu extends React.Component {
                         </Button>
                         <List>
                             <Divider />
-                            <ListItem button component="a" href="/">
+                            <ListItem button component="a" href="/fund_management/">
                                 <ListItemIcon>
                                     <AttachMoney />
                                 </ListItemIcon>
@@ -170,7 +170,7 @@ export class AccountMenu extends React.Component {
                                     <FormattedMessage id="nav.fundmanagement" defaultMessage='Fund Management' />
                                 </ListItemText>
                             </ListItem>
-                            <ListItem button component="a" href="/">
+                            <ListItem button component="a" href="/open_bets/">
                                 <ListItemIcon>
                                     <TouchApp />
                                 </ListItemIcon>
@@ -178,7 +178,7 @@ export class AccountMenu extends React.Component {
                                     <FormattedMessage id="nav.openbets" defaultMessage='Open Bets' />
                                 </ListItemText>
                             </ListItem>
-                            <ListItem button component="a" href="/">
+                            <ListItem button component="a" href="/user_messages/">
                                 <ListItemIcon>
                                     <Message />
                                 </ListItemIcon>
@@ -186,7 +186,7 @@ export class AccountMenu extends React.Component {
                                     <FormattedMessage id="nav.messages" defaultMessage='Messages' />
                                 </ListItemText>
                             </ListItem>
-                            <ListItem button component="a" href="/">
+                            <ListItem button component="a" href="/points_rewards/">
                                 <ListItemIcon>
                                     <CardGiftcard />
                                 </ListItemIcon>
@@ -194,7 +194,7 @@ export class AccountMenu extends React.Component {
                                     <FormattedMessage id="nav.pointsrewards" defaultMessage='Points & Rewards' />
                                 </ListItemText>
                             </ListItem>
-                            <ListItem button component="a" href="/">
+                            <ListItem button component="a" href="/usage_analysis/">
                                 <ListItemIcon>
                                     <BarChart />
                                 </ListItemIcon>
@@ -202,7 +202,7 @@ export class AccountMenu extends React.Component {
                                     <FormattedMessage id="nav.usageanalysis" defaultMessage='Usage Analysis' />
                                 </ListItemText>
                             </ListItem>
-                            <ListItem button component="a" href="/">
+                            <ListItem button component="a" href="/personal_details/">
                                 <ListItemIcon>
                                     <PersonOutline />
                                 </ListItemIcon>
@@ -210,7 +210,7 @@ export class AccountMenu extends React.Component {
                                     <FormattedMessage id="nav.personaldetails" defaultMessage='Personal Details' />
                                 </ListItemText>
                             </ListItem>
-                            <ListItem button component="a" href="/">
+                            <ListItem button component="a" href="/account_settings/">
                                 <ListItemIcon>
                                     <Settings />
                                 </ListItemIcon>
