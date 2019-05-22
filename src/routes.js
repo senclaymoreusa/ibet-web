@@ -18,6 +18,13 @@ import Referral from './components/referral'
 import Balance from './components/balance'
 import Activation from './components/activation'
 import Activate from './components/activate'
+import FundManagement from './components/fund_management'
+import OpenBets from './components/open_bets'
+import UserMessages from './components/user_messages'
+import PointsRewards from './components/points_rewards'
+import UsageAnalysis from './components/usage_analysis'
+import PersonalDetails from './components/personal_details'
+import AccountSettings from './components/account_settings'
 
 const BaseRouter = () => (
   <div>
@@ -40,6 +47,14 @@ const BaseRouter = () => (
     <Route exact path="/balance/:type?" component={Balance} />
     <Route exact path="/activation" component={Activation} />
     <Route exact path="/activate/:token?" component={Activate} />
+    <Route exact path="/fund_management/" component={FundManagement} />
+    <Route exact path="/open_bets/" component={OpenBets} />
+    <Route exact path="/user_messages/" component={UserMessages} />
+    <Route exact path="/points_rewards/" component={PointsRewards} />
+    <Route exact path="/usage_analysis/" component={UsageAnalysis} />
+    <Route exact path="/personal_details/" component={PersonalDetails} />
+    <Route exact path="/account_settings/" component={AccountSettings} />
+
   </div>
 );
 
