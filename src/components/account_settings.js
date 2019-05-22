@@ -35,4 +35,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { authCheckState })(AccountSettings);
+export default connect(null, { authCheckState })(AccountSettings);
