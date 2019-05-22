@@ -24,7 +24,9 @@ import classNames from 'classnames';
 
 import '../css/reset_password.css';
 
-const API_URL = process.env.REACT_APP_REST_API;
+//const API_URL = process.env.REACT_APP_REST_API;
+//const API_URL = 'http://52.9.147.67:8080/';
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {

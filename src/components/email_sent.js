@@ -24,7 +24,9 @@ import TopNavbar from "./top_navbar";
 import '../css/email_sent.css';
 import Axios from 'axios';
 
-const API_URL = process.env.REACT_APP_REST_API;
+//const API_URL = process.env.REACT_APP_REST_API;
+//const API_URL = 'http://52.9.147.67:8080/';
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
 const styles = theme => ({
@@ -58,6 +60,11 @@ class Email_Sent extends Component {
     constructor(props){
         super(props);
 
+        this.textInput_1 = React.createRef();
+        this.textInput_2 = React.createRef();
+        this.textInput_3 = React.createRef();
+        this.textInput_4 = React.createRef();
+
         this.state = {
            code_1: '',
            code_2: '',
@@ -73,11 +80,23 @@ class Email_Sent extends Component {
         this.handle_code_4 = this.handle_code_4.bind(this);
         this.check_valid   = this.check_valid.bind(this);
         this.onFormSubmit  = this.onFormSubmit.bind(this);
+
+        this.focusTextInput_1 = this.focusTextInput_1.bind(this);
+        this.focusTextInput_2 = this.focusTextInput_2.bind(this);
+        this.focusTextInput_3 = this.focusTextInput_3.bind(this);
+        this.focusTextInput_4 = this.focusTextInput_4.bind(this);
+    }
+
+    componentDidMount(){
+        this.focusTextInput_1()
     }
 
     async handle_code_1(event){
         if(!event.target.value || (event.target.value.match(/^[0-9]+$/) && event.target.value.length < 2)){
             await this.setState({code_1: event.target.value})
+            if (this.state.code_1){
+                this.focusTextInput_2()
+            }
         }
         this.check_valid();
     }
@@ -85,6 +104,9 @@ class Email_Sent extends Component {
     async handle_code_2(event){
         if(!event.target.value ||  (event.target.value.match(/^[0-9]+$/) && event.target.value.length < 2)){
            await  this.setState({code_2: event.target.value})
+           if(this.state.code_2){
+              this.focusTextInput_3()
+           }
         }
         this.check_valid();
     }
@@ -92,6 +114,9 @@ class Email_Sent extends Component {
     async handle_code_3(event){
         if(!event.target.value ||  (event.target.value.match(/^[0-9]+$/) && event.target.value.length < 2)){
             await this.setState({code_3: event.target.value})
+            if (this.state.code_3){
+                this.focusTextInput_4()
+            }
         }
         this.check_valid();
     }
@@ -109,6 +134,22 @@ class Email_Sent extends Component {
         }else{
             this.setState({button_disable: true})
         }
+    }
+
+    focusTextInput_1() {
+        this.textInput_1.current.focus();
+    }
+
+    focusTextInput_2() {
+        this.textInput_2.current.focus();
+    }
+
+    focusTextInput_3() {
+        this.textInput_3.current.focus();
+    }
+
+    focusTextInput_4() {
+        this.textInput_4.current.focus();
     }
 
     onFormSubmit(event){
@@ -178,6 +219,7 @@ class Email_Sent extends Component {
                             type={'text'}
                             value={this.state.code_1}
                             onChange={this.handle_code_1}
+                            inputRef={this.textInput_1} 
                         />
 
                         <TextField
@@ -187,6 +229,7 @@ class Email_Sent extends Component {
                             type={'text'}
                             value={this.state.code_2}
                             onChange={this.handle_code_2}
+                            inputRef={this.textInput_2} 
                         />
 
                         <TextField
@@ -196,6 +239,7 @@ class Email_Sent extends Component {
                             type={'text'}
                             value={this.state.code_3}
                             onChange={this.handle_code_3}
+                            inputRef={this.textInput_3} 
                         />
 
                         <TextField
@@ -205,6 +249,7 @@ class Email_Sent extends Component {
                             type={'text'}
                             value={this.state.code_4}
                             onChange={this.handle_code_4}
+                            inputRef={this.textInput_4} 
                         />
 
                         <br />
@@ -236,7 +281,10 @@ class Email_Sent extends Component {
                                 .then(res => {
                                     const { formatMessage } = this.props.intl;
                                     const message = formatMessage({ id: "email_sent.resendsuccess" });
+                                    this.setState({code_1: '', code_2: '', code_3: '', code_4: ''})
+                                    this.focusTextInput_1()
                                     alert(message)
+                                    
                                 })
                             }
                         })
