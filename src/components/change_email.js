@@ -6,7 +6,11 @@ import { FormattedMessage } from 'react-intl';
 import { errors } from './errors';
 
 
-const API_URL = process.env.REACT_APP_REST_API;
+
+//const API_URL = process.env.REACT_APP_REST_API;
+//const API_URL = 'http://52.9.147.67:8080/';
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
 
 class Change_Email extends Component {
     constructor(props){
