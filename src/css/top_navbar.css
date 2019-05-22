@@ -93,6 +93,7 @@
   }
 
   .Games {
+    margin-left: 10px;
     width: 89px;
     height: 22px;
     object-fit: contain;
