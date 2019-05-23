@@ -518,7 +518,7 @@ export class TopNavbar extends React.Component {
 
 
         let searchClass = ["search"];
-        if (this.state.addClass) {
+        if (this.state.expandSearchBar) {
             searchClass.push('open');
         }
 
@@ -731,7 +731,8 @@ export class TopNavbar extends React.Component {
                                     <LotteryIcon className="lottery" />
                                     <span className="Lottery">Lottery</span>
                                 </Button>
-                                <div className="search">
+                                <div className={classes.grow} />
+                                <div className={searchClass.join(' ')}>
                                     <input type="search" className="search-box" />
                                     <span className="search-button" onClick={this.handleSearch}>
                                         <span className="search-icon"></span>

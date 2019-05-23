@@ -144,7 +144,7 @@
 
   $background-color: #2A2E37;
   $search-bg-color: #242628;
-  $icon-color: #00FEDE;
+  $icon-color: #fff;
   $transition: all .5s ease;
   * {
     box-sizing: border-box;
@@ -239,18 +239,18 @@
       margin: 0;
       width: 60px;
       height: 60px;
-      border-radius: 60px;
+      border:0px;
       &:before {
-        transform: rotate(52deg);
-        right: 22px;
-        top: 23px;
-        height: 18px;
-      }
-      &:after {
-        transform: rotate(-230deg);
+        transform: rotate(40deg);
         right: 22px;
         top: 13px;
-        height: 18px;
+        height: 32px;
+      }
+      &:after {
+        transform: rotate(-220deg);
+        right: 22px;
+        top: 13px;
+        height: 32px;
       }
     }
   }
