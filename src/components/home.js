@@ -25,9 +25,11 @@ import placeholdimage from '../images/handsomecat.jpg';
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
+
 console.log("Line 15, process env URL = " + API_URL);
 
 document.body.style = 'background: #f1f1f1;';
+
 
 const styles = theme => ({
   fab: {
@@ -127,8 +129,7 @@ export class Home extends Component {
     return (
       <div >
         <TopNavbar style={{zIndex: '100'}} />
-        
-        {noticeStr && <div style={{ overflowX: 'hidden', zIndex: 0 }}><Marquee >{noticeStr}</Marquee></div>}
+       {noticeStr && <div style={{ overflowX: 'hidden', zIndex: 0 }}><Marquee >{noticeStr}</Marquee></div>}
 
         {
           this.state.ready &&

@@ -30,14 +30,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 
 
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 
-import { getNameList, getData, getNames } from 'country-list';
+import { getNames } from 'country-list';
 
 
 import TopNavbar from "./top_navbar";
@@ -115,7 +113,6 @@ const contact = ['Email', 'SMS', 'OMS', 'Push Notification']
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
 
 
 var height = window.innerHeight
