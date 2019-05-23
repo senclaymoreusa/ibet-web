@@ -41,9 +41,7 @@ const styles = theme => ({
     },
 
     textField: {
-      flexBasis: 200,
       width: 50,
-      height: 50,
       backgroundColor: '#ffffff;'
     },
 

@@ -16,6 +16,7 @@ import '../css/home.css';
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
+import ExpandMore from '@material-ui/icons/ExpandMore'
 
 import placeholdimage from '../images/handsomecat.jpg';
 
@@ -195,7 +196,7 @@ export class Home extends Component {
             > 
               <FormattedMessage id="home.expand" defaultMessage='View All' />
               {' (' + this.state.all_sports.length + ')'}
-              <i className="material-icons margin-icon"> expand_more </i>
+              <ExpandMore />
             </Fab>
           </div>
         }
