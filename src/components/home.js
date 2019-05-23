@@ -9,12 +9,15 @@ import axios from 'axios';
 import { config } from '../util_config';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
 
 import '../css/home.css';
 
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
+
+import placeholdimage from '../images/handsomecat.jpg';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;
@@ -23,10 +26,14 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 console.log("Line 15, process env URL = " + API_URL);
 
+document.body.style = 'background: #f1f1f1;';
 
 const styles = theme => ({
   fab: {
-    width: '150px'
+    width: '240px',
+    marginTop: '48px',
+    backgroundColor: '#ffffff;',
+    fontSize: '18px'
   },
   extendedIcon: {
     marginRight: theme.spacing.unit,
@@ -157,9 +164,20 @@ export class Home extends Component {
 
                   }}>
                     <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                      <img src={item.image} height = "100" width="100" alt = 'Not available'/>
+
+                    {
+                      //  item.image ? 
+                      //  <img src={item.image} height = "240" width="319" alt = 'Not available'/>
+                      //  :
+                       <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
+                    }
+
+                        
                       <br/>
-                      {item.name} 
+                      <div className='game-title'> 
+                          {item.name} 
+                      </div>
+                      
                     </NavLink>
                   </div>
                 )
@@ -172,19 +190,20 @@ export class Home extends Component {
           <div className='expand-icon'>
             <Fab  
                 onClick={this.handle_expand.bind(this)}
-                className={classes.fab}
+                className={classNames(classes.fab, 'text')}
                 variant="extended"
             > 
               <FormattedMessage id="home.expand" defaultMessage='View All' />
               {' (' + this.state.all_sports.length + ')'}
-              <i className="material-icons"> expand_more </i>
+              <i className="material-icons margin-icon"> expand_more </i>
             </Fab>
           </div>
         }
 
+
         {
           this.state.ready &&
-          <div className='top-title' >
+          <div className='top-title margin-title' >
             <FormattedMessage id="home.recent" defaultMessage='Recently Played' />
           </div>
         }
@@ -195,15 +214,54 @@ export class Home extends Component {
                 return (
                   <div key={item.name} className='each-game' >
                     <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                      <img src={item.image} height = "100" width="100" alt = 'Not available'/>
+                      {
+                        // item.image ? 
+                        // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
+                        // :
+                        <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
+                      }
                       <br/>
-                      {item.name} 
+                      <div className='game-title'> 
+                          {item.name} 
+                      </div> 
                     </NavLink>
                   </div>
                 )
             })
           }
         </div>
+
+        {
+          this.state.ready &&
+          <div className='top-title margin-title' >
+            <FormattedMessage id="home.selected" defaultMessage='Selected for you' />
+          </div>
+        }
+
+        <div className="cont">
+          {
+            this.state.ready && this.state.sports.slice(0,4).map(item => {
+                return (
+                  <div key={item.name} className='each-game' >
+                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
+                      {
+                        // item.image ? 
+                        // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
+                        // :
+                        <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
+                      }
+                      <br/>
+                      <div className='game-title'> 
+                          {item.name} 
+                      </div> 
+                    </NavLink>
+                  </div>
+                )
+            })
+          }
+        </div>
+
+        
         
 
 

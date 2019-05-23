@@ -1,6 +1,7 @@
 .top-title {
     font-size: 30px;
-    margin-left: 10%;
+    margin-left: 5%;
+    font-family: Gilroy;
 }
 
 .poker {
@@ -36,3 +37,28 @@
     cursor: pointer;
 }
 
+.game-title {
+    display: table-cell;
+    width: 300px;
+    height: 80px;
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 28.1px;
+    color: black;
+    font-family: Gilroy;
+    color: #000000;
+    background-color: #ffffff;
+}
+
+.text {
+    letter-spacing: 4px;
+}
+
+.margin-icon {
+    margin-left: 10px;
+}
+
+.margin-title {
+    margin-top: 3%;
+}
