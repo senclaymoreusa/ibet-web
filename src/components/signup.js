@@ -30,14 +30,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 
 
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 
-import { getNameList, getData, getNames } from 'country-list';
+import { getNames } from 'country-list';
 
 
 import TopNavbar from "./top_navbar";
@@ -94,7 +92,7 @@ const styles = theme => ({
   textField: {
     flexBasis: 200,
     width: 300,
-    height: 50
+    backgroundColor: '#ffffff;'
   },
 
   cssRoot: {

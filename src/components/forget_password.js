@@ -29,9 +29,8 @@ const styles = theme => ({
     },
 
     textField: {
-      flexBasis: 200,
       width: 300,
-      height: 50
+      backgroundColor: '#ffffff;'
     },
 
     cssRoot: {
@@ -174,7 +173,6 @@ class Forget_Password extends Component {
                             className={classNames(classes.margin, classes.textField)}
                             variant="outlined"
                             type={'text'}
-                            label="Email"
                             value={this.state.old_email}
                             onChange={this.onInputChange_old_email}
                         />

@@ -40,9 +40,8 @@ const styles = theme => ({
     },
 
     textField: {
-      flexBasis: 200,
       width: 300,
-      height: 50
+      backgroundColor: '#ffffff;'
     },
 
     cssRoot: {
@@ -231,7 +230,6 @@ class Reset_Password extends Component {
                                         className={classNames(classes.margin, classes.textField)}
                                         variant="outlined"
                                         type={this.state.showPassword ? 'text' : 'password'}
-                                        label="Password"
                                         value={this.state.password1}
                                         onChange={this.onInputChange_password1}
                                         InputProps={{
@@ -261,11 +259,10 @@ class Reset_Password extends Component {
 
                                 <div> 
                                     <TextField
-                                        id="outlined-adornment-password"
+                                        id="outlined-adornment-password2"
                                         className={classNames(classes.margin, classes.textField)}
                                         variant="outlined"
                                         type={this.state.showPassword ? 'text' : 'password'}
-                                        label="Password"
                                         value={this.state.password2}
                                         onChange={this.onInputChange_password2}
                                     />

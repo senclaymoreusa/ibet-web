@@ -14,6 +14,7 @@ export const messages = {
         'home.expand': 'View All',
         'home.recent': 'Recently Played',
         'home.new': 'New Games',
+        'home.selected': 'Selected for you',
 
         // handle navigation page message
         'nav.title': 'Home',
@@ -69,7 +70,7 @@ export const messages = {
 
         // handle reset_password page message
         'reset_password.page_not_valid': 'This page no longer exists',
-        'reset_password.new_password': 'New Password',
+        'reset_password.new_password': 'New Password:',
         'reset_password.password': 'Password: ',
         'reset_password.confirm_password': 'Confirm Password: ',
         'reset_password.confirm': 'Confirm',
@@ -237,6 +238,7 @@ export const messages = {
         'home.expand': '查看全部',
         'home.recent': '近期玩过',
         'home.new': '新游戏',
+        'home.selected': '猜您喜欢',
 
         // handle navigation page message
         'nav.title': '首頁',
@@ -461,6 +463,7 @@ export const messages = {
         'home.expand': 'Voir tout',
         'home.recent': 'joué récemment',
         'home.new': 'nouveaux jeux',
+        'home.selected': 'Sélectionné pour vous',
 
         // handle navigation page message
         'nav.title': 'Accueil',
@@ -515,7 +518,7 @@ export const messages = {
 
         // handle reset_password page message
         'reset_password.page_not_valid': 'La page n\'existe plus',
-        'reset_password.new_password': 'nouveau mot de passe',
+        'reset_password.new_password': 'nouveau mot de passe:',
         'reset_password.password': 'Mot de passe: ',
         'reset_password.confirm_password': 'Confirmez le mot de passe: ',
         'reset_password.confirm': 'Confirmer',
