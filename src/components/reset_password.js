@@ -5,8 +5,9 @@ import { withRouter } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { config } from '../util_config';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
-//import IoEye from 'react-icons/lib/io/eye';
+
 import TopNavbar from "./top_navbar";
+import { NavLink } from 'react-router-dom';
 
 
 // Material design
@@ -18,8 +19,6 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 import blue from '@material-ui/core/colors/blue';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 
 import '../css/reset_password.css';
@@ -286,6 +285,17 @@ class Reset_Password extends Component {
                                 </Button>
                            
                             </form>
+
+                            <br/>
+
+                            <NavLink to='/' style={{ textDecoration: 'none', color: 'red' }}>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                >
+                                    <FormattedMessage id="signup.cancel" defaultMessage='Cancel' />
+                                </Button>
+                            </NavLink>
 
                             {
                                  

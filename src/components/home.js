@@ -21,8 +21,6 @@ import Fab from '@material-ui/core/Fab';
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-console.log("Line 15, process env URL = " + API_URL);
-
 
 const styles = theme => ({
   fab: {

@@ -117,7 +117,6 @@ const contact = ['Email', 'SMS', 'OMS', 'Push Notification']
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
-
 var height = window.innerHeight
 var width = window.innerWidth
 

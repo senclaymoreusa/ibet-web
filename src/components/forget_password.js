@@ -5,19 +5,14 @@ import { config } from '../util_config';
 import { FormattedMessage } from 'react-intl';
 import { errors } from './errors';
 import TopNavbar from "./top_navbar";
+import { NavLink } from 'react-router-dom';
 
 
 // Material design
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 import blue from '@material-ui/core/colors/blue';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 
 import '../css/forget_password.css';
@@ -53,7 +48,6 @@ const styles = theme => ({
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
 
 
 class Forget_Password extends Component {
@@ -206,6 +200,17 @@ class Forget_Password extends Component {
 
                         {this.state.email_not_exist && <div style={{color: 'red'}}> <FormattedMessage  id="forget_password.email_not_valid" defaultMessage='Email does not exsit' /> </div>}
                     </form>
+
+                    <br/>
+
+                    <NavLink to='/' style={{ textDecoration: 'none', color: 'red' }}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                        >
+                            <FormattedMessage id="signup.cancel" defaultMessage='Cancel' />
+                        </Button>
+                    </NavLink>
 
 
                     {
