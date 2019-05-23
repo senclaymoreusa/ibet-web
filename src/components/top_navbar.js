@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -48,7 +48,7 @@ import { ReactComponent as GamesIcon } from '../assets/img/svg/games.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 
-import '../css/top_navbar.css';
+import '../css/top_navbar.scss';
 
 const styles = theme => ({
     root: {
@@ -286,7 +286,7 @@ export class TopNavbar extends React.Component {
             open: false,
             subMenuType: null,
             showSubMenu: false,
-
+            expandSearchBar: false,
             anchorEl: null,
             showSportsMenu: false,
             showGamesMenu: false,
@@ -305,6 +305,10 @@ export class TopNavbar extends React.Component {
 
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+    }
+
+    handleSearch = () => {
+        this.setState({ expandSearchBar: !this.state.expandSearchBar });
     }
 
     handleSubMenuToggle = (param) => {
@@ -510,6 +514,12 @@ export class TopNavbar extends React.Component {
                 subMenuItem = gamesSubMenu;
             case 'sports':
                 subMenuItem = sportsSubMenu;
+        }
+
+
+        let searchClass = ["search"];
+        if (this.state.addClass) {
+            searchClass.push('open');
         }
 
         return (
@@ -721,6 +731,12 @@ export class TopNavbar extends React.Component {
                                     <LotteryIcon className="lottery" />
                                     <span className="Lottery">Lottery</span>
                                 </Button>
+                                <div className="search">
+                                    <input type="search" className="search-box" />
+                                    <span className="search-button" onClick={this.handleSearch}>
+                                        <span className="search-icon"></span>
+                                    </span>
+                                </div>
                             </div>
                         </Toolbar>
                     </AppBar>
@@ -733,7 +749,7 @@ export class TopNavbar extends React.Component {
 const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated: token !== null && token !== undefined,
+        isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
     }
