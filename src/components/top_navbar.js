@@ -1,4 +1,5 @@
-import React from 'react'; import PropTypes from 'prop-types';
+import React from 'react'; 
+import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -36,13 +37,27 @@ import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import ButtonBase from '@material-ui/core/ButtonBase';
-
-
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { createMuiTheme } from '@material-ui/core/styles';
+import SvgIcon from '@material-ui/core/SvgIcon';
 import Flag from 'react-flagkit';
+import { black, yellow, indigo } from '@material-ui/core/colors';
+import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
+import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
+import { ReactComponent as GamesIcon } from '../assets/img/svg/games.svg';
+import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
+import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
+
+import '../css/top_navbar.css';
 
 const styles = theme => ({
     root: {
         width: '100%',
+    },
+    soccer: {
+        width: 28,
+        height: 28,
+        backgroundColor: '#ffffff'
     },
     list: {
         width: 250,
@@ -234,6 +249,33 @@ const images = [
     },
 ];
 
+const muiLogoBarTheme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#000000'
+        },
+    },
+    appBar: {
+        height: 72,
+    },
+    typography: {
+        useNextVariants: true,
+    },
+});
+
+const muiMenuBarTheme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#212121'
+        },
+    },
+    appBar: {
+        height: 72,
+    },
+    typography: {
+        useNextVariants: true,
+    },
+});
 
 export class TopNavbar extends React.Component {
 
@@ -304,7 +346,7 @@ export class TopNavbar extends React.Component {
 
     langMenuClicked = (event) => {
         this.setState({ anchorEl: null });
-       this.setState({
+        this.setState({
             lang: event.currentTarget.dataset.myValue
         })
         //console.log(this.state.lang)
@@ -472,209 +514,217 @@ export class TopNavbar extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar position="static" color="primary">
-                    <Toolbar>
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                className={classes.mobileLeftMenuButton}
-                                color="inherit"
-                                aria-label="Open drawer"
-                                onClick={this.toggleSidePanel('showLeftPanel', true)}>
-                                <MenuIcon />
+                <MuiThemeProvider theme={muiLogoBarTheme}>
+                    <AppBar position="static">
+                        <Toolbar variant="dense">
+                            <div className={classes.sectionMobile}>
+                                <IconButton
+                                    className={classes.mobileLeftMenuButton}
+                                    color="inherit"
+                                    aria-label="Open drawer"
+                                    onClick={this.toggleSidePanel('showLeftPanel', true)}>
+                                    <MenuIcon />
+                                </IconButton>
+                                <Drawer open={this.state.showLeftPanel} onClose={this.toggleSidePanel('showLeftPanel', false)}>
+                                    <div
+                                        tabIndex={0}
+                                        role="button"
+                                        onClick={this.toggleSidePanel('showLeftPanel', false)}
+                                        onKeyDown={this.toggleSidePanel('showLeftPanel', false)}
+                                    >
+                                        {leftMobileSideList}
+                                    </div>
+                                </Drawer>
+                            </div>
+                            <IconButton href='/'>
+                                <IbetLogo />
                             </IconButton>
-                            <Drawer open={this.state.showLeftPanel} onClose={this.toggleSidePanel('showLeftPanel', false)}>
-                                <div
-                                    tabIndex={0}
-                                    role="button"
-                                    onClick={this.toggleSidePanel('showLeftPanel', false)}
-                                    onKeyDown={this.toggleSidePanel('showLeftPanel', false)}
-                                >
-                                    {leftMobileSideList}
-                                </div>
-                            </Drawer>
-                        </div>
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                            <Button href="/" className={classes.button}>
-                                ibet
-                        </Button>
-                        </Typography>
-                        <div className={classes.sectionDesktop}>
-                            <Button buttonRef={node => {
-                                this.anchorEl = node;
-                            }}
-                                aria-owns={showSubMenu ? 'menu-list-grow' : undefined}
-                                aria-haspopup="true"
-                                onClick={() => this.handleSubMenuToggle('sports')} className={classes.button}>
-                                Sports
-                            </Button>
-                            <Popper open={showSubMenu} anchorEl={this.anchorEl} transition disablePortal className={classes.subMenu}>
-                                {({ TransitionProps, placement }) => (
-                                    <Grow
-                                        {...TransitionProps}
-                                        id="menu-list-grow"
-                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                                    >
-                                        <Paper>
-                                            <ClickAwayListener onClickAway={this.handleClose}>
-                                                {subMenuItem}
-                                            </ClickAwayListener>
-                                        </Paper>
-                                    </Grow>
-                                )}
-                            </Popper>
-                            <Button className={classes.button} href='/game_type/'>
-                                Games
-                            </Button>
-                            <Button className={classes.button}>
-                                Live Casino
-                            </Button>
-                            <Button className={classes.button}>
-                                Lottery
-                            </Button>
-                            
-                        </div>
-
-                        <div className={classes.grow} />
-                        {
-                            this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
-                                <div className={classes.sectionDesktop}>
-                                    <Tooltip title="Change Language" placement="bottom">
-                                        <IconButton
-                                            className={classes.menuButton}
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
+                            <div className={classes.grow} />
+                            {
+                                this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
+                                    <div className={classes.sectionDesktop}>
+                                        <Tooltip title="Change Language" placement="bottom">
+                                            <IconButton
+                                                className={classes.menuButton}
+                                                aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
+                                                aria-haspopup="true"
+                                                onClick={this.handleLanguageMenuOpen}
+                                                color="inherit"
+                                            >
+                                                <Language />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Menu
+                                            value={this.state.lang} onChange={this.langMenuClicked}
+                                            anchorEl={anchorEl}
+                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                            open={Boolean(anchorEl)}
                                         >
-                                            <Language />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Menu
-                                        value={this.state.lang} onChange={this.langMenuClicked}
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                        open={Boolean(anchorEl)}
-                                    >
-                                        <MenuItem onClick={this.langMenuClicked} data-my-value={'en'}>
-                                            <ListItemIcon className={classes.icon}>
-                                                <Flag country="US" />
-                                            </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
-                                        </MenuItem>
-                                        <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
-                                            <ListItemIcon className={classes.icon}>
-                                                <Flag country="CN" />
-                                            </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
-                                        </MenuItem>
-                                        <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
-                                            <Flag country="FR" />
-                                        </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
-                                        </MenuItem>
-                                    </Menu>
-                                    <Tooltip title="Account" placement="bottom">
-                                        <IconButton
-                                            className={classes.menuButton}
-                                            color="inherit"
-                                            aria-label="Open drawer"
-                                            onClick={this.toggleSidePanel('showRightPanel', true)}>
-                                            <Person />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                        <div
-                                            tabIndex={0}
-                                            role="button"
-                                            onClick={this.toggleSidePanel('showRightPanel', false)}
-                                            onKeyDown={this.toggleSidePanel('showRightPanel', false)}
-                                        >
-                                            <AccountMenu />
-                                        </div>
-                                    </Drawer>
-                                </div>
-                                :
-                                <div className={classes.sectionDesktop}>
-                                    <Tooltip title="Change Language" placement="bottom">
-                                        <IconButton
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
-                                        >
-                                            <Language />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Menu
-                                        value={this.state.lang}
-                                        onChange={this.langMenuClicked}
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                        open={Boolean(anchorEl)}
-                                        onClose={this.handleLanguageMenuClose}
-                                    >
-                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}>
-                                            <ListItemIcon className={classes.icon}>
-                                                <Flag country="US" />
-                                            </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}>
-                                            <ListItemIcon className={classes.icon}>
-                                                <Flag country="CN" />
-                                            </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}>
-                                            <ListItemIcon className={classes.icon}>
+                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'en'}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="US" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
+                                            </MenuItem>
+                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="CN" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
+                                            </MenuItem>
+                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
                                                 <Flag country="FR" />
                                             </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
-                                        </MenuItem>
-                                    </Menu>
-                                    <Tooltip title="Signup" placement="bottom">
-                                        <IconButton
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            color="inherit"
-                                            onClick={() => { this.props.history.push('/signup/') }}
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
+                                            </MenuItem>
+                                        </Menu>
+                                        <Tooltip title="Account" placement="bottom">
+                                            <IconButton
+                                                className={classes.menuButton}
+                                                color="inherit"
+                                                aria-label="Open drawer"
+                                                onClick={this.toggleSidePanel('showRightPanel', true)}>
+                                                <Person />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
+                                            <div
+                                                tabIndex={0}
+                                                role="button"
+                                                onClick={this.toggleSidePanel('showRightPanel', false)}
+                                                onKeyDown={this.toggleSidePanel('showRightPanel', false)}
+                                            >
+                                                <AccountMenu />
+                                            </div>
+                                        </Drawer>
+                                    </div>
+                                    :
+                                    <div className={classes.sectionDesktop}>
+                                        <Tooltip title="Change Language" placement="bottom">
+                                            <IconButton
+                                                aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
+                                                aria-haspopup="true"
+                                                onClick={this.handleLanguageMenuOpen}
+                                                color="inherit"
+                                            >
+                                                <Language />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Menu
+                                            value={this.state.lang}
+                                            onChange={this.langMenuClicked}
+                                            anchorEl={anchorEl}
+                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                            open={Boolean(anchorEl)}
+                                            onClose={this.handleLanguageMenuClose}
                                         >
-                                            <PersonAdd />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="Login" placement="bottom">
-                                        <IconButton
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            color="inherit"
-                                            onClick={() => { this.props.history.push('/login/') }}
+                                            <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="US" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
+                                            </MenuItem>
+                                            <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="CN" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
+                                            </MenuItem>
+                                            <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="FR" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
+                                            </MenuItem>
+                                        </Menu>
+                                        <Tooltip title="Signup" placement="bottom">
+                                            <IconButton
+                                                aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
+                                                aria-haspopup="true"
+                                                color="inherit"
+                                                onClick={() => { this.props.history.push('/signup/') }}
+                                            >
+                                                <PersonAdd />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Login" placement="bottom">
+                                            <IconButton
+                                                aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
+                                                aria-haspopup="true"
+                                                color="inherit"
+                                                onClick={() => { this.props.history.push('/login/') }}
+                                            >
+                                                <Input />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
+                            }
+                            <div className={classes.sectionMobile}>
+                                <IconButton
+                                    className={classes.mobileMenuButton}
+                                    color="inherit"
+                                    aria-label="Open drawer"
+                                    onClick={this.toggleSidePanel('showRightPanel', true)}>
+                                    <MoreIcon />
+                                </IconButton>
+                                <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
+                                    <div
+                                        tabIndex={0}
+                                        role="button"
+                                    >
+                                        <AccountMenu />
+                                    </div>
+                                </Drawer>
+                            </div>
+                        </Toolbar>
+                    </AppBar>
+                </MuiThemeProvider>
+                <MuiThemeProvider theme={muiMenuBarTheme}>
+                    <AppBar position="static">
+                        <Toolbar variant="dense">
+                            <div className={classes.sectionDesktop}>
+                                <Button buttonRef={node => {
+                                    this.anchorEl = node;
+                                }}
+                                    aria-owns={showSubMenu ? 'menu-list-grow' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={() => this.handleSubMenuToggle('sports')} className={classes.button}>
+                                    <SoccerIcon className="soccer" />
+                                    <span className="Sports">Sports</span>
+                                </Button>
+                                <Popper open={showSubMenu} anchorEl={this.anchorEl} transition disablePortal className={classes.subMenu}>
+                                    {({ TransitionProps, placement }) => (
+                                        <Grow
+                                            {...TransitionProps}
+                                            id="menu-list-grow"
+                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                                         >
-                                            <Input />
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
-                        }
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                className={classes.mobileMenuButton}
-                                color="inherit"
-                                aria-label="Open drawer"
-                                onClick={this.toggleSidePanel('showRightPanel', true)}>
-                                <MoreIcon />
-                            </IconButton>
-                            <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                <div
-                                    tabIndex={0}
-                                    role="button"
-                                >
-                                    <AccountMenu />
-                                </div>
-                            </Drawer>
-                        </div>
-                    </Toolbar>
-                </AppBar>
+                                            <Paper>
+                                                <ClickAwayListener onClickAway={this.handleClose}>
+                                                    {subMenuItem}
+                                                </ClickAwayListener>
+                                            </Paper>
+                                        </Grow>
+                                    )}
+                                </Popper>
+                                <Button className={classes.button}>
+                                    <BetIcon className="bet" />
+                                    <span className="Live-Casino">Live Casino</span>
+                                </Button>
+                                <Button className={classes.button} href='/game_type/'>
+                                    <GamesIcon className="games-icon" />
+                                    <span className="Games">Games</span>
+                                </Button>
+                                <Button className={classes.button}>
+                                    <LotteryIcon className="lottery" />
+                                    <span className="Lottery">Lottery</span>
+                                </Button>
+                            </div>
+                        </Toolbar>
+                    </AppBar>
+                </MuiThemeProvider>
             </div >
         );
     }

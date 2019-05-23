@@ -11,6 +11,9 @@ export const messages = {
         'home.sports': 'Most Popular Sports',
         'home.casino': 'Most Popluar Casino',
         'home.poker': 'Most Popluar Poker',
+        'home.expand': 'View All',
+        'home.recent': 'Recently Played',
+        'home.new': 'New Games',
 
         // handle navigation page message
         'nav.title': 'Home',
@@ -135,7 +138,8 @@ export const messages = {
         'sign.state_empty_error': 'State cannot be empty', 
         'sign.country_empty_error': 'Country cannot be empty', 
         'sign.zipcode_empty_error': 'Zipcode cannot be empty',  
-        'sign.show_date': 'Show date',
+        'sign.pick_date': 'Pick date',
+        'sign.close_date': 'Close date',
         'sign.gender': 'Gender',
         'sign.eighteen': 'Over eighteen',
         'sign.contact': 'Preferred contact method',
@@ -230,6 +234,9 @@ export const messages = {
         'home.sports': '最受欢迎的体育游戏',
         'home.casino': '最受欢迎的赌场游戏',
         'home.poker': '最受欢迎的扑克游戏',
+        'home.expand': '查看全部',
+        'home.recent': '近期玩过',
+        'home.new': '新游戏',
 
         // handle navigation page message
         'nav.title': '首頁',
@@ -354,7 +361,8 @@ export const messages = {
         'sign.state_empty_error': '請輸入地址州', 
         'sign.country_empty_error': '請輸入國家', 
         'sign.zipcode_empty_error': '請輸入郵遞區號', 
-        'sign.show_date': '显示日期', 
+        'sign.pick_date': '选择日期', 
+        'sign.close_date': '关闭日期',
         'sign.gender': '性别',
         'sign.eighteen': '满18岁',
         'sign.contact': '倾向的联系方式',
@@ -450,6 +458,9 @@ export const messages = {
         'home.sports': 'Les jeux de sport les plus populaires',
         'home.casino': 'Les jeux de casino les plus populaires',
         'home.poker': 'Jeu de poker le plus populaire',
+        'home.expand': 'Voir tout',
+        'home.recent': 'joué récemment',
+        'home.new': 'nouveaux jeux',
 
         // handle navigation page message
         'nav.title': 'Accueil',
@@ -573,7 +584,8 @@ export const messages = {
         'sign.state_empty_error': 'Etat ne peut être vide', 
         'sign.country_empty_error': 'Le pays ne peut pas être vide', 
         'sign.zipcode_empty_error': 'Le code postal ne peut pas être vide',  
-        'sign.show_date': 'Montrer la date', 
+        'sign.pick_date': 'choisir la date', 
+        'sign.close_date': 'Date de fermeture',
         'sign.gender': 'le sexe',
         'sign.eighteen': 'Plus de dix-huit',
         'sign.contact': 'Méthode de contact préférée',
