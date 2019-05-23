@@ -119,8 +119,7 @@ export class Home extends Component {
     return (
       <div >
         <TopNavbar style={{zIndex: '100'}} />
-        
-        {noticeStr && <div style={{ overflowX: 'hidden', zIndex: 0 }}><Marquee >{noticeStr}</Marquee></div>}
+       {noticeStr && <div style={{ overflowX: 'hidden', zIndex: 0 }}><Marquee >{noticeStr}</Marquee></div>}
 
         {
           this.state.ready &&
