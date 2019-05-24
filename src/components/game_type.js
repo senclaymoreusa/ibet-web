@@ -104,7 +104,7 @@ class Game_Type extends Component {
 
                 <div className='category-section'>
 
-                    <div class="wrapper" onClick={() => {
+                    <div className="wrapper" onClick={() => {
                         this.setState({jackpot: true, table_game: false, poker: false})
                         this.handle_category_change('ball');
                     }}>
@@ -112,7 +112,7 @@ class Game_Type extends Component {
                         !this.state.jackpot ?
                         <div>
                             <Grey />
-                            <Jack class="logo"/>
+                            <Jack className="logo"/>
                             <br/>
                             <div className='category-title'> 
                                 Jackpots
@@ -121,7 +121,7 @@ class Game_Type extends Component {
                         :
                         <div>
                             <Black className='selected-bottom'/>
-                            <Jack class="logo "/>
+                            <Jack className="logo "/>
                             <br/>
                             <div className='category-title'> 
                                 Jackpots
@@ -132,7 +132,7 @@ class Game_Type extends Component {
 
                 </div>
 
-                <div class="wrapper" onClick={() => {
+                <div className="wrapper" onClick={() => {
                     this.setState({table_game: true, jackpot: false, poker: false});
                     this.handle_category_change('bet');
                 }}>
@@ -140,7 +140,7 @@ class Game_Type extends Component {
                         !this.state.table_game ?
                         <div> 
                             <Grey />
-                            <Table class="logo"/>
+                            <Table className="logo"/>
                             <br/>
                             <div className='category-title'> 
                                 Table Games
@@ -150,7 +150,7 @@ class Game_Type extends Component {
                         :
                         <div> 
                             <Black className='selected-bottom' />
-                            <Table class="logo"/>
+                            <Table className="logo"/>
                             <br/>
                             <div className='category-title'> 
                                 Table Games
@@ -161,7 +161,7 @@ class Game_Type extends Component {
                 </div>
 
             
-                <div class="wrapper" onClick={() => {
+                <div className="wrapper" onClick={() => {
                     this.setState({poker: true, jackpot: false, table_game: false})
                     this.handle_category_change('poker');
                 }}>
@@ -169,7 +169,7 @@ class Game_Type extends Component {
                         !this.state.poker ?
                         <div>
                             <Grey />
-                            <Poker class="logo-poker"/>
+                            <Poker className="logo-poker"/>
                             <br/>
                             <div className='category-title'> 
                                 Poker
@@ -178,7 +178,7 @@ class Game_Type extends Component {
                         :
                         <div> 
                             <Black className='selected-bottom' />
-                            <Poker class="logo-poker"/>
+                            <Poker className="logo-poker"/>
                             <br/>
                             <div className='category-title'> 
                                 Poker

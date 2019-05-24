@@ -16,6 +16,7 @@
 .wrapper {
     position: relative;
     margin: auto;
+    cursor: pointer;
   }
   
 .logo {
@@ -50,7 +51,6 @@
     color: black;
     font-family: Gilroy;
     color: #000000;
-    background-color: #ffffff;
 }
 
 .category-section {
