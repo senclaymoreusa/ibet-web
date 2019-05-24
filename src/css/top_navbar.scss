@@ -140,3 +140,132 @@
     height: 23px;
     object-fit: contain;
   }
+
+
+  $background-color: #000;
+  $search-bg-color: #000;
+  $icon-color: #fff;
+  $transition: all .5s ease;
+  * {
+    box-sizing: border-box;
+  }
+  
+  .search {
+    position: absolute;
+    z-index: 2;
+    right:0;
+    width: 72px;
+    height: 52px;
+    background-color: $search-bg-color;
+    overflow: hidden;
+    transition: $transition;
+    &:before {
+      content: '';
+      display: block;
+      width: 0px;
+      height: 100%;
+      position: relative;
+      transition: $transition;
+    }
+    &.open {
+      width: 100%;
+      &:before {
+        height: 72px;
+        margin: 20px 0 20px 20px;
+        position: absolute;
+      }
+    }
+  }
+  
+  .search-box {
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 22px;
+    &:focus {
+      outline: none;
+    }
+  }
+  
+  .search-input {
+    width: 300px;
+    height: 100%;
+    box-shadow: none;
+    border: 0px;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    color: #fff;
+    font-size: 22px;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .search-button {
+    width: 72px;
+    height: 72px;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .search-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 40px;
+    border: 2px solid $icon-color;
+    display: block;
+    position: relative;
+    transition: $transition;
+    &:before {
+      content: '';
+      width: 2px;
+      height: 10px;
+      position: absolute;
+      right: -2px;
+      top: 18px;
+      display: block;
+      background-color: $icon-color;
+      transform: rotate(-45deg);
+      transition: $transition;
+    }
+    &:after {
+      content: '';
+      width: 2px;
+      height: 10px;
+      position: absolute;
+      right: -9px;
+      top: 25px;
+      display: block;
+      background-color: $icon-color;
+      transform: rotate(-45deg);
+      transition: $transition;
+    }
+    .open & {
+      margin: 0;
+      width: 60px;
+      height: 60px;
+      border:0px;
+      &:before {
+        transform: rotate(40deg);
+        right: 32px;
+        top: 0px;
+        height: 32px;
+      }
+      &:after {
+        transform: rotate(-220deg);
+        right: 31px;
+        top: 0px;
+        height: 32px;
+      }
+    }
+  }
