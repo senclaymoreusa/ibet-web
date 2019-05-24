@@ -16,7 +16,7 @@ import '../css/home.css';
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
-import ExpandMore from '@material-ui/icons/ExpandMore'
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import placeholdimage from '../images/handsomecat.jpg';
 
@@ -188,7 +188,7 @@ export class Home extends Component {
         </div>
 
         {
-          this.state.ready && !this.state.expand && 
+          this.state.ready && !this.state.expand && this.state.all_sports.length > 8 && 
           <div className='expand-icon'>
             <Fab  
                 onClick={this.handle_expand.bind(this)}

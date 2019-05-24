@@ -1,5 +1,5 @@
 .row {
-    display:flex;
+    display: flex;
     flex-direction: row;
 }
 
@@ -11,4 +11,56 @@
 .title-game {
     font-size: 25px;
     margin-left: 20%;
+}
+
+.wrapper {
+    position: relative;
+    margin: auto;
+  }
+  
+.logo {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+    margin-left: 26%;
+    margin-top: 10%;
+}
+
+.logo-poker {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+    margin-left: 32%;
+    margin-top: 10%;
+}
+
+.each-category {
+    margin: auto;
+}
+
+.category-title {
+    display: table-cell;
+    width: 140px;
+    height: 19px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 18.8px;
+    color: black;
+    font-family: Gilroy;
+    color: #000000;
+    background-color: #ffffff;
+}
+
+.category-section {
+    display: flex;
+    flex-direction: row;
+    width: 800px;
+    margin: auto;
+    margin-top: 2%;
+}
+
+.selected-bottom {
+    border-bottom: 3px solid red;
 }
