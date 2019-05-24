@@ -87,47 +87,7 @@ const styles = theme => ({
             display: 'block',
         },
     },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.black, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.black, 0.25),
-        },
-        marginRight: theme.spacing.unit * 2,
-        marginLeft: 0,
-        marginTop: 5,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit * 3,
-            width: 'auto',
-        },
-    },
-    searchIcon: {
-        width: theme.spacing.unit * 9,
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'black'
-    },
-    inputRoot: {
-        color: 'inherit',
-        width: '100%',
-    },
-    inputInput: {
-        paddingTop: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
-        paddingLeft: theme.spacing.unit * 10,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200,
-        },
-    },
+
     sectionDesktop: {
         display: 'none',
         [theme.breakpoints.up('md')]: {
@@ -252,7 +212,7 @@ const images = [
 const muiLogoBarTheme = createMuiTheme({
     palette: {
         primary: {
-            main: '#000000'
+            main: '#ffffff'
         },
     },
     appBar: {
@@ -266,7 +226,7 @@ const muiLogoBarTheme = createMuiTheme({
 const muiMenuBarTheme = createMuiTheme({
     palette: {
         primary: {
-            main: '#212121'
+            main: '#000000'
         },
     },
     appBar: {
@@ -371,6 +331,10 @@ export class TopNavbar extends React.Component {
 
     onInputChange(event) {
         this.setState({ term: event.target.value });
+    }
+
+    search(){
+        this.props.history.push('/game_search/' + this.state.term);
     }
 
     onFormSubmit(event) {
@@ -731,9 +695,17 @@ export class TopNavbar extends React.Component {
                                     <LotteryIcon className="lottery" />
                                     <span className="Lottery">Lottery</span>
                                 </Button>
-                                <div className={classes.grow} />
                                 <div className={searchClass.join(' ')}>
-                                    <input type="search" className="search-box" />
+                                    <div className="search-box">
+                                                 <input type="search" className="search-input"
+                                                    value={this.state.term}
+                                                    onChange={event => {this.setState({term: event.target.value})}}
+                                                    onKeyPress={event => {
+                                                        if (event.key === 'Enter') {
+                                                          this.search()
+                                                        }
+                                                      }}/>
+                                    </div>
                                     <span className="search-button" onClick={this.handleSearch}>
                                         <span className="search-icon"></span>
                                     </span>

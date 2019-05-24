@@ -142,8 +142,8 @@
   }
 
 
-  $background-color: #2A2E37;
-  $search-bg-color: #242628;
+  $background-color: #000;
+  $search-bg-color: #000;
   $icon-color: #fff;
   $transition: all .5s ease;
   * {
@@ -151,27 +151,27 @@
   }
   
   .search {
-    width: 100px;
-    height: 100px;
-    margin: 40px auto 0;
+    position: absolute;
+    z-index: 2;
+    right:0;
+    width: 72px;
+    height: 52px;
     background-color: $search-bg-color;
-    position: relative;
     overflow: hidden;
     transition: $transition;
     &:before {
       content: '';
       display: block;
-      width: 3px;
+      width: 0px;
       height: 100%;
       position: relative;
-      background-color: $icon-color;
       transition: $transition;
     }
     &.open {
-      width: 420px;
+      width: 100%;
       &:before {
-        height: 60px;
-        margin: 20px 0 20px 30px;
+        height: 72px;
+        margin: 20px 0 20px 20px;
         position: absolute;
       }
     }
@@ -184,40 +184,55 @@
     border: none;
     background: transparent;
     color: #fff;
-    padding: 20px 100px 20px 45px;
-    font-size: 40px;
+    font-size: 22px;
     &:focus {
       outline: none;
     }
   }
   
+  .search-input {
+    width: 300px;
+    height: 100%;
+    box-shadow: none;
+    border: 0px;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    color: #fff;
+    font-size: 22px;
+    &:focus {
+      outline: none;
+    }
+  }
+
   .search-button {
-    width: 100px;
-    height: 100px;
+    width: 72px;
+    height: 72px;
     display: block;
     position: absolute;
     right: 0;
     top: 0;
-    padding: 20px;
+    padding: 10px;
     cursor: pointer;
   }
   
   .search-icon {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
     border-radius: 40px;
-    border: 3px solid $icon-color;
+    border: 2px solid $icon-color;
     display: block;
     position: relative;
-    margin-left: 5px;
     transition: $transition;
     &:before {
       content: '';
-      width: 3px;
-      height: 15px;
+      width: 2px;
+      height: 10px;
       position: absolute;
       right: -2px;
-      top: 30px;
+      top: 18px;
       display: block;
       background-color: $icon-color;
       transform: rotate(-45deg);
@@ -225,11 +240,11 @@
     }
     &:after {
       content: '';
-      width: 3px;
-      height: 15px;
+      width: 2px;
+      height: 10px;
       position: absolute;
-      right: -12px;
-      top: 40px;
+      right: -9px;
+      top: 25px;
       display: block;
       background-color: $icon-color;
       transform: rotate(-45deg);
@@ -242,14 +257,14 @@
       border:0px;
       &:before {
         transform: rotate(40deg);
-        right: 22px;
-        top: 13px;
+        right: 32px;
+        top: 0px;
         height: 32px;
       }
       &:after {
         transform: rotate(-220deg);
-        right: 22px;
-        top: 13px;
+        right: 31px;
+        top: 0px;
         height: 32px;
       }
     }
