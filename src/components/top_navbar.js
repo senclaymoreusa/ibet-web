@@ -21,7 +21,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage } from '../actions';
@@ -75,7 +75,7 @@ const styles = theme => ({
     menuButton: {
         marginLeft: -12,
         marginRight: 20,
-        fontSize:20
+        fontSize: 20
     },
     mobileLeftMenuButton: {
         marginLeft: -12,
@@ -265,7 +265,8 @@ export class TopNavbar extends React.Component {
             name: "",
             email: "",
             picture: "",
-            balance: 0
+            balance: 0.00,
+            balanceCurrency: ""
         };
 
         this.onInputChange = this.onInputChange.bind(this);
@@ -373,9 +374,14 @@ export class TopNavbar extends React.Component {
                     axios.get(API_URL + 'users/api/user/', config)
                         .then(res => {
                             this.setState({ balance: res.data.main_wallet });
+                            this.setState({ balanceCurrency: res.data.currency });
                         })
                 }
             });
+
+    }
+
+    getCurrencySymbol(currnecy) {
 
     }
 
@@ -538,9 +544,14 @@ export class TopNavbar extends React.Component {
                                     <div className={classes.sectionDesktop}>
                                         <Tooltip title="Balance" placement="bottom">
                                             <Button className={classes.menuButton} >
-                                                {this.state.balance}
+                                                <FormattedNumber
+                                                    minimumFractionDigits={2}
+                                                    value={this.state.balance}
+                                                    style='currency'
+                                                    currency={this.state.balanceCurrency}
+                                                />
                                             </Button>
-                                        </Tooltip>          
+                                        </Tooltip>
                                         <Tooltip title="Account" placement="bottom">
                                             <IconButton
                                                 className={classes.menuButton}
