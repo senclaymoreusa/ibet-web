@@ -12,15 +12,11 @@ import Fab from '@material-ui/core/Fab';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
-import { ReactComponent as Black } from '../images/black-background.svg';
-
-import { ReactComponent as Jack } from '../images/jackpot.svg';
-
-import { ReactComponent as Table } from '../images/table-game.svg';
-
-import { ReactComponent as Poker}  from '../images/poker.svg';
-
-import { ReactComponent as Grey}  from '../images/grey.svg';
+// import { ReactComponent as Black } from '../images/black-background.svg';
+// import { ReactComponent as Jack } from '../images/jackpot.svg';
+// import { ReactComponent as Table } from '../images/table-game.svg';
+// import { ReactComponent as Poker}  from '../images/poker.svg';
+// import { ReactComponent as Grey}  from '../images/grey.svg';
 
 import placeholdimage from '../images/handsomecat.jpg';
 
@@ -46,10 +42,14 @@ class Game_Type extends Component {
         super(props);
 
         this.state = {
-            jackpot: false,
+            top_rated: false,
+            new: false,
+            slots: false,
+            jackpots: false,
             table_game: false,
-            poker: false,
-    
+            vitrual_sport: false,
+            other_game: false,
+
             expand: false,
     
             games: [],
@@ -102,7 +102,67 @@ class Game_Type extends Component {
           
                 <TopNavbar />
 
-                <div className='category-section'>
+                <div className='game-category-dropdown'>
+
+                    <div className={this.state.top_rated ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: true, new: false, slots: false, jackpots: false, table_game: false, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('bet');
+                    }}>
+                        TOP RATED
+                    </div>
+
+                    <div className={this.state.new ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: true, slots: false, jackpots: false, table_game: false, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('ball');
+                    }}>
+                        NEW
+                    </div>
+
+                    <div className={this.state.slots ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: true, jackpots: false, table_game: false, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('poker');
+                    }}>
+                        SLOTS
+                    </div>
+
+                    <div className={this.state.jackpots ? 'each-game-category-selected' : 'each-game-category'} 
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: false, jackpots: true, table_game: false, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('bet');
+                    }}>
+                        JACKPOTS
+                    </div>
+
+                    <div className={this.state.table_game ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: false, jackpots: false, table_game: true, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('poker');
+                    }}>
+                        TABLE GAMES
+                    </div>
+
+                    <div className={this.state.vitrual_sport ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: false, jackpots: false, table_game: false, vitrual_sport: true, other_game: false})
+                        this.handle_category_change('basketball');
+                    }}>
+                        VITURAL SPORTS
+                    </div>
+
+                    <div className={this.state.other_game ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: false, jackpots: false, table_game: false, vitrual_sport: false, other_game: true})
+                        this.handle_category_change('football');
+                    }}>
+                        OTHER GAMES
+                    </div>
+
+                </div>
+
+                {/* <div className='category-section'>
 
                     <div className="wrapper" onClick={() => {
                         this.setState({jackpot: true, table_game: false, poker: false})
@@ -189,7 +249,7 @@ class Game_Type extends Component {
                 </div>
 
 
-            </div>
+            </div> */}
 
             {
                 this.state.ready &&

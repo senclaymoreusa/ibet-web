@@ -64,3 +64,33 @@
 .selected-bottom {
     border-bottom: 3px solid red;
 }
+
+.game-category-dropdown {
+    display: flex;
+    flex-direction: row;
+    background-color: #2d2d2d;
+}
+
+.each-game-category {
+    width: auto;
+    height: 50px;
+    font-family: Gilroy;
+    font-size: 18px;
+    letter-spacing: 0.8px;
+    color: #ffffff;
+    margin: auto;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+.each-game-category-selected {
+    width: auto;
+    height: 50px;
+    font-family: Gilroy;
+    font-size: 18px;
+    letter-spacing: 0.8px;
+    color: #ffffff;
+    margin: auto;
+    border-bottom: 2px solid #ffffff;
+    padding-top: 10px;
+}
