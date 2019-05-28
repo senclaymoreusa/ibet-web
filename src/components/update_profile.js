@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { config } from '../util_config';
 import { FormattedMessage } from 'react-intl';
-import { errors } from './errors';
-import { CountryDropdown } from 'react-country-region-selector';
 import Calendar from 'react-calendar';
 import TopNavbar from "./top_navbar";
 import '../css/profile.css';

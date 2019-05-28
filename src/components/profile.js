@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { authCheckState, AUTH_RESULT_FAIL } from '../actions';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { NavLink} from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { config } from '../util_config';
 import TopNavbar from "./top_navbar";
