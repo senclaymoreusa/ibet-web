@@ -24,7 +24,7 @@ import Button from '@material-ui/core/Button';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage } from '../actions';
+import { logout, handle_search, setLanguage  } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -265,8 +265,12 @@ export class TopNavbar extends React.Component {
             name: "",
             email: "",
             picture: "",
+
+            show_loggedin_status: false,
+
             balance: 0.00,
             balanceCurrency: ""
+
         };
 
         this.onInputChange = this.onInputChange.bind(this);
@@ -353,6 +357,12 @@ export class TopNavbar extends React.Component {
     }
 
     componentDidMount() {
+
+        this.props.authCheckState()
+        .then((res) => {
+            this.setState({show_loggedin_status: true});
+        })
+
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
         var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
@@ -541,6 +551,9 @@ export class TopNavbar extends React.Component {
                             <div className={classes.grow} />
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
+
+                                this.state.show_loggedin_status && 
+
                                     <div className={classes.sectionDesktop}>
                                         <Tooltip title="Balance" placement="bottom">
                                             <Button className={classes.menuButton} >
@@ -571,6 +584,7 @@ export class TopNavbar extends React.Component {
                                                 <AccountMenu />
                                             </div>
                                         </Drawer>
+
                                         <Tooltip title="Change Language" placement="bottom">
                                             <IconButton
                                                 className={classes.menuButton}
@@ -609,7 +623,7 @@ export class TopNavbar extends React.Component {
                                         </Menu>
                                     </div>
                                     :
-                                    <div className={classes.sectionDesktop}>
+                                    this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
                                         <Tooltip title="Change Language" placement="bottom">
                                             <IconButton
                                                 aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}

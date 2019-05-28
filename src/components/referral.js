@@ -1,13 +1,53 @@
 import React from 'react';
 import axios from 'axios';
 import { config } from '../util_config';
-import { NavLink } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import { authCheckState } from '../actions';
+
+import TextField from '@material-ui/core/TextField';
+import blue from '@material-ui/core/colors/blue';
+
+import TopNavbar from "./top_navbar";
+
+
+import '../css/referral.css';
+
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import Button from '@material-ui/core/Button';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
+
+
+const styles = theme => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+  
+    margin: {
+      margin: 'auto',
+    },
+  
+    textField: {
+      flexBasis: 200,
+      width: 300,
+      backgroundColor: '#ffffff;'
+    },
+  
+    cssRoot: {
+        color: theme.palette.getContrastText(blue[300]),
+        backgroundColor: blue[300],
+        '&:hover': {
+          backgroundColor: blue[800],
+        },
+      },
+  });
 
 
 class Referral extends React.Component {
@@ -28,6 +68,9 @@ class Referral extends React.Component {
     }
 
     componentDidMount() {
+
+        this.props.authCheckState()
+        
         const token = localStorage.getItem('token');
           config.headers["Authorization"] = `Token ${token}`;
 
@@ -73,52 +116,73 @@ class Referral extends React.Component {
     }
 
     render(){
+
+        const { classes } = this.props;
+
         return (
             <div> 
-                <form onSubmit={this.onFormSubmit} >
+
+                <TopNavbar />
+
+                <form onSubmit={this.onFormSubmit} className='referral-form'>
                     <div>
                         <div>
                             <label><b>
                                 <FormattedMessage id='referral.enter_email' defaultMessage='Please enter the email account for your referral' />
                             </b></label>
                         </div>
-                            <input
-                                placeholder="example@gmail.com"
-                                className="form-control"
+                            <TextField
+                                className={classNames(classes.margin, classes.textField)}
+                                variant="outlined"
+                                type={'text'}
                                 value={this.state.email}
                                 onChange={this.onInputChange_email}
                             />
                     </div>
 
-                    <span className="input-group-btn">
-                        <button disabled = {this.state.button_disable} type="submit" className="btn btn-secondary"> 
-                            <FormattedMessage id="balance.submit" defaultMessage='Submit' />   
-                        </button>
-                    </span>          
+                    {
+                        this.state.email_valid_error && <div style={{color: 'red'}}> <FormattedMessage id="referral.email_valid" defaultMessage='Please enter a valid email address' /> </div>
+                    }
+
+                    {
+                        this.state.email_exist_error && <div style={{color: 'red'}}> <FormattedMessage id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>
+                    }
+
+                    {
+                        this.state.error && <FormattedMessage id="referral.error" defaultMessage='You have reached the maximum referral number' />
+                    }
+
+                    <br/>
+
+                    <Button 
+                        disabled = {this.state.button_disable} 
+                        type="submit" 
+                        variant="contained"
+                        color="primary"
+                        className='referral-submit'
+                        > 
+                        <FormattedMessage id="balance.submit" defaultMessage='Submit' />   
+                    </Button>
+
+                    
+                    <br />
+                    <br />
+
+                    <Button 
+                        variant="contained"
+                        color="secondary"
+                        onClick = {() => {
+                            this.props.history.push('/')
+                        }}
+                    > 
+                        <FormattedMessage id="profile.back" defaultMessage='Back' />
+                    </Button>
+      
 
                 </form>
-
-                <button className="btn btn-secondary"> 
-                    <NavLink to='/' style={{ textDecoration: 'none' }}><FormattedMessage id="profile.back" defaultMessage='Back' /></NavLink> 
-                </button>
-
-                <br/>
-
-                {
-                    this.state.error && <FormattedMessage id="referral.error" defaultMessage='You have reached the maximum referral number' />
-                }
-
-                {
-                    this.state.email_valid_error && <div style={{color: 'red'}}> <FormattedMessage id="referral.email_valid" defaultMessage='Please enter a valid email address' /> </div>
-                }
-
-                {
-                    this.state.email_exist_error && <div style={{color: 'red'}}> <FormattedMessage id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>
-                }
-
             </div>
         )
     }
 }
 
-export default injectIntl(Referral);
+export default withStyles(styles)(injectIntl(  connect(null, {authCheckState})(Referral)  ));
