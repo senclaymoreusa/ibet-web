@@ -100,7 +100,7 @@ class Game_Type extends Component {
         return (
             <div>
           
-                <TopNavbar />
+                <TopNavbar activeMenu={'games'}/>
 
                 <div className='game-category-dropdown'>
 
