@@ -321,7 +321,6 @@ export class Login extends React.Component {
                         className={classNames(classes.margin, classes.textField)}
                         variant="outlined"
                         type={'text'}
-                        label="Username"
                         value={this.state.username}
                         onChange={this.onInputChange_username}
                     />
@@ -339,7 +338,6 @@ export class Login extends React.Component {
                         className={classNames(classes.margin, classes.textField)}
                         variant="outlined"
                         type={this.state.showPassword ? 'text' : 'password'}
-                        label="Password"
                         value={this.state.password}
                         onChange={this.onInputChange_password}
                         InputProps={{
