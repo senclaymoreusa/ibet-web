@@ -7,20 +7,21 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonAdd from '@material-ui/icons/PersonAdd';
-import Person from '@material-ui/icons/Person';
+import Person from '@material-ui/icons/PersonOutline';
 import Input from '@material-ui/icons/Input';
 import Language from '@material-ui/icons/Language';
+import { authCheckState, AUTH_RESULT_FAIL } from '../actions';
+
 
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage } from '../actions';
@@ -39,16 +40,18 @@ import Popper from '@material-ui/core/Popper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
-import SvgIcon from '@material-ui/core/SvgIcon';
 import Flag from 'react-flagkit';
-import { black, yellow, indigo } from '@material-ui/core/colors';
 import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
 import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
 import { ReactComponent as GamesIcon } from '../assets/img/svg/games.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
+import axios from 'axios';
+import { config } from '../util_config';
 
 import '../css/top_navbar.scss';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
@@ -72,6 +75,7 @@ const styles = theme => ({
     menuButton: {
         marginLeft: -12,
         marginRight: 20,
+        fontSize: 20
     },
     mobileLeftMenuButton: {
         marginLeft: -12,
@@ -260,7 +264,9 @@ export class TopNavbar extends React.Component {
             userID: "",
             name: "",
             email: "",
-            picture: ""
+            picture: "",
+            balance: 0.00,
+            balanceCurrency: ""
         };
 
         this.onInputChange = this.onInputChange.bind(this);
@@ -333,7 +339,7 @@ export class TopNavbar extends React.Component {
         this.setState({ term: event.target.value });
     }
 
-    search(){
+    search() {
         this.props.history.push('/game_search/' + this.state.term);
     }
 
@@ -358,6 +364,25 @@ export class TopNavbar extends React.Component {
                 picture: fackbookObj.picture
             })
         }
+
+        this.props.authCheckState()
+            .then(res => {
+                if (res !== AUTH_RESULT_FAIL) {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            this.setState({ balance: res.data.main_wallet });
+                            this.setState({ balanceCurrency: res.data.currency });
+                        })
+                }
+            });
+
+    }
+
+    getCurrencySymbol(currnecy) {
+
     }
 
     toggleLanguageListItem = () => {
@@ -517,6 +542,35 @@ export class TopNavbar extends React.Component {
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
                                     <div className={classes.sectionDesktop}>
+                                        <Tooltip title="Balance" placement="bottom">
+                                            <Button className={classes.menuButton} >
+                                                <FormattedNumber
+                                                    minimumFractionDigits={2}
+                                                    value={this.state.balance}
+                                                    style='currency'
+                                                    currency={this.state.balanceCurrency}
+                                                />
+                                            </Button>
+                                        </Tooltip>
+                                        <Tooltip title="Account" placement="bottom">
+                                            <IconButton
+                                                className={classes.menuButton}
+                                                color="inherit"
+                                                aria-label="Open drawer"
+                                                onClick={this.toggleSidePanel('showRightPanel', true)}>
+                                                <Person />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
+                                            <div
+                                                tabIndex={0}
+                                                role="button"
+                                                onClick={this.toggleSidePanel('showRightPanel', false)}
+                                                onKeyDown={this.toggleSidePanel('showRightPanel', false)}
+                                            >
+                                                <AccountMenu />
+                                            </div>
+                                        </Drawer>
                                         <Tooltip title="Change Language" placement="bottom">
                                             <IconButton
                                                 className={classes.menuButton}
@@ -553,25 +607,6 @@ export class TopNavbar extends React.Component {
                                                 <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
                                             </MenuItem>
                                         </Menu>
-                                        <Tooltip title="Account" placement="bottom">
-                                            <IconButton
-                                                className={classes.menuButton}
-                                                color="inherit"
-                                                aria-label="Open drawer"
-                                                onClick={this.toggleSidePanel('showRightPanel', true)}>
-                                                <Person />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                            <div
-                                                tabIndex={0}
-                                                role="button"
-                                                onClick={this.toggleSidePanel('showRightPanel', false)}
-                                                onKeyDown={this.toggleSidePanel('showRightPanel', false)}
-                                            >
-                                                <AccountMenu />
-                                            </div>
-                                        </Drawer>
                                     </div>
                                     :
                                     <div className={classes.sectionDesktop}>
@@ -697,14 +732,14 @@ export class TopNavbar extends React.Component {
                                 </Button>
                                 <div className={searchClass.join(' ')}>
                                     <div className="search-box">
-                                                 <input type="search" className="search-input"
-                                                    value={this.state.term}
-                                                    onChange={event => {this.setState({term: event.target.value})}}
-                                                    onKeyPress={event => {
-                                                        if (event.key === 'Enter') {
-                                                          this.search()
-                                                        }
-                                                      }}/>
+                                        <input type="search" className="search-input"
+                                            value={this.state.term}
+                                            onChange={event => { this.setState({ term: event.target.value }) }}
+                                            onKeyPress={event => {
+                                                if (event.key === 'Enter') {
+                                                    this.search()
+                                                }
+                                            }} />
                                     </div>
                                     <span className="search-button" onClick={this.handleSearch}>
                                         <span className="search-icon"></span>
@@ -732,4 +767,4 @@ TopNavbar.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage })(TopNavbar)));
+export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState })(TopNavbar)));
