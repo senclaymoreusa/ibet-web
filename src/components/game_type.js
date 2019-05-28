@@ -7,10 +7,17 @@ import  TopNavbar from "./top_navbar";
 import '../css/game_type.css';
 import axios from 'axios';
 import { config } from '../util_config';
+import { authCheckState } from '../actions';
+
+
+// Material-UI
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Fab from '@material-ui/core/Fab';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 // import { ReactComponent as Black } from '../images/black-background.svg';
 // import { ReactComponent as Jack } from '../images/jackpot.svg';
@@ -33,8 +40,43 @@ const styles = theme => ({
     extendedIcon: {
       marginRight: theme.spacing.unit,
     },
+    root: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+      },
   });
 
+
+const StyledTabs = withStyles({
+    indicator: {
+      display: "flex",
+      justifyContent: "center",
+      backgroundColor: "transparent",
+      "& > div": {
+        maxWidth: 100,
+        width: "100%",
+        backgroundColor: "white"
+      }
+    }
+  })(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
+
+  const StyledTab = withStyles(theme => ({
+    root: {
+      textTransform: "none",
+      color: "#fff",
+      margin: 'auto',
+      fontWeight: theme.typography.fontWeightRegular,
+      fontSize: theme.typography.pxToRem(15),
+      "&:focus": {
+        opacity: 1,
+      },
+      "&:hover": {
+        color: "white",
+        opacity: 1,
+        backgroundColor: 'black'
+      },
+    }
+  }))(props => <Tab disableRipple {...props} />);
 
 class Game_Type extends Component {
 
@@ -53,14 +95,20 @@ class Game_Type extends Component {
             expand: false,
     
             games: [],
-            all_games: []
+            all_games: [],
+
+            value: ''
         }
 
         this.handle_expand = this.handle_expand.bind(this);
+        this.handlechange = this.handlechange.bind(this);
 
     }
 
     async componentDidMount() {
+
+        this.props.authCheckState()
+        
         var URL = API_URL + 'users/api/games/?term=Sports';
 
         await axios.get(URL, config)
@@ -91,6 +139,10 @@ class Game_Type extends Component {
         })
     }
 
+    handlechange(event, newValue){
+        this.setState({value: newValue})
+    }
+
     render() {
 
         const { classes } = this.props;
@@ -102,7 +154,63 @@ class Game_Type extends Component {
           
                 <TopNavbar />
 
-                <div className='game-category-dropdown'>
+                <div className={classes.root}>
+                    <AppBar position="static" >
+                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
+                            <StyledTab 
+                                style={{outline: 'none'}} 
+                                label="TOP RATED" 
+                                onClick={() => {
+                                    this.handle_category_change('bet');
+                                }}
+                            />
+                            <StyledTab 
+                                style={{outline: 'none'}} 
+                                label="NEW" 
+                                onClick={() => {
+                                    this.handle_category_change('ball');
+                                }}
+                            />
+                            <StyledTab 
+                                style={{outline: 'none'}} 
+                                label="SLOTS" 
+                                onClick={() => {
+                                    this.handle_category_change('poker');
+                                }}
+                            />
+                            <StyledTab 
+                                style={{outline: 'none'}}
+                                label="JACKPOTS" 
+                                onClick={() => {
+                                    this.handle_category_change('bet');
+                                }}
+                            />
+                            <StyledTab 
+                                style={{outline: 'none'}} 
+                                label="TABLE GAMES" 
+                                onClick={() => {
+                                    this.handle_category_change('poker');
+                                }}
+                            />
+                            <StyledTab 
+                                style={{outline: 'none'}} 
+                                label="VITURAL SPORTS" 
+                                onClick={() => {
+                                    this.handle_category_change('poker');
+                                }}
+                            />
+                            <StyledTab 
+                                style={{outline: 'none'}} 
+                                label="OTHER GAMES" 
+                                onClick={() => {
+                                    this.handle_category_change('football');
+                                }}
+                            />
+                        </StyledTabs>
+                    </AppBar>
+                </div>
+
+                {/* <div className='game-category-dropdown'>
 
                     <div className={this.state.top_rated ? 'each-game-category-selected' : 'each-game-category'}
                     onClick={() => {
@@ -160,7 +268,7 @@ class Game_Type extends Component {
                         OTHER GAMES
                     </div>
 
-                </div>
+                </div> */}
 
                 {/* <div className='category-section'>
 
@@ -438,4 +546,4 @@ class Game_Type extends Component {
     }
   }
 
-  export default withStyles(styles)(connect(null, {game_type})(Game_Type));
+  export default withStyles(styles)(connect(null, {game_type, authCheckState})(Game_Type));
