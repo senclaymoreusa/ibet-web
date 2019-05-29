@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { config } from '../util_config';
 import { FormattedMessage } from 'react-intl';
-import { errors } from './errors';
-import { CountryDropdown } from 'react-country-region-selector';
 import Calendar from 'react-calendar';
+import TopNavbar from "./top_navbar";
+import '../css/profile.css';
+
+
+// Material UI
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import blue from '@material-ui/core/colors/blue';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputBase from '@material-ui/core/InputBase';
+import Button from '@material-ui/core/Button';
+
+import classNames from 'classnames';
+
+import { getNames } from 'country-list';
 
 
 
@@ -13,6 +28,67 @@ import Calendar from 'react-calendar';
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
+const styles = theme => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+  
+    margin: {
+      margin: 'auto',
+    },
+  
+    textField: {
+      flexBasis: 200,
+      width: 300,
+      backgroundColor: '#ffffff;'
+    },
+  
+    cssRoot: {
+        color: theme.palette.getContrastText(blue[300]),
+        backgroundColor: blue[300],
+        '&:hover': {
+          backgroundColor: blue[800],
+        },
+      },
+  });
+
+
+  const BootstrapInput = withStyles(theme => ({
+    root: {
+      'label + &': {
+        marginTop: theme.spacing.unit * 3,
+      },
+    },
+    input: {
+      borderRadius: 4,
+      position: 'relative',
+      backgroundColor: theme.palette.background.paper,
+      border: '1px solid #ced4da',
+      fontSize: 16,
+      width: 'auto',
+      padding: '10px 26px 10px 12px',
+      transition: theme.transitions.create(['border-color', 'box-shadow']),
+  
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+      '&:focus': {
+        borderRadius: 4,
+        borderColor: '#80bdff',
+        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+      },
+    },
+  }))(InputBase);
 
 class Update extends Component {
 
@@ -32,6 +108,8 @@ class Update extends Component {
             city: '',
             zipcode: '',
             state: '',
+
+            all_country_name: [],
             
             fetched_data: {},
             errorCode: '',
@@ -82,27 +160,31 @@ class Update extends Component {
           city:             this.state.fetched_data.city,
           zipcode:          this.state.fetched_data.zipcode,
           state:            this.state.fetched_data.state
-    })
+      })
+
+      this.setState({all_country_name: getNames()})
     }
 
-    onInputChange_first_name(event){
+    async onInputChange_first_name(event){
         if (!event.target.value.match(/^[a-zA-Z]+$/)){
             this.setState({live_check_firstname: true, button_disable: true})
         }else{
             this.setState({live_check_firstname: false})
-            this.check_button_disable()
+            
         }
-        this.setState({first_name: event.target.value});
+        await this.setState({first_name: event.target.value});
+        this.check_button_disable()
     }
 
-    onInputChange_last_name(event){
+    async onInputChange_last_name(event){
         if (!event.target.value.match(/^[a-zA-Z]+$/)){
             this.setState({live_check_lastname: true, button_disable: true})
           }else{
             this.setState({live_check_lastname: false})
-            this.check_button_disable()
+            
           }
-        this.setState({last_name: event.target.value});
+        await this.setState({last_name: event.target.value});
+        this.check_button_disable()
     }
 
     async onInputChange_date_of_birth(date){
@@ -140,38 +222,40 @@ class Update extends Component {
         this.setState({street_address_2: event.target.value});
     }
 
-    onInputChange_country(country){
-        this.setState({country: country});
+    onInputChange_country(event){
+        this.setState({country: event.target.value});
     }
 
-    onInputChange_city(event){
+    async onInputChange_city(event){
         if (!event.target.value.match(/^[a-zA-Z\s]+$/)){
             this.setState({live_check_city: true, button_disable: true});
         }else{
             this.setState({live_check_city: false})
-            this.check_button_disable()
+            
         }
-        this.setState({city: event.target.value});
+        await this.setState({city: event.target.value});
+        this.check_button_disable()
     }
 
-    onInputChange_zipcode(event){
+    async onInputChange_zipcode(event){
         if (!event.target.value.match(/^[0-9]+$/)){
             this.setState({live_check_zipcode: true, button_disable: true});
         }else{
             this.setState({live_check_zipcode: false})
-            this.check_button_disable()
+            
         }
-        this.setState({zipcode: event.target.value});
+        await this.setState({zipcode: event.target.value});
+        this.check_button_disable()
     }
 
-    onInputChange_state(event){
+    async onInputChange_state(event){
         if (!event.target.value.match(/^[a-zA-Z]+$/)){
             this.setState({live_check_state: true, button_disable: true});
         }else{
             this.setState({live_check_state: false})
-            this.check_button_disable()
         }
-        this.setState({state: event.target.value});
+        await this.setState({state: event.target.value});
+        this.check_button_disable()
     }
 
     check_button_disable(){
@@ -217,68 +301,11 @@ class Update extends Component {
     }
 
     render() {
+
+        const { classes } = this.props;
+
         const showErrors = () => {
-            if (this.state.errorCode === errors.EMAIL_EMPTY_ERROR) {
-                return (
-                    <div style={{color: 'red'}}> 
-                        <FormattedMessage id="sign.email_empty_error" defaultMessage='Email cannot be empty' /> 
-                    </div>
-                );
-            } else if (this.state.errorCode === errors.FIRST_NAME_EMPTY_ERROR) {
-              return (
-                  <div style={{color: 'red'}}> 
-                      <FormattedMessage id="sign.firstName_empty_error" defaultMessage='First Name cannot be empty' /> 
-                  </div>
-              );
-            } else if (this.state.errorCode === errors.LAST_NAME_EMPTY_ERROR) {
-              return (
-                  <div style={{color: 'red'}}> 
-                      <FormattedMessage id="sign.lastName_empty_error" defaultMessage='Last Name cannot be empty' /> 
-                  </div>
-              );
-            } else if (this.state.errorCode === errors.PHONE_EMPTY_ERROR) {
-              return (
-                  <div style={{color: 'red'}}> 
-                      <FormattedMessage id="sign.phone_empty_error" defaultMessage='Phone cannot be empty' /> 
-                  </div>
-              );
-            } else if (this.state.errorCode === errors.DATEOFBIRTH_EMPTY_ERROR) {
-              return (
-                  <div style={{color: 'red'}}> 
-                      <FormattedMessage id="sign.dob_empty_error" defaultMessage='Date Of Birth cannot be empty' /> 
-                  </div>
-              );
-            } else if (this.state.errorCode === errors.STREET_EMPTY_ERROR) {
-              return (
-                  <div style={{color: 'red'}}> 
-                      <FormattedMessage id="sign.street_empty_error" defaultMessage='Street cannot be empty' /> 
-                  </div>
-              );
-            } else if (this.state.errorCode === errors.CITY_EMPTY_ERROR) {
-              return (
-                  <div style={{color: 'red'}}> 
-                      <FormattedMessage id="sign.city_empty_error" defaultMessage='City cannot be empty' /> 
-                  </div>
-              );
-            } else if (this.state.errorCode === errors.STATE_EMPTY_ERROR) {
-              return (
-                  <div style={{color: 'red'}}> 
-                      <FormattedMessage id="sign.state_empty_error" defaultMessage='State cannot be empty' /> 
-                  </div>
-              );
-            } else if (this.state.errorCode === errors.COUNTRY_EMPTY_ERROR) {
-              return (
-                  <div style={{color: 'red'}}> 
-                      <FormattedMessage id="sign.country_empty_error" defaultMessage='Country cannot be empty' /> 
-                  </div>
-              );
-            } else if (this.state.errorCode === errors.ZIPCODE_EMPTY_ERROR) {
-              return (
-                  <div style={{color: 'red'}}> 
-                      <FormattedMessage id="sign.zipcode_empty_error" defaultMessage='Zipcode cannot be empty' /> 
-                  </div>
-              );
-            } else if (this.state.username_error) {
+            if (this.state.username_error) {
               return (
                   <div style={{color: 'red'}}> {this.state.username_error} </div>
               )
@@ -297,40 +324,75 @@ class Update extends Component {
               )
             }
           }
+
         return (
             <div> 
-                <form onSubmit={this.onFormSubmit} >
+
+                <TopNavbar />
+
+                <form onSubmit={this.onFormSubmit} className='profile-form' >
 
                     <div>
-                        <div><b>
                         <FormattedMessage id="update_profile.username" defaultMessage='Username: ' />
-                        </b> {this.state.username} </div>
+
+                        <br/>
+                         
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
+                            disabled={true}
+                            value={this.state.username}
+                        />
+
                     </div>
 
                     <div>
-                        <b>
-                        <FormattedMessage id="update_profile.email" defaultMessage='Email: ' />    
-                        </b> {this.state.email}
-                        <button> 
-                            <NavLink to='/change_email/' style={{ textDecoration: 'none' }}>
-                            <FormattedMessage id="update_profile.update_email" defaultMessage='Update Email' />    
-                            </NavLink>
-                        </button>
+                        <FormattedMessage id="update_profile.email" defaultMessage='Email: ' /> 
+                        <br />   
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
+                            disabled={true}
+                            value={this.state.email}
+                        />
+                        
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type={'text'}
+                            onClick ={() => {
+                                this.props.history.push('/change_email/')
+                            }}
+                        > 
+                            <FormattedMessage id="update_profile.update_email" defaultMessage='Update Email' />                 
+                        </Button>
                     </div>
 
                     <div>
-                        <label><b>
-                        <FormattedMessage id="update_profile.phone" defaultMessage='Phone: ' />      
-                        </b> {this.state.phone} </label>
+                     
+                        <FormattedMessage id="update_profile.phone" defaultMessage='Phone: ' />  
+                        <br />    
+                         <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
+                            disabled={true}
+                            value={this.state.phone}
+                        />
+                         
                     </div>
 
                     <div>
-                        <label><b>
-                        <FormattedMessage id="update_profile.firstName" defaultMessage='First Name: ' />       
-                        </b></label>
-                        <input
-                            placeholder="Mike"
-                            className="form-control"
+                        <FormattedMessage id="update_profile.firstName" defaultMessage='First Name: ' />   
+
+                        <br />    
+
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
                             value={this.state.first_name}
                             onChange={this.onInputChange_first_name}
                         />
@@ -339,12 +401,15 @@ class Update extends Component {
                     {this.state.live_check_firstname && <div style={{color: 'red'}}> <FormattedMessage  id="error.firstname" defaultMessage='First name not valid' /> </div>}
 
                     <div>
-                        <label><b>
+
                         <FormattedMessage id="update_profile.lastName" defaultMessage='Last Name: ' />     
-                        </b></label>
-                        <input
-                            placeholder="Shaw"
-                            className="form-control"
+
+                        <br />
+
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
                             value={this.state.last_name}
                             onChange={this.onInputChange_last_name}
                         />
@@ -353,13 +418,27 @@ class Update extends Component {
                     {this.state.live_check_lastname && <div style={{color: 'red'}}> <FormattedMessage  id="error.lastname" defaultMessage='Last name not valid' /> </div>}
 
                     <div>
-                        <label><b>
+
                         <FormattedMessage id="update_profile.dob" defaultMessage='Date of Birth: ' />      
-                        </b></label>
-                        {this.state.date_of_birth}
+                        <br />
+
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
+                            value={this.state.date_of_birth}
+                        />
+                        
+
                         <div onClick={() => {this.setState({show_date: !this.state.show_date})}} style={{color: 'blue'}}>
-                            <FormattedMessage id="sign.show_date" defaultMessage='Show date' />
+                        { 
+                            this.state.show_date ? 
+                            <FormattedMessage id="sign.close_date" defaultMessage='Close date' />
+                            :
+                            <FormattedMessage id="sign.pick_date" defaultMessage='Pick date' />
+                        }
                         </div>
+
                     </div>
 
                     {
@@ -372,46 +451,63 @@ class Update extends Component {
                     {this.state.live_check_dob && <div style={{color: 'red'}}> <FormattedMessage  id="error.dateofbirth" defaultMessage='Date of birth not valid' /> </div>}
 
                     <div>
-                        <label><b>
                         <FormattedMessage id="update_profile.street1" defaultMessage='Street Address 1: ' />    
-                        </b></label>
-                        <input
-                            placeholder="111 World Drive"
-                            className="form-control"
+                        <br />
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
                             value={this.state.street_address_1}
                             onChange={this.onInputChange_street_address_1}
                         />
                     </div>
 
                     <div>
-                        <label><b>
+
                         <FormattedMessage id="update_profile.street2" defaultMessage='Street Address 2: ' />    
-                        </b></label>
-                        <input
-                            placeholder="Suite No.123"
-                            className="form-control"
+
+                        <br />
+
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
                             value={this.state.street_address_2}
                             onChange={this.onInputChange_street_address_2}
                         />
                     </div>
 
                     <div>
-                        <label><b>
-                        <FormattedMessage id="update_profile.country" defaultMessage='Country: ' />       
-                        </b></label>
-                        <CountryDropdown
+                        <FormattedMessage id="update_profile.country" defaultMessage='Country: ' />    
+                        <br />   
+
+                        {/* <CountryDropdown
                             value={this.state.country}
                             onChange={this.onInputChange_country} 
-                        />
+                        /> */}
+
+                        <FormControl className={classes.margin}>
+                            <Select
+                                value={this.state.country}
+                                onChange={this.onInputChange_country}
+                                input={<BootstrapInput name="country" id="country-customized-select" />}
+                            >
+                                {this.state.all_country_name.map(name => (
+                                <MenuItem key={name} value={name} >
+                                {name}
+                                </MenuItem>
+                            ))}
+                            </Select>
+                        </FormControl>
                     </div>
 
                     <div>
-                        <label><b>
-                        <FormattedMessage id="update_profile.city" defaultMessage='City: ' />    
-                        </b></label>
-                        <input
-                            placeholder="Mountain View"
-                            className="form-control"
+                        <FormattedMessage id="update_profile.city" defaultMessage='City: ' /> 
+                        <br />   
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
                             value={this.state.city}
                             onChange={this.onInputChange_city}
                         />
@@ -420,12 +516,12 @@ class Update extends Component {
                     {this.state.live_check_city && <div style={{color: 'red'}}> <FormattedMessage  id="error.city" defaultMessage='City not valid' /> </div>}
 
                     <div>
-                        <label><b>
                         <FormattedMessage id="update_profile.zipcode" defaultMessage='Zipcode: ' />      
-                        </b></label>
-                        <input
-                            placeholder="96173"
-                            className="form-control"
+                        <br />
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
                             value={this.state.zipcode}
                             onChange={this.onInputChange_zipcode}
                         />
@@ -434,12 +530,12 @@ class Update extends Component {
                     {this.state.live_check_zipcode && <div style={{color: 'red'}}> <FormattedMessage  id="error.zipcode" defaultMessage='Zipcode not valid' /> </div>}
 
                     <div>
-                        <label><b>
                         <FormattedMessage id="update_profile.state" defaultMessage='State: ' />    
-                        </b></label>
-                        <input
-                            placeholder="CA"
-                            className="form-control"
+                        <br />
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
                             value={this.state.state}
                             onChange={this.onInputChange_state}
                         />
@@ -447,22 +543,37 @@ class Update extends Component {
 
                     {this.state.live_check_state && <div style={{color: 'red'}}> <FormattedMessage  id="error.state" defaultMessage='State not valid' /> </div>}    
                     
-                    <span className="input-group-btn">
-                        <button disabled = {this.state.button_disable} type="submit" className="btn btn-secondary"> 
-                            <FormattedMessage id="update_profile.submit" defaultMessage='Submit' />
-                        </button>
-                    </span>
+                    <br />
+
+                    <Button 
+                        disabled = {this.state.button_disable} 
+                        type="submit" 
+                        variant="contained"
+                        color="primary"
+                    > 
+
+                        <FormattedMessage id="update_profile.submit" defaultMessage='Submit' />
+                    </Button>
+
+                    <Button 
+                        style ={{marginLeft: '20px'}}
+                        className='profile-update-cancel'
+                        variant="contained"
+                        color="secondary" 
+                        onClick={()=>{this.props.history.push("/profile")}}> 
+                        <FormattedMessage id="update_profile.cancel" defaultMessage='Cancel' /> 
+                    </Button>
+
                 </form>
-                <button style={{color: 'red'}} onClick={()=>{this.props.history.push("/profile")}}> 
-                    <FormattedMessage id="update_profile.cancel" defaultMessage='Cancel' /> 
-                </button>
+
 
                 {
                     showErrors()
                 }
+
             </div>
         )
     }
 }
 
-export default withRouter(Update);
+export default withStyles(styles)(withRouter(Update));
