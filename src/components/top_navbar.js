@@ -11,10 +11,12 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonAdd from '@material-ui/icons/PersonAdd';
-import Person from '@material-ui/icons/PersonOutline';
+import Person from '@material-ui/icons/Person';
+import PersonOutline from '@material-ui/icons/PersonOutline';
+
 import Input from '@material-ui/icons/Input';
 import Language from '@material-ui/icons/Language';
-import { authCheckState, AUTH_RESULT_FAIL } from '../actions';
+import { AUTH_RESULT_FAIL } from '../actions';
 
 
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -24,7 +26,7 @@ import Button from '@material-ui/core/Button';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage  } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -32,6 +34,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu';
+import Fab from '@material-ui/core/Fab';
 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -113,6 +116,28 @@ const styles = theme => ({
     },
     nested: {
         paddingLeft: theme.spacing.unit * 4
+    },
+    signupButton: {
+        margin: theme.spacing.unit,
+        color: '#ffffff',
+        backgroundColor: '#ff0000',
+        textTransform: 'capitalize',
+        outline: 'none',
+        "&:hover": {
+            backgroundColor: "#ff3f00",
+          }
+    },
+    loginButton: {
+        margin: theme.spacing.unit,
+        color: '#000000',
+        backgroundColor: '#ffffff',
+        textTransform: 'capitalize',
+        "&:hover": {
+            backgroundColor: "#f4f4f4",
+          }
+    },
+    extendedIcon: {
+        marginRight: theme.spacing.unit,
     },
     image: {
         position: 'relative',
@@ -230,7 +255,7 @@ const muiLogoBarTheme = createMuiTheme({
 const muiMenuBarTheme = createMuiTheme({
     palette: {
         primary: {
-            main: '#000000'
+            main: '#212121'
         },
     },
     appBar: {
@@ -359,9 +384,9 @@ export class TopNavbar extends React.Component {
     componentDidMount() {
 
         this.props.authCheckState()
-        .then((res) => {
-            this.setState({show_loggedin_status: true});
-        })
+            .then((res) => {
+                this.setState({ show_loggedin_status: true });
+            })
 
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
@@ -552,9 +577,7 @@ export class TopNavbar extends React.Component {
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
 
-                                this.state.show_loggedin_status && 
-
-                                    <div className={classes.sectionDesktop}>
+                                this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
                                         <Tooltip title="Balance" placement="bottom">
                                             <Button className={classes.menuButton} >
                                                 <FormattedNumber
@@ -624,7 +647,29 @@ export class TopNavbar extends React.Component {
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Tooltip title="Change Language" placement="bottom">
+                                             <Fab
+                                                variant="extended"
+                                                size="small"
+                                                color="primary"
+                                                aria-label="Add"
+                                                className={classes.signupButton}
+                                                onClick={() => { this.props.history.push('/signup/') }}
+                                            >
+                                                <PersonAdd className={classes.extendedIcon} />
+                                                Open Account
+                                            </Fab>
+                                         <Fab
+                                                variant="extended"
+                                                size="small"
+                                                color="primary"
+                                                aria-label="Add"
+                                                className={classes.loginButton}
+                                                onClick={() => { this.props.history.push('/login/') }}
+                                            >
+                                                <PersonOutline className={classes.extendedIcon} />
+                                                Login
+                                            </Fab>
+                                            <Tooltip title="Change Language" placement="bottom">
                                             <IconButton
                                                 aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
                                                 aria-haspopup="true"
@@ -662,27 +707,8 @@ export class TopNavbar extends React.Component {
                                                 <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
                                             </MenuItem>
                                         </Menu>
-                                        <Tooltip title="Signup" placement="bottom">
-                                            <IconButton
-                                                aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                                aria-haspopup="true"
-                                                color="inherit"
-                                                onClick={() => { this.props.history.push('/signup/') }}
-                                            >
-                                                <PersonAdd />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Login" placement="bottom">
-                                            <IconButton
-                                                aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                                aria-haspopup="true"
-                                                color="inherit"
-                                                onClick={() => { this.props.history.push('/login/') }}
-                                            >
-                                                <Input />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </div>
+                                      
+                                     </div>
                             }
                             <div className={classes.sectionMobile}>
                                 <IconButton
@@ -713,7 +739,8 @@ export class TopNavbar extends React.Component {
                                 }}
                                     aria-owns={showSubMenu ? 'menu-list-grow' : undefined}
                                     aria-haspopup="true"
-                                    onClick={() => this.handleSubMenuToggle('sports')} className={classes.button}>
+                                    onClick={() => this.handleSubMenuToggle('sports')} 
+                                    className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}>
                                     <SoccerIcon className="soccer" />
                                     <span className="Sports">Sports</span>
                                 </Button>
@@ -732,15 +759,15 @@ export class TopNavbar extends React.Component {
                                         </Grow>
                                     )}
                                 </Popper>
-                                <Button className={classes.button}>
+                                <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}>
                                     <BetIcon className="bet" />
                                     <span className="Live-Casino">Live Casino</span>
                                 </Button>
-                                <Button className={classes.button} href='/game_type/'>
+                                <Button className={this.props.activeMenu === 'games' ? 'mainButtonActive' : 'mainButton'} href='/game_type/'>
                                     <GamesIcon className="games-icon" />
                                     <span className="Games">Games</span>
                                 </Button>
-                                <Button className={classes.button}>
+                                <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}>
                                     <LotteryIcon className="lottery" />
                                     <span className="Lottery">Lottery</span>
                                 </Button>

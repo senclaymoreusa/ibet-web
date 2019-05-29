@@ -152,7 +152,7 @@ class Game_Type extends Component {
         return (
             <div>
           
-                <TopNavbar />
+                <TopNavbar activeMenu={'games'}/>
 
                 <div className={classes.root}>
                     <AppBar position="static" >
