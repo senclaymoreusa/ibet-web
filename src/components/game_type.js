@@ -97,7 +97,7 @@ class Game_Type extends Component {
             games: [],
             all_games: [],
 
-            value: ''
+            value: 'top-rated'
         }
 
         this.handle_expand = this.handle_expand.bind(this);
@@ -129,7 +129,7 @@ class Game_Type extends Component {
         this.setState({games: this.state.all_games,  expand: true})
     }
 
-    async handle_category_change(category){
+    async handle_category_change(category, section){
         var URL = API_URL + 'users/api/games/?term=' + category
 
         await axios.get(URL, config)
@@ -137,6 +137,8 @@ class Game_Type extends Component {
             this.setState({ games: res.data.slice(0, 8) });
             this.setState({ all_games: res.data})
         })
+
+        this.setState({ value: section })
     }
 
     handlechange(event, newValue){
@@ -160,50 +162,57 @@ class Game_Type extends Component {
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 label="TOP RATED" 
+                                value='top-rated'
                                 onClick={() => {
-                                    this.handle_category_change('bet');
+                                    this.handle_category_change('bet', 'top-rated');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 label="NEW" 
+                                value='new'
                                 onClick={() => {
-                                    this.handle_category_change('ball');
+                                    this.handle_category_change('ball', 'new');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 label="SLOTS" 
+                                value='slots'
                                 onClick={() => {
-                                    this.handle_category_change('poker');
+                                    this.handle_category_change('poker', 'slots');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}}
                                 label="JACKPOTS" 
+                                value='jackpots'
                                 onClick={() => {
-                                    this.handle_category_change('bet');
+                                    this.handle_category_change('bet', 'jackpots');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 label="TABLE GAMES" 
+                                value='table-games'
                                 onClick={() => {
-                                    this.handle_category_change('poker');
+                                    this.handle_category_change('poker', 'table-games');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 label="VITURAL SPORTS" 
+                                value='virtual-sports'
                                 onClick={() => {
-                                    this.handle_category_change('poker');
+                                    this.handle_category_change('poker', 'virtual-sports');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 label="OTHER GAMES" 
+                                value='other-games'
                                 onClick={() => {
-                                    this.handle_category_change('football');
+                                    this.handle_category_change('football', 'other-games');
                                 }}
                             />
                         </StyledTabs>

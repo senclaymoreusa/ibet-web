@@ -14,7 +14,6 @@ import PersonAdd from '@material-ui/icons/PersonAdd';
 import Person from '@material-ui/icons/Person';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 
-import Input from '@material-ui/icons/Input';
 import Language from '@material-ui/icons/Language';
 import { AUTH_RESULT_FAIL } from '../actions';
 
@@ -36,10 +35,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu';
 import Fab from '@material-ui/core/Fab';
 
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
