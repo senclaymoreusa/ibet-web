@@ -734,32 +734,11 @@ export class TopNavbar extends React.Component {
                     <AppBar position="static">
                         <Toolbar variant="dense">
                             <div className={classes.sectionDesktop}>
-                                <Button buttonRef={node => {
-                                    this.anchorEl = node;
-                                }}
-                                    aria-owns={showSubMenu ? 'menu-list-grow' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={() => this.handleSubMenuToggle('sports')} 
-                                    className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}>
-                                    <SoccerIcon className="soccer" />
+                                <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
+                                <SoccerIcon className="soccer" />
                                     <span className="Sports">Sports</span>
                                 </Button>
-                                <Popper open={showSubMenu} anchorEl={this.anchorEl} transition disablePortal className={classes.subMenu}>
-                                    {({ TransitionProps, placement }) => (
-                                        <Grow
-                                            {...TransitionProps}
-                                            id="menu-list-grow"
-                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                                        >
-                                            <Paper>
-                                                <ClickAwayListener onClickAway={this.handleClose}>
-                                                    {subMenuItem}
-                                                </ClickAwayListener>
-                                            </Paper>
-                                        </Grow>
-                                    )}
-                                </Popper>
-                                <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}>
+                                <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
                                     <BetIcon className="bet" />
                                     <span className="Live-Casino">Live Casino</span>
                                 </Button>
@@ -767,7 +746,7 @@ export class TopNavbar extends React.Component {
                                     <GamesIcon className="games-icon" />
                                     <span className="Games">Games</span>
                                 </Button>
-                                <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}>
+                                <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
                                     <LotteryIcon className="lottery" />
                                     <span className="Lottery">Lottery</span>
                                 </Button>

@@ -2,6 +2,9 @@ import React from "react";
 import { Route } from "react-router-dom";
 import Home from "./components/home";
 import Game_Type from "./components/game_type";
+import Sports_Type from "./components/sports_type";
+import LiveCasino_Type from "./components/live_casino_type";
+import Lottery_Type from "./components/lottery_type";
 import Game_List from "./components/game_list";
 import Login from './components/login';
 import Signup from './components/signup';
@@ -30,6 +33,9 @@ const BaseRouter = () => (
   <div>
     <Route exact path="/" component={Home} />
     <Route exact path="/game_type/" component={Game_Type} />
+    <Route exact path="/sports_type/" component={Sports_Type} />
+    <Route exact path="/live_casino_type/" component={LiveCasino_Type} />
+    <Route exact path="/lottery_type/" component={Lottery_Type} />
     <Route exact path="/game_list/:term?" component={Game_List} />
     <Route exact path="/login" component={Login} />
     <Route exact path="/signup/:filter?" component={Signup} />
