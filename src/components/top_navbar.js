@@ -125,7 +125,7 @@ const styles = theme => ({
         outline: 'none',
         "&:hover": {
             backgroundColor: "#ff3f00",
-          }
+        }
     },
     loginButton: {
         margin: theme.spacing.unit,
@@ -134,7 +134,7 @@ const styles = theme => ({
         textTransform: 'capitalize',
         "&:hover": {
             backgroundColor: "#f4f4f4",
-          }
+        }
     },
     extendedIcon: {
         marginRight: theme.spacing.unit,
@@ -427,8 +427,23 @@ export class TopNavbar extends React.Component {
     render() {
         const { anchorEl } = this.state;
         const { classes } = this.props;
-        const { showSubMenu } = this.state;
-        const { subMenuType } = this.state;
+
+
+        let countryCode = '';
+        switch (this.state.lang) {
+            case 'en':
+                countryCode = 'US';
+                break;
+            case 'zh-hans':
+                countryCode = 'CN';
+                break;
+            case 'fr':
+                countryCode = 'FR';
+                break;
+            default:
+                countryCode = 'US';
+        }
+        const langButtonIcon = (<Flag country={countryCode} />);
 
         const leftMobileSideList = (
             <div className={classes.list}>
@@ -469,78 +484,6 @@ export class TopNavbar extends React.Component {
             </div>
         );
 
-        const gamesSubMenu = (
-            <div style={{ display: 'flex' }}>
-                <Button className={classes.subbutton} href="/game_type/" >Games</Button>
-                <Button className={classes.subbutton}>Tournaments</Button>
-                <div className={classes.grow} />
-                <div className={classes.sectionDesktop}>
-                    <form onSubmit={this.onFormSubmit} className="search">
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <NavLink to={`/game_search/${this.state.term}`} style={{ color: 'white' }}>
-                                    <IconButton type="submit" color="inherit">
-                                        <SearchIcon />
-                                    </IconButton>
-                                </NavLink>
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                value={this.state.term}
-                                onChange={this.onInputChange}
-                            />
-                        </div>
-                    </form>
-                </div>
-            </div>
-        );
-
-        const sportsSubMenu = (
-            <div style={{ display: 'flex' }}>
-                {images.map(image => (
-                    <ButtonBase
-                        focusRipple
-                        key={image.title}
-                        className={classes.image}
-                        focusVisibleClassName={classes.focusVisible}
-                        style={{ width: image.width }}
-                    >
-                        <span
-                            className={classes.imageSrc}
-                            style={{ backgroundImage: `url(${window.location.origin + image.url})`, }}
-                        />
-                        <span className={classes.imageBackdrop} />
-                        <span className={classes.imageButton}>
-                            <Typography
-                                component="span"
-                                variant="subtitle1"
-                                color="inherit"
-                                className={classes.imageTitle}
-                            >
-                                {image.title}
-                                <span className={classes.imageMarked} />
-                            </Typography>
-                        </span>
-                    </ButtonBase>
-                ))}
-            </div>
-        );
-
-
-        let subMenuItem = (<div></div>);
-
-        switch (subMenuType) {
-            case 'games':
-                subMenuItem = gamesSubMenu;
-            case 'sports':
-                subMenuItem = sportsSubMenu;
-        }
-
-
         let searchClass = ["search"];
         if (this.state.expandSearchBar) {
             searchClass.push('open');
@@ -577,7 +520,7 @@ export class TopNavbar extends React.Component {
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
 
-                                this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
+                                    this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
                                         <Tooltip title="Balance" placement="bottom">
                                             <Button className={classes.menuButton} >
                                                 <FormattedNumber
@@ -616,7 +559,7 @@ export class TopNavbar extends React.Component {
                                                 onClick={this.handleLanguageMenuOpen}
                                                 color="inherit"
                                             >
-                                                <Language />
+                                                {langButtonIcon}
                                             </IconButton>
                                         </Tooltip>
                                         <Menu
@@ -647,36 +590,36 @@ export class TopNavbar extends React.Component {
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                             <Fab
-                                                variant="extended"
-                                                size="small"
-                                                color="primary"
-                                                aria-label="Add"
-                                                className={classes.signupButton}
-                                                onClick={() => { this.props.history.push('/signup/') }}
-                                            >
-                                                <PersonAdd className={classes.extendedIcon} />
-                                                Open Account
+                                        <Fab
+                                            variant="extended"
+                                            size="small"
+                                            color="primary"
+                                            aria-label="Add"
+                                            className={classes.signupButton}
+                                            onClick={() => { this.props.history.push('/signup/') }}
+                                        >
+                                            <PersonAdd className={classes.extendedIcon} />
+                                            Open Account
                                             </Fab>
-                                         <Fab
-                                                variant="extended"
-                                                size="small"
-                                                color="primary"
-                                                aria-label="Add"
-                                                className={classes.loginButton}
-                                                onClick={() => { this.props.history.push('/login/') }}
-                                            >
-                                                <PersonOutline className={classes.extendedIcon} />
-                                                Login
+                                        <Fab
+                                            variant="extended"
+                                            size="small"
+                                            color="primary"
+                                            aria-label="Add"
+                                            className={classes.loginButton}
+                                            onClick={() => { this.props.history.push('/login/') }}
+                                        >
+                                            <PersonOutline className={classes.extendedIcon} />
+                                            Login
                                             </Fab>
-                                            <Tooltip title="Change Language" placement="bottom">
+                                        <Tooltip title="Change Language" placement="bottom">
                                             <IconButton
                                                 aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
                                                 aria-haspopup="true"
                                                 onClick={this.handleLanguageMenuOpen}
                                                 color="inherit"
                                             >
-                                                <Language />
+                                                {langButtonIcon}
                                             </IconButton>
                                         </Tooltip>
                                         <Menu
@@ -707,8 +650,8 @@ export class TopNavbar extends React.Component {
                                                 <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
                                             </MenuItem>
                                         </Menu>
-                                      
-                                     </div>
+
+                                    </div>
                             }
                             <div className={classes.sectionMobile}>
                                 <IconButton
@@ -735,7 +678,7 @@ export class TopNavbar extends React.Component {
                         <Toolbar variant="dense">
                             <div className={classes.sectionDesktop}>
                                 <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
-                                <SoccerIcon className="soccer" />
+                                    <SoccerIcon className="soccer" />
                                     <span className="Sports">Sports</span>
                                 </Button>
                                 <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
