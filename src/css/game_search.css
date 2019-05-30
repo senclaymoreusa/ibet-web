@@ -38,3 +38,29 @@
 .game-container {
     margin-top: 10%;
 }
+
+
+.game-search-top-title {
+    font-size: 30px;
+    margin-left: 5%;
+    margin-top: 2%;
+    font-family: Gilroy;
+}
+
+.game-search-cont {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.game-search-each-game {
+    flex-grow: 1;
+    flex-basis: 25%;
+    margin: auto;
+    text-align: center;
+    margin-top: 2%;
+}
+
+.game-search-expand-icon {
+    margin-left: 43%;
+    cursor: pointer;
+}
