@@ -205,6 +205,7 @@ export const messages = {
         // handle game_search page
         'games_search.title': 'Searched games',
         'games_search.not_found': 'No games matching your search',
+        'game_search.title': 'Searched Results',
 
         // handle referral page
         'referral.user': 'You have successfully referred a User',
@@ -427,6 +428,7 @@ export const messages = {
         // handle game_search page
         'games_search.title': '搜尋結果',
         'games_search.not_found': '沒有您的搜尋結果',
+        'game_search.title': '搜索结果',
 
         // handle activation page
         'activation.message': '账户激活链接已发至您的邮箱',
@@ -655,6 +657,7 @@ export const messages = {
         // handle game_search page
         'games_search.title': 'Résultat de la recherche',
         'games_search.not_found': 'Aucun jeu ne correspond à votre recherche',
+        'game_search.title': 'résultats recherchés',
 
         // handle activation page
         'activation.message': "Un lien d'activation de compte a été envoyé à votre adresse e-mail",
