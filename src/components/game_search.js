@@ -6,7 +6,7 @@ import { game_detail } from '../actions'
 import { config } from '../util_config';
 import TopNavbar from './top_navbar';
 import { FormattedMessage } from 'react-intl';
-import ScrollMenu from 'react-horizontal-scrolling-menu';
+//import ScrollMenu from 'react-horizontal-scrolling-menu';
 import '../css/game_search.css';
 
 import placeholdimage from '../images/handsomecat.jpg';
