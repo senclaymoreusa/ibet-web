@@ -266,6 +266,8 @@ export class TopNavbar extends React.Component {
     constructor(props) {
         super(props);
 
+        this.search_focus = React.createRef();
+
         this.state = {
             open: false,
             subMenuType: null,
@@ -295,10 +297,16 @@ export class TopNavbar extends React.Component {
 
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.focus_search = this.focus_search.bind(this);
+    }
+
+    focus_search() {
+        this.search_focus.current.focus();
     }
 
     handleSearch = () => {
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
+        this.focus_search()
     }
 
     handleSubMenuToggle = (param) => {
@@ -754,7 +762,9 @@ export class TopNavbar extends React.Component {
                                                 if (event.key === 'Enter') {
                                                     this.search()
                                                 }
-                                            }} />
+                                            }} 
+                                            ref={this.search_focus}
+                                        />
                                     </div>
                                     <span className="search-button" onClick={this.handleSearch}>
                                         <span className="search-icon"></span>
