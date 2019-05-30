@@ -84,7 +84,7 @@ class Balance extends Component {
         if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
             this.setState({balance: event.target.value}); 
 
-            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/)){
+            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
                 this.setState({live_check_amount: true, button_disable: true})
             }else{
                 this.setState({live_check_amount: false, button_disable: false})
