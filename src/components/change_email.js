@@ -2,14 +2,51 @@ import React, { Component } from 'react';
 import { config } from "../util_config";
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { errors } from './errors';
 
+import TopNavbar from "./top_navbar";
+
 import '../css/change_email.scss';
+
+// Material-UI
+
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import blue from '@material-ui/core/colors/blue';
+import classNames from 'classnames';
+import Button from '@material-ui/core/Button';
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
+
+const styles = theme => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+
+    margin: {
+      margin: 'auto',
+    },
+
+    textField: {
+      flexBasis: 200,
+      width: 300,
+      backgroundColor: '#ffffff;'
+    },
+
+    cssRoot: {
+        color: theme.palette.getContrastText(blue[300]),
+        backgroundColor: blue[300],
+        '&:hover': {
+          backgroundColor: blue[800],
+        },
+      },
+  });
+
 
 class Change_Email extends Component {
     constructor(props){
@@ -91,6 +128,7 @@ class Change_Email extends Component {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
+        
 
         axios.post(API_URL + `users/api/updateemail/`, {
             old_email: this.state.fetched_data.email,
@@ -104,6 +142,12 @@ class Change_Email extends Component {
                 .then(res => {
                     axios.get(API_URL + `users/api/sendemail/?case=change_email&to_email_address=${this.state.new_email}&&email=${this.state.new_email}`, config)
                 })
+
+                const { formatMessage } = this.props.intl;
+
+                var message = formatMessage({ id: "update_email.success" });
+
+                alert(message);
                 
                 this.props.history.push("/profile");
             }
@@ -111,6 +155,7 @@ class Change_Email extends Component {
     }
     render(){
 
+        const { classes } = this.props;
 
         const showErrors = () => {
             if (this.state.errorCode === errors.EMAIL_NOT_MATCH) {
@@ -129,32 +174,37 @@ class Change_Email extends Component {
         }
         return (
             <div>
-                <form onSubmit={this.onFormSubmit} >
+
+                <TopNavbar style={{zIndex: '100'}} />
+                
+                <form onSubmit={this.onFormSubmit} className='update-email-form'>
 
                     <div>
-                        <label><b>
+
                         <FormattedMessage id="change_email.enter_email" defaultMessage='New Email address: ' />    
-                        </b></label>
-                        <input
-                            placeholder="example@gmail.com"
-                            className="form-control"
+
+                        <br />
+
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
                             value={this.state.new_email}
                             onChange={this.onInputChange_new_email}
                             oninput="this.value=this.value.toLowerCase()"
                         />
                     </div>
-
-                    {this.state.live_check_email && <div style={{color: 'red'}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
-
-                    {this.state.email_existed_error && <div style={{color: 'red'}}> <FormattedMessage  id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>}
                     
                     <div>
-                        <label><b>
+
                         <FormattedMessage id="change_email.confirm_email" defaultMessage='Confirm Email address: ' />
-                        </b></label>
-                        <input
-                            placeholder="example@gmail.com"
-                            className="form-control"
+
+                        <br />
+
+                        <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
                             value={this.state.confirm_email}
                             onChange={this.onInputChange_confirm_email}
                             oninput="this.value=this.value.toLowerCase()"
@@ -162,16 +212,32 @@ class Change_Email extends Component {
                     </div>
 
                     {this.state.live_check_email_match && <div style={{color: 'red'}}> <FormattedMessage id="change_email.email_not_match" defaultMessage='Email does not match' />  </div>}
+ 
+                    {this.state.live_check_email && <div style={{color: 'red'}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
 
-                    <span className="input-group-btn">
-                        <button disabled = {this.state.button_disable} type="submit" className="btn btn-secondary"> 
+                    {this.state.email_existed_error && <div style={{color: 'red'}}> <FormattedMessage  id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>}
+                    
+                    <br />
+
+                    <Button 
+                        disabled = {this.state.button_disable} 
+                        type="submit" 
+                        variant="contained"
+                        color="primary"
+                    > 
                         <FormattedMessage id="change_email.sumbit" defaultMessage='Submit' />    
-                        </button>
-                    </span>
+                    </Button>
 
-                    <button style={{color: 'red'}} onClick={()=>{this.props.history.push("/update_profile")}}> 
+                    <br />
+                    <br />
+
+                    <Button
+                        onClick={()=>{this.props.history.push("/update_profile")}}
+                        variant="contained"
+                        color="secondary"
+                    > 
                         <FormattedMessage id="change_email.cancel" defaultMessage='Cancel' />       
-                    </button>
+                    </Button>
                 </form>
                 {
                     showErrors()
@@ -181,4 +247,4 @@ class Change_Email extends Component {
     }
 }
 
-export default withRouter(Change_Email);
+export default withStyles(styles)(injectIntl(withRouter(Change_Email)));
