@@ -41,7 +41,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Flag from 'react-flagkit';
 import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
 import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
-import { ReactComponent as SlotsIcon } from '../assets/img/svg/games.svg';
+import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as CashIcon } from '../assets/img/svg/cash-out.svg';
