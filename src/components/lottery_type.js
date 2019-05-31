@@ -104,59 +104,41 @@ class Lottery_Type extends Component {
     async componentDidMount() {
 
         this.props.authCheckState()
+        
+        // var URL = API_URL + 'users/api/lottery/?term=Lottery';
+
+        // await axios.get(URL, config)
+        // .then(res => {
+
+        //     this.setState({ lottery: res.data.slice(0, 8) });
+        //     this.setState({ all_lottery: res.data})
+        // })
+
+        this.setState({ ready: true })
+    }
+
+    type_change(text){
+        this.props.game_type(text);
+    }
+
+    handle_expand(){
+        this.setState({lottery: this.state.all_lottery,  expand: true})
     }
 
 
+
+    handlechange(event, newValue){
+        this.setState({value: newValue})
+    }
+
     render() {
-
-        const { classes } = this.props;
-
-        var recent_lottery = JSON.parse(localStorage.getItem("recent-lottery"));
 
         return (
             <div>
           
                 <TopNavbar activeMenu={'lottery'}/>
 
-                <div className={classes.root}>
-                    <AppBar position="static" >
-                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                               label="LOTTERY 1" 
-                                value='1'
-                                onClick={() => {
-                                  this.handle_category_change('1');
-                              }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                                label="LOTTERY 2" 
-                                value='2'
-                                onClick={() => {
-                                  this.handle_category_change('2');
-                              }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                                label="LOTTERY 3" 
-                                value='3'
-                                onClick={() => {
-                                  this.handle_category_change('3');
-                              }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}}
-                                label="LOTTERY 4" 
-                                value='4'
-                                onClick={() => {
-                                  this.handle_category_change('4');
-                              }}
-                            />
-                        </StyledTabs>
-                    </AppBar>
-                </div>
-
+                
         </div>
       );
     }

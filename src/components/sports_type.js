@@ -91,15 +91,54 @@ class Sports_Type extends Component {
             sports: [],
             all_sports: [],
 
-            value: 'in-play'
+            value: 'live'
         }
 
+        this.handle_expand = this.handle_expand.bind(this);
+        this.handlechange = this.handlechange.bind(this);
+
+    }
+
+    async componentDidMount() {
+
+        this.props.authCheckState()
+        
+        // var URL = API_URL + 'users/api/sports/?term=Sports';
+
+        // await axios.get(URL, config)
+        // .then(res => {
+
+        //     this.setState({ sports: res.data.slice(0, 8) });
+        //     this.setState({ all_sports: res.data})
+        // })
+
+        this.setState({ ready: true })
+    }
+
+    type_change(text){
+        this.props.game_type(text);
+    }
+
+    handle_expand(){
+        this.setState({sports: this.state.all_sports,  expand: true})
     }
 
     async handle_category_change(category){
-        this.setState({ value: category })
+        // var URL = API_URL + 'users/api/sports/?term=' + category
+
+        // await axios.get(URL, config)
+        // .then(res => {
+        //     this.setState({ sports: res.data.slice(0, 8) });
+        //     this.setState({ all_sports: res.data})
+        // })
+
+
     }
 
+    handlechange(event, newValue){
+        this.setState({value: newValue})
+    }
+    
     async componentDidMount() {
 
           }
@@ -119,16 +158,16 @@ class Sports_Type extends Component {
                     <AppBar position="static" >
                         <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
                             <StyledTab 
-                                style={{outline: 'none'}} 
-                                value='in-play'
-                                label="IN-PLAY" 
+                                style={{outline: 'none'}}
+                                value="live" 
+                                label="LIVE" 
                                 onClick={() => {
-                                    this.handle_category_change('in-play');
+                                    this.handle_category_change('live');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                value='football'
+                                value="football"
                                 label="FOOTBALL" 
                                 onClick={() => {
                                     this.handle_category_change('football');
@@ -136,40 +175,31 @@ class Sports_Type extends Component {
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                value='basketball'
+                                value="basketball"
                                 label="BASKETBALL" 
                                 onClick={() => {
                                     this.handle_category_change('basketball');
                                 }}
                             />
+
+<StyledTab 
+                                style={{outline: 'none'}} 
+                                label="ICE HOCKEY" 
+                                onClick={() => {
+                                    this.handle_category_change('ice-hockey');
+                                }}
+                            />
                             <StyledTab 
                                 style={{outline: 'none'}}
-                                value='tennis'
+                                value="tennis"
                                 label="TENNIS" 
                                 onClick={() => {
                                     this.handle_category_change('tennis');
                                 }}
                             />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                                label="HORSE RACING" 
-                                value='horse-racing'
-                                onClick={() => {
-                                    this.handle_category_change('horse-racing');
-                                }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                                value='all-sports'
-                                label="ALL SPORTS" 
-                                onClick={() => {
-                                    this.handle_category_change('all-sports');
-                                }}
-                            />
                         </StyledTabs>
                     </AppBar>
-                </div>
-           
+                </div>      
         </div>
       );
     }

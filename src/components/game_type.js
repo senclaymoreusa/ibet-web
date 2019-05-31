@@ -129,7 +129,7 @@ class Game_Type extends Component {
         this.setState({games: this.state.all_games,  expand: true})
     }
 
-    async handle_category_change(category, section){
+    async handle_category_change(category, subnav){
         var URL = API_URL + 'users/api/games/?term=' + category
 
         await axios.get(URL, config)
@@ -138,7 +138,7 @@ class Game_Type extends Component {
             this.setState({ all_games: res.data})
         })
 
-        this.setState({ value: section })
+        this.setState({ value: subnav});
     }
 
     handlechange(event, newValue){
@@ -161,6 +161,7 @@ class Game_Type extends Component {
                         <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="top-rated"
                                 label="TOP RATED" 
                                 value='top-rated'
                                 onClick={() => {
@@ -169,6 +170,7 @@ class Game_Type extends Component {
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="new"
                                 label="NEW" 
                                 value='new'
                                 onClick={() => {
@@ -177,6 +179,7 @@ class Game_Type extends Component {
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="slots"
                                 label="SLOTS" 
                                 value='slots'
                                 onClick={() => {
@@ -185,6 +188,7 @@ class Game_Type extends Component {
                             />
                             <StyledTab 
                                 style={{outline: 'none'}}
+                                value="jackpots"
                                 label="JACKPOTS" 
                                 value='jackpots'
                                 onClick={() => {
@@ -193,6 +197,7 @@ class Game_Type extends Component {
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="table-games"
                                 label="TABLE GAMES" 
                                 value='table-games'
                                 onClick={() => {
@@ -201,18 +206,11 @@ class Game_Type extends Component {
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="VITURAL SPORTS" 
-                                value='virtual-sports'
-                                onClick={() => {
-                                    this.handle_category_change('poker', 'virtual-sports');
-                                }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
+                                value="other-games"
                                 label="OTHER GAMES" 
                                 value='other-games'
                                 onClick={() => {
-                                    this.handle_category_change('football', 'other-games');
+                                    this.handle_category_change('poker', 'other-games');
                                 }}
                             />
                         </StyledTabs>

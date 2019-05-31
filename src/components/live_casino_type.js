@@ -97,16 +97,52 @@ class LiveCasino_Type extends Component {
             live_casino: [],
             all_live_casino: [],
 
-            value: '1'
+            value: 'top-rated'
         }
+
+        this.handle_expand = this.handle_expand.bind(this);
+        this.handlechange = this.handlechange.bind(this);
 
     }
 
+    async componentDidMount() {
+
+        this.props.authCheckState()
+        
+        // var URL = API_URL + 'users/api/live_casino/?term=LiveCasino';
+
+        // await axios.get(URL, config)
+        // .then(res => {
+
+        //     this.setState({ live_casino: res.data.slice(0, 8) });
+        //     this.setState({ all_live_casino: res.data})
+        // })
+
+        this.setState({ ready: true })
+    }
+
+    type_change(text){
+        this.props.game_type(text);
+    }
+
+    handle_expand(){
+        this.setState({live_casino: this.state.all_live_casino,  expand: true})
+    }
+
     async handle_category_change(category){
-      this.setState({ value: category })
+        // var URL = API_URL + 'users/api/live_casino/?term=' + category
+
+        // await axios.get(URL, config)
+        // .then(res => {
+        //     this.setState({ live_casino: res.data.slice(0, 8) });
+        //     this.setState({ all_live_casino: res.data})
+        // })
+    }
+
+    handlechange(event, newValue){
+      this.setState({value: newValue})
   }
-
-
+  
     async componentDidMount() {
         
     }
@@ -128,41 +164,65 @@ class LiveCasino_Type extends Component {
                         <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="LIVE CASINO 1" 
-                                value='1'
+                                value="top-rated"
+                                label="TOP RATED" 
                                 onClick={() => {
-                                  this.handle_category_change('1');
-                              }}
-                                
+                                    this.handle_category_change('top-rated');
+                                }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="LIVE CASINO 2" 
-                                value='2'
+                                label="NEW"
+                                value="new" 
                                 onClick={() => {
-                                  this.handle_category_change('2');
-                              }}
+                                    this.handle_category_change('new');
+                                }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="LIVE CASINO 3" 
-                                value='3'
+                                label="ROULETTE" 
+                                vaule="roulette"
                                 onClick={() => {
-                                  this.handle_category_change('3');
-                              }}
+                                    this.handle_category_change('roulette');
+                                }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}}
-                                label="LIVE CASINO 4" 
-                                value='4'
+                                value="blackjack"
+                                label="BLACKJACK" 
                                 onClick={() => {
-                                  this.handle_category_change('4');
-                              }}
+                                    this.handle_category_change('blackjack');
+                                }}
                             />
+                             <StyledTab 
+                                style={{outline: 'none'}}
+                                value="baccarat"
+                                label="BACCARAT" 
+                                onClick={() => {
+                                    this.handle_category_change('baccarat');
+                                }}
+                            />
+                             <StyledTab 
+                                style={{outline: 'none'}}
+                                value="poker"
+                                label="POKER" 
+                                onClick={() => {
+                                    this.handle_category_change('poker');
+                                }}
+                            />
+                             <StyledTab 
+                                style={{outline: 'none'}}
+                                value="tournaments"
+                                label="TOURNAMENTS" 
+                                onClick={() => {
+                                    this.handle_category_change('tournaments');
+                                }}
+                            />
+
                         </StyledTabs>
                     </AppBar>
                 </div>
-           
+        
         </div>
       );
     }
