@@ -97,7 +97,7 @@ class Game_Type extends Component {
             games: [],
             all_games: [],
 
-            value: ''
+            value: 'top-rated'
         }
 
         this.handle_expand = this.handle_expand.bind(this);
@@ -129,7 +129,7 @@ class Game_Type extends Component {
         this.setState({games: this.state.all_games,  expand: true})
     }
 
-    async handle_category_change(category){
+    async handle_category_change(category, subnav){
         var URL = API_URL + 'users/api/games/?term=' + category
 
         await axios.get(URL, config)
@@ -137,6 +137,8 @@ class Game_Type extends Component {
             this.setState({ games: res.data.slice(0, 8) });
             this.setState({ all_games: res.data})
         })
+
+        this.setState({ value: subnav});
     }
 
     handlechange(event, newValue){
@@ -159,51 +161,50 @@ class Game_Type extends Component {
                         <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="top-rated"
                                 label="TOP RATED" 
                                 onClick={() => {
-                                    this.handle_category_change('bet');
+                                    this.handle_category_change('bet', 'top-rated');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="new"
                                 label="NEW" 
                                 onClick={() => {
-                                    this.handle_category_change('ball');
+                                    this.handle_category_change('ball', 'new');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="slots"
                                 label="SLOTS" 
                                 onClick={() => {
-                                    this.handle_category_change('poker');
+                                    this.handle_category_change('poker', 'slots');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}}
+                                value="jackpots"
                                 label="JACKPOTS" 
                                 onClick={() => {
-                                    this.handle_category_change('bet');
+                                    this.handle_category_change('bet', 'jackpots');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="table-games"
                                 label="TABLE GAMES" 
                                 onClick={() => {
-                                    this.handle_category_change('poker');
+                                    this.handle_category_change('poker', 'table-games');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="VITURAL SPORTS" 
-                                onClick={() => {
-                                    this.handle_category_change('poker');
-                                }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
+                                value="other-games"
                                 label="OTHER GAMES" 
                                 onClick={() => {
-                                    this.handle_category_change('football');
+                                    this.handle_category_change('poker', 'other-games');
                                 }}
                             />
                         </StyledTabs>

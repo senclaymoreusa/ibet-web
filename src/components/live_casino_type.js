@@ -97,7 +97,7 @@ class LiveCasino_Type extends Component {
             live_casino: [],
             all_live_casino: [],
 
-            value: ''
+            value: 'top-rated'
         }
 
         this.handle_expand = this.handle_expand.bind(this);
@@ -109,14 +109,14 @@ class LiveCasino_Type extends Component {
 
         this.props.authCheckState()
         
-        var URL = API_URL + 'users/api/live_casino/?term=LiveCasino';
+        // var URL = API_URL + 'users/api/live_casino/?term=LiveCasino';
 
-        await axios.get(URL, config)
-        .then(res => {
+        // await axios.get(URL, config)
+        // .then(res => {
 
-            this.setState({ live_casino: res.data.slice(0, 8) });
-            this.setState({ all_live_casino: res.data})
-        })
+        //     this.setState({ live_casino: res.data.slice(0, 8) });
+        //     this.setState({ all_live_casino: res.data})
+        // })
 
         this.setState({ ready: true })
     }
@@ -130,13 +130,13 @@ class LiveCasino_Type extends Component {
     }
 
     async handle_category_change(category){
-        var URL = API_URL + 'users/api/live_casino/?term=' + category
+        // var URL = API_URL + 'users/api/live_casino/?term=' + category
 
-        await axios.get(URL, config)
-        .then(res => {
-            this.setState({ live_casino: res.data.slice(0, 8) });
-            this.setState({ all_live_casino: res.data})
-        })
+        // await axios.get(URL, config)
+        // .then(res => {
+        //     this.setState({ live_casino: res.data.slice(0, 8) });
+        //     this.setState({ all_live_casino: res.data})
+        // })
     }
 
     handlechange(event, newValue){
@@ -159,171 +159,65 @@ class LiveCasino_Type extends Component {
                         <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="LIVE CASINO 1" 
+                                value="top-rated"
+                                label="TOP RATED" 
                                 onClick={() => {
-                                    //this.handle_category_change('in-play');
+                                    this.handle_category_change('top-rated');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="LIVE CASINO 2" 
+                                label="NEW"
+                                value="new" 
                                 onClick={() => {
-                                    //this.handle_category_change('football');
+                                    this.handle_category_change('new');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="LIVE CASINO 3" 
+                                label="ROULETTE" 
+                                vaule="roulette"
                                 onClick={() => {
-                                    //this.handle_category_change('basketball');
+                                    this.handle_category_change('roulette');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}}
-                                label="LIVE CASINO 4" 
+                                value="blackjack"
+                                label="BLACKJACK" 
                                 onClick={() => {
-                                    //this.handle_category_change('tennis');
+                                    this.handle_category_change('blackjack');
                                 }}
                             />
+                             <StyledTab 
+                                style={{outline: 'none'}}
+                                value="baccarat"
+                                label="BACCARAT" 
+                                onClick={() => {
+                                    this.handle_category_change('baccarat');
+                                }}
+                            />
+                             <StyledTab 
+                                style={{outline: 'none'}}
+                                value="poker"
+                                label="POKER" 
+                                onClick={() => {
+                                    this.handle_category_change('poker');
+                                }}
+                            />
+                             <StyledTab 
+                                style={{outline: 'none'}}
+                                value="tournaments"
+                                label="TOURNAMENTS" 
+                                onClick={() => {
+                                    this.handle_category_change('tournaments');
+                                }}
+                            />
+
                         </StyledTabs>
                     </AppBar>
                 </div>
-            {
-                this.state.ready &&
-                <div className='top-title'>
-                    <FormattedMessage id="home.new" defaultMessage='New Live Casino' />
-                </div>
-            }
-
-            <div className="cont">
-            {
-                this.state.ready && this.state.live_casino.map(item => {
-                    return (
-                    <div key={item.pk} className='each-game' onClick={() => {
-                        var array = JSON.parse(localStorage.getItem("recent-live-casino"));
-                        if (!array){
-                        array = []
-                        array.push(item)
-                        }else{
-                        var check = true;
-                        array.map(thing => {
-                            if(thing.name === item.name){
-                            check = false
-                            }
-                        })
-                        if (check){
-                            array.push(item)
-                        }
-                        
-                        }
-                        if (array.length > 4){
-                        array.shift()
-                        }
-                        localStorage.setItem("recent-live-casino", JSON.stringify(array));
-
-                    }}>
-                        <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-
-                        {
-                        //  item.image ? 
-                        //  <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                        //  :
-                        <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                        }
-
-                            
-                        <br/>
-                        <div className='game-title'> 
-                            {item.name} 
-                        </div>
-                        
-                        </NavLink>
-                    </div>
-                    )
-                })
-            }
-            </div>
-
-
-            {
-                this.state.ready && !this.state.expand && this.state.all_live_casino.length > 8 && 
-                <div className='expand-icon'>
-                    <Fab  
-                        onClick={this.handle_expand}
-                        className={classNames(classes.fab, 'text')}
-                        variant="extended"
-                    > 
-                    <FormattedMessage id="home.expand" defaultMessage='View All' />
-                    {' (' + this.state.all_live_casino.length + ')'}
-                    <ExpandMore />
-                    </Fab>
-                </div>
-            }
-
-
-            {
-                this.state.ready &&
-                <div className='top-title margin-title' >
-                    <FormattedMessage id="home.recent" defaultMessage='Recently Played' />
-                </div>
-            }
-
-            <div className="cont">
-            {
-                this.state.ready && recent_live_casino && recent_live_casino.map(item => {
-                    return (
-                    <div key={item.name} className='each-game' >
-                        <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                        {
-                            // item.image ? 
-                            // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                            // :
-                            <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                        }
-                        <br/>
-                        <div className='game-title'> 
-                            {item.name} 
-                        </div> 
-                        </NavLink>
-                    </div>
-                    )
-                })
-            }
-            </div>
-
-            {
-                this.state.ready &&
-                <div className='top-title margin-title' >
-                    <FormattedMessage id="home.selected" defaultMessage='Selected for you' />
-                </div>
-            }
-
-            <div className="cont">
-            {
-                this.state.ready && this.state.live_casino.slice(0,4).map(item => {
-                    return (
-                    <div key={item.name} className='each-game' >
-                        <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                        {
-                            // item.image ? 
-                            // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                            // :
-                            <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                        }
-                        <br/>
-                        <div className='game-title'> 
-                            {item.name} 
-                        </div> 
-                        </NavLink>
-                    </div>
-                    )
-                })
-            }
-            </div>
-          
-          <div className='row'>
-
-          </div>
+        
         </div>
       );
     }

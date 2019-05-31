@@ -469,7 +469,7 @@ export class TopNavbar extends React.Component {
                             <Person />
                         </ListItemIcon>
                         <ListItemText>
-                            <FormattedMessage id="nav.games" defaultMessage='Games' />
+                            <FormattedMessage id="nav.games" defaultMessage='Slots' />
                         </ListItemText>
                     </ListItem>
                     <ListItem button component="a" href="/">

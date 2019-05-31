@@ -109,14 +109,14 @@ class Lottery_Type extends Component {
 
         this.props.authCheckState()
         
-        var URL = API_URL + 'users/api/lottery/?term=Lottery';
+        // var URL = API_URL + 'users/api/lottery/?term=Lottery';
 
-        await axios.get(URL, config)
-        .then(res => {
+        // await axios.get(URL, config)
+        // .then(res => {
 
-            this.setState({ lottery: res.data.slice(0, 8) });
-            this.setState({ all_lottery: res.data})
-        })
+        //     this.setState({ lottery: res.data.slice(0, 8) });
+        //     this.setState({ all_lottery: res.data})
+        // })
 
         this.setState({ ready: true })
     }
@@ -129,15 +129,7 @@ class Lottery_Type extends Component {
         this.setState({lottery: this.state.all_lottery,  expand: true})
     }
 
-    async handle_category_change(category){
-        var URL = API_URL + 'users/api/lottery/?term=' + category
 
-        await axios.get(URL, config)
-        .then(res => {
-            this.setState({ lottery: res.data.slice(0, 8) });
-            this.setState({ all_lottery: res.data})
-        })
-    }
 
     handlechange(event, newValue){
         this.setState({value: newValue})
@@ -145,186 +137,12 @@ class Lottery_Type extends Component {
 
     render() {
 
-        const { classes } = this.props;
-
-        var recent_lottery = JSON.parse(localStorage.getItem("recent-lottery"));
-
         return (
             <div>
           
                 <TopNavbar activeMenu={'lottery'}/>
 
-                <div className={classes.root}>
-                    <AppBar position="static" >
-                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                                label="LOTTERY 1" 
-                                onClick={() => {
-                                    //this.handle_category_change('in-play');
-                                }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                                label="LOTTERY 2" 
-                                onClick={() => {
-                                    //this.handle_category_change('football');
-                                }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                                label="LOTTERY 3" 
-                                onClick={() => {
-                                    //this.handle_category_change('basketball');
-                                }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}}
-                                label="LOTTERY 4" 
-                                onClick={() => {
-                                    //this.handle_category_change('tennis');
-                                }}
-                            />
-                        </StyledTabs>
-                    </AppBar>
-                </div>
-
-            {
-                this.state.ready &&
-                <div className='top-title'>
-                    <FormattedMessage id="home.new" defaultMessage='New Games' />
-                </div>
-            }
-
-            <div className="cont">
-            {
-                this.state.ready && this.state.lottery.map(item => {
-                    return (
-                    <div key={item.pk} className='each-game' onClick={() => {
-                        var array = JSON.parse(localStorage.getItem("recent-lottery"));
-                        if (!array){
-                        array = []
-                        array.push(item)
-                        }else{
-                        var check = true;
-                        array.map(thing => {
-                            if(thing.name === item.name){
-                            check = false
-                            }
-                        })
-                        if (check){
-                            array.push(item)
-                        }
-                        
-                        }
-                        if (array.length > 4){
-                        array.shift()
-                        }
-                        localStorage.setItem("recent-lottery", JSON.stringify(array));
-
-                    }}>
-                        <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-
-                        {
-                        //  item.image ? 
-                        //  <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                        //  :
-                        <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                        }
-
-                            
-                        <br/>
-                        <div className='game-title'> 
-                            {item.name} 
-                        </div>
-                        
-                        </NavLink>
-                    </div>
-                    )
-                })
-            }
-            </div>
-
-
-            {
-                this.state.ready && !this.state.expand && this.state.all_lottery.length > 8 && 
-                <div className='expand-icon'>
-                    <Fab  
-                        onClick={this.handle_expand}
-                        className={classNames(classes.fab, 'text')}
-                        variant="extended"
-                    > 
-                    <FormattedMessage id="home.expand" defaultMessage='View All' />
-                    {' (' + this.state.all_lottery.length + ')'}
-                    <ExpandMore />
-                    </Fab>
-                </div>
-            }
-
-
-            {
-                this.state.ready &&
-                <div className='top-title margin-title' >
-                    <FormattedMessage id="home.recent" defaultMessage='Recently Played' />
-                </div>
-            }
-
-            <div className="cont">
-            {
-                this.state.ready && recent_lottery && recent_lottery.map(item => {
-                    return (
-                    <div key={item.name} className='each-game' >
-                        <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                        {
-                            // item.image ? 
-                            // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                            // :
-                            <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                        }
-                        <br/>
-                        <div className='game-title'> 
-                            {item.name} 
-                        </div> 
-                        </NavLink>
-                    </div>
-                    )
-                })
-            }
-            </div>
-
-            {
-                this.state.ready &&
-                <div className='top-title margin-title' >
-                    <FormattedMessage id="home.selected" defaultMessage='Selected for you' />
-                </div>
-            }
-
-            <div className="cont">
-            {
-                this.state.ready && this.state.lottery.slice(0,4).map(item => {
-                    return (
-                    <div key={item.name} className='each-game' >
-                        <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                        {
-                            // item.image ? 
-                            // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                            // :
-                            <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                        }
-                        <br/>
-                        <div className='game-title'> 
-                            {item.name} 
-                        </div> 
-                        </NavLink>
-                    </div>
-                    )
-                })
-            }
-            </div>
-          
-          <div className='row'>
-
-          </div>
+                
         </div>
       );
     }

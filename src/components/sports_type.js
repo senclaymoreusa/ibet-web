@@ -97,7 +97,7 @@ class Sports_Type extends Component {
             sports: [],
             all_sports: [],
 
-            value: ''
+            value: 'live'
         }
 
         this.handle_expand = this.handle_expand.bind(this);
@@ -109,14 +109,14 @@ class Sports_Type extends Component {
 
         this.props.authCheckState()
         
-        var URL = API_URL + 'users/api/sports/?term=Sports';
+        // var URL = API_URL + 'users/api/sports/?term=Sports';
 
-        await axios.get(URL, config)
-        .then(res => {
+        // await axios.get(URL, config)
+        // .then(res => {
 
-            this.setState({ sports: res.data.slice(0, 8) });
-            this.setState({ all_sports: res.data})
-        })
+        //     this.setState({ sports: res.data.slice(0, 8) });
+        //     this.setState({ all_sports: res.data})
+        // })
 
         this.setState({ ready: true })
     }
@@ -130,13 +130,15 @@ class Sports_Type extends Component {
     }
 
     async handle_category_change(category){
-        var URL = API_URL + 'users/api/sports/?term=' + category
+        // var URL = API_URL + 'users/api/sports/?term=' + category
 
-        await axios.get(URL, config)
-        .then(res => {
-            this.setState({ sports: res.data.slice(0, 8) });
-            this.setState({ all_sports: res.data})
-        })
+        // await axios.get(URL, config)
+        // .then(res => {
+        //     this.setState({ sports: res.data.slice(0, 8) });
+        //     this.setState({ all_sports: res.data})
+        // })
+
+
     }
 
     handlechange(event, newValue){
@@ -158,14 +160,16 @@ class Sports_Type extends Component {
                     <AppBar position="static" >
                         <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
                             <StyledTab 
-                                style={{outline: 'none'}} 
-                                label="IN-PLAY" 
+                                style={{outline: 'none'}}
+                                value="live" 
+                                label="LIVE" 
                                 onClick={() => {
-                                    this.handle_category_change('in-play');
+                                    this.handle_category_change('live');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="football"
                                 label="FOOTBALL" 
                                 onClick={() => {
                                     this.handle_category_change('football');
@@ -173,167 +177,31 @@ class Sports_Type extends Component {
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
+                                value="basketball"
                                 label="BASKETBALL" 
                                 onClick={() => {
                                     this.handle_category_change('basketball');
                                 }}
                             />
+
+<StyledTab 
+                                style={{outline: 'none'}} 
+                                label="ICE HOCKEY" 
+                                onClick={() => {
+                                    this.handle_category_change('ice-hockey');
+                                }}
+                            />
                             <StyledTab 
                                 style={{outline: 'none'}}
+                                value="tennis"
                                 label="TENNIS" 
                                 onClick={() => {
                                     this.handle_category_change('tennis');
                                 }}
                             />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                                label="HORSE RACING" 
-                                onClick={() => {
-                                    this.handle_category_change('horce-racing');
-                                }}
-                            />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
-                                label="ALL SPORTS" 
-                                onClick={() => {
-                                    this.handle_category_change('all-sports');
-                                }}
-                            />
                         </StyledTabs>
                     </AppBar>
-                </div>
-            {
-                this.state.ready &&
-                <div className='top-title'>
-                    <FormattedMessage id="home.new" defaultMessage='New Games' />
-                </div>
-            }
-
-            <div className="cont">
-            {
-                this.state.ready && this.state.sports.map(item => {
-                    return (
-                    <div key={item.pk} className='each-game' onClick={() => {
-                        var array = JSON.parse(localStorage.getItem("recent-sports"));
-                        if (!array){
-                        array = []
-                        array.push(item)
-                        }else{
-                        var check = true;
-                        array.map(thing => {
-                            if(thing.name === item.name){
-                            check = false
-                            }
-                        })
-                        if (check){
-                            array.push(item)
-                        }
-                        
-                        }
-                        if (array.length > 4){
-                        array.shift()
-                        }
-                        localStorage.setItem("recent-sports", JSON.stringify(array));
-
-                    }}>
-                        <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-
-                        {
-                        //  item.image ? 
-                        //  <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                        //  :
-                        <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                        }
-
-                            
-                        <br/>
-                        <div className='game-title'> 
-                            {item.name} 
-                        </div>
-                        
-                        </NavLink>
-                    </div>
-                    )
-                })
-            }
-            </div>
-
-
-            {
-                this.state.ready && !this.state.expand && this.state.all_sports.length > 8 && 
-                <div className='expand-icon'>
-                    <Fab  
-                        onClick={this.handle_expand}
-                        className={classNames(classes.fab, 'text')}
-                        variant="extended"
-                    > 
-                    <FormattedMessage id="home.expand" defaultMessage='View All' />
-                    {' (' + this.state.all_sports.length + ')'}
-                    <ExpandMore />
-                    </Fab>
-                </div>
-            }
-
-
-            {
-                this.state.ready &&
-                <div className='top-title margin-title' >
-                    <FormattedMessage id="home.recent" defaultMessage='Recently Played' />
-                </div>
-            }
-
-            <div className="cont">
-            {
-                this.state.ready && recent_sports && recent_sports.map(item => {
-                    return (
-                    <div key={item.name} className='each-game' >
-                        <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                        {
-                            // item.image ? 
-                            // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                            // :
-                            <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                        }
-                        <br/>
-                        <div className='game-title'> 
-                            {item.name} 
-                        </div> 
-                        </NavLink>
-                    </div>
-                    )
-                })
-            }
-            </div>
-
-            {
-                this.state.ready &&
-                <div className='top-title margin-title' >
-                    <FormattedMessage id="home.selected" defaultMessage='Selected for you' />
-                </div>
-            }
-
-            <div className="cont">
-            {
-                this.state.ready && this.state.sports.slice(0,4).map(item => {
-                    return (
-                    <div key={item.name} className='each-game' >
-                        <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                        {
-                             <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                        }
-                        <br/>
-                        <div className='game-title'> 
-                            {item.name} 
-                        </div> 
-                        </NavLink>
-                    </div>
-                    )
-                })
-            }
-            </div>
-          
-          <div className='row'>
-          </div>
+                </div>      
         </div>
       );
     }
