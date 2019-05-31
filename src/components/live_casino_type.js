@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { game_type } from '../actions';
+import { live_casino_type } from '../actions';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import  TopNavbar from "./top_navbar";
-import '../css/game_type.css';
+import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../util_config';
 import { authCheckState } from '../actions';
@@ -122,7 +122,7 @@ class LiveCasino_Type extends Component {
     }
 
     type_change(text){
-        this.props.game_type(text);
+        this.props.slot_type(text);
     }
 
     handle_expand(){
@@ -228,4 +228,4 @@ class LiveCasino_Type extends Component {
     }
   }
 
-  export default withStyles(styles)(connect(null, {game_type, authCheckState})(LiveCasino_Type));
+  export default withStyles(styles)(connect(null, {live_casino_type, authCheckState})(LiveCasino_Type));

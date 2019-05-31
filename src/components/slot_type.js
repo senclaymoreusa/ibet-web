@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { game_type } from '../actions';
+import { slot_type } from '../actions';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import  TopNavbar from "./top_navbar";
-import '../css/game_type.css';
+import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../util_config';
 import { authCheckState } from '../actions';
@@ -78,7 +78,7 @@ const StyledTabs = withStyles({
     }
   }))(props => <Tab disableRipple {...props} />);
 
-class Game_Type extends Component {
+class Slot_Type extends Component {
 
     constructor(props){
         super(props);
@@ -94,8 +94,8 @@ class Game_Type extends Component {
 
             expand: false,
     
-            games: [],
-            all_games: [],
+            slots: [],
+            all_slots: [],
 
             value: 'top-rated'
         }
@@ -114,19 +114,19 @@ class Game_Type extends Component {
         await axios.get(URL, config)
         .then(res => {
 
-            this.setState({ games: res.data.slice(0, 8) });
-            this.setState({ all_games: res.data})
+            this.setState({ slots: res.data.slice(0, 8) });
+            this.setState({ all_slots: res.data})
         })
 
         this.setState({ ready: true })
     }
 
     type_change(text){
-        this.props.game_type(text);
+        this.props.slot_type(text);
     }
 
     handle_expand(){
-        this.setState({games: this.state.all_games,  expand: true})
+        this.setState({slots: this.state.all_slots,  expand: true})
     }
 
     async handle_category_change(category, subnav){
@@ -134,8 +134,8 @@ class Game_Type extends Component {
 
         await axios.get(URL, config)
         .then(res => {
-            this.setState({ games: res.data.slice(0, 8) });
-            this.setState({ all_games: res.data})
+            this.setState({ slots: res.data.slice(0, 8) });
+            this.setState({ all_slots: res.data})
         })
 
         this.setState({ value: subnav});
@@ -149,12 +149,12 @@ class Game_Type extends Component {
 
         const { classes } = this.props;
 
-        var recent_games = JSON.parse(localStorage.getItem("recent-games"));
+        var recent_slots = JSON.parse(localStorage.getItem("recent-games"));
 
         return (
             <div>
           
-                <TopNavbar activeMenu={'games'}/>
+                <TopNavbar activeMenu={'slots'}/>
 
                 <div className={classes.root}>
                     <AppBar position="static" >
@@ -197,7 +197,7 @@ class Game_Type extends Component {
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                value="table-games"
+                                value="table-slots"
                                 label="TABLE GAMES" 
                                 value='table-games'
                                 onClick={() => {
@@ -375,7 +375,7 @@ class Game_Type extends Component {
 
             <div className="cont">
             {
-                this.state.ready && this.state.games.map(item => {
+                this.state.ready && this.state.slots.map(item => {
                     return (
                     <div key={item.pk} className='each-game' onClick={() => {
                         var array = JSON.parse(localStorage.getItem("recent-games"));
@@ -424,7 +424,7 @@ class Game_Type extends Component {
 
 
             {
-                this.state.ready && !this.state.expand && this.state.all_games.length > 8 && 
+                this.state.ready && !this.state.expand && this.state.all_slots.length > 8 && 
                 <div className='expand-icon'>
                     <Fab  
                         onClick={this.handle_expand}
@@ -432,7 +432,7 @@ class Game_Type extends Component {
                         variant="extended"
                     > 
                     <FormattedMessage id="home.expand" defaultMessage='View All' />
-                    {' (' + this.state.all_games.length + ')'}
+                    {' (' + this.state.all_slots.length + ')'}
                     <ExpandMore />
                     </Fab>
                 </div>
@@ -448,7 +448,7 @@ class Game_Type extends Component {
 
             <div className="cont">
             {
-                this.state.ready && recent_games && recent_games.map(item => {
+                this.state.ready && recent_slots && recent_slots.map(item => {
                     return (
                     <div key={item.name} className='each-game' >
                         <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
@@ -478,7 +478,7 @@ class Game_Type extends Component {
 
             <div className="cont">
             {
-                this.state.ready && this.state.games.slice(0,4).map(item => {
+                this.state.ready && this.state.slots.slice(0,4).map(item => {
                     return (
                     <div key={item.name} className='each-game' >
                         <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
@@ -553,4 +553,4 @@ class Game_Type extends Component {
     }
   }
 
-  export default withStyles(styles)(connect(null, {game_type, authCheckState})(Game_Type));
+  export default withStyles(styles)(connect(null, {slot_type, authCheckState})(Slot_Type));

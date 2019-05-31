@@ -83,7 +83,7 @@ class Game_List extends Component {
 
         const { term } = this.props.match.params;
         // console.log(this.props.match.params);
-        // const game_type = localStorage.getItem('game_type');
+        // const slot_type = localStorage.getItem('slot_type');
         var URL = API_URL + 'users/api/games/?term=' + term;
         axios.get(URL, config)
           .then(res => {
@@ -127,7 +127,7 @@ class Game_List extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        game_type: state.general.game_type,
+        slot_type: state.general.slot_type,
         lang: state.language.lang
     }
 }
