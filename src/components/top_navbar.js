@@ -41,9 +41,11 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Flag from 'react-flagkit';
 import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
 import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
-import { ReactComponent as GamesIcon } from '../assets/img/svg/games.svg';
+import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
+import { ReactComponent as CashIcon } from '../assets/img/svg/cash-out.svg';
+
 import axios from 'axios';
 import { config } from '../util_config';
 
@@ -274,8 +276,6 @@ export class TopNavbar extends React.Component {
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
-            showSportsMenu: false,
-            showGamesMenu: false,
             lang: 'en',
             showTopPanel: false,
             showLeftPanel: false,
@@ -318,11 +318,6 @@ export class TopNavbar extends React.Component {
             this.setState({ showSubMenu: true });
             this.setState({ subMenuType: param });
         }
-    };
-
-    handleGamesToggle = () => {
-        this.setState({ showSportsMenu: false });
-        this.setState(state => ({ showGamesMenu: !state.showGamesMenu }));
     };
 
     handleClose = event => {
@@ -472,7 +467,7 @@ export class TopNavbar extends React.Component {
                             <Person />
                         </ListItemIcon>
                         <ListItemText>
-                            <FormattedMessage id="nav.games" defaultMessage='Slots' />
+                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
                         </ListItemText>
                     </ListItem>
                     <ListItem button component="a" href="/">
@@ -601,7 +596,7 @@ export class TopNavbar extends React.Component {
                                             className={classes.signupButton}
                                             onClick={() => { this.props.history.push('/signup/') }}
                                         >
-                                            <PersonAdd className={classes.extendedIcon} />
+                                            <CashIcon className={classes.extendedIcon} />
                                             Open Account
                                             </Fab>
                                         <Fab
@@ -688,9 +683,9 @@ export class TopNavbar extends React.Component {
                                     <BetIcon className="bet" />
                                     <span className="Live-Casino">Live Casino</span>
                                 </Button>
-                                <Button className={this.props.activeMenu === 'games' ? 'mainButtonActive' : 'mainButton'} href='/game_type/'>
-                                    <GamesIcon className="games-icon" />
-                                    <span className="Games">Games</span>
+                                <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
+                                    <SlotsIcon className="games-icon" />
+                                    <span className="Slots">Slots</span>
                                 </Button>
                                 <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
                                     <LotteryIcon className="lottery" />

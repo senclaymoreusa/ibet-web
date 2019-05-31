@@ -1,8 +1,29 @@
-export const game_type = (text) => {
+export const slot_type = (text) => {
     return {
-      type: 'GAME_TYPE',
+      type: 'SLOT_TYPE',
       payload: text
     };
+};
+
+export const sports_type = (text) => {
+  return {
+    type: 'SPORTS_TYPE',
+    payload: text
+  };
+};
+
+export const lottery_type = (text) => {
+  return {
+    type: 'LOTTERY_TYPE',
+    payload: text
+  };
+};
+
+export const live_casino_type = (text) => {
+  return {
+    type: 'LIVECASINO_TYPE',
+    payload: text
+  };
 };
 
 export const game_detail = (game) => {

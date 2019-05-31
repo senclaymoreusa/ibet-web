@@ -61,7 +61,7 @@ class Game_Detail extends Component {
     
     return(
       <div>
-          <TopNavbar />
+          <TopNavbar activeMenu={'slots'}/>
         <div>
           <h1><FormattedMessage id="game_detail.title" defaultMessage='Game Details' /></h1>
           

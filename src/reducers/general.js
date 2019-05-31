@@ -1,13 +1,22 @@
 const INITIAL_STATE ={
-    game_type: '',
+    slot_type: '',
+    sports_type: '',
+    live_casino_type:'',
+    lottery_type:'',
     game_detail: {},
     term: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-      case 'GAME_TYPE':
-        return { ...state, game_type: action.payload };
+      case 'SLOT_TYPE':
+        return { ...state, slot_type: action.payload };
+        case 'SPORTS_TYPE':
+        return { ...state, sports_type: action.payload };
+        case 'LOTTERY_TYPE':
+        return { ...state, lottery_type: action.payload };
+        case 'LIVECASINO_TYPE':
+        return { ...state, live_casino_type: action.payload };
       case 'GAME_DETAIL':
         return { ...state, game_detail: action.payload };
       case 'TERM_CHANGED':
