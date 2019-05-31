@@ -5,10 +5,47 @@ import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
 
+import TopNavbar from "./top_navbar";
+
+import '../css/balance.css';
+
+// Material-UI
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue';
+import classNames from 'classnames';
+import Button from '@material-ui/core/Button';
+
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
+
+const styles = theme => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+  
+    margin: {
+      margin: 'auto',
+    },
+  
+    textField: {
+      flexBasis: 200,
+      width: 300,
+      backgroundColor: '#ffffff;'
+    },
+  
+    cssRoot: {
+        color: theme.palette.getContrastText(blue[300]),
+        backgroundColor: blue[300],
+        '&:hover': {
+          backgroundColor: blue[800],
+        },
+      },
+  });
 
 
 class Balance extends Component {
@@ -20,6 +57,10 @@ class Balance extends Component {
           error: false,
           data: '',
           type: '',
+
+          live_check_amount: false,
+
+          button_disable: true,
         };
 
         this.onInputChange_balance          = this.onInputChange_balance.bind(this);
@@ -40,7 +81,15 @@ class Balance extends Component {
     }
 
     onInputChange_balance(event){
-        this.setState({balance: event.target.value}); 
+        if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
+            this.setState({balance: event.target.value}); 
+
+            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
+                this.setState({live_check_amount: true, button_disable: true})
+            }else{
+                this.setState({live_check_amount: false, button_disable: false})
+            }
+        }
     }
 
     onFormSubmit(event){
@@ -74,44 +123,83 @@ class Balance extends Component {
     }
 
     render(){
+
+        const { classes } = this.props;
+
         return (
             <div>
-                <form onSubmit={this.onFormSubmit} >
+
+                <TopNavbar />
+
+                <form onSubmit={this.onFormSubmit} className='balance-form'>
+                    
                     <div>
-                        <div>
-                            {this.state.type === 'add' ? 
-                            <label><b>
-                                <FormattedMessage id='balance.enter_balance' defaultMessage='Please enter the amount you want to add to your account' />
-                            </b></label>
-                            :
-                            <label><b>
-                                <FormattedMessage id='balance.withdraw_balance' defaultMessage='Please enter the amount you want to withdraw from your account' />
-                            </b></label>
-                            }
+                        {this.state.type === 'add' ? 
+                        <label><b>
+                            <FormattedMessage id='balance.enter_balance' defaultMessage='Please enter the amount you want to add to your account' />
+                        </b></label>
+                        :
+                        <label><b>
+                            <FormattedMessage id='balance.withdraw_balance' defaultMessage='Please enter the amount you want to withdraw from your account' />
+                        </b></label>
+                        }
                             
-                        </div>
-                        <input
-                            placeholder="$50.00"
-                            className="form-control"
-                            value={this.state.balance}
-                            onChange={this.onInputChange_balance}
-                        />
                     </div>
 
-                    <span className="input-group-btn">
-                        <button type="submit" className="btn btn-secondary"> 
+                    <TextField
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
+                            value={this.state.balance}
+                            onChange={this.onInputChange_balance}
+                    />
+                    
+
+                    {
+                        this.state.live_check_amount && this.state.live_check_amount ? 
+                        <div style={{color: 'red'}}> 
+                            <FormattedMessage id="balance.error"  defaultMessage='The balance you entered is not valid' />
+                        </div> :
+                        <div>
+                            <br />
+                        </div>
+                    }
+                    
+
+                    <div>
+                        <Button 
+                            disabled = {this.state.button_disable} 
+                            type="submit" 
+                            className="balance-submit-button"
+                            variant="contained"
+                            color="primary"
+                        > 
                             <FormattedMessage id="balance.submit" defaultMessage='Submit' />   
-                        </button>
-                    </span>          
+                        </Button>
+                    </div>
+
+                    <br />
+
+                    <Button 
+                        onClick = {() =>  {
+                            this.props.history.push('/profile')
+                        }}
+                        variant="contained"
+                        color="secondary"
+                    > 
+                        <FormattedMessage id="profile.back" defaultMessage='Back' />
+                    </Button>
+                              
 
                 </form>
-                <button className="btn btn-secondary"> 
-                    <NavLink to='/' style={{ textDecoration: 'none' }}><FormattedMessage id="profile.back" defaultMessage='Back' /></NavLink> 
-                </button>
+
+                
+
                 <br/>
                 {
                     this.state.error && <div style = {{color: 'red'}}> <FormattedMessage  id="balance.error" defaultMessage='The balance you entered is not valid' /> </div>
                 }
+
             </div>
         )
     }
@@ -123,4 +211,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default injectIntl(connect(mapStateToProps)(Balance));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps)(Balance)));

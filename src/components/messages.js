@@ -166,6 +166,9 @@ export const messages = {
         'update_profile.submit': 'Submit',
         'update_profile.cancel': 'Cancel',
 
+        // handle update email
+        'update_email.success': 'You have successfully updated you email account',
+
         // handle change_email page message
         'change_email.enter_email': 'New Email address: ',
         'change_email.confirm_email': 'Confirm Email address: ',
@@ -202,6 +205,7 @@ export const messages = {
         // handle game_search page
         'games_search.title': 'Searched games',
         'games_search.not_found': 'No games matching your search',
+        'game_search.title': 'Searched Results',
 
         // handle referral page
         'referral.user': 'You have successfully referred a User',
@@ -390,6 +394,9 @@ export const messages = {
         'update_profile.submit': '提交表單',
         'update_profile.cancel': '取消',
 
+        // handle update email
+        'update_email.success': '您已成功跟新您的邮箱地址',
+
 
         // handle change_email page message
         'change_email.enter_email': '輸入新郵件地址: ',
@@ -421,6 +428,7 @@ export const messages = {
         // handle game_search page
         'games_search.title': '搜尋結果',
         'games_search.not_found': '沒有您的搜尋結果',
+        'game_search.title': '搜索结果',
 
         // handle activation page
         'activation.message': '账户激活链接已发至您的邮箱',
@@ -614,6 +622,9 @@ export const messages = {
         'update_profile.submit': 'Soumettre',
         'update_profile.cancel': 'Annuler',
 
+        // handle update email
+        'update_email.success': 'Vous avez mis à jour votre compte de messagerie avec succès',
+
         // handle change_email page message
         'change_email.enter_email': 'Nouvelle adresse courriel: ',
         'change_email.confirm_email': 'Confirmez votre adresse email: ',
@@ -646,6 +657,7 @@ export const messages = {
         // handle game_search page
         'games_search.title': 'Résultat de la recherche',
         'games_search.not_found': 'Aucun jeu ne correspond à votre recherche',
+        'game_search.title': 'résultats recherchés',
 
         // handle activation page
         'activation.message': "Un lien d'activation de compte a été envoyé à votre adresse e-mail",

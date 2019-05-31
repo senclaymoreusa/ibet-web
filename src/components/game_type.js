@@ -163,6 +163,7 @@ class Game_Type extends Component {
                                 style={{outline: 'none'}} 
                                 value="top-rated"
                                 label="TOP RATED" 
+                                value='top-rated'
                                 onClick={() => {
                                     this.handle_category_change('bet', 'top-rated');
                                 }}
@@ -171,6 +172,7 @@ class Game_Type extends Component {
                                 style={{outline: 'none'}} 
                                 value="new"
                                 label="NEW" 
+                                value='new'
                                 onClick={() => {
                                     this.handle_category_change('ball', 'new');
                                 }}
@@ -179,6 +181,7 @@ class Game_Type extends Component {
                                 style={{outline: 'none'}} 
                                 value="slots"
                                 label="SLOTS" 
+                                value='slots'
                                 onClick={() => {
                                     this.handle_category_change('poker', 'slots');
                                 }}
@@ -187,6 +190,7 @@ class Game_Type extends Component {
                                 style={{outline: 'none'}}
                                 value="jackpots"
                                 label="JACKPOTS" 
+                                value='jackpots'
                                 onClick={() => {
                                     this.handle_category_change('bet', 'jackpots');
                                 }}
@@ -195,6 +199,7 @@ class Game_Type extends Component {
                                 style={{outline: 'none'}} 
                                 value="table-games"
                                 label="TABLE GAMES" 
+                                value='table-games'
                                 onClick={() => {
                                     this.handle_category_change('poker', 'table-games');
                                 }}
@@ -203,6 +208,7 @@ class Game_Type extends Component {
                                 style={{outline: 'none'}} 
                                 value="other-games"
                                 label="OTHER GAMES" 
+                                value='other-games'
                                 onClick={() => {
                                     this.handle_category_change('poker', 'other-games');
                                 }}
@@ -210,6 +216,156 @@ class Game_Type extends Component {
                         </StyledTabs>
                     </AppBar>
                 </div>
+
+                {/* <div className='game-category-dropdown'>
+
+                    <div className={this.state.top_rated ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: true, new: false, slots: false, jackpots: false, table_game: false, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('bet');
+                    }}>
+                        TOP RATED
+                    </div>
+
+                    <div className={this.state.new ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: true, slots: false, jackpots: false, table_game: false, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('ball');
+                    }}>
+                        NEW
+                    </div>
+
+                    <div className={this.state.slots ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: true, jackpots: false, table_game: false, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('poker');
+                    }}>
+                        SLOTS
+                    </div>
+
+                    <div className={this.state.jackpots ? 'each-game-category-selected' : 'each-game-category'} 
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: false, jackpots: true, table_game: false, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('bet');
+                    }}>
+                        JACKPOTS
+                    </div>
+
+                    <div className={this.state.table_game ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: false, jackpots: false, table_game: true, vitrual_sport: false, other_game: false})
+                        this.handle_category_change('poker');
+                    }}>
+                        TABLE GAMES
+                    </div>
+
+                    <div className={this.state.vitrual_sport ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: false, jackpots: false, table_game: false, vitrual_sport: true, other_game: false})
+                        this.handle_category_change('basketball');
+                    }}>
+                        VITURAL SPORTS
+                    </div>
+
+                    <div className={this.state.other_game ? 'each-game-category-selected' : 'each-game-category'}
+                    onClick={() => {
+                        this.setState({top_rated: false, new: false, slots: false, jackpots: false, table_game: false, vitrual_sport: false, other_game: true})
+                        this.handle_category_change('football');
+                    }}>
+                        OTHER GAMES
+                    </div>
+
+                </div> */}
+
+                {/* <div className='category-section'>
+
+                    <div className="wrapper" onClick={() => {
+                        this.setState({jackpot: true, table_game: false, poker: false})
+                        this.handle_category_change('ball');
+                    }}>
+                    {
+                        !this.state.jackpot ?
+                        <div>
+                            <Grey />
+                            <Jack className="logo"/>
+                            <br/>
+                            <div className='category-title'> 
+                                Jackpots
+                            </div>
+                        </div>  
+                        :
+                        <div>
+                            <Black className='selected-bottom'/>
+                            <Jack className="logo "/>
+                            <br/>
+                            <div className='category-title'> 
+                                Jackpots
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+
+                <div className="wrapper" onClick={() => {
+                    this.setState({table_game: true, jackpot: false, poker: false});
+                    this.handle_category_change('bet');
+                }}>
+                    {
+                        !this.state.table_game ?
+                        <div> 
+                            <Grey />
+                            <Table className="logo"/>
+                            <br/>
+                            <div className='category-title'> 
+                                Table Games
+                            </div>
+                        </div>
+
+                        :
+                        <div> 
+                            <Black className='selected-bottom' />
+                            <Table className="logo"/>
+                            <br/>
+                            <div className='category-title'> 
+                                Table Games
+                            </div>
+                        </div>
+                    }
+                    
+                </div>
+
+            
+                <div className="wrapper" onClick={() => {
+                    this.setState({poker: true, jackpot: false, table_game: false})
+                    this.handle_category_change('poker');
+                }}>
+                    {
+                        !this.state.poker ?
+                        <div>
+                            <Grey />
+                            <Poker className="logo-poker"/>
+                            <br/>
+                            <div className='category-title'> 
+                                Poker
+                            </div>
+                        </div> 
+                        :
+                        <div> 
+                            <Black className='selected-bottom' />
+                            <Poker className="logo-poker"/>
+                            <br/>
+                            <div className='category-title'> 
+                                Poker
+                            </div>
+                        </div>
+                    }
+                
+                </div>
+
+
+            </div> */}
+
             {
                 this.state.ready &&
                 <div className='top-title'>
@@ -327,7 +483,10 @@ class Game_Type extends Component {
                     <div key={item.name} className='each-game' >
                         <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
                         {
-                             <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
+                            // item.image ? 
+                            // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
+                            // :
+                            <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
                         }
                         <br/>
                         <div className='game-title'> 
@@ -341,6 +500,53 @@ class Game_Type extends Component {
             </div>
           
           <div className='row'>
+
+           
+
+            {/* <div className='type'>
+                <NavLink to='/game_list/Sports' style={{ textDecoration: 'none' }}>
+                    <div className='title-game'> 
+                        <FormattedMessage id="games_type.sports" defaultMessage='Sports' />
+                    </div>
+                    <br/>
+                    <img src="http://localhost:8000/media/game_image/soccer.jpg" height = '100' width = '150' alt='Not available' ></img>
+                </NavLink>
+                
+            </div>
+
+            <div className='type'>
+                <NavLink to='/game_list/Casino' style={{ textDecoration: 'none' }} >
+                    <div className='title-game'> 
+                        <FormattedMessage id="games_type.casino" defaultMessage='Casino' />
+                    </div>
+                    <br/>
+                    <img src="http://localhost:8000/media/game_image/casino.jpg" height = '100' width = '150' alt='Not available' ></img>
+                </NavLink>
+                
+            </div>
+
+            <div className='type'>
+                <NavLink to='/game_list/Poker' style={{ textDecoration: 'none' }} >
+                    <div className='title-game'> 
+                        <FormattedMessage id="games_type.poker" defaultMessage='Poker' />
+                    </div>
+                    <br/>
+                    <img src="http://localhost:8000/media/game_image/poker.jpg" height = '100' width = '150' alt='Not available' ></img>
+                </NavLink>
+                
+            </div>
+
+            <div className='type'> 
+                <NavLink to='/game_list/Guide' style={{ textDecoration: 'none' }} >
+                    <div className='title-game'> 
+                         <FormattedMessage id="games_type.guide" defaultMessage='Guide' />
+                    </div>
+                    <br/>
+                    <img src="http://localhost:8000/media/game_image/guide.png" height = '100' width = '150' alt='Not available' ></img>
+                </NavLink>
+                
+            </div> */}
+
           </div>
         </div>
       );

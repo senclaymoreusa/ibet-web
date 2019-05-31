@@ -19,12 +19,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-// import { ReactComponent as Black } from '../images/black-background.svg';
-// import { ReactComponent as Jack } from '../images/jackpot.svg';
-// import { ReactComponent as Table } from '../images/table-game.svg';
-// import { ReactComponent as Poker}  from '../images/poker.svg';
-// import { ReactComponent as Grey}  from '../images/grey.svg';
-
 import placeholdimage from '../images/handsomecat.jpg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
@@ -144,6 +138,10 @@ class Sports_Type extends Component {
     handlechange(event, newValue){
         this.setState({value: newValue})
     }
+    
+    async componentDidMount() {
+
+          }
 
     render() {
 

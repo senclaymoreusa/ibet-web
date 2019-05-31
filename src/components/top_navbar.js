@@ -14,7 +14,6 @@ import PersonAdd from '@material-ui/icons/PersonAdd';
 import Person from '@material-ui/icons/Person';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 
-import Input from '@material-ui/icons/Input';
 import Language from '@material-ui/icons/Language';
 import { AUTH_RESULT_FAIL } from '../actions';
 
@@ -36,10 +35,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu';
 import Fab from '@material-ui/core/Fab';
 
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -271,6 +266,8 @@ export class TopNavbar extends React.Component {
     constructor(props) {
         super(props);
 
+        this.search_focus = React.createRef();
+
         this.state = {
             open: false,
             subMenuType: null,
@@ -300,10 +297,16 @@ export class TopNavbar extends React.Component {
 
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.focus_search = this.focus_search.bind(this);
+    }
+
+    focus_search() {
+        this.search_focus.current.focus();
     }
 
     handleSearch = () => {
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
+        this.focus_search()
     }
 
     handleSubMenuToggle = (param) => {
@@ -702,7 +705,9 @@ export class TopNavbar extends React.Component {
                                                 if (event.key === 'Enter') {
                                                     this.search()
                                                 }
-                                            }} />
+                                            }} 
+                                            ref={this.search_focus}
+                                        />
                                     </div>
                                     <span className="search-button" onClick={this.handleSearch}>
                                         <span className="search-icon"></span>

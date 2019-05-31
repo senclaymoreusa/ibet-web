@@ -6,8 +6,16 @@ import { game_detail } from '../actions'
 import { config } from '../util_config';
 import TopNavbar from './top_navbar';
 import { FormattedMessage } from 'react-intl';
-import ScrollMenu from 'react-horizontal-scrolling-menu';
+//import ScrollMenu from 'react-horizontal-scrolling-menu';
 import '../css/game_search.css';
+
+import placeholdimage from '../images/handsomecat.jpg';
+
+// Material-UI
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import Fab from '@material-ui/core/Fab';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 
 const MenuItem = ({name, selected, image, pk, name_zh, name_fr, language}) => {
@@ -77,10 +85,27 @@ const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
+const styles = theme => ({
+  fab: {
+    width: '240px',
+    marginTop: '48px',
+    backgroundColor: '#ffffff;',
+    fontSize: '18px'
+  },
+  extendedIcon: {
+    marginRight: theme.spacing.unit,
+  },
+});
+
 class Game_Search extends Component {
     constructor(props){
         super(props);
-        this.state = { games: [], loading: true };
+        this.state = { 
+          games: [], 
+          all_games: [],
+          loading: true ,
+          expand: false,
+        };
         // this.onInputChange = this.onInputChange.bind(this);
         // this.onFormSubmit = this.onFormSubmit.bind(this);
     }
@@ -126,13 +151,18 @@ class Game_Search extends Component {
 
     searchGame = async (term) => {
         if (term){
-            var temp = [];
             var URL = API_URL + 'users/api/games/?term=' + term;
             await axios.get(URL, config)
             .then(res => {
-                temp = res.data;
+                this.setState({ 
+                  games: res.data.slice(0, 8), 
+                  all_games:  res.data,
+                  expand: false
+                });
+
+              
             })
-          this.setState({games: temp});
+          
           this.setState({game_to_render: Menu(this.state.games, this.props.lang)})
         }
         this.setState({loading: false});
@@ -150,8 +180,14 @@ class Game_Search extends Component {
     //     // this.setState({ term: '' });
     // }
 
+    handle_expand(){
+      this.setState({games: this.state.all_games})
+      this.setState({expand: true})
+    }
+
     render() {
-      var games = this.state.games;
+
+      const { classes } = this.props;
 
       const menu = this.state.game_to_render;
 
@@ -160,7 +196,49 @@ class Game_Search extends Component {
 
             <TopNavbar />
 
-            <div className='game-container'> 
+            <div className='game-search-top-title'>
+                <FormattedMessage id="game_search.title" defaultMessage='Searched Results' />
+            </div>
+
+            <div className="game-search-cont">
+              {
+                !this.state.loading && this.state.games.map(item => {
+                    return (
+                      <div key={item.pk}  className='game-search-each-game'>
+                          <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
+                              
+                              <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
+                            
+                              <br/>
+
+                              <div className='game-title'> 
+                                  {item.name} 
+                              </div>
+                          
+                          </NavLink>
+                      </div>
+                    )
+                })
+              }
+            </div>
+
+            {
+              !this.state.loading && !this.state.expand && this.state.all_games.length > 8 && 
+              <div className='game-search-expand-icon '>
+                <Fab  
+                    onClick={this.handle_expand.bind(this)}
+                    className={classNames(classes.fab, 'text')}
+                    variant="extended"
+                > 
+                  <FormattedMessage id="home.expand" defaultMessage='View All' />
+                  {' (' + this.state.all_games.length + ')'}
+                  <ExpandMore />
+                </Fab>
+              </div>
+            }
+
+            
+            {/* <div className='game-container'> 
               <ScrollMenu
                 data={menu}
                 arrowLeft={ArrowLeft}
@@ -171,11 +249,15 @@ class Game_Search extends Component {
                 wheel={false}
                 alignCenter={false}
               />
-            </div>
+            </div> */}
+
+
 
             {
-              games.length === 0 && this.state.loading === false?
-              <div><FormattedMessage id="games_search.not_found" defaultMessage='No games matching your search' /></div>
+              this.state.games.length === 0 && this.state.loading === false?
+              <div className='game-search-top-title'>
+                <FormattedMessage id="games_search.not_found" defaultMessage='No games matching your search' />
+              </div>
               :
               <div> </div>
             }
@@ -193,4 +275,4 @@ const mapStateToProps = (state) => {
     }
 }
   
-export default connect(mapStateToProps, { game_detail })(Game_Search);
+export default withStyles(styles)(connect(mapStateToProps, { game_detail })(Game_Search));

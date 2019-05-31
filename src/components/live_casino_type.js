@@ -140,8 +140,13 @@ class LiveCasino_Type extends Component {
     }
 
     handlechange(event, newValue){
-        this.setState({value: newValue})
+      this.setState({value: newValue})
+  }
+  
+    async componentDidMount() {
+        
     }
+
 
     render() {
 
