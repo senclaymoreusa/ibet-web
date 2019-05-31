@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { slot_type } from '../actions';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage,injectIntl } from 'react-intl';
 import  TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import axios from 'axios';
@@ -62,7 +62,7 @@ const StyledTabs = withStyles({
 
   const StyledTab = withStyles(theme => ({
     root: {
-      textTransform: "none",
+      textTransform: "uppercase",
       color: "#fff",
       margin: 'auto',
       fontWeight: theme.typography.fontWeightRegular,
@@ -149,6 +149,14 @@ class Slot_Type extends Component {
 
         const { classes } = this.props;
 
+        const { formatMessage } = this.props.intl;
+        let topRatedMessage = formatMessage({ id: "nav.top-rated" });
+        let newMessage = formatMessage({ id: "nav.new" });
+        let slotsMessage = formatMessage({ id: "nav.slots" });
+        let jackpotsMessage = formatMessage({ id: "nav.jackpots" });
+        let tableGamesMessage = formatMessage({ id: "nav.table-games" });
+        let otherGamesMessage = formatMessage({ id: "nav.other-games" });
+
         var recent_slots = JSON.parse(localStorage.getItem("recent-games"));
 
         return (
@@ -162,8 +170,7 @@ class Slot_Type extends Component {
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 value="top-rated"
-                                label="TOP RATED" 
-                                value='top-rated'
+                                label={topRatedMessage} 
                                 onClick={() => {
                                     this.handle_category_change('bet', 'top-rated');
                                 }}
@@ -171,8 +178,7 @@ class Slot_Type extends Component {
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 value="new"
-                                label="NEW" 
-                                value='new'
+                                label={newMessage}
                                 onClick={() => {
                                     this.handle_category_change('ball', 'new');
                                 }}
@@ -180,8 +186,7 @@ class Slot_Type extends Component {
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 value="slots"
-                                label="SLOTS" 
-                                value='slots'
+                                label={slotsMessage} 
                                 onClick={() => {
                                     this.handle_category_change('poker', 'slots');
                                 }}
@@ -189,8 +194,7 @@ class Slot_Type extends Component {
                             <StyledTab 
                                 style={{outline: 'none'}}
                                 value="jackpots"
-                                label="JACKPOTS" 
-                                value='jackpots'
+                                label={jackpotsMessage}
                                 onClick={() => {
                                     this.handle_category_change('bet', 'jackpots');
                                 }}
@@ -198,8 +202,7 @@ class Slot_Type extends Component {
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 value="table-slots"
-                                label="TABLE GAMES" 
-                                value='table-games'
+                                label={tableGamesMessage} 
                                 onClick={() => {
                                     this.handle_category_change('poker', 'table-games');
                                 }}
@@ -207,8 +210,7 @@ class Slot_Type extends Component {
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 value="other-games"
-                                label="OTHER GAMES" 
-                                value='other-games'
+                                label={otherGamesMessage} 
                                 onClick={() => {
                                     this.handle_category_change('poker', 'other-games');
                                 }}
@@ -553,4 +555,4 @@ class Slot_Type extends Component {
     }
   }
 
-  export default withStyles(styles)(connect(null, {slot_type, authCheckState})(Slot_Type));
+  export default withStyles(styles)(injectIntl(connect(null, {slot_type, authCheckState})(Slot_Type)));

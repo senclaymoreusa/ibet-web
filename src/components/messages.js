@@ -1,5 +1,7 @@
 export const messages = {
     en: {
+        
+        
         // handle home page message
         'home.title': 'Claymore',
         'home.subtitle': 'Local Library Home',
@@ -28,6 +30,29 @@ export const messages = {
         'nav.referral': 'Refer new user',
         'nav.placeholder': 'Search game...',
         'nav.account': 'Accont',
+        
+        'nav.sports': 'Sports',
+        'nav.live-casino':'Live Casino',
+        'nav.slots':'Slots',
+        'nav.lottery':'Lottery',
+        'nav.open-account':'Open Account',
+        'nav.live': 'Live',
+        'nav.football':'Football',
+        'nav.basketball':'Basketball',
+        'nav.ice-hockey':'Ice Hockey',
+        'nav.tennis':'Tennis',
+        'nav.top-rated':'Top Rated',
+        'nav.new':'New',
+        'nav.roulette':'Roulette',
+        'nav.blackjack': 'Blackjack',
+        'nav.baccarat':'Baccarat',
+        'nav.poker':'Poker',
+        'nav.tournaments':'Tournaments',
+        'nav.jackpots':'Jackpots',
+        'nav.table-games':'Table Games',
+        'nav.other-games': 'Other Games',
+    
+
 
         // handle login page message
         'login.username': 'Username: ',
@@ -257,6 +282,27 @@ export const messages = {
         'nav.placeholder': '搜尋遊戲...',
         'nav.account': '账户',
 
+        'nav.sports': '体育',
+        'nav.live-casino':'真人娱乐场',
+        'nav.slots':'老虎机',
+        'nav.lottery':'抽奖',
+        'nav.open-account':'开户口',
+        'nav.live': '生活',
+        'nav.football':'足球',
+        'nav.basketball':'篮球',
+        'nav.ice-hockey':'冰球',
+        'nav.tennis':'网球',
+        'nav.top-rated':'评分最高',
+        'nav.new':'新',
+        'nav.roulette':'轮盘赌',
+        'nav.blackjack': '酒杯',
+        'nav.baccarat':'百家乐',
+        'nav.poker':'扑克',
+        'nav.tournaments':'锦标赛',
+        'nav.jackpots':'最高奖金',
+        'nav.table-games':'桌上游戏',
+        'nav.other-games': '其他游戏',
+
         // handle login page message
         'login.username': '用戶名: ',
         'login.password': '密碼: ',
@@ -485,6 +531,27 @@ export const messages = {
         'nav.referral': 'Recommander de nouveaux utilisateurs',
         'nav.placeholder': 'Jeu de recherche...',
         'nav.account': 'Compte',
+
+        'nav.sports': 'Des sports',
+        'nav.live-casino':'Live Casino',
+        'nav.slots':'Machines à sous',
+        'nav.lottery':'Loterie',
+        'nav.open-account':'Compte ouvert',
+        'nav.live': 'Vivre',
+        'nav.football':'Football',
+        'nav.basketball':'Basketball',
+        'nav.ice-hockey':'Hockey sur glace',
+        'nav.tennis':'Tennis',
+        'nav.top-rated':'Les mieux notés',
+        'nav.new':'Nouvelle',
+        'nav.roulette':'Roulette',
+        'nav.blackjack': 'Blackjack',
+        'nav.baccarat':'Baccarat',
+        'nav.poker':'Poker',
+        'nav.tournaments':'Tournois',
+        'nav.jackpots':'Jackpots',
+        'nav.table-games':'Jeux de table',
+        'nav.other-games': 'D autres jeux',
 
         // handle login page message
         'login.username': 'Nom d\'utilisateur: ',
