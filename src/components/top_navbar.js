@@ -290,7 +290,7 @@ export class TopNavbar extends React.Component {
             show_loggedin_status: false,
 
             balance: 0.00,
-            balanceCurrency: ""
+            balanceCurrency: "USD"
 
         };
 
@@ -522,7 +522,7 @@ export class TopNavbar extends React.Component {
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
                                         <Button className={classes.menuButton} >
                                             <FormattedNumber
-                                                minimumFractionDigits={2}
+                                                maximumFractionDigits={2}
                                                 value={this.state.balance}
                                                 style='currency'
                                                 currency={this.state.balanceCurrency}
