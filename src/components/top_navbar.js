@@ -19,7 +19,6 @@ import { AUTH_RESULT_FAIL } from '../actions';
 
 
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 
 import { FormattedMessage, FormattedNumber } from 'react-intl';
@@ -270,13 +269,15 @@ export class TopNavbar extends React.Component {
 
         this.search_focus = React.createRef();
 
+        let langProperty = localStorage.getItem('lang');
+
         this.state = {
             open: false,
             subMenuType: null,
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
-            lang: 'en',
+            lang: langProperty ? langProperty : 'en',
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -291,7 +292,7 @@ export class TopNavbar extends React.Component {
             show_loggedin_status: false,
 
             balance: 0.00,
-            balanceCurrency: ""
+            balanceCurrency: "USD"
 
         };
 
@@ -352,13 +353,15 @@ export class TopNavbar extends React.Component {
 
     handleLanguageMenuClose = (ev) => {
         this.setState({ anchorEl: null });
-        this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
+
+        if (ev.nativeEvent.target.dataset.myValue)
+            this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
     };
 
     changeLanguage = (lang) => {
         this.props.setLanguage(lang)
             .then((res) => {
-                // console.log("language change to:" + res.data);
+                localStorage.setItem("lang", lang);
             });
     };
 
@@ -459,7 +462,7 @@ export class TopNavbar extends React.Component {
                             <Person />
                         </ListItemIcon>
                         <ListItemText>
-                            <FormattedMessage id="nav.livecasino" defaultMessage='Live Casino' />
+                            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
                         </ListItemText>
                     </ListItem>
                     <ListItem button component="a" href="/">
@@ -519,25 +522,21 @@ export class TopNavbar extends React.Component {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
 
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Tooltip title="Balance" placement="bottom">
-                                            <Button className={classes.menuButton} >
-                                                <FormattedNumber
-                                                    minimumFractionDigits={2}
-                                                    value={this.state.balance}
-                                                    style='currency'
-                                                    currency={this.state.balanceCurrency}
-                                                />
-                                            </Button>
-                                        </Tooltip>
-                                        <Tooltip title="Account" placement="bottom">
-                                            <IconButton
-                                                className={classes.menuButton}
-                                                color="inherit"
-                                                aria-label="Open drawer"
-                                                onClick={this.toggleSidePanel('showRightPanel', true)}>
-                                                <Person />
-                                            </IconButton>
-                                        </Tooltip>
+                                        <Button className={classes.menuButton} >
+                                            <FormattedNumber
+                                                maximumFractionDigits={2}
+                                                value={this.state.balance}
+                                                style='currency'
+                                                currency={this.state.balanceCurrency}
+                                            />
+                                        </Button>
+                                        <IconButton
+                                            className={classes.menuButton}
+                                            color="inherit"
+                                            aria-label="Open drawer"
+                                            onClick={this.toggleSidePanel('showRightPanel', true)}>
+                                            <Person />
+                                        </IconButton>
                                         <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
                                             <div
                                                 tabIndex={0}
@@ -549,17 +548,15 @@ export class TopNavbar extends React.Component {
                                             </div>
                                         </Drawer>
 
-                                        <Tooltip title="Change Language" placement="bottom">
-                                            <IconButton
-                                                className={classes.menuButton}
-                                                aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                                aria-haspopup="true"
-                                                onClick={this.handleLanguageMenuOpen}
-                                                color="inherit"
-                                            >
-                                                {langButtonIcon}
-                                            </IconButton>
-                                        </Tooltip>
+                                        <IconButton
+                                            className={classes.menuButton}
+                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
+                                            aria-haspopup="true"
+                                            onClick={this.handleLanguageMenuOpen}
+                                            color="inherit"
+                                        >
+                                            {langButtonIcon}
+                                        </IconButton>
                                         <Menu
                                             value={this.state.lang} onChange={this.langMenuClicked}
                                             anchorEl={anchorEl}
@@ -571,18 +568,21 @@ export class TopNavbar extends React.Component {
                                                 <ListItemIcon className={classes.icon}>
                                                     <Flag country="US" />
                                                 </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English">
+                                                </ListItemText>
                                             </MenuItem>
                                             <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
                                                 <ListItemIcon className={classes.icon}>
                                                     <Flag country="CN" />
                                                 </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
+                                                </ListItemText>
                                             </MenuItem>
                                             <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
                                                 <Flag country="FR" />
                                             </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
+                                                </ListItemText>
                                             </MenuItem>
                                         </Menu>
                                     </div>
@@ -597,8 +597,8 @@ export class TopNavbar extends React.Component {
                                             onClick={() => { this.props.history.push('/signup/') }}
                                         >
                                             <CashIcon className={classes.extendedIcon} />
-                                            Open Account
-                                            </Fab>
+                                            <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
+                                        </Fab>
                                         <Fab
                                             variant="extended"
                                             size="small"
@@ -608,18 +608,16 @@ export class TopNavbar extends React.Component {
                                             onClick={() => { this.props.history.push('/login/') }}
                                         >
                                             <PersonOutline className={classes.extendedIcon} />
-                                            Login
-                                            </Fab>
-                                        <Tooltip title="Change Language" placement="bottom">
-                                            <IconButton
-                                                aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                                aria-haspopup="true"
-                                                onClick={this.handleLanguageMenuOpen}
-                                                color="inherit"
-                                            >
-                                                {langButtonIcon}
-                                            </IconButton>
-                                        </Tooltip>
+                                            <FormattedMessage id="nav.login" defaultMessage='Login' />
+                                        </Fab>
+                                        <IconButton
+                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
+                                            aria-haspopup="true"
+                                            onClick={this.handleLanguageMenuOpen}
+                                            color="inherit"
+                                        >
+                                            {langButtonIcon}
+                                        </IconButton>
                                         <Menu
                                             value={this.state.lang}
                                             onChange={this.langMenuClicked}
@@ -633,19 +631,22 @@ export class TopNavbar extends React.Component {
                                                 <ListItemIcon className={classes.icon}>
                                                     <Flag country="US" />
                                                 </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English" >
+                                                </ListItemText>
                                             </MenuItem>
                                             <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}>
                                                 <ListItemIcon className={classes.icon}>
                                                     <Flag country="CN" />
                                                 </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
+                                                </ListItemText>
                                             </MenuItem>
                                             <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}>
                                                 <ListItemIcon className={classes.icon}>
                                                     <Flag country="FR" />
                                                 </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
+                                                </ListItemText>
                                             </MenuItem>
                                         </Menu>
 
@@ -677,19 +678,27 @@ export class TopNavbar extends React.Component {
                             <div className={classes.sectionDesktop}>
                                 <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
                                     <SoccerIcon className="soccer" />
-                                    <span className="Sports">Sports</span>
+                                    <span className="Sports">
+                                        <FormattedMessage id="nav.sports" defaultMessage='Sports' />
+                                    </span>
                                 </Button>
                                 <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
                                     <BetIcon className="bet" />
-                                    <span className="Live-Casino">Live Casino</span>
+                                    <span className="Live-Casino">
+                                        <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
+                                    </span>
                                 </Button>
                                 <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
                                     <SlotsIcon className="games-icon" />
-                                    <span className="Slots">Slots</span>
+                                    <span className="Slots">
+                                        <FormattedMessage id="nav.slots" defaultMessage='Slots' />
+                                    </span>
                                 </Button>
                                 <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
                                     <LotteryIcon className="lottery" />
-                                    <span className="Lottery">Lottery</span>
+                                    <span className="Lottery">
+                                        <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
+                                    </span>
                                 </Button>
                                 <div className={searchClass.join(' ')}>
                                     <div className="search-box">
@@ -700,7 +709,7 @@ export class TopNavbar extends React.Component {
                                                 if (event.key === 'Enter') {
                                                     this.search()
                                                 }
-                                            }} 
+                                            }}
                                             ref={this.search_focus}
                                         />
                                     </div>

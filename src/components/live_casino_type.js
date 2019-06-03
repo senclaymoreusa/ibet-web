@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { live_casino_type } from '../actions';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import  TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import axios from 'axios';
@@ -62,7 +62,7 @@ const StyledTabs = withStyles({
 
   const StyledTab = withStyles(theme => ({
     root: {
-      textTransform: "none",
+      textTransform: "uppercase",
       color: "#fff",
       margin: 'auto',
       fontWeight: theme.typography.fontWeightRegular,
@@ -152,6 +152,15 @@ class LiveCasino_Type extends Component {
 
         const { classes } = this.props;
 
+        const { formatMessage } = this.props.intl;
+        let topRatedMessage = formatMessage({ id: "nav.top-rated" });
+        let newMessage = formatMessage({ id: "nav.new" });
+        let rouletteMessage = formatMessage({ id: "nav.roulette" });
+        let blackjackMessage = formatMessage({ id: "nav.blackjack" });
+        let baccaratMessage = formatMessage({ id: "nav.baccarat" });
+        let pokerMessage = formatMessage({ id: "nav.poker" });
+        let torunamentsMessage = formatMessage({ id: "nav.tournaments" });
+
         var recent_live_casino = JSON.parse(localStorage.getItem("recent-live-casino"));
 
         return (
@@ -165,14 +174,14 @@ class LiveCasino_Type extends Component {
                             <StyledTab 
                                 style={{outline: 'none'}} 
                                 value="top-rated"
-                                label="TOP RATED" 
+                                label={topRatedMessage} 
                                 onClick={() => {
                                     this.handle_category_change('top-rated');
                                 }}
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="NEW"
+                                label={newMessage}
                                 value="new" 
                                 onClick={() => {
                                     this.handle_category_change('new');
@@ -180,8 +189,8 @@ class LiveCasino_Type extends Component {
                             />
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                label="ROULETTE" 
-                                vaule="roulette"
+                                label={rouletteMessage}
+                                value="roulette"
                                 onClick={() => {
                                     this.handle_category_change('roulette');
                                 }}
@@ -189,7 +198,7 @@ class LiveCasino_Type extends Component {
                             <StyledTab 
                                 style={{outline: 'none'}}
                                 value="blackjack"
-                                label="BLACKJACK" 
+                                label={blackjackMessage}
                                 onClick={() => {
                                     this.handle_category_change('blackjack');
                                 }}
@@ -197,7 +206,7 @@ class LiveCasino_Type extends Component {
                              <StyledTab 
                                 style={{outline: 'none'}}
                                 value="baccarat"
-                                label="BACCARAT" 
+                                label={baccaratMessage}
                                 onClick={() => {
                                     this.handle_category_change('baccarat');
                                 }}
@@ -205,7 +214,7 @@ class LiveCasino_Type extends Component {
                              <StyledTab 
                                 style={{outline: 'none'}}
                                 value="poker"
-                                label="POKER" 
+                                label={pokerMessage}
                                 onClick={() => {
                                     this.handle_category_change('poker');
                                 }}
@@ -213,7 +222,7 @@ class LiveCasino_Type extends Component {
                              <StyledTab 
                                 style={{outline: 'none'}}
                                 value="tournaments"
-                                label="TOURNAMENTS" 
+                                label={torunamentsMessage}
                                 onClick={() => {
                                     this.handle_category_change('tournaments');
                                 }}
@@ -228,4 +237,4 @@ class LiveCasino_Type extends Component {
     }
   }
 
-  export default withStyles(styles)(connect(null, {live_casino_type, authCheckState})(LiveCasino_Type));
+  export default withStyles(styles)(injectIntl(connect(null, {live_casino_type, authCheckState})(LiveCasino_Type)));

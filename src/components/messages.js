@@ -1,5 +1,25 @@
 export const messages = {
     en: {
+        'accountmenu.tradein':'Trade in',
+        'accountmenu.your-goodies':'Your Goodies',
+        'accountmenu.free-spins':'10 Free Spins on Starburst',
+        'accountmenu.main-wallet':'Main wallet',
+        'accountmenu.sportsbooka':'Sportsbook A',
+        'accountmenu.deposit':'Deposit',
+        'accountmenu.withdraw':'Withdraw',
+        'accountmenu.sportsbooka':'Sportsbook A',
+        'accountmenu.sportsbooka':'Sportsbook A',
+        'accountmenu.fund-management': 'Fund Management',
+        'accountmenu.open-bets': 'Open Bets',
+        'accountmenu.messages': 'Messages',
+        'accountmenu.points-rewards': 'Points & Rewards',
+        'accountmenu.usage-analysis': 'Usage Analysis',
+        'accountmenu.personal-details': 'Personal Details',
+        'accountmenu.account-settings': 'Account Settings',
+        'accountmenu.profile': 'Profile',
+        'accountmenu.referral': 'Refer new user',
+        'accountmenu.languages': 'Languages',
+
         // handle home page message
         'home.title': 'Claymore',
         'home.subtitle': 'Local Library Home',
@@ -28,6 +48,28 @@ export const messages = {
         'nav.referral': 'Refer new user',
         'nav.placeholder': 'Search game...',
         'nav.account': 'Accont',
+        
+        'nav.sports': 'Sports',
+        'nav.live-casino':'Live Casino',
+        'nav.slots':'Slots',
+        'nav.lottery':'Lottery',
+        'nav.open-account':'Open Account',
+        'nav.live': 'Live',
+        'nav.football':'Football',
+        'nav.basketball':'Basketball',
+        'nav.ice-hockey':'Ice Hockey',
+        'nav.tennis':'Tennis',
+        'nav.top-rated':'Top Rated',
+        'nav.new':'New',
+        'nav.roulette':'Roulette',
+        'nav.blackjack': 'Blackjack',
+        'nav.baccarat':'Baccarat',
+        'nav.poker':'Poker',
+        'nav.tournaments':'Tournaments',
+        'nav.jackpots':'Jackpots',
+        'nav.table-games':'Table Games',
+        'nav.other-games': 'Other Games',
+
 
         // handle login page message
         'login.username': 'Username: ',
@@ -227,6 +269,25 @@ export const messages = {
         'error.passwordnotmatch': 'Two password you entered do not match'
     },
     zh: {
+        // handle account menu message
+        'accountmenu.tradein':'交易',
+        'accountmenu.your-goodies':'你的好东西',
+        'accountmenu.free-spins':'Starburst上有10次免费旋转',
+        'accountmenu.main-wallet':'主钱包',
+        'accountmenu.sportsbooka':'体育博彩A.',
+        'accountmenu.deposit':'存款',
+        'accountmenu.withdraw':'退出',
+        'accountmenu.fund-management': '基金管理',
+        'accountmenu.open-bets': '打开投注',
+        'accountmenu.messages': '消息',
+        'accountmenu.points-rewards': '积分和奖励',
+        'accountmenu.usage-analysis': '用法分析',
+        'accountmenu.personal-details': '个人资料',
+        'accountmenu.account-settings': '帐号设定',
+        'accountmenu.profile': '轮廓',
+        'accountmenu.referral': '推荐新用户',
+        'accountmenu.languages': '语言',
+
 
         // handle home page message
         'home.title': '克萊摩爾',
@@ -256,6 +317,28 @@ export const messages = {
         'nav.referral': '推荐新用户',
         'nav.placeholder': '搜尋遊戲...',
         'nav.account': '账户',
+
+        'nav.sports': '体育',
+        'nav.live-casino':'真人娱乐场',
+        'nav.slots':'老虎机',
+        'nav.lottery':'抽奖',
+        'nav.open-account':'开户口',
+        'nav.live': '生活',
+        'nav.football':'足球',
+        'nav.basketball':'篮球',
+        'nav.ice-hockey':'冰球',
+        'nav.tennis':'网球',
+        'nav.top-rated':'评分最高',
+        'nav.new':'新',
+        'nav.roulette':'轮盘赌',
+        'nav.blackjack': '酒杯',
+        'nav.baccarat':'百家乐',
+        'nav.poker':'扑克',
+        'nav.tournaments':'锦标赛',
+        'nav.jackpots':'最高奖金',
+        'nav.table-games':'桌上游戏',
+        'nav.other-games': '其他游戏',
+   
 
         // handle login page message
         'login.username': '用戶名: ',
@@ -456,6 +539,25 @@ export const messages = {
         'error.passwordnotmatch': '两次输入的密码不一致'
     }, 
     fr: {
+        // handle account menu message
+        'accountmenu.tradein':'Échanger',
+        'accountmenu.your-goodies':'Vos goodies',
+        'accountmenu.free-spins':'10 tours gratuits sur Starburst',
+        'accountmenu.main-wallet':'Portefeuille principal',
+        'accountmenu.sportsbooka':'Paris sportifs A',
+        'accountmenu.deposit':'Dépôt',
+        'accountmenu.withdraw':'Se désister',
+        'accountmenu.fund-management': 'Gestion de fonds',
+        'accountmenu.open-bets': 'Paris ouverts',
+        'accountmenu.messages': 'Messages',
+        'accountmenu.points-rewards': 'Points et récompenses',
+        'accountmenu.usage-analysis': 'Analyse d utilisation',
+        'accountmenu.personal-details': 'Détails personnels',
+        'accountmenu.account-settings': 'Paramètres du compte',
+        'accountmenu.profile': 'Profil',
+        'accountmenu.referral': 'Référer un nouvel utilisateur',
+        'accountmenu.languages': 'Langues',
+
 
         // handle home page message
         'home.title': 'Claymore',
@@ -485,6 +587,27 @@ export const messages = {
         'nav.referral': 'Recommander de nouveaux utilisateurs',
         'nav.placeholder': 'Jeu de recherche...',
         'nav.account': 'Compte',
+
+        'nav.sports': 'Des sports',
+        'nav.live-casino':'Live Casino',
+        'nav.slots':'Machines à sous',
+        'nav.lottery':'Loterie',
+        'nav.open-account':'Compte ouvert',
+        'nav.live': 'Vivre',
+        'nav.football':'Football',
+        'nav.basketball':'Basketball',
+        'nav.ice-hockey':'Hockey sur glace',
+        'nav.tennis':'Tennis',
+        'nav.top-rated':'Les mieux notés',
+        'nav.new':'Nouvelle',
+        'nav.roulette':'Roulette',
+        'nav.blackjack': 'Blackjack',
+        'nav.baccarat':'Baccarat',
+        'nav.poker':'Poker',
+        'nav.tournaments':'Tournois',
+        'nav.jackpots':'Jackpots',
+        'nav.table-games':'Jeux de table',
+        'nav.other-games': 'D autres jeux',
 
         // handle login page message
         'login.username': 'Nom d\'utilisateur: ',
