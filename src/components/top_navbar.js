@@ -269,13 +269,15 @@ export class TopNavbar extends React.Component {
 
         this.search_focus = React.createRef();
 
+        let langProperty = localStorage.getItem('lang');
+
         this.state = {
             open: false,
             subMenuType: null,
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
-            lang: 'en',
+            lang: langProperty ? langProperty : 'en',
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -359,7 +361,7 @@ export class TopNavbar extends React.Component {
     changeLanguage = (lang) => {
         this.props.setLanguage(lang)
             .then((res) => {
-                // console.log("language change to:" + res.data);
+                localStorage.setItem("lang", lang);
             });
     };
 
