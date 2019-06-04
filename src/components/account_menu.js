@@ -154,7 +154,8 @@ export class AccountMenu extends React.Component {
                             <FormLabel component="legend">Live Casino</FormLabel>
                             <FormLabel component="legend">Slots</FormLabel>
                         </FormControl>
-                        <Button variant="contained" color="primary" className={classes.button}>
+                        
+                        <Button variant="contained" color="primary" component="a" href="/deposit/" id="nav.deposit" className={classes.button}>
                             Deposit
                         </Button>
                         <Button variant="contained" color="secondary" className={classes.button}>

@@ -28,6 +28,7 @@ import PointsRewards from './components/points_rewards'
 import UsageAnalysis from './components/usage_analysis'
 import PersonalDetails from './components/personal_details'
 import AccountSettings from './components/account_settings'
+import Deposit from './components/deposit'
 
 const BaseRouter = () => (
   <div>
@@ -60,7 +61,7 @@ const BaseRouter = () => (
     <Route exact path="/usage_analysis/" component={UsageAnalysis} />
     <Route exact path="/personal_details/" component={PersonalDetails} />
     <Route exact path="/account_settings/" component={AccountSettings} />
-
+    <Route exact path="/deposit/" component={Deposit} />
   </div>
 );
 
