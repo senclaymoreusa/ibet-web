@@ -43,7 +43,12 @@ import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
 import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
-import { ReactComponent as CashIcon } from '../assets/img/svg/cash-out.svg';
+import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
+
+import Popper from '@material-ui/core/Popper';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -135,6 +140,14 @@ const styles = theme => ({
     extendedIcon: {
         marginRight: theme.spacing.unit,
     },
+    searchResult: {
+        width: 400,
+        height: 100,
+        marginTop: 42,
+        marginLeft: 0,
+        marginRight: 0
+
+    },
     image: {
         position: 'relative',
         height: 200,
@@ -201,39 +214,6 @@ const styles = theme => ({
     },
 });
 
-const images = [
-    {
-        url: '/images/sports_submenu/in_play.jpg',
-        title: 'In-play',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/football.jpg',
-        title: 'Football',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/basketball.jpg',
-        title: 'Basketball',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/tennis.jpg',
-        title: 'Tennis',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/horse_racing.jpg',
-        title: 'Horse Racing',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/all_sports.jpg',
-        title: 'All Sports',
-        width: '18%',
-    },
-];
-
 const muiLogoBarTheme = createMuiTheme({
     palette: {
         primary: {
@@ -292,11 +272,13 @@ export class TopNavbar extends React.Component {
             show_loggedin_status: false,
 
             balance: 0.00,
-            balanceCurrency: "USD"
+            balanceCurrency: "USD",
+
+            showSearchResultPopper : false,
 
         };
 
-        this.onInputChange = this.onInputChange.bind(this);
+        this.onSearcTextChanged = this.onSearcTextChanged.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.focus_search = this.focus_search.bind(this);
     }
@@ -305,8 +287,16 @@ export class TopNavbar extends React.Component {
         this.search_focus.current.focus();
     }
 
-    handleSearch = () => {
+    handleSearch = event => {
+        const { currentTarget } = event;
+
+        this.setState(state => ({
+            anchorEl: state.anchorEl ? null : currentTarget,
+        }));
+
+
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
+
         this.focus_search()
     }
 
@@ -365,10 +355,6 @@ export class TopNavbar extends React.Component {
             });
     };
 
-    onInputChange(event) {
-        this.setState({ term: event.target.value });
-    }
-
     search() {
         this.props.history.push('/game_search/' + this.state.term);
     }
@@ -425,10 +411,28 @@ export class TopNavbar extends React.Component {
         this.setState(state => ({ showLangListItems: !state.showLangListItems }));
     };
 
-    render() {
-        const { anchorEl } = this.state;
-        const { classes } = this.props;
+    handleSearchClose = event => {
 
+        this.setState({ showSearchResultPopper: true });
+        //this.setState({ subMenuType: null });
+    };
+
+    onSearcTextChanged(event) {
+        this.setState({ term: event.target.value });
+        this.setState({ showSearchResultPopper: true });
+    }
+
+    onSearcTextFocused = event => {
+        this.setState({ showSearchResultPopper: true });
+    }
+
+    onSearcTextBlured(event) {
+        alert('blured')
+    }
+
+    render() {
+        const { classes } = this.props;
+        const { anchorEl, showSearchResultPopper } = this.state;
 
         let countryCode = '';
         switch (this.state.lang) {
@@ -547,7 +551,6 @@ export class TopNavbar extends React.Component {
                                                 <AccountMenu />
                                             </div>
                                         </Drawer>
-
                                         <IconButton
                                             className={classes.menuButton}
                                             aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
@@ -596,7 +599,7 @@ export class TopNavbar extends React.Component {
                                             className={classes.signupButton}
                                             onClick={() => { this.props.history.push('/signup/') }}
                                         >
-                                            <CashIcon className={classes.extendedIcon} />
+                                            <DepositIcon className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
                                         </Fab>
                                         <Fab
@@ -702,21 +705,32 @@ export class TopNavbar extends React.Component {
                                 </Button>
                                 <div className={searchClass.join(' ')}>
                                     <div className="search-box">
-                                        <input type="search" className="search-input"
-                                            value={this.state.term}
-                                            onChange={event => { this.setState({ term: event.target.value }) }}
-                                            onKeyPress={event => {
-                                                if (event.key === 'Enter') {
-                                                    this.search()
-                                                }
-                                            }}
-                                            ref={this.search_focus}
-                                        />
+                                        <div className="search-container">
+                                            <span className="search-icon-before"></span>
+                                            <input type="search" className="search-input"
+                                                value={this.state.term}
+                                                onChange={this.onSearcTextChanged}
+                                                onFocus={this.onSearcTextFocused}
+                                                onBlur={this.onSearchTextBlured}
+                                                onKeyPress={event => {
+                                                    if (event.key === 'Enter') {
+                                                        this.search()
+                                                    }
+                                                }}
+                                                ref={this.search_focus}
+                                            />
+                                        </div>
                                     </div>
+
                                     <span className="search-button" onClick={this.handleSearch}>
                                         <span className="search-icon"></span>
                                     </span>
                                 </div>
+                                <Popper open={showSearchResultPopper} anchorEl={anchorEl} transition disablePortal className={classes.searchResult}>
+                                            <Paper>
+                                                <Typography className={classes.typography}>The content of the Popper.</Typography>
+                                            </Paper>
+                                </Popper>
                             </div>
                         </Toolbar>
                     </AppBar>

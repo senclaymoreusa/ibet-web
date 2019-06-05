@@ -1,4 +1,6 @@
-button:focus { outline:0 !important; }
+button:focus {
+  outline: 0 !important;
+}
 
 .inline {
   flex-direction: row;
@@ -137,7 +139,6 @@ button:focus { outline:0 !important; }
 
 .mainButtonActive {
   opacity: 1;
-
 }
 
 .mainButton {
@@ -149,7 +150,6 @@ button:focus { outline:0 !important; }
   opacity: 1;
   background-color: #000000 !important;
 }
-
 
 $background-color: #212121;
 $search-bg-color: #212121;
@@ -196,8 +196,23 @@ $transition: all 0.5s ease;
     outline: none;
   }
 }
+
+.search-container {
+  width: 480px;
+  height: 100%;
+  margin: 0 auto;
+    box-shadow: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 22px;
+  &:focus {
+    outline: none;
+  }
+}
+
 .search-input {
-  width: 300px;
+  width: 400px;
   height: 100%;
   box-shadow: none;
   border: 0px;
@@ -215,7 +230,7 @@ $transition: all 0.5s ease;
 
 .search-button {
   width: 72px;
-  height: 52px;
+  height: 100%;
   display: block;
   position: absolute;
   right: 0;
@@ -246,9 +261,9 @@ $transition: all 0.5s ease;
   &:after {
     content: "";
     width: 2px;
-    height: 10px;
+    height: 6px;
     position: absolute;
-    right: -9px;
+    right: -7px;
     top: 25px;
     display: block;
     background-color: $icon-color;
@@ -272,5 +287,39 @@ $transition: all 0.5s ease;
       top: 0px;
       height: 32px;
     }
+  }
+}
+
+.search-icon-before {
+  width: 24px;
+  height: 24px;
+  border-radius: 40px;
+  border: 2px solid $icon-color;
+  display: inline-block;
+  position: relative;
+  margin-right: 40px;
+  &:before {
+    content: "";
+    width: 2px;
+    height: 10px;
+    position: absolute;
+    right: -2px;
+    top: 18px;
+    display: block;
+    background-color: $icon-color;
+    transform: rotate(-45deg);
+    transition: $transition;
+  }
+  &:after {
+    content: "";
+    width: 2px;
+    height: 6px;
+    position: absolute;
+    right: -7px;
+    top: 25px;
+    display: block;
+    background-color: $icon-color;
+    transform: rotate(-45deg);
+    transition: $transition;
   }
 }
