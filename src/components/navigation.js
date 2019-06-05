@@ -123,7 +123,7 @@ export class Navigation extends Component {
             </div>
            
             <div className='game'>
-                <NavLink to='/game_type/' style={{ textDecoration: 'none' }}><FormattedMessage id="nav.games" defaultMessage='Games' /></NavLink>
+                <NavLink to='/slot_type/' style={{ textDecoration: 'none' }}><FormattedMessage id="nav.games" defaultMessage='Slots' /></NavLink>
             </div>
 
             <form onSubmit={this.onFormSubmit} className="search">

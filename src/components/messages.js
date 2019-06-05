@@ -1,5 +1,25 @@
 export const messages = {
     en: {
+        'accountmenu.tradein':'Trade in',
+        'accountmenu.your-goodies':'Your Goodies',
+        'accountmenu.free-spins':'10 Free Spins on Starburst',
+        'accountmenu.main-wallet':'Main wallet',
+        'accountmenu.sportsbooka':'Sportsbook A',
+        'accountmenu.deposit':'Deposit',
+        'accountmenu.withdraw':'Withdraw',
+        'accountmenu.sportsbooka':'Sportsbook A',
+        'accountmenu.sportsbooka':'Sportsbook A',
+        'accountmenu.fund-management': 'Fund Management',
+        'accountmenu.open-bets': 'Open Bets',
+        'accountmenu.messages': 'Messages',
+        'accountmenu.points-rewards': 'Points & Rewards',
+        'accountmenu.usage-analysis': 'Usage Analysis',
+        'accountmenu.personal-details': 'Personal Details',
+        'accountmenu.account-settings': 'Account Settings',
+        'accountmenu.profile': 'Profile',
+        'accountmenu.referral': 'Refer new user',
+        'accountmenu.languages': 'Languages',
+
         // handle home page message
         'home.title': 'Claymore',
         'home.subtitle': 'Local Library Home',
@@ -11,6 +31,10 @@ export const messages = {
         'home.sports': 'Most Popular Sports',
         'home.casino': 'Most Popluar Casino',
         'home.poker': 'Most Popluar Poker',
+        'home.expand': 'View All',
+        'home.recent': 'Recently Played',
+        'home.new': 'New Games',
+        'home.selected': 'Selected for you',
 
         // handle navigation page message
         'nav.title': 'Home',
@@ -24,6 +48,28 @@ export const messages = {
         'nav.referral': 'Refer new user',
         'nav.placeholder': 'Search game...',
         'nav.account': 'Accont',
+        
+        'nav.sports': 'Sports',
+        'nav.live-casino':'Live Casino',
+        'nav.slots':'Slots',
+        'nav.lottery':'Lottery',
+        'nav.open-account':'Open Account',
+        'nav.live': 'Live',
+        'nav.football':'Football',
+        'nav.basketball':'Basketball',
+        'nav.ice-hockey':'Ice Hockey',
+        'nav.tennis':'Tennis',
+        'nav.top-rated':'Top Rated',
+        'nav.new':'New',
+        'nav.roulette':'Roulette',
+        'nav.blackjack': 'Blackjack',
+        'nav.baccarat':'Baccarat',
+        'nav.poker':'Poker',
+        'nav.tournaments':'Tournaments',
+        'nav.jackpots':'Jackpots',
+        'nav.table-games':'Table Games',
+        'nav.other-games': 'Other Games',
+
 
         // handle login page message
         'login.username': 'Username: ',
@@ -66,7 +112,7 @@ export const messages = {
 
         // handle reset_password page message
         'reset_password.page_not_valid': 'This page no longer exists',
-        'reset_password.new_password': 'New Password',
+        'reset_password.new_password': 'New Password:',
         'reset_password.password': 'Password: ',
         'reset_password.confirm_password': 'Confirm Password: ',
         'reset_password.confirm': 'Confirm',
@@ -135,7 +181,8 @@ export const messages = {
         'sign.state_empty_error': 'State cannot be empty', 
         'sign.country_empty_error': 'Country cannot be empty', 
         'sign.zipcode_empty_error': 'Zipcode cannot be empty',  
-        'sign.show_date': 'Show date',
+        'sign.pick_date': 'Pick date',
+        'sign.close_date': 'Close date',
         'sign.gender': 'Gender',
         'sign.eighteen': 'Over eighteen',
         'sign.contact': 'Preferred contact method',
@@ -160,6 +207,9 @@ export const messages = {
         'update_profile.state': 'State: ',
         'update_profile.submit': 'Submit',
         'update_profile.cancel': 'Cancel',
+
+        // handle update email
+        'update_email.success': 'You have successfully updated you email account',
 
         // handle change_email page message
         'change_email.enter_email': 'New Email address: ',
@@ -197,6 +247,7 @@ export const messages = {
         // handle game_search page
         'games_search.title': 'Searched games',
         'games_search.not_found': 'No games matching your search',
+        'game_search.title': 'Searched Results',
 
         // handle referral page
         'referral.user': 'You have successfully referred a User',
@@ -218,6 +269,25 @@ export const messages = {
         'error.passwordnotmatch': 'Two password you entered do not match'
     },
     zh: {
+        // handle account menu message
+        'accountmenu.tradein':'交易',
+        'accountmenu.your-goodies':'你的好东西',
+        'accountmenu.free-spins':'Starburst上有10次免费旋转',
+        'accountmenu.main-wallet':'主钱包',
+        'accountmenu.sportsbooka':'体育博彩A.',
+        'accountmenu.deposit':'存款',
+        'accountmenu.withdraw':'退出',
+        'accountmenu.fund-management': '基金管理',
+        'accountmenu.open-bets': '打开投注',
+        'accountmenu.messages': '消息',
+        'accountmenu.points-rewards': '积分和奖励',
+        'accountmenu.usage-analysis': '用法分析',
+        'accountmenu.personal-details': '个人资料',
+        'accountmenu.account-settings': '帐号设定',
+        'accountmenu.profile': '轮廓',
+        'accountmenu.referral': '推荐新用户',
+        'accountmenu.languages': '语言',
+
 
         // handle home page message
         'home.title': '克萊摩爾',
@@ -230,6 +300,10 @@ export const messages = {
         'home.sports': '最受欢迎的体育游戏',
         'home.casino': '最受欢迎的赌场游戏',
         'home.poker': '最受欢迎的扑克游戏',
+        'home.expand': '查看全部',
+        'home.recent': '近期玩过',
+        'home.new': '新游戏',
+        'home.selected': '猜您喜欢',
 
         // handle navigation page message
         'nav.title': '首頁',
@@ -243,6 +317,28 @@ export const messages = {
         'nav.referral': '推荐新用户',
         'nav.placeholder': '搜尋遊戲...',
         'nav.account': '账户',
+
+        'nav.sports': '体育',
+        'nav.live-casino':'真人娱乐场',
+        'nav.slots':'老虎机',
+        'nav.lottery':'抽奖',
+        'nav.open-account':'开户口',
+        'nav.live': '生活',
+        'nav.football':'足球',
+        'nav.basketball':'篮球',
+        'nav.ice-hockey':'冰球',
+        'nav.tennis':'网球',
+        'nav.top-rated':'评分最高',
+        'nav.new':'新',
+        'nav.roulette':'轮盘赌',
+        'nav.blackjack': '酒杯',
+        'nav.baccarat':'百家乐',
+        'nav.poker':'扑克',
+        'nav.tournaments':'锦标赛',
+        'nav.jackpots':'最高奖金',
+        'nav.table-games':'桌上游戏',
+        'nav.other-games': '其他游戏',
+   
 
         // handle login page message
         'login.username': '用戶名: ',
@@ -354,7 +450,8 @@ export const messages = {
         'sign.state_empty_error': '請輸入地址州', 
         'sign.country_empty_error': '請輸入國家', 
         'sign.zipcode_empty_error': '請輸入郵遞區號', 
-        'sign.show_date': '显示日期', 
+        'sign.pick_date': '选择日期', 
+        'sign.close_date': '关闭日期',
         'sign.gender': '性别',
         'sign.eighteen': '满18岁',
         'sign.contact': '倾向的联系方式',
@@ -379,6 +476,9 @@ export const messages = {
         'update_profile.state': '州: ',
         'update_profile.submit': '提交表單',
         'update_profile.cancel': '取消',
+
+        // handle update email
+        'update_email.success': '您已成功跟新您的邮箱地址',
 
 
         // handle change_email page message
@@ -411,6 +511,7 @@ export const messages = {
         // handle game_search page
         'games_search.title': '搜尋結果',
         'games_search.not_found': '沒有您的搜尋結果',
+        'game_search.title': '搜索结果',
 
         // handle activation page
         'activation.message': '账户激活链接已发至您的邮箱',
@@ -438,6 +539,25 @@ export const messages = {
         'error.passwordnotmatch': '两次输入的密码不一致'
     }, 
     fr: {
+        // handle account menu message
+        'accountmenu.tradein':'Échanger',
+        'accountmenu.your-goodies':'Vos goodies',
+        'accountmenu.free-spins':'10 tours gratuits sur Starburst',
+        'accountmenu.main-wallet':'Portefeuille principal',
+        'accountmenu.sportsbooka':'Paris sportifs A',
+        'accountmenu.deposit':'Dépôt',
+        'accountmenu.withdraw':'Se désister',
+        'accountmenu.fund-management': 'Gestion de fonds',
+        'accountmenu.open-bets': 'Paris ouverts',
+        'accountmenu.messages': 'Messages',
+        'accountmenu.points-rewards': 'Points et récompenses',
+        'accountmenu.usage-analysis': 'Analyse d utilisation',
+        'accountmenu.personal-details': 'Détails personnels',
+        'accountmenu.account-settings': 'Paramètres du compte',
+        'accountmenu.profile': 'Profil',
+        'accountmenu.referral': 'Référer un nouvel utilisateur',
+        'accountmenu.languages': 'Langues',
+
 
         // handle home page message
         'home.title': 'Claymore',
@@ -450,6 +570,10 @@ export const messages = {
         'home.sports': 'Les jeux de sport les plus populaires',
         'home.casino': 'Les jeux de casino les plus populaires',
         'home.poker': 'Jeu de poker le plus populaire',
+        'home.expand': 'Voir tout',
+        'home.recent': 'joué récemment',
+        'home.new': 'nouveaux jeux',
+        'home.selected': 'Sélectionné pour vous',
 
         // handle navigation page message
         'nav.title': 'Accueil',
@@ -463,6 +587,27 @@ export const messages = {
         'nav.referral': 'Recommander de nouveaux utilisateurs',
         'nav.placeholder': 'Jeu de recherche...',
         'nav.account': 'Compte',
+
+        'nav.sports': 'Des sports',
+        'nav.live-casino':'Live Casino',
+        'nav.slots':'Machines à sous',
+        'nav.lottery':'Loterie',
+        'nav.open-account':'Compte ouvert',
+        'nav.live': 'Vivre',
+        'nav.football':'Football',
+        'nav.basketball':'Basketball',
+        'nav.ice-hockey':'Hockey sur glace',
+        'nav.tennis':'Tennis',
+        'nav.top-rated':'Les mieux notés',
+        'nav.new':'Nouvelle',
+        'nav.roulette':'Roulette',
+        'nav.blackjack': 'Blackjack',
+        'nav.baccarat':'Baccarat',
+        'nav.poker':'Poker',
+        'nav.tournaments':'Tournois',
+        'nav.jackpots':'Jackpots',
+        'nav.table-games':'Jeux de table',
+        'nav.other-games': 'D autres jeux',
 
         // handle login page message
         'login.username': 'Nom d\'utilisateur: ',
@@ -504,7 +649,7 @@ export const messages = {
 
         // handle reset_password page message
         'reset_password.page_not_valid': 'La page n\'existe plus',
-        'reset_password.new_password': 'nouveau mot de passe',
+        'reset_password.new_password': 'nouveau mot de passe:',
         'reset_password.password': 'Mot de passe: ',
         'reset_password.confirm_password': 'Confirmez le mot de passe: ',
         'reset_password.confirm': 'Confirmer',
@@ -573,7 +718,8 @@ export const messages = {
         'sign.state_empty_error': 'Etat ne peut être vide', 
         'sign.country_empty_error': 'Le pays ne peut pas être vide', 
         'sign.zipcode_empty_error': 'Le code postal ne peut pas être vide',  
-        'sign.show_date': 'Montrer la date', 
+        'sign.pick_date': 'choisir la date', 
+        'sign.close_date': 'Date de fermeture',
         'sign.gender': 'le sexe',
         'sign.eighteen': 'Plus de dix-huit',
         'sign.contact': 'Méthode de contact préférée',
@@ -598,6 +744,9 @@ export const messages = {
         'update_profile.state': 'Etat: ',
         'update_profile.submit': 'Soumettre',
         'update_profile.cancel': 'Annuler',
+
+        // handle update email
+        'update_email.success': 'Vous avez mis à jour votre compte de messagerie avec succès',
 
         // handle change_email page message
         'change_email.enter_email': 'Nouvelle adresse courriel: ',
@@ -631,6 +780,7 @@ export const messages = {
         // handle game_search page
         'games_search.title': 'Résultat de la recherche',
         'games_search.not_found': 'Aucun jeu ne correspond à votre recherche',
+        'game_search.title': 'résultats recherchés',
 
         // handle activation page
         'activation.message': "Un lien d'activation de compte a été envoyé à votre adresse e-mail",

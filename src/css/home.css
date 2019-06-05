@@ -1,6 +1,7 @@
-.games {
+.top-title {
     font-size: 30px;
-    margin-left: 40%;
+    margin-left: 5%;
+    font-family: Gilroy;
 }
 
 .poker {
@@ -13,9 +14,51 @@
     margin-left: 40%;
 }
 
-.each-game {
-    margin: auto;
-    text-align: center;
+.row {
+    display: block;
+    flex-direction: row;
 }
 
+.cont {
+    display: flex;
+    flex-wrap: wrap;
+}
+  
+.each-game {
+    flex-grow: 1;
+    flex-basis: 25%;
+    margin: auto;
+    text-align: center;
+    margin-top: 2%;
+}
 
+.expand-icon {
+    margin-left: 43%;
+    cursor: pointer;
+}
+
+.game-title {
+    display: table-cell;
+    width: 300px;
+    height: 80px;
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 28.1px;
+    color: black;
+    font-family: Gilroy;
+    color: #000000;
+    background-color: #ffffff;
+}
+
+.text {
+    letter-spacing: 4px;
+}
+
+.margin-icon {
+    margin-left: 10px;
+}
+
+.margin-title {
+    margin-top: 3%;
+}

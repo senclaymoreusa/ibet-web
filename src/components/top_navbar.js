@@ -1,4 +1,5 @@
-import React from 'react'; import PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -6,23 +7,24 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import PersonAdd from '@material-ui/icons/PersonAdd';
 import Person from '@material-ui/icons/Person';
-import Input from '@material-ui/icons/Input';
+import PersonOutline from '@material-ui/icons/PersonOutline';
+
 import Language from '@material-ui/icons/Language';
+import { AUTH_RESULT_FAIL } from '../actions';
+
 
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -30,19 +32,34 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu';
+import Fab from '@material-ui/core/Fab';
 
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
 import ButtonBase from '@material-ui/core/ButtonBase';
-
-
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { createMuiTheme } from '@material-ui/core/styles';
 import Flag from 'react-flagkit';
+import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
+import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
+import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
+import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
+import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
+import { ReactComponent as CashIcon } from '../assets/img/svg/cash-out.svg';
+
+import axios from 'axios';
+import { config } from '../util_config';
+
+import '../css/top_navbar.scss';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
         width: '100%',
+    },
+    soccer: {
+        width: 28,
+        height: 28,
+        backgroundColor: '#ffffff'
     },
     list: {
         width: 250,
@@ -57,6 +74,7 @@ const styles = theme => ({
     menuButton: {
         marginLeft: -12,
         marginRight: 20,
+        fontSize: 20
     },
     mobileLeftMenuButton: {
         marginLeft: -12,
@@ -72,47 +90,7 @@ const styles = theme => ({
             display: 'block',
         },
     },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.black, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.black, 0.25),
-        },
-        marginRight: theme.spacing.unit * 2,
-        marginLeft: 0,
-        marginTop: 5,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit * 3,
-            width: 'auto',
-        },
-    },
-    searchIcon: {
-        width: theme.spacing.unit * 9,
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'black'
-    },
-    inputRoot: {
-        color: 'inherit',
-        width: '100%',
-    },
-    inputInput: {
-        paddingTop: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
-        paddingLeft: theme.spacing.unit * 10,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200,
-        },
-    },
+
     sectionDesktop: {
         display: 'none',
         [theme.breakpoints.up('md')]: {
@@ -134,6 +112,28 @@ const styles = theme => ({
     },
     nested: {
         paddingLeft: theme.spacing.unit * 4
+    },
+    signupButton: {
+        margin: theme.spacing.unit,
+        color: '#ffffff',
+        backgroundColor: '#ff0000',
+        textTransform: 'capitalize',
+        outline: 'none',
+        "&:hover": {
+            backgroundColor: "#ff3f00",
+        }
+    },
+    loginButton: {
+        margin: theme.spacing.unit,
+        color: '#000000',
+        backgroundColor: '#ffffff',
+        textTransform: 'capitalize',
+        "&:hover": {
+            backgroundColor: "#f4f4f4",
+        }
+    },
+    extendedIcon: {
+        marginRight: theme.spacing.unit,
     },
     image: {
         position: 'relative',
@@ -234,21 +234,50 @@ const images = [
     },
 ];
 
+const muiLogoBarTheme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#ffffff'
+        },
+    },
+    appBar: {
+        height: 72,
+    },
+    typography: {
+        useNextVariants: true,
+    },
+});
+
+const muiMenuBarTheme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#212121'
+        },
+    },
+    appBar: {
+        height: 72,
+    },
+    typography: {
+        useNextVariants: true,
+    },
+});
 
 export class TopNavbar extends React.Component {
 
     constructor(props) {
         super(props);
 
+        this.search_focus = React.createRef();
+
+        let langProperty = localStorage.getItem('lang');
+
         this.state = {
             open: false,
             subMenuType: null,
             showSubMenu: false,
-
+            expandSearchBar: false,
             anchorEl: null,
-            showSportsMenu: false,
-            showGamesMenu: false,
-            lang: 'en',
+            lang: langProperty ? langProperty : 'en',
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -258,11 +287,27 @@ export class TopNavbar extends React.Component {
             userID: "",
             name: "",
             email: "",
-            picture: ""
+            picture: "",
+
+            show_loggedin_status: false,
+
+            balance: 0.00,
+            balanceCurrency: "USD"
+
         };
 
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.focus_search = this.focus_search.bind(this);
+    }
+
+    focus_search() {
+        this.search_focus.current.focus();
+    }
+
+    handleSearch = () => {
+        this.setState({ expandSearchBar: !this.state.expandSearchBar });
+        this.focus_search()
     }
 
     handleSubMenuToggle = (param) => {
@@ -274,11 +319,6 @@ export class TopNavbar extends React.Component {
             this.setState({ showSubMenu: true });
             this.setState({ subMenuType: param });
         }
-    };
-
-    handleGamesToggle = () => {
-        this.setState({ showSportsMenu: false });
-        this.setState(state => ({ showGamesMenu: !state.showGamesMenu }));
     };
 
     handleClose = event => {
@@ -304,7 +344,7 @@ export class TopNavbar extends React.Component {
 
     langMenuClicked = (event) => {
         this.setState({ anchorEl: null });
-       this.setState({
+        this.setState({
             lang: event.currentTarget.dataset.myValue
         })
         //console.log(this.state.lang)
@@ -313,18 +353,24 @@ export class TopNavbar extends React.Component {
 
     handleLanguageMenuClose = (ev) => {
         this.setState({ anchorEl: null });
-        this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
+
+        if (ev.nativeEvent.target.dataset.myValue)
+            this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
     };
 
     changeLanguage = (lang) => {
         this.props.setLanguage(lang)
             .then((res) => {
-                // console.log("language change to:" + res.data);
+                localStorage.setItem("lang", lang);
             });
     };
 
     onInputChange(event) {
         this.setState({ term: event.target.value });
+    }
+
+    search() {
+        this.props.history.push('/game_search/' + this.state.term);
     }
 
     onFormSubmit(event) {
@@ -337,6 +383,12 @@ export class TopNavbar extends React.Component {
     }
 
     componentDidMount() {
+
+        this.props.authCheckState()
+            .then((res) => {
+                this.setState({ show_loggedin_status: true });
+            })
+
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
         var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
@@ -348,6 +400,25 @@ export class TopNavbar extends React.Component {
                 picture: fackbookObj.picture
             })
         }
+
+        this.props.authCheckState()
+            .then(res => {
+                if (res !== AUTH_RESULT_FAIL) {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            this.setState({ balance: res.data.main_wallet });
+                            this.setState({ balanceCurrency: res.data.currency });
+                        })
+                }
+            });
+
+    }
+
+    getCurrencySymbol(currnecy) {
+
     }
 
     toggleLanguageListItem = () => {
@@ -357,8 +428,23 @@ export class TopNavbar extends React.Component {
     render() {
         const { anchorEl } = this.state;
         const { classes } = this.props;
-        const { showSubMenu } = this.state;
-        const { subMenuType } = this.state;
+
+
+        let countryCode = '';
+        switch (this.state.lang) {
+            case 'en':
+                countryCode = 'US';
+                break;
+            case 'zh-hans':
+                countryCode = 'CN';
+                break;
+            case 'fr':
+                countryCode = 'FR';
+                break;
+            default:
+                countryCode = 'US';
+        }
+        const langButtonIcon = (<Flag country={countryCode} />);
 
         const leftMobileSideList = (
             <div className={classes.list}>
@@ -376,7 +462,7 @@ export class TopNavbar extends React.Component {
                             <Person />
                         </ListItemIcon>
                         <ListItemText>
-                            <FormattedMessage id="nav.livecasino" defaultMessage='Live Casino' />
+                            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
                         </ListItemText>
                     </ListItem>
                     <ListItem button component="a" href="/">
@@ -384,7 +470,7 @@ export class TopNavbar extends React.Component {
                             <Person />
                         </ListItemIcon>
                         <ListItemText>
-                            <FormattedMessage id="nav.games" defaultMessage='Games' />
+                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
                         </ListItemText>
                     </ListItem>
                     <ListItem button component="a" href="/">
@@ -399,182 +485,51 @@ export class TopNavbar extends React.Component {
             </div>
         );
 
-        const gamesSubMenu = (
-            <div style={{ display: 'flex' }}>
-                <Button className={classes.subbutton} href="/game_type/" >Games</Button>
-                <Button className={classes.subbutton}>Tournaments</Button>
-                <div className={classes.grow} />
-                <div className={classes.sectionDesktop}>
-                    <form onSubmit={this.onFormSubmit} className="search">
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <NavLink to={`/game_search/${this.state.term}`} style={{ color: 'white' }}>
-                                    <IconButton type="submit" color="inherit">
-                                        <SearchIcon />
-                                    </IconButton>
-                                </NavLink>
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                value={this.state.term}
-                                onChange={this.onInputChange}
-                            />
-                        </div>
-                    </form>
-                </div>
-            </div>
-        );
-
-        const sportsSubMenu = (
-            <div style={{ display: 'flex' }}>
-                {images.map(image => (
-                    <ButtonBase
-                        focusRipple
-                        key={image.title}
-                        className={classes.image}
-                        focusVisibleClassName={classes.focusVisible}
-                        style={{ width: image.width }}
-                    >
-                        <span
-                            className={classes.imageSrc}
-                            style={{ backgroundImage: `url(${window.location.origin + image.url})`, }}
-                        />
-                        <span className={classes.imageBackdrop} />
-                        <span className={classes.imageButton}>
-                            <Typography
-                                component="span"
-                                variant="subtitle1"
-                                color="inherit"
-                                className={classes.imageTitle}
-                            >
-                                {image.title}
-                                <span className={classes.imageMarked} />
-                            </Typography>
-                        </span>
-                    </ButtonBase>
-                ))}
-            </div>
-        );
-
-
-        let subMenuItem = (<div></div>);
-
-        switch (subMenuType) {
-            case 'games':
-                subMenuItem = gamesSubMenu;
-            case 'sports':
-                subMenuItem = sportsSubMenu;
+        let searchClass = ["search"];
+        if (this.state.expandSearchBar) {
+            searchClass.push('open');
         }
 
         return (
             <div className={classes.root}>
-                <AppBar position="static" color="primary">
-                    <Toolbar>
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                className={classes.mobileLeftMenuButton}
-                                color="inherit"
-                                aria-label="Open drawer"
-                                onClick={this.toggleSidePanel('showLeftPanel', true)}>
-                                <MenuIcon />
+                <MuiThemeProvider theme={muiLogoBarTheme}>
+                    <AppBar position="static">
+                        <Toolbar variant="dense">
+                            <div className={classes.sectionMobile}>
+                                <IconButton
+                                    className={classes.mobileLeftMenuButton}
+                                    color="inherit"
+                                    aria-label="Open drawer"
+                                    onClick={this.toggleSidePanel('showLeftPanel', true)}>
+                                    <MenuIcon />
+                                </IconButton>
+                                <Drawer open={this.state.showLeftPanel} onClose={this.toggleSidePanel('showLeftPanel', false)}>
+                                    <div
+                                        tabIndex={0}
+                                        role="button"
+                                        onClick={this.toggleSidePanel('showLeftPanel', false)}
+                                        onKeyDown={this.toggleSidePanel('showLeftPanel', false)}
+                                    >
+                                        {leftMobileSideList}
+                                    </div>
+                                </Drawer>
+                            </div>
+                            <IconButton href='/'>
+                                <IbetLogo />
                             </IconButton>
-                            <Drawer open={this.state.showLeftPanel} onClose={this.toggleSidePanel('showLeftPanel', false)}>
-                                <div
-                                    tabIndex={0}
-                                    role="button"
-                                    onClick={this.toggleSidePanel('showLeftPanel', false)}
-                                    onKeyDown={this.toggleSidePanel('showLeftPanel', false)}
-                                >
-                                    {leftMobileSideList}
-                                </div>
-                            </Drawer>
-                        </div>
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                            <Button href="/" className={classes.button}>
-                                ibet
-                        </Button>
-                        </Typography>
-                        <div className={classes.sectionDesktop}>
-                            <Button buttonRef={node => {
-                                this.anchorEl = node;
-                            }}
-                                aria-owns={showSubMenu ? 'menu-list-grow' : undefined}
-                                aria-haspopup="true"
-                                onClick={() => this.handleSubMenuToggle('sports')} className={classes.button}>
-                                Sports
-                            </Button>
-                            <Popper open={showSubMenu} anchorEl={this.anchorEl} transition disablePortal className={classes.subMenu}>
-                                {({ TransitionProps, placement }) => (
-                                    <Grow
-                                        {...TransitionProps}
-                                        id="menu-list-grow"
-                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                                    >
-                                        <Paper>
-                                            <ClickAwayListener onClickAway={this.handleClose}>
-                                                {subMenuItem}
-                                            </ClickAwayListener>
-                                        </Paper>
-                                    </Grow>
-                                )}
-                            </Popper>
-                            <Button className={classes.button} href='/game_type/'>
-                                Games
-                            </Button>
-                            <Button className={classes.button}>
-                                Live Casino
-                            </Button>
-                            <Button className={classes.button}>
-                                Lottery
-                            </Button>
-                            
-                        </div>
+                            <div className={classes.grow} />
+                            {
+                                this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
 
-                        <div className={classes.grow} />
-                        {
-                            this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
-                                <div className={classes.sectionDesktop}>
-                                    <Tooltip title="Change Language" placement="bottom">
-                                        <IconButton
-                                            className={classes.menuButton}
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
-                                        >
-                                            <Language />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Menu
-                                        value={this.state.lang} onChange={this.langMenuClicked}
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                        open={Boolean(anchorEl)}
-                                    >
-                                        <MenuItem onClick={this.langMenuClicked} data-my-value={'en'}>
-                                            <ListItemIcon className={classes.icon}>
-                                                <Flag country="US" />
-                                            </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
-                                        </MenuItem>
-                                        <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
-                                            <ListItemIcon className={classes.icon}>
-                                                <Flag country="CN" />
-                                            </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
-                                        </MenuItem>
-                                        <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
-                                            <Flag country="FR" />
-                                        </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
-                                        </MenuItem>
-                                    </Menu>
-                                    <Tooltip title="Account" placement="bottom">
+                                    this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
+                                        <Button className={classes.menuButton} >
+                                            <FormattedNumber
+                                                maximumFractionDigits={2}
+                                                value={this.state.balance}
+                                                style='currency'
+                                                currency={this.state.balanceCurrency}
+                                            />
+                                        </Button>
                                         <IconButton
                                             className={classes.menuButton}
                                             color="inherit"
@@ -582,99 +537,190 @@ export class TopNavbar extends React.Component {
                                             onClick={this.toggleSidePanel('showRightPanel', true)}>
                                             <Person />
                                         </IconButton>
-                                    </Tooltip>
-                                    <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                        <div
-                                            tabIndex={0}
-                                            role="button"
-                                            onClick={this.toggleSidePanel('showRightPanel', false)}
-                                            onKeyDown={this.toggleSidePanel('showRightPanel', false)}
+                                        <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
+                                            <div
+                                                tabIndex={0}
+                                                role="button"
+                                                onClick={this.toggleSidePanel('showRightPanel', false)}
+                                                onKeyDown={this.toggleSidePanel('showRightPanel', false)}
+                                            >
+                                                <AccountMenu />
+                                            </div>
+                                        </Drawer>
+
+                                        <IconButton
+                                            className={classes.menuButton}
+                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
+                                            aria-haspopup="true"
+                                            onClick={this.handleLanguageMenuOpen}
+                                            color="inherit"
                                         >
-                                            <AccountMenu />
-                                        </div>
-                                    </Drawer>
-                                </div>
-                                :
-                                <div className={classes.sectionDesktop}>
-                                    <Tooltip title="Change Language" placement="bottom">
+                                            {langButtonIcon}
+                                        </IconButton>
+                                        <Menu
+                                            value={this.state.lang} onChange={this.langMenuClicked}
+                                            anchorEl={anchorEl}
+                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                            open={Boolean(anchorEl)}
+                                        >
+                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'en'}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="US" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English">
+                                                </ListItemText>
+                                            </MenuItem>
+                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="CN" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
+                                                </ListItemText>
+                                            </MenuItem>
+                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
+                                                <Flag country="FR" />
+                                            </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
+                                                </ListItemText>
+                                            </MenuItem>
+                                        </Menu>
+                                    </div>
+                                    :
+                                    this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
+                                        <Fab
+                                            variant="extended"
+                                            size="small"
+                                            color="primary"
+                                            aria-label="Add"
+                                            className={classes.signupButton}
+                                            onClick={() => { this.props.history.push('/signup/') }}
+                                        >
+                                            <CashIcon className={classes.extendedIcon} />
+                                            <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
+                                        </Fab>
+                                        <Fab
+                                            variant="extended"
+                                            size="small"
+                                            color="primary"
+                                            aria-label="Add"
+                                            className={classes.loginButton}
+                                            onClick={() => { this.props.history.push('/login/') }}
+                                        >
+                                            <PersonOutline className={classes.extendedIcon} />
+                                            <FormattedMessage id="nav.login" defaultMessage='Login' />
+                                        </Fab>
                                         <IconButton
                                             aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
                                             aria-haspopup="true"
                                             onClick={this.handleLanguageMenuOpen}
                                             color="inherit"
                                         >
-                                            <Language />
+                                            {langButtonIcon}
                                         </IconButton>
-                                    </Tooltip>
-                                    <Menu
-                                        value={this.state.lang}
-                                        onChange={this.langMenuClicked}
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                        open={Boolean(anchorEl)}
-                                        onClose={this.handleLanguageMenuClose}
+                                        <Menu
+                                            value={this.state.lang}
+                                            onChange={this.langMenuClicked}
+                                            anchorEl={anchorEl}
+                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                            open={Boolean(anchorEl)}
+                                            onClose={this.handleLanguageMenuClose}
+                                        >
+                                            <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="US" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English" >
+                                                </ListItemText>
+                                            </MenuItem>
+                                            <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="CN" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
+                                                </ListItemText>
+                                            </MenuItem>
+                                            <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}>
+                                                <ListItemIcon className={classes.icon}>
+                                                    <Flag country="FR" />
+                                                </ListItemIcon>
+                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
+                                                </ListItemText>
+                                            </MenuItem>
+                                        </Menu>
+
+                                    </div>
+                            }
+                            <div className={classes.sectionMobile}>
+                                <IconButton
+                                    className={classes.mobileMenuButton}
+                                    color="inherit"
+                                    aria-label="Open drawer"
+                                    onClick={this.toggleSidePanel('showRightPanel', true)}>
+                                    <MoreIcon />
+                                </IconButton>
+                                <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
+                                    <div
+                                        tabIndex={0}
+                                        role="button"
                                     >
-                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}>
-                                            <ListItemIcon className={classes.icon}>
-                                                <Flag country="US" />
-                                            </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="English" />
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}>
-                                            <ListItemIcon className={classes.icon}>
-                                                <Flag country="CN" />
-                                            </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" />
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}>
-                                            <ListItemIcon className={classes.icon}>
-                                                <Flag country="FR" />
-                                            </ListItemIcon>
-                                            <ListItemText classes={{ primary: classes.primary }} inset primary="Français" />
-                                        </MenuItem>
-                                    </Menu>
-                                    <Tooltip title="Signup" placement="bottom">
-                                        <IconButton
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            color="inherit"
-                                            onClick={() => { this.props.history.push('/signup/') }}
-                                        >
-                                            <PersonAdd />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="Login" placement="bottom">
-                                        <IconButton
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            color="inherit"
-                                            onClick={() => { this.props.history.push('/login/') }}
-                                        >
-                                            <Input />
-                                        </IconButton>
-                                    </Tooltip>
+                                        <AccountMenu />
+                                    </div>
+                                </Drawer>
+                            </div>
+                        </Toolbar>
+                    </AppBar>
+                </MuiThemeProvider>
+                <MuiThemeProvider theme={muiMenuBarTheme}>
+                    <AppBar position="static">
+                        <Toolbar variant="dense">
+                            <div className={classes.sectionDesktop}>
+                                <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
+                                    <SoccerIcon className="soccer" />
+                                    <span className="Sports">
+                                        <FormattedMessage id="nav.sports" defaultMessage='Sports' />
+                                    </span>
+                                </Button>
+                                <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
+                                    <BetIcon className="bet" />
+                                    <span className="Live-Casino">
+                                        <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
+                                    </span>
+                                </Button>
+                                <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
+                                    <SlotsIcon className="games-icon" />
+                                    <span className="Slots">
+                                        <FormattedMessage id="nav.slots" defaultMessage='Slots' />
+                                    </span>
+                                </Button>
+                                <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
+                                    <LotteryIcon className="lottery" />
+                                    <span className="Lottery">
+                                        <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
+                                    </span>
+                                </Button>
+                                <div className={searchClass.join(' ')}>
+                                    <div className="search-box">
+                                        <input type="search" className="search-input"
+                                            value={this.state.term}
+                                            onChange={event => { this.setState({ term: event.target.value }) }}
+                                            onKeyPress={event => {
+                                                if (event.key === 'Enter') {
+                                                    this.search()
+                                                }
+                                            }}
+                                            ref={this.search_focus}
+                                        />
+                                    </div>
+                                    <span className="search-button" onClick={this.handleSearch}>
+                                        <span className="search-icon"></span>
+                                    </span>
                                 </div>
-                        }
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                className={classes.mobileMenuButton}
-                                color="inherit"
-                                aria-label="Open drawer"
-                                onClick={this.toggleSidePanel('showRightPanel', true)}>
-                                <MoreIcon />
-                            </IconButton>
-                            <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                <div
-                                    tabIndex={0}
-                                    role="button"
-                                >
-                                    <AccountMenu />
-                                </div>
-                            </Drawer>
-                        </div>
-                    </Toolbar>
-                </AppBar>
+                            </div>
+                        </Toolbar>
+                    </AppBar>
+                </MuiThemeProvider>
             </div >
         );
     }
@@ -683,7 +729,7 @@ export class TopNavbar extends React.Component {
 const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated: token !== null && token !== undefined,
+        isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
     }
@@ -693,4 +739,4 @@ TopNavbar.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage })(TopNavbar)));
+export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState })(TopNavbar)));

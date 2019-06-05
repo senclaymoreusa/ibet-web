@@ -14,8 +14,8 @@ describe('Navigation Component', () => {
         expect(wrapper.find(NavLink).first().props().to).toEqual('/');
     });
 
-    it('should call redirect to game type page', () => {
-        expect(wrapper.find(NavLink).at(1).props().to).toEqual('/game_type/');
+    it('should call redirect to slot type page', () => {
+        expect(wrapper.find(NavLink).at(1).props().to).toEqual('/slot_type/');
     });
 
 });

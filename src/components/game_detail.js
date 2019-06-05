@@ -5,8 +5,11 @@ import axios from 'axios';
 import { config } from '../util_config';
 import { FormattedMessage } from 'react-intl';
 
+
 //const API_URL = process.env.REACT_APP_REST_API;
-const API_URL = 'http://52.9.147.67:8080/';
+//const API_URL = 'http://52.9.147.67:8080/';
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
 
 class Game_Detail extends Component {
   
@@ -58,7 +61,7 @@ class Game_Detail extends Component {
     
     return(
       <div>
-          <TopNavbar />
+          <TopNavbar activeMenu={'slots'}/>
         <div>
           <h1><FormattedMessage id="game_detail.title" defaultMessage='Game Details' /></h1>
           

@@ -1,7 +1,10 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import Home from "./components/home";
-import Game_Type from "./components/game_type";
+import Slot_Type from "./components/slot_type";
+import Sports_Type from "./components/sports_type";
+import LiveCasino_Type from "./components/live_casino_type";
+import Lottery_Type from "./components/lottery_type";
 import Game_List from "./components/game_list";
 import Login from './components/login';
 import Signup from './components/signup';
@@ -18,11 +21,21 @@ import Referral from './components/referral'
 import Balance from './components/balance'
 import Activation from './components/activation'
 import Activate from './components/activate'
+import FundManagement from './components/fund_management'
+import OpenBets from './components/open_bets'
+import UserMessages from './components/user_messages'
+import PointsRewards from './components/points_rewards'
+import UsageAnalysis from './components/usage_analysis'
+import PersonalDetails from './components/personal_details'
+import AccountSettings from './components/account_settings'
 
 const BaseRouter = () => (
   <div>
     <Route exact path="/" component={Home} />
-    <Route exact path="/game_type/" component={Game_Type} />
+    <Route exact path="/slot_type/" component={Slot_Type} />
+    <Route exact path="/sports_type/" component={Sports_Type} />
+    <Route exact path="/live_casino_type/" component={LiveCasino_Type} />
+    <Route exact path="/lottery_type/" component={Lottery_Type} />
     <Route exact path="/game_list/:term?" component={Game_List} />
     <Route exact path="/login" component={Login} />
     <Route exact path="/signup/:filter?" component={Signup} />
@@ -40,6 +53,14 @@ const BaseRouter = () => (
     <Route exact path="/balance/:type?" component={Balance} />
     <Route exact path="/activation" component={Activation} />
     <Route exact path="/activate/:token?" component={Activate} />
+    <Route exact path="/fund_management/" component={FundManagement} />
+    <Route exact path="/open_bets/" component={OpenBets} />
+    <Route exact path="/user_messages/" component={UserMessages} />
+    <Route exact path="/points_rewards/" component={PointsRewards} />
+    <Route exact path="/usage_analysis/" component={UsageAnalysis} />
+    <Route exact path="/personal_details/" component={PersonalDetails} />
+    <Route exact path="/account_settings/" component={AccountSettings} />
+
   </div>
 );
 

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { FormattedMessage, injectIntl} from 'react-intl';
 import { errors } from './errors';
 import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin } from '../actions';
-import IoEye from 'react-icons/lib/io/eye';
+//import IoEye from 'react-icons/lib/io/eye';
 import FacebookLogin from "react-facebook-login";
 import axios from 'axios';
 import IoSocialFacebook from 'react-icons/lib/io/social-facebook';
@@ -27,8 +27,11 @@ import classNames from 'classnames';
 import TopNavbar from "./top_navbar";
 
 
+
 //const API_URL = process.env.REACT_APP_REST_API;
-const API_URL = 'http://52.9.147.67:8080/';
+//const API_URL = 'http://52.9.147.67:8080/';
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
 
 var height = window.innerHeight
 var width = window.innerWidth
@@ -47,7 +50,7 @@ const styles = theme => ({
     textField: {
       flexBasis: 200,
       width: 300,
-      height: 50
+      backgroundColor: '#ffffff;'
     },
 
     cssRoot: {
@@ -318,7 +321,6 @@ export class Login extends React.Component {
                         className={classNames(classes.margin, classes.textField)}
                         variant="outlined"
                         type={'text'}
-                        label="Username"
                         value={this.state.username}
                         onChange={this.onInputChange_username}
                     />
@@ -332,11 +334,10 @@ export class Login extends React.Component {
 
 
                     <TextField
-                        id="outlined-adornment-password"
+                        id="outlined-adornment-password2"
                         className={classNames(classes.margin, classes.textField)}
                         variant="outlined"
                         type={this.state.showPassword ? 'text' : 'password'}
-                        label="Password"
                         value={this.state.password}
                         onChange={this.onInputChange_password}
                         InputProps={{
