@@ -15,7 +15,7 @@ import AttachMoney from '@material-ui/icons/AttachMoney';
 import PeopleOutline from '@material-ui/icons/PeopleOutline';
 import DirectionsRun from '@material-ui/icons/DirectionsRun';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage,injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, postLogout } from '../actions';
@@ -135,31 +135,51 @@ export class AccountMenu extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const { formatMessage } = this.props.intl;
+        let languagesMessage = formatMessage({ id: "accountmenu.languages" });
 
         return (
             <div>
                 <div className={classes.sectionDesktop}>
                     <div className={classes.list}>
                         <Button variant="contained" className={classes.button}>
-                            Trade in
+                            <FormattedMessage id="accountmenu.your-goodies" defaultMessage='Trade in' />
                         </Button>
                         <FormControl component="fieldset" className={classes.formControl}>
-                            <FormLabel component="legend">Your Goodies</FormLabel>
-                            <FormLabel component="legend">10 Free Spins on Starburst</FormLabel>
+                            <FormLabel component="legend">
+                                <FormattedMessage id="accountmenu.your-goodies" defaultMessage='Your Goodies' />
+                            </FormLabel>
+                            <FormLabel component="legend">
+                                <FormattedMessage id="accountmenu.free-spins" defaultMessage='10 Free Spins on Starburst' />
+                            </FormLabel>
                         </FormControl>
                         <Divider />
                         <FormControl component="fieldset" className={classes.formControl}>
-                            <FormLabel component="legend">Main wallet</FormLabel>
-                            <FormLabel component="legend">Sportsbook A</FormLabel>
-                            <FormLabel component="legend">Live Casino</FormLabel>
-                            <FormLabel component="legend">Slots</FormLabel>
+                            <FormLabel component="legend">
+                                <FormattedMessage id="accountmenu.main-wallet" defaultMessage='Main wallet' />
+                            </FormLabel>
+                            <FormLabel component="legend">
+                                <FormattedMessage id="accountmenu.main-wallet" defaultMessage='Sportsbook A' />
+                            </FormLabel>
+                            <FormLabel component="legend">
+                                <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
+                            </FormLabel>
+                            <FormLabel component="legend">
+                                <FormattedMessage id="nav.slots" defaultMessage='Slots' />
+                            </FormLabel>
                         </FormControl>
+<<<<<<< HEAD
                         
                         <Button variant="contained" color="primary" component="a" href="/deposit/" id="nav.deposit" className={classes.button}>
                             Deposit
+=======
+                        <Button variant="contained" color="primary" className={classes.button}>
+                        <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
+>>>>>>> e381952ecee4e7d120189fcea55e1a67aad3a96e
                         </Button>
                         <Button variant="contained" color="secondary" className={classes.button}>
-                            Withdraw
+                        <FormattedMessage id="accountmenu.withdraw" defaultMessage='Withdraw' />
+
                         </Button>
                         <List>
                             <Divider />
@@ -168,7 +188,7 @@ export class AccountMenu extends React.Component {
                                     <AttachMoney />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <FormattedMessage id="nav.fundmanagement" defaultMessage='Fund Management' />
+                                    <FormattedMessage id="accountmenu.fund-management" defaultMessage='Fund Management' />
                                 </ListItemText>
                             </ListItem>
                             <ListItem button component="a" href="/open_bets/">
@@ -176,7 +196,7 @@ export class AccountMenu extends React.Component {
                                     <TouchApp />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <FormattedMessage id="nav.openbets" defaultMessage='Open Bets' />
+                                    <FormattedMessage id="accountmenu.open-bets" defaultMessage='Open Bets' />
                                 </ListItemText>
                             </ListItem>
                             <ListItem button component="a" href="/user_messages/">
@@ -184,7 +204,7 @@ export class AccountMenu extends React.Component {
                                     <Message />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <FormattedMessage id="nav.messages" defaultMessage='Messages' />
+                                    <FormattedMessage id="accountmenu.messages" defaultMessage='Messages' />
                                 </ListItemText>
                             </ListItem>
                             <ListItem button component="a" href="/points_rewards/">
@@ -192,7 +212,7 @@ export class AccountMenu extends React.Component {
                                     <CardGiftcard />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <FormattedMessage id="nav.pointsrewards" defaultMessage='Points & Rewards' />
+                                    <FormattedMessage id="accountmenu.points-rewards" defaultMessage='Points & Rewards' />
                                 </ListItemText>
                             </ListItem>
                             <ListItem button component="a" href="/usage_analysis/">
@@ -200,7 +220,7 @@ export class AccountMenu extends React.Component {
                                     <BarChart />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <FormattedMessage id="nav.usageanalysis" defaultMessage='Usage Analysis' />
+                                    <FormattedMessage id="accountmenu.usage-analysis" defaultMessage='Usage Analysis' />
                                 </ListItemText>
                             </ListItem>
                             <ListItem button component="a" href="/personal_details/">
@@ -208,7 +228,7 @@ export class AccountMenu extends React.Component {
                                     <PersonOutline />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <FormattedMessage id="nav.personaldetails" defaultMessage='Personal Details' />
+                                    <FormattedMessage id="accountmenu.personal-details" defaultMessage='Personal Details' />
                                 </ListItemText>
                             </ListItem>
                             <ListItem button component="a" href="/account_settings/">
@@ -216,7 +236,7 @@ export class AccountMenu extends React.Component {
                                     <Settings />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <FormattedMessage id="nav.accountsettings" defaultMessage='Account Settings' />
+                                    <FormattedMessage id="accountmenu.account-settings" defaultMessage='Account Settings' />
                                 </ListItemText>
                             </ListItem>
                             <Divider />
@@ -225,7 +245,7 @@ export class AccountMenu extends React.Component {
                                     <Person />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <FormattedMessage id="nav.profile" defaultMessage='Profile' />
+                                    <FormattedMessage id="accountmenu.profile" defaultMessage='Profile' />
                                 </ListItemText>
                             </ListItem>
 
@@ -234,11 +254,11 @@ export class AccountMenu extends React.Component {
                                     <PeopleOutline />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <FormattedMessage id="nav.referral" defaultMessage='Refer new user' />
+                                    <FormattedMessage id="accountmenu.referral" defaultMessage='Refer new user' />
                                 </ListItemText>
                             </ListItem>
 
-                          
+
                             <Button variant="contained" className={classes.button} onClick={() => {
                                 this.props.logout()
                                 postLogout();
@@ -259,7 +279,7 @@ export class AccountMenu extends React.Component {
                                                 <Person />
                                             </ListItemIcon>
                                             <ListItemText>
-                                                <FormattedMessage id="nav.profile" defaultMessage='Profile' />
+                                                <FormattedMessage id="accountmenu.profile" defaultMessage='Profile' />
                                             </ListItemText>
                                         </ListItem>
 
@@ -268,7 +288,7 @@ export class AccountMenu extends React.Component {
                                                 <PeopleOutline />
                                             </ListItemIcon>
                                             <ListItemText>
-                                                <FormattedMessage id="nav.referral" defaultMessage='Refer new user' />
+                                                <FormattedMessage id="accountmenu.referral" defaultMessage='Refer new user' />
                                             </ListItemText>
                                         </ListItem>
 
@@ -310,7 +330,7 @@ export class AccountMenu extends React.Component {
                                     <ListItemIcon>
                                         <Language />
                                     </ListItemIcon>
-                                    <ListItemText inset primary="Languages" />
+                                    <ListItemText inset primary={languagesMessage} />
                                     {this.state.showLangListItems ? <ExpandLess /> : <ExpandMore />}
                                 </ListItem>
                                 <Collapse in={this.state.showLangListItems} timeout="auto" unmountOnExit>
@@ -357,4 +377,4 @@ AccountMenu.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage })(AccountMenu)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage })(AccountMenu))));

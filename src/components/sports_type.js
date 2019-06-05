@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { sports_type } from '../actions';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import  TopNavbar from "./top_navbar";
+import { FormattedMessage , injectIntl} from 'react-intl';
+import TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../util_config';
@@ -26,55 +26,55 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     fab: {
-      width: '240px',
-      marginTop: '48px',
-      backgroundColor: '#ffffff;',
-      fontSize: '18px'
+        width: '240px',
+        marginTop: '48px',
+        backgroundColor: '#ffffff;',
+        fontSize: '18px'
     },
     extendedIcon: {
-      marginRight: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
     },
     root: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
-      },
-  });
+    },
+});
 
 
 const StyledTabs = withStyles({
     indicator: {
-      display: "flex",
-      justifyContent: "center",
-      backgroundColor: "transparent",
-      "& > div": {
-        maxWidth: 100,
-        width: "100%",
-        backgroundColor: "white"
-      }
+        display: "flex",
+        justifyContent: "center",
+        backgroundColor: "transparent",
+        "& > div": {
+            maxWidth: 100,
+            width: "100%",
+            backgroundColor: "white"
+        }
     }
-  })(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
+})(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
 
-  const StyledTab = withStyles(theme => ({
+const StyledTab = withStyles(theme => ({
     root: {
-      textTransform: "none",
-      color: "#fff",
-      margin: 'auto',
-      fontWeight: theme.typography.fontWeightRegular,
-      fontSize: theme.typography.pxToRem(15),
-      "&:focus": {
-        opacity: 1,
-      },
-      "&:hover": {
-        color: "white",
-        opacity: 1,
-        backgroundColor: 'black'
-      },
+        textTransform: "uppercase",
+        color: "#fff",
+        margin: 'auto',
+        fontWeight: theme.typography.fontWeightRegular,
+        fontSize: theme.typography.pxToRem(15),
+        "&:focus": {
+            opacity: 1,
+        },
+        "&:hover": {
+            color: "white",
+            opacity: 1,
+            backgroundColor: 'black'
+        },
     }
-  }))(props => <Tab disableRipple {...props} />);
+}))(props => <Tab disableRipple {...props} />);
 
 class Sports_Type extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -87,7 +87,7 @@ class Sports_Type extends Component {
             other_game: false,
 
             expand: false,
-    
+
             sports: [],
             all_sports: [],
 
@@ -102,7 +102,7 @@ class Sports_Type extends Component {
     async componentDidMount() {
 
         this.props.authCheckState()
-        
+
         // var URL = API_URL + 'users/api/sports/?term=Sports';
 
         // await axios.get(URL, config)
@@ -115,15 +115,15 @@ class Sports_Type extends Component {
         this.setState({ ready: true })
     }
 
-    type_change(text){
+    type_change(text) {
         this.props.slot_type(text);
     }
 
-    handle_expand(){
-        this.setState({sports: this.state.all_sports,  expand: true})
+    handle_expand() {
+        this.setState({ sports: this.state.all_sports, expand: true })
     }
 
-    async handle_category_change(category){
+    async handle_category_change(category) {
         // var URL = API_URL + 'users/api/sports/?term=' + category
 
         // await axios.get(URL, config)
@@ -135,74 +135,81 @@ class Sports_Type extends Component {
 
     }
 
-    handlechange(event, newValue){
-        this.setState({value: newValue})
+    handlechange(event, newValue) {
+        this.setState({ value: newValue })
     }
-    
+
     async componentDidMount() {
 
-          }
+    }
 
     render() {
 
         const { classes } = this.props;
-
+        const { formatMessage } = this.props.intl;
+        let liveMessage = formatMessage({ id: "nav.live" });
+        let footballMessage = formatMessage({ id: "nav.football" });
+        let basketballMessage = formatMessage({ id: "nav.basketball" });
+        let iceHockeyMessage = formatMessage({ id: "nav.ice-hockey" });
+        let tennisMessage = formatMessage({ id: "nav.tennis" });
+        
         var recent_sports = JSON.parse(localStorage.getItem("recent-sports"));
 
         return (
             <div>
-          
-                <TopNavbar activeMenu={'sports'}/>
+
+                <TopNavbar activeMenu={'sports'} />
 
                 <div className={classes.root}>
                     <AppBar position="static" >
-                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
-                            <StyledTab 
-                                style={{outline: 'none'}}
-                                value="live" 
-                                label="LIVE" 
+                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value="live"
+                                label={liveMessage}
                                 onClick={() => {
                                     this.handle_category_change('live');
                                 }}
                             />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
+                            <StyledTab
+                                style={{ outline: 'none' }}
                                 value="football"
-                                label="FOOTBALL" 
+                                label={footballMessage}
                                 onClick={() => {
                                     this.handle_category_change('football');
                                 }}
                             />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
+                            <StyledTab
+                                style={{ outline: 'none' }}
                                 value="basketball"
-                                label="BASKETBALL" 
+                                label={basketballMessage}
                                 onClick={() => {
                                     this.handle_category_change('basketball');
                                 }}
                             />
 
-<StyledTab 
-                                style={{outline: 'none'}} 
-                                label="ICE HOCKEY" 
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value='ice-hockey'
+                                label={iceHockeyMessage}
                                 onClick={() => {
                                     this.handle_category_change('ice-hockey');
                                 }}
                             />
-                            <StyledTab 
-                                style={{outline: 'none'}}
+                            <StyledTab
+                                style={{ outline: 'none'}}
                                 value="tennis"
-                                label="TENNIS" 
+                                label={tennisMessage}
                                 onClick={() => {
                                     this.handle_category_change('tennis');
                                 }}
                             />
                         </StyledTabs>
                     </AppBar>
-                </div>      
-        </div>
-      );
+                </div>
+            </div>
+        );
     }
-  }
+}
 
-  export default withStyles(styles)(connect(null, {sports_type, authCheckState})(Sports_Type));
+export default withStyles(styles)(injectIntl(connect(null, { sports_type, authCheckState })(Sports_Type)));

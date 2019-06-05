@@ -62,7 +62,7 @@ button:focus { outline:0 !important; }
 
 .Sports {
   margin-left: 10px;
-  width: 87px;
+  min-width: 87px;
   height: 22px;
   object-fit: contain;
   font-size: 18px;
@@ -75,7 +75,7 @@ button:focus { outline:0 !important; }
 
 .Live-Casino {
   margin-left: 10px;
-  width: 140px;
+  min-width: 140px;
   height: 22px;
   object-fit: contain;
   font-size: 18px;
@@ -88,7 +88,7 @@ button:focus { outline:0 !important; }
 
 .Slots {
   margin-left: 10px;
-  width: 89px;
+  min-width: 89px;
   height: 22px;
   object-fit: contain;
   font-size: 18px;
@@ -101,7 +101,7 @@ button:focus { outline:0 !important; }
 
 .Lottery {
   margin-left: 10px;
-  width: 96px;
+  min-width: 96px;
   height: 22px;
   object-fit: contain;
   font-size: 18px;
