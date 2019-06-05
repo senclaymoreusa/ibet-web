@@ -35,9 +35,12 @@ const styles = theme => ({
     textField: {
       flexBasis: 200,
       width: 300,
-      backgroundColor: '#ffffff;'
+      backgroundColor: '#ffffff',
     },
+    textField_input:{
 
+        textTransform: 'lowercase'  
+      },
     cssRoot: {
         color: theme.palette.getContrastText(blue[300]),
         backgroundColor: blue[300],
@@ -89,25 +92,25 @@ class Change_Email extends Component {
             this.setState({live_check_email: false})
         }
         if (this.state.confirm_email){
-            if (this.state.confirm_email !== event.target.value){
+            if (this.state.confirm_email !== event.target.value.toString().toLowerCase()){
                 this.setState({live_check_email_match: true, button_disable: true});
             }else{
                 this.setState({live_check_email_match: false});
             }
         }
-        await this.setState({new_email: event.target.value});
+        await this.setState({new_email: event.target.value.toString().toLowerCase()});
         this.check_button_disable()
     }
     
     async onInputChange_confirm_email(event){
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (this.state.new_email !== event.target.value){
+        if (this.state.new_email !== event.target.value.toString().toLowerCase()){
             this.setState({live_check_email_match: true, button_disable: true})
         }else{
             this.setState({live_check_email_match: false});
         }
         
-        await this.setState({confirm_email: event.target.value});
+        await this.setState({confirm_email: event.target.value.toString().toLowerCase()});
         this.check_button_disable();
 
     }
@@ -188,7 +191,11 @@ class Change_Email extends Component {
                             type={'text'}
                             value={this.state.new_email}
                             onChange={this.onInputChange_new_email}
-                            oninput="this.value=this.value.toLowerCase()"
+                            InputProps={{
+                                classes: {
+                                  input: classes.textField_input,
+                                },
+                              }}
                         />
                     </div>
                     
@@ -199,12 +206,16 @@ class Change_Email extends Component {
                         <br />
 
                         <TextField
-                            className={classNames(classes.margin, classes.textField)}
+                            className={classNames(classes.margin, classes.textField, 'email-input')}
                             variant="outlined"
                             type={'text'}
                             value={this.state.confirm_email}
                             onChange={this.onInputChange_confirm_email}
-                            oninput="this.value=this.value.toLowerCase()"
+                            InputProps={{
+                                classes: {
+                                  input: classes.textField_input,
+                                },
+                              }}
                         />
                     </div>
 
