@@ -360,6 +360,7 @@ export class TopNavbar extends React.Component {
         })
 
         this.changeLanguage(event.currentTarget.dataset.myValue);
+        this.setState({ showLangMenu: false });
     }
 
     handleLanguageMenuClose = (ev) => {
@@ -615,43 +616,7 @@ export class TopNavbar extends React.Component {
                                             </div>
                                         </Drawer>
 
-                                        <IconButton
-                                            className={classes.menuButton}
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
-                                        >
-                                            {langButtonIcon}
-                                        </IconButton>
-                                        <Menu
-                                            value={this.props.lang} onChange={this.langMenuClicked}
-                                            anchorEl={anchorEl}
-                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            open={showLangMenu}
-                                        >
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'en'}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="US" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English">
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="CN" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
-                                                <Flag country="FR" />
-                                            </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                        </Menu>
+                                        {LangDropdown}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>

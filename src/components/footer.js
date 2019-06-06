@@ -154,6 +154,7 @@ export class Footer extends React.Component {
     })
 
     this.changeLanguage(event.currentTarget.dataset.myValue);
+    this.setState({ showLangMenu: false });
   }
 
   handleLanguageMenuClose = (ev) => {
