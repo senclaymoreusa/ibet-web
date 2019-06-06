@@ -168,14 +168,9 @@ export class AccountMenu extends React.Component {
                                 <FormattedMessage id="nav.slots" defaultMessage='Slots' />
                             </FormLabel>
                         </FormControl>
-<<<<<<< HEAD
                         
                         <Button variant="contained" color="primary" component="a" href="/deposit/" id="nav.deposit" className={classes.button}>
                             Deposit
-=======
-                        <Button variant="contained" color="primary" className={classes.button}>
-                        <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
->>>>>>> e381952ecee4e7d120189fcea55e1a67aad3a96e
                         </Button>
                         <Button variant="contained" color="secondary" className={classes.button}>
                         <FormattedMessage id="accountmenu.withdraw" defaultMessage='Withdraw' />

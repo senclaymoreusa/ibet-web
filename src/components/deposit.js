@@ -217,8 +217,8 @@ class Deposit extends Component {
                                             } else if (res.data === 'The balance is not enough') {
                                                 alert("cannot withdraw this amount")
                                             }else{
-                                                window.location.reload()
                                                 alert("your balance is updated")
+                                                window.location.reload()
                                             }
                                         });   
                                         
