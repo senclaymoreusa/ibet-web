@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { sports_type } from '../actions';
 import { connect } from 'react-redux';
-import { FormattedMessage , injectIntl} from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../util_config';
 import { authCheckState } from '../actions';
+
+import Footer from "./footer";
 
 
 // Material-UI
@@ -35,8 +37,14 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
     },
     root: {
-        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
         backgroundColor: theme.palette.background.paper,
+        
+    },
+    grow: {
+        flexGrow: 1,
     },
 });
 
@@ -152,61 +160,59 @@ class Sports_Type extends Component {
         let basketballMessage = formatMessage({ id: "nav.basketball" });
         let iceHockeyMessage = formatMessage({ id: "nav.ice-hockey" });
         let tennisMessage = formatMessage({ id: "nav.tennis" });
-        
+
         var recent_sports = JSON.parse(localStorage.getItem("recent-sports"));
 
         return (
-            <div>
-
+            <div className={classes.root}>
                 <TopNavbar activeMenu={'sports'} />
+                <AppBar position="static" >
+                    <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>
+                        <StyledTab
+                            style={{ outline: 'none' }}
+                            value="live"
+                            label={liveMessage}
+                            onClick={() => {
+                                this.handle_category_change('live');
+                            }}
+                        />
+                        <StyledTab
+                            style={{ outline: 'none' }}
+                            value="football"
+                            label={footballMessage}
+                            onClick={() => {
+                                this.handle_category_change('football');
+                            }}
+                        />
+                        <StyledTab
+                            style={{ outline: 'none' }}
+                            value="basketball"
+                            label={basketballMessage}
+                            onClick={() => {
+                                this.handle_category_change('basketball');
+                            }}
+                        />
 
-                <div className={classes.root}>
-                    <AppBar position="static" >
-                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>
-                            <StyledTab
-                                style={{ outline: 'none' }}
-                                value="live"
-                                label={liveMessage}
-                                onClick={() => {
-                                    this.handle_category_change('live');
-                                }}
-                            />
-                            <StyledTab
-                                style={{ outline: 'none' }}
-                                value="football"
-                                label={footballMessage}
-                                onClick={() => {
-                                    this.handle_category_change('football');
-                                }}
-                            />
-                            <StyledTab
-                                style={{ outline: 'none' }}
-                                value="basketball"
-                                label={basketballMessage}
-                                onClick={() => {
-                                    this.handle_category_change('basketball');
-                                }}
-                            />
-
-                            <StyledTab
-                                style={{ outline: 'none' }}
-                                value='ice-hockey'
-                                label={iceHockeyMessage}
-                                onClick={() => {
-                                    this.handle_category_change('ice-hockey');
-                                }}
-                            />
-                            <StyledTab
-                                style={{ outline: 'none'}}
-                                value="tennis"
-                                label={tennisMessage}
-                                onClick={() => {
-                                    this.handle_category_change('tennis');
-                                }}
-                            />
-                        </StyledTabs>
-                    </AppBar>
-                </div>
+                        <StyledTab
+                            style={{ outline: 'none' }}
+                            value='ice-hockey'
+                            label={iceHockeyMessage}
+                            onClick={() => {
+                                this.handle_category_change('ice-hockey');
+                            }}
+                        />
+                        <StyledTab
+                            style={{ outline: 'none' }}
+                            value="tennis"
+                            label={tennisMessage}
+                            onClick={() => {
+                                this.handle_category_change('tennis');
+                            }}
+                        />
+                    </StyledTabs>
+                </AppBar>
+                <div className={classes.grow}></div>
+                <Footer activeMenu={'sports'} />
             </div>
         );
     }

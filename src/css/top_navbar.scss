@@ -160,7 +160,6 @@ $transition: all 0.5s ease;
 }
 .search {
   position: absolute;
-  z-index: 2;
   right: 0;
   width: 72px;
   height: 40px;
@@ -215,7 +214,7 @@ $transition: all 0.5s ease;
 
 .search-button {
   width: 72px;
-  height: 52px;
+  height: 100%;
   display: block;
   position: absolute;
   right: 0;

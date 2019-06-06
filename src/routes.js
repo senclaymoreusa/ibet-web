@@ -29,8 +29,12 @@ import UsageAnalysis from './components/usage_analysis'
 import PersonalDetails from './components/personal_details'
 import AccountSettings from './components/account_settings'
 
+const divStyle = {
+  minHeight: '100%',
+};
+
 const BaseRouter = () => (
-  <div>
+  <div style={divStyle}>
     <Route exact path="/" component={Home} />
     <Route exact path="/slot_type/" component={Slot_Type} />
     <Route exact path="/sports_type/" component={Sports_Type} />
