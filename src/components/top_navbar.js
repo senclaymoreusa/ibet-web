@@ -53,6 +53,8 @@ import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import { config } from '../util_config';
 
+import SearchBar from './search_bar';
+
 import '../css/top_navbar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -168,7 +170,9 @@ const styles = theme => ({
             },
         },
     },
-    focusVisible: {},
+    focusVisible: {
+
+    },
     imageButton: {
         position: 'absolute',
         left: 0,
@@ -212,6 +216,10 @@ const styles = theme => ({
         left: 'calc(50% - 9px)',
         transition: theme.transitions.create('opacity'),
     },
+    search: {
+        display: 'inline-block',
+        flexGrow: 1,
+    }
 });
 
 const muiLogoBarTheme = createMuiTheme({
@@ -274,7 +282,7 @@ export class TopNavbar extends React.Component {
             balance: 0.00,
             balanceCurrency: "USD",
 
-            showSearchResultPopper : false,
+            showSearchResultPopper: false,
 
         };
 
@@ -284,20 +292,20 @@ export class TopNavbar extends React.Component {
     }
 
     focus_search() {
-        this.search_focus.current.focus();
+        //this.search_focus.current.focus();
     }
 
     handleSearch = event => {
         const { currentTarget } = event;
 
-        this.setState(state => ({
-            anchorEl: state.anchorEl ? null : currentTarget,
-        }));
+        // this.setState(state => ({
+        //     anchorEl: state.anchorEl ? null : currentTarget,
+        // }));
 
 
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
 
-        this.focus_search()
+        this.focus_search();
     }
 
     handleSubMenuToggle = (param) => {
@@ -413,17 +421,17 @@ export class TopNavbar extends React.Component {
 
     handleSearchClose = event => {
 
-        this.setState({ showSearchResultPopper: true });
+        //this.setState({ showSearchResultPopper: true });
         //this.setState({ subMenuType: null });
     };
 
     onSearcTextChanged(event) {
         this.setState({ term: event.target.value });
-        this.setState({ showSearchResultPopper: true });
+        //this.setState({ showSearchResultPopper: true });
     }
 
     onSearcTextFocused = event => {
-        this.setState({ showSearchResultPopper: true });
+        //.setState({ showSearchResultPopper: true });
     }
 
     onSearcTextBlured(event) {
@@ -432,7 +440,7 @@ export class TopNavbar extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { anchorEl, showSearchResultPopper } = this.state;
+        const { anchorEl } = this.state;
 
         let countryCode = '';
         switch (this.state.lang) {
@@ -706,8 +714,8 @@ export class TopNavbar extends React.Component {
                                 <div className={searchClass.join(' ')}>
                                     <div className="search-box">
                                         <div className="search-container">
-                                            <span className="search-icon-before"></span>
-                                            <input type="search" className="search-input"
+                                             
+                                            {/* <input type="search" className="search-input"
                                                 value={this.state.term}
                                                 onChange={this.onSearcTextChanged}
                                                 onFocus={this.onSearcTextFocused}
@@ -718,22 +726,21 @@ export class TopNavbar extends React.Component {
                                                     }
                                                 }}
                                                 ref={this.search_focus}
-                                            />
+                                            />  */}
+                                            <SearchBar className={classes.grow}></SearchBar>
                                         </div>
                                     </div>
-
                                     <span className="search-button" onClick={this.handleSearch}>
                                         <span className="search-icon"></span>
                                     </span>
+
+
                                 </div>
-                                <Popper open={showSearchResultPopper} anchorEl={anchorEl} transition disablePortal className={classes.searchResult}>
-                                            <Paper>
-                                                <Typography className={classes.typography}>The content of the Popper.</Typography>
-                                            </Paper>
-                                </Popper>
                             </div>
+
                         </Toolbar>
                     </AppBar>
+
                 </MuiThemeProvider>
             </div >
         );
