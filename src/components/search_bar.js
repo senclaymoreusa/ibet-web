@@ -14,6 +14,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
 import { AUTH_RESULT_FAIL } from '../actions';
 
 import axios from 'axios';
@@ -71,7 +74,6 @@ function renderInput(inputProps) {
                     root: classes.inputRoot,
                     input: classes.inputInput,
                     focused: classes.inputInput,
-                    hovered: classes.inputInput,
                 },
                 ...InputProps,
             }}
@@ -130,7 +132,7 @@ function getSuggestions(value, { showEmpty = false } = {}) {
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        height: 250,
+        // height: 250,
         color: 'white',
     },
     container: {
@@ -154,11 +156,12 @@ const styles = theme => ({
     inputInput: {
         width: 'auto',
         flexGrow: 1,
+        color: 'white',
         borderBottom: '1px solid #ffffff',
         "&:hover": {
             borderBottom: '1px solid #ffffff',
         },
-        
+
     },
     inlineBlock: {
         display: 'inline-block'
@@ -225,6 +228,12 @@ export class SearchBar extends React.Component {
                                                         selectedItem,
                                                     }),
                                                 )}
+                                                 <Typography variant="h5" component="h3">
+          This is a sheet of paper.
+        </Typography>
+        <Typography component="p">
+          Paper can be used to build surface or other elements for your application.
+        </Typography>
                                             </Paper>
                                         ) : null}
                                     </div>
