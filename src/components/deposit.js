@@ -127,7 +127,7 @@ class Deposit extends Component {
                         className={classNames(classes.margin, classes.textField)}
                         variant="outlined"
                         type={'text'}
-                        value={this.state.balance}
+                        value={this.state.balance || ''}
                         onChange={this.onInputChange_balance}
                     />
                     <br />
