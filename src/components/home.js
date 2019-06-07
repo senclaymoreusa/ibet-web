@@ -44,7 +44,7 @@ const styles = theme => ({
 });
 
 export class Home extends Component {
-
+  
   state = {
     notices: [],
     sports: [],
@@ -71,7 +71,7 @@ export class Home extends Component {
       .then(res => {
 
         this.setState({ sports: res.data.slice(0, 8) });
-        this.setState({ all_sports: res.data})
+        this.setState({ all_sports: res.data })
       })
 
     URL = API_URL + 'users/api/games/?term=Casino';
@@ -92,9 +92,9 @@ export class Home extends Component {
 
   }
 
-  handle_expand(){
-    this.setState({sports: this.state.all_sports})
-    this.setState({expand: true})
+  handle_expand() {
+    this.setState({ sports: this.state.all_sports })
+    this.setState({ expand: true })
   }
 
   render() {
@@ -128,8 +128,8 @@ export class Home extends Component {
 
     return (
       <div >
-        <TopNavbar style={{zIndex: '100'}} />
-       {noticeStr && <div style={{ overflowX: 'hidden', zIndex: 0 }}><Marquee >{noticeStr}</Marquee></div>}
+        <TopNavbar />
+        {noticeStr && <div style={{ overflowX: 'hidden', zIndex: 0 }}><Marquee >{noticeStr}</Marquee></div>}
 
         {
           this.state.ready &&
@@ -141,60 +141,60 @@ export class Home extends Component {
         <div className="cont">
           {
             this.state.ready && this.state.sports.map(item => {
-                return (
-                  <div key={item.pk} className='each-game' onClick={() => {
-                     var array = JSON.parse(localStorage.getItem("recent-games"));
-                     if (!array){
-                       array = []
-                       array.push(item)
-                     }else{
-                       var check = true;
-                       array.map(thing => {
-                         if(thing.name === item.name){
-                           check = false
-                         }
-                       })
-                      if (check){
-                        array.push(item)
+              return (
+                <div key={item.pk} className='each-game' onClick={() => {
+                  var array = JSON.parse(localStorage.getItem("recent-games"));
+                  if (!array) {
+                    array = []
+                    array.push(item)
+                  } else {
+                    var check = true;
+                    array.map(thing => {
+                      if (thing.name === item.name) {
+                        check = false
                       }
-                       
-                     }
-                     if (array.length > 4){
-                       array.shift()
-                     }
-                     localStorage.setItem("recent-games", JSON.stringify(array));
+                    })
+                    if (check) {
+                      array.push(item)
+                    }
 
-                  }}>
-                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
+                  }
+                  if (array.length > 4) {
+                    array.shift()
+                  }
+                  localStorage.setItem("recent-games", JSON.stringify(array));
+
+                }}>
+                  <NavLink to={`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}>
 
                     {
                       //  item.image ? 
                       //  <img src={item.image} height = "240" width="319" alt = 'Not available'/>
                       //  :
-                       <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
+                      <img src={placeholdimage} height="220" width="300" alt='Not available' />
                     }
 
-                        
-                      <br/>
-                      <div className='game-title'> 
-                          {item.name} 
-                      </div>
-                      
-                    </NavLink>
-                  </div>
-                )
+
+                    <br />
+                    <div className='game-title'>
+                      {item.name}
+                    </div>
+
+                  </NavLink>
+                </div>
+              )
             })
           }
         </div>
 
         {
-          this.state.ready && !this.state.expand && this.state.all_sports.length > 8 && 
+          this.state.ready && !this.state.expand && this.state.all_sports.length > 8 &&
           <div className='expand-icon'>
-            <Fab  
-                onClick={this.handle_expand.bind(this)}
-                className={classNames(classes.fab, 'text')}
-                variant="extended"
-            > 
+            <Fab
+              onClick={this.handle_expand.bind(this)}
+              className={classNames(classes.fab, 'text')}
+              variant="extended"
+            >
               <FormattedMessage id="home.expand" defaultMessage='View All' />
               {' (' + this.state.all_sports.length + ')'}
               <ExpandMore />
@@ -213,22 +213,22 @@ export class Home extends Component {
         <div className="cont">
           {
             this.state.ready && recent_games && recent_games.map(item => {
-                return (
-                  <div key={item.name} className='each-game' >
-                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                      {
-                        // item.image ? 
-                        // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                        // :
-                        <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                      }
-                      <br/>
-                      <div className='game-title'> 
-                          {item.name} 
-                      </div> 
-                    </NavLink>
-                  </div>
-                )
+              return (
+                <div key={item.name} className='each-game' >
+                  <NavLink to={`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}>
+                    {
+                      // item.image ? 
+                      // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
+                      // :
+                      <img src={placeholdimage} height="220" width="300" alt='Not available' />
+                    }
+                    <br />
+                    <div className='game-title'>
+                      {item.name}
+                    </div>
+                  </NavLink>
+                </div>
+              )
             })
           }
         </div>
@@ -242,29 +242,29 @@ export class Home extends Component {
 
         <div className="cont">
           {
-            this.state.ready && this.state.sports.slice(0,4).map(item => {
-                return (
-                  <div key={item.name} className='each-game' >
-                    <NavLink to = {`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}> 
-                      {
-                        // item.image ? 
-                        // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                        // :
-                        <img src={placeholdimage} height = "220" width="300" alt = 'Not available'/>
-                      }
-                      <br/>
-                      <div className='game-title'> 
-                          {item.name} 
-                      </div> 
-                    </NavLink>
-                  </div>
-                )
+            this.state.ready && this.state.sports.slice(0, 4).map(item => {
+              return (
+                <div key={item.name} className='each-game' >
+                  <NavLink to={`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}>
+                    {
+                      // item.image ? 
+                      // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
+                      // :
+                      <img src={placeholdimage} height="220" width="300" alt='Not available' />
+                    }
+                    <br />
+                    <div className='game-title'>
+                      {item.name}
+                    </div>
+                  </NavLink>
+                </div>
+              )
             })
           }
         </div>
 
-        
-        
+
+
 
 
         {/* {
@@ -312,7 +312,7 @@ export class Home extends Component {
             })
           }
         </div> */}
-          <Footer/>
+        <Footer />
       </div>
 
     );

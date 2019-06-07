@@ -9,6 +9,8 @@ import axios from 'axios';
 import { config } from '../util_config';
 import { authCheckState } from '../actions';
 
+import Footer from "./footer";
+
 
 // Material-UI
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -36,9 +38,15 @@ const styles = theme => ({
       marginRight: theme.spacing.unit,
     },
     root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-      },
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100vh',
+      backgroundColor: theme.palette.background.paper,
+      
+  },
+  grow: {
+      flexGrow: 1,
+  },
   });
 
 
@@ -132,13 +140,15 @@ class Lottery_Type extends Component {
     }
 
     render() {
+      const { classes } = this.props;
 
         return (
-            <div>
+          <div className={classes.root}>
           
                 <TopNavbar activeMenu={'lottery'}/>
+                <div className={classes.grow}></div>
 
-                
+                <Footer activeMenu={'lottery'}/>
         </div>
       );
     }

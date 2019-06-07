@@ -3,18 +3,13 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import PersonAdd from '@material-ui/icons/PersonAdd';
 import Person from '@material-ui/icons/Person';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 
-import Language from '@material-ui/icons/Language';
 import { AUTH_RESULT_FAIL } from '../actions';
 
 
@@ -22,7 +17,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
 import { FormattedMessage, FormattedNumber } from 'react-intl';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, authCheckState } from '../actions';
 
@@ -34,7 +29,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu';
 import Fab from '@material-ui/core/Fab';
 
-import ButtonBase from '@material-ui/core/ButtonBase';
+import Popper from '@material-ui/core/Popper';
+import Fade from '@material-ui/core/Fade';
+
+
+import Paper from '@material-ui/core/Paper';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Flag from 'react-flagkit';
@@ -43,7 +44,7 @@ import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
 import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
-import { ReactComponent as CashIcon } from '../assets/img/svg/cash-out.svg';
+import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -199,40 +200,52 @@ const styles = theme => ({
         left: 'calc(50% - 9px)',
         transition: theme.transitions.create('opacity'),
     },
+    lang_button: {
+        marginTop: 8,
+        minWidth: 0
+    },
+    lang_menu_list: {
+        backgroundColor: '#ffffff',
+        color: 'black',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    lang_menu_list_item: {
+        border: '1px solid #ffffff',
+        "&:hover": {
+            borderRadius: 4,
+            border: '1px solid #868686',
+            backgroundColor:'#ffffff',
+        },
+    },
+    lang_menu_list_item_selected: {
+        borderRadius: 4,
+        border: '1px solid #000000',
+        backgroundColor:'#ffffff',
+
+    },
+    lang_menu_list_item_text: {
+        marginLeft: 10,
+        color: 'black',
+    },
+    footer: {
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingTop: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing.unit * 2,
+        marginTop: 20,
+        backgroundColor: '#212121',
+    },
+    footer_menu_container: {
+        display: 'inline',
+        marginTop: 20
+    },
+    lang_container: {
+        display: 'inline',
+        marginLeft: 0,
+    },
 });
 
-const images = [
-    {
-        url: '/images/sports_submenu/in_play.jpg',
-        title: 'In-play',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/football.jpg',
-        title: 'Football',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/basketball.jpg',
-        title: 'Basketball',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/tennis.jpg',
-        title: 'Tennis',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/horse_racing.jpg',
-        title: 'Horse Racing',
-        width: '18%',
-    },
-    {
-        url: '/images/sports_submenu/all_sports.jpg',
-        title: 'All Sports',
-        width: '18%',
-    },
-];
 
 const muiLogoBarTheme = createMuiTheme({
     palette: {
@@ -269,15 +282,12 @@ export class TopNavbar extends React.Component {
 
         this.search_focus = React.createRef();
 
-        let langProperty = localStorage.getItem('lang');
-
         this.state = {
             open: false,
             subMenuType: null,
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
-            lang: langProperty ? langProperty : 'en',
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -288,7 +298,7 @@ export class TopNavbar extends React.Component {
             name: "",
             email: "",
             picture: "",
-
+            showLangMenu: false,
             show_loggedin_status: false,
 
             balance: 0.00,
@@ -340,6 +350,7 @@ export class TopNavbar extends React.Component {
 
     handleLanguageMenuOpen = event => {
         this.setState({ anchorEl: event.currentTarget });
+        this.setState({ showLangMenu: !this.state.showLangMenu });
     };
 
     langMenuClicked = (event) => {
@@ -347,21 +358,21 @@ export class TopNavbar extends React.Component {
         this.setState({
             lang: event.currentTarget.dataset.myValue
         })
-        //console.log(this.state.lang)
+
         this.changeLanguage(event.currentTarget.dataset.myValue);
+        this.setState({ showLangMenu: false });
     }
 
     handleLanguageMenuClose = (ev) => {
-        this.setState({ anchorEl: null });
+        this.setState({ showLangMenu: false });
 
-        if (ev.nativeEvent.target.dataset.myValue)
-            this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
     };
 
     changeLanguage = (lang) => {
         this.props.setLanguage(lang)
             .then((res) => {
-                localStorage.setItem("lang", lang);
+                // localStorage.setItem("lang", lang);
+
             });
     };
 
@@ -426,16 +437,19 @@ export class TopNavbar extends React.Component {
     };
 
     render() {
-        const { anchorEl } = this.state;
+        const { anchorEl, showLangMenu } = this.state;
         const { classes } = this.props;
 
 
-        let countryCode = '';
-        switch (this.state.lang) {
+            let countryCode = '';
+        switch (this.props.lang) {
             case 'en':
                 countryCode = 'US';
                 break;
             case 'zh-hans':
+                countryCode = 'CN';
+                break;
+            case 'zh':
                 countryCode = 'CN';
                 break;
             case 'fr':
@@ -445,6 +459,60 @@ export class TopNavbar extends React.Component {
                 countryCode = 'US';
         }
         const langButtonIcon = (<Flag country={countryCode} />);
+
+        const LangDropdown = (
+            <div className={classes.lang_container}>
+                <Button className={classes.lang_button} onClick={this.handleLanguageMenuOpen}>{langButtonIcon}</Button>
+                <Popper open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <Paper id="menu-list-grow" className={classes.lang_menu_list}>
+                                    <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
+                                        <Menu>
+                                            <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
+                                                selected={this.props.lang === 'en'}
+                                                classes={{
+                                                    root: classes.lang_menu_list_item,
+                                                    selected: classes.lang_menu_list_item_selected
+                                                }}>
+                                                <Flag country="US" />
+                                                <div className={classes.lang_menu_list_item_text}>
+                                                    <FormattedMessage id="lang.english" defaultMessage='English' />
+                                                </div>
+                                            </MenuItem>
+                                            <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
+                                                selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
+                                                classes={{
+                                                    root: classes.lang_menu_list_item,
+                                                    selected: classes.lang_menu_list_item_selected
+                                                }}>
+                                                <Flag country="CN" />
+                                                <div className={classes.lang_menu_list_item_text}>
+                                                    <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
+                                                </div>
+                                            </MenuItem>
+                                            <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
+                                                selected={this.props.lang === 'fr'}
+                                                classes={{
+                                                    root: classes.lang_menu_list_item,
+                                                    selected: classes.lang_menu_list_item_selected
+                                                }}>
+                                                <Flag country="FR" />
+                                                <div className={classes.lang_menu_list_item_text}>
+                                                    <FormattedMessage id="lang.french" defaultMessage='French' />
+                                                </div>
+                                            </MenuItem>
+                                        </Menu>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+            </div>
+        );
+
 
         const leftMobileSideList = (
             <div className={classes.list}>
@@ -548,43 +616,7 @@ export class TopNavbar extends React.Component {
                                             </div>
                                         </Drawer>
 
-                                        <IconButton
-                                            className={classes.menuButton}
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
-                                        >
-                                            {langButtonIcon}
-                                        </IconButton>
-                                        <Menu
-                                            value={this.state.lang} onChange={this.langMenuClicked}
-                                            anchorEl={anchorEl}
-                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            open={Boolean(anchorEl)}
-                                        >
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'en'}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="US" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English">
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="CN" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
-                                                <Flag country="FR" />
-                                            </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                        </Menu>
+                                        {LangDropdown}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
@@ -596,7 +628,7 @@ export class TopNavbar extends React.Component {
                                             className={classes.signupButton}
                                             onClick={() => { this.props.history.push('/signup/') }}
                                         >
-                                            <CashIcon className={classes.extendedIcon} />
+                                            <DepositIcon className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
                                         </Fab>
                                         <Fab
@@ -610,46 +642,8 @@ export class TopNavbar extends React.Component {
                                             <PersonOutline className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.login" defaultMessage='Login' />
                                         </Fab>
-                                        <IconButton
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
-                                        >
-                                            {langButtonIcon}
-                                        </IconButton>
-                                        <Menu
-                                            value={this.state.lang}
-                                            onChange={this.langMenuClicked}
-                                            anchorEl={anchorEl}
-                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            open={Boolean(anchorEl)}
-                                            onClose={this.handleLanguageMenuClose}
-                                        >
-                                            <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="US" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="CN" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="FR" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                        </Menu>
-
+                                       
+                                        {LangDropdown}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
@@ -737,6 +731,7 @@ const mapStateToProps = (state) => {
 
 TopNavbar.propTypes = {
     classes: PropTypes.object.isRequired,
+    callback: PropTypes.func,
 };
 
 export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState })(TopNavbar)));
