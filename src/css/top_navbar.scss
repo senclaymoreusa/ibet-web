@@ -273,3 +273,29 @@ $transition: all 0.5s ease;
     }
   }
 }
+
+.login-window {
+  margin-left: 30%;
+  margin-top: 5%;
+  height: 600px;
+  width: 700px;
+  overflow-y: hidden; 
+  overflow-x: hidden;
+}
+
+.login-title {
+  font-size: 38px;
+  margin-left: 15%;
+}
+
+.nav-login-button-disable {
+  width: 300px; 
+  background: #f1f1f1;
+  color: white;
+}
+
+.nav-login-button {
+  width: 300px; 
+  background: red;
+  color: 'white'
+}

@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
-import { PayPalButton } from 'react-paypal-button-v2';
+//import { PayPalButton } from 'react-paypal-button-v2';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -142,7 +142,7 @@ class Deposit extends Component {
                     }
                     <div className='paypal-button'  >
                     
-                        <PayPalButton  
+                        {/* <PayPalButton  
                             
                             createOrder={function() {
                                 var postData = {
@@ -228,7 +228,7 @@ class Deposit extends Component {
                             options={{
                                 clientId: CLIENT.sandbox
                             }}
-                        />
+                        /> */}
                     </div>
                     
 

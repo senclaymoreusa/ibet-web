@@ -79,14 +79,12 @@ export class Login extends React.Component {
           check: false,
           showPassword: false,
 
-          live_check_username: false,
-          live_check_password: false,
           button_disable: true,
           button_type: 'login-button-disable'
         };
     
         this.onInputChange_username         = this.onInputChange_username.bind(this);
-        this.onInputChange_password         = this.onInputChange_password.bind(this)
+        this.onInputChange_password         = this.onInputChange_password.bind(this);
         this.onFormSubmit                   = this.onFormSubmit.bind(this);
         this.toggleShow                     = this.toggleShow.bind(this);
         this.handle_one_click               = this.handle_one_click.bind(this);

@@ -10,16 +10,25 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 
-import { AUTH_RESULT_FAIL } from '../actions';
+import TextField from '@material-ui/core/TextField';
+import classNames from 'classnames';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import blue from '@material-ui/core/colors/blue';
 
+import { errors } from './errors';
 
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin } from '../actions';
+import { NavLink } from 'react-router-dom';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -30,6 +39,7 @@ import AccountMenu from './account_menu';
 import Fab from '@material-ui/core/Fab';
 
 import Popper from '@material-ui/core/Popper';
+import Popover from '@material-ui/core/Popover';
 import Fade from '@material-ui/core/Fade';
 
 
@@ -45,6 +55,7 @@ import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
+import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -52,6 +63,8 @@ import { config } from '../util_config';
 import '../css/top_navbar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
+
 
 const styles = theme => ({
     root: {
@@ -244,6 +257,23 @@ const styles = theme => ({
         display: 'inline',
         marginLeft: 0,
     },
+    margin: {
+        margin: 'auto',
+    },
+  
+    textField: {
+        flexBasis: 200,
+        width: 300,
+        backgroundColor: '#ffffff;'
+    },
+
+    cssRoot: {
+        color: theme.palette.getContrastText(blue[300]),
+        backgroundColor: blue[300],
+        '&:hover': {
+          backgroundColor: blue[800],
+        },
+    },
 });
 
 
@@ -302,13 +332,31 @@ export class TopNavbar extends React.Component {
             show_loggedin_status: false,
 
             balance: 0.00,
-            balanceCurrency: "USD"
+            balanceCurrency: "USD",
+
+            anchorEl2: null,
+            showlogin: false,
+            username: '',
+            password: '',
+            showPassword: false,
+            button_type: 'nav-login-button-disable',
+            button_disable: true,
+            check: false,
+
+            height: window.innerHeight,
+            width: window.innerWidth,
+
+            errorCode: '',
 
         };
 
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.focus_search = this.focus_search.bind(this);
+        this.onInputChange_username         = this.onInputChange_username.bind(this);
+        this.onInputChange_password         = this.onInputChange_password.bind(this);
+        this.handleClickShowPassword        = this.handleClickShowPassword.bind(this);
+        this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
     }
 
     focus_search() {
@@ -353,6 +401,11 @@ export class TopNavbar extends React.Component {
         this.setState({ showLangMenu: !this.state.showLangMenu });
     };
 
+    handleLoginMenuOpen = event => {
+        this.setState({ anchorEl2: event.currentTarget });
+        this.setState({ showlogin: !this.state.showlogin });
+    };
+
     langMenuClicked = (event) => {
         this.setState({ anchorEl: null });
         this.setState({
@@ -393,7 +446,67 @@ export class TopNavbar extends React.Component {
         this.setState({ term: '' });
     }
 
-    componentDidMount() {
+    onInputChange_username(event){
+        if(event.target.value && this.state.password){
+            this.setState({button_disable: false, button_type: 'nav-login-button'})
+        }else{
+            this.setState({button_disable: true, button_type: 'nav-login-button-disable'})
+        }
+        this.setState({username: event.target.value});
+      }
+    
+    onInputChange_password(event){
+        if(event.target.value && this.state.username){
+            this.setState({button_disable: false, button_type: 'nav-login-button'})
+        }else{
+            this.setState({button_disable: true, button_type: 'nav-login-button-disable'})
+        }
+        this.setState({password: event.target.value});
+    }
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
+
+    onloginFormSubmit(event){
+        event.preventDefault();
+    
+        if (!this.state.username){
+            this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
+        }else if(!this.state.password){
+            this.setState({ errorCode: errors.PASSWORD_EMPTY_ERROR });
+        }else{
+            this.props.authLogin(this.state.username, this.state.password)
+            .then(() => {
+                if (this.state.check){
+                    localStorage.setItem('remember_username', this.state.username);
+                    localStorage.setItem('remember_password', this.state.password);
+                    localStorage.setItem('remember_check', 'checked')
+                }else{
+                    localStorage.removeItem('remember_username');
+                    localStorage.removeItem('remember_password');
+                    localStorage.removeItem('remember_check');
+                }
+                this.setState({showlogin: false})
+                this.props.history.push('/');
+            })
+            .catch(err => {
+                this.setState({errorCode: err});
+            });
+        }
+      }
+
+      onInputChange_checkbox = async (event) => {
+        await this.setState({check: !this.state.check})
+     }
+
+    handleResize = e => {
+        this.setState({height: window.innerHeight, width: window.innerWidth})
+    };
+
+    async componentDidMount() {
+
+        window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
             .then((res) => {
@@ -426,6 +539,27 @@ export class TopNavbar extends React.Component {
                 }
             });
 
+        const remember_check = localStorage.getItem('remember_check');
+        if (remember_check){
+            await this.setState({check: true})
+        }
+
+        const check = localStorage.getItem('one-click');
+        if (check){
+            const username = localStorage.getItem('username');
+            const password = localStorage.getItem('password');
+            localStorage.removeItem('one-click');
+            localStorage.removeItem('username');
+            localStorage.removeItem('password');
+            this.setState({username: username, password: password, button_disable: false, button_type: 'login-button' })
+        }else{
+            const remember_check = localStorage.getItem('remember_check');
+            if (remember_check){
+                const username = localStorage.getItem('remember_username');
+                const password = localStorage.getItem('remember_password');
+                this.setState({username: username, password: password, button_disable: false, button_type: 'login-button' })
+            }
+        }
     }
 
     getCurrencySymbol(currnecy) {
@@ -437,11 +571,35 @@ export class TopNavbar extends React.Component {
     };
 
     render() {
-        const { anchorEl, showLangMenu } = this.state;
+        const { anchorEl, showLangMenu, showlogin, anchorEl2 } = this.state;
         const { classes } = this.props;
 
+        const { formatMessage } = this.props.intl;
+        const remember_password = formatMessage({ id: "login.remember" });
 
-            let countryCode = '';
+
+        const showErrors = () => {
+            if (this.state.errorCode === errors.USERNAME_EMPTY_ERROR) {
+                return (
+                    <div style={{color: 'red'}}> 
+                        <FormattedMessage id="login.username_empty_error" defaultMessage='Username cannot be empty' /> 
+                    </div>
+                );
+            } else if (this.state.errorCode === errors.PASSWORD_EMPTY_ERROR) {
+                return (
+                    <div style={{color: 'red'}}> 
+                        <FormattedMessage id="login.password_empty_error" defaultMessage='Password cannot be empty' /> 
+                    </div>
+                );
+            } else {
+              return (
+                  <div style={{color: 'red'}}> {this.state.errorCode} </div>
+              )
+            }
+          }
+
+
+        let countryCode = '';
         switch (this.props.lang) {
             case 'en':
                 countryCode = 'US';
@@ -510,6 +668,128 @@ export class TopNavbar extends React.Component {
                         </Fade>
                     )}
                 </Popper>
+
+                {/* <Button onClick={this.handleLoginMenuOpen}>
+                    test
+                </Button> */}
+
+                <Popover 
+                    open={showlogin} 
+                    anchorEl={anchorEl2} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: this.state.height / 9, left: this.state.width / 4 }}
+                >
+
+                    <div className='login-window'> 
+
+                        <Close 
+                            style={{ marginLeft: 420, cursor: 'pointer'}}
+                            onClick = { () => {
+                                this.setState({showlogin: false})
+                            }}
+                        />
+
+                        <div className='login-title'> 
+                            <b> <FormattedMessage id="nav.login" defaultMessage='Login' /> </b>
+                        </div>
+
+                        <form onSubmit={this.onloginFormSubmit} >
+                            <div style={{fontSize: 14, marginTop: 30}}>
+                                <b> <FormattedMessage id="login.username" defaultMessage='Username: ' /> </b>
+                            </div>
+
+                            <div style={{marginTop: 15}}> 
+                                <TextField
+                                    id="outlined-adornment-password"
+                                    className={classNames(classes.margin, classes.textField)}
+                                    variant="outlined"
+                                    type={'text'}
+                                    value={this.state.username}
+                                    onChange={this.onInputChange_username}
+                                />
+
+                            </div>
+
+                            <div style={{fontSize: 14, marginTop: 30}}>
+                                <b> <FormattedMessage id="login.password" defaultMessage='Password: ' /> </b>
+                            </div>
+
+                            <div style={{marginTop: 15}}> 
+                                <TextField
+                                    id="outlined-adornment-password2"
+                                    className={classNames(classes.margin, classes.textField)}
+                                    variant="outlined"
+                                    type={this.state.showPassword ? 'text' : 'password'}
+                                    value={this.state.password}
+                                    onChange={this.onInputChange_password}
+                                    InputProps={{
+                                        endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                            aria-label="Toggle password visibility"
+                                            onClick={this.handleClickShowPassword}
+                                            >
+                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                        ),
+                                    }}
+                                />
+
+                            </div>
+
+                            <div 
+                                style={{cursor: 'pointer', marginTop: 20}}
+                                onClick = {() => {
+                                this.props.history.push('/forget_password')
+                            }}> 
+                                    <FormattedMessage id="login.forget_password" defaultMessage='Forgot Password?' />  
+                            </div>
+
+                            <div style={{ marginTop: 20}}> 
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={this.state.check}
+                                            onChange={this.onInputChange_checkbox}
+                                            value="checkedA"
+                                        />
+                                    }
+                                    label = {remember_password}
+                                />
+                            </div>
+
+                            <Button 
+                                variant="contained"
+                                color="primary"
+                                disabled = {this.state.button_disable} 
+                                className={this.state.button_type} 
+                                style={{background: !this.state.button_disable ? 'red' : '#e3e8ef', color: 'white', marginTop: 30}}
+                                type="submit" 
+                            > 
+                                <FormattedMessage id="login.login" defaultMessage='Login' />
+                            </Button>
+
+                        </form>
+
+                        <div 
+                            onClick={() => {
+                                this.props.history.push('/signup')
+                            }}
+                            style={{marginTop: 30, cursor: 'pointer'}}
+                        > 
+                            <FormattedMessage id="login.notauser" defaultMessage='Not a member? Signup for free' /> 
+                        </div>
+
+                        <br/>
+                        {
+                            showErrors()
+                        }
+
+                    </div>
+                    
+                </Popover>
+                
             </div>
         );
 
@@ -637,7 +917,8 @@ export class TopNavbar extends React.Component {
                                             color="primary"
                                             aria-label="Add"
                                             className={classes.loginButton}
-                                            onClick={() => { this.props.history.push('/login/') }}
+                                            //onClick={() => { this.props.history.push('/login/') }}
+                                            onClick={this.handleLoginMenuOpen}
                                         >
                                             <PersonOutline className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.login" defaultMessage='Login' />
@@ -734,4 +1015,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState })(TopNavbar)));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin })(TopNavbar))));
