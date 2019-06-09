@@ -1,0 +1,22 @@
+.resultMenuTitle {
+  padding-top: 6;
+  padding-bottom: 6;
+  font-size: 12;
+  color: "black";
+}
+
+.resultMenuItem {
+  padding-top: 1;
+  padding-bottom: 1;
+  font-size: 16;
+}
+
+.icon-expand-link .contract {
+  display: none;
+}
+.icon-expand-link:hover .expand {
+  display: none;
+}
+.icon-expand-link:hover .contract {
+  display: block;
+}

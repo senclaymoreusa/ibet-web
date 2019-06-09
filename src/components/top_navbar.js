@@ -3,18 +3,13 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import PersonAdd from '@material-ui/icons/PersonAdd';
 import Person from '@material-ui/icons/Person';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 
-import Language from '@material-ui/icons/Language';
 import { AUTH_RESULT_FAIL } from '../actions';
 
 
@@ -22,7 +17,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
 import { FormattedMessage, FormattedNumber } from 'react-intl';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, authCheckState } from '../actions';
 
@@ -34,7 +29,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu';
 import Fab from '@material-ui/core/Fab';
 
-import ButtonBase from '@material-ui/core/ButtonBase';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Flag from 'react-flagkit';
@@ -45,10 +39,8 @@ import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
 
-import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
+
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -219,8 +211,12 @@ const styles = theme => ({
     search: {
         display: 'inline-block',
         flexGrow: 1,
+    },
+    langMenu: {
+        zIndex: 5000
     }
 });
+
 
 const muiLogoBarTheme = createMuiTheme({
     palette: {
@@ -286,26 +282,12 @@ export class TopNavbar extends React.Component {
 
         };
 
-        this.onSearcTextChanged = this.onSearcTextChanged.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.focus_search = this.focus_search.bind(this);
     }
 
-    focus_search() {
-        //this.search_focus.current.focus();
-    }
 
-    handleSearch = event => {
-        const { currentTarget } = event;
-
-        // this.setState(state => ({
-        //     anchorEl: state.anchorEl ? null : currentTarget,
-        // }));
-
-
+    handleSearch = () => {
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
-
-        this.focus_search();
     }
 
     handleSubMenuToggle = (param) => {
@@ -363,17 +345,13 @@ export class TopNavbar extends React.Component {
             });
     };
 
-    search() {
-        this.props.history.push('/game_search/' + this.state.term);
-    }
-
     onFormSubmit(event) {
         event.preventDefault();
-        this.setState({ term: '' });
+        //this.setState({ term: '' });
     }
 
     componentWillReceiveProps(props) {
-        this.setState({ term: '' });
+        //this.setState({ term: '' });
     }
 
     componentDidMount() {
@@ -419,24 +397,10 @@ export class TopNavbar extends React.Component {
         this.setState(state => ({ showLangListItems: !state.showLangListItems }));
     };
 
-    handleSearchClose = event => {
 
-        //this.setState({ showSearchResultPopper: true });
-        //this.setState({ subMenuType: null });
+    handleClickAway = () => {
+        this.setState(state => ({ expandSearchBar: false}));
     };
-
-    onSearcTextChanged(event) {
-        this.setState({ term: event.target.value });
-        //this.setState({ showSearchResultPopper: true });
-    }
-
-    onSearcTextFocused = event => {
-        //.setState({ showSearchResultPopper: true });
-    }
-
-    onSearcTextBlured(event) {
-        alert('blured')
-    }
 
     render() {
         const { classes } = this.props;
@@ -568,8 +532,9 @@ export class TopNavbar extends React.Component {
                                         >
                                             {langButtonIcon}
                                         </IconButton>
-                                        <Menu
-                                            value={this.state.lang} onChange={this.langMenuClicked}
+                                        <Menu className={classes.langMenu}
+                                            value={this.state.lang}
+                                            onChange={this.langMenuClicked}
                                             anchorEl={anchorEl}
                                             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                                             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -629,7 +594,7 @@ export class TopNavbar extends React.Component {
                                         >
                                             {langButtonIcon}
                                         </IconButton>
-                                        <Menu
+                                        <Menu className={classes.langMenu}
                                             value={this.state.lang}
                                             onChange={this.langMenuClicked}
                                             anchorEl={anchorEl}
@@ -711,36 +676,21 @@ export class TopNavbar extends React.Component {
                                         <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
                                     </span>
                                 </Button>
-                                <div className={searchClass.join(' ')}>
-                                    <div className="search-box">
-                                        <div className="search-container">
-                                             
-                                            {/* <input type="search" className="search-input"
-                                                value={this.state.term}
-                                                onChange={this.onSearcTextChanged}
-                                                onFocus={this.onSearcTextFocused}
-                                                onBlur={this.onSearchTextBlured}
-                                                onKeyPress={event => {
-                                                    if (event.key === 'Enter') {
-                                                        this.search()
-                                                    }
-                                                }}
-                                                ref={this.search_focus}
-                                            />  */}
-                                            <SearchBar className={classes.grow}></SearchBar>
+                                <ClickAwayListener onClickAway={this.handleClickAway}>
+                                    <div className={searchClass.join(' ')}>
+                                        <div className="search-box">
+                                            <div className="search-container">
+                                                <SearchBar className={classes.grow} activeMenu={this.props.activeMenu} ></SearchBar>
+                                            </div>
                                         </div>
+                                        <span className="search-button" onClick={this.handleSearch}>
+                                            <span className="search-icon"></span>
+                                        </span>
                                     </div>
-                                    <span className="search-button" onClick={this.handleSearch}>
-                                        <span className="search-icon"></span>
-                                    </span>
-
-
-                                </div>
+                                </ClickAwayListener>
                             </div>
-
                         </Toolbar>
                     </AppBar>
-
                 </MuiThemeProvider>
             </div >
         );

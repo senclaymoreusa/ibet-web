@@ -1,67 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import deburr from 'lodash/deburr';
 import Downshift from 'downshift';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Popper from '@material-ui/core/Popper';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
-import Chip from '@material-ui/core/Chip';
 
 import { logout, handle_search, setLanguage, authCheckState } from '../actions';
 import { withStyles } from '@material-ui/core/styles';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import Modal from '@material-ui/core/Modal';
 
-import { AUTH_RESULT_FAIL } from '../actions';
 
+import { ReactComponent as PlayIcon } from '../assets/img/svg/play-inactive.svg';
+import { ReactComponent as PlayHoverIcon } from '../assets/img/svg/play-active.svg';
+import { ReactComponent as ProviderIcon } from '../assets/img/svg/provider.svg';
+
+import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import { config } from '../util_config';
 
-import '../css/top_navbar.scss';
+
+import '../css/search_bar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
-const suggestions = [
-    { label: 'Afghanistan' },
-    { label: 'Aland Islands' },
-    { label: 'Albania' },
-    { label: 'Algeria' },
-    { label: 'American Samoa' },
-    { label: 'Andorra' },
-    { label: 'Angola' },
-    { label: 'Anguilla' },
-    { label: 'Antarctica' },
-    { label: 'Antigua and Barbuda' },
-    { label: 'Argentina' },
-    { label: 'Armenia' },
-    { label: 'Aruba' },
-    { label: 'Australia' },
-    { label: 'Austria' },
-    { label: 'Azerbaijan' },
-    { label: 'Bahamas' },
-    { label: 'Bahrain' },
-    { label: 'Bangladesh' },
-    { label: 'Barbados' },
-    { label: 'Belarus' },
-    { label: 'Belgium' },
-    { label: 'Belize' },
-    { label: 'Benin' },
-    { label: 'Bermuda' },
-    { label: 'Bhutan' },
-    { label: 'Bolivia, Plurinational State of' },
-    { label: 'Bonaire, Sint Eustatius and Saba' },
-    { label: 'Bosnia and Herzegovina' },
-    { label: 'Botswana' },
-    { label: 'Bouvet Island' },
-    { label: 'Brazil' },
-    { label: 'British Indian Ocean Territory' },
-    { label: 'Brunei Darussalam' },
-];
 
 function renderInput(inputProps) {
     const { InputProps, classes, ref, ...other } = inputProps;
@@ -82,57 +46,9 @@ function renderInput(inputProps) {
     );
 }
 
-function renderSuggestion(suggestionProps) {
-    const { suggestion, index, itemProps, highlightedIndex, selectedItem } = suggestionProps;
-    const isHighlighted = highlightedIndex === index;
-    const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
-
-    return (
-        <MenuItem
-            {...itemProps}
-            key={suggestion.label}
-            selected={isHighlighted}
-            component="div"
-            style={{
-                fontWeight: isSelected ? 500 : 400,
-            }}
-        >
-            {suggestion.label}
-        </MenuItem>
-    );
-}
-renderSuggestion.propTypes = {
-    highlightedIndex: PropTypes.number,
-    index: PropTypes.number,
-    itemProps: PropTypes.object,
-    selectedItem: PropTypes.string,
-    suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
-};
-
-function getSuggestions(value, { showEmpty = false } = {}) {
-    const inputValue = deburr(value.trim()).toLowerCase();
-    const inputLength = inputValue.length;
-    let count = 0;
-
-    return inputLength === 0 && !showEmpty
-        ? []
-        : suggestions.filter(suggestion => {
-            const keep =
-                count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
-
-            if (keep) {
-                count += 1;
-            }
-
-            return keep;
-        });
-}
-
-
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        // height: 250,
         color: 'white',
     },
     container: {
@@ -141,15 +57,15 @@ const styles = theme => ({
     },
     paper: {
         position: 'absolute',
-        zIndex: 3000,
         marginTop: theme.spacing.unit,
         left: 0,
         right: 0,
-        height: 200,
+        padding: 15,
     },
     chip: {
         margin: theme.spacing.unit,
     },
+
     inputRoot: {
         flexWrap: 'wrap',
     },
@@ -165,13 +81,103 @@ const styles = theme => ({
     },
     inlineBlock: {
         display: 'inline-block'
+    },
+    icon: {
+        //marginLeft: 40,
+    },
+    liClass: {
+        fontSize: 12,
+        color: 'black'
     }
 });
 
 
+
+class Suggestions extends React.Component {
+    render() {
+
+        const options = (<div>
+            <div className="resultMenuTitle">
+                <FormattedMessage id="search.quick_link" defaultMessage='Quick Links' />
+            </div>
+            {this.props.results.map(r => (
+                <MenuItem className='resultMenuItem' key={r.status_id}>
+                    <Grid container spacing={0}>
+                        <Grid item xs={4}>
+                            {r.name}
+                        </Grid>
+                        <Grid item xs={1}>
+                            <a href="#0" className="expand-link">
+                                <PlayIcon className="icon icon-expand" />
+                                <PlayHoverIcon className="icon icon-contract" />
+                            </a>
+
+                        </Grid>
+                        <Grid item xs={7}>
+                        </Grid>
+                    </Grid>
+                </MenuItem>
+            ))
+            }
+        </div>);
+
+        return (<div>{options}</div>);
+    }
+}
+
 export class SearchBar extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            query: '',
+            results: [],
+        };
+    }
+
+    getInfo = () => {
+        let url = this.getApiUrlWithParam(this.state.query);
+
+        axios.get(url, config)
+            .then(({ data }) => {
+                this.setState({
+                    results: data
+                })
+            })
+    }
+
+    handleInputChange = (event) => {
+        this.setState({
+            query: event.target.value
+        }, () => {
+            if (this.state.query && this.state.query.length > 1) {
+                this.getInfo();
+            }
+        })
+    }
+
+    getApiUrlWithParam(term) {
+        let URL = '';
+
+        switch (this.props.activeMenu) {
+            case 'slots':
+                URL = API_URL + 'users/api/games/?term=' + term;
+                break;
+            case 'sports':
+                URL = API_URL + 'users/api/sports/?term=' + term;
+                break;
+            case 'live_casino':
+                URL = API_URL + 'users/api/live_casino/?term=' + term;
+                break;
+            case 'lottery':
+                URL = API_URL + 'users/api/lottery/?term=' + term;
+                break;
+            default:
+                URL = API_URL + 'users/api/games/?term=' + term;
+                break;
+        }
+
+        return URL;
     }
 
     render() {
@@ -198,9 +204,7 @@ export class SearchBar extends React.Component {
                         }) => {
                             const { onBlur, onChange, onFocus, ...inputProps } = getInputProps({
                                 onChange: event => {
-                                    if (event.target.value === '') {
-                                        clearSelection();
-                                    }
+                                    this.handleInputChange(event)
                                 },
                                 onFocus: openMenu,
                                 placeholder: 'Search..',
@@ -215,25 +219,10 @@ export class SearchBar extends React.Component {
                                         InputProps: { onBlur, onChange, onFocus },
                                         inputProps,
                                     })}
-
                                     <div {...getMenuProps()}>
                                         {isOpen ? (
                                             <Paper className={classes.paper} square>
-                                                {getSuggestions(inputValue, { showEmpty: true }).map((suggestion, index) =>
-                                                    renderSuggestion({
-                                                        suggestion,
-                                                        index,
-                                                        itemProps: getItemProps({ item: suggestion.label }),
-                                                        highlightedIndex,
-                                                        selectedItem,
-                                                    }),
-                                                )}
-                                                 <Typography variant="h5" component="h3">
-          This is a sheet of paper.
-        </Typography>
-        <Typography component="p">
-          Paper can be used to build surface or other elements for your application.
-        </Typography>
+                                                <Suggestions results={this.state.results} />
                                             </Paper>
                                         ) : null}
                                     </div>
@@ -242,7 +231,8 @@ export class SearchBar extends React.Component {
                         }}
                     </Downshift>
                 </div>
-            </div>
+
+            </div >
         );
     }
 }
