@@ -339,7 +339,6 @@ export class TopNavbar extends React.Component {
             username: '',
             password: '',
             showPassword: false,
-            button_type: 'nav-login-button-disable',
             button_disable: true,
             check: false,
 
@@ -404,6 +403,7 @@ export class TopNavbar extends React.Component {
     handleLoginMenuOpen = event => {
         this.setState({ anchorEl2: event.currentTarget });
         this.setState({ showlogin: !this.state.showlogin });
+        this.setState({ username: '', password: ''})
     };
 
     langMenuClicked = (event) => {
@@ -448,18 +448,18 @@ export class TopNavbar extends React.Component {
 
     onInputChange_username(event){
         if(event.target.value && this.state.password){
-            this.setState({button_disable: false, button_type: 'nav-login-button'})
+            this.setState({button_disable: false})
         }else{
-            this.setState({button_disable: true, button_type: 'nav-login-button-disable'})
+            this.setState({button_disable: true})
         }
         this.setState({username: event.target.value});
       }
     
     onInputChange_password(event){
         if(event.target.value && this.state.username){
-            this.setState({button_disable: false, button_type: 'nav-login-button'})
+            this.setState({button_disable: false})
         }else{
-            this.setState({button_disable: true, button_type: 'nav-login-button-disable'})
+            this.setState({button_disable: true})
         }
         this.setState({password: event.target.value});
     }
@@ -669,15 +669,11 @@ export class TopNavbar extends React.Component {
                     )}
                 </Popper>
 
-                {/* <Button onClick={this.handleLoginMenuOpen}>
-                    test
-                </Button> */}
-
                 <Popover 
                     open={showlogin} 
                     anchorEl={anchorEl2} 
                     anchorReference="anchorPosition"
-                    anchorPosition={{ top: this.state.height / 9, left: this.state.width / 4 }}
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
                 >
 
                     <div className='login-window'> 
@@ -763,8 +759,7 @@ export class TopNavbar extends React.Component {
                                 variant="contained"
                                 color="primary"
                                 disabled = {this.state.button_disable} 
-                                className={this.state.button_type} 
-                                style={{background: !this.state.button_disable ? 'red' : '#e3e8ef', color: 'white', marginTop: 30}}
+                                style={{width: 300, background: !this.state.button_disable ? 'red' : '#e3e8ef', color: 'white', marginTop: 30}}
                                 type="submit" 
                             > 
                                 <FormattedMessage id="login.login" defaultMessage='Login' />
