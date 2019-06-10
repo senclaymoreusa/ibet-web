@@ -75,7 +75,6 @@ const styles = theme => ({
     paddingRight: 24,
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    marginTop: 20,
     backgroundColor: '#212121',
     display: 'flex',
     flexDirection: 'column'
@@ -194,13 +193,13 @@ export class Footer extends React.Component {
 
     const FooterLinks = (
       <div className={classes.footer_link_container}>
-        <Link href='/' className={classes.footer_link}>
+        <Link href='/terms_conditions' className={classes.footer_link}>
           <FormattedMessage id="footer.terms_conditions" defaultMessage='Terms and Conditions' />
         </Link>
-        <Link href='/' className={classes.footer_link}>
+        <Link href='/cookie_policy' className={classes.footer_link}>
           <FormattedMessage id="footer.cookie_policy" defaultMessage='Cookie Policy' />
         </Link>
-        <Link href='/' className={classes.footer_link}>
+        <Link href='/privacy_policy' className={classes.footer_link}>
           <FormattedMessage id="footer.privacy_policy" defaultMessage='Privacy Policy' />
         </Link>
         <Link href='/' className={classes.footer_link}>
