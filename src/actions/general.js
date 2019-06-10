@@ -40,3 +40,15 @@ export const handle_search =(term) => {
   }
 }
 
+export const show_login = () => {
+  return {
+    type: 'SHOW_LOGIN'
+  }
+}
+
+export const hide_login = () => {
+  return {
+    type: 'HIDE_LOGIN'
+  }
+}
+

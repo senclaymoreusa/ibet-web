@@ -10,13 +10,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 
-import TextField from '@material-ui/core/TextField';
-import classNames from 'classnames';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import blue from '@material-ui/core/colors/blue';
 
 import { errors } from './errors';
@@ -27,8 +20,7 @@ import Button from '@material-ui/core/Button';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin } from '../actions';
-import { NavLink } from 'react-router-dom';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -55,7 +47,8 @@ import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
+
+import Login from './login_2.js';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -63,7 +56,6 @@ import { config } from '../util_config';
 import '../css/top_navbar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
 
 
 const styles = theme => ({
@@ -335,7 +327,6 @@ export class TopNavbar extends React.Component {
             balanceCurrency: "USD",
 
             anchorEl2: null,
-            showlogin: false,
             username: '',
             password: '',
             showPassword: false,
@@ -402,8 +393,9 @@ export class TopNavbar extends React.Component {
 
     handleLoginMenuOpen = event => {
         this.setState({ anchorEl2: event.currentTarget });
-        this.setState({ showlogin: !this.state.showlogin });
         this.setState({ username: '', password: ''})
+
+        this.props.show_login()
     };
 
     langMenuClicked = (event) => {
@@ -425,7 +417,6 @@ export class TopNavbar extends React.Component {
         this.props.setLanguage(lang)
             .then((res) => {
                 // localStorage.setItem("lang", lang);
-
             });
     };
 
@@ -487,7 +478,6 @@ export class TopNavbar extends React.Component {
                     localStorage.removeItem('remember_password');
                     localStorage.removeItem('remember_check');
                 }
-                this.setState({showlogin: false})
                 this.props.history.push('/');
             })
             .catch(err => {
@@ -562,41 +552,13 @@ export class TopNavbar extends React.Component {
         }
     }
 
-    getCurrencySymbol(currnecy) {
-
-    }
-
     toggleLanguageListItem = () => {
         this.setState(state => ({ showLangListItems: !state.showLangListItems }));
     };
 
     render() {
-        const { anchorEl, showLangMenu, showlogin, anchorEl2 } = this.state;
+        const { anchorEl, showLangMenu, anchorEl2 } = this.state;
         const { classes } = this.props;
-
-        const { formatMessage } = this.props.intl;
-        const remember_password = formatMessage({ id: "login.remember" });
-
-
-        const showErrors = () => {
-            if (this.state.errorCode === errors.USERNAME_EMPTY_ERROR) {
-                return (
-                    <div style={{color: 'red'}}> 
-                        <FormattedMessage id="login.username_empty_error" defaultMessage='Username cannot be empty' /> 
-                    </div>
-                );
-            } else if (this.state.errorCode === errors.PASSWORD_EMPTY_ERROR) {
-                return (
-                    <div style={{color: 'red'}}> 
-                        <FormattedMessage id="login.password_empty_error" defaultMessage='Password cannot be empty' /> 
-                    </div>
-                );
-            } else {
-              return (
-                  <div style={{color: 'red'}}> {this.state.errorCode} </div>
-              )
-            }
-          }
 
 
         let countryCode = '';
@@ -670,117 +632,13 @@ export class TopNavbar extends React.Component {
                 </Popper>
 
                 <Popover 
-                    open={showlogin} 
+                    open={this.props.showLogin} 
                     anchorEl={anchorEl2} 
                     anchorReference="anchorPosition"
                     anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
                 >
-
                     <div className='login-window'> 
-
-                        <Close 
-                            style={{ marginLeft: 420, cursor: 'pointer'}}
-                            onClick = { () => {
-                                this.setState({showlogin: false})
-                            }}
-                        />
-
-                        <div className='login-title'> 
-                            <b> <FormattedMessage id="nav.login" defaultMessage='Login' /> </b>
-                        </div>
-
-                        <form onSubmit={this.onloginFormSubmit} >
-                            <div style={{fontSize: 14, marginTop: 30}}>
-                                <b> <FormattedMessage id="login.username" defaultMessage='Username: ' /> </b>
-                            </div>
-
-                            <div style={{marginTop: 15}}> 
-                                <TextField
-                                    id="outlined-adornment-password"
-                                    className={classNames(classes.margin, classes.textField)}
-                                    variant="outlined"
-                                    type={'text'}
-                                    value={this.state.username}
-                                    onChange={this.onInputChange_username}
-                                />
-
-                            </div>
-
-                            <div style={{fontSize: 14, marginTop: 30}}>
-                                <b> <FormattedMessage id="login.password" defaultMessage='Password: ' /> </b>
-                            </div>
-
-                            <div style={{marginTop: 15}}> 
-                                <TextField
-                                    id="outlined-adornment-password2"
-                                    className={classNames(classes.margin, classes.textField)}
-                                    variant="outlined"
-                                    type={this.state.showPassword ? 'text' : 'password'}
-                                    value={this.state.password}
-                                    onChange={this.onInputChange_password}
-                                    InputProps={{
-                                        endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                            aria-label="Toggle password visibility"
-                                            onClick={this.handleClickShowPassword}
-                                            >
-                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                        ),
-                                    }}
-                                />
-
-                            </div>
-
-                            <div 
-                                style={{cursor: 'pointer', marginTop: 20}}
-                                onClick = {() => {
-                                this.props.history.push('/forget_password')
-                            }}> 
-                                    <FormattedMessage id="login.forget_password" defaultMessage='Forgot Password?' />  
-                            </div>
-
-                            <div style={{ marginTop: 20}}> 
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={this.state.check}
-                                            onChange={this.onInputChange_checkbox}
-                                            value="checkedA"
-                                        />
-                                    }
-                                    label = {remember_password}
-                                />
-                            </div>
-
-                            <Button 
-                                variant="contained"
-                                color="primary"
-                                disabled = {this.state.button_disable} 
-                                style={{width: 300, background: !this.state.button_disable ? 'red' : '#e3e8ef', color: 'white', marginTop: 30}}
-                                type="submit" 
-                            > 
-                                <FormattedMessage id="login.login" defaultMessage='Login' />
-                            </Button>
-
-                        </form>
-
-                        <div 
-                            onClick={() => {
-                                this.props.history.push('/signup')
-                            }}
-                            style={{marginTop: 30, cursor: 'pointer'}}
-                        > 
-                            <FormattedMessage id="login.notauser" defaultMessage='Not a member? Signup for free' /> 
-                        </div>
-
-                        <br/>
-                        {
-                            showErrors()
-                        }
-
+                      <Login /> 
                     </div>
                     
                 </Popover>
@@ -1002,6 +860,7 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
+        showLogin: state.general.show_login
     }
 }
 
@@ -1010,4 +869,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login })(TopNavbar))));
