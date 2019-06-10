@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 
 import { ReactComponent as IbetLogo } from '../../assets/img/svg/ibet_logo.svg';
-import { ReactComponent as CloseIcon } from '../../assets/img/svg/close.svg';
+import { ReactComponent as CloseIcon } from '../../assets/img/svg/close_page.svg';
 
 import { withStyles } from '@material-ui/core/styles';
 
