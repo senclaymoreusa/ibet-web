@@ -10,16 +10,17 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 
-import { AUTH_RESULT_FAIL } from '../actions';
+import blue from '@material-ui/core/colors/blue';
 
+import { errors } from './errors';
 
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -30,6 +31,7 @@ import AccountMenu from './account_menu';
 import Fab from '@material-ui/core/Fab';
 
 import Popper from '@material-ui/core/Popper';
+import Popover from '@material-ui/core/Popover';
 import Fade from '@material-ui/core/Fade';
 
 
@@ -46,12 +48,15 @@ import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
 
+import Login from './login_2.js';
+
 import axios from 'axios';
 import { config } from '../util_config';
 
 import '../css/top_navbar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
 
 const styles = theme => ({
     root: {
@@ -244,6 +249,23 @@ const styles = theme => ({
         display: 'inline',
         marginLeft: 0,
     },
+    margin: {
+        margin: 'auto',
+    },
+  
+    textField: {
+        flexBasis: 200,
+        width: 300,
+        backgroundColor: '#ffffff;'
+    },
+
+    cssRoot: {
+        color: theme.palette.getContrastText(blue[300]),
+        backgroundColor: blue[300],
+        '&:hover': {
+          backgroundColor: blue[800],
+        },
+    },
 });
 
 
@@ -302,13 +324,29 @@ export class TopNavbar extends React.Component {
             show_loggedin_status: false,
 
             balance: 0.00,
-            balanceCurrency: "USD"
+            balanceCurrency: "USD",
+
+            anchorEl2: null,
+            username: '',
+            password: '',
+            showPassword: false,
+            button_disable: true,
+            check: false,
+
+            height: window.innerHeight,
+            width: window.innerWidth,
+
+            errorCode: '',
 
         };
 
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.focus_search = this.focus_search.bind(this);
+        this.onInputChange_username         = this.onInputChange_username.bind(this);
+        this.onInputChange_password         = this.onInputChange_password.bind(this);
+        this.handleClickShowPassword        = this.handleClickShowPassword.bind(this);
+        this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
     }
 
     focus_search() {
@@ -353,6 +391,13 @@ export class TopNavbar extends React.Component {
         this.setState({ showLangMenu: !this.state.showLangMenu });
     };
 
+    handleLoginMenuOpen = event => {
+        this.setState({ anchorEl2: event.currentTarget });
+        this.setState({ username: '', password: ''})
+
+        this.props.show_login()
+    };
+
     langMenuClicked = (event) => {
         this.setState({ anchorEl: null });
         this.setState({
@@ -372,7 +417,6 @@ export class TopNavbar extends React.Component {
         this.props.setLanguage(lang)
             .then((res) => {
                 // localStorage.setItem("lang", lang);
-
             });
     };
 
@@ -393,7 +437,66 @@ export class TopNavbar extends React.Component {
         this.setState({ term: '' });
     }
 
-    componentDidMount() {
+    onInputChange_username(event){
+        if(event.target.value && this.state.password){
+            this.setState({button_disable: false})
+        }else{
+            this.setState({button_disable: true})
+        }
+        this.setState({username: event.target.value});
+      }
+    
+    onInputChange_password(event){
+        if(event.target.value && this.state.username){
+            this.setState({button_disable: false})
+        }else{
+            this.setState({button_disable: true})
+        }
+        this.setState({password: event.target.value});
+    }
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
+
+    onloginFormSubmit(event){
+        event.preventDefault();
+    
+        if (!this.state.username){
+            this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
+        }else if(!this.state.password){
+            this.setState({ errorCode: errors.PASSWORD_EMPTY_ERROR });
+        }else{
+            this.props.authLogin(this.state.username, this.state.password)
+            .then(() => {
+                if (this.state.check){
+                    localStorage.setItem('remember_username', this.state.username);
+                    localStorage.setItem('remember_password', this.state.password);
+                    localStorage.setItem('remember_check', 'checked')
+                }else{
+                    localStorage.removeItem('remember_username');
+                    localStorage.removeItem('remember_password');
+                    localStorage.removeItem('remember_check');
+                }
+                this.props.history.push('/');
+            })
+            .catch(err => {
+                this.setState({errorCode: err});
+            });
+        }
+      }
+
+      onInputChange_checkbox = async (event) => {
+        await this.setState({check: !this.state.check})
+     }
+
+    handleResize = e => {
+        this.setState({height: window.innerHeight, width: window.innerWidth})
+    };
+
+    async componentDidMount() {
+
+        window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
             .then((res) => {
@@ -426,10 +529,27 @@ export class TopNavbar extends React.Component {
                 }
             });
 
-    }
+        const remember_check = localStorage.getItem('remember_check');
+        if (remember_check){
+            await this.setState({check: true})
+        }
 
-    getCurrencySymbol(currnecy) {
-
+        const check = localStorage.getItem('one-click');
+        if (check){
+            const username = localStorage.getItem('username');
+            const password = localStorage.getItem('password');
+            localStorage.removeItem('one-click');
+            localStorage.removeItem('username');
+            localStorage.removeItem('password');
+            this.setState({username: username, password: password, button_disable: false, button_type: 'login-button' })
+        }else{
+            const remember_check = localStorage.getItem('remember_check');
+            if (remember_check){
+                const username = localStorage.getItem('remember_username');
+                const password = localStorage.getItem('remember_password');
+                this.setState({username: username, password: password, button_disable: false, button_type: 'login-button' })
+            }
+        }
     }
 
     toggleLanguageListItem = () => {
@@ -437,11 +557,11 @@ export class TopNavbar extends React.Component {
     };
 
     render() {
-        const { anchorEl, showLangMenu } = this.state;
+        const { anchorEl, showLangMenu, anchorEl2 } = this.state;
         const { classes } = this.props;
 
 
-            let countryCode = '';
+        let countryCode = '';
         switch (this.props.lang) {
             case 'en':
                 countryCode = 'US';
@@ -510,6 +630,19 @@ export class TopNavbar extends React.Component {
                         </Fade>
                     )}
                 </Popper>
+
+                <Popover 
+                    open={this.props.showLogin} 
+                    anchorEl={anchorEl2} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='login-window'> 
+                      <Login /> 
+                    </div>
+                    
+                </Popover>
+                
             </div>
         );
 
@@ -637,7 +770,8 @@ export class TopNavbar extends React.Component {
                                             color="primary"
                                             aria-label="Add"
                                             className={classes.loginButton}
-                                            onClick={() => { this.props.history.push('/login/') }}
+                                            //onClick={() => { this.props.history.push('/login/') }}
+                                            onClick={this.handleLoginMenuOpen}
                                         >
                                             <PersonOutline className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.login" defaultMessage='Login' />
@@ -726,6 +860,7 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
+        showLogin: state.general.show_login
     }
 }
 
@@ -734,4 +869,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState })(TopNavbar)));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login })(TopNavbar))));

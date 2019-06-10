@@ -87,8 +87,8 @@ export const messages = {
 
 
         // handle login page message
-        'login.username': 'Username: ',
-        'login.password': 'Password: ',
+        'login.username': 'USERNAME',
+        'login.password': 'PASSWORD',
         'login.or': 'Or',
         'login.login': 'Login',
         'login.signup': 'Signup',
@@ -98,8 +98,8 @@ export const messages = {
         'login.password_empty_error': 'Password cannot be empty',
         'login.option': 'Other login options',
         'login.one-click': 'Or try one-click signup',
-        'login.remember': 'Remember passowrd',
-        'login.notauser': 'Not a member? Signup for free',
+        'login.remember': 'Keep me logged in on this device',
+        'login.notauser': 'NOT A MEMBER? SIGNUP FOR FREE',
 
         // handle books page message
         'books.title': 'Book List',
@@ -668,7 +668,7 @@ export const messages = {
         'login.password_empty_error': 'Le mot de passe ne peut pas être vide',
         'login.option': 'Autres options de connexion',
         'login.one-click': "Ou essayez l'inscription en un clic",
-        'login.remember': 'se souvenir du mot de passe',
+        'login.remember': 'Me garder connecté sur cet appareil',
         'login.notauser': 'Pas un membre? Inscription gratuite',
 
         // handle books page message

@@ -1,14 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import { FormattedMessage, injectIntl} from 'react-intl';
 import { errors } from './errors';
-import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin } from '../actions';
-//import IoEye from 'react-icons/lib/io/eye';
-import FacebookLogin from "react-facebook-login";
+import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login } from '../actions';
 import axios from 'axios';
-import IoSocialFacebook from 'react-icons/lib/io/social-facebook';
-import '../css/login.css';
+import { withRouter } from 'react-router-dom';
 
 
 // Material design
@@ -24,17 +20,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 
-import TopNavbar from "./top_navbar";
-
+import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
-
-var height = window.innerHeight
-var width = window.innerWidth
 
 
 const styles = theme => ({
@@ -91,7 +82,6 @@ export class Login extends React.Component {
     }
 
 
-    
     handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }));
     };
@@ -174,7 +164,6 @@ export class Login extends React.Component {
     this.setState({button_clicked: 1})
     var username = this.state.name
     var email = this.state.email
-    console.log(username, email)
 
     this.props.FacebookauthLogin(username, email)
     .then(res => {
@@ -193,52 +182,6 @@ export class Login extends React.Component {
         })
     })
   }
-
-  FacebookFailed = () => {
-      console.log('Facebook Login cancelled')
-  }
-
-  responseFacebook = (response) => {
-    //console.log(response);
-    
-    localStorage.setItem('facebook', true)
-
-    var facebookObj = {
-        userID:  response.userID,
-        name:    response.name,
-        email:   response.email,
-        picture: response.picture.data.url
-    }
-
-    this.setState({
-      name:  response.name,
-      email: response.email
-    })
-
-    localStorage.setItem('facebookObj', JSON.stringify(facebookObj));
-
-    var username = this.state.name
-    var email = this.state.email
-    
-    if (this.state.button_clicked === 1){
-        this.props.FacebookauthLogin(username, email)
-        .then(res => {
-            this.props.history.push('/');
-        }).catch(err => {
-            this.props.FacebookSignup(username, email)
-            .then(res => {
-                this.props.FacebookauthLogin(username, email)
-                .then(res => {
-                    this.props.history.push('/');
-                })
-                .catch(err => {
-                })
-            })
-            .catch(err => {
-            })
-        })
-    }
-  };
 
   onInputChange_checkbox = async (event) => {
      await this.setState({check: !this.state.check})
@@ -263,6 +206,7 @@ export class Login extends React.Component {
                 localStorage.removeItem('remember_password');
                 localStorage.removeItem('remember_check');
             }
+            this.props.hide_login()
             this.props.history.push('/');
         })
         .catch(err => {
@@ -300,147 +244,109 @@ export class Login extends React.Component {
     
     return (
         <div> 
-            <TopNavbar />
-            <div className='login-form '>
+            <div>
+                <Close 
+                    style={{ marginLeft: 420, cursor: 'pointer'}}
+                    onClick = { () => {
+                        this.setState({showlogin: false})
+                        this.props.hide_login()
+                    }}
+                />
 
-                <div className='title'> 
+                <div className='login-title'> 
                     <FormattedMessage id="nav.login" defaultMessage='Login' />
                 </div>
 
                 <form onSubmit={this.onFormSubmit} >
                     
-                    <FormattedMessage id="login.username" defaultMessage='Username: ' />
+                    <div style={{fontSize: 14, marginTop: 30}}>
+                        <b> <FormattedMessage id="login.username" defaultMessage='Username: ' /> </b>
+                    </div>
                     
                     <br/>
                     
+                    <div style={{marginTop: 15}}> 
+                        <TextField
+                            id="outlined-adornment-password"
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={'text'}
+                            value={this.state.username}
+                            onChange={this.onInputChange_username}
+                        />
+                    </div>
 
-                    <TextField
-                        id="outlined-adornment-password"
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="outlined"
-                        type={'text'}
-                        value={this.state.username}
-                        onChange={this.onInputChange_username}
-                    />
+
+                    <div style={{fontSize: 14, marginTop: 30}}>
+                        <b> <FormattedMessage id="login.password" defaultMessage='Password: ' /> </b>
+                    </div>  
 
 
-                    <br/>
-
-                    <FormattedMessage id="login.password" defaultMessage='Password: ' />  
+                    <div style={{marginTop: 15}}> 
+                        <TextField
+                            id="outlined-adornment-password2"
+                            className={classNames(classes.margin, classes.textField)}
+                            variant="outlined"
+                            type={this.state.showPassword ? 'text' : 'password'}
+                            value={this.state.password}
+                            onChange={this.onInputChange_password}
+                            InputProps={{
+                                endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                    aria-label="Toggle password visibility"
+                                    onClick={this.handleClickShowPassword}
+                                    >
+                                    {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </div>
     
-                    <br/>
-
-
-                    <TextField
-                        id="outlined-adornment-password2"
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="outlined"
-                        type={this.state.showPassword ? 'text' : 'password'}
-                        value={this.state.password}
-                        onChange={this.onInputChange_password}
-                        InputProps={{
-                            endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                aria-label="Toggle password visibility"
-                                onClick={this.handleClickShowPassword}
-                                >
-                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                            ),
+                    <div 
+                        style={{cursor: 'pointer', marginTop: 20, fontFamily: 'Gilroy', color: '#747175'}}
+                        onClick = {() => {
+                        this.props.history.push('/forget_password')
                         }}
-                    />
-    
-                    <br/>
+                    > 
+                            <FormattedMessage id="login.forget_password" defaultMessage='Forgot Password?' />  
+                    </div>
 
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                            checked={this.state.check}
-                            onChange={this.onInputChange_checkbox}
-                            value="checkedA"
-                            />
-                        }
-                        label = {remember_password}
-                    />
-
-                    <br />
+                    <div style={{ marginTop: 20}}> 
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={this.state.check}
+                                    onChange={this.onInputChange_checkbox}
+                                    value="checkedA"
+                                />
+                            }
+                            label = {remember_password}
+                        />
+                    </div>
 
                     <Button 
                         variant="contained"
                         color="primary"
                         disabled = {this.state.button_disable} 
-                        className={this.state.button_type} 
-                        type="submit" > 
+                        style={{width: 300, background: !this.state.button_disable ? 'red' : '#e3e8ef', color: 'white', marginTop: 30}}
+                        type="submit" 
+                    > 
                         <FormattedMessage id="login.login" defaultMessage='Login' />
                     </Button>
 
                 </form>
 
-
-                <br/>
-
-                <div> 
-                    <NavLink to='/forget_password' style={{ textDecoration: 'none', color: 'blue' }}>
-                        <FormattedMessage id="login.forget_password" defaultMessage='Forgot Password?' /> 
-                    </NavLink>
+                <div 
+                    onClick={() => {
+                        this.props.history.push('/signup')
+                    }}
+                    style={{marginTop: 30, cursor: 'pointer', fontSize: 14, color: '#212121', marginLeft: 30}}
+                > 
+                    <FormattedMessage id="login.notauser" defaultMessage='Not a member? Signup for free' /> 
                 </div>
-
-                <br/>
-
-                <div> 
-                    <NavLink to='/signup' style={{ textDecoration: 'none', color: 'blue' }}>
-                        <FormattedMessage id="login.notauser" defaultMessage='Not a member? Signup for free' /> 
-                    </NavLink>
-                </div>
-
-                <br/>
-
-                <div> 
-                    <FormattedMessage id="login.one-click" defaultMessage='Or try one click signup' />
-                </div>
-
-                <br/>
-
-                <div> 
-                    <Button  
-                        onClick={this.handle_one_click}
-                        variant="contained"
-                        color="primary"
-                        className={this.state.button_type}
-                    >
-                        <FormattedMessage id="login.signup" defaultMessage='Signup' />
-                    </Button>
-                </div>
-
-
-                <br/>
-
-                <div>
-                    <FormattedMessage id="login.option" defaultMessage='Other login options' />
-                </div>
-
-                <br />
-
-                <div> 
-                    <FacebookLogin
-                        appId="236001567251034"
-                        size = 'small'
-                        textButton=""
-                        fields="name, email, picture"
-                        onClick={this.componentClicked}
-                        callback={this.responseFacebook}
-                        onFailure={this.FacebookFailed}
-                        icon ={ 
-                            <div style={{fontSize: '25px'}}> 
-                                <IoSocialFacebook />
-                            </div>
-                        }
-                    />
-                </div>
-
-                <br/>
 
                 <br/>
                 {
@@ -461,4 +367,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin})(Login)));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_login})(Login))));
