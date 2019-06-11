@@ -32,6 +32,7 @@ import Deposit from './components/deposit'
 import TermsConditions from './components/policy/terms_conditions'
 import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
+import Change_Password from './components/change_password'
 
 const divStyle = {
   minHeight: '100%',
@@ -72,7 +73,7 @@ const BaseRouter = () => (
     <Route exact path="/terms_conditions/" component={TermsConditions} />
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
-
+    <Route exact path="/change_password/" component={Change_Password} />
   </div>
 );
 

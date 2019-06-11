@@ -345,7 +345,20 @@ class Update extends Component {
                             value={this.state.username}
                         />
 
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type={'text'}
+                            onClick ={() => {
+                                this.props.history.push('/change_password/')
+                            }}
+                        > 
+                            <FormattedMessage id="update_profile.update_password" defaultMessage='Change Password' />                 
+                        </Button>
+
                     </div>
+
+                    
 
                     <div>
                         <FormattedMessage id="update_profile.email" defaultMessage='Email: ' /> 
