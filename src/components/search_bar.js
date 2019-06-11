@@ -11,13 +11,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Modal from '@material-ui/core/Modal';
-
-
-import { ReactComponent as PlayIcon } from '../assets/img/svg/play-inactive.svg';
-import { ReactComponent as PlayHoverIcon } from '../assets/img/svg/play-active.svg';
-import { ReactComponent as ProviderIcon } from '../assets/img/svg/provider.svg';
-
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import { config } from '../util_config';
@@ -31,6 +24,7 @@ function renderInput(inputProps) {
     const { InputProps, classes, ref, ...other } = inputProps;
 
     return (
+
         <TextField
             InputProps={{
                 inputRef: ref,
@@ -68,6 +62,7 @@ const styles = theme => ({
 
     inputRoot: {
         flexWrap: 'wrap',
+        borderBottom: '1px solid #ffffff',
     },
     inputInput: {
         width: 'auto',
@@ -91,9 +86,42 @@ const styles = theme => ({
     }
 });
 
-
+const SVG = ({
+    style = {},
+    fill = "transparent",
+    width = "100%",
+    className = "",
+    viewBox = "0 0 32 32"
+  }) => (
+    <svg
+      width={width}
+      style={style}
+      height={width}
+      viewBox={viewBox}
+      xmlns="http://www.w3.org/2000/svg"
+      className={`svg-icon ${className || ""}`}
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+    <g id="Search" stroke="none" strokeWidth="1" fill={fill} fillRule="evenodd">
+          <g id="Search-slots-icons-32px" transform="translate(-662.000000, -232.000000)" fill={fill} stroke="#FF0000">
+              <g id="::-Search" transform="translate(0.000000, 144.000000)">
+                  <path d="M659.725972,92.249792 L667.714674,100.238494 L670.068368,89.896098 L659.725972,92.249792 Z" id="play" transform="translate(664.732233, 95.232233) rotate(45.000000) translate(-664.732233, -95.232233) "></path>
+              </g>
+          </g>
+      </g>
+    </svg>
+  );
 
 class Suggestions extends React.Component {
+
+
+    getRandomNumber() {
+        const min = 1;
+        const max = 100;
+        const rand = min + Math.random() * (max - min);
+        return rand;
+    }
+
     render() {
 
         const options = (<div>
@@ -101,17 +129,15 @@ class Suggestions extends React.Component {
                 <FormattedMessage id="search.quick_link" defaultMessage='Quick Links' />
             </div>
             {this.props.results.map(r => (
-                <MenuItem className='resultMenuItem' key={r.status_id}>
+                <MenuItem className='resultMenuItem' key={this.getRandomNumber()}>
                     <Grid container spacing={0}>
                         <Grid item xs={4}>
                             {r.name}
                         </Grid>
                         <Grid item xs={1}>
                             <a href="#0" className="expand-link">
-                                <PlayIcon className="icon icon-expand" />
-                                <PlayHoverIcon className="icon icon-contract" />
+                            <SVG />
                             </a>
-
                         </Grid>
                         <Grid item xs={7}>
                         </Grid>
