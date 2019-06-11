@@ -222,6 +222,7 @@ export const messages = {
         'update_profile.state': 'State: ',
         'update_profile.submit': 'Submit',
         'update_profile.cancel': 'Cancel',
+        'update_profile.update_password': 'Change Password',
 
         // handle update email
         'update_email.success': 'You have successfully updated you email account',
@@ -507,6 +508,7 @@ export const messages = {
         'update_profile.state': '州: ',
         'update_profile.submit': '提交表單',
         'update_profile.cancel': '取消',
+        'update_profile.update_password': '更改密码',
 
         // handle update email
         'update_email.success': '您已成功跟新您的邮箱地址',
@@ -791,6 +793,7 @@ export const messages = {
         'update_profile.state': 'Etat: ',
         'update_profile.submit': 'Soumettre',
         'update_profile.cancel': 'Annuler',
+        'update_profile.update_password': 'Changer le mot de passe',
 
         // handle update email
         'update_email.success': 'Vous avez mis à jour votre compte de messagerie avec succès',
