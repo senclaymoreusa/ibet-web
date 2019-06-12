@@ -212,7 +212,7 @@ export const messages = {
         'signup.message4': "By signing up you agree to ibet's terms and conditions and confirm you've",
         'signup.message5': 'read and understood the privacy policy',
         'signup.or': 'OR',
-        'signup.email_title': 'Regitration details',
+        'signup.email_title': 'Registration details',
         'signup.email_message1': 'This will be used to log in.',
         'signup.email_message2': 'At least 8 characters.',
         'signup.strength': 'Password Strength:  ',
