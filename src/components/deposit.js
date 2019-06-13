@@ -4,9 +4,9 @@ import { NavLink} from 'react-router-dom';
 import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
-
 import TopNavbar from "./top_navbar";
 import '../css/deposit.css';
+
 // Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -21,7 +21,6 @@ const CLIENT = {
     production: 'xxxXXX',
   };
   
-
 const styles = theme => ({
     root: {
       display: 'flex',
@@ -57,14 +56,13 @@ class Deposit extends Component {
           error: false,
           data: '',
           type: '',
-
           live_check_amount: false,
-
           button_disable: true,
         };
-        this.onInputChange_balance          = this.onInputChange_balance.bind(this);
+        this.onInputChange_balance = this.onInputChange_balance.bind(this);
         //this.addBalance          = this.addBalance.bind(this);
     }
+
     componentDidMount() {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
@@ -106,6 +104,7 @@ class Deposit extends Component {
     //         }
     //     });
     //   }
+
     render(){
         const { classes } = this.props;
         let amount = this.state.balance;

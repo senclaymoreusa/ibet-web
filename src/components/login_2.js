@@ -134,7 +134,7 @@ export class Login extends React.Component {
         localStorage.removeItem('remember_password');
         localStorage.removeItem('remember_check');
 
-        alert(message_username + username + '  ' + message_password + password)
+        alert(message_username + ":" +  username + '  ' + message_password + ":" + password)
     })
   }
 
