@@ -3,10 +3,16 @@ import { hide_signup_email } from '../actions';
 import { FormattedMessage, injectIntl} from 'react-intl';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import axios from 'axios'
 import { config } from "../util_config";
+
+
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -39,6 +45,7 @@ class Signup_Email extends React.Component {
             strength_level: '',
             bar: [],
             grey_bar: [],
+            showPassword: false
         }
     }
 
@@ -78,6 +85,10 @@ class Signup_Email extends React.Component {
             this.setState({button_disable: false})
         }
     }
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
 
     handlesubmit(event){
 
@@ -149,11 +160,23 @@ class Signup_Email extends React.Component {
                     <TextField
                         label="PASSWORD"
                         className={classes.textField}
-                        type="password"
+                        type={this.state.showPassword ? 'text' : 'password'}
                         autoComplete="current-password"
                         margin="normal"
                         variant="outlined"
                         onChange={this.onInputChange_password.bind(this)}
+                        InputProps={{
+                            endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                aria-label="Toggle password visibility"
+                                onClick={this.handleClickShowPassword.bind(this)}
+                                >
+                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                            ),
+                        }}
                     />
 
                     {
