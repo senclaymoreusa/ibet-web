@@ -39,6 +39,9 @@ import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
 
+import Fade from '@material-ui/core/Fade';
+
+
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 
@@ -162,6 +165,9 @@ const styles = theme => ({
             },
         },
     },
+    shadow: {
+        boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)'
+    },
     focusVisible: {
 
     },
@@ -251,8 +257,6 @@ export class TopNavbar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.search_focus = React.createRef();
-
         let langProperty = localStorage.getItem('lang');
 
         this.state = {
@@ -282,16 +286,24 @@ export class TopNavbar extends React.Component {
 
         };
 
+        this.handleSearch = this.handleSearch.bind(this);
+
         this.onFormSubmit = this.onFormSubmit.bind(this);
     }
 
 
     handleSearch = () => {
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
+
+        if (this.refs.searchBarRef)
+            if (!this.state.expandSearchBar)
+                this.refs.searchBarRef.focusInput();
+            else
+                this.refs.searchBarRef.blurInput();
     }
 
     handleSubMenuToggle = (param) => {
-        if (this.state.subMenuType == param) {
+        if (this.state.subMenuType === param) {
             this.setState({ showSubMenu: false });
             this.setState({ subMenuType: null });
         } else {
@@ -355,7 +367,6 @@ export class TopNavbar extends React.Component {
     }
 
     componentDidMount() {
-
         this.props.authCheckState()
             .then((res) => {
                 this.setState({ show_loggedin_status: true });
@@ -399,7 +410,8 @@ export class TopNavbar extends React.Component {
 
 
     handleClickAway = () => {
-        this.setState(state => ({ expandSearchBar: false}));
+        this.setState(state => ({ expandSearchBar: false }));
+        // this.search.blurInput();
     };
 
     render() {
@@ -462,6 +474,7 @@ export class TopNavbar extends React.Component {
         );
 
         let searchClass = ["search"];
+
         if (this.state.expandSearchBar) {
             searchClass.push('open');
         }
@@ -469,7 +482,7 @@ export class TopNavbar extends React.Component {
         return (
             <div className={classes.root}>
                 <MuiThemeProvider theme={muiLogoBarTheme}>
-                    <AppBar position="static">
+                    <AppBar position="static" className={classes.shadow}>
                         <Toolbar variant="dense">
                             <div className={classes.sectionMobile}>
                                 <IconButton
@@ -649,38 +662,47 @@ export class TopNavbar extends React.Component {
                     </AppBar>
                 </MuiThemeProvider>
                 <MuiThemeProvider theme={muiMenuBarTheme}>
-                    <AppBar position="static">
+                    <AppBar position="static" className={classes.shadow}>
                         <Toolbar variant="dense">
                             <div className={classes.sectionDesktop}>
-                                <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
-                                    <SoccerIcon className="soccer" />
-                                    <span className="Sports">
-                                        <FormattedMessage id="nav.sports" defaultMessage='Sports' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
-                                    <BetIcon className="bet" />
-                                    <span className="Live-Casino">
-                                        <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
-                                    <SlotsIcon className="games-icon" />
-                                    <span className="Slots">
-                                        <FormattedMessage id="nav.slots" defaultMessage='Slots' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
-                                    <LotteryIcon className="lottery" />
-                                    <span className="Lottery">
-                                        <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
-                                    </span>
-                                </Button>
+
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
+                                        <SoccerIcon className="soccer" />
+                                        <span className="Sports">
+                                            <FormattedMessage id="nav.sports" defaultMessage='Sports' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
+                                        <BetIcon className="bet" />
+                                        <span className="Live-Casino">
+                                            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
+                                        <SlotsIcon className="games-icon" />
+                                        <span className="Slots">
+                                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
+                                        <LotteryIcon className="lottery" />
+                                        <span className="Lottery">
+                                            <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
+                                        </span>
+                                    </Button>
+                                </Fade>
                                 <ClickAwayListener onClickAway={this.handleClickAway}>
                                     <div className={searchClass.join(' ')}>
                                         <div className="search-box">
                                             <div className="search-container">
-                                                <SearchBar className={classes.grow} activeMenu={this.props.activeMenu} ></SearchBar>
+                                                <SearchBar ref="searchBarRef" className={classes.grow} activeMenu={this.props.activeMenu} loaded={this.state.expandSearchBar}></SearchBar>
                                             </div>
                                         </div>
                                         <span className="search-button" onClick={this.handleSearch}>

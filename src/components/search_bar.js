@@ -4,17 +4,23 @@ import Downshift from 'downshift';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 
 import { logout, handle_search, setLanguage, authCheckState } from '../actions';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
-import Grid from '@material-ui/core/Grid';
+import { ReactComponent as SearchIcon } from '../assets/img/svg/search.svg';
+
 import axios from 'axios';
 import { config } from '../util_config';
 
+import Typography from '@material-ui/core/Typography';
+
+import Fade from '@material-ui/core/Fade';
 
 import '../css/search_bar.scss';
 
@@ -42,16 +48,20 @@ function renderInput(inputProps) {
 
 const styles = theme => ({
     root: {
-        flexGrow: 1,
+        width: '100%',
+        display: 'flex',
         color: 'white',
     },
     container: {
         flexGrow: 1,
         position: 'relative',
     },
+    fieldContainer: {
+        width: '100%'
+    },
     paper: {
         position: 'absolute',
-        marginTop: theme.spacing.unit,
+        marginTop: 6,
         left: 0,
         right: 0,
         padding: 15,
@@ -61,24 +71,54 @@ const styles = theme => ({
     },
 
     inputRoot: {
-        flexWrap: 'wrap',
+        flexGrow: 1,
         borderBottom: '1px solid #ffffff',
     },
     inputInput: {
-        width: 'auto',
+
         flexGrow: 1,
         color: 'white',
+        textTransform: 'capitalize',
         borderBottom: '1px solid #ffffff',
         "&:hover": {
             borderBottom: '1px solid #ffffff',
         },
 
     },
-    inlineBlock: {
+    resultMenuTitle: {
+        paddingTop: 6,
+        paddingBottom: 6,
+        fontSize: 12,
+        color: "black",
+    },
+    resultMenuItem: {
+        paddingTop: 1,
+        paddingBottom: 1,
+        fontSize: 16,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.75,
+        letterSpacing: 'normal',
+        color: 'black'
+    },
+    searchIcon: {
+        margin: 7,
         display: 'inline-block'
     },
-    icon: {
-        //marginLeft: 40,
+    searchInput: {
+        display: 'inline-block',
+        marginLeft: 5,
+        marginRight: 5,
+        flexGrow: 1,
+    },
+    navLink: {
+        display: 'inline',
+    },
+    playIcon: {
+        '&:hover': {
+            fillRule: '#fe0000',
+        }
     },
     liClass: {
         fontSize: 12,
@@ -92,62 +132,121 @@ const SVG = ({
     width = "100%",
     className = "",
     viewBox = "0 0 32 32"
-  }) => (
-    <svg
-      width={width}
-      style={style}
-      height={width}
-      viewBox={viewBox}
-      xmlns="http://www.w3.org/2000/svg"
-      className={`svg-icon ${className || ""}`}
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-    >
-    <g id="Search" stroke="none" strokeWidth="1" fill={fill} fillRule="evenodd">
-          <g id="Search-slots-icons-32px" transform="translate(-662.000000, -232.000000)" fill={fill} stroke="#FF0000">
-              <g id="::-Search" transform="translate(0.000000, 144.000000)">
-                  <path d="M659.725972,92.249792 L667.714674,100.238494 L670.068368,89.896098 L659.725972,92.249792 Z" id="play" transform="translate(664.732233, 95.232233) rotate(45.000000) translate(-664.732233, -95.232233) "></path>
-              </g>
-          </g>
-      </g>
-    </svg>
-  );
+}) => (
+        <svg
+            width={width}
+            style={style}
+            height={width}
+            viewBox={viewBox}
+            xmlns="http://www.w3.org/2000/svg"
+            className={`svg-icon ${className || ""}`}
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+        >
+            <g id="Search" stroke="none" strokeWidth="1" fill={fill} fillRule="evenodd">
+                <g id="Search-slots-icons-32px" transform="translate(-662.000000, -232.000000)" fill={fill} stroke="#FF0000">
+                    <g id="::-Search" transform="translate(0.000000, 144.000000)">
+                        <path d="M659.725972,92.249792 L667.714674,100.238494 L670.068368,89.896098 L659.725972,92.249792 Z" id="play" transform="translate(664.732233, 95.232233) rotate(45.000000) translate(-664.732233, -95.232233) "></path>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    );
 
-class Suggestions extends React.Component {
+function getRandomNumber() {
+    const min = 1;
+    const max = 100;
+    const rand = min + Math.random() * (max - min);
+    return rand;
+}
 
 
-    getRandomNumber() {
-        const min = 1;
-        const max = 100;
-        const rand = min + Math.random() * (max - min);
-        return rand;
-    }
+class SearchResults extends React.Component {
+
+    handleOnEnter = (event) => {
+        if (!event.currentTarget.children[0].classList.contains('active')) {
+            event.currentTarget.children[0].classList.add('active');
+        }
+
+        event.currentTarget.children[1].style.visibility = "visible";
+    };
+
+    handleOnLeave = (event) => {
+        if (event.currentTarget.children[0].classList.contains('active')) {
+            event.currentTarget.children[0].classList.remove('active');
+        }
+
+        event.currentTarget.children[1].style.visibility = "hidden";
+
+    };
 
     render() {
-
-        const options = (<div>
-            <div className="resultMenuTitle">
-                <FormattedMessage id="search.quick_link" defaultMessage='Quick Links' />
-            </div>
-            {this.props.results.map(r => (
-                <MenuItem className='resultMenuItem' key={this.getRandomNumber()}>
-                    <Grid container spacing={0}>
-                        <Grid item xs={4}>
-                            {r.name}
-                        </Grid>
-                        <Grid item xs={1}>
-                            <a href="#0" className="expand-link">
-                            <SVG />
-                            </a>
-                        </Grid>
-                        <Grid item xs={7}>
-                        </Grid>
-                    </Grid>
+        return (
+            <div>
+                <div className={this.props.classes.resultMenuTitle}>
+                    <FormattedMessage id="search.quick_link" defaultMessage='Quick Links' />
+                </div>
+                <MenuItem className={this.props.classes.resultMenuItem} key={1} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                    777 Deluxe
+                    <SVG className="playIcon" width={24} />
+                    <Typography className="play-text">Play game</Typography>
                 </MenuItem>
-            ))
-            }
-        </div>);
-
-        return (<div>{options}</div>);
+                <MenuItem className={this.props.classes.resultMenuItem} key={2} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                    21 Wilds
+                    <SVG className="playIcon" width={24} />
+                    <Typography className="play-text">Play game</Typography>
+                </MenuItem>
+                <MenuItem className={this.props.classes.resultMenuItem} key={3} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                    Reign of Gnomes
+                    <SVG className="playIcon" width={24} />
+                    <Typography className="play-text">Play game</Typography>
+                </MenuItem>
+                {
+                    this.props.results.length > 0 ?
+                        <div>
+                            <div className={this.props.classes.resultMenuTitle}>
+                                <FormattedMessage id="search.slots" defaultMessage='Slots' />
+                            </div>
+                            {
+                                this.props.results.slice(0, 3).map(r => (
+                                    <MenuItem component={Link} to={`/game_detail/${r.pk}`} className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                                        {r.name}
+                                        <SVG className="playIcon" width={24} />
+                                        <Typography className="play-text">Play game</Typography>
+                                    </MenuItem>
+                                ))
+                            }
+                            <div className={this.props.classes.resultMenuTitle}>
+                                <FormattedMessage id="search.entire_site" defaultMessage='Entire Site' />
+                            </div>
+                            {
+                                this.props.results.slice(0, 3).map(r => (
+                                    <MenuItem component={Link} to={`/game_detail/${r.pk}`} className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                                        {r.name}
+                                        <SVG className="playIcon" width={24} />
+                                        <Typography className="play-text">Play game</Typography>
+                                    </MenuItem>
+                                ))
+                            }
+                            <div className={this.props.classes.resultMenuTitle}>
+                                <FormattedMessage id="search.providers" defaultMessage='Providers' />
+                            </div>
+                            <MenuItem className={this.props.classes.resultMenuItem} key={1} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                                Game Provider 1
+                                <Typography className="play-text">See other games</Typography>
+                            </MenuItem>
+                            <MenuItem className={this.props.classes.resultMenuItem} key={2} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                                Game Provider 2
+                                <Typography className="play-text">See other games</Typography>
+                            </MenuItem>
+                            <MenuItem className={this.props.classes.resultMenuItem} key={3} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                                Game Provider 3
+                                <Typography className="play-text">See other games</Typography>
+                            </MenuItem>
+                        </div>
+                        : null
+                }
+            </div >
+        );
     }
 }
 
@@ -159,6 +258,27 @@ export class SearchBar extends React.Component {
             query: '',
             results: [],
         };
+
+        this.textInput = React.createRef();
+
+        this.blurInput = this.blurInput.bind(this)
+        this.focusInput = this.focusInput.bind(this)
+
+    }
+
+    // componentDidMount() {
+    //     this.props.innerRef(this);    }
+
+    // componentWillUnmount() {
+    //     this.props.onRef(undefined)
+    // }
+
+    focusInput = () => {
+        this.textInput.current.focus();
+    }
+
+    blurInput = () => {
+        this.textInput.current.blur();
     }
 
     getInfo = () => {
@@ -211,11 +331,9 @@ export class SearchBar extends React.Component {
 
         return (
             <div className={classes.root}>
-                {/* <div className={classes.inlineBlock}>
-                    <span className="search-icon-before"></span>
-                </div> */}
-                <div className={[classes.inlineBlock, classes.grow]}>
-                    <Downshift id="downshift-options">
+                <SearchIcon className={classes.searchIcon} />
+                <div className={classes.searchInput}>
+                    <Downshift id="downshift-options" >
                         {({
                             clearSelection,
                             getInputProps,
@@ -232,24 +350,44 @@ export class SearchBar extends React.Component {
                                 onChange: event => {
                                     this.handleInputChange(event)
                                 },
+                                onBlur: event => {
+                                    this.state.results = []
+                                },
                                 onFocus: openMenu,
                                 placeholder: 'Search..',
                             });
 
                             return (
                                 <div className={classes.container}>
-                                    {renderInput({
+                                    <TextField
+                                        className={classes.fieldContainer}
+                                        inputRef={this.textInput}
+                                        InputProps={{
+                                            onBlur, onChange, onFocus,
+                                            classes: {
+                                                root: classes.inputRoot,
+                                                input: classes.inputInput,
+                                                focused: classes.inputInput,
+                                            },
+                                        }}
+                                        InputLabelProps={{ shrink: true }}
+                                    />
+
+                                    {/* {renderInput({
                                         fullWidth: true,
                                         classes,
                                         InputLabelProps: getLabelProps({ shrink: true }),
                                         InputProps: { onBlur, onChange, onFocus },
                                         inputProps,
-                                    })}
+                                    })} */}
                                     <div {...getMenuProps()}>
                                         {isOpen ? (
-                                            <Paper className={classes.paper} square>
-                                                <Suggestions results={this.state.results} />
-                                            </Paper>
+                                            <Fade in={this.props.loaded} timeout={1700}>
+                                                <Paper className={classes.paper} square>
+                                                    <SearchResults {...this.props} results={this.state.results} />
+                                                </Paper>
+                                            </Fade>
+
                                         ) : null}
                                     </div>
                                 </div>

@@ -1,16 +1,29 @@
-.resultMenuTitle {
-  padding-top: 6;
-  padding-bottom: 6;
-  font-size: 12;
-  color: "black";
+.playIcon {
+  margin-top: 12px;
+  margin-left: 24px;
+  float:left;
 }
 
-.resultMenuItem {
-  padding-top: 1;
-  padding-bottom: 1;
-  font-size: 16;
-}
-
-.expand-link:hover path {
+.playIcon:hover path {
+  padding:2px;
   fill: #fe0000;
+}
+
+.active path{
+  fill: #fe0000;
+}
+
+.play-text{
+  font-size: 10;
+  color:'black';
+  visibility: hidden;
+
+}
+
+.hide{
+  visibility: hidden;
+}
+
+.show{
+  visibility: visible;
 }
