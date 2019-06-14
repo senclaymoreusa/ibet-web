@@ -52,3 +52,39 @@ export const hide_login = () => {
   }
 }
 
+export const show_signup = () => {
+  return {
+    type: 'SHOW_SIGNUP'
+  }
+}
+
+export const hide_signup = () => {
+  return {
+    type: 'HIDE_SIGNUP'
+  }
+}
+
+export const show_signup_email = () => {
+  return {
+    type: 'SHOW_SIGNUP_EMAIL'
+  }
+}
+
+export const hide_signup_email = () => {
+  return {
+    type: 'HIDE_SIGNUP_EMAIL'
+  }
+}
+
+export const show_signup_detail = () => {
+  return {
+    type: 'SHOW_SIGNUP_DETAIL'
+  }
+}
+
+export const hide_signup_detail = () => {
+  return {
+    type: 'HIDE_SIGNUP_DETAIL'
+  }
+}
+

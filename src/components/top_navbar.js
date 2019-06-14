@@ -10,17 +10,18 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 
+import MoreIcon from '@material-ui/icons/MoreVert';
+import Button from '@material-ui/core/Button';
+
 import blue from '@material-ui/core/colors/blue';
 
 import { errors } from './errors';
 
-import MoreIcon from '@material-ui/icons/MoreVert';
-import Button from '@material-ui/core/Button';
 
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -49,9 +50,14 @@ import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
 
 import Login from './login_2.js';
+import Signup from './signup_2.js';
+import Signup_Email from './signup_email'
+import Signup_Detail from './signup_detail'
 
 import axios from 'axios';
 import { config } from '../util_config';
+
+import SearchBar from './search_bar';
 
 import '../css/top_navbar.scss';
 
@@ -141,6 +147,14 @@ const styles = theme => ({
     extendedIcon: {
         marginRight: theme.spacing.unit,
     },
+    searchResult: {
+        width: 400,
+        height: 100,
+        marginTop: 42,
+        marginLeft: 0,
+        marginRight: 0
+
+    },
     image: {
         position: 'relative',
         height: 200,
@@ -161,7 +175,12 @@ const styles = theme => ({
             },
         },
     },
-    focusVisible: {},
+    shadow: {
+        boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)'
+    },
+    focusVisible: {
+
+    },
     imageButton: {
         position: 'absolute',
         left: 0,
@@ -205,6 +224,13 @@ const styles = theme => ({
         left: 'calc(50% - 9px)',
         transition: theme.transitions.create('opacity'),
     },
+    search: {
+        display: 'inline-block',
+        flexGrow: 1,
+    },
+    langMenu: {
+        zIndex: 5000
+    },
     lang_button: {
         marginTop: 8,
         minWidth: 0
@@ -220,13 +246,13 @@ const styles = theme => ({
         "&:hover": {
             borderRadius: 4,
             border: '1px solid #868686',
-            backgroundColor:'#ffffff',
+            backgroundColor: '#ffffff',
         },
     },
     lang_menu_list_item_selected: {
         borderRadius: 4,
         border: '1px solid #000000',
-        backgroundColor:'#ffffff',
+        backgroundColor: '#ffffff',
 
     },
     lang_menu_list_item_text: {
@@ -248,11 +274,15 @@ const styles = theme => ({
     lang_container: {
         display: 'inline',
         marginLeft: 0,
+
+    },
+    langPopper: {
+        zIndex: 2002,
     },
     margin: {
         margin: 'auto',
     },
-  
+
     textField: {
         flexBasis: 200,
         width: 300,
@@ -263,7 +293,7 @@ const styles = theme => ({
         color: theme.palette.getContrastText(blue[300]),
         backgroundColor: blue[300],
         '&:hover': {
-          backgroundColor: blue[800],
+            backgroundColor: blue[800],
         },
     },
 });
@@ -301,8 +331,9 @@ export class TopNavbar extends React.Component {
 
     constructor(props) {
         super(props);
+        let langProperty = localStorage.getItem('lang');
 
-        this.search_focus = React.createRef();
+        this.searchDiv = React.createRef();
 
         this.state = {
             open: false,
@@ -340,26 +371,30 @@ export class TopNavbar extends React.Component {
 
         };
 
-        this.onInputChange = this.onInputChange.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+
         this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.focus_search = this.focus_search.bind(this);
-        this.onInputChange_username         = this.onInputChange_username.bind(this);
-        this.onInputChange_password         = this.onInputChange_password.bind(this);
-        this.handleClickShowPassword        = this.handleClickShowPassword.bind(this);
+        this.onInputChange_username = this.onInputChange_username.bind(this);
+        this.onInputChange_password = this.onInputChange_password.bind(this);
+        this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
     }
 
-    focus_search() {
-        this.search_focus.current.focus();
-    }
 
     handleSearch = () => {
+
+        if (!this.state.expandSearchBar)
+            this.actualChild.focusInput();
+        else {
+            this.actualChild.blurInput();
+        }
+
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
-        this.focus_search()
+
     }
 
     handleSubMenuToggle = (param) => {
-        if (this.state.subMenuType == param) {
+        if (this.state.subMenuType === param) {
             this.setState({ showSubMenu: false });
             this.setState({ subMenuType: null });
         } else {
@@ -393,9 +428,16 @@ export class TopNavbar extends React.Component {
 
     handleLoginMenuOpen = event => {
         this.setState({ anchorEl2: event.currentTarget });
-        this.setState({ username: '', password: ''})
+        this.setState({ username: '', password: '' })
 
         this.props.show_login()
+    };
+
+    handleSignupMenuOpen = event => {
+        this.setState({ anchorEl2: event.currentTarget });
+        this.setState({ username: '', password: ''})
+
+        this.props.show_signup()
     };
 
     langMenuClicked = (event) => {
@@ -420,78 +462,70 @@ export class TopNavbar extends React.Component {
             });
     };
 
-    onInputChange(event) {
-        this.setState({ term: event.target.value });
-    }
-
-    search() {
-        this.props.history.push('/game_search/' + this.state.term);
-    }
-
     onFormSubmit(event) {
         event.preventDefault();
-        this.setState({ term: '' });
+        //this.setState({ term: '' });
     }
 
     componentWillReceiveProps(props) {
-        this.setState({ term: '' });
+        //this.setState({ term: '' });
     }
 
-    onInputChange_username(event){
-        if(event.target.value && this.state.password){
-            this.setState({button_disable: false})
-        }else{
-            this.setState({button_disable: true})
+    onInputChange_username(event) {
+        if (event.target.value && this.state.password) {
+            this.setState({ button_disable: false })
+        } else {
+            this.setState({ button_disable: true })
         }
-        this.setState({username: event.target.value});
-      }
-    
-    onInputChange_password(event){
-        if(event.target.value && this.state.username){
-            this.setState({button_disable: false})
-        }else{
-            this.setState({button_disable: true})
+        this.setState({ username: event.target.value });
+    }
+
+    onInputChange_password(event) {
+        if (event.target.value && this.state.username) {
+            this.setState({ button_disable: false })
+        } else {
+            this.setState({ button_disable: true })
         }
-        this.setState({password: event.target.value});
+        this.setState({ password: event.target.value });
     }
 
     handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }));
     };
 
-    onloginFormSubmit(event){
+    onloginFormSubmit(event) {
         event.preventDefault();
-    
-        if (!this.state.username){
-            this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
-        }else if(!this.state.password){
-            this.setState({ errorCode: errors.PASSWORD_EMPTY_ERROR });
-        }else{
-            this.props.authLogin(this.state.username, this.state.password)
-            .then(() => {
-                if (this.state.check){
-                    localStorage.setItem('remember_username', this.state.username);
-                    localStorage.setItem('remember_password', this.state.password);
-                    localStorage.setItem('remember_check', 'checked')
-                }else{
-                    localStorage.removeItem('remember_username');
-                    localStorage.removeItem('remember_password');
-                    localStorage.removeItem('remember_check');
-                }
-                this.props.history.push('/');
-            })
-            .catch(err => {
-                this.setState({errorCode: err});
-            });
-        }
-      }
 
-      onInputChange_checkbox = async (event) => {
-        await this.setState({check: !this.state.check})
-     }
+        if (!this.state.username) {
+            this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
+        } else if (!this.state.password) {
+            this.setState({ errorCode: errors.PASSWORD_EMPTY_ERROR });
+        } else {
+            this.props.authLogin(this.state.username, this.state.password)
+                .then(() => {
+                    if (this.state.check) {
+                        localStorage.setItem('remember_username', this.state.username);
+                        localStorage.setItem('remember_password', this.state.password);
+                        localStorage.setItem('remember_check', 'checked')
+                    } else {
+                        localStorage.removeItem('remember_username');
+                        localStorage.removeItem('remember_password');
+                        localStorage.removeItem('remember_check');
+                    }
+                    this.props.history.push('/');
+                })
+                .catch(err => {
+                    this.setState({ errorCode: err });
+                });
+        }
+    }
+
+    onInputChange_checkbox = async (event) => {
+        await this.setState({ check: !this.state.check })
+    }
 
     handleResize = e => {
-        this.setState({height: window.innerHeight, width: window.innerWidth})
+        this.setState({ height: window.innerHeight, width: window.innerWidth })
     };
 
     async componentDidMount() {
@@ -530,24 +564,24 @@ export class TopNavbar extends React.Component {
             });
 
         const remember_check = localStorage.getItem('remember_check');
-        if (remember_check){
-            await this.setState({check: true})
+        if (remember_check) {
+            await this.setState({ check: true })
         }
 
         const check = localStorage.getItem('one-click');
-        if (check){
+        if (check) {
             const username = localStorage.getItem('username');
             const password = localStorage.getItem('password');
             localStorage.removeItem('one-click');
             localStorage.removeItem('username');
             localStorage.removeItem('password');
-            this.setState({username: username, password: password, button_disable: false, button_type: 'login-button' })
-        }else{
+            this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+        } else {
             const remember_check = localStorage.getItem('remember_check');
-            if (remember_check){
+            if (remember_check) {
                 const username = localStorage.getItem('remember_username');
                 const password = localStorage.getItem('remember_password');
-                this.setState({username: username, password: password, button_disable: false, button_type: 'login-button' })
+                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
             }
         }
     }
@@ -556,10 +590,15 @@ export class TopNavbar extends React.Component {
         this.setState(state => ({ showLangListItems: !state.showLangListItems }));
     };
 
+
+    handleClickAway = () => {
+        this.actualChild.blurInput();
+        this.setState(state => ({ expandSearchBar: false }));
+    };
+
     render() {
         const { anchorEl, showLangMenu, anchorEl2 } = this.state;
         const { classes } = this.props;
-
 
         let countryCode = '';
         switch (this.props.lang) {
@@ -583,7 +622,7 @@ export class TopNavbar extends React.Component {
         const LangDropdown = (
             <div className={classes.lang_container}>
                 <Button className={classes.lang_button} onClick={this.handleLanguageMenuOpen}>{langButtonIcon}</Button>
-                <Popper open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
+                <Popper className={classes.langPopper} open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
@@ -631,17 +670,51 @@ export class TopNavbar extends React.Component {
                     )}
                 </Popper>
 
-                <Popover 
-                    open={this.props.showLogin} 
+                <Popover
+                    open={this.props.showLogin}
+                    anchorEl={anchorEl2}
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='login-window'>
+                        <Login />
+                    </div>
+                </Popover>
+
+                <Popover
+                    open={this.props.showSignup} 
                     anchorEl={anchorEl2} 
                     anchorReference="anchorPosition"
                     anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
                 >
-                    <div className='login-window'> 
-                      <Login /> 
+                    <div className='signup-window'> 
+                      <Signup /> 
                     </div>
-                    
                 </Popover>
+
+                <Popover
+                    open={this.props.showSignupEmail} 
+                    anchorEl={anchorEl2} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='signup-window'> 
+                      <Signup_Email /> 
+                    </div>
+                </Popover>
+                
+                <Popover
+                    open={this.props.showSignupDetail} 
+                    anchorEl={anchorEl2} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='signup-window'> 
+                      <Signup_Detail /> 
+                    </div>
+                </Popover>
+
+                
                 
             </div>
         );
@@ -687,14 +760,18 @@ export class TopNavbar extends React.Component {
         );
 
         let searchClass = ["search"];
+        let searchButtonClass = ["search-button"];
         if (this.state.expandSearchBar) {
             searchClass.push('open');
+            searchButtonClass.push('open');
         }
+
+        const searchBackgroundStyle = !this.state.expandSearchBar ? {} : { 'display': 'block' };
 
         return (
             <div className={classes.root}>
                 <MuiThemeProvider theme={muiLogoBarTheme}>
-                    <AppBar position="static">
+                    <AppBar position="static" className={classes.shadow}>
                         <Toolbar variant="dense">
                             <div className={classes.sectionMobile}>
                                 <IconButton
@@ -759,7 +836,10 @@ export class TopNavbar extends React.Component {
                                             color="primary"
                                             aria-label="Add"
                                             className={classes.signupButton}
-                                            onClick={() => { this.props.history.push('/signup/') }}
+                                            onClick={ 
+                                                //this.props.history.push('/signup/') 
+                                                this.handleSignupMenuOpen
+                                            }
                                         >
                                             <DepositIcon className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
@@ -776,7 +856,7 @@ export class TopNavbar extends React.Component {
                                             <PersonOutline className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.login" defaultMessage='Login' />
                                         </Fab>
-                                       
+
                                         {LangDropdown}
                                     </div>
                             }
@@ -801,54 +881,62 @@ export class TopNavbar extends React.Component {
                     </AppBar>
                 </MuiThemeProvider>
                 <MuiThemeProvider theme={muiMenuBarTheme}>
-                    <AppBar position="static">
+                    <AppBar position="static" className={classes.shadow}>
                         <Toolbar variant="dense">
                             <div className={classes.sectionDesktop}>
-                                <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
-                                    <SoccerIcon className="soccer" />
-                                    <span className="Sports">
-                                        <FormattedMessage id="nav.sports" defaultMessage='Sports' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
-                                    <BetIcon className="bet" />
-                                    <span className="Live-Casino">
-                                        <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
-                                    <SlotsIcon className="games-icon" />
-                                    <span className="Slots">
-                                        <FormattedMessage id="nav.slots" defaultMessage='Slots' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
-                                    <LotteryIcon className="lottery" />
-                                    <span className="Lottery">
-                                        <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
-                                    </span>
-                                </Button>
-                                <div className={searchClass.join(' ')}>
-                                    <div className="search-box">
-                                        <input type="search" className="search-input"
-                                            value={this.state.term}
-                                            onChange={event => { this.setState({ term: event.target.value }) }}
-                                            onKeyPress={event => {
-                                                if (event.key === 'Enter') {
-                                                    this.search()
-                                                }
-                                            }}
-                                            ref={this.search_focus}
-                                        />
-                                    </div>
-                                    <span className="search-button" onClick={this.handleSearch}>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
+                                        <SoccerIcon className="soccer" />
+                                        <span className="Sports">
+                                            <FormattedMessage id="nav.sports" defaultMessage='Sports' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
+                                        <BetIcon className="bet" />
+                                        <span className="Live-Casino">
+                                            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
+                                        <SlotsIcon className="games-icon" />
+                                        <span className="Slots">
+                                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
+                                        <LotteryIcon className="lottery" />
+                                        <span className="Lottery">
+                                            <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                            </div>
+
+                            <div className={classes.grow} />
+                            <ClickAwayListener onClickAway={this.handleClickAway}>
+                                <div className={classes.sectionDesktop}>
+                                    <span className={searchButtonClass.join(' ')} onClick={this.handleSearch}>
                                         <span className="search-icon"></span>
                                     </span>
+                                    <div className={searchClass.join(' ')} ref={this.searchDiv}>
+                                        <div className="search-box">
+                                            <div className="search-container">
+                                                <SearchBar onRef={actualChild => this.actualChild = actualChild} className={classes.grow} activeMenu={this.props.activeMenu} loaded={this.state.expandSearchBar}></SearchBar>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </ClickAwayListener>
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
+                <div className='overlay' style={searchBackgroundStyle}></div>
             </div >
         );
     }
@@ -860,7 +948,10 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
-        showLogin: state.general.show_login
+        showLogin: state.general.show_login,
+        showSignup: state.general.show_signup,
+        showSignupEmail: state.general.show_signup_email,
+        showSignupDetail: state.general.show_signup_detail
     }
 }
 
@@ -869,4 +960,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup })(TopNavbar))));

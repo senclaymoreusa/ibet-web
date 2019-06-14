@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { sports_type } from '../actions';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
-import axios from 'axios';
-import { config } from '../util_config';
 import { authCheckState } from '../actions';
 
 import Footer from "./footer";
 
 
 // Material-UI
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Fab from '@material-ui/core/Fab';
-import classNames from 'classnames';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
-import placeholdimage from '../images/handsomecat.jpg';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 
 const styles = theme => ({
