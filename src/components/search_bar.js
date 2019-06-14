@@ -182,24 +182,6 @@ class SearchResults extends React.Component {
     render() {
         return (
             <div>
-                <div className={this.props.classes.resultMenuTitle}>
-                    <FormattedMessage id="search.quick_link" defaultMessage='Quick Links' />
-                </div>
-                <MenuItem className={this.props.classes.resultMenuItem} key={1} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                    777 Deluxe
-                    <SVG className="playIcon" width={24} />
-                    <Typography className="play-text">Play game</Typography>
-                </MenuItem>
-                <MenuItem className={this.props.classes.resultMenuItem} key={2} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                    21 Wilds
-                    <SVG className="playIcon" width={24} />
-                    <Typography className="play-text">Play game</Typography>
-                </MenuItem>
-                <MenuItem className={this.props.classes.resultMenuItem} key={3} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                    Reign of Gnomes
-                    <SVG className="playIcon" width={24} />
-                    <Typography className="play-text">Play game</Typography>
-                </MenuItem>
                 {
                     this.props.results.length > 0 ?
                         <div>
@@ -245,6 +227,24 @@ class SearchResults extends React.Component {
                         </div>
                         : null
                 }
+                <div className={this.props.classes.resultMenuTitle}>
+                    <FormattedMessage id="search.quick_link" defaultMessage='Quick Links' />
+                </div>
+                <MenuItem className={this.props.classes.resultMenuItem} key={1} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                    777 Deluxe
+                    <SVG className="playIcon" width={24} />
+                    <Typography className="play-text">Play game</Typography>
+                </MenuItem>
+                <MenuItem className={this.props.classes.resultMenuItem} key={2} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                    21 Wilds
+                    <SVG className="playIcon" width={24} />
+                    <Typography className="play-text">Play game</Typography>
+                </MenuItem>
+                <MenuItem className={this.props.classes.resultMenuItem} key={3} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                    Reign of Gnomes
+                    <SVG className="playIcon" width={24} />
+                    <Typography className="play-text">Play game</Typography>
+                </MenuItem>
             </div >
         );
     }
@@ -266,19 +266,18 @@ export class SearchBar extends React.Component {
 
     }
 
-    // componentDidMount() {
-    //     this.props.innerRef(this);    }
-
-    // componentWillUnmount() {
-    //     this.props.onRef(undefined)
-    // }
+    componentDidMount() {
+        this.props.onRef(this);
+    }
 
     focusInput = () => {
         this.textInput.current.focus();
     }
 
     blurInput = () => {
-        this.textInput.current.blur();
+        this.textInput.current.blur();   
+        this.textInput.current.value = '';
+        this.state.results = [];  
     }
 
     getInfo = () => {
@@ -370,16 +369,7 @@ export class SearchBar extends React.Component {
                                                 focused: classes.inputInput,
                                             },
                                         }}
-                                        InputLabelProps={{ shrink: true }}
                                     />
-
-                                    {/* {renderInput({
-                                        fullWidth: true,
-                                        classes,
-                                        InputLabelProps: getLabelProps({ shrink: true }),
-                                        InputProps: { onBlur, onChange, onFocus },
-                                        inputProps,
-                                    })} */}
                                     <div {...getMenuProps()}>
                                         {isOpen ? (
                                             <Fade in={this.props.loaded} timeout={1700}>

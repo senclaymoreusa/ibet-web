@@ -12,7 +12,6 @@ import PersonOutline from '@material-ui/icons/PersonOutline';
 
 import { AUTH_RESULT_FAIL } from '../actions';
 
-
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
@@ -256,8 +255,9 @@ export class TopNavbar extends React.Component {
 
     constructor(props) {
         super(props);
-
         let langProperty = localStorage.getItem('lang');
+
+        this.searchDiv = React.createRef();
 
         this.state = {
             open: false,
@@ -282,8 +282,6 @@ export class TopNavbar extends React.Component {
             balance: 0.00,
             balanceCurrency: "USD",
 
-            showSearchResultPopper: false,
-
         };
 
         this.handleSearch = this.handleSearch.bind(this);
@@ -293,13 +291,15 @@ export class TopNavbar extends React.Component {
 
 
     handleSearch = () => {
+
+        if (!this.state.expandSearchBar)
+            this.actualChild.focusInput();
+        else {
+            this.actualChild.blurInput();
+        }
+       
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
 
-        if (this.refs.searchBarRef)
-            if (!this.state.expandSearchBar)
-                this.refs.searchBarRef.focusInput();
-            else
-                this.refs.searchBarRef.blurInput();
     }
 
     handleSubMenuToggle = (param) => {
@@ -397,11 +397,6 @@ export class TopNavbar extends React.Component {
                         })
                 }
             });
-
-    }
-
-    getCurrencySymbol(currnecy) {
-
     }
 
     toggleLanguageListItem = () => {
@@ -410,8 +405,8 @@ export class TopNavbar extends React.Component {
 
 
     handleClickAway = () => {
+        this.actualChild.blurInput();
         this.setState(state => ({ expandSearchBar: false }));
-        // this.search.blurInput();
     };
 
     render() {
@@ -474,10 +469,13 @@ export class TopNavbar extends React.Component {
         );
 
         let searchClass = ["search"];
-
+        let searchButtonClass = ["search-button"];
         if (this.state.expandSearchBar) {
             searchClass.push('open');
+            searchButtonClass.push('open');
         }
+
+        const searchBackgroundStyle = !this.state.expandSearchBar ? {} : { 'display': 'block' };
 
         return (
             <div className={classes.root}>
@@ -665,7 +663,6 @@ export class TopNavbar extends React.Component {
                     <AppBar position="static" className={classes.shadow}>
                         <Toolbar variant="dense">
                             <div className={classes.sectionDesktop}>
-
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
                                         <SoccerIcon className="soccer" />
@@ -698,22 +695,27 @@ export class TopNavbar extends React.Component {
                                         </span>
                                     </Button>
                                 </Fade>
-                                <ClickAwayListener onClickAway={this.handleClickAway}>
-                                    <div className={searchClass.join(' ')}>
+                            </div>
+
+                            <div className={classes.grow} />
+                            <ClickAwayListener onClickAway={this.handleClickAway}>
+                                <div className={classes.sectionDesktop}>
+                                    <span className={searchButtonClass.join(' ')} onClick={this.handleSearch}>
+                                        <span className="search-icon"></span>
+                                    </span>
+                                    <div className={searchClass.join(' ')} ref={this.searchDiv}>
                                         <div className="search-box">
                                             <div className="search-container">
-                                                <SearchBar ref="searchBarRef" className={classes.grow} activeMenu={this.props.activeMenu} loaded={this.state.expandSearchBar}></SearchBar>
+                                                <SearchBar onRef={actualChild => this.actualChild = actualChild} className={classes.grow} activeMenu={this.props.activeMenu} loaded={this.state.expandSearchBar}></SearchBar>
                                             </div>
                                         </div>
-                                        <span className="search-button" onClick={this.handleSearch}>
-                                            <span className="search-icon"></span>
-                                        </span>
                                     </div>
-                                </ClickAwayListener>
-                            </div>
+                                </div>
+                            </ClickAwayListener>
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
+                <div className='overlay' style={searchBackgroundStyle}></div>
             </div >
         );
     }
