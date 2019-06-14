@@ -263,8 +263,6 @@ export class Login extends React.Component {
                         <b> <FormattedMessage id="login.username" defaultMessage='Username: ' /> </b>
                     </div>
                     
-                    <br/>
-                    
                     <div style={{marginTop: 15}}> 
                         <TextField
                             id="outlined-adornment-password"

@@ -341,3 +341,39 @@ $out_transition: all 0.15s ease;
   font-size: 38px;
   margin-left: 15%;
 }
+
+.signup-window {
+  height: 600px;
+  width: 700px;
+  text-align: center;
+}
+
+.signup-title {
+  font-size: 16px;
+  text-align: '';
+  height: 52px;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: row;
+}
+
+.signup-top-message{
+  font-family: Gilroy;
+  font-size: 44px;
+  color: #212121;
+  font-weight: bold;
+}
+
+.signup-text {
+  font-size: 16px;
+  font-family: Gilroy;
+  color: #747175;
+}
+
+.facebook-button {
+  border: 1px solid #e4e4e4;
+  height: 48px;
+  width: 272px;
+  margin-left: 50px;
+}
+
