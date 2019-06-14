@@ -60,7 +60,6 @@ import '../css/top_navbar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-
 const styles = theme => ({
     root: {
         width: '100%',
@@ -276,6 +275,9 @@ const styles = theme => ({
     langPopper: {
         zIndex: 2002,
     },
+    profilePopper: {
+        zIndex: 2002,
+    },
     margin: {
         margin: 'auto',
     },
@@ -294,7 +296,6 @@ const styles = theme => ({
         },
     },
 });
-
 
 const muiLogoBarTheme = createMuiTheme({
     palette: {
@@ -331,6 +332,7 @@ export class TopNavbar extends React.Component {
         let langProperty = localStorage.getItem('lang');
 
         this.searchDiv = React.createRef();
+        this.profileRef = React.createRef();
 
         this.state = {
             open: false,
@@ -350,6 +352,7 @@ export class TopNavbar extends React.Component {
             picture: "",
             showLangMenu: false,
             show_loggedin_status: false,
+
 
             balance: 0.00,
             balanceCurrency: "USD",
@@ -375,19 +378,17 @@ export class TopNavbar extends React.Component {
         this.onInputChange_password = this.onInputChange_password.bind(this);
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
+        this.toggleSidePanel = this.toggleSidePanel.bind(this);
+
     }
 
-
     handleSearch = () => {
-
         if (!this.state.expandSearchBar)
             this.actualChild.focusInput();
-        else {
+        else
             this.actualChild.blurInput();
-        }
 
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
-
     }
 
     handleSubMenuToggle = (param) => {
@@ -412,8 +413,10 @@ export class TopNavbar extends React.Component {
         this.setState({ submenu });
     };
 
-    toggleSidePanel = (side, open) => () => {
+    toggleSidePanel(event, side, open) {
+        const { currentTarget } = event;
         this.setState({
+            anchorEl: currentTarget,
             [side]: open,
         });
     };
@@ -442,7 +445,10 @@ export class TopNavbar extends React.Component {
 
     handleLanguageMenuClose = (ev) => {
         this.setState({ showLangMenu: false });
+    };
 
+    handleProfileMenuClose = (ev) => {
+        this.setState({ showRightPanel: false });
     };
 
     changeLanguage = (lang) => {
@@ -580,14 +586,13 @@ export class TopNavbar extends React.Component {
         this.setState(state => ({ showLangListItems: !state.showLangListItems }));
     };
 
-
     handleClickAway = () => {
         this.actualChild.blurInput();
         this.setState(state => ({ expandSearchBar: false }));
     };
 
     render() {
-        const { anchorEl, showLangMenu, anchorEl2 } = this.state;
+        const { anchorEl, showLangMenu, anchorEl2, showRightPanel } = this.state;
         const { classes } = this.props;
 
         let countryCode = '';
@@ -615,46 +620,44 @@ export class TopNavbar extends React.Component {
                 <Popper className={classes.langPopper} open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <Paper id="menu-list-grow" className={classes.lang_menu_list}>
-                                    <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
-                                        <Menu>
-                                            <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
-                                                selected={this.props.lang === 'en'}
-                                                classes={{
-                                                    root: classes.lang_menu_list_item,
-                                                    selected: classes.lang_menu_list_item_selected
-                                                }}>
-                                                <Flag country="US" />
-                                                <div className={classes.lang_menu_list_item_text}>
-                                                    <FormattedMessage id="lang.english" defaultMessage='English' />
-                                                </div>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
-                                                selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
-                                                classes={{
-                                                    root: classes.lang_menu_list_item,
-                                                    selected: classes.lang_menu_list_item_selected
-                                                }}>
-                                                <Flag country="CN" />
-                                                <div className={classes.lang_menu_list_item_text}>
-                                                    <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
-                                                </div>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
-                                                selected={this.props.lang === 'fr'}
-                                                classes={{
-                                                    root: classes.lang_menu_list_item,
-                                                    selected: classes.lang_menu_list_item_selected
-                                                }}>
-                                                <Flag country="FR" />
-                                                <div className={classes.lang_menu_list_item_text}>
-                                                    <FormattedMessage id="lang.french" defaultMessage='French' />
-                                                </div>
-                                            </MenuItem>
-                                        </Menu>
-                                    </ClickAwayListener>
-                                </Paper>
+                            <Paper id="menu-list-grow" className={classes.lang_menu_list}>
+                                <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
+                                    <Menu>
+                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'en'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="US" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.english" defaultMessage='English' />
+                                            </div>
+                                        </MenuItem>
+                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="CN" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
+                                            </div>
+                                        </MenuItem>
+                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'fr'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="FR" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.french" defaultMessage='French' />
+                                            </div>
+                                        </MenuItem>
+                                    </Menu>
+                                </ClickAwayListener>
                             </Paper>
                         </Fade>
                     )}
@@ -734,15 +737,15 @@ export class TopNavbar extends React.Component {
                                     className={classes.mobileLeftMenuButton}
                                     color="inherit"
                                     aria-label="Open drawer"
-                                    onClick={this.toggleSidePanel('showLeftPanel', true)}>
+                                    onClick={(event) => { this.toggleSidePanel(event, 'showLeftPanel', true) }}>
                                     <MenuIcon />
                                 </IconButton>
-                                <Drawer open={this.state.showLeftPanel} onClose={this.toggleSidePanel('showLeftPanel', false)}>
+                                <Drawer open={this.state.showLeftPanel} onClose={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}>
                                     <div
                                         tabIndex={0}
                                         role="button"
-                                        onClick={this.toggleSidePanel('showLeftPanel', false)}
-                                        onKeyDown={this.toggleSidePanel('showLeftPanel', false)}
+                                        onClick={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}
+                                        onKeyDown={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}
                                     >
                                         {leftMobileSideList}
                                     </div>
@@ -768,10 +771,35 @@ export class TopNavbar extends React.Component {
                                             className={classes.menuButton}
                                             color="inherit"
                                             aria-label="Open drawer"
-                                            onClick={this.toggleSidePanel('showRightPanel', true)}>
+                                            onClick={(event) => { this.toggleSidePanel(event, 'showRightPanel', true) }}>
                                             <Person />
                                         </IconButton>
-                                        <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
+                                        <Popper open={this.state.showRightPanel} anchorEl={anchorEl} className={classes.profilePopper}
+                                            placement="top-start"
+                                            modifiers={{
+                                                flip: {
+                                                    enabled: true,
+                                                },
+                                                preventOverflow: {
+                                                    enabled: true,
+                                                    boundariesElement: 'scrollParent',
+                                                },
+                                                arrow: {
+                                                    enabled: true,
+                                                },
+                                            }}
+                                        >
+                                            {({ TransitionProps }) => (
+                                                <Fade {...TransitionProps} timeout={350}>
+                                                    <Paper>
+                                                        <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
+                                                            <AccountMenu />
+                                                        </ClickAwayListener>
+                                                    </Paper>
+                                                </Fade>
+                                            )}
+                                        </Popper>
+                                        {/* <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
                                             <div
                                                 tabIndex={0}
                                                 role="button"
@@ -780,7 +808,7 @@ export class TopNavbar extends React.Component {
                                             >
                                                 <AccountMenu />
                                             </div>
-                                        </Drawer>
+                                        </Drawer> */}
 
                                         {LangDropdown}
                                     </div>
@@ -814,21 +842,46 @@ export class TopNavbar extends React.Component {
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
-                                <IconButton
+                                 <IconButton
+                                    ref={this.profileRef}
                                     className={classes.mobileMenuButton}
                                     color="inherit"
                                     aria-label="Open drawer"
-                                    onClick={this.toggleSidePanel('showRightPanel', true)}>
+                                    onClick={(event) => { this.toggleSidePanel(event, 'showRightPanel', true) }}>
                                     <MoreIcon />
                                 </IconButton>
-                                <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
+                                <Popper open={this.state.showRightPanel} anchorEl={anchorEl} className={classes.profilePopper}
+                                    placement="top-start"
+                                    modifiers={{
+                                        flip: {
+                                            enabled: true,
+                                        },
+                                        preventOverflow: {
+                                            enabled: true,
+                                            boundariesElement: 'scrollParent',
+                                        },
+                                        arrow: {
+                                            enabled: true,
+                                            element: this.profileRef,
+                                        },
+                                    }}
+                                    transition>
+                                    {({ TransitionProps }) => (
+                                        <Fade {...TransitionProps} timeout={350}>
+                                            <Paper>
+                                                <AccountMenu />
+                                            </Paper>
+                                        </Fade>
+                                    )}
+                                </Popper>
+                                {/* <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
                                     <div
                                         tabIndex={0}
                                         role="button"
                                     >
                                         <AccountMenu />
                                     </div>
-                                </Drawer>
+                                </Drawer> */}
                             </div>
                         </Toolbar>
                     </AppBar>
