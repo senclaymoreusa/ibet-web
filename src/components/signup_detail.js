@@ -193,7 +193,7 @@ class Signup_Detail extends React.Component {
         var cur_year = today.getFullYear();
 
         if (event.target.value.length <= 4){
-            await this.setState({year: Number(event.target.value)});
+            await this.setState({year: event.target.value});
         }
         
         if (!(Number(cur_year) - 120 <= Number(this.state.year) &&  Number(this.state.year) <= Number(cur_year))){
