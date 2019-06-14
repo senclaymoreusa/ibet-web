@@ -18,6 +18,18 @@ export const messages = {
         'accountmenu.referral': 'Refer new user',
         'accountmenu.languages': 'Languages',
 
+        // footer message
+        'footer.terms_conditions': 'Terms and Conditions',
+        'footer.cookie_policy': 'Cookie Policy',
+        'footer.privacy_policy': 'Privacy Policy',
+        'footer.game_rules': 'Game Rules',
+        'footer.investory_relations': 'Investor Relations',
+        'footer.visit_gambler_anonymous': ' Visit Gamblers Anonymous',
+        'footer.visit_gamcare_newsroom': 'Visit GamCare Newsroom',
+        'footer.contact_support_title':'Contact Support',
+        'footer.contact_support_text':'Our friendly customer service team is on hand to answer any questions you may have 24 hours a day, 7 days a week.',
+        'footer.contact_support_email':'Contact us today at',
+        
         // handle home page message
         'home.title': 'Claymore',
         'home.subtitle': 'Local Library Home',
@@ -33,6 +45,11 @@ export const messages = {
         'home.recent': 'Recently Played',
         'home.new': 'New Games',
         'home.selected': 'Selected for you',
+
+        // language message
+        'lang.english': 'English',
+        'lang.chinese': 'Chinese',
+        'lang.french': 'French',
 
         // handle navigation page message
         'nav.title': 'Home',
@@ -70,8 +87,8 @@ export const messages = {
 
 
         // handle login page message
-        'login.username': 'Username: ',
-        'login.password': 'Password: ',
+        'login.username': 'USERNAME',
+        'login.password': 'PASSWORD',
         'login.or': 'Or',
         'login.login': 'Login',
         'login.signup': 'Signup',
@@ -81,8 +98,8 @@ export const messages = {
         'login.password_empty_error': 'Password cannot be empty',
         'login.option': 'Other login options',
         'login.one-click': 'Or try one-click signup',
-        'login.remember': 'Remember passowrd',
-        'login.notauser': 'Not a member? Signup for free',
+        'login.remember': 'Keep me logged in on this device',
+        'login.notauser': 'NOT A MEMBER? SIGNUP FOR FREE',
 
         // handle books page message
         'books.title': 'Book List',
@@ -211,6 +228,7 @@ export const messages = {
         'update_profile.state': 'State: ',
         'update_profile.submit': 'Submit',
         'update_profile.cancel': 'Cancel',
+        'update_profile.update_password': 'Change Password',
 
         // handle update email
         'update_email.success': 'You have successfully updated you email account',
@@ -292,6 +310,17 @@ export const messages = {
         'accountmenu.referral': '推荐新用户',
         'accountmenu.languages': '语言',
 
+        // footer message
+        'footer.terms_conditions': '条款和条件',
+        'footer.cookie_policy': 'Cookie政策',
+        'footer.privacy_policy': '隐私政策',
+        'footer.game_rules': '游戏规则',
+        'footer.investory_relations': '投资者关系',
+        'footer.visit_gambler_anonymous': '访问Gamblers Anonymous',
+        'footer.visit_gamcare_newsroom': '访问GamCare新闻室',
+        'footer.contact_support_title':'联系支持',
+        'footer.contact_support_text':'我们友好的客户服务团队随时为您解答一周7天，每天24小时的任何问题。',
+        'footer.contact_support_email':'立即联系我们',
 
         // handle home page message
         'home.title': '克萊摩爾',
@@ -308,6 +337,11 @@ export const messages = {
         'home.recent': '近期玩过',
         'home.new': '新游戏',
         'home.selected': '猜您喜欢',
+
+        // language message
+        'lang.english': '英语',
+        'lang.chinese': '簡體中文',
+        'lang.french': '法国',
 
         // handle navigation page message
         'nav.title': '首頁',
@@ -486,6 +520,7 @@ export const messages = {
         'update_profile.state': '州: ',
         'update_profile.submit': '提交表單',
         'update_profile.cancel': '取消',
+        'update_profile.update_password': '更改密码',
 
         // handle update email
         'update_email.success': '您已成功跟新您的邮箱地址',
@@ -568,6 +603,17 @@ export const messages = {
         'accountmenu.referral': 'Référer un nouvel utilisateur',
         'accountmenu.languages': 'Langues',
 
+        // footer message
+        'footer.terms_conditions': 'Termes et conditions',
+        'footer.cookie_policy': 'Politique de cookie',
+        'footer.privacy_policy': 'Politique de confidentialité',
+        'footer.game_rules': 'Regles du jeu',
+        'footer.investory_relations': 'Relations avec les investisseurs',
+        'footer.visit_gambler_anonymous': 'Visitez les joueurs anonymes',
+        'footer.visit_gamcare_newsroom': 'Visitez la salle de presse GamCare',
+        'footer.contact_support_title':'Contactez le support',
+        'footer.contact_support_text':'Notre sympathique équipe du service clientèle est à votre disposition pour répondre à toutes vos questions 24 heures sur 24, 7 jours sur 7.',
+        'footer.contact_support_email':'Contactez-nous aujourd\'hui',
 
         // handle home page message
         'home.title': 'Claymore',
@@ -581,9 +627,14 @@ export const messages = {
         'home.casino': 'Les jeux de casino les plus populaires',
         'home.poker': 'Jeu de poker le plus populaire',
         'home.expand': 'Voir tout',
-        'home.recent': 'joué récemment',
-        'home.new': 'nouveaux jeux',
+        'home.recent': 'Joué récemment',
+        'home.new': 'Nouveaux jeux',
         'home.selected': 'Sélectionné pour vous',
+
+        // language message
+        'lang.english': 'Anglais',
+        'lang.chinese': 'Chinois simplifié',
+        'lang.french': 'Français',
 
         // handle navigation page message
         'nav.title': 'Accueil',
@@ -631,7 +682,7 @@ export const messages = {
         'login.password_empty_error': 'Le mot de passe ne peut pas être vide',
         'login.option': 'Autres options de connexion',
         'login.one-click': "Ou essayez l'inscription en un clic",
-        'login.remember': 'se souvenir du mot de passe',
+        'login.remember': 'Me garder connecté sur cet appareil',
         'login.notauser': 'Pas un membre? Inscription gratuite',
 
         // handle books page message
@@ -760,6 +811,7 @@ export const messages = {
         'update_profile.state': 'Etat: ',
         'update_profile.submit': 'Soumettre',
         'update_profile.cancel': 'Annuler',
+        'update_profile.update_password': 'Changer le mot de passe',
 
         // handle update email
         'update_email.success': 'Vous avez mis à jour votre compte de messagerie avec succès',

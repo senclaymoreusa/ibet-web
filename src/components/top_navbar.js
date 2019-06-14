@@ -4,21 +4,24 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
 import PersonOutline from '@material-ui/icons/PersonOutline';
 
-import { AUTH_RESULT_FAIL } from '../actions';
-
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import blue from '@material-ui/core/colors/blue';
+
+import { errors } from './errors';
+
+
+import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -27,6 +30,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu';
 import Fab from '@material-ui/core/Fab';
+
+import Popper from '@material-ui/core/Popper';
+import Popover from '@material-ui/core/Popover';
+import Fade from '@material-ui/core/Fade';
+
+
+import Paper from '@material-ui/core/Paper';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -38,11 +49,7 @@ import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
 
-import Fade from '@material-ui/core/Fade';
-
-
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-
+import Login from './login_2.js';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -52,6 +59,7 @@ import SearchBar from './search_bar';
 import '../css/top_navbar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
 
 const styles = theme => ({
     root: {
@@ -219,7 +227,72 @@ const styles = theme => ({
     },
     langMenu: {
         zIndex: 5000
-    }
+    },
+    lang_button: {
+        marginTop: 8,
+        minWidth: 0
+    },
+    lang_menu_list: {
+        backgroundColor: '#ffffff',
+        color: 'black',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    lang_menu_list_item: {
+        border: '1px solid #ffffff',
+        "&:hover": {
+            borderRadius: 4,
+            border: '1px solid #868686',
+            backgroundColor: '#ffffff',
+        },
+    },
+    lang_menu_list_item_selected: {
+        borderRadius: 4,
+        border: '1px solid #000000',
+        backgroundColor: '#ffffff',
+
+    },
+    lang_menu_list_item_text: {
+        marginLeft: 10,
+        color: 'black',
+    },
+    footer: {
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingTop: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing.unit * 2,
+        marginTop: 20,
+        backgroundColor: '#212121',
+    },
+    footer_menu_container: {
+        display: 'inline',
+        marginTop: 20
+    },
+    lang_container: {
+        display: 'inline',
+        marginLeft: 0,
+
+    },
+    langPopper: {
+        zIndex: 2002,
+    },
+    margin: {
+        margin: 'auto',
+    },
+
+    textField: {
+        flexBasis: 200,
+        width: 300,
+        backgroundColor: '#ffffff;'
+    },
+
+    cssRoot: {
+        color: theme.palette.getContrastText(blue[300]),
+        backgroundColor: blue[300],
+        '&:hover': {
+            backgroundColor: blue[800],
+        },
+    },
 });
 
 
@@ -265,7 +338,6 @@ export class TopNavbar extends React.Component {
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
-            lang: langProperty ? langProperty : 'en',
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -276,17 +348,33 @@ export class TopNavbar extends React.Component {
             name: "",
             email: "",
             picture: "",
-
+            showLangMenu: false,
             show_loggedin_status: false,
 
             balance: 0.00,
             balanceCurrency: "USD",
+
+            anchorEl2: null,
+            username: '',
+            password: '',
+            showPassword: false,
+            button_disable: true,
+            check: false,
+
+            height: window.innerHeight,
+            width: window.innerWidth,
+
+            errorCode: '',
 
         };
 
         this.handleSearch = this.handleSearch.bind(this);
 
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.onInputChange_username = this.onInputChange_username.bind(this);
+        this.onInputChange_password = this.onInputChange_password.bind(this);
+        this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+        this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
     }
 
 
@@ -297,7 +385,7 @@ export class TopNavbar extends React.Component {
         else {
             this.actualChild.blurInput();
         }
-       
+
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
 
     }
@@ -332,6 +420,14 @@ export class TopNavbar extends React.Component {
 
     handleLanguageMenuOpen = event => {
         this.setState({ anchorEl: event.currentTarget });
+        this.setState({ showLangMenu: !this.state.showLangMenu });
+    };
+
+    handleLoginMenuOpen = event => {
+        this.setState({ anchorEl2: event.currentTarget });
+        this.setState({ username: '', password: '' })
+
+        this.props.show_login()
     };
 
     langMenuClicked = (event) => {
@@ -339,21 +435,20 @@ export class TopNavbar extends React.Component {
         this.setState({
             lang: event.currentTarget.dataset.myValue
         })
-        //console.log(this.state.lang)
+
         this.changeLanguage(event.currentTarget.dataset.myValue);
+        this.setState({ showLangMenu: false });
     }
 
     handleLanguageMenuClose = (ev) => {
-        this.setState({ anchorEl: null });
+        this.setState({ showLangMenu: false });
 
-        if (ev.nativeEvent.target.dataset.myValue)
-            this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
     };
 
     changeLanguage = (lang) => {
         this.props.setLanguage(lang)
             .then((res) => {
-                localStorage.setItem("lang", lang);
+                // localStorage.setItem("lang", lang);
             });
     };
 
@@ -366,7 +461,67 @@ export class TopNavbar extends React.Component {
         //this.setState({ term: '' });
     }
 
-    componentDidMount() {
+    onInputChange_username(event) {
+        if (event.target.value && this.state.password) {
+            this.setState({ button_disable: false })
+        } else {
+            this.setState({ button_disable: true })
+        }
+        this.setState({ username: event.target.value });
+    }
+
+    onInputChange_password(event) {
+        if (event.target.value && this.state.username) {
+            this.setState({ button_disable: false })
+        } else {
+            this.setState({ button_disable: true })
+        }
+        this.setState({ password: event.target.value });
+    }
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
+
+    onloginFormSubmit(event) {
+        event.preventDefault();
+
+        if (!this.state.username) {
+            this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
+        } else if (!this.state.password) {
+            this.setState({ errorCode: errors.PASSWORD_EMPTY_ERROR });
+        } else {
+            this.props.authLogin(this.state.username, this.state.password)
+                .then(() => {
+                    if (this.state.check) {
+                        localStorage.setItem('remember_username', this.state.username);
+                        localStorage.setItem('remember_password', this.state.password);
+                        localStorage.setItem('remember_check', 'checked')
+                    } else {
+                        localStorage.removeItem('remember_username');
+                        localStorage.removeItem('remember_password');
+                        localStorage.removeItem('remember_check');
+                    }
+                    this.props.history.push('/');
+                })
+                .catch(err => {
+                    this.setState({ errorCode: err });
+                });
+        }
+    }
+
+    onInputChange_checkbox = async (event) => {
+        await this.setState({ check: !this.state.check })
+    }
+
+    handleResize = e => {
+        this.setState({ height: window.innerHeight, width: window.innerWidth })
+    };
+
+    async componentDidMount() {
+
+        window.addEventListener("resize", this.handleResize);
+
         this.props.authCheckState()
             .then((res) => {
                 this.setState({ show_loggedin_status: true });
@@ -397,6 +552,28 @@ export class TopNavbar extends React.Component {
                         })
                 }
             });
+
+        const remember_check = localStorage.getItem('remember_check');
+        if (remember_check) {
+            await this.setState({ check: true })
+        }
+
+        const check = localStorage.getItem('one-click');
+        if (check) {
+            const username = localStorage.getItem('username');
+            const password = localStorage.getItem('password');
+            localStorage.removeItem('one-click');
+            localStorage.removeItem('username');
+            localStorage.removeItem('password');
+            this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+        } else {
+            const remember_check = localStorage.getItem('remember_check');
+            if (remember_check) {
+                const username = localStorage.getItem('remember_username');
+                const password = localStorage.getItem('remember_password');
+                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+            }
+        }
     }
 
     toggleLanguageListItem = () => {
@@ -410,15 +587,18 @@ export class TopNavbar extends React.Component {
     };
 
     render() {
+        const { anchorEl, showLangMenu, anchorEl2 } = this.state;
         const { classes } = this.props;
-        const { anchorEl } = this.state;
 
         let countryCode = '';
-        switch (this.state.lang) {
+        switch (this.props.lang) {
             case 'en':
                 countryCode = 'US';
                 break;
             case 'zh-hans':
+                countryCode = 'CN';
+                break;
+            case 'zh':
                 countryCode = 'CN';
                 break;
             case 'fr':
@@ -428,6 +608,73 @@ export class TopNavbar extends React.Component {
                 countryCode = 'US';
         }
         const langButtonIcon = (<Flag country={countryCode} />);
+
+        const LangDropdown = (
+            <div className={classes.lang_container}>
+                <Button className={classes.lang_button} onClick={this.handleLanguageMenuOpen}>{langButtonIcon}</Button>
+                <Popper className={classes.langPopper} open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <Paper id="menu-list-grow" className={classes.lang_menu_list}>
+                                    <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
+                                        <Menu>
+                                            <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
+                                                selected={this.props.lang === 'en'}
+                                                classes={{
+                                                    root: classes.lang_menu_list_item,
+                                                    selected: classes.lang_menu_list_item_selected
+                                                }}>
+                                                <Flag country="US" />
+                                                <div className={classes.lang_menu_list_item_text}>
+                                                    <FormattedMessage id="lang.english" defaultMessage='English' />
+                                                </div>
+                                            </MenuItem>
+                                            <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
+                                                selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
+                                                classes={{
+                                                    root: classes.lang_menu_list_item,
+                                                    selected: classes.lang_menu_list_item_selected
+                                                }}>
+                                                <Flag country="CN" />
+                                                <div className={classes.lang_menu_list_item_text}>
+                                                    <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
+                                                </div>
+                                            </MenuItem>
+                                            <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
+                                                selected={this.props.lang === 'fr'}
+                                                classes={{
+                                                    root: classes.lang_menu_list_item,
+                                                    selected: classes.lang_menu_list_item_selected
+                                                }}>
+                                                <Flag country="FR" />
+                                                <div className={classes.lang_menu_list_item_text}>
+                                                    <FormattedMessage id="lang.french" defaultMessage='French' />
+                                                </div>
+                                            </MenuItem>
+                                        </Menu>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popover
+                    open={this.props.showLogin}
+                    anchorEl={anchorEl2}
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='login-window'>
+                        <Login />
+                    </div>
+
+                </Popover>
+
+            </div>
+        );
+
 
         const leftMobileSideList = (
             <div className={classes.list}>
@@ -534,44 +781,8 @@ export class TopNavbar extends React.Component {
                                                 <AccountMenu />
                                             </div>
                                         </Drawer>
-                                        <IconButton
-                                            className={classes.menuButton}
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
-                                        >
-                                            {langButtonIcon}
-                                        </IconButton>
-                                        <Menu className={classes.langMenu}
-                                            value={this.state.lang}
-                                            onChange={this.langMenuClicked}
-                                            anchorEl={anchorEl}
-                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            open={Boolean(anchorEl)}
-                                        >
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'en'}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="US" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English">
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="CN" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
-                                                <Flag country="FR" />
-                                            </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                        </Menu>
+
+                                        {LangDropdown}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
@@ -592,51 +803,14 @@ export class TopNavbar extends React.Component {
                                             color="primary"
                                             aria-label="Add"
                                             className={classes.loginButton}
-                                            onClick={() => { this.props.history.push('/login/') }}
+                                            //onClick={() => { this.props.history.push('/login/') }}
+                                            onClick={this.handleLoginMenuOpen}
                                         >
                                             <PersonOutline className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.login" defaultMessage='Login' />
                                         </Fab>
-                                        <IconButton
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
-                                        >
-                                            {langButtonIcon}
-                                        </IconButton>
-                                        <Menu className={classes.langMenu}
-                                            value={this.state.lang}
-                                            onChange={this.langMenuClicked}
-                                            anchorEl={anchorEl}
-                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            open={Boolean(anchorEl)}
-                                            onClose={this.handleLanguageMenuClose}
-                                        >
-                                            <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="US" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="CN" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="FR" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                        </Menu>
 
+                                        {LangDropdown}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
@@ -727,11 +901,13 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
+        showLogin: state.general.show_login
     }
 }
 
 TopNavbar.propTypes = {
     classes: PropTypes.object.isRequired,
+    callback: PropTypes.func,
 };
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState })(TopNavbar)));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login })(TopNavbar))));

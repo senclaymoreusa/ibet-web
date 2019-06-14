@@ -328,3 +328,16 @@ $out_transition: all 0.15s ease;
 
    display: none; /* making it hidden by default */
 }
+.login-window {
+  margin-left: 30%;
+  margin-top: 5%;
+  height: 600px;
+  width: 700px;
+  overflow-y: hidden; 
+  overflow-x: hidden;
+}
+
+.login-title {
+  font-size: 38px;
+  margin-left: 15%;
+}

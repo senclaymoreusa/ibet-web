@@ -23,10 +23,10 @@ class App extends Component {
   }
 
   render() {
-    const { lang } = this.props; 
+    const { lang } = this.props;
     return (
       // <Provider store={this.store}>
-      <IntlProvider locale={lang} messages={messages[lang]}>
+      <IntlProvider locale={lang} messages={messages[lang]} >
         <Router>
           <BaseRouter />
         </Router>
@@ -40,7 +40,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      lang: state.language.lang,
+    lang: state.language.lang,
   }
 }
 

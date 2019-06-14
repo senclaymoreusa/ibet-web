@@ -9,6 +9,8 @@ import axios from 'axios';
 import { config } from '../util_config';
 import { authCheckState } from '../actions';
 
+import Footer from "./footer";
+
 
 // Material-UI
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -18,12 +20,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
-// import { ReactComponent as Black } from '../images/black-background.svg';
-// import { ReactComponent as Jack } from '../images/jackpot.svg';
-// import { ReactComponent as Table } from '../images/table-game.svg';
-// import { ReactComponent as Poker}  from '../images/poker.svg';
-// import { ReactComponent as Grey}  from '../images/grey.svg';
 
 import placeholdimage from '../images/handsomecat.jpg';
 
@@ -162,9 +158,10 @@ class Slot_Type extends Component {
         return (
             <div>
           
-                <TopNavbar activeMenu={'slots'}/>
+                   <div className={classes.root}>
+                    <TopNavbar activeMenu={'slots'}/>
 
-                <div className={classes.root}>
+            
                     <AppBar position="static" >
                         <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
                             <StyledTab 
@@ -550,6 +547,8 @@ class Slot_Type extends Component {
             </div> */}
 
           </div>
+
+          <Footer activeMenu={'slots'}/>
         </div>
       );
     }

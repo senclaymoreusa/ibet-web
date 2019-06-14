@@ -3,11 +3,13 @@ import { NavLink } from 'react-router-dom';
 import { live_casino_type } from '../actions';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import  TopNavbar from "./top_navbar";
+import TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../util_config';
 import { authCheckState } from '../actions';
+
+import Footer from "./footer";
 
 
 // Material-UI
@@ -32,55 +34,61 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     fab: {
-      width: '240px',
-      marginTop: '48px',
-      backgroundColor: '#ffffff;',
-      fontSize: '18px'
+        width: '240px',
+        marginTop: '48px',
+        backgroundColor: '#ffffff;',
+        fontSize: '18px'
     },
     extendedIcon: {
-      marginRight: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
     },
     root: {
-        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
         backgroundColor: theme.palette.background.paper,
-      },
-  });
+
+    },
+    grow: {
+        flexGrow: 1,
+    },
+});
 
 
 const StyledTabs = withStyles({
     indicator: {
-      display: "flex",
-      justifyContent: "center",
-      backgroundColor: "transparent",
-      "& > div": {
-        maxWidth: 100,
-        width: "100%",
-        backgroundColor: "white"
-      }
+        display: "flex",
+        justifyContent: "center",
+        backgroundColor: "transparent",
+        "& > div": {
+            maxWidth: 100,
+            width: "100%",
+            backgroundColor: "white"
+        }
     }
-  })(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
+})(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
 
-  const StyledTab = withStyles(theme => ({
+const StyledTab = withStyles(theme => ({
     root: {
-      textTransform: "uppercase",
-      color: "#fff",
-      margin: 'auto',
-      fontWeight: theme.typography.fontWeightRegular,
-      fontSize: theme.typography.pxToRem(15),
-      "&:focus": {
-        opacity: 1,
-      },
-      "&:hover": {
-        color: "white",
-        opacity: 1,
-        backgroundColor: 'black'
-      },
+        textTransform: "uppercase",
+        color: "#fff",
+        margin: 'auto',
+        fontWeight: theme.typography.fontWeightRegular,
+        fontSize: theme.typography.pxToRem(15),
+        "&:focus": {
+            opacity: 1,
+        },
+        "&:hover": {
+            color: "white",
+            opacity: 1,
+            backgroundColor: 'black'
+        },
     }
-  }))(props => <Tab disableRipple {...props} />);
+}))(props => <Tab disableRipple {...props} />);
 
 class LiveCasino_Type extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -93,7 +101,7 @@ class LiveCasino_Type extends Component {
             other_game: false,
 
             expand: false,
-    
+
             live_casino: [],
             all_live_casino: [],
 
@@ -108,7 +116,7 @@ class LiveCasino_Type extends Component {
     async componentDidMount() {
 
         this.props.authCheckState()
-        
+
         // var URL = API_URL + 'users/api/live_casino/?term=LiveCasino';
 
         // await axios.get(URL, config)
@@ -121,15 +129,15 @@ class LiveCasino_Type extends Component {
         this.setState({ ready: true })
     }
 
-    type_change(text){
+    type_change(text) {
         this.props.slot_type(text);
     }
 
-    handle_expand(){
-        this.setState({live_casino: this.state.all_live_casino,  expand: true})
+    handle_expand() {
+        this.setState({ live_casino: this.state.all_live_casino, expand: true })
     }
 
-    async handle_category_change(category){
+    async handle_category_change(category) {
         // var URL = API_URL + 'users/api/live_casino/?term=' + category
 
         // await axios.get(URL, config)
@@ -139,12 +147,12 @@ class LiveCasino_Type extends Component {
         // })
     }
 
-    handlechange(event, newValue){
-      this.setState({value: newValue})
-  }
-  
+    handlechange(event, newValue) {
+        this.setState({ value: newValue })
+    }
+
     async componentDidMount() {
-        
+
     }
 
 
@@ -164,63 +172,63 @@ class LiveCasino_Type extends Component {
         var recent_live_casino = JSON.parse(localStorage.getItem("recent-live-casino"));
 
         return (
-            <div>
-          
-                <TopNavbar activeMenu={'live-casino'}/>
+            
+            <div className={classes.root}>
 
-                <div className={classes.root}>
+                <TopNavbar activeMenu={'live-casino'} />
+
                     <AppBar position="static" >
-                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
-                            <StyledTab 
-                                style={{outline: 'none'}} 
+                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>
+                            <StyledTab
+                                style={{ outline: 'none' }}
                                 value="top-rated"
-                                label={topRatedMessage} 
+                                label={topRatedMessage}
                                 onClick={() => {
                                     this.handle_category_change('top-rated');
                                 }}
                             />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
+                            <StyledTab
+                                style={{ outline: 'none' }}
                                 label={newMessage}
-                                value="new" 
+                                value="new"
                                 onClick={() => {
                                     this.handle_category_change('new');
                                 }}
                             />
-                            <StyledTab 
-                                style={{outline: 'none'}} 
+                            <StyledTab
+                                style={{ outline: 'none' }}
                                 label={rouletteMessage}
                                 value="roulette"
                                 onClick={() => {
                                     this.handle_category_change('roulette');
                                 }}
                             />
-                            <StyledTab 
-                                style={{outline: 'none'}}
+                            <StyledTab
+                                style={{ outline: 'none' }}
                                 value="blackjack"
                                 label={blackjackMessage}
                                 onClick={() => {
                                     this.handle_category_change('blackjack');
                                 }}
                             />
-                             <StyledTab 
-                                style={{outline: 'none'}}
+                            <StyledTab
+                                style={{ outline: 'none' }}
                                 value="baccarat"
                                 label={baccaratMessage}
                                 onClick={() => {
                                     this.handle_category_change('baccarat');
                                 }}
                             />
-                             <StyledTab 
-                                style={{outline: 'none'}}
+                            <StyledTab
+                                style={{ outline: 'none' }}
                                 value="poker"
                                 label={pokerMessage}
                                 onClick={() => {
                                     this.handle_category_change('poker');
                                 }}
                             />
-                             <StyledTab 
-                                style={{outline: 'none'}}
+                            <StyledTab
+                                style={{ outline: 'none' }}
                                 value="tournaments"
                                 label={torunamentsMessage}
                                 onClick={() => {
@@ -230,11 +238,12 @@ class LiveCasino_Type extends Component {
 
                         </StyledTabs>
                     </AppBar>
-                </div>
-        
-        </div>
-      );
-    }
-  }
+                    <div className={classes.grow}></div>
 
-  export default withStyles(styles)(injectIntl(connect(null, {live_casino_type, authCheckState})(LiveCasino_Type)));
+   <Footer activeMenu={'live-casino'} />
+            </div>
+        );
+    }
+}
+
+export default withStyles(styles)(injectIntl(connect(null, { live_casino_type, authCheckState })(LiveCasino_Type)));

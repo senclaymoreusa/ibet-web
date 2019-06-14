@@ -44,7 +44,7 @@ const styles = theme => ({
 });
 
 export class Home extends Component {
-
+  
   state = {
     notices: [],
     sports: [],
