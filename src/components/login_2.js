@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl} from 'react-intl';
 import { errors } from './errors';
-import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login } from '../actions';
+import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login, show_signup } from '../actions';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
@@ -306,7 +306,8 @@ export class Login extends React.Component {
                     <div 
                         style={{cursor: 'pointer', marginTop: 20, fontFamily: 'Gilroy', color: '#747175'}}
                         onClick = {() => {
-                        this.props.history.push('/forget_password')
+                            this.props.hide_login()
+                            this.props.history.push('/forget_password')
                         }}
                     > 
                             <FormattedMessage id="login.forget_password" defaultMessage='Forgot Password?' />  
@@ -339,7 +340,8 @@ export class Login extends React.Component {
 
                 <div 
                     onClick={() => {
-                        this.props.history.push('/signup')
+                        this.props.hide_login();
+                        this.props.show_signup();
                     }}
                     style={{marginTop: 30, cursor: 'pointer', fontSize: 14, color: '#212121', marginLeft: 30}}
                 > 
@@ -365,4 +367,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_login})(Login))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_login, show_signup})(Login))));
