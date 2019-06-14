@@ -8,6 +8,7 @@ const INITIAL_STATE ={
     show_login: false,
     show_signup: false,
     show_signup_email: false,
+    show_signup_detail: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -36,6 +37,10 @@ export default (state = INITIAL_STATE, action) => {
         return {...state, show_signup_email: true}
       case 'HIDE_SIGNUP_EMAIL':
         return {...state, show_signup_email: false}
+      case 'SHOW_SIGNUP_DETAIL':
+        return {...state, show_signup_detail: true}
+      case 'HIDE_SIGNUP_DETAIL':
+        return {...state, show_signup_detail: false}
       default:
         return state;
     }

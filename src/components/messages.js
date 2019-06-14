@@ -222,6 +222,11 @@ export const messages = {
         'signup.email_message1': 'This will be used to log in.',
         'signup.email_message2': 'At least 8 characters.',
         'signup.strength': 'Password Strength:  ',
+        'signup.detail.personal': 'Personal Details',
+        'signup.detail.loginmessage': 'This is used to log in. Limit 15 characters',
+        'signup.detail.dob': 'DATE OF BIRTH',
+        'signup.detail.address': 'Address',
+        'signup.detail.usernametaken': 'This username is already in use',
 
         // handle update_profile page message
         'update_profile.username': 'Username: ',
@@ -525,6 +530,11 @@ export const messages = {
         'signup.email_message1': '这将会被用于登录.',
         'signup.email_message2': '最少8位数.',
         'signup.strength': '密码强度: ',
+        'signup.detail.personal': '个人信息',
+        'signup.detail.loginmessage': '这将被用来登录，最多为15个字符',
+        'signup.detail.dob': '出生日期',
+        'signup.detail.address': '地址',
+        'signup.detail.usernametaken': '此用户名已被注册',
 
         // handle update_profile page message
         'update_profile.username': '用戶名: ',
@@ -827,6 +837,11 @@ export const messages = {
         'signup.email_message1': 'Cela sera utilisé pour vous connecter.',
         'signup.email_message2': 'Au moins 8 caractères.',
         'signup.strength': 'Fiabilité du mot de passe: ',
+        'signup.detail.personal': 'Détails personnels',
+        'signup.detail.loginmessage': 'Ceci est utilisé pour se connecter. Limite de 15 caractères',
+        'signup.detail.dob': 'DATE DE NAISSANCE',
+        'signup.detail.address': 'Adresse',
+        'signup.detail.usernametaken': "Ce nom d'utilisateur est déjà utilis",
 
         // handle update_profile page message
         'update_profile.username': 'Nom d\'utilisateur: ',

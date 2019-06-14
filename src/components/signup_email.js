@@ -1,5 +1,5 @@
 import React from 'react';
-import { hide_signup_email } from '../actions';
+import { hide_signup_email, show_signup_detail } from '../actions';
 import { FormattedMessage, injectIntl} from 'react-intl';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { connect } from 'react-redux';
@@ -94,14 +94,13 @@ class Signup_Email extends React.Component {
 
         event.preventDefault();
 
-        console.log(this.state.button_disable)
-
         axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`, config)
         .then(res => {
             console.log(res.data)
             if (res.data !== 'Exist'){
                 this.setState({email_exist: false})
-                alert('Success')
+                this.props.hide_signup_email();
+                this.props.show_signup_detail();
             }else{
                 this.setState({email_exist: true})
             }
@@ -209,7 +208,6 @@ class Signup_Email extends React.Component {
                         disabled = {this.state.button_disable}
                         style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
                         type='submit'
-                        
                     > 
                         <div >  
                             Continue
@@ -229,4 +227,4 @@ class Signup_Email extends React.Component {
 }
 
 
-export default withStyles(styles)(connect(null, {hide_signup_email})(Signup_Email));
+export default withStyles(styles)(connect(null, {hide_signup_email, show_signup_detail})(Signup_Email));
