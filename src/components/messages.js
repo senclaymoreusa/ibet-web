@@ -167,6 +167,12 @@ export const messages = {
         'forget_password.confirm': 'Confirm',
         'forget_password.email_not_valid': 'Email does not exsit',
 
+        //searcbar message
+        'search.quick_link': 'Quick Links',
+        'search.entire_site': 'Entire Site',
+        'search.providers': 'Providers',
+        'search.slots': 'Slots',
+
         // handle signup page message
         'signup.username': 'Username: ',
         'signup.email': 'Email: ',
@@ -469,6 +475,12 @@ export const messages = {
         'forget_password.confirm': '確認',
         'forget_password.email_not_valid': '郵件不存在',
 
+        //searcbar message
+        'search.quick_link': '快速链接',
+        'search.entire_site': '整个网站',
+        'search.providers': '供应商',
+        'search.slots': '老虎机',
+
         // handle signup page message
         'signup.username': '用戶名: ',
         'signup.email': '郵箱: ',
@@ -769,6 +781,12 @@ export const messages = {
         'forget_password.mail': 'Email: ',
         'forget_password.confirm': 'Confirmer',
         'forget_password.email_not_valid': 'Email n\'existe pas',
+
+        //searcbar message
+        'search.quick_link': 'Liens rapides',
+        'search.entire_site': 'Site entier',
+        'search.providers': 'Fournisseuses',
+        'search.slots': 'Machines à sous',
 
         // handle signup page message
         'signup.username': 'Nom d\'utilisateur: ',
