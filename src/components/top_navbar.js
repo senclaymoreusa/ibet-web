@@ -21,7 +21,7 @@ import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -50,6 +50,9 @@ import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
 
 import Login from './login_2.js';
+import Signup from './signup_2.js';
+import Signup_Email from './signup_email'
+import Signup_Detail from './signup_detail'
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -433,6 +436,13 @@ export class TopNavbar extends React.Component {
         this.props.show_login()
     };
 
+    handleSignupMenuOpen = event => {
+        this.setState({ anchorEl2: event.currentTarget });
+        this.setState({ username: '', password: ''})
+
+        this.props.show_signup()
+    };
+
     langMenuClicked = (event) => {
         this.setState({ anchorEl: null });
         this.setState({
@@ -672,9 +682,43 @@ export class TopNavbar extends React.Component {
                     <div className='login-window'>
                         <Login />
                     </div>
-
                 </Popover>
 
+                <Popover
+                    open={this.props.showSignup} 
+                    anchorEl={anchorEl2} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='signup-window'> 
+                      <Signup /> 
+                    </div>
+                </Popover>
+
+                <Popover
+                    open={this.props.showSignupEmail} 
+                    anchorEl={anchorEl2} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='signup-window'> 
+                      <Signup_Email /> 
+                    </div>
+                </Popover>
+                
+                <Popover
+                    open={this.props.showSignupDetail} 
+                    anchorEl={anchorEl2} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='signup-window'> 
+                      <Signup_Detail /> 
+                    </div>
+                </Popover>
+
+                
+                
             </div>
         );
 
@@ -820,7 +864,10 @@ export class TopNavbar extends React.Component {
                                             color="primary"
                                             aria-label="Add"
                                             className={classes.signupButton}
-                                            onClick={() => { this.props.history.push('/signup/') }}
+                                            onClick={ 
+                                                //this.props.history.push('/signup/') 
+                                                this.handleSignupMenuOpen
+                                            }
                                         >
                                             <DepositIcon className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
@@ -954,7 +1001,10 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
-        showLogin: state.general.show_login
+        showLogin: state.general.show_login,
+        showSignup: state.general.show_signup,
+        showSignupEmail: state.general.show_signup_email,
+        showSignupDetail: state.general.show_signup_detail
     }
 }
 
@@ -963,4 +1013,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup })(TopNavbar))));
