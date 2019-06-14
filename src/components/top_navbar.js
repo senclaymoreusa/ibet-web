@@ -51,6 +51,7 @@ import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
 import Login from './login_2.js';
 import Signup from './signup_2.js';
 import Signup_Email from './signup_email'
+import Signup_Detail from './signup_detail'
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -672,6 +673,19 @@ export class TopNavbar extends React.Component {
                       <Signup_Email /> 
                     </div>
                 </Popover>
+
+                <Popover
+                    open={this.props.showSignupDetail} 
+                    anchorEl={anchorEl2} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='signup-window'> 
+                      <Signup_Detail /> 
+                    </div>
+                </Popover>
+
+                
                 
             </div>
         );
@@ -896,6 +910,7 @@ const mapStateToProps = (state) => {
         showLogin: state.general.show_login,
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,
+        showSignupDetail: state.general.show_signup_detail
     }
 }
 

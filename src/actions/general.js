@@ -75,3 +75,16 @@ export const hide_signup_email = () => {
     type: 'HIDE_SIGNUP_EMAIL'
   }
 }
+
+export const show_signup_detail = () => {
+  return {
+    type: 'SHOW_SIGNUP_DETAIL'
+  }
+}
+
+export const hide_signup_detail = () => {
+  return {
+    type: 'HIDE_SIGNUP_DETAIL'
+  }
+}
+
