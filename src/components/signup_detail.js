@@ -193,14 +193,15 @@ class Signup_Detail extends React.Component {
         var cur_year = today.getFullYear();
 
         if (event.target.value.length <= 4){
-            await this.setState({year: event.target.value});
+            await this.setState({year: Number(event.target.value)});
         }
         
-        if (!(Number(cur_year) - 120 <= Number(this.state.year) <= Number(cur_year))){
+        if (!(Number(cur_year) - 120 <= Number(this.state.year) &&  Number(this.state.year) <= Number(cur_year))){
           this.setState({live_check_dob: true, button_disable: true,})
         }else{
           this.setState({live_check_dob: false})
         }
+        
         this.check_button_disable()
     }
 
@@ -255,7 +256,8 @@ class Signup_Detail extends React.Component {
     }
 
     check_button_disable(){
-        if(!this.state.live_check_username && !this.state.live_check_firstname && !this.state.live_check_lastname && !this.state.live_check_dob && !this.state.live_check_city && !this.state.live_check_state && !this.state.live_check_zipcode){
+        if(this.state.username && this.state.first_name && this.state.last_name && this.state.zipcode && this.state.country && this.state.year && this.state.day && this.state.month && this.state.city &&
+            !this.state.live_check_username && !this.state.live_check_firstname && !this.state.live_check_lastname && !this.state.live_check_dob && !this.state.live_check_city && !this.state.live_check_state && !this.state.live_check_zipcode){
             this.setState({button_disable: false})
         }
     }
@@ -269,6 +271,7 @@ class Signup_Detail extends React.Component {
                 this.setState({username_error: true})
             }
             else{
+                this.setState({username_error: false})
                 alert('success')
             }
         })
