@@ -27,7 +27,7 @@ class Signup extends React.Component {
                     </div>
 
                     <Close 
-                        style={{cursor: 'pointer', marginLeft: 250, marginTop: 15}}
+                        style={{cursor: 'pointer', marginLeft: 250, marginTop: 5, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_signup()
                         }}

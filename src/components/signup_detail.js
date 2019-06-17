@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import TextField from '@material-ui/core/TextField';
-import { hide_signup_detail } from '../actions';
+import { hide_signup_detail, show_signup_email, show_signup_contact } from '../actions';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
+import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 import { withStyles } from '@material-ui/core/styles';
 
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+
 import InputBase from '@material-ui/core/InputBase';
 
 import { getNames } from 'country-list';
@@ -25,11 +24,15 @@ const styles = theme => ({
     },
 
     textField: {
-      width: 300,
+      width: 530,
+    },
+
+    textField2: {
+      width: 240,
     },
 
     textFieldDOB:{
-        width: 38,
+        width: 70,
     },
 
     menu: {
@@ -256,8 +259,8 @@ class Signup_Detail extends React.Component {
     }
 
     check_button_disable(){
-        if(this.state.username && this.state.first_name && this.state.last_name && this.state.zipcode && this.state.country && this.state.year && this.state.day && this.state.month && this.state.city &&
-            !this.state.live_check_username && !this.state.live_check_firstname && !this.state.live_check_lastname && !this.state.live_check_dob && !this.state.live_check_city && !this.state.live_check_state && !this.state.live_check_zipcode){
+        if(this.state.username && this.state.first_name && this.state.last_name && this.state.year && this.state.day && this.state.month &&
+            !this.state.live_check_username && !this.state.live_check_firstname && !this.state.live_check_lastname && !this.state.live_check_dob){
             this.setState({button_disable: false})
         }
     }
@@ -271,12 +274,12 @@ class Signup_Detail extends React.Component {
                 this.setState({username_error: true})
             }
             else{
-                this.setState({username_error: false})
-                alert('success')
+                this.setState({username_error: false});
+                this.props.hide_signup_detail();
+                this.props.show_signup_contact();
             }
         })
     }
-
 
 
     render(){
@@ -287,12 +290,21 @@ class Signup_Detail extends React.Component {
             <div> 
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <div className='signup-title'>     
-                        <div style={{marginLeft: 330 , marginTop: 15}}> 
+
+                        <Back 
+                            style={{cursor: 'pointer', marginTop: 12, marginLeft: 30, height: 25, width: 15}}
+                            onClick = { () => {
+                                this.props.hide_signup_detail();
+                                this.props.show_signup_email();
+                            }}
+                        />
+
+                        <div style={{marginLeft: 270 , marginTop: 15}}> 
                             <FormattedMessage  id="login.signup" defaultMessage='Signup' />
                         </div>
 
                         <Close 
-                            style={{cursor: 'pointer', marginLeft: 250, marginTop: 15}}
+                            style={{cursor: 'pointer', marginLeft: 270, marginTop: 5, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_detail();
                             }}
@@ -300,10 +312,10 @@ class Signup_Detail extends React.Component {
                     </div>
 
                     <div style={{marginTop: 30}}>
-                        <span style={{color: '#e4e4e4'}} > __________  1 </span>  <span style={{fontWeight: 600}}> __________  2 </span >  <span style={{color: '#e4e4e4'}}> __________ 3 </span>
+                        <span style={{color: '#e4e4e4'}} > ____________________  1 </span>  <span style={{fontWeight: 600}}> ____________________  2 </span >  <span style={{color: '#e4e4e4'}}> ____________________ 3 </span>
                     </div>
 
-                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20}}> 
+                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, paddingRight: 345}}> 
                         <FormattedMessage  id="signup.detail.personal" defaultMessage='Personal Details' />
                     </div>
 
@@ -324,158 +336,81 @@ class Signup_Detail extends React.Component {
                     
                     {this.state.username_error && <div style={{color: 'red'}}> <FormattedMessage  id="signup.detail.usernametaken" defaultMessage='This username is already in use' /> </div>}
 
-                    <div style={{color: '#e4e4e4', fontSize: 15}}> 
+                    <div style={{color: '#747175', fontSize: 15, paddingRight: 260}}> 
                         <FormattedMessage  id="signup.detail.loginmessage" defaultMessage='This is used to log in. Limit 15 characters' />
                     </div>
 
-                    <div> 
-                        <TextField
-                            id="standard-name"
-                            label="FIRST NAME"
-                            className={classes.textField}
-                            type="username"
-                            margin="normal"
-                            variant="outlined"
-                            onChange={this.onInputChange_first_name.bind(this)}
-                        />
+                    <div className='row' style={{marginLeft: 85}}> 
+
+                        <div> 
+                            <TextField
+                                id="standard-name"
+                                label="FIRST NAME"
+                                className={classes.textField2}
+                                type="username"
+                                margin="normal"
+                                variant="outlined"
+                                onChange={this.onInputChange_first_name.bind(this)}
+                            />
+
+                            {this.state.live_check_firstname && <div style={{color: 'red'}}> <FormattedMessage  id="error.firstname" defaultMessage='First name not valid' /> </div>}
+                        </div>
+
+                        <div style={{marginLeft: 47}}> 
+                            <TextField
+                                label="LAST NAME"
+                                className={classes.textField2}
+                                type="username"
+                                margin="normal"
+                                variant="outlined"
+                                onChange={this.onInputChange_last_name.bind(this)}
+                            />
+
+                            {this.state.live_check_lastname && <div style={{color: 'red'}}> <FormattedMessage  id="error.lastname" defaultMessage='Last name not valid' /> </div>}
+                        </div>
+
                     </div>
 
-                    {this.state.live_check_firstname && <div style={{color: 'red'}}> <FormattedMessage  id="error.firstname" defaultMessage='First name not valid' /> </div>}
-
-                    <div> 
-                        <TextField
-                            label="LAST NAME"
-                            className={classes.textField}
-                            type="username"
-                            margin="normal"
-                            variant="outlined"
-                            onChange={this.onInputChange_last_name.bind(this)}
-                        />
-                    </div>
-
-                    {this.state.live_check_lastname && <div style={{color: 'red'}}> <FormattedMessage  id="error.lastname" defaultMessage='Last name not valid' /> </div>}
- 
-                    <div style={{ fontSize: 15, fontWeight: 300}}> 
+                    <div style={{ fontSize: 15, fontWeight: 600, paddingRight: 420, marginTop: 30}}> 
                         <FormattedMessage  id="signup.detail.dob" defaultMessage='DATE OF BIRTH' />
                     </div>
 
-                    <TextField
-                        className={classes.textFieldDOB}
-                        label="MM"
-                        type="username"
-                        margin="normal"
-                        onChange={this.onInputChange_month.bind(this)}
-                        value={this.state.month}
-                    />
+                    <div style={{paddingRight: 280}}> 
 
-                    <TextField
-                        className={classes.textFieldDOB}
-                        label="DD"
-                        type="username"
-                        margin="normal"
-                        onChange={this.onInputChange_day.bind(this)}
-                        style={{marginLeft: 20}}
-                        inputRef={this.textInput_1}
-                        value={this.state.day}
-                    />
+                        <TextField
+                            className={classes.textFieldDOB}
+                            label="MM"
+                            type="username"
+                            margin="normal"
+                            onChange={this.onInputChange_month.bind(this)}
+                            value={this.state.month}
+                        />
 
-                    <TextField
-                        className={classes.textFieldDOB}
-                        label="YYYY"
-                        type="username"
-                        margin="normal"
-                        onChange={this.onInputChange_year.bind(this)}
-                        style={{marginLeft: 20}}
-                        inputRef={this.textInput_2}
-                        value={this.state.year}
-                    />
+                        <TextField
+                            className={classes.textFieldDOB}
+                            label="DD"
+                            type="username"
+                            margin="normal"
+                            onChange={this.onInputChange_day.bind(this)}
+                            style={{marginLeft: 20}}
+                            inputRef={this.textInput_1}
+                            value={this.state.day}
+                        />
 
-                    {this.state.live_check_dob && <div style={{color: 'red'}}> <FormattedMessage  id="error.dateofbirth" defaultMessage='Date of birth not valid' /> </div>}
+                        <TextField
+                            className={classes.textFieldDOB}
+                            label="YYYY"
+                            type="username"
+                            margin="normal"
+                            onChange={this.onInputChange_year.bind(this)}
+                            style={{marginLeft: 20}}
+                            inputRef={this.textInput_2}
+                            value={this.state.year}
+                        />
 
-                    <div style={{ fontSize: 25, fontWeight: 600, color: 'red', marginTop: 30}}> 
-                        <FormattedMessage  id="signup.detail.address" defaultMessage='Address' />
+                        {this.state.live_check_dob && <div style={{color: 'red'}}> <FormattedMessage  id="error.dateofbirth" defaultMessage='Date of birth not valid' /> </div>}
+
                     </div>
-
-                    <div style={{color: '#e4e4e4'}}>
-                        __________________________________________________________________
-                    </div>
-
-                    <FormControl className={classes.margin}>
-                        <Select
-                            value={this.state.country}
-                            onChange={this.onInputChange_country.bind(this)}
-                            input={<BootstrapInput name="country" id="country-customized-select" />}
-                        >
-                            {this.state.all_country_name.map(name => (
-                            <MenuItem key={name} value={name} >
-                            {name}
-                            </MenuItem>
-                        ))}
-                        </Select>
-                    </FormControl>
-
-                    <br/>
-
-                    <TextField
-                        className={classes.textField}
-                        label="ADDRESS LINE 1"
-                        margin="normal"
-                        onChange={this.onInputChange_street_address_1.bind(this)}
-                        value={this.state.street_address_1}
-                        variant="outlined"
-                    />
-
-                    <br/>
-
-                    <TextField
-                        className={classes.textField}
-                        label="ADDRESS LINE 2"
-                        margin="normal"
-                        onChange={this.onInputChange_street_address_2.bind(this)}
-                        value={this.state.street_address_2}
-                        variant="outlined"
-                    />
-
-                    <br/>
-
-                    <TextField
-                        className={classes.textField}
-                        label="CITY"
-                        margin="normal"
-                        onChange={this.onInputChange_city.bind(this)}
-                        value={this.state.city}
-                        variant="outlined"
-                    />
-
-                    {this.state.live_check_city && <div style={{color: 'red'}}> <FormattedMessage  id="error.city" defaultMessage='City not valid' /> </div>}
-
-                    <br/>
-
-                    <TextField
-                        className={classes.textField}
-                        label="STATE"
-                        margin="normal"
-                        onChange={this.onInputChange_state.bind(this)}
-                        value={this.state.state}
-                        variant="outlined"
-                    />
-
-                    {this.state.live_check_state && <div style={{color: 'red'}}> <FormattedMessage  id="error.state" defaultMessage='State not valid' /> </div>}  
-
-                    <br/>
-
-                    <TextField
-                        className={classes.textField}
-                        label="ZIPCODE"
-                        margin="normal"
-                        onChange={this.onInputChange_zipcode.bind(this)}
-                        value={this.state.zipcode}
-                        variant="outlined"
-                    />
-
-                    {this.state.live_check_zipcode && <div style={{color: 'red'}}> <FormattedMessage  id="error.zipcode" defaultMessage='Zipcode not valid' /> </div>}
-
-                    <br />
 
                     <button 
                         disabled = {this.state.button_disable}
@@ -492,4 +427,4 @@ class Signup_Detail extends React.Component {
     }
 }
 
-export default withStyles(styles)(connect(null,{ hide_signup_detail })(Signup_Detail));
+export default withStyles(styles)(connect(null,{ hide_signup_detail, show_signup_email, show_signup_contact })(Signup_Detail));
