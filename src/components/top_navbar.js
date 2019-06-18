@@ -51,8 +51,9 @@ import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
 
 import Login from './login_2.js';
 import Signup from './signup_2.js';
-import Signup_Email from './signup_email'
-import Signup_Detail from './signup_detail'
+import Signup_Email from './signup_email';
+import Signup_Detail from './signup_detail';
+import Signup_Contact from './signup_contact';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -357,7 +358,6 @@ export class TopNavbar extends React.Component {
             balance: 0.00,
             balanceCurrency: "USD",
 
-            anchorEl2: null,
             username: '',
             password: '',
             showPassword: false,
@@ -427,16 +427,12 @@ export class TopNavbar extends React.Component {
     };
 
     handleLoginMenuOpen = event => {
-        this.setState({ anchorEl2: event.currentTarget });
         this.setState({ username: '', password: '' })
-
         this.props.show_login()
     };
 
     handleSignupMenuOpen = event => {
-        this.setState({ anchorEl2: event.currentTarget });
         this.setState({ username: '', password: ''})
-
         this.props.show_signup()
     };
 
@@ -597,7 +593,7 @@ export class TopNavbar extends React.Component {
     };
 
     render() {
-        const { anchorEl, showLangMenu, anchorEl2 } = this.state;
+        const { anchorEl, showLangMenu } = this.state;
         const { classes } = this.props;
 
         let countryCode = '';
@@ -672,7 +668,6 @@ export class TopNavbar extends React.Component {
 
                 <Popover
                     open={this.props.showLogin}
-                    anchorEl={anchorEl2}
                     anchorReference="anchorPosition"
                     anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
                 >
@@ -683,7 +678,6 @@ export class TopNavbar extends React.Component {
 
                 <Popover
                     open={this.props.showSignup} 
-                    anchorEl={anchorEl2} 
                     anchorReference="anchorPosition"
                     anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
                 >
@@ -694,7 +688,6 @@ export class TopNavbar extends React.Component {
 
                 <Popover
                     open={this.props.showSignupEmail} 
-                    anchorEl={anchorEl2} 
                     anchorReference="anchorPosition"
                     anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
                 >
@@ -705,7 +698,6 @@ export class TopNavbar extends React.Component {
                 
                 <Popover
                     open={this.props.showSignupDetail} 
-                    anchorEl={anchorEl2} 
                     anchorReference="anchorPosition"
                     anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
                 >
@@ -714,8 +706,15 @@ export class TopNavbar extends React.Component {
                     </div>
                 </Popover>
 
-                
-                
+                <Popover
+                    open={this.props.showSignupContact} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='signup-window'> 
+                      <Signup_Contact /> 
+                    </div>
+                </Popover>
             </div>
         );
 
@@ -951,7 +950,8 @@ const mapStateToProps = (state) => {
         showLogin: state.general.show_login,
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,
-        showSignupDetail: state.general.show_signup_detail
+        showSignupDetail: state.general.show_signup_detail,
+        showSignupContact: state.general.show_signup_contact
     }
 }
 
