@@ -18,19 +18,9 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-
     textField: {
       width: 530,
-    },
-
-    menu: {
-      width: 200,
-    },
-
+    }
 });
 
 class Signup_Email extends React.Component {
@@ -97,7 +87,6 @@ class Signup_Email extends React.Component {
 
         axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`, config)
         .then(res => {
-            console.log(res.data)
             if (res.data !== 'Exist'){
                 this.setState({email_exist: false})
                 this.props.hide_signup_email();

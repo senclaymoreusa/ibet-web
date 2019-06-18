@@ -100,3 +100,14 @@ export const hide_signup_contact = () => {
   }
 }
 
+export const show_signup_phone = () => {
+  return {
+    type: 'SHOW_SIGNUP_PHONE'
+  }
+}
+
+export const hide_signup_phone = () => {
+  return {
+    type: 'HIDE_SIGNUP_PHONE'
+  }
+}

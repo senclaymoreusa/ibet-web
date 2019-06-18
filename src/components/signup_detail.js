@@ -3,13 +3,10 @@ import { connect } from 'react-redux';
 import axios from 'axios'
 import TextField from '@material-ui/core/TextField';
 import { hide_signup_detail, show_signup_email, show_signup_contact } from '../actions';
-import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 import { withStyles } from '@material-ui/core/styles';
-
-
-import InputBase from '@material-ui/core/InputBase';
 
 import { getNames } from 'country-list';
 
@@ -18,11 +15,6 @@ import { config } from "../util_config";
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-
     textField: {
       width: 530,
     },
@@ -33,49 +25,8 @@ const styles = theme => ({
 
     textFieldDOB:{
         width: 70,
-    },
-
-    menu: {
-      width: 200,
-    },
-
+    }
 });
-
-const BootstrapInput = withStyles(theme => ({
-    root: {
-      'label + &': {
-        marginTop: theme.spacing.unit * 3,
-      },
-    },
-    input: {
-      borderRadius: 4,
-      position: 'relative',
-      backgroundColor: theme.palette.background.paper,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      width: 200,
-      padding: '10px 26px 10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
-  
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
-        borderRadius: 4,
-        borderColor: '#80bdff',
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-      },
-    },
-  }))(InputBase);
   
 
 class Signup_Detail extends React.Component {

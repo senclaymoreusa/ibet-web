@@ -54,6 +54,7 @@ import Signup from './signup_2.js';
 import Signup_Email from './signup_email';
 import Signup_Detail from './signup_detail';
 import Signup_Contact from './signup_contact';
+import Signup_Phone from './signup_phone';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -715,6 +716,17 @@ export class TopNavbar extends React.Component {
                       <Signup_Contact /> 
                     </div>
                 </Popover>
+
+                <Popover
+                    open={this.props.showSignupPhone} 
+                    anchorReference="anchorPosition"
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                >
+                    <div className='signup-window'> 
+                      <Signup_Phone /> 
+                    </div>
+                </Popover>
+
             </div>
         );
 
@@ -951,7 +963,8 @@ const mapStateToProps = (state) => {
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,
         showSignupDetail: state.general.show_signup_detail,
-        showSignupContact: state.general.show_signup_contact
+        showSignupContact: state.general.show_signup_contact,
+        showSignupPhone: state.general.show_signup_phone
     }
 }
 

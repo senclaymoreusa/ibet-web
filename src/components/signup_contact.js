@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { show_signup_contact, hide_signup_contact, show_signup_detail } from '../actions';
+import { show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone } from '../actions';
 import axios from 'axios'
 import { getNames } from 'country-list';
 import { FormattedMessage } from 'react-intl';
@@ -17,11 +17,6 @@ import InputBase from '@material-ui/core/InputBase';
 
 
 const styles = theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-
     textField: {
       width: 530,
     },
@@ -36,11 +31,7 @@ const styles = theme => ({
 
     textFieldDOB:{
         width: 70,
-    },
-
-    menu: {
-      width: 200,
-    },
+    }
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -153,7 +144,8 @@ class Signup_Contact extends React.Component {
     onFormSubmit(event){
         event.preventDefault();
 
-        alert('Success')
+        this.props.hide_signup_contact();
+        this.props.show_signup_phone();
 
     }
 
@@ -264,7 +256,7 @@ class Signup_Contact extends React.Component {
                         type='submit'
                     > 
                         <div >  
-                            Register
+                            Continue
                         </div>
                     </button>
 
@@ -275,4 +267,4 @@ class Signup_Contact extends React.Component {
     }
 }
 
-export default withStyles(styles)(connect(null,{ show_signup_contact, hide_signup_contact, show_signup_detail })(Signup_Contact));
+export default withStyles(styles)(connect(null,{ show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone })(Signup_Contact));
