@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl} from 'react-intl';
-import axios from 'axios'
-import { withRouter } from 'react-router-dom';
 import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_signup, show_signup_email} from '../actions';
 import IoSocialFacebook from 'react-icons/lib/io/social-facebook';
 import IoSocialTwitter from  'react-icons/lib/io/social-twitter';
@@ -114,8 +112,6 @@ class Signup extends React.Component {
         )
     }
 }
-
-
 
 export default connect(null, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_signup, show_signup_email})(Signup);
 
