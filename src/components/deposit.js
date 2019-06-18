@@ -59,6 +59,7 @@ class Deposit extends Component {
           live_check_amount: false,
           button_disable: true,
         };
+
         this.onInputChange_balance = this.onInputChange_balance.bind(this);
         //this.addBalance          = this.addBalance.bind(this);
     }
@@ -76,12 +77,12 @@ class Deposit extends Component {
 
     }
     onInputChange_balance(event){
-        if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
-            this.setState({balance: event.target.value}); 
+        if (!event.target.value || event.target.value.match(/^[0-9.]+$/)) {
+            this.setState({amount: event.target.value}); 
 
             if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
                 this.setState({live_check_amount: true, button_disable: true})
-            }else{
+            } else {
                 this.setState({live_check_amount: false, button_disable: false})
             }
         }
@@ -121,7 +122,6 @@ class Deposit extends Component {
                             </b>
                         </label>
                     </div>
-                    
                     <TextField
                         className={classNames(classes.margin, classes.textField)}
                         variant="outlined"
@@ -139,10 +139,8 @@ class Deposit extends Component {
                             <br />
                         </div>
                     }
-                    <div className='paypal-button'  >
-                    
+                    <div className='paypal-button'>
                         <PayPalButton  
-                            
                             createOrder={function() {
                                 var postData = {
                                     "amount": amount,
@@ -223,7 +221,6 @@ class Deposit extends Component {
                                         
                                 });
                             }}
-                            
                             options={{
                                 clientId: CLIENT.sandbox
                             }}

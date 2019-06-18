@@ -33,7 +33,9 @@ import TermsConditions from './components/policy/terms_conditions'
 import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password'
-import OrionTest from './components/orion'
+import DepositPage from "./components/deposit_2"
+
+// import OrionTest from './components/orion'
 const divStyle = {
   minHeight: '100%',
 };
@@ -74,7 +76,8 @@ const BaseRouter = () => (
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
     <Route exact path="/change_password/" component={Change_Password} />
-    <Route exact path="/orion/test/" component={OrionTest} />
+    <Route exact path="/deposit/test/" component={DepositPage} />
+    {/* <Route exact path="/orion/test/" component={OrionTest} /> */}
   </div>
 );
 
