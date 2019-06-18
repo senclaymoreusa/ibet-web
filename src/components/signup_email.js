@@ -239,12 +239,6 @@ class Signup_Email extends React.Component {
                     </button>
                 </form>
 
-                
-
-                
- 
-                
-
             </div>
         )
     }

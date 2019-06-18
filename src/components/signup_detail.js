@@ -372,6 +372,9 @@ class Signup_Detail extends React.Component {
                             Continue
                         </div>
                     </button>
+
+                    <div style={{color: '#747175', fontSize: 12, marginTop: 10}}> By signing up you agree to ibet's <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/terms_conditions')}> terms and conditions </b> and</div>
+                    <div style={{color: '#747175', fontSize: 12}}> confirm you've read and understood the <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/privacy_policy')}> privacy </b> policy</div>
                 </form>
             </div>
         )
