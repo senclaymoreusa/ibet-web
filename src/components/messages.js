@@ -84,6 +84,8 @@ export const messages = {
         'nav.jackpots': 'Jackpots',
         'nav.table-games': 'Table Games',
         'nav.other-games': 'Other Games',
+        'nav.username': 'Username',
+        'nav.password': 'Password',
 
 
         // handle login page message
@@ -392,7 +394,8 @@ export const messages = {
         'nav.jackpots': '最高奖金',
         'nav.table-games': '桌上游戏',
         'nav.other-games': '其他游戏',
-
+        'nav.username': '用戶名',
+        'nav.password': '密码',
 
         // handle login page message
         'login.username': '用戶名: ',
@@ -635,6 +638,23 @@ export const messages = {
         'accountmenu.referral': 'Référer un nouvel utilisateur',
         'accountmenu.languages': 'Langues',
 
+        'accountmenu.hi': 'Hi',
+        'accountmenu.balance': 'Balance:',
+        'accountmenu.whatisthis': 'What\'s this?',
+        'accountmenu.cash-label': 'Cash',
+        'accountmenu.bonus-label': 'Bonus',
+        'accountmenu.next-bet-split': 'Next Bet Split',
+        'accountmenu.all-about-bonus': 'All you need to know about your bonus.',
+        'accountmenu.achieved': 'Achieved',
+        'accountmenu.settled-bets': 'Settled Bets',
+        'accountmenu.promotions': 'Promotions',
+        'accountmenu.settings': 'Settings',
+        'accountmenu.help': 'Help',
+        'accountmenu.responsible-gambling': 'Responsible Gambling',
+        'accountmenu.logout': 'Logout',
+        'accountmenu.change-password': 'Change Password >',
+        'accountmenu.open-bets': 'Open Bets',
+
         // footer message
         'footer.terms_conditions': 'Termes et conditions',
         'footer.cookie_policy': 'Politique de cookie',
@@ -701,6 +721,8 @@ export const messages = {
         'nav.jackpots': 'Jackpots',
         'nav.table-games': 'Jeux de table',
         'nav.other-games': 'D autres jeux',
+        'nav.username': 'Nom d\'utilisateur',
+        'nav.password': 'Mot de passe',
 
         // handle login page message
         'login.username': 'Nom d\'utilisateur: ',

@@ -176,7 +176,6 @@ class SearchResults extends React.Component {
         }
 
         event.currentTarget.children[1].style.visibility = "hidden";
-
     };
 
     render() {
