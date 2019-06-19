@@ -328,24 +328,22 @@ $out_transition: all 0.15s ease;
 
    display: none; /* making it hidden by default */
 }
+
 .login-window {
-  margin-left: 30%;
-  margin-top: 5%;
-  height: 600px;
-  width: 700px;
-  overflow-y: hidden; 
-  overflow-x: hidden;
+  height: 560px;
+  width: 380px;
+  text-align: center;
 }
 
 .login-title {
-  font-size: 38px;
-  margin-left: 15%;
+  font-size: 32px;
 }
 
 .signup-window {
-  height: 600px;
+  height: 680px;
   width: 700px;
   text-align: center;
+  background-color: 'red'
 }
 
 .signup-title {

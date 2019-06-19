@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl} from 'react-intl';
-import axios from 'axios'
-import { withRouter } from 'react-router-dom';
 import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_signup, show_signup_email} from '../actions';
 import IoSocialFacebook from 'react-icons/lib/io/social-facebook';
 import IoSocialTwitter from  'react-icons/lib/io/social-twitter';
@@ -27,7 +25,7 @@ class Signup extends React.Component {
                     </div>
 
                     <Close 
-                        style={{cursor: 'pointer', marginLeft: 250, marginTop: 15}}
+                        style={{cursor: 'pointer', marginLeft: 250, marginTop: 5, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_signup()
                         }}
@@ -114,8 +112,6 @@ class Signup extends React.Component {
         )
     }
 }
-
-
 
 export default connect(null, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_signup, show_signup_email})(Signup);
 

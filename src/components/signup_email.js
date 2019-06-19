@@ -1,10 +1,11 @@
 import React from 'react';
-import { hide_signup_email, show_signup_detail } from '../actions';
+import { hide_signup_email, show_signup_detail, show_signup } from '../actions';
 import { FormattedMessage, injectIntl} from 'react-intl';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import { config } from "../util_config";
+import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 
 
 import { withStyles } from '@material-ui/core/styles';
@@ -17,19 +18,9 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-
     textField: {
-      width: 300,
-    },
-
-    menu: {
-      width: 200,
-    },
-
+      width: 530,
+    }
 });
 
 class Signup_Email extends React.Component {
@@ -96,7 +87,6 @@ class Signup_Email extends React.Component {
 
         axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`, config)
         .then(res => {
-            console.log(res.data)
             if (res.data !== 'Exist'){
                 this.setState({email_exist: false})
                 this.props.hide_signup_email();
@@ -114,15 +104,22 @@ class Signup_Email extends React.Component {
         return (
             <div>
                 <form onSubmit={this.handlesubmit.bind(this)}>
+                    
                     <div className='signup-title'> 
+                        <Back 
+                            style={{cursor: 'pointer', marginTop: 12, marginLeft: 30, height: 25, width: 15}}
+                            onClick = { () => {
+                                this.props.hide_signup_email();
+                                this.props.show_signup();
+                            }}
+                        />
 
-                        
-                        <div style={{marginLeft: 330 , marginTop: 15}}> 
+                        <div style={{marginLeft: 270 , marginTop: 15}}> 
                             <FormattedMessage  id="login.signup" defaultMessage='Signup' />
                         </div>
 
                         <Close 
-                            style={{cursor: 'pointer', marginLeft: 250, marginTop: 15}}
+                            style={{cursor: 'pointer', marginLeft: 270, marginTop: 5, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_email();
                             }}
@@ -130,10 +127,10 @@ class Signup_Email extends React.Component {
                     </div>
 
                     <div style={{marginTop: 30}}>
-                        <span style={{fontWeight: 600}}> __________  1 </span>  <span style={{color: '#e4e4e4'}}> __________  2 </span >  <span style={{color: '#e4e4e4'}}> __________ 3 </span>
+                        <span style={{fontWeight: 600}}> ____________________  1 </span>  <span style={{color: '#e4e4e4'}}> ____________________  2 </span >  <span style={{color: '#e4e4e4'}}> ___________________ 3 </span>
                     </div>
 
-                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20}}> 
+                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginRight: 320}}> 
                         <FormattedMessage  id="signup.email_title" defaultMessage='Regitration details' />
                     </div>
 
@@ -152,9 +149,13 @@ class Signup_Email extends React.Component {
                     />
 
                 
-                    <div style={{color: '#e4e4e4', paddingRight: 120}}> 
+                    <div style={{color: '#747175', paddingRight: 340}}> 
                         <FormattedMessage  id="signup.email_message1" defaultMessage='This will be used to log in.' />
                     </div>
+
+                    {this.state.live_check_email && <div style={{color: 'red'}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
+
+                    {this.state.email_exist && <div style={{color: 'red'}}> <FormattedMessage  id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>}
 
                     <TextField
                         label="PASSWORD"
@@ -178,30 +179,53 @@ class Signup_Email extends React.Component {
                         }}
                     />
 
+                    <div style={{color: '#747175', paddingRight: 370}}> 
+                        <FormattedMessage  id="signup.email_message2" defaultMessage='At least 8 characters.' />
+                    </div>
+
+                    {this.state.password_too_simple && <div style={{color: 'red'}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
+
                     {
                     this.state.password && 
                     <div>
-                        <div className='row' style={{marginLeft: 250}}> 
+                        <div className='row' style={{marginLeft: 80, marginTop: 20}}> 
                         {
                             this.state.bar.map(item => {
-                                return <div key ={item} style={{width: 30, borderBottom: '5px solid red', marginLeft: 10}}>  </div>
+                                return <div key ={item} style={{width: 50, borderBottom: '2px solid red', marginLeft: 10}}>  </div>
                             }) 
                         }
                         {
                             this.state.grey_bar.map(item => {
-                                return <div key ={item} style={{width: 30, borderBottom: '5px solid grey', marginLeft: 10}}>  </div>
+                                return <div key ={item} style={{width: 50, borderBottom: '2px solid grey', marginLeft: 10}}>  </div>
                             }) 
                         }
                         </div>
-                        <br/>
-                        <FormattedMessage  id="signup.strength" defaultMessage='Password Strength: ' />
-                        <span> {this.state.strength_level} </span>
+
+                        <div style={{marginRight: 315, marginTop: 20, marginBottom: 15}}> 
+                            <span style ={{color: '#747175'}}> <FormattedMessage  id="signup.strength" defaultMessage='Password Strength: ' /> </span>
+                            <span> {this.state.strength_level} </span>
+                        </div>
+                        
                     </div>
                     }
                     
+                    <div>
+                        <div style={{ paddingRight: 340}}> 
+                            <FormattedMessage  id="signup.email.passwordtip0" defaultMessage='At least 8 characters.' />
+                        </div>
 
-                    <div style={{color: '#e4e4e4', paddingRight: 150}}> 
-                        <FormattedMessage  id="signup.email_message2" defaultMessage='At least 8 characters.' />
+                        <div style={{color: '#747175', paddingRight: 350, marginTop: 15}}> 
+                            <FormattedMessage  id="signup.email.passwordtip1" defaultMessage='At least 8 characters.' />
+                        </div>
+
+                        <div style={{color: '#747175', paddingRight: 300}}> 
+                            <FormattedMessage  id="signup.email.passwordtip2" defaultMessage='At least 8 characters.' />
+                        </div>
+
+                        <div style={{color: '#747175', paddingRight: 345}}> 
+                            <FormattedMessage  id="signup.email.passwordtip3" defaultMessage='At least 8 characters.' />
+                        </div>
+
                     </div>
 
                     <button 
@@ -215,16 +239,10 @@ class Signup_Email extends React.Component {
                     </button>
                 </form>
 
-                {this.state.live_check_email && <div style={{color: 'red'}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
-
-                {this.state.password_too_simple && <div style={{color: 'red'}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
- 
-                {this.state.email_exist && <div style={{color: 'red'}}> <FormattedMessage  id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>}
-
             </div>
         )
     }
 }
 
 
-export default withStyles(styles)(connect(null, {hide_signup_email, show_signup_detail})(Signup_Email));
+export default withStyles(styles)(connect(null, {hide_signup_email, show_signup_detail, show_signup})(Signup_Email));

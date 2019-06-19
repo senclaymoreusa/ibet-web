@@ -229,6 +229,18 @@ export const messages = {
         'signup.detail.dob': 'DATE OF BIRTH',
         'signup.detail.address': 'Address',
         'signup.detail.usernametaken': 'This username is already in use',
+        'signup.email.passwordtip0': 'Tips for a strong password',
+        'signup.email.passwordtip1': 'Use letters and numbers',
+        'signup.email.passwordtip2': 'Use special characters(e.g.!&@)',
+        'signup.email.passwordtip3': 'Mix lower and uppercase',
+        'signup.contact.title': 'Contact details',
+        'signup.detail.sms': "We'll send you an SMS to confirm",
+        'signup.detail.agree': 'I agree to:',
+        'signup.phone.message1': 'The Terms & Conditions & confirm that I am 18+',
+        'signup.phone.message2': 'Having my personal data handled according to',
+        'signup.phone.message2.5': 'the Privacy and Cookie Policy',
+        'signup.phone.message3': 'Getting exclusive offers and promotions from ibet',
+        'signup.phone.over18': 'You have to confirm you are over 18',
 
         // handle update_profile page message
         'update_profile.username': 'Username: ',
@@ -306,7 +318,8 @@ export const messages = {
         'error.city': 'City not valid',
         'error.state': 'State not valid',
         'error.zipcode': 'Zipcode not valid',
-        'error.passwordnotmatch': 'Two password you entered do not match'
+        'error.passwordnotmatch': 'Two password you entered do not match',
+        'error.address': 'Address not valid'
     },
     zh: {
         // handle account menu message
@@ -471,6 +484,7 @@ export const messages = {
         'profile.balance': '当前账户余额: ',
         'profile.add': '添加资金',
         'profile.referral': '推荐链接: ',
+        'signup.detail.sms': "我们会发您短信验证",
 
         // handle forget_password page message
         'forget_password.enter_email': '請輸入郵箱: ',
@@ -538,6 +552,17 @@ export const messages = {
         'signup.detail.dob': '出生日期',
         'signup.detail.address': '地址',
         'signup.detail.usernametaken': '此用户名已被注册',
+        'signup.email.passwordtip0': '强密码提示',
+        'signup.email.passwordtip1': '使用字母和数字',
+        'signup.email.passwordtip2': '食用特殊字符(e.g.!&@)',
+        'signup.email.passwordtip3': '大小写字母混合',
+        'signup.contact.title': '联系信息',
+        'signup.detail.agree': '我同意以下条款:',
+        'signup.phone.message1': '条款 & 条件 & 确认您已满18岁',
+        'signup.phone.message2': '处理我的个人数据',
+        'signup.phone.message2.5': '根据隐私和Cookie政策',
+        'signup.phone.message3': '获得ibet的独家优惠和促销活动',
+        'signup.phone.over18': '您必须确认您已经超过18周岁',
 
         // handle update_profile page message
         'update_profile.username': '用戶名: ',
@@ -616,7 +641,8 @@ export const messages = {
         'error.city': '城市错误',
         'error.state': '省市错误',
         'error.zipcode': '邮编错误',
-        'error.passwordnotmatch': '两次输入的密码不一致'
+        'error.passwordnotmatch': '两次输入的密码不一致',
+        'error.address': '地址错误'
     },
     fr: {
         // handle account menu message
@@ -872,6 +898,19 @@ export const messages = {
         'signup.detail.dob': 'DATE DE NAISSANCE',
         'signup.detail.address': 'Adresse',
         'signup.detail.usernametaken': "Ce nom d'utilisateur est déjà utilis",
+        'signup.email.passwordtip0': 'Conseils pour un mot de passe fort',
+        'signup.email.passwordtip1': 'Utilisez des lettres et des chiffres',
+        'signup.email.passwordtip2': 'Utilisez des caractères spéciaux(e.g.!&@)',
+        'signup.email.passwordtip3': 'Mélanger majuscules et minuscules',
+        'signup.contact.title': 'Détails du contact',
+        'signup.detail.sms': "Nous vous enverrons un SMS pour confirmer",
+        'signup.detail.agree': "Je suis d'accord pour:",
+        'signup.phone.message1': "Les conditions générales et confirme que j'ai 18 ans ou plus",
+        'signup.phone.message2': 'Faire traiter mes données personnelles conformément à',
+        'signup.phone.message2.5': 'la politique de confidentialité et de cookie',
+        'signup.phone.message3': 'Obtenir des offres et promotions exclusives ibet',
+        'signup.phone.over18': 'Vous devez confirmer que vous avez plus de 18 ans',
+        
 
         // handle update_profile page message
         'update_profile.username': 'Nom d\'utilisateur: ',
@@ -951,7 +990,8 @@ export const messages = {
         'error.city': 'Ville non valide',
         'error.state': 'Etat non valide',
         'error.zipcode': 'Code postal non valide',
-        'error.passwordnotmatch': 'Deux mot de passe que vous avez entré ne correspondent pas'
+        'error.passwordnotmatch': 'Deux mot de passe que vous avez entré ne correspondent pas',
+        'error.address': 'Adresse non valide'
     }
 }
 

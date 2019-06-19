@@ -15,25 +15,18 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
-import blue from '@material-ui/core/colors/blue';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 
 const styles = theme => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-
     margin: {
       margin: 'auto',
     },
@@ -44,13 +37,18 @@ const styles = theme => ({
       backgroundColor: '#ffffff;'
     },
 
-    cssRoot: {
-        color: theme.palette.getContrastText(blue[300]),
-        backgroundColor: blue[300],
-        '&:hover': {
-          backgroundColor: blue[800],
-        },
-      },
+    cssOutlinedInput:{
+        "& $notchedOutline": {
+            //add this nested selector
+            borderColor: "'#e4e4e4'",
+          },
+      
+          "&$cssFocused $notchedOutline": {
+            borderColor: "blue",
+          }
+    },
+    cssFocused: {  },
+    notchedOutline: {  },
   });
 
 export class Login extends React.Component {
@@ -71,7 +69,8 @@ export class Login extends React.Component {
           showPassword: false,
 
           button_disable: true,
-          button_type: 'login-button-disable'
+          button_type: 'login-button-disable',
+          error: false
         };
     
         this.onInputChange_username         = this.onInputChange_username.bind(this);
@@ -211,6 +210,7 @@ export class Login extends React.Component {
         })
         .catch(err => {
             this.setState({errorCode: err});
+            this.setState({error: true})
         });
     }
   }
@@ -243,15 +243,7 @@ export class Login extends React.Component {
     }
     
     return (
-        <div> 
-            <div>
-                <Close 
-                    style={{ marginLeft: 420, cursor: 'pointer'}}
-                    onClick = { () => {
-                        this.setState({showlogin: false})
-                        this.props.hide_login()
-                    }}
-                />
+        <div style={{backgroundColor: '#ffffff'}}> 
 
                 <div className='login-title'> 
                     <FormattedMessage id="nav.login" defaultMessage='Login' />
@@ -259,36 +251,42 @@ export class Login extends React.Component {
 
                 <form onSubmit={this.onFormSubmit} >
                     
-                    <div style={{fontSize: 14, marginTop: 30}}>
-                        <b> <FormattedMessage id="login.username" defaultMessage='Username: ' /> </b>
-                    </div>
-                    
-                    <div style={{marginTop: 15}}> 
+                    <div style={{marginTop: 37}}> 
                         <TextField
-                            id="outlined-adornment-password"
-                            className={classNames(classes.margin, classes.textField)}
+                            className={classes.textField}
+                            label="EMAIL DDRESS"
                             variant="outlined"
-                            type={'text'}
                             value={this.state.username}
                             onChange={this.onInputChange_username}
+                            InputProps={{
+                                classes: {
+                                  root: classes.cssOutlinedInput,
+                                  focused: classes.cssFocused,
+                                  notchedOutline: classes.notchedOutline
+                                }
+                              }}
                         />
                     </div>
-
-
-                    <div style={{fontSize: 14, marginTop: 30}}>
-                        <b> <FormattedMessage id="login.password" defaultMessage='Password: ' /> </b>
-                    </div>  
-
+                    
+                    <div style={{color: '#747175', marginTop: 10, marginRight: 100}}> 
+                        <FormattedMessage id="signup.email_message1" defaultMessage='This will be used to log in.' />
+                    </div>
 
                     <div style={{marginTop: 15}}> 
                         <TextField
-                            id="outlined-adornment-password2"
-                            className={classNames(classes.margin, classes.textField)}
+                            className={ classes.textField}
+                            label="PASSWORD"
                             variant="outlined"
                             type={this.state.showPassword ? 'text' : 'password'}
                             value={this.state.password}
                             onChange={this.onInputChange_password}
                             InputProps={{
+                                classes: {
+                                    root: classes.cssOutlinedInput,
+                                    focused: classes.cssFocused,
+                                    notchedOutline: classes.notchedOutline
+                                  },
+                                
                                 endAdornment: (
                                 <InputAdornment position="end">
                                     <IconButton
@@ -302,16 +300,20 @@ export class Login extends React.Component {
                             }}
                         />
                     </div>
-    
-                    <div 
-                        style={{cursor: 'pointer', marginTop: 20, fontFamily: 'Gilroy', color: '#747175'}}
-                        onClick = {() => {
-                            this.props.hide_login()
-                            this.props.history.push('/forget_password')
-                        }}
-                    > 
-                            <FormattedMessage id="login.forget_password" defaultMessage='Forgot Password?' />  
-                    </div>
+
+                    {
+                        this.state.error && <div style={{color: 'red', marginTop: 20}}> 
+                            Incorrect Username / Password <br/>
+                            <span 
+                            style={{cursor: 'pointer'}}
+                            onClick={()=>{
+                                this.props.hide_login()
+                                this.props.history.push('/forget_password')
+                                }}
+                            > <u> Forget Password </u> </span>?
+                            </div>
+                    }
+
 
                     <div style={{ marginTop: 20}}> 
                         <FormControlLabel
@@ -326,15 +328,13 @@ export class Login extends React.Component {
                         />
                     </div>
 
-                    <Button 
-                        variant="contained"
-                        color="primary"
+                    <button
                         disabled = {this.state.button_disable} 
-                        style={{width: 300, background: !this.state.button_disable ? 'red' : '#e3e8ef', color: 'white', marginTop: 30}}
+                        style={{backgroundColor: 'red', height: 52, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
                         type="submit" 
                     > 
                         <FormattedMessage id="login.login" defaultMessage='Login' />
-                    </Button>
+                    </button>
 
                 </form>
 
@@ -348,11 +348,10 @@ export class Login extends React.Component {
                     <FormattedMessage id="login.notauser" defaultMessage='Not a member? Signup for free' /> 
                 </div>
 
-                <br/>
-                {
-                    showErrors()
-                }
-        </div>
+                <div style={{height: 30}}>
+
+                </div>
+                
     </div>
     );
   }

@@ -88,3 +88,26 @@ export const hide_signup_detail = () => {
   }
 }
 
+export const show_signup_contact = () => {
+  return {
+    type: 'SHOW_SIGNUP_CONTACT'
+  }
+}
+
+export const hide_signup_contact = () => {
+  return {
+    type: 'HIDE_SIGNUP_CONTACT'
+  }
+}
+
+export const show_signup_phone = () => {
+  return {
+    type: 'SHOW_SIGNUP_PHONE'
+  }
+}
+
+export const hide_signup_phone = () => {
+  return {
+    type: 'HIDE_SIGNUP_PHONE'
+  }
+}
