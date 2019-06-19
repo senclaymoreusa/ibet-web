@@ -684,8 +684,24 @@ export class TopNavbar extends React.Component {
         this.setState({ height: window.innerHeight, width: window.innerWidth })
     };
 
-    async componentDidMount() {
+    componentWillReceiveProps(prevProps) {
 
+        if (this.props.isAuthenticated) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
+
+                }
+       
+      }
+
+    async componentDidMount() {
+        
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
@@ -705,19 +721,17 @@ export class TopNavbar extends React.Component {
             })
         }
 
-        this.props.authCheckState()
-            .then(res => {
-                if (res !== AUTH_RESULT_FAIL) {
-                    const token = localStorage.getItem('token');
-                    config.headers["Authorization"] = `Token ${token}`;
+        // if (this.props.isAuthenticated) {
+        //     const token = localStorage.getItem('token');
+        //     config.headers["Authorization"] = `Token ${token}`;
 
-                    axios.get(API_URL + 'users/api/user/', config)
-                        .then(res => {
-                            this.setState({ balance: res.data.main_wallet });
-                            this.setState({ balanceCurrency: res.data.currency });
-                        })
-                }
-            });
+        //     axios.get(API_URL + 'users/api/user/', config)
+        //         .then(res => {
+        //             this.setState({ balance: res.data.main_wallet });
+        //             this.setState({ balanceCurrency: res.data.currency });
+        //         })
+        // }
+       
 
         const remember_check = localStorage.getItem('remember_check');
         if (remember_check) {
