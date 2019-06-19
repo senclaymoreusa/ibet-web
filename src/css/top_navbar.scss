@@ -252,7 +252,7 @@ $out_transition: all 0.15s ease;
   width: 50px;
   height: 40px;
   z-index: 2001;
-  margin-bottom: 4px;
+  margin-top: 16px;
   display: inline-block;
   // display: block;
   // position: fixed;
@@ -375,3 +375,10 @@ $out_transition: all 0.15s ease;
   margin-left: 50px;
 }
 
+.userIcon path {
+  stroke: #212121;
+}
+
+.userIconHover path{
+  stroke: #ffffff;
+}

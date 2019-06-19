@@ -28,12 +28,23 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import AccountMenu from './account_menu';
+import AccountMenu from './account_menu/account_menu';
+import OpenBets from './account_menu/open_bets';
+import Deposit from './account_menu/deposit';
+import Withdraw from './account_menu/withdraw';
+import Help from './account_menu/help';
+import Promotions from './account_menu/promotions';
+import Settings from './account_menu/settings';
+import SettledBets from './account_menu/settled_bets';
+import ResponsibleGambling from './account_menu/responsible_gambling';
+
+
 import Fab from '@material-ui/core/Fab';
 
 import Popper from '@material-ui/core/Popper';
 import Popover from '@material-ui/core/Popover';
 import Fade from '@material-ui/core/Fade';
+import TextField from '@material-ui/core/TextField';
 
 
 import Paper from '@material-ui/core/Paper';
@@ -48,6 +59,8 @@ import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
+import { ReactComponent as UserIcon } from '../assets/img/svg/user.svg';
+
 
 import Login from './login_2.js';
 import Signup from './signup_2.js';
@@ -65,7 +78,6 @@ import '../css/top_navbar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-
 const styles = theme => ({
     root: {
         width: '100%',
@@ -74,6 +86,10 @@ const styles = theme => ({
         width: 28,
         height: 28,
         backgroundColor: '#ffffff'
+    },
+    appBar: {
+        height: 72,
+        boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)',
     },
     list: {
         width: 250,
@@ -84,11 +100,6 @@ const styles = theme => ({
     },
     grow: {
         flexGrow: 1,
-    },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
-        fontSize: 20
     },
     mobileLeftMenuButton: {
         marginLeft: -12,
@@ -104,9 +115,24 @@ const styles = theme => ({
             display: 'block',
         },
     },
-
+    mainMenu: {
+        display: 'none',
+        height: 72,
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+    },
+    logoButton: {
+        "&:hover": {
+            backgroundColor: "#ffffff",
+        },
+        "&:active": {
+            backgroundColor: "#ffffff",
+        }
+    },
     sectionDesktop: {
         display: 'none',
+        height: '100%',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
         },
@@ -128,23 +154,89 @@ const styles = theme => ({
         paddingLeft: theme.spacing.unit * 4
     },
     signupButton: {
-        margin: theme.spacing.unit,
-        color: '#ffffff',
-        backgroundColor: '#ff0000',
+        marginTop: 13,
+        marginBottom: 15,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+
+        width: 220,
+        fontSize: 18,
+        height: 44,
+        color: '#212121',
+        backgroundColor: '#ffffff',
+        borderRadius: 22,
+        border: 'solid 2px #212121',
         textTransform: 'capitalize',
         outline: 'none',
         "&:hover": {
-            backgroundColor: "#ff3f00",
+            backgroundColor: "#212121",
+            color: '#ffffff',
         }
     },
     loginButton: {
-        margin: theme.spacing.unit,
-        color: '#000000',
+        marginTop: 13,
+        marginBottom: 15,
+        width: 100,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        fontSize: 18,
+        height: 44,
+        color: '#212121',
         backgroundColor: '#ffffff',
+        borderRadius: 22,
+        border: 'solid 2px #212121',
         textTransform: 'capitalize',
+        outline: 'none',
         "&:hover": {
-            backgroundColor: "#f4f4f4",
+            backgroundColor: "#212121",
+            color: '#ffffff',
         }
+    },
+    textField: {
+        marginTop: 13,
+        marginBottom: 15,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        paddingLeft: 25,
+        paddingRight: 25,
+        paddingTop: 13,
+        paddingBottom: 13,
+        fontSize: 18,
+        outline: 'none',
+        width: 180,
+        height: 44,
+        objectFit: 'contain',
+        borderRadius: 22,
+        border: 'solid 1px #e8e8e8',
+        backgroundColor: '#f1f1f1',
+    },
+    balanceButton: {
+        marginTop: 13,
+        marginBottom: 15,
+        width: 130,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        fontSize: 18,
+        height: 44,
+        color: '#ffffff',
+        backgroundColor: '#fe0000',
+        borderRadius: 22,
+        border: 'solid 2px #fe0000',
+        textTransform: 'capitalize',
+        outline: 'none',
+        "&:hover": {
+            backgroundColor: "#fe0000",
+            color: '#ffffff',
+        }
+    },
+    balanceIcon: {
+        marginRight: theme.spacing.unit,
+    },
+    profileButton: {
+        marginTop: theme.spacing.unit,
+        marginBottom: theme.spacing.unit,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
     },
     extendedIcon: {
         marginRight: theme.spacing.unit,
@@ -176,9 +268,6 @@ const styles = theme => ({
                 border: '4px solid currentColor',
             },
         },
-    },
-    shadow: {
-        boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)'
     },
     focusVisible: {
 
@@ -234,7 +323,7 @@ const styles = theme => ({
         zIndex: 5000
     },
     lang_button: {
-        marginTop: 8,
+        marginTop: 17,
         minWidth: 0
     },
     lang_menu_list: {
@@ -261,6 +350,10 @@ const styles = theme => ({
         marginLeft: 10,
         color: 'black',
     },
+    accountMenuPaper: {
+        padding: 0,
+        width: 360,
+    },
     footer: {
         paddingLeft: 24,
         paddingRight: 24,
@@ -273,24 +366,28 @@ const styles = theme => ({
         display: 'inline',
         marginTop: 20
     },
+    profile_container: {
+        display: 'inline',
+        marginLeft: 0,
+    },
     lang_container: {
         display: 'inline',
         marginLeft: 0,
-
     },
     langPopper: {
+        zIndex: 2002,
+    },
+    profilePopper: {
         zIndex: 2002,
     },
     margin: {
         margin: 'auto',
     },
-
-    textField: {
-        flexBasis: 200,
-        width: 300,
-        backgroundColor: '#ffffff;'
+    userIcon: {
+        '&:hover': {
+            fillRule: '#fe0000',
+        }
     },
-
     cssRoot: {
         color: theme.palette.getContrastText(blue[300]),
         backgroundColor: blue[300],
@@ -299,7 +396,6 @@ const styles = theme => ({
         },
     },
 });
-
 
 const muiLogoBarTheme = createMuiTheme({
     palette: {
@@ -329,6 +425,36 @@ const muiMenuBarTheme = createMuiTheme({
     },
 });
 
+const SVG = ({
+    style = {},
+    fill = "transparent",
+    width = "36px",
+    viewBox = "0 0 26 27",
+    className = "userIcon",
+}) => (
+        <svg
+            width={width}
+            style={style}
+            height="27px"
+            viewBox={viewBox}
+            xmlns="http://www.w3.org/2000/svg"
+            className={`svg-icon ${className || ""}`}
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+        >
+            <g id="Nav" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
+                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke={fill} strokeWidth="1.5625">
+                    <g id="Login-Elements">
+                        <g transform="translate(1280.000000, 13.000000)">
+                            <g id="Open-Account">
+                                <path d="M43,14.6367187 C43,17.5362187 40.6495,19.8867188 37.75,19.8867188 C34.8505,19.8867188 32.5,17.5362187 32.5,14.6367187 C32.5,11.7372188 34.8505,9.38671875 37.75,9.38671875 C40.6495,9.38671875 43,11.7372188 43,14.6367187 Z M37,24.3867187 C40.8128,24.3867187 44.2816,25.7412188 46.4976,26.8602187 C48.032,27.6372188 49,29.1792188 49,30.8757188 L49,31.6992187 C49,32.6307187 48.2336,33.3867187 47.2864,33.3867187 L26.7136,33.3867187 C25.7664,33.3867187 25,32.6307187 25,31.6992187 L25,30.8757188 C25,29.1792188 25.968,27.6372188 27.5024,26.8602187 C29.7184,25.7412188 33.1872,24.3867187 37,24.3867187 Z" id="User"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    );
+
 export class TopNavbar extends React.Component {
 
     constructor(props) {
@@ -336,6 +462,7 @@ export class TopNavbar extends React.Component {
         let langProperty = localStorage.getItem('lang');
 
         this.searchDiv = React.createRef();
+        this.profileRef = React.createRef();
 
         this.state = {
             open: false,
@@ -343,6 +470,8 @@ export class TopNavbar extends React.Component {
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
+            showProfilePopper: false,
+            currentAccountMenuItem: '',
             anchorElLogin: null,
             showTopPanel: false,
             showLeftPanel: false,
@@ -356,6 +485,7 @@ export class TopNavbar extends React.Component {
             picture: "",
             showLangMenu: false,
             show_loggedin_status: false,
+
 
             balance: 0.00,
             balanceCurrency: "USD",
@@ -374,25 +504,38 @@ export class TopNavbar extends React.Component {
         };
 
         this.handleSearch = this.handleSearch.bind(this);
-
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onInputChange_username = this.onInputChange_username.bind(this);
         this.onInputChange_password = this.onInputChange_password.bind(this);
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
+        this.toggleSidePanel = this.toggleSidePanel.bind(this);
     }
 
-
-    handleSearch = () => {
-
-        if (!this.state.expandSearchBar)
-            this.actualChild.focusInput();
-        else {
-            this.actualChild.blurInput();
+    handleSignupOnEnter = (event) => {
+        if (!event.currentTarget.children[0].classList.contains('userIconHover')) {
+            event.currentTarget.children[0].classList.add('userIconHover');
         }
 
-        this.setState({ expandSearchBar: !this.state.expandSearchBar });
+        event.currentTarget.children[1].style.visibility = "visible";
+    };
 
+    handleSignupOnLeave = (event) => {
+        if (event.currentTarget.children[0].classList.contains('userIconHover')) {
+            event.currentTarget.children[0].classList.remove('userIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "hidden";
+
+    };
+
+    handleSearch = () => {
+        if (!this.state.expandSearchBar)
+            this.actualChild.focusInput();
+        else
+            this.actualChild.blurInput();
+
+        this.setState({ expandSearchBar: !this.state.expandSearchBar });
     }
 
     handleSubMenuToggle = (param) => {
@@ -417,11 +560,19 @@ export class TopNavbar extends React.Component {
         this.setState({ submenu });
     };
 
-    toggleSidePanel = (side, open) => () => {
+    toggleSidePanel(event, side, open) {
+        const { currentTarget } = event;
         this.setState({
+            anchorEl: currentTarget,
             [side]: open,
         });
     };
+
+    handleProfilePopper = event => {
+        this.setState({ anchorEl: event.currentTarget });
+        this.setState({ showProfilePopper: !this.state.showProfilePopper });
+
+    }
 
     handleLanguageMenuOpen = event => {
         this.setState({ anchorEl: event.currentTarget });
@@ -434,7 +585,9 @@ export class TopNavbar extends React.Component {
     };
 
     handleSignupMenuOpen = event => {
-        this.setState({ username: '', password: ''})
+        this.setState({ anchorEl2: event.currentTarget });
+        this.setState({ username: '', password: '' })
+
         this.props.show_signup()
     };
 
@@ -450,6 +603,12 @@ export class TopNavbar extends React.Component {
 
     handleLanguageMenuClose = (ev) => {
         this.setState({ showLangMenu: false });
+    };
+
+    handleProfileMenuClose = (ev) => {
+        this.setState({ showProfilePopper: false });
+        this.setState({ currentAccountMenuItem: '' });
+
     };
 
     handleLoginMenuClose(){
@@ -529,8 +688,24 @@ export class TopNavbar extends React.Component {
         this.setState({ height: window.innerHeight, width: window.innerWidth })
     };
 
-    async componentDidMount() {
+    componentWillReceiveProps(prevProps) {
 
+        if (this.props.isAuthenticated) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
+
+                }
+       
+      }
+
+    async componentDidMount() {
+        
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
@@ -550,19 +725,17 @@ export class TopNavbar extends React.Component {
             })
         }
 
-        this.props.authCheckState()
-            .then(res => {
-                if (res !== AUTH_RESULT_FAIL) {
-                    const token = localStorage.getItem('token');
-                    config.headers["Authorization"] = `Token ${token}`;
+        // if (this.props.isAuthenticated) {
+        //     const token = localStorage.getItem('token');
+        //     config.headers["Authorization"] = `Token ${token}`;
 
-                    axios.get(API_URL + 'users/api/user/', config)
-                        .then(res => {
-                            this.setState({ balance: res.data.main_wallet });
-                            this.setState({ balanceCurrency: res.data.currency });
-                        })
-                }
-            });
+        //     axios.get(API_URL + 'users/api/user/', config)
+        //         .then(res => {
+        //             this.setState({ balance: res.data.main_wallet });
+        //             this.setState({ balanceCurrency: res.data.currency });
+        //         })
+        // }
+       
 
         const remember_check = localStorage.getItem('remember_check');
         if (remember_check) {
@@ -591,14 +764,19 @@ export class TopNavbar extends React.Component {
         this.setState(state => ({ showLangListItems: !state.showLangListItems }));
     };
 
-
     handleClickAway = () => {
         this.actualChild.blurInput();
         this.setState(state => ({ expandSearchBar: false }));
     };
 
+    setCurrentAccountMenuItem = (menuItem) => {
+        this.setState({ showProfilePopper: true });
+        this.setState({ currentAccountMenuItem: menuItem });
+    }
+
     render() {
-        const { anchorEl, showLangMenu } = this.state;
+        const { anchorEl, showProfilePopper, showLangMenu, anchorEl2, showRightPanel } = this.state;
+      
         const { classes } = this.props;
 
         let countryCode = '';
@@ -620,52 +798,108 @@ export class TopNavbar extends React.Component {
         }
         const langButtonIcon = (<Flag country={countryCode} />);
 
-        const LangDropdown = (
+        let currentMenu = <div></div>;
+        switch (this.state.currentAccountMenuItem) {
+            case 'open-bets':
+                currentMenu = <OpenBets onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'deposit':
+                currentMenu = <Deposit onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'withdraw':
+                currentMenu = <Withdraw onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'help':
+                currentMenu = <Help onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'promotions':
+                currentMenu = <Promotions onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'responsible-gambling':
+                currentMenu = <ResponsibleGambling onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'settings':
+                currentMenu = <Settings onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'settled-bets':
+                currentMenu = <SettledBets onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            default:
+                currentMenu = <AccountMenu onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+        }
+
+        const ProfileMenu = (
+            <div className={classes.lang_container}>
+                <IconButton
+                    className={classes.profileButton}
+                    color="inherit"
+                    aria-label="Open drawer"
+                    onClick={this.handleProfilePopper}>
+                    <SVG className="userIcon" />
+                </IconButton>
+                <Popper open={showProfilePopper}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.accountMenuPaper}>
+                                <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
+                                    {currentMenu}
+                                </ClickAwayListener>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+            </div>
+        );
+
+        const LangMenu = (
             <div className={classes.lang_container}>
                 <Button className={classes.lang_button} onClick={this.handleLanguageMenuOpen}>{langButtonIcon}</Button>
                 <Popper className={classes.langPopper} open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <Paper id="menu-list-grow" className={classes.lang_menu_list}>
-                                    <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
-                                        <Menu>
-                                            <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
-                                                selected={this.props.lang === 'en'}
-                                                classes={{
-                                                    root: classes.lang_menu_list_item,
-                                                    selected: classes.lang_menu_list_item_selected
-                                                }}>
-                                                <Flag country="US" />
-                                                <div className={classes.lang_menu_list_item_text}>
-                                                    <FormattedMessage id="lang.english" defaultMessage='English' />
-                                                </div>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
-                                                selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
-                                                classes={{
-                                                    root: classes.lang_menu_list_item,
-                                                    selected: classes.lang_menu_list_item_selected
-                                                }}>
-                                                <Flag country="CN" />
-                                                <div className={classes.lang_menu_list_item_text}>
-                                                    <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
-                                                </div>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
-                                                selected={this.props.lang === 'fr'}
-                                                classes={{
-                                                    root: classes.lang_menu_list_item,
-                                                    selected: classes.lang_menu_list_item_selected
-                                                }}>
-                                                <Flag country="FR" />
-                                                <div className={classes.lang_menu_list_item_text}>
-                                                    <FormattedMessage id="lang.french" defaultMessage='French' />
-                                                </div>
-                                            </MenuItem>
-                                        </Menu>
-                                    </ClickAwayListener>
-                                </Paper>
+                            <Paper id="menu-list-grow" className={classes.lang_menu_list}>
+                                <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
+                                    <Menu>
+                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'en'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="US" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.english" defaultMessage='English' />
+                                            </div>
+                                        </MenuItem>
+                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="CN" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
+                                            </div>
+                                        </MenuItem>
+                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'fr'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="FR" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.french" defaultMessage='French' />
+                                            </div>
+                                        </MenuItem>
+                                    </Menu>
+                                </ClickAwayListener>
                             </Paper>
                         </Fade>
                     )}
@@ -675,32 +909,30 @@ export class TopNavbar extends React.Component {
                 <Popover
                     open={this.props.showSignup} 
                     anchorReference="anchorPosition"
-                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
-                >
-                    <div className='signup-window'> 
-                      <Signup /> 
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}>
+                    <div className='signup-window'>
+                        <Signup />
                     </div>
                 </Popover>
 
                 <Popover
                     open={this.props.showSignupEmail} 
                     anchorReference="anchorPosition"
-                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
-                >
-                    <div className='signup-window'> 
-                      <Signup_Email /> 
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}>
+                    <div className='signup-window'>
+                        <Signup_Email />
                     </div>
                 </Popover>
-                
+
                 <Popover
                     open={this.props.showSignupDetail} 
                     anchorReference="anchorPosition"
-                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
-                >
-                    <div className='signup-window'> 
-                      <Signup_Detail /> 
+                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}>
+                    <div className='signup-window'>
+                        <Signup_Detail />
                     </div>
                 </Popover>
+
 
                 <Popover
                     open={this.props.showSignupContact} 
@@ -724,7 +956,6 @@ export class TopNavbar extends React.Component {
 
             </div>
         );
-
 
         const leftMobileSideList = (
             <div className={classes.list}>
@@ -776,29 +1007,29 @@ export class TopNavbar extends React.Component {
 
         return (
             <div className={classes.root}>
-                <MuiThemeProvider theme={muiLogoBarTheme}>
-                    <AppBar position="static" className={classes.shadow}>
-                        <Toolbar variant="dense">
+                <MuiThemeProvider theme={muiLogoBarTheme} >
+                    <AppBar position="static" >
+                        <Toolbar variant="dense" className={classes.appBar}>
                             <div className={classes.sectionMobile}>
                                 <IconButton
                                     className={classes.mobileLeftMenuButton}
                                     color="inherit"
                                     aria-label="Open drawer"
-                                    onClick={this.toggleSidePanel('showLeftPanel', true)}>
+                                    onClick={(event) => { this.toggleSidePanel(event, 'showLeftPanel', true) }}>
                                     <MenuIcon />
                                 </IconButton>
-                                <Drawer open={this.state.showLeftPanel} onClose={this.toggleSidePanel('showLeftPanel', false)}>
+                                <Drawer open={this.state.showLeftPanel} onClose={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}>
                                     <div
                                         tabIndex={0}
                                         role="button"
-                                        onClick={this.toggleSidePanel('showLeftPanel', false)}
-                                        onKeyDown={this.toggleSidePanel('showLeftPanel', false)}
+                                        onClick={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}
+                                        onKeyDown={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}
                                     >
                                         {leftMobileSideList}
                                     </div>
                                 </Drawer>
                             </div>
-                            <IconButton href='/'>
+                            <IconButton href='/' className={classes.logoButton}>
                                 <IbetLogo />
                             </IconButton>
                             <div className={classes.grow} />
@@ -806,7 +1037,12 @@ export class TopNavbar extends React.Component {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
 
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Button className={classes.menuButton} >
+                                        <Button
+                                            variant="outlined"
+                                            className={classes.balanceButton}
+
+                                        >
+                                            <DepositIcon className={classes.balanceIcon} />
                                             <FormattedNumber
                                                 maximumFractionDigits={2}
                                                 value={this.state.balance}
@@ -814,69 +1050,73 @@ export class TopNavbar extends React.Component {
                                                 currency={this.state.balanceCurrency}
                                             />
                                         </Button>
-                                        <IconButton
-                                            className={classes.menuButton}
-                                            color="inherit"
-                                            aria-label="Open drawer"
-                                            onClick={this.toggleSidePanel('showRightPanel', true)}>
-                                            <Person />
-                                        </IconButton>
-                                        <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                            <div
-                                                tabIndex={0}
-                                                role="button"
-                                                onClick={this.toggleSidePanel('showRightPanel', false)}
-                                                onKeyDown={this.toggleSidePanel('showRightPanel', false)}
-                                            >
-                                                <AccountMenu />
-                                            </div>
-                                        </Drawer>
-
-                                        {LangDropdown}
+                                        {ProfileMenu}
+                                        {LangMenu}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Fab
-                                            variant="extended"
-                                            size="small"
-                                            color="primary"
-                                            aria-label="Add"
+                                        <Button
+                                            variant="outlined"
                                             className={classes.signupButton}
-                                            onClick={ 
+                                            onClick={
                                                 //this.props.history.push('/signup/') 
                                                 this.handleSignupMenuOpen
                                             }
+                                            onMouseEnter={this.handleSignupOnEnter}
+                                            onMouseLeave={this.handleSignupOnLeave}
                                         >
-                                            <DepositIcon className={classes.extendedIcon} />
+                                            <SVG className="userIcon" />
                                             <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
-                                        </Fab>
+                                        </Button>
+                                        {/* <FormattedMessage id="nav.username" defaultMessage="Username">
+                                            {placeholder =>
+                                                <input
+                                                    id="filled-email-input"
+                                                    label="Email"
+                                                    className={classes.textField}
+                                                    type="email"
+                                                    name="email"
+                                                    margin="normal"
+                                                    placeholder={placeholder}
+                                                />
+                                            }
+                                        </FormattedMessage>
+                                        <FormattedMessage id="nav.password" defaultMessage="Password">
+                                            {placeholder =>
 
-                                        
-                                        <Fab
-                                            variant="extended"
-                                            size="small"
-                                            color="primary"
-                                            aria-label="Add"
-                                            className={classes.loginButton}
-                                            //onClick={() => { this.props.history.push('/login/') }}
-                                            onClick={this.handleLoginMenuOpen}
+                                                <input
+                                                    id="filled-password-input"
+                                                    label="Password"
+                                                    className={classes.textField}
+                                                    type="password"
+                                                    placeholder={placeholder}
+
+                                                />
+                                            }
+                                        </FormattedMessage> */}
+                                        <Button
+                                            variant="outlined"
+                                           className={classes.loginButton}
+                                            onClick={
+                                                this.handleLoginMenuOpen
+                                            }
                                         >
-                                            <PersonOutline className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.login" defaultMessage='Login' />
-                                        </Fab>
-
+                                        </Button>
+                                        {/* {LangMenu}
+                                      */}
                                         <Popper
                                             className={classes.langPopper}
                                             open={this.props.showLogin}
                                             anchorEl={this.state.anchorElLogin}
-                                            anchorOrigin={{
-                                                vertical: 'bottom',
-                                                horizontal: 'left',
-                                            }}
-                                            transformOrigin={{
-                                                vertical: 'top',
-                                                horizontal: 'center',
-                                            }}
+                                            // anchorOrigin={{
+                                            //     vertical: 'bottom',
+                                            //     horizontal: 'left',
+                                            // }}
+                                            // transformOrigin={{
+                                            //     vertical: 'top',
+                                            //     horizontal: 'center',
+                                            // }}
                                         >
                                             <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
                                                 <div className='login-window'>
@@ -886,33 +1126,58 @@ export class TopNavbar extends React.Component {
                                         </Popper>
                                         
 
-                                        {LangDropdown}
+                                        {LangMenu}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
                                 <IconButton
+                                    ref={this.profileRef}
                                     className={classes.mobileMenuButton}
                                     color="inherit"
                                     aria-label="Open drawer"
-                                    onClick={this.toggleSidePanel('showRightPanel', true)}>
+                                    onClick={(event) => { this.toggleSidePanel(event, 'showRightPanel', true) }}>
                                     <MoreIcon />
                                 </IconButton>
-                                <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
+                                <Popper open={this.state.showRightPanel} anchorEl={anchorEl} className={classes.profilePopper}
+                                    placement="top-start"
+                                    modifiers={{
+                                        flip: {
+                                            enabled: true,
+                                        },
+                                        preventOverflow: {
+                                            enabled: true,
+                                            boundariesElement: 'scrollParent',
+                                        },
+                                        arrow: {
+                                            enabled: true,
+                                            element: this.profileRef,
+                                        },
+                                    }}
+                                    transition>
+                                    {({ TransitionProps }) => (
+                                        <Fade {...TransitionProps} timeout={350}>
+                                            <Paper>
+                                                <AccountMenu />
+                                            </Paper>
+                                        </Fade>
+                                    )}
+                                </Popper>
+                                {/* <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
                                     <div
                                         tabIndex={0}
                                         role="button"
                                     >
                                         <AccountMenu />
                                     </div>
-                                </Drawer>
+                                </Drawer> */}
                             </div>
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
                 <MuiThemeProvider theme={muiMenuBarTheme}>
-                    <AppBar position="static" className={classes.shadow}>
-                        <Toolbar variant="dense">
-                            <div className={classes.sectionDesktop}>
+                    <AppBar position="static" >
+                        <Toolbar variant="dense" className={classes.appBar}>
+                            <div className={classes.mainMenu}>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
                                         <SoccerIcon className="soccer" />
