@@ -226,8 +226,6 @@ class Deposit extends Component {
                             }}
                         />
                     </div>
-                    
-
                 </form>
             </div>
             

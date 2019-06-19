@@ -5,6 +5,7 @@ import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
 import TopNavbar from "./top_navbar";
+import { authCheckState } from "../actions/auth";
 import '../css/deposit.css';
 
 // Material-UI
@@ -25,7 +26,7 @@ const CLIENT = {
     sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
     production: 'xxxXXX',
   };
-  
+
 const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png";
 
 const useStyles = theme => ({
@@ -75,6 +76,91 @@ function ContainedButtons(props) {
 }
 
 
+class DepositPage extends Component {
+    constructor(props){
+        super(props);
+    
+        this.state = {
+          amount: '',
+          currency: '',
+          error: false,
+          data: '',
+          type: '',
+          live_check_amount: false,
+          button_disable: true
+        };
+
+        this.onInputChange_balance = this.onInputChange_balance.bind(this);
+        //this.addBalance          = this.addBalance.bind(this);
+    }
+
+    componentDidMount() {
+        /*
+         * Check if there is a user logged in
+         */
+        // authCheckState().then(res => console.log("Auth check state result: " + res));
+        // var x = authCheckState();
+        // console.log(x)
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        if (window.location.search.indexOf("transactionId") === 1) {
+            console.log("confirming payment with LINEpay servers");
+            let qs = window.location.search.slice(1);
+            let data = qs.split("&");
+            let postData = {};
+            let kv = data[0].split("=");
+            postData[kv[0]] = kv[1];
+            console.log(postData);
+            // was a redirect 
+            axios.post(
+                API_URL + "accounting/api/linepay/confirm_payment",
+                JSON.stringify(postData),
+                config
+            ).then(res => {
+                console.log(res);
+            });
+        }
+        axios.get(API_URL + 'users/api/user/', config)
+          .then(res => {
+            this.setState({data: res.data});
+          })
+          .catch(err => {
+              console.log("Error with authentication! Error: " + err);
+          })
+        const { type } = this.props.match.params;
+
+    }
+    
+    onInputChange_balance(event){
+        if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
+            this.setState({amount: event.target.value}); 
+
+            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
+                this.setState({live_check_amount: true, button_disable: true})
+            } else {
+                this.setState({live_check_amount: false, button_disable: false})
+            }
+        }
+    }
+
+    render(){
+        const { classes } = this.props;
+        let amount = this.state.amount; // this.state.balance doesn't exist?
+        let user = this.state.data.username; // this.state.data is initialized to a string not a dictionary
+        
+        return (
+            <div>
+                <TopNavbar />
+                <InputForm className="input-form"/>
+            </div>
+            
+        )
+    }
+    
+}
+
 // form / input component for transfer and deposit money
 class InputForm extends Component {
     constructor(props) {
@@ -107,8 +193,8 @@ class InputForm extends Component {
             config
         ).then(
             response => { 
-                console.log(response);
-                if (response.data.returnCode && response.data.returnCode === "0000") {
+                console.log(response.data);
+                if (response.data && response.data.returnCode && response.data.returnCode === "0000") {
                     window.open(response.data.info.paymentUrl.web);
                 }
                 else {
@@ -125,23 +211,29 @@ class InputForm extends Component {
 
             if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
                 this.setState({live_check_amount: true, button_disable: true})
-            }else{
+            } else {
                 this.setState({live_check_amount: false, button_disable: false})
             }
         }
-        // this.setState({
-        //     [event.target.name]: event.target.value
-        // });
+
     }
 
     render() {
         const {deposit_amount: depositAmount, line_pay_error: showError, line_pay_error_msg: errorMsg} = this.state;
-        
+        const {button_disable, live_check_amount} = this.state;
         return (
             <div>
                { 
                    !showError ?
                     <form className="deposit-form">
+                        {
+                            live_check_amount ? 
+                            <div style={{color: 'red'}}> 
+                                <FormattedMessage id="amount.error"  defaultMessage="The amount you entered is not valid"/>
+                            </div> 
+                            :
+                            <div></div>
+                        }
                         <p>How much do you want to deposit? {depositAmount}</p>
                         <input 
                             value={depositAmount || ''}
@@ -153,84 +245,21 @@ class InputForm extends Component {
                         <img 
                             id="LINElogo" 
                             type="image" 
-                            onClick={this.handleClick} 
-                            style={{cursor: "pointer"}}  
+                            onClick={button_disable ? () => {} : this.handleClick}
+                            style={button_disable ? {} : {cursor: "pointer"}}  
                             src={LINEPAY_LOGO_URL} 
                             alt="LINEpay logo"
                         />
                         <ContainedButtons className="deposit-form" value="Deposit"/>
                     </form>
                     :
-                    <p>
-                        errorMsg
-                    </p>
+                    <p>{errorMsg}</p>
                 }
             </div>
         )
     }
 }
 
-class DepositPage extends Component {
-    constructor(props){
-        super(props);
-    
-        this.state = {
-          amount: '',
-          currency: '',
-          error: false,
-          data: '',
-          type: '',
-          live_check_amount: false,
-          button_disable: true
-        };
-
-        this.onInputChange_balance = this.onInputChange_balance.bind(this);
-        //this.addBalance          = this.addBalance.bind(this);
-    }
-
-    componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-          .then(res => {
-            this.setState({data: res.data});
-          })
-          .catch(err => {
-              console.log("Error with authentication! Error: " + err);
-          })
-        const { type } = this.props.match.params;
-
-    }
-    
-    onInputChange_balance(event){
-        if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
-            this.setState({amount: event.target.value}); 
-
-            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
-                this.setState({live_check_amount: true, button_disable: true})
-            } else {
-                this.setState({live_check_amount: false, button_disable: false})
-            }
-        }
-    }
-
-
-    render(){
-        const { classes } = this.props;
-        let amount = this.state.amount; // this.state.balance doesn't exist?
-        let user = this.state.data.username; // this.state.data is initialized to a string not a dictionary
-        
-        return (
-            <div>
-                <TopNavbar />
-                <InputForm className="input-form"/>
-            </div>
-            
-        )
-    }
-    
-}
 
 const mapStateToProps = (state) => {
     return {
