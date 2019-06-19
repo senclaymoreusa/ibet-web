@@ -40,7 +40,8 @@ import { ReactComponent as PromotionsIcon } from '../../assets/img/svg/account-m
 import { ReactComponent as SettingsIcon } from '../../assets/img/svg/account-menu-settings.svg';
 import { ReactComponent as HelpIcon } from '../../assets/img/svg/account-menu-help.svg';
 import { ReactComponent as ResponsibleIcon } from '../../assets/img/svg/account-menu-responsible.svg';
-import { ReactComponent as LogoutIcon } from '../../assets/img/svg/account-menu-logout.svg';
+
+import { ReactComponent as BackIcon } from '../../assets/img/svg/account-menu-back.svg';
 
 
 import Collapse from '@material-ui/core/Collapse';
@@ -53,7 +54,11 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Flag from 'react-flagkit';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import '../../css/account_menu.scss';
 
@@ -62,322 +67,325 @@ const styles = theme => ({
     root: {
         width: '100%',
     },
+    titleRow: {
+        height: 43,
+        width: '100%',
+        paddingTop: 8,
+        paddingLeft: 8,
+    },
+    backButton: {
+        display: 'inline',
+        width: 30,
+        height: 30,
+        minWidth: 30,
+    },
     title: {
         display: 'inline',
-        fontWeight: 600,
+        fontWeight: 300,
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 0.6,
-        textAlign: 'right',
         color: '#212121',
         fontSize: 15.8,
-    },
-    firstNameLabel: {
-        display: 'inline',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-        marginLeft: 5,
-    },
-    balanceLabel: {
-        display: 'inline',
-        float: 'right',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    usernameLabel: {
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    balanceValue: {
-        display: 'inline',
-        float: 'right',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-        marginLeft: 5,
-    },
+        marginLeft: 6,
+        height: 30,
+        marginTop: 12,
 
-    closeButton: {
-        height: 20,
-        width: 20,
+    },
+    myBetsRow: {
+        height: 32,
+        width: '100%',
+        backgroundColor: '#212121',
+        paddingTop: 6,
+    },
+    myBetsLabel: {
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        textAlign: 'center',
+        letterSpacing: 1,
+        color: '#ffffff',
+        fontSize: 15.8,
+        textTransform: 'uppercase',
+    },
+    tabContainer: {
+        backgroundColor: '#f1f1f1',
+        padding: 7,
+
+    },
+    settledPaper: {
         padding: 0,
-        display: 'inline',
-        float: 'right',
-    },
-    cashLabel: {
-        display: 'inline',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    cashValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    bonusLabel: {
-        display: 'inline',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    bonusValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    cashBetValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    allAboutBonus: {
-        fontSize: 13.5,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 1.67,
-        letterSpacing: 0.5,
-        textAlign: 'center',
-        color: '#212121',
-        textDecoration: 'underline',
         marginBottom: 10,
-        marginTop: 10,
     },
-    feeBetPaper: {
-        textAlign: 'center',
+    betDate: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.93,
+        letterSpacing: 'normal',
+        color: '#747175',
+    },
+    single: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.93,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+        float: 'right',
+    },
+    firstGridRow: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderBottom: '1px solid #f1f1f1',
+        height: 30,
+    },
+    secondGridRow: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderBottom: '1px solid #f1f1f1',
+        height: 40,
+        paddingTop: 8,
+    },
+    thirdGridRow: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderBottom: '1px solid #f1f1f1',
+        height: 50,
+        paddingTop: 8,
+    },
+    fifthGridRow: {
+        paddingLeft: 10,
+        height: 80,
+        paddingTop: 8,
+    },
+    fifthGridRowRight: {
+        paddingRight: 10,
+        height: 80,
+        paddingTop: 8,
+        textAlign: 'right',
+    },
+    betIdRow: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 8,
+        backgroundColor: '#212121',
+        height: 40,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
 
-        paddingLeft: 5,
-        paddingRight: 5,
-        paddingTop: 10,
-        paddingBottom: 10,
-        marginBottom: 15,
     },
-    feeBetLabel: {
-        display: 'inline',
-        textAlign: 'center',
-        fontWeight: 600,
+    betName: {
+        fontSize: 16,
+        fontWeight: 'bold',
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        color: '#212121',
-        fontSize: 15.8,
+        lineHeight: 1.69,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
     },
-    feeBetValue: {
-        display: 'inline',
-        textAlign: 'center',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    achievedLabel: {
-        display: 'inline',
-        fontSize: 13.5,
+    betScoreLabel: {
+        fontSize: 14,
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    achievedStart: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#212121',
-    },
-    achievedEnd: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#212121',
-    },
-    achievedProgress: {
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+        float: 'right',
         width: '100%',
+    },
+    betScore: {
+        fontSize: 14,
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+        float: 'right',
+        width: '100%',
+    },
+    wonButton: {
+        float: 'right',
+        width: 72,
         height: 24,
+        borderRadius: 2.3,
+        backgroundColor: '#498905',
+        color: '#ffffff',
+        padding: 1,
     },
-    achievedProgressBar: {
-        display: 'inline',
-        width: 278,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 0,
-        height: 17,
-        borderRadius: 9.3,
-        border: 0,
-        backgroundImage: 'linear-gradient(95deg, #40bea5, #98e2a8)',
+    lossButton: {
+        float: 'right',
+        width: 72,
+        height: 24,
+        borderRadius: 2.3,
+        backgroundColor: '#ff0000',
+        color: '#ffffff',
+        padding: 1,
     },
-    lock: {
-        display: 'inline',
-    },
-    leftGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        borderRight: '1px solid #cdcdcd',
-        height: 90,
-    },
-    rightGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        height: 90,
-    },
-    mergedGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        height: 60,
-    },
-    gridButton: {
-        height: '100%',
+    betValueBold: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+        lineHeight: 1.6,
+        display: 'inline-block',
         width: '100%',
     },
-    blockButtonLabel: {
-        position: 'relative',
-    },
-    menuIcon: {
-        width: '100%',
-    },
-    responsibleButton: {
-        height: '100%',
-        width: '100%',
-        color: '#212121',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
+    betValue: {
+        fontSize: 14,
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+        lineHeight: 1.6,
+        display: 'inline-block',
     },
-    logoutButton: {
-        height: '100%',
-        width: '100%',
-        color: '#212121',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
+    betDetailLabel: {
+        fontSize: 14,
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    changePasswordButton: {
-        height: '100%',
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+        lineHeight: 1.6,
         width: '100%',
-        color: '#04599a',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
+        display: 'block',
+    },
+    betIDText: {
+        fontSize: 14,
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        letterSpacing: 'normal',
+        color: '#ffffff',
+        lineHeight: 1.9,
+    },
+    copy: {
+        fontSize: 14,
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
+        lineHeight: 1.93,
+        letterSpacing: 'normal',
+        color: '#ffffff',
+        float: 'right',
+        textDecoration: 'underline',
     },
-    sectionDesktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
-    },
-    sectionMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
-    button: {
-        width: '90%',
-        margin: theme.spacing.unit,
-        textTransform: 'capitalize'
-    },
-    nested: {
-        paddingLeft: theme.spacing.unit * 4,
-    },
-    formControl: {
-        margin: theme.spacing.unit * 3,
-    },
-    grow: {
-        flexGrow: 1,
-    },
-    help: {
-        width: 20,
-        height: 11.7,
-    },
-    oval: {
-        marginLeft: 8,
-        width: 20,
-        height: 20,
-        minWidth: 20,
-        boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.18)',
-        border: 'solid 2.3px #1e1e1e',
-        backgroundColor: '#2b2b2b',
-        borderRadius: 20,
-        display: 'inline',
-    },
-    chart: {
-        marginTop: 10,
-        marginBottom: 10
-    }
 });
+
+function TabContainer(props) {
+    return (
+        <div className={props.styleClasses.tabContainer}>
+            <Paper className={props.styleClasses.settledPaper}>
+                <Grid container spacing={0}>
+                    <Grid item xs={12} className={props.styleClasses.firstGridRow}>
+                        <span className={props.styleClasses.betDate}>01/06/2019 at 18:00pm</span>
+                        <span className={props.styleClasses.single}>Single</span>
+                    </Grid>
+                    <Grid item xs={12} className={props.styleClasses.secondGridRow}>
+                        <span className={props.styleClasses.betName}>Tottenham vs Liverpool</span>
+                    </Grid>
+                    <Grid item xs={6} className={props.styleClasses.thirdGridRow}>
+                        <span className={props.styleClasses.betScoreLabel}>Correct Score</span>
+                        <span className={props.styleClasses.betScore}>0-1</span>
+                    </Grid>
+                    <Grid item xs={6} className={props.styleClasses.thirdGridRow}>
+                        <Button className={props.styleClasses.wonButton}>won</Button>
+                    </Grid>
+                    <Grid item xs={12} className={props.styleClasses.thirdGridRow}>
+                        <span className={props.styleClasses.betScoreLabel}>Corners over/Under 9.5</span>
+                        <span className={props.styleClasses.betScore}>Under 9.5 Corners</span>
+                    </Grid>
+                    <Grid item xs={8} className={props.styleClasses.fifthGridRow}>
+                        <span className={props.styleClasses.betDetailLabel}>Combined odds:</span>
+                        <span className={props.styleClasses.betDetailLabel}>Stake:</span>
+                        <span className={props.styleClasses.betDetailLabel}>Returns:</span>
+                    </Grid>
+                    <Grid item xs={4} className={props.styleClasses.fifthGridRowRight}>
+                        <span className={props.styleClasses.betValueBold}>$15.40</span>
+                        <span className={props.styleClasses.betValue}>$10.00</span>
+                        <span className={props.styleClasses.betValueBold}>%56.00</span>
+                    </Grid>
+                    <Grid item xs={12} className={props.styleClasses.betIdRow}>
+                        <span className={props.styleClasses.betIDText}>Bet ID: O658530/38344000</span>
+                        <span className={props.styleClasses.copy}>Copy</span>
+                    </Grid>
+                </Grid>
+            </Paper>
+            <Paper className={props.styleClasses.settledPaper}>
+                <Grid container spacing={0}>
+                    <Grid item xs={12} className={props.styleClasses.firstGridRow}>
+                        <span className={props.styleClasses.betDate}>01/06/2019 at 18:00pm</span>
+                        <span className={props.styleClasses.single}>Single</span>
+                    </Grid>
+                    <Grid item xs={12} className={props.styleClasses.secondGridRow}>
+                        <span className={props.styleClasses.betName}>Tottenham vs Liverpool</span>
+                    </Grid>
+                    <Grid item xs={6} className={props.styleClasses.thirdGridRow}>
+                        <span className={props.styleClasses.betScoreLabel}>Correct Score</span>
+                        <span className={props.styleClasses.betScore}>0-1</span>
+                    </Grid>
+                    <Grid item xs={6} className={props.styleClasses.thirdGridRow}>
+                        <Button className={props.styleClasses.lossButton}>loss</Button>
+                    </Grid>
+                    <Grid item xs={12} className={props.styleClasses.thirdGridRow}>
+                        <span className={props.styleClasses.betScoreLabel}>Corners over/Under 9.5</span>
+                        <span className={props.styleClasses.betScore}>Under 9.5 Corners</span>
+                    </Grid>
+                    <Grid item xs={8} className={props.styleClasses.fifthGridRow}>
+                        <span className={props.styleClasses.betDetailLabel}>Combined odds:</span>
+                        <span className={props.styleClasses.betDetailLabel}>Stake:</span>
+                        <span className={props.styleClasses.betDetailLabel}>Returns:</span>
+                    </Grid>
+                    <Grid item xs={4} className={props.styleClasses.fifthGridRowRight}>
+                        <span className={props.styleClasses.betValueBold}>$15.40</span>
+                        <span className={props.styleClasses.betValue}>$10.00</span>
+                        <span className={props.styleClasses.betValueBold}>%56.00</span>
+                    </Grid>
+                    <Grid item xs={12} className={props.styleClasses.betIdRow}>
+                        <span className={props.styleClasses.betIDText}>Bet ID: O658530/38344000</span>
+                        <span className={props.styleClasses.copy}>Copy</span>
+                    </Grid>
+                </Grid>
+            </Paper>
+        </div>
+    );
+}
+
+const StyledTabs = withStyles({
+    root: {
+        height: 40,
+    },
+    indicator: {
+        display: 'flex',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        '& > div': {
+            width: '100%',
+            backgroundColor: '#fe0000',
+        },
+    },
+})(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
+
+const StyledTab = withStyles(theme => ({
+    root: {
+        minWidth: 120,
+        textTransform: 'none',
+        backgroundColor: '#2d2d2d',
+        height: 40,
+        color: '#ffffff',
+        fontWeight: theme.typography.fontWeightRegular,
+        fontSize: 15,
+        opacity: 1,
+    },
+}))(props => <Tab disableRipple {...props} />);
 
 export class SettledBets extends React.Component {
 
@@ -385,145 +393,57 @@ export class SettledBets extends React.Component {
         super(props);
 
         this.state = {
-            anchorEl: null,
-
-            lang: 'en',
-            showLeftPanel: false,
-            showRightPanel: false,
-            showLangListItems: false,
-            term: '',
-            facebooklogin: false,
-            userID: "",
-            name: "",
-            email: "",
-            picture: ""
+            value: 2,
         };
 
+        this.handleTabChange = this.handleTabChange.bind(this);
 
     }
-
-    toggleSidePanel = (side, open) => () => {
-        this.setState({
-            [side]: open,
-        });
-    };
-
-    handleLanguageMenuOpen = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
-
-    handleLanguageMenuClose = (ev) => {
-        this.setState({ anchorEl: null });
-        this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
-    };
-
-    changeLanguage = (lang) => {
-        this.props.setLanguage(lang)
-            .then((res) => {
-                // console.log("language change to:" + res.data);
-            });
-    };
-
-    componentWillReceiveProps(props) {
-        this.setState({ term: '' });
-    }
-
-    componentDidMount() {
-        var fackbooklogin = localStorage.getItem('facebook')
-        this.setState({ facebooklogin: fackbooklogin })
-        var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
-        if (fackbooklogin === 'true') {
-            this.setState({
-                userID: fackbookObj.userID,
-                name: fackbookObj.name,
-                email: fackbookObj.email,
-                picture: fackbookObj.picture
-            })
-        }
-    }
-
-    toggleLanguageListItem = () => {
-        this.setState(state => ({ showLangListItems: !state.showLangListItems }));
-    };
-
-    handleMenuClose = (ev) => {
-        // this.setState({ this.props.showProfilePopper: false });
-    };
 
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');      
+        this.props.onMenuItemClicked('');
     }
-    
+
+    handleTabChange(event, newValue) {
+        this.setState({ value: newValue });
+        this.props.onMenuItemClicked('settled-bets');
+    }
+
     render() {
         const { classes } = this.props;
-        const { formatMessage } = this.props.intl;
-        let languagesMessage = formatMessage({ id: "accountmenu.languages" });
-
-        var LineChart = require("react-chartjs").Line;
-
-        var chartData = {
-            labels: ["Week1", "Week2", "Week3", "Week4", "Week5", "Week6", "Week7"],
-            datasets: [
-                {
-                    label: "My First dataset",
-                    fillColor: "rgba(220,220,220,0.2)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [28, 48, 60, 30, 45, 30, 20]
-                }
-            ]
-        };
-
-        const chartOptions = {
-            ///Boolean - Whether grid lines are shown across the chart
-            scaleShowGridLines: true,
-            //String - Colour of the grid lines
-            scaleGridLineColor: "rgba(0,0,0,.05)",
-            //Number - Width of the grid lines
-            scaleGridLineWidth: 1,
-            //Boolean - Whether to show horizontal lines (except X axis)
-            scaleShowHorizontalLines: true,
-            //Boolean - Whether to show vertical lines (except Y axis)
-            scaleShowVerticalLines: true,
-            //Boolean - Whether the line is curved between points
-            bezierCurve: true,
-            //Number - Tension of the bezier curve between points
-            bezierCurveTension: 0.4,
-            //Boolean - Whether to show a dot for each point
-            pointDot: true,
-            //Number - Radius of each point dot in pixels
-            pointDotRadius: 4,
-            //Number - Pixel width of point dot stroke
-            pointDotStrokeWidth: 1,
-            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-            pointHitDetectionRadius: 20,
-            //Boolean - Whether to show a stroke for datasets
-            datasetStroke: true,
-            //Number - Pixel width of dataset stroke
-            datasetStrokeWidth: 2,
-            //Boolean - Whether to fill the dataset with a colour
-            datasetFill: true,
-        };
+        const { value } = this.state;
 
         return (
             <div className={classes.root}>
                 <div className={classes.sectionDesktop}>
                     <Grid container className={classes.root} spacing={0}>
-                        <Grid item xs={12}>
-                            <Button onClick={this.backClicked}>back in SettledBets</Button>
-                            <div className={classes.back}>
-                                <FormattedMessage id="accountmenu.open-bets" defaultMessage="Open Bets" />
-                            </div>
-                            <span className={classes.firstNameLabel}>David</span>
-                            <span className={classes.balanceValue}>$345.00</span>
-                            <div className={classes.balanceLabel}>
-                                <FormattedMessage id="accountmenu.balance" defaultMessage="Balance:" />
+                        <Grid item xs={12} className={classes.titleRow}>
+                            <Button onClick={this.backClicked} className={classes.backButton}>
+                                <BackIcon />
+                            </Button>
+                            <div className={classes.title}>
+                                <FormattedMessage id="accountmenu.settled-bets" defaultMessage="Settled Bets" />
                             </div>
                         </Grid>
+                        <Grid item xs={12} className={classes.myBetsRow}>
+                            <div className={classes.myBetsLabel}>
+                                <FormattedMessage id="accountmenu.my-bets" defaultMessage="My Bets" />
+                            </div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <AppBar position="static">
+                                <StyledTabs value={value} onChange={this.handleTabChange} variant="fullWidth">
+                                    <StyledTab label="Open" />
+                                    <StyledTab label="Cash Out" />
+                                    <StyledTab label="Settled" />
+                                </StyledTabs>
+                            </AppBar>
+                            {value === 0 && <TabContainer styleClasses={classes}>
 
+                            </TabContainer>}
+                            {value === 1 && <TabContainer styleClasses={classes}>Item Two</TabContainer>}
+                            {value === 2 && <TabContainer styleClasses={classes}>Item Three</TabContainer>}
+                        </Grid>
                     </Grid>
                 </div>
             </div >

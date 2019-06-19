@@ -97,6 +97,17 @@ const styles = theme => ({
         color: '#212121',
         fontSize: 15.8,
     },
+    firstRow: {
+        paddingTop: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
+
+    },
+    secondRow: {
+        paddingLeft: 10,
+        paddingRight: 10,
+
+    },
     usernameLabel: {
         fontWeight: 500,
         fontStyle: 'normal',
@@ -373,7 +384,7 @@ const styles = theme => ({
         borderRadius: 20,
         display: 'inline',
     },
-    chart:{
+    chart: {
         marginTop: 10,
         marginBottom: 10
     }
@@ -452,35 +463,33 @@ export class AccountMenu extends React.Component {
     };
 
     depositClicked = event => {
-        this.props.onMenuItemClicked('deposit');      
+        this.props.onMenuItemClicked('deposit');
     }
-    
     withdrawClicked = event => {
-        this.props.onMenuItemClicked('withdraw');      
+        this.props.onMenuItemClicked('withdraw');
     }
 
     openBetsClicked = event => {
-        this.props.onMenuItemClicked('open-bets');      
+        this.props.onMenuItemClicked('open-bets');
     }
 
     settledBetsClicked = event => {
-        this.props.onMenuItemClicked('settled-bets');      
+        this.props.onMenuItemClicked('settled-bets');
     }
 
     promotionsClicked = event => {
-        this.props.onMenuItemClicked('promotions');      
+        this.props.onMenuItemClicked('promotions');
     }
-    
     settingsClicked = event => {
-        this.props.onMenuItemClicked('settings');      
+        this.props.onMenuItemClicked('settings');
     }
 
     helpClicked = event => {
-        this.props.onMenuItemClicked('help');      
+        this.props.onMenuItemClicked('help');
     }
 
     responsibleGamblingClicked = event => {
-        this.props.onMenuItemClicked('responsible-gambling');      
+        this.props.onMenuItemClicked('responsible-gambling');
     }
 
 
@@ -509,40 +518,40 @@ export class AccountMenu extends React.Component {
 
         const chartOptions = {
             ///Boolean - Whether grid lines are shown across the chart
-            scaleShowGridLines : true,  
+            scaleShowGridLines: true,
             //String - Colour of the grid lines
-            scaleGridLineColor : "rgba(0,0,0,.05)",     
+            scaleGridLineColor: "rgba(0,0,0,.05)",
             //Number - Width of the grid lines
-            scaleGridLineWidth : 1,   
+            scaleGridLineWidth: 1,
             //Boolean - Whether to show horizontal lines (except X axis)
-            scaleShowHorizontalLines: true,   
+            scaleShowHorizontalLines: true,
             //Boolean - Whether to show vertical lines (except Y axis)
-            scaleShowVerticalLines: true,  
+            scaleShowVerticalLines: true,
             //Boolean - Whether the line is curved between points
-            bezierCurve : true,
+            bezierCurve: true,
             //Number - Tension of the bezier curve between points
-            bezierCurveTension : 0.4,
+            bezierCurveTension: 0.4,
             //Boolean - Whether to show a dot for each point
-            pointDot : true,
+            pointDot: true,
             //Number - Radius of each point dot in pixels
-            pointDotRadius : 4,
+            pointDotRadius: 4,
             //Number - Pixel width of point dot stroke
-            pointDotStrokeWidth : 1,
+            pointDotStrokeWidth: 1,
             //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-            pointHitDetectionRadius : 20,
+            pointHitDetectionRadius: 20,
             //Boolean - Whether to show a stroke for datasets
-            datasetStroke : true,
+            datasetStroke: true,
             //Number - Pixel width of dataset stroke
-            datasetStrokeWidth : 2,
+            datasetStrokeWidth: 2,
             //Boolean - Whether to fill the dataset with a colour
-            datasetFill : true,
+            datasetFill: true,
         };
 
-      return (
+        return (
             <div className={classes.root}>
                 <div className={classes.sectionDesktop}>
                     <Grid container className={classes.root} spacing={0}>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.firstRow}>
                             <div className={classes.hi}>
                                 <FormattedMessage id="accountmenu.hi" defaultMessage="Hi" />
                             </div>
@@ -552,13 +561,13 @@ export class AccountMenu extends React.Component {
                                 <FormattedMessage id="accountmenu.balance" defaultMessage="Balance:" />
                             </div>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.secondRow}>
                             <span className={classes.usernameLabel}>Docallaghan86</span>
                         </Grid>
-                        <Grid item xs={12}>
-                        <LineChart className={classes.chart} data={chartData} options={chartOptions} width="340" height="145"/>
+                        <Grid item xs={12} className={classes.secondRow}>
+                            <LineChart className={classes.chart} data={chartData} options={chartOptions} width="340" height="150" />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.secondRow}>
                             <div className={classes.cashLabel}>
                                 <FormattedMessage id="accountmenu.cash-label" defaultMessage="Cash" />
                                 <span>(100%)</span>
@@ -566,7 +575,7 @@ export class AccountMenu extends React.Component {
                             </div>
                             <span className={classes.cashValue}>$345.00</span>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.secondRow}>
                             <div className={classes.bonusLabel}>
                                 <FormattedMessage id="accountmenu.bonus-label" defaultMessage="Bonus" />
                                 <span>(0%)</span>
@@ -574,7 +583,7 @@ export class AccountMenu extends React.Component {
                             </div>
                             <span className={classes.bonusValue}>$0.00</span>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.secondRow}>
                             <div className={classes.bonusLabel}>
                                 <FormattedMessage id="accountmenu.next-bet-split" defaultMessage="Next Bet Split:" />
                             </div>
@@ -583,12 +592,12 @@ export class AccountMenu extends React.Component {
                             </div>
                             <span className={classes.cashBetValue}>$0.00</span>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.secondRow}>
                             <div className={classes.allAboutBonus}>
                                 <FormattedMessage id="accountmenu.all-about-bonus" defaultMessage="All you need to know about your bonus." />
                             </div>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.secondRow}>
                             <Paper className={classes.feeBetPaper}>
                                 <div className={classes.feeBetLabel}>
                                     <FormattedMessage id="accountmenu.fee-bet" defaultMessage="Fee Bet" />
@@ -682,7 +691,11 @@ export class AccountMenu extends React.Component {
                             </Button>
                         </Grid>
                         <Grid item xs={12} className={classes.mergedGridButton}>
-                            <Button className={classes.logoutButton}>
+                            <Button className={classes.logoutButton}
+                                onClick={() => {
+                                    this.props.logout()
+                                    postLogout();
+                                }}>
                                 <div className={classes.blockButtonLabel}>
                                     <LogoutIcon className={classes.menuIcon} />
 
@@ -696,126 +709,6 @@ export class AccountMenu extends React.Component {
                             </Button>
                         </Grid>
                     </Grid>
-                    {/* 
-                    <Button variant="contained" className={classes.button}>
-                        <FormattedMessage id="accountmenu.your-goodies" defaultMessage='Trade in' />
-                    </Button>
-                    <FormControl component="fieldset" className={classes.formControl}>
-                        <FormLabel component="legend">
-                            <FormattedMessage id="accountmenu.your-goodies" defaultMessage='Your Goodies' />
-                        </FormLabel>
-                        <FormLabel component="legend">
-                            <FormattedMessage id="accountmenu.free-spins" defaultMessage='10 Free Spins on Starburst' />
-                        </FormLabel>
-                    </FormControl>
-                    <Divider />
-                    <FormControl component="fieldset" className={classes.formControl}>
-                        <FormLabel component="legend">
-                            <FormattedMessage id="accountmenu.main-wallet" defaultMessage='Main wallet' />
-                        </FormLabel>
-                        <FormLabel component="legend">
-                            <FormattedMessage id="accountmenu.main-wallet" defaultMessage='Sportsbook A' />
-                        </FormLabel>
-                        <FormLabel component="legend">
-                            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
-                        </FormLabel>
-                        <FormLabel component="legend">
-                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
-                        </FormLabel>
-                    </FormControl>
-
-                    <Button variant="contained" color="primary" component="a" href="/deposit/" id="nav.deposit" className={classes.button}>
-                        Deposit
-                        </Button>
-                    <Button variant="contained" color="secondary" className={classes.button}>
-                        <FormattedMessage id="accountmenu.withdraw" defaultMessage='Withdraw' />
-
-                    </Button>
-                    <List>
-                        <Divider />
-                        <ListItem button component="a" href="/fund_management/">
-                            <ListItemIcon>
-                                <AttachMoney />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <FormattedMessage id="accountmenu.fund-management" defaultMessage='Fund Management' />
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem button component="a" href="/open_bets/">
-                            <ListItemIcon>
-                                <TouchApp />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <FormattedMessage id="accountmenu.open-bets" defaultMessage='Open Bets' />
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem button component="a" href="/user_messages/">
-                            <ListItemIcon>
-                                <Message />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <FormattedMessage id="accountmenu.messages" defaultMessage='Messages' />
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem button component="a" href="/points_rewards/">
-                            <ListItemIcon>
-                                <CardGiftcard />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <FormattedMessage id="accountmenu.points-rewards" defaultMessage='Points & Rewards' />
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem button component="a" href="/usage_analysis/">
-                            <ListItemIcon>
-                                <BarChart />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <FormattedMessage id="accountmenu.usage-analysis" defaultMessage='Usage Analysis' />
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem button component="a" href="/personal_details/">
-                            <ListItemIcon>
-                                <PersonOutline />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <FormattedMessage id="accountmenu.personal-details" defaultMessage='Personal Details' />
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem button component="a" href="/account_settings/">
-                            <ListItemIcon>
-                                <Settings />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <FormattedMessage id="accountmenu.account-settings" defaultMessage='Account Settings' />
-                            </ListItemText>
-                        </ListItem>
-                        <Divider />
-                        <ListItem button component="a" href="/profile/">
-                            <ListItemIcon>
-                                <Person />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <FormattedMessage id="accountmenu.profile" defaultMessage='Profile' />
-                            </ListItemText>
-                        </ListItem>
-
-                        <ListItem button component="a" href="/referral/">
-                            <ListItemIcon>
-                                <PeopleOutline />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <FormattedMessage id="accountmenu.referral" defaultMessage='Refer new user' />
-                            </ListItemText>
-                        </ListItem>
-
-
-                        <Button variant="contained" className={classes.button} onClick={() => {
-                            this.props.logout()
-                            postLogout();
-                        }}>
-                            <FormattedMessage id="nav.logout" defaultMessage='Logout' />
-                        </Button>
-                    </List> */}
                 </div>
                 <div className={classes.sectionMobile}>
                     <div className={classes.list}>

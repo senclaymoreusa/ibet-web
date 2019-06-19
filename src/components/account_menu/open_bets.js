@@ -53,7 +53,12 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Flag from 'react-flagkit';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
+
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import '../../css/account_menu.scss';
 
@@ -61,276 +66,6 @@ import '../../css/account_menu.scss';
 const styles = theme => ({
     root: {
         width: '100%',
-    },
-    title: {
-        display: 'inline',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    firstNameLabel: {
-        display: 'inline',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-        marginLeft: 5,
-    },
-    balanceLabel: {
-        display: 'inline',
-        float: 'right',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    usernameLabel: {
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    balanceValue: {
-        display: 'inline',
-        float: 'right',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-        marginLeft: 5,
-    },
-
-    closeButton: {
-        height: 20,
-        width: 20,
-        padding: 0,
-        display: 'inline',
-        float: 'right',
-    },
-    cashLabel: {
-        display: 'inline',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    cashValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    bonusLabel: {
-        display: 'inline',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    bonusValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    cashBetValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    allAboutBonus: {
-        fontSize: 13.5,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 1.67,
-        letterSpacing: 0.5,
-        textAlign: 'center',
-        color: '#212121',
-        textDecoration: 'underline',
-        marginBottom: 10,
-        marginTop: 10,
-    },
-    feeBetPaper: {
-        textAlign: 'center',
-
-        paddingLeft: 5,
-        paddingRight: 5,
-        paddingTop: 10,
-        paddingBottom: 10,
-        marginBottom: 15,
-    },
-    feeBetLabel: {
-        display: 'inline',
-        textAlign: 'center',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    feeBetValue: {
-        display: 'inline',
-        textAlign: 'center',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    achievedLabel: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    achievedStart: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#212121',
-    },
-    achievedEnd: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#212121',
-    },
-    achievedProgress: {
-        width: '100%',
-        height: 24,
-    },
-    achievedProgressBar: {
-        display: 'inline',
-        width: 278,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 0,
-        height: 17,
-        borderRadius: 9.3,
-        border: 0,
-        backgroundImage: 'linear-gradient(95deg, #40bea5, #98e2a8)',
-    },
-    lock: {
-        display: 'inline',
-    },
-    leftGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        borderRight: '1px solid #cdcdcd',
-        height: 90,
-    },
-    rightGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        height: 90,
-    },
-    mergedGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        height: 60,
-    },
-    gridButton: {
-        height: '100%',
-        width: '100%',
-    },
-    blockButtonLabel: {
-        position: 'relative',
-    },
-    menuIcon: {
-        width: '100%',
-    },
-    responsibleButton: {
-        height: '100%',
-        width: '100%',
-        color: '#212121',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    logoutButton: {
-        height: '100%',
-        width: '100%',
-        color: '#212121',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    changePasswordButton: {
-        height: '100%',
-        width: '100%',
-        color: '#04599a',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
     },
     sectionDesktop: {
         display: 'none',
@@ -344,40 +79,57 @@ const styles = theme => ({
             display: 'none',
         },
     },
-    button: {
-        width: '90%',
-        margin: theme.spacing.unit,
-        textTransform: 'capitalize'
+    title: {
+        display: 'inline',
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.6,
+        textAlign: 'right',
+        color: '#212121',
+        fontSize: 15.8,
     },
-    nested: {
-        paddingLeft: theme.spacing.unit * 4,
-    },
-    formControl: {
-        margin: theme.spacing.unit * 3,
-    },
-    grow: {
-        flexGrow: 1,
-    },
-    help: {
-        width: 20,
-        height: 11.7,
-    },
-    oval: {
-        marginLeft: 8,
-        width: 20,
-        height: 20,
-        minWidth: 20,
-        boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.18)',
-        border: 'solid 2.3px #1e1e1e',
-        backgroundColor: '#2b2b2b',
-        borderRadius: 20,
+    back: {
         display: 'inline',
     },
-    chart:{
-        marginTop: 10,
-        marginBottom: 10
-    }
+    myBets: {
+        backgroundColor: '#212121',
+        height: 50,
+        width: '100%',
+        textAlign: 'center',
+        color: '#ffffff',
+        textTransform: 'upperCase',
+        fontSize: 16,
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.5,
+        paddingTop: 14,
+    },
+    changePasswordButton: {
+        height: '100%',
+        width: '100%',
+        color: '#04599a',
+        fontSize: 13.5,
+        textTransform: 'capitalize',
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.5,
+    },
+
 });
+
+function TabContainer(props) {
+    return (
+      <Typography component="div" style={{ padding: 8 * 3 }}>
+        {props.children}
+      </Typography>
+    );
+  }
 
 export class OpenBets extends React.Component {
 
@@ -385,291 +137,54 @@ export class OpenBets extends React.Component {
         super(props);
 
         this.state = {
-            anchorEl: null,
-
-            lang: 'en',
-            showLeftPanel: false,
-            showRightPanel: false,
-            showLangListItems: false,
-            term: '',
-            facebooklogin: false,
-            userID: "",
-            name: "",
-            email: "",
-            picture: ""
+            value: 0,
         };
 
 
     }
 
-    toggleSidePanel = (side, open) => () => {
-        this.setState({
-            [side]: open,
-        });
-    };
-
-    handleLanguageMenuOpen = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
-
-    handleLanguageMenuClose = (ev) => {
-        this.setState({ anchorEl: null });
-        this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
-    };
-
-    changeLanguage = (lang) => {
-        this.props.setLanguage(lang)
-            .then((res) => {
-                // console.log("language change to:" + res.data);
-            });
-    };
-
-    componentWillReceiveProps(props) {
-        this.setState({ term: '' });
-    }
-
-    componentDidMount() {
-        var fackbooklogin = localStorage.getItem('facebook')
-        this.setState({ facebooklogin: fackbooklogin })
-        var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
-        if (fackbooklogin === 'true') {
-            this.setState({
-                userID: fackbookObj.userID,
-                name: fackbookObj.name,
-                email: fackbookObj.email,
-                picture: fackbookObj.picture
-            })
-        }
-    }
-
-    toggleLanguageListItem = () => {
-        this.setState(state => ({ showLangListItems: !state.showLangListItems }));
-    };
-
-    handleMenuClose = (ev) => {
-        // this.setState({ this.props.showProfilePopper: false });
-    };
-
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');      
+        this.props.onMenuItemClicked('');
+    }
+
+    handleTabChange(event, newValue) {
+        this.setState({ value: newValue });
     }
 
     render() {
-        const { classes } = this.props;
-        const { formatMessage } = this.props.intl;
-        let languagesMessage = formatMessage({ id: "accountmenu.languages" });
+        const { classes, value } = this.props;
 
-        var LineChart = require("react-chartjs").Line;
-
-        var chartData = {
-            labels: ["Week1", "Week2", "Week3", "Week4", "Week5", "Week6", "Week7"],
-            datasets: [
-                {
-                    label: "My First dataset",
-                    fillColor: "rgba(220,220,220,0.2)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [28, 48, 60, 30, 45, 30, 20]
-                }
-            ]
-        };
-
-        const chartOptions = {
-            ///Boolean - Whether grid lines are shown across the chart
-            scaleShowGridLines : true,  
-            //String - Colour of the grid lines
-            scaleGridLineColor : "rgba(0,0,0,.05)",     
-            //Number - Width of the grid lines
-            scaleGridLineWidth : 1,   
-            //Boolean - Whether to show horizontal lines (except X axis)
-            scaleShowHorizontalLines: true,   
-            //Boolean - Whether to show vertical lines (except Y axis)
-            scaleShowVerticalLines: true,  
-            //Boolean - Whether the line is curved between points
-            bezierCurve : true,
-            //Number - Tension of the bezier curve between points
-            bezierCurveTension : 0.4,
-            //Boolean - Whether to show a dot for each point
-            pointDot : true,
-            //Number - Radius of each point dot in pixels
-            pointDotRadius : 4,
-            //Number - Pixel width of point dot stroke
-            pointDotStrokeWidth : 1,
-            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-            pointHitDetectionRadius : 20,
-            //Boolean - Whether to show a stroke for datasets
-            datasetStroke : true,
-            //Number - Pixel width of dataset stroke
-            datasetStrokeWidth : 2,
-            //Boolean - Whether to fill the dataset with a colour
-            datasetFill : true,
-        };
-
-      return (
+        return (
             <div className={classes.root}>
                 <div className={classes.sectionDesktop}>
                     <Grid container className={classes.root} spacing={0}>
                         <Grid item xs={12}>
-                            <Button onClick={this.backClicked}>back</Button>
-                            <div className={classes.back}>
-                                <FormattedMessage id="accountmenu.open-bets" defaultMessage="Open Bets" />
-                            </div>
-                            <span className={classes.firstNameLabel}>David</span>
-                            <span className={classes.balanceValue}>$345.00</span>
-                            <div className={classes.balanceLabel}>
-                                <FormattedMessage id="accountmenu.balance" defaultMessage="Balance:" />
+                            <Button onClick={this.backClicked} className={classes.back}>back</Button>
+                            <div className={classes.title}>
+                                <FormattedMessage id="open-bets.open-bets" defaultMessage="Open Bets" />
                             </div>
                         </Grid>
                         <Grid item xs={12}>
-                            <span className={classes.usernameLabel}>Docallaghan86</span>
-                        </Grid>
-                        <Grid item xs={12}>
-                        <LineChart className={classes.chart} data={chartData} options={chartOptions} width="340" height="145"/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <div className={classes.cashLabel}>
-                                <FormattedMessage id="accountmenu.cash-label" defaultMessage="Cash" />
-                                <span>(100%)</span>
-                                <span>:</span>
-                            </div>
-                            <span className={classes.cashValue}>$345.00</span>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <div className={classes.bonusLabel}>
-                                <FormattedMessage id="accountmenu.bonus-label" defaultMessage="Bonus" />
-                                <span>(0%)</span>
-                                <span>:</span>
-                            </div>
-                            <span className={classes.bonusValue}>$0.00</span>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <div className={classes.bonusLabel}>
-                                <FormattedMessage id="accountmenu.next-bet-split" defaultMessage="Next Bet Split:" />
-                            </div>
-                            <div className={classes.oval}>
-                                <HelpIcon className={classes.help} />
-                            </div>
-                            <span className={classes.cashBetValue}>$0.00</span>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <div className={classes.allAboutBonus}>
-                                <FormattedMessage id="accountmenu.all-about-bonus" defaultMessage="All you need to know about your bonus." />
+                            <div className={classes.myBets}>
+                                <FormattedMessage id="open-bets.my-bets" defaultMessage="My Bets" />
                             </div>
                         </Grid>
                         <Grid item xs={12}>
-                            <Paper className={classes.feeBetPaper}>
-                                <div className={classes.feeBetLabel}>
-                                    <FormattedMessage id="accountmenu.fee-bet" defaultMessage="Fee Bet" />
-                                </div>
-                                <span className={classes.feeBetValue}> - </span>
-                                <span className={classes.feeBetValue}>$0.00</span>
-                                <Grid container className={classes.root} spacing={0}>
-                                    <Grid item xs={3}>
-                                        <span className={classes.achievedStart}>$0.00</span>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <div className={classes.achievedLabel}>
-                                            <FormattedMessage id="accountmenu.achieved" defaultMessage="Achieved" />
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                        <span className={classes.achievedEnd}>$0.00</span>
-                                    </Grid>
-                                </Grid>
-                                <div className={classes.achievedProgress}>
-                                    <LockIcon className={classes.lock} />
-                                    <input className={classes.achievedProgressBar}>
-                                    </input>
-                                    <LockIcon className={classes.lock} />
-                                </div>
-                            </Paper>
-                        </Grid>
-
-                        <Grid item xs={6} className={classes.leftGridButton}>
-                            <Button className={classes.gridButton}>
-                                <div className={classes.blockButtonLabel}>
-                                    <DepositIcon className={classes.menuIcon} />
-                                    <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={6} className={classes.rightGridButton}>
-                            <Button className={classes.gridButton}>
-                                <div className={classes.blockButtonLabel}>
-                                    <WithdrawIcon className={classes.menuIcon} />
-                                    <FormattedMessage id="accountmenu.withdraw" defaultMessage="Withdraw" />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={6} className={classes.leftGridButton}>
-                            <Button className={classes.gridButton}>
-                                <div className={classes.blockButtonLabel}>
-                                    <OpenBetsIcon className={classes.menuIcon} />
-                                    <FormattedMessage id="accountmenu.open-bets" defaultMessage="Open Bets" />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={6} className={classes.rightGridButton}>
-                            <Button className={classes.gridButton}>
-                                <div className={classes.blockButtonLabel}>
-                                    <SettledBetsIcon className={classes.menuIcon} />
-                                    <FormattedMessage id="accountmenu.settled-bets" defaultMessage="Settled Bets" />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={6} className={classes.leftGridButton}>
-                            <Button className={classes.gridButton}>
-                                <div className={classes.blockButtonLabel}>
-                                    <PromotionsIcon className={classes.menuIcon} />
-                                    <FormattedMessage id="accountmenu.promotions" defaultMessage="Promotions" />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={6} className={classes.rightGridButton}>
-                            <Button className={classes.gridButton}>
-                                <div className={classes.blockButtonLabel}>
-                                    <SettingsIcon className={classes.menuIcon} />
-                                    <FormattedMessage id="accountmenu.settings" defaultMessage="Settings" />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={6} className={classes.leftGridButton}>
-                            <Button className={classes.gridButton}>
-                                <div className={classes.blockButtonLabel}>
-                                    <HelpIcon className={classes.menuIcon} />
-                                    <FormattedMessage id="accountmenu.help" defaultMessage="Help" />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={6} className={classes.rightGridButton}>
-                            <Button className={classes.responsibleButton}>
-                                <div className={classes.blockButtonLabel}>
-                                    <ResponsibleIcon className={classes.menuIcon} />
-                                    <FormattedMessage id="accountmenu.responsible-gambling" defaultMessage="Responsible Gambling" />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} className={classes.mergedGridButton}>
-                            <Button className={classes.logoutButton}>
-                                <div className={classes.blockButtonLabel}>
-                                    <LogoutIcon className={classes.menuIcon} />
-
-                                    <FormattedMessage id="accountmenu.logout" defaultMessage="Logout" />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12} className={classes.mergedGridButton}>
-                            <Button className={classes.changePasswordButton}>
-                                <FormattedMessage id="accountmenu.change-password" defaultMessage="Change Password ›" />
-                            </Button>
+                            <AppBar position="static">
+                                <Tabs value={value} onChange={this.handleTabChange}>
+                                    <Tab label="Item One" />
+                                    <Tab label="Item Two" />
+                                    <Tab label="Item Three" />
+                                </Tabs>
+                            </AppBar>
+                            {value === 0 && <TabContainer>Item One</TabContainer>}
+                            {value === 1 && <TabContainer>Item Two</TabContainer>}
+                            {value === 2 && <TabContainer>Item Three</TabContainer>}
                         </Grid>
                     </Grid>
-                
+
                 </div>
-              </div >
+            </div >
         );
     }
 }

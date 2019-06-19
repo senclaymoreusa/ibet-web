@@ -349,7 +349,7 @@ const styles = theme => ({
         color: 'black',
     },
     accountMenuPaper: {
-        padding: 7,
+        padding: 0,
         width: 360,
     },
     footer: {
@@ -800,7 +800,7 @@ export class TopNavbar extends React.Component {
             case 'settings':
                 currentMenu = <Settings onMenuItemClicked={this.setCurrentAccountMenuItem} />;
                 break;
-            case 'settled_bets':
+            case 'settled-bets':
                 currentMenu = <SettledBets onMenuItemClicked={this.setCurrentAccountMenuItem} />;
                 break;
             default:
@@ -1040,7 +1040,7 @@ export class TopNavbar extends React.Component {
                                             <SVG className="userIcon" />
                                             <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
                                         </Button>
-                                        <FormattedMessage id="nav.username" defaultMessage="Username">
+                                        {/* <FormattedMessage id="nav.username" defaultMessage="Username">
                                             {placeholder =>
                                                 <input
                                                     id="filled-email-input"
@@ -1065,7 +1065,7 @@ export class TopNavbar extends React.Component {
 
                                                 />
                                             }
-                                        </FormattedMessage>
+                                        </FormattedMessage> */}
                                         <Button
                                             variant="outlined"
                                             className={classes.loginButton}

@@ -655,6 +655,14 @@ export const messages = {
         'accountmenu.change-password': 'Change Password >',
         'accountmenu.open-bets': 'Open Bets',
 
+        'open-bets.my-bets': 'My Bets',
+        'open-bets.open-bets': 'Open Bets',
+
+        'settled-bets.open':'Open',
+        'settled-bets.cash-out':'Cash Out',
+        'settled-bets.settled':'Settled',
+
+        
         // footer message
         'footer.terms_conditions': 'Termes et conditions',
         'footer.cookie_policy': 'Politique de cookie',
