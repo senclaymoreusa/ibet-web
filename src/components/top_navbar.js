@@ -21,7 +21,7 @@ import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -343,6 +343,7 @@ export class TopNavbar extends React.Component {
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
+            anchorElLogin: null,
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -428,7 +429,7 @@ export class TopNavbar extends React.Component {
     };
 
     handleLoginMenuOpen = event => {
-        this.setState({ username: '', password: '' })
+        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
         this.props.show_login()
     };
 
@@ -449,8 +450,11 @@ export class TopNavbar extends React.Component {
 
     handleLanguageMenuClose = (ev) => {
         this.setState({ showLangMenu: false });
-
     };
+
+    handleLoginMenuClose(){
+        this.props.hide_login()
+    }
 
     changeLanguage = (lang) => {
         this.props.setLanguage(lang)
@@ -667,15 +671,6 @@ export class TopNavbar extends React.Component {
                     )}
                 </Popper>
 
-                <Popover
-                    open={this.props.showLogin}
-                    anchorReference="anchorPosition"
-                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
-                >
-                    <div className='login-window'>
-                        <Login />
-                    </div>
-                </Popover>
 
                 <Popover
                     open={this.props.showSignup} 
@@ -855,6 +850,8 @@ export class TopNavbar extends React.Component {
                                             <DepositIcon className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
                                         </Fab>
+
+                                        
                                         <Fab
                                             variant="extended"
                                             size="small"
@@ -867,6 +864,27 @@ export class TopNavbar extends React.Component {
                                             <PersonOutline className={classes.extendedIcon} />
                                             <FormattedMessage id="nav.login" defaultMessage='Login' />
                                         </Fab>
+
+                                        <Popper
+                                            className={classes.langPopper}
+                                            open={this.props.showLogin}
+                                            anchorEl={this.state.anchorElLogin}
+                                            anchorOrigin={{
+                                                vertical: 'bottom',
+                                                horizontal: 'left',
+                                            }}
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'center',
+                                            }}
+                                        >
+                                            <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
+                                                <div className='login-window'>
+                                                    <Login />
+                                                </div>
+                                            </ClickAwayListener>
+                                        </Popper>
+                                        
 
                                         {LangDropdown}
                                     </div>
@@ -973,4 +991,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login })(TopNavbar))));
