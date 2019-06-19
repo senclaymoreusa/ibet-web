@@ -607,6 +607,8 @@ export class TopNavbar extends React.Component {
 
     handleProfileMenuClose = (ev) => {
         this.setState({ showProfilePopper: false });
+        this.setState({ currentAccountMenuItem: '' });
+
     };
 
     changeLanguage = (lang) => {
