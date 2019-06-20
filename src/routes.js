@@ -33,7 +33,7 @@ import TermsConditions from './components/policy/terms_conditions'
 import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password'
-
+import DepositQaicah from './components/deposit_qaicash'
 const divStyle = {
   minHeight: '100%',
 };
@@ -70,6 +70,7 @@ const BaseRouter = () => (
     <Route exact path="/personal_details/" component={PersonalDetails} />
     <Route exact path="/account_settings/" component={AccountSettings} />
     <Route exact path="/deposit/" component={Deposit} />
+    <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
     <Route exact path="/terms_conditions/" component={TermsConditions} />
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
