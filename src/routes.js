@@ -34,6 +34,7 @@ import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password'
 import DepositPage from "./components/deposit_2"
+import DepositSuccess from "./components/deposit_success"
 
 // import OrionTest from './components/orion'
 const divStyle = {
@@ -77,6 +78,7 @@ const BaseRouter = () => (
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
     <Route exact path="/change_password/" component={Change_Password} />
     <Route exact path="/deposit/test/" component={DepositPage} />
+    <Route exact path="/deposit/success/" component={DepositSuccess} />
     {/* <Route exact path="/orion/test/" component={OrionTest} /> */}
   </div>
 );
