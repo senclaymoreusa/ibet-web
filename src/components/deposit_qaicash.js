@@ -56,23 +56,19 @@ class DepositQaicah extends Component {
           error: false,
           data: '',
           type: '',
-
+          qaicash_error: false,
+          qaicash_error_msg: "",
           live_check_amount: false,
-
           button_disable: true,
         };
-        this.keyCount = 0;
-        this.getKey = this.getKey.bind(this);
+        
         this.onInputChange_balance          = this.onInputChange_balance.bind(this);
         //this.addBalance          = this.addBalance.bind(this);
     }
-    getKey(){
-        return this.keyCount++;
-    }
+    
     componentDidMount() {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
-
         axios.get(API_URL + 'users/api/user/', config)
           .then(res => {
             this.setState({data: res.data});
@@ -133,7 +129,6 @@ class DepositQaicah extends Component {
                             color="primary"  
                             className={classes.button}
                             onClick={function() {
-                                
                                 var postData = {
                                     "amount": amount,
                                     "user_id": user,
@@ -163,29 +158,65 @@ class DepositQaicah extends Component {
                                     console.log(redirectUrl)
 
                                     if(redirectUrl != null){
-                                        window.open(redirectUrl, 'qaicash-Wechatpay', 'height=500,width=500')
+                                        const mywin = window.open(redirectUrl, 'qaicash-Wechatpay', 'height=500,width=500');
+                                        var timer = setInterval(function() { 
+                                            console.log('checking..')
+                                              if(mywin.closed) {
+                                                    clearInterval(timer);
+                                                    var postData = {
+                                                        "order_id": data.paymentPageSession.orderId
+                                                    }
+                                                    var formBody = [];
+                                                    for (var pd in postData) {
+                                                        var encodedKey = encodeURIComponent(pd);
+                                                        var encodedValue = encodeURIComponent(postData[pd]);
+                                                        formBody.push(encodedKey + "=" + encodedValue);
+                                                    }
+                                                    formBody = formBody.join("&");
+                                                    
+                                                    return fetch(API_URL + 'accounting/api/qaicash/deposit_transaction', {
+                                                        method: "POST",
+                                                        headers: {
+                                                            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                                        },
+                                                        body: formBody
+                                                        }).then(function(res) {
+                                                            return res.json();
+                                                        }).then(function(data) {
+                                                            console.log(data.status)
+                                                            if(data.status == 'SUCCESS'){
+                                                                alert('Transaction is approved.');
+                                                                const body = JSON.stringify({
+                                                                    type : 'add',
+                                                                    username: username,
+                                                                    balance: amount,
+                                                                });
+                                                                console.log(body)
+                                                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                                                .then(res => {
+                                                                    if (res.data === 'Failed'){
+                                                                        this.setState({error: true});
+                                                                    } else if (res.data === 'The balance is not enough') {
+                                                                        alert("cannot withdraw this amount")
+                                                                    }else{
+                                                                        alert("your balance is updated")
+                                                                        window.location.reload()
+                                                                    }
+                                                                });
+                                                            }else{
+                                                                alert('Transaction is not approved.')
+                                                            }
+                                                            
+                                                            
+                                                    });
+                                                    
+                                              }
+                                          }, 1000);
+                                        
+                                    }else{
+                                        this.setState({qaicash_error: true, qaicash_error_msg: data.returnMessage});
                                     }
-                                }).then(function(details) {
-                                    
-                                    const body = JSON.stringify({
-                                        type : 'add',
-                                        username: username,
-                                        balance: amount,
-                                    });
-                                    console.log(body)
-                                    axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed'){
-                                            this.setState({error: true});
-                                        } else if (res.data === 'The balance is not enough') {
-                                            alert("cannot withdraw this amount")
-                                        }else{
-                                            alert("your balance is updated")
-                                            window.location.reload()
-                                        }
-                                    });   
-                                    
-                            });
+                                });
                                 
                             }}
                         >

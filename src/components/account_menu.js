@@ -169,7 +169,7 @@ export class AccountMenu extends React.Component {
                             </FormLabel>
                         </FormControl>
                         
-                        <Button variant="contained" color="primary" component="a" href="/deposit_qaicash/" id="nav.deposit" className={classes.button}>
+                        <Button variant="contained" color="primary" component="a" href="/deposit/" id="nav.deposit" className={classes.button}>
                             Deposit
                         </Button>
                         <Button variant="contained" color="secondary" className={classes.button}>
