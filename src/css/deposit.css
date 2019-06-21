@@ -3,7 +3,11 @@
     margin-top: 3%;
     align-content: center
 }
+.input-deposit-amount {
+    padding: 10px;
+}
 .paypal-button {
     padding-top: 12px;
     
 }
+

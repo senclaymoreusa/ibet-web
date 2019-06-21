@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import PropTypes from 'prop-types';
 import { NavLink} from 'react-router-dom';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
@@ -12,7 +13,6 @@ import '../css/deposit.css';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 
 
@@ -28,49 +28,49 @@ const CLIENT = {
 
 const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png";
 
-const useStyles = theme => ({
+  
+const styles = (theme) => ({
     button: {
-        margin: 'auto',
-        // margin: theme.spacing.unit,
+        margin: theme.spacing.unit,
+        font: "bolder",
+        fontSize: "20px",
+        // margin: "25px",
+        // padding: "25px",
+        // color: "black"
     },
     input: {
         display: 'none',
     },
-});
-  
-const styles = (theme) => ({
+
     root: {
-      display: 'flex',
-      flexWrap: 'wrap',
+        display: 'flex',
+        flexWrap: 'wrap',
     },
 
     margin: {
-      margin: 'auto',
+        margin: 'auto',
     },
     
     textField: {
-      flexBasis: 200,
-      width: 300,
-      backgroundColor: '#ffffff;'
+        flexBasis: 200,
+        width: 300,
+        backgroundColor: '#ffffff;'
     },
   
     cssRoot: {
         color: theme.palette.getContrastText(blue[300]),
         backgroundColor: blue[300],
         '&:hover': {
-          backgroundColor: blue[800],
+            backgroundColor: blue[800],
         },
-      },
+    },
   });
 
-function ContainedButtons(props) {
-    const classes = useStyles();
+function  ContainedButtons(buttonProps) {
     return (
-        <div>
-            <Button variant="contained" color="primary" className={props.className}>
-                {props.value}
-            </Button>
-        </div>
+        <Button  variant="contained" color={buttonProps.color} className={buttonProps.button} onClick={buttonProps.onClick}>
+            {"$"+buttonProps.amount}
+        </Button>
     );
 }
 
@@ -78,9 +78,10 @@ function ContainedButtons(props) {
 class DepositPage extends Component {
     constructor(props){
         super(props);
-    
+
         this.state = {
           amount: '',
+          amount_display: '',
           currency: '',
           error: false,
           data: '',
@@ -104,7 +105,6 @@ class DepositPage extends Component {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
-
         axios.get(API_URL + 'users/api/user/', config)
           .then(res => {
             this.setState({data: res.data});
@@ -112,13 +112,17 @@ class DepositPage extends Component {
           .catch(err => {
               console.log("Error with authentication! Error: " + err);
           })
-        const { type } = this.props.match.params;
 
+        const { type } = this.props.match.params;
     }
     
     onInputChange_balance(event){
         if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
-            this.setState({amount: event.target.value}); 
+
+            this.setState({
+                amount: event.target.value,
+                amount_display: "$" + parseFloat(event.target.value).toFixed(2)
+            }); 
 
             if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
                 this.setState({live_check_amount: true, button_disable: true})
@@ -136,7 +140,7 @@ class DepositPage extends Component {
         return (
             <div>
                 <TopNavbar />
-                <InputForm className="input-form"/>
+                <InputForm className="input-form" {...classes} deposit_amount=""/>
             </div>
             
         )
@@ -158,15 +162,17 @@ class InputForm extends Component {
         }
 
         // class methods bound to the defined class method, (allows access to this.state after binding)
-        this.onInputChange = this.onInputChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
+    // onClick method sends a post request to deposit channel to make a deposit
     handleClick = () => {
         const token = localStorage.getItem('token');
+        if (!token) {
+            console.log("no token -- user is not logged in");
+        }
         config.headers["Authorization"] = `Token ${token}`;
-        console.log("Using LINEpay as payment method");
-        console.log(`Depositing $${this.state.deposit_amount} dollars`);
-        console.log(config);
+
         let postData = {
             amount: this.state.deposit_amount
         }
@@ -186,13 +192,17 @@ class InputForm extends Component {
             }
         );
     }
-
-    onInputChange(event){
+    
+    
+    // user input validation
+    handleChange(event){
+        // console.log("there was a change to the component")
         event.preventDefault();
+        console.log(typeof this.state.deposit_amount);
         if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
             this.setState({[event.target.name]: event.target.value}); 
 
-            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
+            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || !event.target.value || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
                 this.setState({live_check_amount: true, button_disable: true})
             } else {
                 this.setState({live_check_amount: false, button_disable: false})
@@ -201,51 +211,80 @@ class InputForm extends Component {
 
     }
 
+    // button functions
+    selectAmount(amt) {
+        this.setState({
+            deposit_amount: amt,
+            button_disable: false
+        });
+        console.log(typeof this.state.deposit_amount);
+    }
+
+    renderAmtButton(amt, color) {
+        return (
+            <ContainedButtons {...this.props} color={color || "default"} amount={amt} onClick={() => this.selectAmount(amt)} classes={{button: "ContainedButtons-button-33", input: "ContainedButtons-input-34"}} />
+        )
+    }
+
     render() {
         const {deposit_amount: depositAmount, line_pay_error: showError, line_pay_error_msg: errorMsg} = this.state;
         const {button_disable, live_check_amount} = this.state;
+
         return (
             <div>
-                <form className="deposit-form">
-                        <p>How much do you want to deposit? {depositAmount}</p>                        
-                        <input 
-                            value={depositAmount || ''}
-                            placeholder="Enter Amount" 
-                            name="deposit_amount" 
-                            onChange={this.onInputChange}
-                        />
-                        {
-                            live_check_amount ? 
-                            <div style={{color: 'red'}}> 
-                                <FormattedMessage id="amount.error"  defaultMessage={"Invalid deposit amount!"}/>
-                            </div> 
-                            :
-                            <div></div>
-                        }
-                        {
-                            showError ? 
-                            <div style={{color: 'red'}}> 
-                            <FormattedMessage id="amount.error"  defaultMessage={"Error: " + errorMsg}/>
-                            </div> 
-                            :
-                            <div></div>
-                        }
-                        <p>Select payment method:</p>
-                        <img 
-                            id="LINElogo" 
-                            type="image" 
-                            onClick={button_disable ? () => {} : this.handleClick}
-                            style={button_disable ? {} : {cursor: "pointer"}}  
-                            src={LINEPAY_LOGO_URL} 
-                            alt="LINEpay logo"
-                        />
-                        {/* <ContainedButtons className="deposit-form" value="Deposit"/> */}
+                <form className="deposit-form" id="deposit_form">
+                    <p>How much do you want to deposit? {depositAmount}</p>                        
+                    <input 
+                        value={depositAmount || ''}
+                        placeholder="Enter Amount" 
+                        name="deposit_amount" 
+                        onChange={this.handleChange}
+                        className="input-deposit-amount"
+                    />
+                    {
+                        live_check_amount ? 
+                        <div style={{color: 'red'}}> 
+                            <FormattedMessage id="amount.error"  defaultMessage={"Invalid deposit amount!"}/>
+                        </div> 
+                        :
+                        <div></div>
+                    }
+                    {
+                        showError ? 
+                        <div style={{color: 'red'}}> 
+                        <FormattedMessage id="amount.error"  defaultMessage={"Error: " + errorMsg}/>
+                        </div> 
+                        :
+                        <div></div>
+                    }
                 </form>
+                <div id="quick-deposit" className="deposit-form">
+                    {this.renderAmtButton(25)}
+                    {this.renderAmtButton(50, "primary")}
+                    {this.renderAmtButton(100, "primary")}
+                    {this.renderAmtButton(250, "secondary")}
+                    {this.renderAmtButton(500, "secondary")}
+                </div>
+                <div className="deposit-form" id="submit-amount">
+                    <p>Select payment method:</p>
+                    <img 
+                        id="LINElogo" 
+                        type="image" 
+                        onClick={button_disable ? () => {} : this.handleClick}
+                        style={button_disable ? {} : {cursor: "pointer"}}  
+                        src={LINEPAY_LOGO_URL} 
+                        alt="LINEpay logo"
+                    />
+                </div>
             </div>
         )
     }
 }
 
+
+ContainedButtons.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
     return {
@@ -253,4 +292,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(useStyles)(injectIntl(connect(mapStateToProps)(DepositPage)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositPage)));

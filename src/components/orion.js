@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import "../css/orion.css"
 
 // class Square extends React.Component {
 //   render() {
@@ -115,3 +117,5 @@ function Square(props) {
   //   <ShoppingList name="test"/>,
   //   document.getElementById('errors')
   // )
+
+export default (Board);
