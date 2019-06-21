@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { NavLink} from 'react-router-dom';
 import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
 
 import TopNavbar from "./top_navbar";
+import DepositNavBar from "./deposit_navbar";
 import '../css/deposit.css';
 // Material-UI
 import TextField from '@material-ui/core/TextField';
@@ -88,24 +88,7 @@ class Deposit extends Component {
             }
         }
     }
-    // addBalance() {
-    //     const body = JSON.stringify({
-    //         type : 'add',
-    //         username: this.state.data.username,
-    //         balance: this.state.balance,
-    //     });
-    //     console.log(body)
-    //     axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-    //     .then(res => {
-    //         if (res.data === 'Failed'){
-    //             this.setState({error: true});
-    //         } else if (res.data === 'The balance is not enough') {
-    //             alert("cannot withdraw this amount")
-    //         }else{
-    //             this.props.history.push("/");
-    //         }
-    //     });
-    //   }
+    
     render(){
         const { classes } = this.props;
         let amount = this.state.balance;
@@ -114,125 +97,9 @@ class Deposit extends Component {
         return (
             <div>
                 <TopNavbar />
-                <form  className='deposit-form'>
-                    <div>
-                        <label>
-                            <b>
-                                <FormattedMessage  id="deposit.amount" defaultMessage='Please enter the amount you want to add to your account' />
-                            </b>
-                        </label>
-                    </div>
-                    
-                    <TextField
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="outlined"
-                        type={'text'}
-                        value={this.state.balance || ''}
-                        onChange={this.onInputChange_balance}
-                    />
-                    <br />
-                    {
-                        this.state.live_check_amount && this.state.live_check_amount ? 
-                        <div style={{color: 'red'}}> 
-                            <FormattedMessage id="balance.error"  defaultMessage='The balance you entered is not valid' />
-                        </div> :
-                        <div>
-                            <br />
-                        </div>
-                    }
-                    <div className='paypal-button'  >
-                    
-                        <PayPalButton  
-                            
-                            createOrder={function() {
-                                var postData = {
-                                    "amount": amount,
-                                    "currency": "USD",
-                                    "user": user,
-                                }
-                                console.log(amount)
-                                console.log(user)
-                                var formBody = [];
-                                for (var pd in postData) {
-                                    var encodedKey = encodeURIComponent(pd);
-                                    var encodedValue = encodeURIComponent(postData[pd]);
-                                    formBody.push(encodedKey + "=" + encodedValue);
-                                }
-                                formBody = formBody.join("&");
-                                return fetch(API_URL + 'accounting/api/paypal_create_payment', {
-                                  method: 'POST',
-                                  headers: {
-                                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                  },
-                                  body: formBody
-                                }).then(function(res) {
-                                  return res.json();
-                                }).then(function(data) {
-                                    let token;
-                                    for (let link of data.links) {
-                                        if (link.rel === 'approval_url') {
-                                            token = link.href.match(/EC-\w+/)[0];
-                                        }
-                                    }
-                                    return token;
-                                });
-                                
-                            }}
-                            
-                            onApprove={(data) => {
-                                
-                                // Call your server to validate and capture the transaction
-                                var postData = {
-                                    "order_id": data.orderID, 
-                                    "user": user,
-                                }
-                                var formBody = [];
-                                for (var pd in postData) {
-                                    var encodedKey = encodeURIComponent(pd);
-                                    var encodedValue = encodeURIComponent(postData[pd]);
-                                    formBody.push(encodedKey + "=" + encodedValue);
-                                }
-                                formBody = formBody.join("&");
-                                
-                                return fetch(API_URL + 'accounting/api/paypal_get_order', {
-                                    method: "POST",
-                                    headers: {
-                                        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                    },
-                                    body: formBody
-                                    }).then(function(res) {
-                                        return res.json();
-                                    }).then(function(details) {
-                                        alert('Transaction approved by ' + details.payer.name.given_name + ' '  + details.payer.name.surname );
-                                        const body = JSON.stringify({
-                                            type : 'add',
-                                            username: user,
-                                            balance: amount,
-                                        });
-                                        console.log(body)
-                                        axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                        .then(res => {
-                                            if (res.data === 'Failed'){
-                                                this.setState({error: true});
-                                            } else if (res.data === 'The balance is not enough') {
-                                                alert("cannot withdraw this amount")
-                                            }else{
-                                                alert("your balance is updated")
-                                                window.location.reload()
-                                            }
-                                        });   
-                                        
-                                });
-                            }}
-                            
-                            options={{
-                                clientId: CLIENT.sandbox
-                            }}
-                        />
-                    </div>
-                    
-
-                </form>
+                <div>
+                    <DepositNavBar />
+                </div>
             </div>
             
         )
