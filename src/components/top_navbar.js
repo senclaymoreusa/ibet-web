@@ -68,6 +68,9 @@ import Signup_Email from './signup_email';
 import Signup_Detail from './signup_detail';
 import Signup_Contact from './signup_contact';
 import Signup_Phone from './signup_phone';
+import Complete_Registration from './complete_registration';
+import Phone_Verification from './signup_phone_verification';
+import One_Click_Finish from './one_click_finish'
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -689,19 +692,16 @@ export class TopNavbar extends React.Component {
     };
 
     componentWillReceiveProps(prevProps) {
-
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;
 
             axios.get(API_URL + 'users/api/user/', config)
-                .then(res => {
-                    this.setState({ balance: res.data.main_wallet });
-                    this.setState({ balanceCurrency: res.data.currency });
-                })
-
-                }
-       
+            .then(res => {
+                this.setState({ balance: res.data.main_wallet });
+                this.setState({ balanceCurrency: res.data.currency });
+            })
+        }
       }
 
     async componentDidMount() {
@@ -709,9 +709,9 @@ export class TopNavbar extends React.Component {
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-            .then((res) => {
-                this.setState({ show_loggedin_status: true });
-            })
+        .then((res) => {
+            this.setState({ show_loggedin_status: true });
+        })
 
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
@@ -724,18 +724,6 @@ export class TopNavbar extends React.Component {
                 picture: fackbookObj.picture
             })
         }
-
-        // if (this.props.isAuthenticated) {
-        //     const token = localStorage.getItem('token');
-        //     config.headers["Authorization"] = `Token ${token}`;
-
-        //     axios.get(API_URL + 'users/api/user/', config)
-        //         .then(res => {
-        //             this.setState({ balance: res.data.main_wallet });
-        //             this.setState({ balanceCurrency: res.data.currency });
-        //         })
-        // }
-       
 
         const remember_check = localStorage.getItem('remember_check');
         if (remember_check) {
@@ -906,53 +894,62 @@ export class TopNavbar extends React.Component {
                 </Popper>
 
 
-                <Popover
+                <Popper
                     open={this.props.showSignup} 
-                    anchorReference="anchorPosition"
-                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}>
-                    <div className='signup-window'>
-                        <Signup />
-                    </div>
-                </Popover>
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup />
+                </Popper>
 
-                <Popover
+                <Popper
                     open={this.props.showSignupEmail} 
-                    anchorReference="anchorPosition"
-                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}>
-                    <div className='signup-window'>
-                        <Signup_Email />
-                    </div>
-                </Popover>
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Email />
+                </Popper>
 
-                <Popover
+                <Popper
                     open={this.props.showSignupDetail} 
-                    anchorReference="anchorPosition"
-                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}>
-                    <div className='signup-window'>
-                        <Signup_Detail />
-                    </div>
-                </Popover>
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Detail />
+                </Popper>
 
 
-                <Popover
+                <Popper
                     open={this.props.showSignupContact} 
-                    anchorReference="anchorPosition"
-                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
                 >
-                    <div className='signup-window'> 
-                      <Signup_Contact /> 
-                    </div>
-                </Popover>
+                    <Signup_Contact /> 
+                </Popper>
 
-                <Popover
+                <Popper
                     open={this.props.showSignupPhone} 
-                    anchorReference="anchorPosition"
-                    anchorPosition={{ top: (this.state.height - 600) / 2, left: (this.state.width - 700) / 2 }}
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
                 >
-                    <div className='signup-window'> 
-                      <Signup_Phone /> 
-                    </div>
-                </Popover>
+                    <Signup_Phone /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showCompleteRegistration} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Complete_Registration /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showPhoneVerification} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Phone_Verification /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showOneclickFinish} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <One_Click_Finish /> 
+                </Popper>
 
             </div>
         );
@@ -1247,7 +1244,10 @@ const mapStateToProps = (state) => {
         showSignupEmail: state.general.show_signup_email,
         showSignupDetail: state.general.show_signup_detail,
         showSignupContact: state.general.show_signup_contact,
-        showSignupPhone: state.general.show_signup_phone
+        showSignupPhone: state.general.show_signup_phone,
+        showCompleteRegistration: state.general.show_complete_registration,
+        showPhoneVerification: state.general.show_phone_verification,
+        showOneclickFinish: state.general.show_oneclick_finish
     }
 }
 
