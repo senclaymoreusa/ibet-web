@@ -14,10 +14,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import classNames from 'classnames';
 
 
 
@@ -27,10 +25,6 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 
 const styles = theme => ({
-    margin: {
-      margin: 'auto',
-    },
-
     textField: {
       flexBasis: 200,
       width: 300,
@@ -48,6 +42,7 @@ const styles = theme => ({
           }
     },
     cssFocused: {  },
+
     notchedOutline: {  },
   });
 
@@ -221,26 +216,6 @@ export class Login extends React.Component {
 
     const { formatMessage } = this.props.intl;
     const remember_password = formatMessage({ id: "login.remember" });
-
-    const showErrors = () => {
-      if (this.state.errorCode === errors.USERNAME_EMPTY_ERROR) {
-          return (
-              <div style={{color: 'red'}}> 
-                  <FormattedMessage id="login.username_empty_error" defaultMessage='Username cannot be empty' /> 
-              </div>
-          );
-      } else if (this.state.errorCode === errors.PASSWORD_EMPTY_ERROR) {
-          return (
-              <div style={{color: 'red'}}> 
-                  <FormattedMessage id="login.password_empty_error" defaultMessage='Password cannot be empty' /> 
-              </div>
-          );
-      } else {
-        return (
-            <div style={{color: 'red'}}> {this.state.errorCode} </div>
-        )
-      }
-    }
     
     return (
         <div style={{backgroundColor: '#ffffff'}}> 
@@ -264,7 +239,7 @@ export class Login extends React.Component {
                                   focused: classes.cssFocused,
                                   notchedOutline: classes.notchedOutline
                                 }
-                              }}
+                            }}
                         />
                     </div>
                     
