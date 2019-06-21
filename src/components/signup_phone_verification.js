@@ -173,7 +173,7 @@ class Phone_Verification extends React.Component {
                        Sent to: 
 
                        <div style={{backgroundColor: '#f9f9f9', width: 218, height: 48, marginTop: 24, fontSize: 20, fontWeight: 600, fontFamily: 'Gilroy', textAlign: 'center'}}>
-                           <div style={{paddingTop: 12}}> {this.props.signup_phone} </div>
+                           <div style={{paddingTop: 12}}> {this.props.signup_phone.split('/')[0] + this.props.signup_phone.split('/')[1]} </div>
                        </div>
                     </div>
 

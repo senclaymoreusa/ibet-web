@@ -151,7 +151,7 @@ class Complete_Registration extends React.Component {
                         this.props.signup_password,
                         this.props.signup_first_name,
                         this.props.signup_last_name,
-                        this.props.signup_phone,
+                        this.props.signup_phone.split('/')[0] + this.props.signup_phone.split('/')[1],
                         this.props.signup_dob,
                         this.props.signup_address,
                         this.props.signup_country,
