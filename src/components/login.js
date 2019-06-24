@@ -135,9 +135,8 @@ export class Login extends React.Component {
 
         const message_password = formatMessage({ id: "login.password" });
 
-        var temp = res.data.split('-')
-        var username = temp[0]
-        var password = temp[1]
+        var username = res.data.username;
+        var password = res.data.password;
         this.setState({username: username, password: password, button_disable: false, button_type: 'login-button', check: false})
 
         localStorage.removeItem('remember_username');

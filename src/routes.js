@@ -28,7 +28,7 @@ import PointsRewards from './components/points_rewards'
 import UsageAnalysis from './components/usage_analysis'
 import PersonalDetails from './components/personal_details'
 import AccountSettings from './components/account_settings'
-import Deposit from './components/deposit'
+import DepositPaypal from './components/deposit_paypal'
 import TermsConditions from './components/policy/terms_conditions'
 import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
@@ -36,6 +36,8 @@ import Change_Password from './components/change_password'
 import DepositPage from "./components/deposit_2"
 import DepositSuccess from "./components/deposit_success"
 import Board from './components/orion'
+import DepositQaicah from './components/deposit_qaicash'
+import Deposit from './components/deposit'
 
 const divStyle = {
   minHeight: '100%',
@@ -72,7 +74,9 @@ const BaseRouter = () => (
     <Route exact path="/usage_analysis/" component={UsageAnalysis} />
     <Route exact path="/personal_details/" component={PersonalDetails} />
     <Route exact path="/account_settings/" component={AccountSettings} />
+    <Route exact path="/deposit_paypal/" component={DepositPaypal} />
     <Route exact path="/deposit/" component={Deposit} />
+    <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
     <Route exact path="/terms_conditions/" component={TermsConditions} />
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
     <Route exact path="/cookie_policy/" component={CookiePolicy} />

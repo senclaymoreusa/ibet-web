@@ -2,14 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import TextField from '@material-ui/core/TextField';
-import { hide_signup_detail, show_signup_email, show_signup_contact } from '../actions';
-import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
+import { hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob } from '../actions';
+import { FormattedMessage } from 'react-intl';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 import { withStyles } from '@material-ui/core/styles';
-
-
-import InputBase from '@material-ui/core/InputBase';
 
 import { getNames } from 'country-list';
 
@@ -18,11 +15,6 @@ import { config } from "../util_config";
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-
     textField: {
       width: 530,
     },
@@ -35,47 +27,21 @@ const styles = theme => ({
         width: 70,
     },
 
-    menu: {
-      width: 200,
+    cssOutlinedInput:{
+        "& $notchedOutline": {
+            //add this nested selector
+            borderColor: "'#e4e4e4'",
+        },
+      
+        "&$cssFocused $notchedOutline": {
+            borderColor: "blue",
+        }
     },
 
+    cssFocused: {  },
+    
+    notchedOutline: {  },
 });
-
-const BootstrapInput = withStyles(theme => ({
-    root: {
-      'label + &': {
-        marginTop: theme.spacing.unit * 3,
-      },
-    },
-    input: {
-      borderRadius: 4,
-      position: 'relative',
-      backgroundColor: theme.palette.background.paper,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      width: 200,
-      padding: '10px 26px 10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
-  
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
-        borderRadius: 4,
-        borderColor: '#80bdff',
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-      },
-    },
-  }))(InputBase);
   
 
 class Signup_Detail extends React.Component {
@@ -86,29 +52,20 @@ class Signup_Detail extends React.Component {
         this.textInput_2 = React.createRef();
 
         this.state = {
-            username: '',
-            first_name: '',
-            last_name: '',
-            month: '',
-            day: '',
-            year: '',
+            username: this.props.signup_username ? this.props.signup_username : '',
+            first_name: this.props.signup_first_name ? this.props.signup_first_name : '',
+            last_name: this.props.signup_last_name ? this.props.signup_last_name : '',
+            month: this.props.signup_dob ? this.props.signup_dob.split('/')[0] : '',
+            day: this.props.signup_dob ? this.props.signup_dob.split('/')[1] : '',
+            year: this.props.signup_dob ? this.props.signup_dob.split('/')[2] : '',
             DOB: '',
-            country: '',
-            city: '',
-            state: '',
-            zipcode: '',
-            street_address_1: '',
-            street_address_2: '',
 
             live_check_username: false,
             live_check_firstname: false,
             live_check_lastname: false,
             live_check_dob: false,
-            live_check_city: false,
-            live_check_state: false,
-            live_check_zipcode: false,
 
-            button_disable: true,
+            button_disable: this.props.signup_username ? false : true,
 
             username_error: false,
 
@@ -216,47 +173,6 @@ class Signup_Detail extends React.Component {
         this.textInput_2.current.focus();
     }
 
-    onInputChange_country(event){
-        this.setState({country: event.target.value});
-    }
-
-    onInputChange_street_address_1(event){
-        this.setState({street_address_1: event.target.value});
-    }
-    
-    onInputChange_street_address_2(event){
-        this.setState({street_address_2: event.target.value});
-    }
-
-    async onInputChange_city(event){
-        if (!event.target.value.match(/^[a-zA-Z\s]+$/)){
-          this.setState({live_check_city: true, button_disable: true,})
-        }else{
-          this.setState({live_check_city: false})
-        }
-        await this.setState({city: event.target.value});
-        this.check_button_disable()
-    }
-
-    async onInputChange_state(event){
-        if (!event.target.value.match(/^[a-zA-Z]+$/)){
-          this.setState({live_check_state: true, button_disable: true,})
-        }else{
-          this.setState({live_check_state: false})
-        }
-        await this.setState({state: event.target.value});
-        this.check_button_disable()
-    }
-
-    async onInputChange_zipcode(event){
-        if (!event.target.value.match(/^[0-9]+$/)){
-            this.setState({live_check_zipcode: true, button_disable: true,})
-        }else{
-            this.setState({live_check_zipcode: false})
-        }
-        await this.setState({zipcode: event.target.value});
-        this.check_button_disable()
-    }
 
     check_button_disable(){
         if(this.state.username && this.state.first_name && this.state.last_name && this.state.year && this.state.day && this.state.month &&
@@ -275,6 +191,10 @@ class Signup_Detail extends React.Component {
             }
             else{
                 this.setState({username_error: false});
+                this.props.handle_signup_username(this.state.username);
+                this.props.handle_signup_first_name(this.state.first_name);
+                this.props.handle_signup_last_name(this.state.last_name);
+                this.props.handle_signup_dob(this.state.month + '/' + this.state.day + '/' + this.state.year);
                 this.props.hide_signup_detail();
                 this.props.show_signup_contact();
             }
@@ -287,70 +207,87 @@ class Signup_Detail extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div> 
+            <div style={{backgroundColor: 'white', height: 700, width: 662}}> 
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <div className='signup-title'>     
 
                         <Back 
-                            style={{cursor: 'pointer', marginTop: 12, marginLeft: 30, height: 25, width: 15}}
+                            style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
                             onClick = { () => {
                                 this.props.hide_signup_detail();
                                 this.props.show_signup_email();
                             }}
                         />
 
-                        <div style={{marginLeft: 270 , marginTop: 15}}> 
-                            <FormattedMessage  id="login.signup" defaultMessage='Signup' />
+                        <div style={{ paddingTop: 20}}> 
+                            OPEN ACCOUNT
                         </div>
 
                         <Close 
-                            style={{cursor: 'pointer', marginLeft: 270, marginTop: 5, height: 40, width: 20}}
+                            style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_detail();
                             }}
                         />
                     </div>
 
-                    <div style={{marginTop: 30}}>
+                    <div style={{marginTop: 30, textAlign: 'center'}}>
                         <span style={{color: '#e4e4e4'}} > ____________________  1 </span>  <span style={{fontWeight: 600}}> ____________________  2 </span >  <span style={{color: '#e4e4e4'}}> ____________________ 3 </span>
                     </div>
 
-                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, paddingRight: 345}}> 
+                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 70}}> 
                         <FormattedMessage  id="signup.detail.personal" defaultMessage='Personal Details' />
                     </div>
 
-                    <div style={{color: '#e4e4e4'}}>
+                    <div style={{color: '#e4e4e4', textAlign: 'center'}}>
                         __________________________________________________________________
                     </div>
  
-                    <TextField
-                        label="USER NAME"
-                        className={classes.textField}
-                        type="username"
-                        margin="normal"
-                        variant="outlined"
-                        onChange={this.onInputChange_username.bind(this)}
-                    />
+                    <div style={{textAlign: 'center'}}>
+                        <TextField
+                            value={this.state.username}
+                            label="USER NAME"
+                            className={classes.textField}
+                            type="username"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={this.onInputChange_username.bind(this)}
+                            InputProps={{
+                                classes: {
+                                    root: classes.cssOutlinedInput,
+                                    focused: classes.cssFocused,
+                                    notchedOutline: classes.notchedOutline
+                                }
+                            }}
+                        />
+                    </div>
 
                     {this.state.live_check_username && <div style={{color: 'red'}}> <FormattedMessage  id="error.username" defaultMessage='Username not valid' /> </div>}
                     
                     {this.state.username_error && <div style={{color: 'red'}}> <FormattedMessage  id="signup.detail.usernametaken" defaultMessage='This username is already in use' /> </div>}
 
-                    <div style={{color: '#747175', fontSize: 15, paddingRight: 260}}> 
+                    <div style={{color: '#747175', fontSize: 15, marginLeft: 70}}> 
                         <FormattedMessage  id="signup.detail.loginmessage" defaultMessage='This is used to log in. Limit 15 characters' />
                     </div>
 
-                    <div className='row' style={{marginLeft: 85}}> 
+                    <div className='row' style={{marginLeft: 70}}> 
 
                         <div> 
                             <TextField
-                                id="standard-name"
+                                value={this.state.first_name}
                                 label="FIRST NAME"
                                 className={classes.textField2}
                                 type="username"
                                 margin="normal"
                                 variant="outlined"
                                 onChange={this.onInputChange_first_name.bind(this)}
+                                InputProps={{
+                                    classes: {
+                                        root: classes.cssOutlinedInput,
+                                        focused: classes.cssFocused,
+                                        notchedOutline: classes.notchedOutline
+                                    }
+                                }}
                             />
 
                             {this.state.live_check_firstname && <div style={{color: 'red'}}> <FormattedMessage  id="error.firstname" defaultMessage='First name not valid' /> </div>}
@@ -358,6 +295,7 @@ class Signup_Detail extends React.Component {
 
                         <div style={{marginLeft: 47}}> 
                             <TextField
+                                value={this.state.last_name}
                                 label="LAST NAME"
                                 className={classes.textField2}
                                 type="username"
@@ -371,11 +309,11 @@ class Signup_Detail extends React.Component {
 
                     </div>
 
-                    <div style={{ fontSize: 15, fontWeight: 600, paddingRight: 420, marginTop: 30}}> 
+                    <div style={{ fontSize: 15, fontWeight: 600, marginTop: 30, marginLeft: 70}}> 
                         <FormattedMessage  id="signup.detail.dob" defaultMessage='DATE OF BIRTH' />
                     </div>
 
-                    <div style={{paddingRight: 280}}> 
+                    <div style={{marginLeft: 70}}> 
 
                         <TextField
                             className={classes.textFieldDOB}
@@ -412,19 +350,33 @@ class Signup_Detail extends React.Component {
 
                     </div>
 
-                    <button 
-                        disabled = {this.state.button_disable}
-                        style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
-                        type='submit'
-                    > 
-                        <div >  
-                            Continue
-                        </div>
-                    </button>
+                    <div style={{textAlign: 'center'}}> 
+                        <button 
+                            disabled = {this.state.button_disable}
+                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
+                            type='submit'
+                        > 
+                            <div >  
+                                Continue
+                            </div>
+                        </button>
+                    </div>
+
+                    <div style={{color: '#747175', fontSize: 12, marginTop: 10, textAlign: 'center'}}> By signing up you agree to ibet's <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/terms_conditions')}> terms and conditions </b> and</div>
+                    <div style={{color: '#747175', fontSize: 12, textAlign: 'center'}}> confirm you've read and understood the <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/privacy_policy')}> privacy </b> policy</div>
                 </form>
             </div>
         )
     }
 }
 
-export default withStyles(styles)(connect(null,{ hide_signup_detail, show_signup_email, show_signup_contact })(Signup_Detail));
+const mapStateToProps = (state) => {
+    return {
+        signup_username:    state.general.signup_username,
+        signup_first_name:  state.general.signup_first_name,
+        signup_last_name:   state.general.signup_last_name,
+        signup_dob:         state.general.signup_dob
+    }
+}
+
+export default withStyles(styles)(connect(mapStateToProps,{ hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob })(Signup_Detail));

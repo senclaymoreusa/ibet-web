@@ -1,5 +1,5 @@
 import React from 'react';
-import { hide_signup_email, show_signup_detail, show_signup } from '../actions';
+import { hide_signup_email, show_signup_detail, show_signup, handle_signup_email, handle_signup_password, handle_signup_language } from '../actions';
 import { FormattedMessage, injectIntl} from 'react-intl';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { connect } from 'react-redux';
@@ -15,38 +15,87 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
+import { Select, MenuItem, Input } from "@material-ui/core";
+
+import InputBase from '@material-ui/core/InputBase';
+
+import Flag from 'react-flagkit';
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-
     textField: {
       width: 530,
     },
 
-    menu: {
-      width: 200,
+    cssOutlinedInput:{
+        "& $notchedOutline": {
+            //add this nested selector
+            borderColor: "'#e4e4e4'",
+          },
+      
+          "&$cssFocused $notchedOutline": {
+            borderColor: "blue",
+          }
     },
-
+    cssFocused: {  },
+    
+    notchedOutline: {  },
 });
+
+
+const BootstrapInput = withStyles(theme => ({
+    root: {
+      'label + &': {
+        
+      },
+    },
+    input: {
+      borderRadius: 4,
+      position: 'relative',
+      backgroundColor: theme.palette.background.paper,
+      border: '1px solid #ced4da',
+      fontSize: 16,
+      width: 80,
+      padding: '10px 26px 10px 12px',
+      transition: theme.transitions.create(['border-color', 'box-shadow']),
+      // Use the system font instead of the default Roboto font.
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+      '&:focus': {
+        borderRadius: 4,
+        borderColor: '#80bdff',
+        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+      },
+    },
+  }))(InputBase);
+
 
 class Signup_Email extends React.Component {
     constructor(props){
         super(props);
 
         this.state = {
-            email: '',
-            password: '',
+            email: this.props.signup_email ? this.props.signup_email : '',
+            password: this.props.signup_password ? this.props.signup_password : '',
             live_check_email: '',
-            button_disable: true,
+            button_disable: this.props.signup_email && this.props.signup_password ? false : true,
             email_exist: false,
             strength_level: '',
             bar: [],
             grey_bar: [],
-            showPassword: false
+            showPassword: false,
+            language: this.props.signup_language ? this.props.signup_language : 'English',
         }
     }
 
@@ -91,15 +140,21 @@ class Signup_Email extends React.Component {
         this.setState(state => ({ showPassword: !state.showPassword }));
     };
 
+    handle_language_change(event){
+        this.setState({language: event.target.value})
+    }
+
     handlesubmit(event){
 
         event.preventDefault();
 
         axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`, config)
         .then(res => {
-            console.log(res.data)
             if (res.data !== 'Exist'){
                 this.setState({email_exist: false})
+                this.props.handle_signup_email(this.state.email);
+                this.props.handle_signup_password(this.state.password);
+                this.props.handle_signup_language(this.state.language);
                 this.props.hide_signup_email();
                 this.props.show_signup_detail();
             }else{
@@ -113,93 +168,112 @@ class Signup_Email extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div>
+            <div style={{backgroundColor: 'white', height: 700, width: 662}}>
                 <form onSubmit={this.handlesubmit.bind(this)}>
                     
                     <div className='signup-title'> 
                         <Back 
-                            style={{cursor: 'pointer', marginTop: 12, marginLeft: 30, height: 25, width: 15}}
+                            style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
                             onClick = { () => {
                                 this.props.hide_signup_email();
                                 this.props.show_signup();
                             }}
                         />
 
-                        <div style={{marginLeft: 270 , marginTop: 15}}> 
-                            <FormattedMessage  id="login.signup" defaultMessage='Signup' />
+                        <div style={{ paddingTop: 20}}> 
+                            OPEN ACCOUNT
                         </div>
 
                         <Close 
-                            style={{cursor: 'pointer', marginLeft: 270, marginTop: 5, height: 40, width: 20}}
+                            style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_email();
                             }}
                         />
                     </div>
 
-                    <div style={{marginTop: 30}}>
+                    <div style={{marginTop: 30, textAlign: 'center'}}>
                         <span style={{fontWeight: 600}}> ____________________  1 </span>  <span style={{color: '#e4e4e4'}}> ____________________  2 </span >  <span style={{color: '#e4e4e4'}}> ___________________ 3 </span>
                     </div>
 
-                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginRight: 320}}> 
+                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 70}}> 
                         <FormattedMessage  id="signup.email_title" defaultMessage='Regitration details' />
                     </div>
 
-                    <div style={{color: '#e4e4e4'}}>
+                    <div style={{color: '#e4e4e4', textAlign: 'center'}}>
                         __________________________________________________________________
                     </div>
 
-                    <TextField
-                        label="EMAIL ADDRESS"
-                        className={classes.textField}
-                        type="email"
-                        autoComplete="current-password"
-                        margin="normal"
-                        variant="outlined"
-                        onChange={this.onInputChange_email.bind(this)}
-                    />
+                    <div style={{textAlign: 'center'}}> 
+                        <TextField
+                            value={this.state.email}
+                            label="EMAIL ADDRESS"
+                            className={classes.textField}
+                            type="email"
+                            autoComplete="current-password"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={this.onInputChange_email.bind(this)}
+                            InputProps={{
+                                classes: {
+                                root: classes.cssOutlinedInput,
+                                focused: classes.cssFocused,
+                                notchedOutline: classes.notchedOutline
+                                }
+                            }}
+                        />
+                    </div>
 
-                
-                    <div style={{color: '#747175', paddingRight: 340}}> 
+                    {this.state.live_check_email && <div style={{color: 'red', marginLeft: 70}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
+
+                    {this.state.email_exist && <div style={{color: 'red', marginLeft: 70}}> <FormattedMessage  id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>}
+
+                    <div style={{color: '#747175', marginLeft: 70}}> 
                         <FormattedMessage  id="signup.email_message1" defaultMessage='This will be used to log in.' />
                     </div>
 
-                    {this.state.live_check_email && <div style={{color: 'red'}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
+                    <div style={{textAlign: 'center'}}>
+                        <TextField
+                            value={this.state.password}
+                            label="PASSWORD"
+                            className={classes.textField}
+                            type={this.state.showPassword ? 'text' : 'password'}
+                            autoComplete="current-password"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={this.onInputChange_password.bind(this)}
+                            InputProps={{
+                                classes: {
+                                    root: classes.cssOutlinedInput,
+                                    focused: classes.cssFocused,
+                                    notchedOutline: classes.notchedOutline
+                                },
 
-                    {this.state.email_exist && <div style={{color: 'red'}}> <FormattedMessage  id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>}
+                                endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                    aria-label="Toggle password visibility"
+                                    onClick={this.handleClickShowPassword.bind(this)}
+                                    >
+                                    {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </div>
 
-                    <TextField
-                        label="PASSWORD"
-                        className={classes.textField}
-                        type={this.state.showPassword ? 'text' : 'password'}
-                        autoComplete="current-password"
-                        margin="normal"
-                        variant="outlined"
-                        onChange={this.onInputChange_password.bind(this)}
-                        InputProps={{
-                            endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                aria-label="Toggle password visibility"
-                                onClick={this.handleClickShowPassword.bind(this)}
-                                >
-                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                            ),
-                        }}
-                    />
+                    {this.state.password_too_simple && <div style={{color: 'red', marginLeft: 70}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
 
-                    <div style={{color: '#747175', paddingRight: 370}}> 
+                    <div style={{color: '#747175', marginLeft: 70}}> 
                         <FormattedMessage  id="signup.email_message2" defaultMessage='At least 8 characters.' />
                     </div>
 
-                    {this.state.password_too_simple && <div style={{color: 'red'}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
 
                     {
                     this.state.password && 
                     <div>
-                        <div className='row' style={{marginLeft: 80, marginTop: 20}}> 
+                        <div className='row' style={{marginLeft: 70, marginTop: 20}}> 
                         {
                             this.state.bar.map(item => {
                                 return <div key ={item} style={{width: 50, borderBottom: '2px solid red', marginLeft: 10}}>  </div>
@@ -212,7 +286,7 @@ class Signup_Email extends React.Component {
                         }
                         </div>
 
-                        <div style={{marginRight: 315, marginTop: 20, marginBottom: 15}}> 
+                        <div style={{marginTop: 20, marginBottom: 15, marginLeft: 70}}> 
                             <span style ={{color: '#747175'}}> <FormattedMessage  id="signup.strength" defaultMessage='Password Strength: ' /> </span>
                             <span> {this.state.strength_level} </span>
                         </div>
@@ -220,46 +294,89 @@ class Signup_Email extends React.Component {
                     </div>
                     }
                     
-                    <div>
-                        <div style={{ paddingRight: 340}}> 
-                            <FormattedMessage  id="signup.email.passwordtip0" defaultMessage='At least 8 characters.' />
+                    <div className='row'>
+                        <div> 
+                            <div style={{ fontSize: 15, marginLeft: 70}}> 
+                                <FormattedMessage  id="signup.email.passwordtip0" defaultMessage='At least 8 characters.' />
+                            </div>
+
+                            <div style={{color: '#747175', marginTop: 15, fontSize: 12, marginLeft: 70}}> 
+                                <FormattedMessage  id="signup.email.passwordtip1" defaultMessage='At least 8 characters.' />
+                            </div>
+
+                            <div style={{color: '#747175', fontSize: 12, marginLeft: 70}}> 
+                                <FormattedMessage  id="signup.email.passwordtip2" defaultMessage='At least 8 characters.' />
+                            </div>
+
+                            <div style={{color: '#747175', fontSize: 12, marginLeft: 70}}> 
+                                <FormattedMessage  id="signup.email.passwordtip3" defaultMessage='At least 8 characters.' />
+                            </div>
                         </div>
 
-                        <div style={{color: '#747175', paddingRight: 350, marginTop: 15}}> 
-                            <FormattedMessage  id="signup.email.passwordtip1" defaultMessage='At least 8 characters.' />
-                        </div>
+                        <div style={{marginLeft: 100}}>
+                            <div>
+                                Preferred Language
+                            </div>
+                            <Select
+                                value={this.state.language}
+                                displayEmpty
+                                onChange={this.handle_language_change.bind(this)}
+                                input={<BootstrapInput name="age" id="age-customized-select" />}
+                                >
+                                    
+                                <MenuItem value="English">
+                                    <div className='row'>
+                                        <Flag country="US" />
+                                        <div style={{marginLeft: 10}}>
+                                            <FormattedMessage id="lang.english" defaultMessage='English' />
+                                        </div>
+                                    </div>
+                                </MenuItem>
 
-                        <div style={{color: '#747175', paddingRight: 300}}> 
-                            <FormattedMessage  id="signup.email.passwordtip2" defaultMessage='At least 8 characters.' />
-                        </div>
-
-                        <div style={{color: '#747175', paddingRight: 345}}> 
-                            <FormattedMessage  id="signup.email.passwordtip3" defaultMessage='At least 8 characters.' />
+                                <MenuItem value={'Chinese'}>
+                                    <div className='row'>
+                                        <Flag country="CN" />
+                                        <div style={{marginLeft: 10}}>
+                                            <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
+                                        </div>
+                                    </div>
+                                </MenuItem>
+                                <MenuItem value={'French'}>
+                                    <div className='row'>
+                                        <Flag country="FR" />
+                                        <div style={{marginLeft: 10}}>
+                                            <FormattedMessage id="lang.french" defaultMessage='French' />
+                                        </div>
+                                    </div>
+                                </MenuItem>
+                            </Select>
                         </div>
 
                     </div>
 
-                    <button 
-                        disabled = {this.state.button_disable}
-                        style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
-                        type='submit'
-                    > 
-                        <div >  
-                            Continue
-                        </div>
-                    </button>
+                    <div style={{textAlign: 'center'}}> 
+                        <button 
+                            disabled = {this.state.button_disable}
+                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
+                            type='submit'
+                        > 
+                                Continue
+                        </button>
+                    </div>
                 </form>
-
-                
-
-                
- 
-                
 
             </div>
         )
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        signup_email:    state.general.signup_email,
+        signup_password: state.general.signup_password,
+        signup_language: state.general.signup_language
+    }
+}
 
-export default withStyles(styles)(connect(null, {hide_signup_email, show_signup_detail, show_signup})(Signup_Email));
+
+export default withStyles(styles)(connect(mapStateToProps, {hide_signup_email, show_signup_detail, show_signup, handle_signup_email, handle_signup_password, handle_signup_language})(Signup_Email));
