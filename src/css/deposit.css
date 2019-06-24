@@ -1,13 +1,17 @@
-.deposit-form{
+.deposit-form {
     margin-left: 30%;
-    margin-top: 3%;
+    margin-top: 15px;
     align-content: center
 }
 .input-deposit-amount {
     padding: 10px;
+    margin-bottom: 14px;
+}
+
+#deposit_form > span:nth-child(4) {
+    margin: 14px;
 }
 .paypal-button {
     padding-top: 12px;
-    
 }
 

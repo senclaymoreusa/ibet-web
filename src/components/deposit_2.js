@@ -26,9 +26,12 @@ const CLIENT = {
     production: 'xxxXXX',
   };
 
-const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png";
+const 
+    LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png",
+    MIN_DEPOSIT = 200,
+    MAX_DEPOSIT = 30000,
+    CURRENCY = "THB"
 
-  
 const styles = (theme) => ({
     button: {
         margin: theme.spacing.unit,
@@ -90,8 +93,6 @@ class DepositPage extends Component {
           button_disable: true
         };
 
-        this.onInputChange_balance = this.onInputChange_balance.bind(this);
-        //this.addBalance          = this.addBalance.bind(this);
     }
 
     componentDidMount() {
@@ -115,24 +116,8 @@ class DepositPage extends Component {
 
         const { type } = this.props.match.params;
     }
-    
-    onInputChange_balance(event){
-        if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
 
-            this.setState({
-                amount: event.target.value,
-                amount_display: "$" + parseFloat(event.target.value).toFixed(2)
-            }); 
-
-            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
-                this.setState({live_check_amount: true, button_disable: true})
-            } else {
-                this.setState({live_check_amount: false, button_disable: false})
-            }
-        }
-    }
-
-    render(){
+    render() {
         const { classes } = this.props;
         let amount = this.state.amount; // this.state.balance doesn't exist?
         let user = this.state.data.username; // this.state.data is initialized to a string not a dictionary
@@ -140,7 +125,7 @@ class DepositPage extends Component {
         return (
             <div>
                 <TopNavbar />
-                <InputForm className="input-form" {...classes} deposit_amount=""/>
+                <InputForm className="input-form" {...classes} deposit_amount="" deposit_channel=""/>
             </div>
             
         )
@@ -153,12 +138,15 @@ class InputForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            deposit_amount: '',
-            currency: '',
+            deposit_amount: "",
+            currency: "",
             live_check_amount: false,
             button_disable: true,
-            line_pay_error: false,
-            line_pay_error_msg: "",
+
+            error: false,
+            error_msg: "",
+            // line_pay_error: false,
+            // line_pay_error_msg: "",
         }
 
         // class methods bound to the defined class method, (allows access to this.state after binding)
@@ -166,7 +154,7 @@ class InputForm extends Component {
     }
 
     // onClick method sends a post request to deposit channel to make a deposit
-    handleClick = () => {
+    handleClick = (depositChannel, apiRoute) => {
         const token = localStorage.getItem('token');
         if (!token) {
             console.log("no token -- user is not logged in");
@@ -193,12 +181,12 @@ class InputForm extends Component {
         );
     }
     
-    
     // user input validation
     handleChange(event){
         // console.log("there was a change to the component")
         event.preventDefault();
-        console.log(typeof this.state.deposit_amount);
+        // event.persist();
+        // console.log(typeof this.state.deposit_amount);
         if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
             this.setState({[event.target.name]: event.target.value}); 
 
@@ -208,13 +196,13 @@ class InputForm extends Component {
                 this.setState({live_check_amount: false, button_disable: false})
             }
         }
-
     }
 
     // button functions
     selectAmount(amt) {
         this.setState({
             deposit_amount: amt,
+            live_check_amount: false,
             button_disable: false
         });
         console.log(typeof this.state.deposit_amount);
@@ -234,13 +222,17 @@ class InputForm extends Component {
             <div>
                 <form className="deposit-form" id="deposit_form">
                     <p>How much do you want to deposit? {depositAmount}</p>                        
-                    <input 
+                    <input
+                        type="text"
                         value={depositAmount || ''}
                         placeholder="Enter Amount" 
                         name="deposit_amount" 
                         onChange={this.handleChange}
                         className="input-deposit-amount"
                     />
+                    <br></br>
+                    <FormattedMessage className="min-max" id="deposit_prompt" defaultMessage={"Min: " + MIN_DEPOSIT + " " + CURRENCY}/>
+                    <FormattedMessage className="min-max" id="deposit_prompt" defaultMessage={"Max: " + MAX_DEPOSIT + " " + CURRENCY}/>
                     {
                         live_check_amount ? 
                         <div style={{color: 'red'}}> 
@@ -259,11 +251,11 @@ class InputForm extends Component {
                     }
                 </form>
                 <div id="quick-deposit" className="deposit-form">
-                    {this.renderAmtButton(25)}
-                    {this.renderAmtButton(50, "primary")}
-                    {this.renderAmtButton(100, "primary")}
-                    {this.renderAmtButton(250, "secondary")}
-                    {this.renderAmtButton(500, "secondary")}
+                    {this.renderAmtButton("25")}
+                    {this.renderAmtButton("50", "primary")}
+                    {this.renderAmtButton("100", "primary")}
+                    {this.renderAmtButton("250", "secondary")}
+                    {this.renderAmtButton("500", "secondary")}
                 </div>
                 <div className="deposit-form" id="submit-amount">
                     <p>Select payment method:</p>
