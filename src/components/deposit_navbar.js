@@ -30,6 +30,9 @@ export class DepositNavBar extends Component {
           <Button variant="contained" color="secondary" component="a" href="/deposit_paypal/" id="nav.deposit_paypal" className={classes.button}>
               Paypal
           </Button>
+          <Button variant="contained" color="default" component="a" href="/deposit_asiapay/" id="nav.deposit_asiapay" className={classes.button}>
+              Asia Pay JD Pay
+          </Button>
         </nav>
       </React.Fragment>
     );

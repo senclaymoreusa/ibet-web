@@ -12,6 +12,11 @@ import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
+var QRCode = require('qrcode.react');
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -40,7 +45,7 @@ const styles = theme => ({
       },
   });
 
-class DepositQaicah extends Component {
+class DepositAsiapay extends Component {
     constructor(props){
         super(props);
     
@@ -54,10 +59,20 @@ class DepositQaicah extends Component {
           qaicash_error_msg: "",
           live_check_amount: false,
           button_disable: true,
+          value: "42",
+          qr: "",
+          size: 128,
+          fgColor: '#000000',
+          bgColor: '#ffffff',
+          level: 'L',
+          renderAs: 'svg',
+          includeMargin: false,
+          show_qrcode: false,
         };
         
         this.onInputChange_balance          = this.onInputChange_balance.bind(this);
-        //this.addBalance          = this.addBalance.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        // this.onQrChange  = this.onQrChange.bind(this);
     }
     
     componentDidMount() {
@@ -82,16 +97,21 @@ class DepositQaicah extends Component {
             }
         }
     }
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
     
     render(){
         const { classes } = this.props;
         let amount = this.state.balance;
         let user = this.state.data.pk;
-        let username = this.state.data.username;
+        let qr = this.state.qr;
+        let showqr = this.state.show_qrcode;
         return (
             <div>
                 <TopNavbar />
                 <form  className='deposit-form'>
+                    
                     <div>
                         <label>
                             <b>
@@ -107,6 +127,8 @@ class DepositQaicah extends Component {
                         value={this.state.balance || ''}
                         onChange={this.onInputChange_balance}
                     />
+                    
+
                     <br />
                     {
                         this.state.live_check_amount && this.state.live_check_amount ? 
@@ -117,18 +139,19 @@ class DepositQaicah extends Component {
                             <br />
                         </div>
                     }
-                    <div className='qaicash-button'  >
+                    <div className='asiapay-button'  >
                         <Button 
+                            disabled = {this.state.button_disable} 
                             variant="contained" 
                             color="primary"  
                             className={classes.button}
                             onClick={function() {
                                 var postData = {
                                     "amount": amount,
-                                    "user_id": user,
+                                    "userid": user,
                                     "currency": "0",
-                                    "language" : "zh-Hans",
-                                    "method": "WECHAT_PAY",
+                                    "PayWay" : "42", //QRcode
+                                    "method": "49", //京东支付
                                 }
                                 console.log(amount)
                                 console.log(user)
@@ -139,7 +162,7 @@ class DepositQaicah extends Component {
                                     formBody.push(encodedKey + "=" + encodedValue);
                                 }
                                 formBody = formBody.join("&");
-                                return fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
+                                return fetch(API_URL + 'accounting/api/asiapay/deposit', {
                                   method: 'POST',
                                   headers: {
                                     'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -148,75 +171,32 @@ class DepositQaicah extends Component {
                                 }).then(function(res) {
                                   return res.json();
                                 }).then(function(data){
-                                    let redirectUrl = data.paymentPageSession.paymentPageUrl
-                                    console.log(redirectUrl)
-
-                                    if(redirectUrl != null){
-                                        const mywin = window.open(redirectUrl, 'qaicash-Wechatpay', 'height=500,width=500');
-                                        var timer = setInterval(function() { 
-                                            console.log('checking..')
-                                              if(mywin.closed) {
-                                                    clearInterval(timer);
-                                                    var postData = {
-                                                        "order_id": data.paymentPageSession.orderId
-                                                    }
-                                                    var formBody = [];
-                                                    for (var pd in postData) {
-                                                        var encodedKey = encodeURIComponent(pd);
-                                                        var encodedValue = encodeURIComponent(postData[pd]);
-                                                        formBody.push(encodedKey + "=" + encodedValue);
-                                                    }
-                                                    formBody = formBody.join("&");
-                                                    
-                                                    return fetch(API_URL + 'accounting/api/qaicash/deposit_transaction', {
-                                                        method: "POST",
-                                                        headers: {
-                                                            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                                        },
-                                                        body: formBody
-                                                        }).then(function(res) {
-                                                            return res.json();
-                                                        }).then(function(data) {
-                                                            console.log(data.status)
-                                                            if(data.status === 'SUCCESS'){
-                                                                alert('Transaction is approved.');
-                                                                const body = JSON.stringify({
-                                                                    type : 'add',
-                                                                    username: username,
-                                                                    balance: amount,
-                                                                });
-                                                                console.log(body)
-                                                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                                                .then(res => {
-                                                                    if (res.data === 'Failed'){
-                                                                        this.setState({error: true});
-                                                                    } else if (res.data === 'The balance is not enough') {
-                                                                        alert("cannot withdraw this amount")
-                                                                    }else{
-                                                                        alert("your balance is updated")
-                                                                        window.location.reload()
-                                                                    }
-                                                                });
-                                                            }else{
-                                                                alert('Transaction is not approved.')
-                                                            }
-                                                            
-                                                            
-                                                    });
-                                                    
-                                              }
-                                          }, 1000);
-                                        
-                                    }else{
-                                        this.setState({qaicash_error: true, qaicash_error_msg: data.returnMessage});
+                                    qr = data.qr;
+                                    showqr = true;
+                                    if(qr != null){
+                                        var mywin = window.open('', '', 'height=500,width=500');
+                                        mywin.document.body.appendChild()
                                     }
                                 });
-                                
                             }}
+                            
                         >
                             PAY NOW
                         </Button>
                         
+                        <div className='asiapay-qr' >
+                            
+                            <QRCode
+                               
+                                value={qr}
+                                size={this.state.size}
+                                fgColor={this.state.fgColor}
+                                bgColor={this.state.bgColor}
+                                level={this.state.level}
+                                renderAs={this.state.renderAs}
+                                includeMargin={this.state.includeMargin}
+                            />
+                        </div>
                     </div>
                     
 
@@ -234,4 +214,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositQaicah)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositAsiapay)));

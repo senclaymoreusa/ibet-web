@@ -34,6 +34,7 @@ import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password'
 import DepositQaicah from './components/deposit_qaicash'
+import DepositAsiapay from './components/deposit_asiapay'
 import Deposit from './components/deposit'
 const divStyle = {
   minHeight: '100%',
@@ -73,6 +74,7 @@ const BaseRouter = () => (
     <Route exact path="/deposit_paypal/" component={DepositPaypal} />
     <Route exact path="/deposit/" component={Deposit} />
     <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
+    <Route exact path="/deposit_asiapay/" component={DepositAsiapay} />
     <Route exact path="/terms_conditions/" component={TermsConditions} />
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
