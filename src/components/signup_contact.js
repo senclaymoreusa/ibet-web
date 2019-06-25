@@ -169,7 +169,6 @@ class Signup_Contact extends React.Component {
 
         this.props.hide_signup_contact();
         this.props.show_signup_phone();
-
     }
 
     render(){
@@ -190,9 +189,9 @@ class Signup_Contact extends React.Component {
                             }}
                         />
 
-                        <div style={{ paddingTop: 20}}> 
-                            OPEN ACCOUNT
-                        </div>
+                    <div style={{ paddingTop: 20, fontSize: 14, fontWeight: 600, color: '#212121', letterSpacing: 0.88, fontFamily: 'Gilroy', fontStyle: 'normal', fontStretch: 'normal', lineHeight: 'normal'}}> 
+                        <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
+                    </div>
 
                         <Close 
                             style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
@@ -301,12 +300,10 @@ class Signup_Contact extends React.Component {
                     <div style={{textAlign: 'center'}}> 
                         <button 
                             disabled = {this.state.button_disable}
-                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
+                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', fontSize: 14, fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: 0.88 }}
                             type='submit'
                         > 
-                            <div >  
-                                Continue
-                            </div>
+                            <FormattedMessage  id="signup.continue" defaultMessage='CONTINUE' />
                         </button>
                     </div>
 
@@ -314,7 +311,6 @@ class Signup_Contact extends React.Component {
                     <div style={{color: '#747175', fontSize: 12, textAlign: 'center'}}> confirm you've read and understood the <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/privacy_policy')}> privacy </b> policy</div>
 
                 </form>
-
             </div>
         )
     }

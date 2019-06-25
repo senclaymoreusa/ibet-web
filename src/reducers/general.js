@@ -14,6 +14,7 @@ const INITIAL_STATE ={
     show_complete_registration: false,
     show_phone_verification: false,
     show_oneclick_finish: false,
+    show_signup_finish:  false,
     
     onc_click_username: '',
     one_click_password: '',
@@ -114,6 +115,10 @@ export default (state = INITIAL_STATE, action) => {
         return {...state, signup_over18: action.payload}
       case 'LANGUAGE_CHANGE':
         return {...state, signup_language: action.payload}
+      case 'SHOW_SIGNUP_FINISH':
+        return {...state, show_signup_finish: true}
+      case 'HIDE_SIGNUP_FINISH':
+        return {...state, show_signup_finish: false}
       default:
         return state;
     }

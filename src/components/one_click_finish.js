@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 import { hide_oneclick_finish, show_login } from '../actions';
 
+import { FormattedMessage } from 'react-intl';
+
 class One_Click_Finish extends React.Component {
     render(){
         return (
@@ -12,7 +14,7 @@ class One_Click_Finish extends React.Component {
                 <div className='signup-title'> 
 
                     <div style={{ paddingTop: 20, fontFamily: 'Gilroy', fontSize: 14}}> 
-                        ONE-CLICK-REGISTRATION
+                        <FormattedMessage id="signup.oneclickregister" defaultMessage='ONE-CLICK-REGISTRATION' />
                     </div>
 
                     <Close 
@@ -25,17 +27,19 @@ class One_Click_Finish extends React.Component {
                 </div>
 
                 <div style={{fontSize: 34, fontWeight: 'bold', textAlign: 'center', fontFamily: 'Gilroy', color: '#212121', marginTop: 15}}> 
-                    Account created
+                    <FormattedMessage id="signup.oneclickregister.acountcreated" defaultMessage='Account Created' />
                 </div>
 
                 <div style={{fontSize: 20, fontFamily: 'Gilroy', fontWeight: 500, color: '#747175', textAlign: 'center', marginTop: 20}}>
-                    Save these details and use them to resume play. 
+                     
+                    <FormattedMessage id="signup.oneclickregister.save" defaultMessage='Save these details and use them to resume play.' />
                 </div>
 
                 <div style={{color: '#e4e4e4', textAlign: 'center', marginTop: 20}}> _______________________________________ </div>
 
                 <div style={{fontSize: 15, fontWeight: 600, marginLeft: 233, marginTop: 10}}>
-                    Username
+                
+                    <FormattedMessage id="signup.oneclickregister.username" defaultMessage='USERNAME' />
 
                     <span style={{marginLeft: 50, fontSize: 18, fontWeight: 'normal'}}> {this.props.username} </span>
                 </div>
@@ -43,7 +47,7 @@ class One_Click_Finish extends React.Component {
                 <div style={{color: '#e4e4e4', textAlign: 'center'}}> _______________________________________ </div>
 
                 <div style={{fontSize: 15, fontWeight: 600, marginLeft: 233, marginTop: 10}}>
-                    Password
+                    <FormattedMessage id="signup.oneclickregister.password" defaultMessage='PASSWORD' />
 
                     <span style={{marginLeft: 50, fontSize: 18, fontWeight: 'normal'}}> {this.props.password} </span>
                 </div>
