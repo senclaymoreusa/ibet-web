@@ -219,9 +219,9 @@ class Signup_Detail extends React.Component {
                             }}
                         />
 
-                        <div style={{ paddingTop: 20}}> 
-                            OPEN ACCOUNT
-                        </div>
+                    <div style={{ paddingTop: 20, fontSize: 14, fontWeight: 600, color: '#212121', letterSpacing: 0.88, fontFamily: 'Gilroy', fontStyle: 'normal', fontStretch: 'normal', lineHeight: 'normal'}}> 
+                        <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
+                    </div>
 
                         <Close 
                             style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
@@ -262,9 +262,9 @@ class Signup_Detail extends React.Component {
                         />
                     </div>
 
-                    {this.state.live_check_username && <div style={{color: 'red'}}> <FormattedMessage  id="error.username" defaultMessage='Username not valid' /> </div>}
+                    {this.state.live_check_username && <div style={{color: 'red', marginLeft: 70}}> <FormattedMessage  id="error.username" defaultMessage='Username not valid' /> </div>}
                     
-                    {this.state.username_error && <div style={{color: 'red'}}> <FormattedMessage  id="signup.detail.usernametaken" defaultMessage='This username is already in use' /> </div>}
+                    {this.state.username_error && <div style={{color: 'red', marginLeft: 70}}> <FormattedMessage  id="signup.detail.usernametaken" defaultMessage='This username is already in use' /> </div>}
 
                     <div style={{color: '#747175', fontSize: 15, marginLeft: 70}}> 
                         <FormattedMessage  id="signup.detail.loginmessage" defaultMessage='This is used to log in. Limit 15 characters' />
@@ -298,10 +298,16 @@ class Signup_Detail extends React.Component {
                                 value={this.state.last_name}
                                 label="LAST NAME"
                                 className={classes.textField2}
-                                type="username"
                                 margin="normal"
                                 variant="outlined"
                                 onChange={this.onInputChange_last_name.bind(this)}
+                                InputProps={{
+                                    classes: {
+                                        root: classes.cssOutlinedInput,
+                                        focused: classes.cssFocused,
+                                        notchedOutline: classes.notchedOutline
+                                    }
+                                }}
                             />
 
                             {this.state.live_check_lastname && <div style={{color: 'red'}}> <FormattedMessage  id="error.lastname" defaultMessage='Last name not valid' /> </div>}
@@ -318,7 +324,6 @@ class Signup_Detail extends React.Component {
                         <TextField
                             className={classes.textFieldDOB}
                             label="MM"
-                            type="username"
                             margin="normal"
                             onChange={this.onInputChange_month.bind(this)}
                             value={this.state.month}
@@ -327,7 +332,6 @@ class Signup_Detail extends React.Component {
                         <TextField
                             className={classes.textFieldDOB}
                             label="DD"
-                            type="username"
                             margin="normal"
                             onChange={this.onInputChange_day.bind(this)}
                             style={{marginLeft: 20}}
@@ -338,7 +342,6 @@ class Signup_Detail extends React.Component {
                         <TextField
                             className={classes.textFieldDOB}
                             label="YYYY"
-                            type="username"
                             margin="normal"
                             onChange={this.onInputChange_year.bind(this)}
                             style={{marginLeft: 20}}
@@ -353,12 +356,10 @@ class Signup_Detail extends React.Component {
                     <div style={{textAlign: 'center'}}> 
                         <button 
                             disabled = {this.state.button_disable}
-                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
+                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', fontSize: 14, fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: 0.88 }}
                             type='submit'
                         > 
-                            <div >  
-                                Continue
-                            </div>
+                            <FormattedMessage  id="signup.continue" defaultMessage='CONTINUE' />
                         </button>
                     </div>
 

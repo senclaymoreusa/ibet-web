@@ -21,7 +21,7 @@ import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -64,7 +64,8 @@ import Signup_Contact from './signup_contact';
 import Signup_Phone from './signup_phone';
 import Complete_Registration from './complete_registration';
 import Phone_Verification from './signup_phone_verification';
-import One_Click_Finish from './one_click_finish'
+import One_Click_Finish from './one_click_finish';
+import Register_Finish from './register_finish';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -785,6 +786,7 @@ export class TopNavbar extends React.Component {
     setCurrentAccountMenuItem = (menuItem) => {
         this.setState({ showProfilePopper: true });
         this.setState({ currentAccountMenuItem: menuItem });
+        this.props.history.push('/deposit/')
     }
 
     render() {
@@ -979,6 +981,13 @@ export class TopNavbar extends React.Component {
                     style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
                 >
                     <One_Click_Finish /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupFinish} 
+                    style={{position: 'absolute', top: this.state.height > 640 ? (this.state.height - 640) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Register_Finish /> 
                 </Popper>
 
             </div>
@@ -1270,7 +1279,8 @@ const mapStateToProps = (state) => {
         showSignupPhone: state.general.show_signup_phone,
         showCompleteRegistration: state.general.show_complete_registration,
         showPhoneVerification: state.general.show_phone_verification,
-        showOneclickFinish: state.general.show_oneclick_finish
+        showOneclickFinish: state.general.show_oneclick_finish,
+        showSignupFinish: state.general.show_signup_finish
     }
 }
 
@@ -1279,4 +1289,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login, show_signup_finish })(TopNavbar))));
