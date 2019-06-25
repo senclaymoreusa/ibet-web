@@ -180,9 +180,9 @@ class Signup_Email extends React.Component {
                             }}
                         />
 
-                        <div style={{ paddingTop: 20}}> 
-                            OPEN ACCOUNT
-                        </div>
+                    <div style={{ paddingTop: 20, fontSize: 14, fontWeight: 600, color: '#212121', letterSpacing: 0.88, fontFamily: 'Gilroy', fontStyle: 'normal', fontStretch: 'normal', lineHeight: 'normal'}}> 
+                        <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
+                    </div>
 
                         <Close 
                             style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
@@ -252,10 +252,11 @@ class Signup_Email extends React.Component {
                                 endAdornment: (
                                 <InputAdornment position="end">
                                     <IconButton
-                                    aria-label="Toggle password visibility"
-                                    onClick={this.handleClickShowPassword.bind(this)}
+                                        aria-label="Toggle password visibility"
+                                        onClick={this.handleClickShowPassword.bind(this)}
                                     >
-                                    {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        <span style={{fontSize: 14, fontWeight: 600, color: '#212121', opacity: 0.5, marginLeft: 5, marginTop: 2}}> SHOW </span>
                                     </IconButton>
                                 </InputAdornment>
                                 ),
@@ -313,11 +314,12 @@ class Signup_Email extends React.Component {
                             </div>
                         </div>
 
-                        <div style={{marginLeft: 100}}>
-                            <div>
-                                Preferred Language
+                        <div style={{position: 'absolute', left: 400}}>
+                            <div style={{fontSize: 12, fontWeight: 'normal', lineHeight: 1.83, letterSpacing: 'normal', color: '#747175', width: 120, textAlign: 'center', whiteSpace: 'nowrap'}}>
+                                <FormattedMessage  id="signup.preferredlanguage" defaultMessage='Preferred Language' />
                             </div>
                             <Select
+                                style={{marginTop: 5}}
                                 value={this.state.language}
                                 displayEmpty
                                 onChange={this.handle_language_change.bind(this)}
@@ -328,7 +330,7 @@ class Signup_Email extends React.Component {
                                     <div className='row'>
                                         <Flag country="US" />
                                         <div style={{marginLeft: 10}}>
-                                            <FormattedMessage id="lang.english" defaultMessage='English' />
+                                            English
                                         </div>
                                     </div>
                                 </MenuItem>
@@ -337,7 +339,7 @@ class Signup_Email extends React.Component {
                                     <div className='row'>
                                         <Flag country="CN" />
                                         <div style={{marginLeft: 10}}>
-                                            <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
+                                            中文
                                         </div>
                                     </div>
                                 </MenuItem>
@@ -345,7 +347,7 @@ class Signup_Email extends React.Component {
                                     <div className='row'>
                                         <Flag country="FR" />
                                         <div style={{marginLeft: 10}}>
-                                            <FormattedMessage id="lang.french" defaultMessage='French' />
+                                            Franch
                                         </div>
                                     </div>
                                 </MenuItem>
@@ -357,10 +359,10 @@ class Signup_Email extends React.Component {
                     <div style={{textAlign: 'center'}}> 
                         <button 
                             disabled = {this.state.button_disable}
-                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
+                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', fontSize: 14, fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: 0.88 }}
                             type='submit'
                         > 
-                                Continue
+                            <FormattedMessage  id="signup.continue" defaultMessage='CONTINUE' />
                         </button>
                     </div>
                 </form>

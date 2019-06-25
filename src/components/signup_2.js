@@ -19,8 +19,8 @@ class Signup extends React.Component {
                 
                 <div className='signup-title'> 
 
-                    <div style={{ paddingTop: 20}}> 
-                        OPEN ACCOUNT
+                    <div style={{ paddingTop: 20, fontSize: 14, fontWeight: 600, color: '#212121', letterSpacing: 0.88, fontFamily: 'Gilroy', fontStyle: 'normal', fontStretch: 'normal', lineHeight: 'normal'}}> 
+                        <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
                     </div>
 
                     <Close 
@@ -88,7 +88,7 @@ class Signup extends React.Component {
                     style={{backgroundColor: 'red', fontSize: 15, height: 48, width: 272, marginLeft: 215, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center'}}
                 > 
                     <div style={{paddingTop: 12}}>  
-                        REGISTER
+                        <FormattedMessage id="signup.register" defaultMessage='REGISTER' />
                     </div>
                 </div>
 
@@ -106,7 +106,7 @@ class Signup extends React.Component {
                     style={{backgroundColor: '#212121', fontSize: 15, height: 48, width: 272, marginLeft: 215, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center'}}
                 > 
                     <div style={{paddingTop: 15}}>  
-                        REGISTER WITH ONE CLICK
+                        <FormattedMessage id="signup.onclickregister" defaultMessage='REGISTER WITH ONE CLICK' />
                     </div>
                 </div>
 

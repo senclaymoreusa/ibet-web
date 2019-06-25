@@ -3,11 +3,13 @@ import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 import { ReactComponent as Check } from '../assets/img/svg/check.svg';
 
-import { hide_phone_verification, show_complete_registration } from '../actions';
+import { hide_phone_verification, show_complete_registration, show_signup_finish } from '../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
+
+import { FormattedMessage } from 'react-intl';
 
 import axios from 'axios'
 
@@ -120,9 +122,9 @@ class Phone_Verification extends React.Component {
                     
                     setTimeout(
                         function() {
-                            alert('You have completed registration')
+                            //alert('You have completed registration')
                             this.props.hide_phone_verification();
-                            window.location.reload();
+                            this.props.show_signup_finish();
                         }
                         .bind(this),
                         3000
@@ -140,13 +142,6 @@ class Phone_Verification extends React.Component {
         return (
             <div style={{backgroundColor: 'white', height: 640, width: 770}}>
                 <div className='signup-title'>     
-                    <Back 
-                        style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
-                        onClick = { () => {
-                            this.props.hide_phone_verification();
-                            this.props.show_complete_registration();
-                        }}
-                    />
 
                     <div style={{ paddingTop: 20}}> 
                         VERIFICATION
@@ -268,10 +263,10 @@ class Phone_Verification extends React.Component {
                                 this.state.error && 
                                 <div style={{position: 'absolute', left: 400, top: 292}}>
                                     <div style={{color: 'red', fontSize: 16}}> 
-                                        Sorry, that’s not the code we’re looking for.
+                                        <FormattedMessage id="signup.signupphoneerror1" defaultMessage='Sorry, that’s not the code we’re looking for.' />
                                     </div>
                                     <div style={{color: 'red', fontSize: 16}}>
-                                        Please check and try again. 
+                                        <FormattedMessage id="signup.signupphoneerror2" defaultMessage='Please check and try again.' /> 
                                     </div>
                                 </div>
                             }
@@ -280,12 +275,10 @@ class Phone_Verification extends React.Component {
 
                    </div>
 
-                   
-
                 </div>
 
                 <div onClick={()=>{
-                    this.setState({code_1: '', code_2: '', code_3: '', code_4: ''})
+                    this.setState({code_1: '', code_2: '', code_3: '', code_4: '', error: false})
                     axios.post(API_URL + 'users/api/generateactivationcode/', {'username': this.props.signup_username})
                     .then(res => {
                         
@@ -313,4 +306,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, { hide_phone_verification, show_complete_registration })(Phone_Verification));
+export default withStyles(styles)(connect(mapStateToProps, { hide_phone_verification, show_complete_registration, show_signup_finish })(Phone_Verification));

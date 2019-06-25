@@ -252,3 +252,15 @@ export const handle_signup_language = (language) => {
     payload: language
   }
 }
+
+export const show_signup_finish = () => {
+  return {
+    type: 'SHOW_SIGNUP_FINISH'
+  }
+}
+
+export const hide_signup_finish = () => {
+  return {
+    type: 'HIDE_SIGNUP_FINISH'
+  }
+}

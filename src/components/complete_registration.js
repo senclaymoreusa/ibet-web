@@ -8,7 +8,7 @@ import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import axios from 'axios'
 
@@ -70,15 +70,15 @@ class Complete_Registration extends React.Component {
                 </div>
 
                 <div style={{fontSize: 38, fontWeight: 'bold', color: '#212121', marginLeft: 65, marginTop: 30}}>
-                    Complete Registration.
+                    <FormattedMessage  id="signup.completeregister" defaultMessage='Complete Registration.' />
                 </div>
 
                 <div style={{fontSize: 16, fontWeight: 500, color: '#747175', marginLeft: 65, marginTop:  17}}>
-                    We need to know you're a real person.
+                    <FormattedMessage  id="signup.realperson" defaultMessage="We need to know you're a real person." />
                 </div>
 
                 <div style={{fontSize: 16, fontWeight: 500, color: '#747175', marginLeft: 65}}>
-                    Please confirm either your phone number or your email to complete your registration.
+                    <FormattedMessage  id="signup.confirmphone" defaultMessage="Please confirm either your phone number or your email to complete your registration." />
                 </div>
 
                 <div style={{textAlign: 'center', color: '#e4e4e4'}}>
@@ -86,7 +86,7 @@ class Complete_Registration extends React.Component {
                 </div>
 
                 <div style={{marginLeft: 199, fontSize: 19, color: '#747175', marginTop: 25}}>
-                    I agree to:
+                    <FormattedMessage  id="signp.agree" defaultMessage="I agree to: " />
                 </div>
 
     
@@ -131,19 +131,19 @@ class Complete_Registration extends React.Component {
 
                 <div onClick={()=>{
                     this.props.handle_signup_over18(this.state.checkbox1)
-                    console.log(this.props.signup_username, 
-                        this.props.signup_email,
-                        this.props.signup_password,
-                        this.props.signup_first_name,
-                        this.props.signup_last_name,
-                        this.props.signup_phone,
-                        this.props.signup_dob,
-                        this.props.signup_address,
-                        this.props.signup_country,
-                        this.props.signup_city,
-                        this.props.signup_zipcode,
-                        this.state.checkbox1,
-                        this.props.signup_language)
+                    // console.log(this.props.signup_username, 
+                    //     this.props.signup_email,
+                    //     this.props.signup_password,
+                    //     this.props.signup_first_name,
+                    //     this.props.signup_last_name,
+                    //     this.props.signup_phone,
+                    //     this.props.signup_dob,
+                    //     this.props.signup_address,
+                    //     this.props.signup_country,
+                    //     this.props.signup_city,
+                    //     this.props.signup_zipcode,
+                    //     this.state.checkbox1,
+                    //     this.props.signup_language)
                     
                     this.props.authSignup(
                         this.props.signup_username, 
@@ -169,8 +169,8 @@ class Complete_Registration extends React.Component {
                 }}
                     style={{backgroundColor: 'red', fontSize: 15, height: 50, width: 320, marginLeft: 215, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center'}}
                 > 
-                    <div style={{paddingTop: 12}}>  
-                        CONFIRM VIA PHONE
+                    <div style={{paddingTop: 15}}>  
+                        <FormattedMessage  id="signup.confirmviaphone" defaultMessage="CONFIRM VIA PHONE" />
                     </div>
                 </div>
 
