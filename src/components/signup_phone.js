@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { ReactComponent as Back } from '../assets/img/svg/back.svg';
-import { hide_signup_phone, show_signup_contact } from '../actions';
+import { hide_signup_phone, show_signup_contact, show_complete_registration, handle_signup_phone } from '../actions';
 import { connect } from 'react-redux';
 
 import Country_Info from './country_info';
@@ -14,8 +14,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 
 import axios from 'axios'
 
@@ -24,7 +22,24 @@ const styles = theme => ({
     textField: {
       width: 400,
       height: 10,
-    }
+    },
+
+    cssOutlinedInput:{
+        "& $notchedOutline": {
+            //add this nested selector
+            borderColor: "'#e4e4e4'",
+        },
+      
+        "&$cssFocused $notchedOutline": {
+            borderColor: "blue",
+        },
+        width: 420,
+        height: 50,
+    },
+
+    cssFocused: {  },
+    
+    notchedOutline: {  },
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -70,30 +85,28 @@ class Signup_Phone extends React.Component {
         super(props);
 
         this.state = {
-            phone_code: '',
-            phone: '',
+            phone_code: this.props.signup_phone ? this.props.signup_phone.split('/')[0] : '',
+            phone:      this.props.signup_phone ? this.props.signup_phone.split('/')[1] : '',
             all_country_name: Country_Info['Country_Info'],
             form_open: false,
 
             live_check_phone: false,
 
-            checkbox1: false,
-            checkbox2: false,
-            checkbox3: false,
 
-            button_disable:  true,
+            button_disable: this.props.signup_phone ? false : true,
             error_18: false
         }
     }
 
     componentDidMount() {
-
-        axios.get('https://ipapi.co/json/')
-        .then(res => {
-        this.setState({
-            phone_code: res.data.country_calling_code
-          })
-        })
+        if (!this.props.signup_phone){
+            axios.get('https://ipapi.co/json/')
+            .then(res => {
+            this.setState({
+                phone_code: res.data.country_calling_code
+                })
+            })
+        }
     }
 
     handleForm(){
@@ -113,29 +126,13 @@ class Signup_Phone extends React.Component {
         await this.setState({phone: event.target.value})
     }
 
-    onInputChange_checkbox1(){
-        this.setState({checkbox1: !this.state.checkbox1})
-    }
-
-    onInputChange_checkbox2(){
-        this.setState({checkbox2: !this.state.checkbox2})
-    }
-
-    onInputChange_checkbox3(){
-        this.setState({checkbox3: !this.state.checkbox3})
-    }
-
     onFormSubmit(event){
         event.preventDefault();
 
-        if (!this.state.checkbox1){
-            this.setState({error_18: true})
-        }
-        else{
-            this.setState({error_18: false})
-            alert('Success')
-        }
+        this.props.handle_signup_phone(this.state.phone_code + '/' + this.state.phone)
 
+        this.props.hide_signup_phone();
+        this.props.show_complete_registration();
     }
     
 
@@ -143,137 +140,98 @@ class Signup_Phone extends React.Component {
 
         const { classes } = this.props;
 
-        const { formatMessage } = this.props.intl;
-
-        const message1 = formatMessage({ id: "signup.phone.message1" });
-        const message2 = formatMessage({ id: "signup.phone.message2" });
-        const message2_5 = formatMessage({ id: "signup.phone.message2.5" });
-        const message3 = formatMessage({ id: "signup.phone.message3" });
-
         return (
-            <div> 
+            <div style={{backgroundColor: 'white', height: 700, width: 662}}> 
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <div className='signup-title'>     
                         <Back 
-                            style={{cursor: 'pointer', marginTop: 12, marginLeft: 30, height: 25, width: 15}}
+                            style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
                             onClick = { () => {
                                 this.props.hide_signup_phone();
                                 this.props.show_signup_contact();
                             }}
                         />
 
-                        <div style={{marginLeft: 270 , marginTop: 15}}> 
-                            <FormattedMessage  id="login.signup" defaultMessage='Signup' />
+                        <div style={{ paddingTop: 20}}> 
+                            OPEN ACCOUNT
                         </div>
 
                         <Close 
-                            style={{cursor: 'pointer', marginLeft: 270, marginTop: 5, height: 40, width: 20}}
+                            style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                             onClick = { () => {
                                this.props.hide_signup_phone()
                             }}
                         />
                     </div>
 
-                    <div style={{marginTop: 30}}>
+                    <div style={{marginTop: 30, textAlign:  'center'}}>
                         <span style={{color: '#e4e4e4'}} > ____________________  1 </span>  <span style={{color: '#e4e4e4'}}> ____________________  2 </span >  <span  style={{fontWeight: 600}}> ____________________ 3 </span>
                     </div>
 
-                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, paddingRight: 360}}> 
+                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 70}}> 
                         <FormattedMessage  id="signup.contact.title" defaultMessage='Contact details' />
                     </div>
 
-                    <FormControl style={{marginTop: 20}} >
-                        <Select
-                            onClick={this.handleForm.bind(this)}
-                            value={this.state.phone_code}
-                            onChange={this.onInputChange_phonecode.bind(this)}
-                            input={<BootstrapInput name="country" id="country-customized-select" />}
-                        >
-                            {this.state.all_country_name.map(item => (
-                            <MenuItem key={item.name} value={item.code} >
-                                {
-                                    this.state.form_open ?
-                                    <div> {item.name} {item.code} </div>
-                                    :
-                                    <div> {item.code} </div>
+                    <div style={{textAlign: 'center'}}> 
+                        <FormControl style={{marginTop: 20}} >
+                            <Select
+                                onClick={this.handleForm.bind(this)}
+                                value={this.state.phone_code}
+                                onChange={this.onInputChange_phonecode.bind(this)}
+                                input={<BootstrapInput name="country" id="country-customized-select" />}
+                            >
+                                {this.state.all_country_name.map(item => (
+                                <MenuItem key={item.name} value={item.code} >
+                                    {
+                                        this.state.form_open ?
+                                        <div> {item.name} {item.code} </div>
+                                        :
+                                        <div> {item.code} </div>
+                                    }
+                                    
+                                </MenuItem>
+                            ))}
+                            </Select>
+                        </FormControl>
+
+                        <TextField
+                            InputProps={{ classes: { input: classes.textField } }}
+                            label="PHONE NUMBER"
+                            margin="normal"
+                            onChange={this.onInputChange_phone.bind(this)}
+                            value={this.state.phone}
+                            variant="outlined"
+                            style={{marginTop: 20}}
+                            InputProps={{
+                                classes: {
+                                    root: classes.cssOutlinedInput,
+                                    focused: classes.cssFocused,
+                                    notchedOutline: classes.notchedOutline
                                 }
-                                
-                            </MenuItem>
-                        ))}
-                        </Select>
-                    </FormControl>
+                            }}
+                        />
+                    </div>
 
-                    <TextField
-                        InputProps={{ classes: { input: classes.textField } }}
-                        label="PHONE NUMBER"
-                        margin="normal"
-                        onChange={this.onInputChange_phone.bind(this)}
-                        value={this.state.phone}
-                        variant="outlined"
-                        style={{marginTop: 20}}
-                    />
+                    {this.state.live_check_phone && <div style={{color: 'red', marginLeft: 80}}> <FormattedMessage  id="error.phone" defaultMessage='Phone number not valid' /> </div>}
 
-                    {this.state.live_check_phone && <div style={{color: 'red'}}> <FormattedMessage  id="error.phone" defaultMessage='Phone number not valid' /> </div>}
-
-                    <div style={{color: '#747175', fontSize: 15, fontWeight: 600, marginTop: 10, paddingRight: 300}}> 
+                    <div style={{color: '#747175', fontSize: 15, fontWeight: 600, marginTop: 10, marginLeft: 80}}> 
                         <FormattedMessage  id="signup.detail.sms" defaultMessage="We'll send you an SMS to confirm" />
                     </div>
 
-                    <div style={{color: '#747175', fontSize: 19, fontWeight: 300, marginTop: 20, marginRight: 300}}> 
-                        <FormattedMessage  id="signup.detail.agree" defaultMessage="I agree to:" />
+                    <div style={{textAlign: 'center'}}> 
+                        <button 
+                            disabled = {this.state.button_disable}
+                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
+                            type='submit'
+                        > 
+                            <div >  
+                                Register
+                            </div>
+                        </button>
                     </div>
 
-                    <div> 
-                        <FormControlLabel
-                        control={
-                            <Checkbox
-                            checked={this.state.checkbox1}
-                            onChange={this.onInputChange_checkbox1.bind(this)}
-                            />
-                        }
-                        label = {message1}
-                        />
-                    </div>
-
-                    <div style={{marginRight: 10}}> 
-                        <FormControlLabel
-                        control={
-                            <Checkbox
-                            checked={this.state.checkbox2}
-                            onChange={this.onInputChange_checkbox2.bind(this)}
-                            />
-                        }
-                        label = {message2}
-                        />
-                        <br/>
-                        {message2_5}
-
-                    </div>
-
-                    <div style={{marginLeft: 10}}>
-                        <FormControlLabel
-                        control={
-                            <Checkbox
-                            checked={this.state.checkbox3}
-                            onChange={this.onInputChange_checkbox3.bind(this)}
-                            />
-                        }
-                        label = {message3}
-                        />
-                    </div>
-
-                    <button 
-                        disabled = {this.state.button_disable}
-                        style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
-                        type='submit'
-                    > 
-                        <div >  
-                            Register
-                        </div>
-                    </button>
-
-                    <div style={{color: '#747175', fontSize: 12, marginTop: 10}}> By signing up you agree to ibet's <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/terms_conditions')}> terms and conditions </b> and</div>
-                    <div style={{color: '#747175', fontSize: 12}}> confirm you've read and understood the <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/privacy_policy')}> privacy </b> policy</div>
+                    <div style={{color: '#747175', fontSize: 12, marginTop: 10, textAlign: 'center'}}> By signing up you agree to ibet's <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/terms_conditions')}> terms and conditions </b> and</div>
+                    <div style={{color: '#747175', fontSize: 12, textAlign: 'center'}}> confirm you've read and understood the <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/privacy_policy')}> privacy </b> policy</div>
 
                     { this.state.error_18 && <div style={{color: 'red'}}> <FormattedMessage  id="signup.phone.over18" defaultMessage="You have to confirm you are over 18:" /> </div>}
                 </form>
@@ -282,4 +240,10 @@ class Signup_Phone extends React.Component {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(null,{ hide_signup_phone, show_signup_contact })(Signup_Phone)));
+const mapStateToProps = (state) => {
+    return {
+        signup_phone: state.general.signup_phone,
+    }
+}
+
+export default withStyles(styles)(injectIntl(connect(mapStateToProps,{ hide_signup_phone, show_signup_contact, show_complete_registration, handle_signup_phone })(Signup_Phone)));

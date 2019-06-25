@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone } from '../actions';
+import { show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone, handle_signup_address, handle_signup_city, handle_signup_zipcode, handle_signup_country } from '../actions';
 import axios from 'axios'
 import { getNames } from 'country-list';
 import { FormattedMessage } from 'react-intl';
@@ -31,7 +31,22 @@ const styles = theme => ({
 
     textFieldDOB:{
         width: 70,
-    }
+    },
+
+    cssOutlinedInput:{
+        "& $notchedOutline": {
+            //add this nested selector
+            borderColor: "'#e4e4e4'",
+        },
+      
+        "&$cssFocused $notchedOutline": {
+            borderColor: "blue",
+        }
+    },
+
+    cssFocused: {  },
+    
+    notchedOutline: {  },
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -75,29 +90,31 @@ class Signup_Contact extends React.Component {
         super(props);
 
         this.state = {
-            address: '',
-            city: '',
-            zipcode: '',
-            country: '',
+            address: this.props.signup_address ?  this.props.signup_address : '',
+            city:    this.props.signup_city    ?  this.props.signup_city : '',
+            zipcode: this.props.signup_zipcode ?  this.props.signup_zipcode : '',
+            country: this.props.signup_country ?  this.props.signup_country : '',
             all_country_name: [],
 
             live_check_address: false,
             live_check_city: false,
             live_check_zipcode: false,
 
-            button_disable: true
+            button_disable: this.props.signup_address ? false : true
         }
     }
 
     componentDidMount() {
         this.setState({all_country_name: getNames()})
 
-        axios.get('https://ipapi.co/json/')
-        .then(res => {
-        this.setState({
-            country: res.data.country_name
-          })
-        })
+        if (!this.props.signup_country){
+            axios.get('https://ipapi.co/json/')
+            .then(res => {
+            this.setState({
+                country: res.data.country_name
+                })
+            })
+        }
     }
 
     async onInputChange_address(event){
@@ -138,11 +155,17 @@ class Signup_Contact extends React.Component {
         if (this.state.address && this.state.city && this.state.country && this.state.zipcode && 
             !this.state.live_check_address && !this.state.live_check_city && !this.state.live_check_zipcode){
                 this.setState({button_disable: false})
-            }
+        }
     }
 
     onFormSubmit(event){
         event.preventDefault();
+
+        this.props.handle_signup_address(this.state.address);
+        this.props.handle_signup_city(this.state.city);
+        this.props.handle_signup_zipcode(this.state.zipcode);
+        this.props.handle_signup_country(this.state.country);
+
 
         this.props.hide_signup_contact();
         this.props.show_signup_phone();
@@ -154,25 +177,25 @@ class Signup_Contact extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div>
+            <div style={{backgroundColor: 'white', height: 700, width: 662}}>
                 <form onSubmit={this.onFormSubmit.bind(this)}>
 
                     <div className='signup-title'>     
 
                         <Back 
-                            style={{cursor: 'pointer', marginTop: 12, marginLeft: 30, height: 25, width: 15}}
+                            style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
                             onClick = { () => {
                                 this.props.hide_signup_contact();
                                 this.props.show_signup_detail();
                             }}
                         />
 
-                        <div style={{marginLeft: 270 , marginTop: 15}}> 
-                            <FormattedMessage  id="login.signup" defaultMessage='Signup' />
+                        <div style={{ paddingTop: 20}}> 
+                            OPEN ACCOUNT
                         </div>
 
                         <Close 
-                            style={{cursor: 'pointer', marginLeft: 270, marginTop: 5, height: 40, width: 20}}
+                            style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_contact();
                             }}
@@ -180,30 +203,39 @@ class Signup_Contact extends React.Component {
 
                     </div>
 
-                    <div style={{marginTop: 30}}>
+                    <div style={{marginTop: 30, textAlign: 'center'}}>
                         <span style={{color: '#e4e4e4'}} > ____________________  1 </span>  <span style={{color: '#e4e4e4'}}> ____________________  2 </span >  <span  style={{fontWeight: 600}}> ____________________ 3 </span>
                     </div>
 
-                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, paddingRight: 360}}> 
+                    <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 70}}> 
                         <FormattedMessage  id="signup.contact.title" defaultMessage='Contact details' />
                     </div>
 
-                    <div style={{color: '#e4e4e4'}}>
+                    <div style={{color: '#e4e4e4', textAlign: 'center'}}>
                         __________________________________________________________________
                     </div>
 
-                    <TextField
-                        label="ADDRESS"
-                        className={classes.textField}
-                        margin="normal"
-                        variant="outlined"
-                        value={this.state.address}
-                        onChange={this.onInputChange_address.bind(this)}
-                    />
+                    <div style={{textAlign: 'center'}}> 
+                        <TextField
+                            label="ADDRESS"
+                            className={classes.textField}
+                            margin="normal"
+                            variant="outlined"
+                            value={this.state.address}
+                            onChange={this.onInputChange_address.bind(this)}
+                            InputProps={{
+                                classes: {
+                                    root: classes.cssOutlinedInput,
+                                    focused: classes.cssFocused,
+                                    notchedOutline: classes.notchedOutline
+                                }
+                            }}
+                        />
+                    </div>
 
-                    {this.state.live_check_address && <div style={{color: 'red'}}> <FormattedMessage  id="error.address" defaultMessage='Address not valid' /> </div>}
+                    {this.state.live_check_address && <div style={{color: 'red', marginLeft: 65}}> <FormattedMessage  id="error.address" defaultMessage='Address not valid' /> </div>}
 
-                    <div className='row' style={{marginLeft: 85}}> 
+                    <div className='row' style={{marginLeft: 65}}> 
  
                         <div> 
                             <TextField
@@ -214,6 +246,13 @@ class Signup_Contact extends React.Component {
                                 value={this.state.city}
                                 variant="outlined"
                                 style={{marginRight: 60}}
+                                InputProps={{
+                                    classes: {
+                                        root: classes.cssOutlinedInput,
+                                        focused: classes.cssFocused,
+                                        notchedOutline: classes.notchedOutline
+                                    }
+                                }}
                             />
 
                             {this.state.live_check_city && <div style={{color: 'red'}}> <FormattedMessage  id="error.city" defaultMessage='City not valid' /> </div>}
@@ -227,6 +266,13 @@ class Signup_Contact extends React.Component {
                                 onChange={this.onInputChange_zipcode.bind(this)}
                                 value={this.state.zipcode}
                                 variant="outlined"
+                                InputProps={{
+                                    classes: {
+                                        root: classes.cssOutlinedInput,
+                                        focused: classes.cssFocused,
+                                        notchedOutline: classes.notchedOutline
+                                    }
+                                }}
                             />
 
                             {this.state.live_check_zipcode && <div style={{color: 'red'}}> <FormattedMessage  id="error.zipcode" defaultMessage='Zipcode not valid' /> </div>}
@@ -235,33 +281,37 @@ class Signup_Contact extends React.Component {
 
                     </div>
 
-                    <FormControl style={{marginTop: 20}}>
-                        <Select
-                            className={classes.textField}
-                            value={this.state.country}
-                            onChange={this.onInputChange_country.bind(this)}
-                            input={<BootstrapInput name="country" id="country-customized-select" />}
-                        >
-                            {this.state.all_country_name.map(name => (
-                            <MenuItem key={name} value={name} >
-                            {name}
-                            </MenuItem>
-                        ))}
-                        </Select>
-                    </FormControl>
+                    <div style={{marginTop: 20, textAlign: 'center'}}>
+                        <FormControl >
+                            <Select
+                                className={classes.textField}
+                                value={this.state.country}
+                                onChange={this.onInputChange_country.bind(this)}
+                                input={<BootstrapInput name="country" id="country-customized-select" />}
+                            >
+                                {this.state.all_country_name.map(name => (
+                                <MenuItem key={name} value={name} >
+                                {name}
+                                </MenuItem>
+                            ))}
+                            </Select>
+                        </FormControl>
+                    </div>
 
-                    <button 
-                        disabled = {this.state.button_disable}
-                        style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
-                        type='submit'
-                    > 
-                        <div >  
-                            Continue
-                        </div>
-                    </button>
+                    <div style={{textAlign: 'center'}}> 
+                        <button 
+                            disabled = {this.state.button_disable}
+                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
+                            type='submit'
+                        > 
+                            <div >  
+                                Continue
+                            </div>
+                        </button>
+                    </div>
 
-                    <div style={{color: '#747175', fontSize: 12, marginTop: 10}}> By signing up you agree to ibet's <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/terms_conditions')}> terms and conditions </b> and</div>
-                    <div style={{color: '#747175', fontSize: 12}}> confirm you've read and understood the <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/privacy_policy')}> privacy </b> policy</div>
+                    <div style={{color: '#747175', fontSize: 12, marginTop: 10, textAlign: 'center'}}> By signing up you agree to ibet's <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/terms_conditions')}> terms and conditions </b> and</div>
+                    <div style={{color: '#747175', fontSize: 12, textAlign: 'center'}}> confirm you've read and understood the <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/privacy_policy')}> privacy </b> policy</div>
 
                 </form>
 
@@ -270,4 +320,13 @@ class Signup_Contact extends React.Component {
     }
 }
 
-export default withStyles(styles)(connect(null,{ show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone })(Signup_Contact));
+const mapStateToProps = (state) => {
+    return {
+        signup_address:    state.general.signup_address,
+        signup_city:       state.general.signup_city,
+        signup_zipcode:    state.general.signup_zipcode,
+        signup_country:    state.general.signup_country
+    }
+}
+
+export default withStyles(styles)(connect(mapStateToProps,{ show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone, handle_signup_address, handle_signup_city, handle_signup_zipcode, handle_signup_country })(Signup_Contact));

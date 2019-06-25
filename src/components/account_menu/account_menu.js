@@ -31,7 +31,7 @@ import { ReactComponent as HelpIcon } from '../../assets/img/svg/account-menu-he
 import { ReactComponent as ResponsibleIcon } from '../../assets/img/svg/account-menu-responsible.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/img/svg/account-menu-logout.svg';
 import { ReactComponent as UserIcon } from '../../assets/img/svg/user.svg';
-import { ReactComponent as CheckIcon } from '../../assets/img/svg/check.svg';
+import { ReactComponent as CheckIcon } from '../../assets/img/svg/account-menu-check.svg';
 import { ReactComponent as OvalIcon } from '../../assets/img/svg/oval-info.svg';
 import { ReactComponent as UserPlusIcon } from '../../assets/img/svg/user-plus.svg';
 import { ReactComponent as CloseIcon } from '../../assets/img/svg/red-close.svg';

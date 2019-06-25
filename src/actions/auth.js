@@ -60,7 +60,6 @@ export const authStart = () => {
             dispatch(authFail(err.response.data.detail))
             return Promise.reject(err.response.data.detail);
         })
-        
     }
   }
 
@@ -87,11 +86,10 @@ export const authStart = () => {
             dispatch(authFail(err.response.data.detail))
             return Promise.reject(err.response.data.detail);
         })
-        
     }
   }
 
-  export const authSignup = (username, email, password1, password2, first_name, last_name, phone, date_of_birth, street_address_1, street_address_2, country, city, zipcode, state, gender, over_eighteen, contact_option, preferred_team, title) => {
+  export const authSignup = (username, email, password, first_name, last_name, phone, date_of_birth, street_address_1, country, city, zipcode, over_eighteen, language) => {
     return dispatch => {
         dispatch(authStart());
         // const config = {
@@ -99,18 +97,18 @@ export const authStart = () => {
         //     "Content-Type": "application/json"
         //   }
         // };
-        const body = JSON.stringify({ username, email, password1, password2, first_name, last_name, phone, date_of_birth,
-          street_address_1, street_address_2, country, city, zipcode, state, gender, over_eighteen, contact_option, preferred_team, title
+        const body = JSON.stringify({ username, email, password, first_name, last_name, phone, date_of_birth,
+          street_address_1, country, city, zipcode, over_eighteen, language
         });
 
         return axios.post(API_URL + 'users/api/signup/', body, config)
         .then(res => {
-            const token = res.data.key;
-            const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-            localStorage.setItem('token', token);
-            localStorage.setItem('expirationDate', expirationDate);
-            dispatch(authSuccess(token));
-            dispatch(checkAuthTimeout(3600));
+            // const token = res.data.key;
+            // const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+            // localStorage.setItem('token', token);
+            // localStorage.setItem('expirationDate', expirationDate);
+            // dispatch(authSuccess(token));
+            // dispatch(checkAuthTimeout(3600));
             return Promise.resolve()
         })
         .catch(err => {
