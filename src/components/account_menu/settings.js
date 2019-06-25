@@ -1,530 +1,478 @@
 import React from 'react'; import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import PersonAdd from '@material-ui/icons/PersonAdd';
-import Person from '@material-ui/icons/Person';
-import Input from '@material-ui/icons/Input';
-import Language from '@material-ui/icons/Language';
-import PersonOutline from '@material-ui/icons/PersonOutline';
-import BarChart from '@material-ui/icons/BarChart';
-import CardGiftcard from '@material-ui/icons/CardGiftcard';
-import Message from '@material-ui/icons/Message';
-import TouchApp from '@material-ui/icons/TouchApp';
-import AttachMoney from '@material-ui/icons/AttachMoney';
 
-import PeopleOutline from '@material-ui/icons/PeopleOutline';
-import DirectionsRun from '@material-ui/icons/DirectionsRun';
-
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, postLogout } from '../../actions';
-
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import { logout, handle_search, setLanguage } from '../../actions';
 
 import Grid from '@material-ui/core/Grid';
-
-import { ReactComponent as CloseIcon } from '../../assets/img/svg/profile_close.svg';
-// import { ReactComponent as HelpIcon } from '../../assets/img/svg/help.svg';
-import { ReactComponent as LockIcon } from '../../assets/img/svg/lock.svg';
-
-import { ReactComponent as DepositIcon } from '../../assets/img/svg/account-menu-deposit.svg';
-import { ReactComponent as WithdrawIcon } from '../../assets/img/svg/account-menu-withdraw.svg';
-import { ReactComponent as OpenBetsIcon } from '../../assets/img/svg/account-menu-open-bets.svg';
-import { ReactComponent as SettledBetsIcon } from '../../assets/img/svg/account-menu-settled-bets.svg';
-import { ReactComponent as PromotionsIcon } from '../../assets/img/svg/account-menu-promotions.svg';
-import { ReactComponent as SettingsIcon } from '../../assets/img/svg/account-menu-settings.svg';
-import { ReactComponent as HelpIcon } from '../../assets/img/svg/account-menu-help.svg';
-import { ReactComponent as ResponsibleIcon } from '../../assets/img/svg/account-menu-responsible.svg';
-import { ReactComponent as LogoutIcon } from '../../assets/img/svg/account-menu-logout.svg';
-
-
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Flag from 'react-flagkit';
 import Paper from '@material-ui/core/Paper';
+import Switch from '@material-ui/core/Switch';
 
+import Button from '@material-ui/core/Button';
+
+import { ReactComponent as BackIcon } from '../../assets/img/svg/account-menu-back.svg';
+import { ReactComponent as RedUserIcon } from '../../assets/img/svg/red-user.svg';
+import { ReactComponent as DepositIcon } from '../../assets/img/svg/deposit.svg';
+
+import axios from 'axios';
+import { config } from '../../util_config';
 
 import '../../css/account_menu.scss';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
         width: '100%',
     },
-    title: {
-        display: 'inline',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    firstNameLabel: {
-        display: 'inline',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-        marginLeft: 5,
-    },
-    balanceLabel: {
-        display: 'inline',
-        float: 'right',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    usernameLabel: {
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    balanceValue: {
-        display: 'inline',
-        float: 'right',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-        marginLeft: 5,
-    },
-
-    closeButton: {
-        height: 20,
-        width: 20,
-        padding: 0,
-        display: 'inline',
-        float: 'right',
-    },
-    cashLabel: {
-        display: 'inline',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    cashValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    bonusLabel: {
-        display: 'inline',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    bonusValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    cashBetValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    allAboutBonus: {
-        fontSize: 13.5,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 1.67,
-        letterSpacing: 0.5,
-        textAlign: 'center',
-        color: '#212121',
-        textDecoration: 'underline',
-        marginBottom: 10,
-        marginTop: 10,
-    },
-    feeBetPaper: {
-        textAlign: 'center',
-
-        paddingLeft: 5,
-        paddingRight: 5,
-        paddingTop: 10,
-        paddingBottom: 10,
-        marginBottom: 15,
-    },
-    feeBetLabel: {
-        display: 'inline',
-        textAlign: 'center',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    feeBetValue: {
-        display: 'inline',
-        textAlign: 'center',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    achievedLabel: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    achievedStart: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#212121',
-    },
-    achievedEnd: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#212121',
-    },
-    achievedProgress: {
-        width: '100%',
-        height: 24,
-    },
-    achievedProgressBar: {
-        display: 'inline',
-        width: 278,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 0,
-        height: 17,
-        borderRadius: 9.3,
-        border: 0,
-        backgroundImage: 'linear-gradient(95deg, #40bea5, #98e2a8)',
-    },
-    lock: {
-        display: 'inline',
-    },
-    leftGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        borderRight: '1px solid #cdcdcd',
-        height: 90,
-    },
-    rightGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        height: 90,
-    },
-    mergedGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        height: 60,
-    },
-    gridButton: {
-        height: '100%',
-        width: '100%',
-    },
-    blockButtonLabel: {
-        position: 'relative',
-    },
-    menuIcon: {
-        width: '100%',
-    },
-    responsibleButton: {
-        height: '100%',
-        width: '100%',
-        color: '#212121',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    logoutButton: {
-        height: '100%',
-        width: '100%',
-        color: '#212121',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    changePasswordButton: {
-        height: '100%',
-        width: '100%',
-        color: '#04599a',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    sectionDesktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
-    },
-    sectionMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
-    button: {
-        width: '90%',
-        margin: theme.spacing.unit,
-        textTransform: 'capitalize'
-    },
-    nested: {
-        paddingLeft: theme.spacing.unit * 4,
-    },
-    formControl: {
-        margin: theme.spacing.unit * 3,
-    },
     grow: {
         flexGrow: 1,
     },
-    help: {
-        width: 20,
-        height: 11.7,
+    titleRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        height: 44,
+        width: '100%',
+        paddingLeft: 10,
+        paddingRight: 10,
     },
-    oval: {
-        marginLeft: 8,
-        width: 20,
+    backButton: {
+        width: 32,
+        height: 32,
+        minWidth: 32,
+        marginTop: 6,
+        marginBottom: 6,
+    },
+    logo: {
+        marginTop: 13,
+        marginBottom: 13,
+        marginLeft: 20,
+    },
+    userButton: {
+        border: '1px solid #fe0000',
+        minWidth: 32,
+        height: 32,
+        padding: 0,
+        marginTop: 6,
+        marginBottom: 6,
+
+    },
+    balanceButton: {
+        backgroundColor: '#fe0000',
+        color: '#ffffff',
+        "&:hover": {
+            backgroundColor: '#fe0000',
+        },
+        height: 32,
+        marginTop: 6,
+        marginBottom: 6,
+        marginRight: 10,
+        paddingLeft: 8,
+        paddingRight: 8,
+    },
+    depositIcon: {
+        marginRight: 5,
+        marginTop: -4,
+    },
+    title: {
+        display: 'inline',
+        fontWeight: 300,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.6,
+        color: '#212121',
+        fontSize: 15.8,
+        marginLeft: 6,
+        height: 30,
+        marginTop: 12,
+
+    },
+    spaceRow: {
+        backgroundColor: '#f1f1f1',
+        height: 30,
+    },
+    bottomRow: {
+        marginTop: 1,
+        backgroundColor: '#f1f1f1',
+        height: 30,
+        borderRadius: 5,
+    },
+    helpPaper: {
+        width: '100%',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    gridRow: {
+        padding: 10,
+        borderBottom: '1px solid #f1f1f1',
+    },
+    row: {
+        padding: 10,
+    },
+    boldText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.69,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+    },
+    semiboldText: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.69,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+    },
+    text: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.69,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+    },
+    desc: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.69,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+        marginTop: 20,
+    },
+    switch: {
         height: 20,
-        minWidth: 20,
-        boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.18)',
-        border: 'solid 2.3px #1e1e1e',
-        backgroundColor: '#2b2b2b',
-        borderRadius: 20,
+    },
+    selectOddsDisplay:{
+        width: 90,
+        height: 30,
+        paddingTop: 0,
+        marginBottom: 10,
+        paddingBottom: 0,
+        float: 'right',
         display: 'inline',
     },
-    chart: {
-        marginTop: 10,
-        marginBottom: 10
-    }
 });
 
-export class Settings extends React.Component {
+const StyledSwitch = withStyles({
+    root: {
+        height: 20,
+    },
+    switchBase: {
+        height: 20,
+        color: 'primary',
+        '&$checked': {
+            color: 'primary',
+        },
+    }
+})(Switch);
 
+export class Settings extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            anchorEl: null,
+            checkEmail: false,
+            checkSMS: false,
+            checkPost: false,
+            checkPhone: false,
+            checkEmailNotification: false,
 
-            lang: 'en',
-            showLeftPanel: false,
-            showRightPanel: false,
-            showLangListItems: false,
-            term: '',
-            facebooklogin: false,
-            userID: "",
-            name: "",
-            email: "",
-            picture: ""
+            checkMarketingEmail: false,
+            checkMarketingSMS: false,
+            checkMarketingPost: false,
+            checkMarketingPhone: false,
+            checkMarketingEmailNotification: false,
+
+            balance: 0.00,
+            balanceCurrency: "USD",
+
+            oddsDisplay: 'decimal',
         };
 
+        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleSMSChange = this.handleSMSChange.bind(this);
+        this.handlePostChange = this.handlePostChange.bind(this);
+        this.handlePhoneChange = this.handlePhoneChange.bind(this);
+        this.handleEmailNotificationChange = this.handleEmailNotificationChange.bind(this);
+        this.handleMarketingEmailChange = this.handleMarketingEmailChange.bind(this);
+        this.handleMarketingSMSChange = this.handleMarketingSMSChange.bind(this);
+        this.handleMarketingPostChange = this.handleMarketingPostChange.bind(this);
+        this.handleMarketingPhoneChange = this.handleMarketingPhoneChange.bind(this);
+        this.handleMarketingEmailNotificationChange = this.handleMarketingEmailNotificationChange.bind(this);
 
-    }
-
-    toggleSidePanel = (side, open) => () => {
-        this.setState({
-            [side]: open,
-        });
-    };
-
-    handleLanguageMenuOpen = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
-
-    handleLanguageMenuClose = (ev) => {
-        this.setState({ anchorEl: null });
-        this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
-    };
-
-    changeLanguage = (lang) => {
-        this.props.setLanguage(lang)
-            .then((res) => {
-                // console.log("language change to:" + res.data);
-            });
-    };
-
-    componentWillReceiveProps(props) {
-        this.setState({ term: '' });
     }
 
     componentDidMount() {
-        var fackbooklogin = localStorage.getItem('facebook')
-        this.setState({ facebooklogin: fackbooklogin })
-        var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
-        if (fackbooklogin === 'true') {
-            this.setState({
-                userID: fackbookObj.userID,
-                name: fackbookObj.name,
-                email: fackbookObj.email,
-                picture: fackbookObj.picture
-            })
+
+        if (this.props.isAuthenticated) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
         }
     }
 
-    toggleLanguageListItem = () => {
-        this.setState(state => ({ showLangListItems: !state.showLangListItems }));
-    };
-
-    handleMenuClose = (ev) => {
-        // this.setState({ this.props.showProfilePopper: false });
-    };
-
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');      
+        this.props.onMenuItemClicked('');
     }
+
+    handleEmailChange(event) {
+        this.setState({ checkEmail: event.target.checked });
+    };
+
+    handleSMSChange(event) {
+        this.setState({ checkSMS: event.target.checked });
+    };
+
+    handlePostChange(event) {
+        this.setState({ checkPost: event.target.checked });
+    };
+
+    handlePhoneChange(event) {
+        this.setState({ checkPhone: event.target.checked });
+    };
+
+    handleEmailNotificationChange(event) {
+        this.setState({ checkEmailNotification: event.target.checked });
+    };
+
+    handleMarketingEmailChange(event) {
+        this.setState({ checkMarketingEmail: event.target.checked });
+    };
+
+    handleMarketingSMSChange(event) {
+        this.setState({ checkMarketingSMS: event.target.checked });
+    };
+
+    handleMarketingPostChange(event) {
+        this.setState({ checkMarketingPost: event.target.checked });
+    };
+
+    handleMarketingPhoneChange(event) {
+        this.setState({ checkMarketingPhone: event.target.checked });
+    };
+
+    handleMarketingEmailNotificationChange(event) {
+        this.setState({ checkMarketingEmailNotification: event.target.checked });
+    };
+
+    handleOddsDisplayChange = event => {
+        this.setState({ filter: event.target.value });
+    };
 
     render() {
         const { classes } = this.props;
-        const { formatMessage } = this.props.intl;
-        let languagesMessage = formatMessage({ id: "accountmenu.languages" });
+        const { checkEmail,
+            checkSMS,
+            checkPost,
+            checkPhone,
+            checkEmailNotification,
 
-        var LineChart = require("react-chartjs").Line;
-
-        var chartData = {
-            labels: ["Week1", "Week2", "Week3", "Week4", "Week5", "Week6", "Week7"],
-            datasets: [
-                {
-                    label: "My First dataset",
-                    fillColor: "rgba(220,220,220,0.2)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [28, 48, 60, 30, 45, 30, 20]
-                }
-            ]
-        };
-
-        const chartOptions = {
-            ///Boolean - Whether grid lines are shown across the chart
-            scaleShowGridLines: true,
-            //String - Colour of the grid lines
-            scaleGridLineColor: "rgba(0,0,0,.05)",
-            //Number - Width of the grid lines
-            scaleGridLineWidth: 1,
-            //Boolean - Whether to show horizontal lines (except X axis)
-            scaleShowHorizontalLines: true,
-            //Boolean - Whether to show vertical lines (except Y axis)
-            scaleShowVerticalLines: true,
-            //Boolean - Whether the line is curved between points
-            bezierCurve: true,
-            //Number - Tension of the bezier curve between points
-            bezierCurveTension: 0.4,
-            //Boolean - Whether to show a dot for each point
-            pointDot: true,
-            //Number - Radius of each point dot in pixels
-            pointDotRadius: 4,
-            //Number - Pixel width of point dot stroke
-            pointDotStrokeWidth: 1,
-            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-            pointHitDetectionRadius: 20,
-            //Boolean - Whether to show a stroke for datasets
-            datasetStroke: true,
-            //Number - Pixel width of dataset stroke
-            datasetStrokeWidth: 2,
-            //Boolean - Whether to fill the dataset with a colour
-            datasetFill: true,
-        };
+            checkMarketingEmail,
+            checkMarketingSMS,
+            checkMarketingPost,
+            checkMarketingPhone,
+            checkMarketingEmailNotification,
+        
+            oddsDisplay} = this.state;
 
         return (
             <div className={classes.root}>
-                <div className={classes.sectionDesktop}>
-                    <Grid container className={classes.root} spacing={0}>
-                        <Grid item xs={12}>
-                            <Button onClick={this.backClicked}>back in Settings</Button>
-                            <div className={classes.back}>
-                                <FormattedMessage id="accountmenu.open-bets" defaultMessage="Open Bets" />
-                            </div>
-                            <span className={classes.firstNameLabel}>David</span>
-                            <span className={classes.balanceValue}>$345.00</span>
-                            <div className={classes.balanceLabel}>
-                                <FormattedMessage id="accountmenu.balance" defaultMessage="Balance:" />
-                            </div>
-                        </Grid>
-
+                <Grid container className={classes.root} spacing={0}>
+                    <Grid item xs={12} className={classes.titleRow}>
+                        <Button onClick={this.backClicked} className={classes.backButton}>
+                            <BackIcon />
+                        </Button>
+                        <div className={classes.title}>
+                            <FormattedMessage id="accountmenu.Settings" defaultMessage="Settings" />
+                        </div>
+                        <div className={classes.grow} />
+                        <Button variant="contained" className={classes.balanceButton}>
+                            <DepositIcon className={classes.depositIcon} />
+                            <FormattedNumber
+                                maximumFractionDigits={2}
+                                value={this.state.balance}
+                                style='currency'
+                                currency={this.state.balanceCurrency}
+                            />
+                        </Button>
+                        <Button variant="outlined" className={classes.userButton}>
+                            <RedUserIcon />
+                        </Button>
                     </Grid>
-                </div>
+                    <Grid item xs={12} className={classes.spaceRow}>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Paper className={classes.helpPaper}>
+                            <Grid container spacing={0}>
+                                <Grid item xs={12} className={classes.gridRow}>
+                                    <div className={classes.boldText}>
+                                        <FormattedMessage id="accountmenu.Settings" defaultMessage="Settings" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.settings.offer-via-email" defaultMessage="Offer and news through e-mail" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkEmail}
+                                        onChange={this.handleEmailChange}
+                                        value="checkEmail"
+                                    />
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.offer-via-sms" defaultMessage="Offer and news through SMS" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkSMS}
+                                        onChange={this.handleSMSChange}
+                                        value="checkSMS"
+                                    />
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.offer-via-post" defaultMessage="Offer and news by post" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkPost}
+                                        onChange={this.handlePostChange}
+                                        value="checkPost"
+                                    />
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.offer-via-phone" defaultMessage="Offer and news through phone" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkPhone}
+                                        onChange={this.handlePhoneChange}
+                                        value="checkPhone"
+                                    />
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.email-notifications" defaultMessage="Email notifications about approved withdraws" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkEmailNotification}
+                                        onChange={this.handleEmailNotificationChange}
+                                        value="checkEmailNotification"
+                                    />
+                                </Grid>
+                                <Grid item xs={8} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.odds-display" defaultMessage="Odds display" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={4} className={classes.row}>
+                                    <select
+                                        value={oddsDisplay}
+                                        onChange={this.handleOddsDisplayChange}
+                                        className={classes.selectOddsDisplay}
+                                    >
+                                        <option value={'decimal'}>Decimal</option>
+                                        <option value={'float'}>Float</option>
+                                        <option value={'double'}>Double</option>
+                                    </select>
+                                </Grid>
+                                <Grid item xs={12} className={classes.gridRow}>
+                                    <div className={classes.boldText}>
+                                        <FormattedMessage id="settings.marketing-preferences" defaultMessage="Marketing Preferences" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.settings.offer-via-email" defaultMessage="Offer and news through e-mail" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkMarketingEmail}
+                                        onChange={this.handleMarketingEmailChange}
+                                        value="checkMarketingEmail"
+                                    />
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.offer-via-sms" defaultMessage="Offer and news through SMS" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkMarketingSMS}
+                                        onChange={this.handleMarketingSMSChange}
+                                        value="checkMarketingSMS"
+                                    />
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.offer-via-post" defaultMessage="Offer and news by post" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkMarketingPost}
+                                        onChange={this.handleMarketingPostChange}
+                                        value="checkMarketingPost"
+                                    />
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.offer-via-phone" defaultMessage="Offer and news through phone" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkMarketingPhone}
+                                        onChange={this.handleMarketingPhoneChange}
+                                        value="checkMarketingPhone"
+                                    />
+                                </Grid>
+                                <Grid item xs={9} className={classes.row}>
+                                    <div className={classes.text}>
+                                        <FormattedMessage id="settings.email-notifications" defaultMessage="Email notifications about approved withdraws" />
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3} className={classes.row}>
+                                    <StyledSwitch
+                                        checked={checkMarketingEmailNotification}
+                                        onChange={this.handleMarketingEmailNotificationChange}
+                                        value="checkMarketingEmailNotification"
+                                    />
+                                </Grid>
+
+                            </Grid>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} className={classes.bottomRow}>
+                    </Grid>
+                </Grid>
             </div >
         );
     }
