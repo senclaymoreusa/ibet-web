@@ -20,7 +20,7 @@ import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -28,13 +28,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu/account_menu';
-import OpenBets from './account_menu/open_bets';
 import Deposit from './account_menu/deposit';
 import Withdraw from './account_menu/withdraw';
 import Help from './account_menu/help';
 import Promotions from './account_menu/promotions';
 import Settings from './account_menu/settings';
-import SettledBets from './account_menu/settled_bets';
+import MyBets from './account_menu/my_bets';
 import ResponsibleGambling from './account_menu/responsible_gambling';
 
 import Popper from '@material-ui/core/Popper';
@@ -63,7 +62,8 @@ import Signup_Contact from './signup_contact';
 import Signup_Phone from './signup_phone';
 import Complete_Registration from './complete_registration';
 import Phone_Verification from './signup_phone_verification';
-import One_Click_Finish from './one_click_finish'
+import One_Click_Finish from './one_click_finish';
+import Register_Finish from './register_finish';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -233,6 +233,12 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        "&:hover": {
+            backgroundColor: "#ffffff",
+        },
+        "&:active": {
+            backgroundColor: "#ffffff",
+        }
     },
     extendedIcon: {
         marginRight: theme.spacing.unit,
@@ -391,6 +397,14 @@ const styles = theme => ({
             backgroundColor: blue[800],
         },
     },
+    separator: {
+        width: 1.6,
+        height: 25,
+        marginTop: 20,
+        opacity: 1,
+        marginLeft: 10,
+        backgroundColor: '#212121',
+    },
 });
 
 const muiLogoBarTheme = createMuiTheme({
@@ -438,7 +452,7 @@ const SVG = ({
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >
             <g id="Nav" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke={fill} strokeWidth="1.5625">
+                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke="#212121" strokeWidth="1.5625">
                     <g id="Login-Elements">
                         <g transform="translate(1280.000000, 13.000000)">
                             <g id="Open-Account">
@@ -519,6 +533,23 @@ export class TopNavbar extends React.Component {
     handleSignupOnLeave = (event) => {
         if (event.currentTarget.children[0].classList.contains('userIconHover')) {
             event.currentTarget.children[0].classList.remove('userIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "hidden";
+
+    };
+
+    handleUserProfileOnEnter = (event) => {
+        if (!event.currentTarget.children[0].classList.contains('profileIconHover')) {
+            event.currentTarget.children[0].classList.add('profileIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "visible";
+    };
+
+    handleUserProfileLeave = (event) => {
+        if (event.currentTarget.children[0].classList.contains('profileIconHover')) {
+            event.currentTarget.children[0].classList.remove('profileIconHover');
         }
 
         event.currentTarget.children[1].style.visibility = "hidden";
@@ -760,6 +791,7 @@ export class TopNavbar extends React.Component {
     setCurrentAccountMenuItem = (menuItem) => {
         this.setState({ showProfilePopper: true });
         this.setState({ currentAccountMenuItem: menuItem });
+        this.props.history.push('/deposit/')
     }
 
     render() {
@@ -789,7 +821,7 @@ export class TopNavbar extends React.Component {
         let currentMenu = <div></div>;
         switch (this.state.currentAccountMenuItem) {
             case 'open-bets':
-                currentMenu = <OpenBets onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={0} />;
                 break;
             case 'deposit':
                 currentMenu = <Deposit onMenuItemClicked={this.setCurrentAccountMenuItem} />;
@@ -810,38 +842,43 @@ export class TopNavbar extends React.Component {
                 currentMenu = <Settings onMenuItemClicked={this.setCurrentAccountMenuItem} />;
                 break;
             case 'settled-bets':
-                currentMenu = <SettledBets onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={2} />;
                 break;
             default:
-                currentMenu = <AccountMenu onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                currentMenu = <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>;
         }
 
+        
         const ProfileMenu = (
-            <div className={classes.lang_container}>
-                <IconButton
-                    className={classes.profileButton}
-                    color="inherit"
-                    aria-label="Open drawer"
-                    onClick={this.handleProfilePopper}>
-                    <SVG className="userIcon" />
-                </IconButton>
-                <Popper open={showProfilePopper}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
+           // <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
+                <div className={classes.profile_container}>
+                    <IconButton
+                        className={classes.profileButton}
+                        color="inherit"
+                        aria-label="Open drawer"
+                        onClick={this.handleProfilePopper}
+                        onMouseEnter={this.handleUserProfileOnEnter}
+                        onMouseLeave={this.handleUserProfileLeave}
+                    >
+                        <SVG className="profileIcon" />
+                    </IconButton>
+
+                    <Popper open={showProfilePopper}
+                        anchorEl={anchorEl}
+                        className={classes.profilePopper}
+                        placement="top-start"
+                        transition
+                    >
+                        {({ TransitionProps }) => (
+                            <Fade {...TransitionProps} timeout={350}>
+                                <Paper className={classes.accountMenuPaper}>
                                     {currentMenu}
-                                </ClickAwayListener>
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-            </div>
+                                </Paper>
+                            </Fade>
+                        )}
+                    </Popper>
+                </div>
+      //      </ClickAwayListener>
         );
 
         const LangMenu = (
@@ -951,6 +988,13 @@ export class TopNavbar extends React.Component {
                     <One_Click_Finish />
                 </Popper>
 
+                <Popper
+                    open={this.props.showSignupFinish} 
+                    style={{position: 'absolute', top: this.state.height > 640 ? (this.state.height - 640) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Register_Finish /> 
+                </Popper>
+
             </div>
         );
 
@@ -1047,8 +1091,9 @@ export class TopNavbar extends React.Component {
                                                 currency={this.state.balanceCurrency}
                                             />
                                         </Button>
+                                        <div className={classes.separator} />
                                         {ProfileMenu}
-                                        {LangMenu}
+                                        {/* {LangMenu} */}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
@@ -1123,7 +1168,8 @@ export class TopNavbar extends React.Component {
                                         </Popper>
 
 
-                                        {LangMenu}
+
+                                        {/* {LangMenu} */}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
@@ -1154,7 +1200,7 @@ export class TopNavbar extends React.Component {
                                     {({ TransitionProps }) => (
                                         <Fade {...TransitionProps} timeout={350}>
                                             <Paper>
-                                                <AccountMenu />
+                                                <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>
                                             </Paper>
                                         </Fade>
                                     )}
@@ -1243,7 +1289,8 @@ const mapStateToProps = (state) => {
         showSignupPhone: state.general.show_signup_phone,
         showCompleteRegistration: state.general.show_complete_registration,
         showPhoneVerification: state.general.show_phone_verification,
-        showOneclickFinish: state.general.show_oneclick_finish
+        showOneclickFinish: state.general.show_oneclick_finish,
+        showSignupFinish: state.general.show_signup_finish
     }
 }
 
@@ -1252,4 +1299,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login, show_signup_finish })(TopNavbar))));

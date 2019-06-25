@@ -195,7 +195,6 @@ class Signup_Phone extends React.Component {
                         </FormControl>
 
                         <TextField
-                            InputProps={{ classes: { input: classes.textField } }}
                             label="PHONE NUMBER"
                             margin="normal"
                             onChange={this.onInputChange_phone.bind(this)}
@@ -212,7 +211,7 @@ class Signup_Phone extends React.Component {
                         />
                     </div>
 
-                    {this.state.live_check_phone && <div style={{color: 'red', marginLeft: 80}}> <FormattedMessage  id="error.phone" defaultMessage='Phone number not valid' /> </div>}
+                    {this.state.live_check_phone && <div style={{color: 'red', marginLeft: 180}}> <FormattedMessage  id="error.phone" defaultMessage='Phone number not valid' /> </div>}
 
                     <div style={{color: '#747175', fontSize: 15, fontWeight: 600, marginTop: 10, marginLeft: 80}}> 
                         <FormattedMessage  id="signup.detail.sms" defaultMessage="We'll send you an SMS to confirm" />
@@ -221,11 +220,11 @@ class Signup_Phone extends React.Component {
                     <div style={{textAlign: 'center'}}> 
                         <button 
                             disabled = {this.state.button_disable}
-                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
+                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', fontSize: 14, fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: 0.88 }}
                             type='submit'
                         > 
                             <div >  
-                                Register
+                                <FormattedMessage  id="signup.confirm" defaultMessage="CONFIRM" />
                             </div>
                         </button>
                     </div>
