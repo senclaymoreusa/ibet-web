@@ -175,7 +175,10 @@ class InputForm extends Component {
                     window.open(response.data.info.paymentUrl.web);
                 }
                 else {
-                    this.setState({line_pay_error: true, line_pay_error_msg: response.data.returnMessage});
+                    this.setState({error: true});
+                    if (response.data.returnMessage) this.setState({error_msg: response.data.returnMessage});
+                    else this.setState({error_msg: response.data.errorMsg});
+
                 }
             }
         );
@@ -215,7 +218,7 @@ class InputForm extends Component {
     }
 
     render() {
-        const {deposit_amount: depositAmount, line_pay_error: showError, line_pay_error_msg: errorMsg} = this.state;
+        const {deposit_amount: depositAmount, error: showError, error_msg: errorMsg} = this.state;
         const {button_disable, live_check_amount} = this.state;
 
         return (
