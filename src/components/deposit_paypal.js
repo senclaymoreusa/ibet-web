@@ -164,6 +164,7 @@ class DepositPaypal extends Component {
                             onApprove={(data) => {
                                 
                                 // Call your server to validate and capture the transaction
+                                console.log(data.orderID)
                                 var postData = {
                                     "order_id": data.orderID, 
                                     "user": user,

@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import {authCheckState} from '../actions';
 
 var QRCode = require('qrcode.react');
 
@@ -43,6 +44,9 @@ const styles = theme => ({
           backgroundColor: blue[800],
         },
       },
+    button:{
+        margin: theme.spacing.unit,
+    }
   });
 
 class DepositAsiapay extends Component {
@@ -59,8 +63,7 @@ class DepositAsiapay extends Component {
           qaicash_error_msg: "",
           live_check_amount: false,
           button_disable: true,
-          value: "42",
-          qr: "",
+          value: "",
           size: 128,
           fgColor: '#000000',
           bgColor: '#ffffff',
@@ -76,6 +79,12 @@ class DepositAsiapay extends Component {
     }
     
     componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === 1){
+                this.props.history.push('/')
+            }
+        })
+
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
@@ -105,8 +114,9 @@ class DepositAsiapay extends Component {
         const { classes } = this.props;
         let amount = this.state.balance;
         let user = this.state.data.pk;
-        let qr = this.state.qr;
-        let showqr = this.state.show_qrcode;
+        let myqr = this.state.qr;
+        
+        let currentComponent = this;
         return (
             <div>
                 <TopNavbar />
@@ -139,13 +149,14 @@ class DepositAsiapay extends Component {
                             <br />
                         </div>
                     }
+                    
                     <div className='asiapay-button'  >
                         <Button 
                             disabled = {this.state.button_disable} 
                             variant="contained" 
                             color="primary"  
                             className={classes.button}
-                            onClick={function() {
+                            onClick={(e) => {
                                 var postData = {
                                     "amount": amount,
                                     "userid": user,
@@ -171,24 +182,18 @@ class DepositAsiapay extends Component {
                                 }).then(function(res) {
                                   return res.json();
                                 }).then(function(data){
-                                    qr = data.qr;
-                                    showqr = true;
-                                    if(qr != null){
-                                        var mywin = window.open('', '', 'height=500,width=500');
-                                        mywin.document.body.appendChild()
-                                    }
+                                    myqr = data.qr;
+                                    currentComponent.setState({value: myqr,show_qrcode:true})
+                                      
                                 });
                             }}
                             
                         >
                             PAY NOW
                         </Button>
-                        
-                        <div className='asiapay-qr' >
-                            
+                        <div className="asiapay-qr" style={{display: this.state.show_qrcode ? "block":"none"}}>
                             <QRCode
-                               
-                                value={qr}
+                                value={this.state.value}
                                 size={this.state.size}
                                 fgColor={this.state.fgColor}
                                 bgColor={this.state.bgColor}
@@ -197,6 +202,7 @@ class DepositAsiapay extends Component {
                                 includeMargin={this.state.includeMargin}
                             />
                         </div>
+                        
                     </div>
                     
 
@@ -206,6 +212,7 @@ class DepositAsiapay extends Component {
         )
     }
     
+    
 }
 
 const mapStateToProps = (state) => {
@@ -214,4 +221,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositAsiapay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositAsiapay)));
