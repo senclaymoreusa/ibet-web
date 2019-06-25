@@ -38,7 +38,6 @@ const styles = theme => ({
     },
 });
 
-
 const StyledTabs = withStyles({
     indicator: {
         display: "flex",
@@ -101,15 +100,6 @@ class Sports_Type extends Component {
 
         this.props.authCheckState()
 
-        // var URL = API_URL + 'users/api/sports/?term=Sports';
-
-        // await axios.get(URL, config)
-        // .then(res => {
-
-        //     this.setState({ sports: res.data.slice(0, 8) });
-        //     this.setState({ all_sports: res.data})
-        // })
-
         this.setState({ ready: true })
     }
 
@@ -122,23 +112,11 @@ class Sports_Type extends Component {
     }
 
     async handle_category_change(category) {
-        // var URL = API_URL + 'users/api/sports/?term=' + category
-
-        // await axios.get(URL, config)
-        // .then(res => {
-        //     this.setState({ sports: res.data.slice(0, 8) });
-        //     this.setState({ all_sports: res.data})
-        // })
-
 
     }
 
     handlechange(event, newValue) {
         this.setState({ value: newValue })
-    }
-
-    async componentDidMount() {
-
     }
 
     render() {
@@ -208,4 +186,13 @@ class Sports_Type extends Component {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(null, { sports_type, authCheckState })(Sports_Type)));
+const mapStateToProps = (state) => {
+    const { token } = state.auth;
+    return {
+        isAuthenticated: token !== null && token !== undefined,
+        error: state.auth.error,
+        lang: state.language.lang,
+    }
+}
+
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { sports_type, authCheckState })(Sports_Type)));
