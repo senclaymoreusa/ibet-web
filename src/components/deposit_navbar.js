@@ -5,6 +5,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 
+
+const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png";
+
 const styles = theme => ({
 
 })
@@ -30,6 +33,16 @@ export class DepositNavBar extends Component {
           <Button variant="contained" color="secondary" component="a" href="/deposit_paypal/" id="nav.deposit_paypal" className={classes.button}>
               Paypal
           </Button>
+          <img 
+            id="LINElogo" 
+            type="image" 
+            component="a"
+            onClick={() => {window.location.href = "/deposit_linepay/"}}
+            href="/deposit_linepay/"
+            style={{cursor: "pointer", marginTop: "30px"}}
+            src={LINEPAY_LOGO_URL} 
+            alt="LINEpay logo"
+          />
         </nav>
       </React.Fragment>
     );
