@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl} from 'react-intl';
-import { errors } from './errors';
 import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login, show_signup } from '../actions';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
@@ -52,7 +51,6 @@ export class Login extends React.Component {
         super(props);
     
         this.state = {
-          errorCode: '',
           username: '',
           password: '',
           hidden: true,
@@ -64,7 +62,7 @@ export class Login extends React.Component {
           showPassword: false,
 
           button_disable: true,
-          error: false
+          wrong_password_error: false
         };
     
         this.onInputChange_username         = this.onInputChange_username.bind(this);
@@ -79,12 +77,12 @@ export class Login extends React.Component {
         this.setState(state => ({ showPassword: !state.showPassword }));
     };
 
-  async componentDidMount() {
-    this.props.authCheckState()
-    .then(res => {
-      if (res === AUTH_RESULT_SUCCESS) {
-        this.props.history.push('/'); 
-      } 
+    async componentDidMount() {
+        this.props.authCheckState()
+        .then(res => {
+        if (res === AUTH_RESULT_SUCCESS) {
+            this.props.history.push('/'); 
+        } 
     });
 
     const remember_check = localStorage.getItem('remember_check');
@@ -183,31 +181,24 @@ export class Login extends React.Component {
   onFormSubmit(event){
     event.preventDefault();
 
-    if (!this.state.username){
-        this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
-    }else if(!this.state.password){
-        this.setState({ errorCode: errors.PASSWORD_EMPTY_ERROR });
-    }else{
-        this.props.authLogin(this.state.username, this.state.password)
-        .then(() => {
-            if (this.state.check){
-                localStorage.setItem('remember_username', this.state.username);
-                localStorage.setItem('remember_password', this.state.password);
-                localStorage.setItem('remember_check', 'checked')
-            }else{
-                localStorage.removeItem('remember_username');
-                localStorage.removeItem('remember_password');
-                localStorage.removeItem('remember_check');
-            }
-            this.props.hide_login()
-            this.props.history.push('/');
-        })
-        .catch(err => {
-            this.setState({errorCode: err});
-            this.setState({error: true})
-        });
-    }
-  }
+    this.props.authLogin(this.state.username, this.state.password)
+    .then(() => {
+        if (this.state.check){
+            localStorage.setItem('remember_username', this.state.username);
+            localStorage.setItem('remember_password', this.state.password);
+            localStorage.setItem('remember_check', 'checked')
+        }else{
+            localStorage.removeItem('remember_username');
+            localStorage.removeItem('remember_password');
+            localStorage.removeItem('remember_check');
+        }
+        this.props.hide_login()
+        this.props.history.push('/');
+    })
+    .catch(err => {
+        this.setState({wrong_password_error: true})
+    });
+}
 
   render() {
 
@@ -217,15 +208,15 @@ export class Login extends React.Component {
     const remember_password = formatMessage({ id: "login.remember" });
     
     return (
-        <div style={{backgroundColor: '#ffffff', height: 560, width: 380, textAlign: 'center'}}> 
+        <div style={{backgroundColor: '#ffffff', height: 560, width: 380}}> 
 
-                <div style={{fontSize: 32}}> 
+                <div style={{fontSize: 32, textAlign: 'center'}}> 
                     <FormattedMessage id="nav.login" defaultMessage='Login' />
                 </div>
 
                 <form onSubmit={this.onFormSubmit} >
                     
-                    <div style={{marginTop: 37}}> 
+                    <div style={{marginTop: 37, textAlign: 'center'}}> 
                         <TextField
                             className={classes.textField}
                             label="EMAIL DDRESS"
@@ -242,11 +233,11 @@ export class Login extends React.Component {
                         />
                     </div>
                     
-                    <div style={{color: '#747175', marginTop: 10, marginRight: 100}}> 
+                    <div style={{color: '#747175', marginTop: 10, marginLeft: 40}}> 
                         <FormattedMessage id="signup.email_message1" defaultMessage='This will be used to log in.' />
                     </div>
 
-                    <div style={{marginTop: 15}}> 
+                    <div style={{marginTop: 15, textAlign: 'center'}}> 
                         <TextField
                             className={ classes.textField}
                             label="PASSWORD"
@@ -276,7 +267,7 @@ export class Login extends React.Component {
                     </div>
 
                     {
-                        this.state.error && <div style={{color: 'red', marginTop: 20}}> 
+                        this.state.wrong_password_error && <div style={{color: 'red', marginTop: 20, marginLeft: 40}}> 
                             Incorrect Username / Password <br/>
                             <span 
                             style={{cursor: 'pointer'}}
@@ -284,12 +275,12 @@ export class Login extends React.Component {
                                 this.props.hide_login()
                                 this.props.history.push('/forget_password')
                                 }}
-                            > <u> Forget Password </u> </span>?
+                            > <u> Forgot Password </u> </span>?
                             </div>
                     }
 
 
-                    <div style={{ marginTop: 20}}> 
+                    <div style={{ marginTop: 20, marginLeft: 40}}> 
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -304,7 +295,7 @@ export class Login extends React.Component {
 
                     <button
                         disabled = {this.state.button_disable} 
-                        style={{backgroundColor: 'red', height: 52, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none'}}
+                        style={{backgroundColor: 'red', height: 52, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', marginLeft: 50}}
                         type="submit" 
                     > 
                         <FormattedMessage id="login.login" defaultMessage='Login' />
@@ -317,7 +308,7 @@ export class Login extends React.Component {
                         this.props.hide_login();
                         this.props.show_signup();
                     }}
-                    style={{marginTop: 30, cursor: 'pointer', fontSize: 14, color: '#212121', marginLeft: 30}}
+                    style={{marginTop: 30, cursor: 'pointer', fontSize: 14, color: '#212121', textAlign: 'center'}}
                 > 
                     <FormattedMessage id="login.notauser" defaultMessage='Not a member? Signup for free' /> 
                 </div>
@@ -336,7 +327,6 @@ const mapStateToProps = (state) => {
     return {
         isAuthenticated: token !== null && token !== undefined,
         loading: state.auth.loading,
-        error: state.auth.error,
     }
 }
 

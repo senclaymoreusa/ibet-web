@@ -146,15 +146,15 @@ export const messages = {
         // handle profile page message
         'profile.username': 'Username: ',
         'profile.email': 'Email: ',
-        'profile.firstName': 'First Name: ',
-        'profile.lastName': 'Last Name: ',
+        'profile.firstName': 'First Name ',
+        'profile.lastName': 'Last Name ',
         'profile.phone': 'Phone: ',
         'profile.dob': 'Date of Birth: ',
         'profile.street1': 'Street Address 1: ',
         'profile.street2': 'Street Address 2: ',
-        'profile.country': 'Country: ',
+        'profile.country': 'Country ',
         'profile.city': 'City: ',
-        'profile.zipcode': 'Zipcode: ',
+        'profile.zipcode': 'Zipcode ',
         'profile.state': 'State: ',
         'profile.update': 'Update',
         'profile.back': 'Back',
@@ -264,6 +264,12 @@ export const messages = {
         'signup.oneclickregister.save': 'Save these details and use them to resume play.',
         'signup.oneclickregister.username': 'USERNAME',
         'signup.oneclickregister.password': 'PASSWORD',
+
+        // handle new profile
+        'new_profile.profile': 'Profile',
+        'new_profile.email': 'Email Details',
+        'new_profile.mobile': 'Mobile Details',
+
 
         // handle update_profile page message
         'update_profile.username': 'Username: ',
@@ -613,6 +619,11 @@ export const messages = {
         'signup.oneclickregister.save': '保存这些改变用他们来继续玩',
         'signup.oneclickregister.username': '用户名',
         'signup.oneclickregister.password': '密码',
+
+        // handle new profile
+        'new_profile.profile': '账户',
+        'new_profile.email': '邮件详情',
+        'new_profile.mobile': '手机详情',
 
         // handle update_profile page message
         'update_profile.username': '用戶名: ',
@@ -1007,6 +1018,11 @@ export const messages = {
         'signup.oneclickregister.save': 'Enregistrez ces détails et utilisez-les pour reprendre la lecture.',
         'signup.oneclickregister.username': "NOM D'UTILISATEUR",
         'signup.oneclickregister.password': "MOT DE PASSE",
+
+        // handle new profile
+        'new_profile.profile': 'Profil',
+        'new_profile.email': "Détails de l'e-mail",
+        'new_profile.mobile': 'Détails mobiles',
         
 
         // handle update_profile page message

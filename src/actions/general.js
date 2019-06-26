@@ -276,3 +276,15 @@ export const hide_change_password = () => {
     type: 'HIDE_CHANGE_PASSWORD'
   }
 }
+
+export const show_user_profile = () => {
+  return {
+    type: 'SHOW_USER_PROFILE'
+  }
+}
+
+export const hide_user_profile = () => {
+  return {
+    type: 'HIDE_USER_PROFILE'
+  }
+}
