@@ -11,7 +11,7 @@ import DirectionsRun from '@material-ui/icons/DirectionsRun';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, postLogout, show_change_password } from '../../actions';
+import { logout, handle_search, setLanguage, postLogout, show_change_password, show_user_profile } from '../../actions';
 
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -735,7 +735,12 @@ export class AccountMenu extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.mergedGridButton}>
                             <Button className={classes.logoutButton}
-                                href="/update_profile/">
+                                onClick={() => {
+                                    this.props.onCloseItemClicked();
+                                    this.props.show_user_profile()
+                                }}
+                                //href="/update_profile/"
+                            >
                                 <div className={classes.blockButtonLabel}>
                                     <UserIcon className={classes.editProfileIcon} />
                                     <FormattedMessage id="accountmenu.edit-profile" defaultMessage="Edit Profile" />
@@ -888,4 +893,4 @@ AccountMenu.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_change_password })(AccountMenu))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_change_password, show_user_profile })(AccountMenu))));
