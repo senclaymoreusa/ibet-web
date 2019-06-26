@@ -140,26 +140,18 @@ class New_Profile extends Component {
                 </div>
 
                 <div className='row'>
-                    <TextField
-                        className={classes.textField2}
-                        type='text'
-                        style={{marginLeft: 30}}
-                        value={this.state.user_data ? this.state.user_data.date_of_birth.split('/')[0] : ''}
-                    />
 
-                    <TextField
-                        className={classes.textField2}
-                        type='text'
-                        style={{marginLeft: 10}}
-                        value={this.state.user_data ? this.state.user_data.date_of_birth.split('/')[1] : ''}
-                    />
+                    <div style={{borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 30}}>  
+                        {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[0] : ''}
+                    </div>
 
-                    <TextField
-                        className={classes.textField2}
-                        type='text'
-                        style={{marginLeft: 10}}
-                        value={this.state.user_data ? this.state.user_data.date_of_birth.split('/')[2] : ''}
-                    />
+                    <div style={{borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10}}>  
+                        {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[1] : ''}
+                    </div>
+
+                    <div style={{borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10}}>  
+                        {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[2] : ''}
+                    </div>
 
                 </div>
 
