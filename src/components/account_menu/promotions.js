@@ -1,484 +1,346 @@
 import React from 'react'; import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import PersonAdd from '@material-ui/icons/PersonAdd';
-import Person from '@material-ui/icons/Person';
-import Input from '@material-ui/icons/Input';
-import Language from '@material-ui/icons/Language';
-import Settings from '@material-ui/icons/Settings';
-import PersonOutline from '@material-ui/icons/PersonOutline';
-import BarChart from '@material-ui/icons/BarChart';
-import CardGiftcard from '@material-ui/icons/CardGiftcard';
-import Message from '@material-ui/icons/Message';
-import TouchApp from '@material-ui/icons/TouchApp';
-import AttachMoney from '@material-ui/icons/AttachMoney';
 
-import PeopleOutline from '@material-ui/icons/PeopleOutline';
-import DirectionsRun from '@material-ui/icons/DirectionsRun';
-
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, postLogout } from '../../actions';
-
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import { logout, handle_search, setLanguage } from '../../actions';
 
 import Grid from '@material-ui/core/Grid';
-
-import { ReactComponent as CloseIcon } from '../../assets/img/svg/profile_close.svg';
-// import { ReactComponent as HelpIcon } from '../../assets/img/svg/help.svg';
-import { ReactComponent as LockIcon } from '../../assets/img/svg/lock.svg';
-
-import { ReactComponent as DepositIcon } from '../../assets/img/svg/account-menu-deposit.svg';
-import { ReactComponent as WithdrawIcon } from '../../assets/img/svg/account-menu-withdraw.svg';
-import { ReactComponent as OpenBetsIcon } from '../../assets/img/svg/account-menu-open-bets.svg';
-import { ReactComponent as SettledBetsIcon } from '../../assets/img/svg/account-menu-settled-bets.svg';
-import { ReactComponent as PromotionsIcon } from '../../assets/img/svg/account-menu-promotions.svg';
-import { ReactComponent as SettingsIcon } from '../../assets/img/svg/account-menu-settings.svg';
-import { ReactComponent as HelpIcon } from '../../assets/img/svg/account-menu-help.svg';
-import { ReactComponent as ResponsibleIcon } from '../../assets/img/svg/account-menu-responsible.svg';
-import { ReactComponent as LogoutIcon } from '../../assets/img/svg/account-menu-logout.svg';
-
-
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Flag from 'react-flagkit';
 import Paper from '@material-ui/core/Paper';
+import Link from '@material-ui/core/Link';
 
+import Button from '@material-ui/core/Button';
+
+import { ReactComponent as BackIcon } from '../../assets/img/svg/account-menu-back.svg';
+import { ReactComponent as RedUserIcon } from '../../assets/img/svg/red-user.svg';
+import { ReactComponent as DepositIcon } from '../../assets/img/svg/deposit.svg';
+import { ReactComponent as DownIcon } from '../../assets/img/svg/down.svg';
+import { ReactComponent as OvalIcon } from '../../assets/img/svg/oval-info.svg';
+
+import axios from 'axios';
+import { config } from '../../util_config';
 
 import '../../css/account_menu.scss';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
         width: '100%',
     },
-    title: {
-        display: 'inline',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    firstNameLabel: {
-        display: 'inline',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-        marginLeft: 5,
-    },
-    balanceLabel: {
-        display: 'inline',
-        float: 'right',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    usernameLabel: {
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    balanceValue: {
-        display: 'inline',
-        float: 'right',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        textAlign: 'right',
-        color: '#212121',
-        fontSize: 15.8,
-        marginLeft: 5,
-    },
-
-    closeButton: {
-        height: 20,
-        width: 20,
-        padding: 0,
-        display: 'inline',
-        float: 'right',
-    },
-    cashLabel: {
-        display: 'inline',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    cashValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    bonusLabel: {
-        display: 'inline',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    bonusValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    cashBetValue: {
-        display: 'inline',
-        float: 'right',
-        fontSize: 15.8,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    allAboutBonus: {
-        fontSize: 13.5,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 1.67,
-        letterSpacing: 0.5,
-        textAlign: 'center',
-        color: '#212121',
-        textDecoration: 'underline',
-        marginBottom: 10,
-        marginTop: 10,
-    },
-    feeBetPaper: {
-        textAlign: 'center',
-
-        paddingLeft: 5,
-        paddingRight: 5,
-        paddingTop: 10,
-        paddingBottom: 10,
-        marginBottom: 15,
-    },
-    feeBetLabel: {
-        display: 'inline',
-        textAlign: 'center',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    feeBetValue: {
-        display: 'inline',
-        textAlign: 'center',
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.6,
-        color: '#212121',
-        fontSize: 15.8,
-    },
-    achievedLabel: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#359888',
-    },
-    achievedStart: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#212121',
-    },
-    achievedEnd: {
-        display: 'inline',
-        fontSize: 13.5,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-        color: '#212121',
-    },
-    achievedProgress: {
-        width: '100%',
-        height: 24,
-    },
-    achievedProgressBar: {
-        display: 'inline',
-        width: 278,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 0,
-        height: 17,
-        borderRadius: 9.3,
-        border: 0,
-        backgroundImage: 'linear-gradient(95deg, #40bea5, #98e2a8)',
-    },
-    lock: {
-        display: 'inline',
-    },
-    leftGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        borderRight: '1px solid #cdcdcd',
-        height: 90,
-    },
-    rightGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        height: 90,
-    },
-    mergedGridButton: {
-        textAlign: 'center',
-        borderTop: '1px solid #cdcdcd',
-        height: 60,
-    },
-    gridButton: {
-        height: '100%',
-        width: '100%',
-    },
-    blockButtonLabel: {
-        position: 'relative',
-    },
-    menuIcon: {
-        width: '100%',
-    },
-    responsibleButton: {
-        height: '100%',
-        width: '100%',
-        color: '#212121',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    logoutButton: {
-        height: '100%',
-        width: '100%',
-        color: '#212121',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    changePasswordButton: {
-        height: '100%',
-        width: '100%',
-        color: '#04599a',
-        fontSize: 13.5,
-        textTransform: 'capitalize',
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.5,
-    },
-    sectionDesktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
-    },
-    sectionMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
-    button: {
-        width: '90%',
-        margin: theme.spacing.unit,
-        textTransform: 'capitalize'
-    },
-    nested: {
-        paddingLeft: theme.spacing.unit * 4,
-    },
-    formControl: {
-        margin: theme.spacing.unit * 3,
-    },
     grow: {
         flexGrow: 1,
     },
-    help: {
-        width: 20,
-        height: 11.7,
+    titleRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        height: 44,
+        width: '100%',
+        paddingLeft: 10,
+        paddingRight: 10,
     },
-    oval: {
-        marginLeft: 8,
-        width: 20,
-        height: 20,
-        minWidth: 20,
-        boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.18)',
-        border: 'solid 2.3px #1e1e1e',
-        backgroundColor: '#2b2b2b',
-        borderRadius: 20,
+    backButton: {
+        width: 32,
+        height: 32,
+        minWidth: 32,
+        marginTop: 6,
+        marginBottom: 6,
+    },
+    logo: {
+        marginTop: 13,
+        marginBottom: 13,
+        marginLeft: 20,
+    },
+    userButton: {
+        border: '1px solid #fe0000',
+        minWidth: 32,
+        height: 32,
+        padding: 0,
+        marginTop: 6,
+        marginBottom: 6,
+
+    },
+    balanceButton: {
+        backgroundColor: '#fe0000',
+        color: '#ffffff',
+        "&:hover": {
+            backgroundColor: '#fe0000',
+        },
+        height: 32,
+        marginTop: 6,
+        marginBottom: 6,
+        marginRight: 10,
+        paddingLeft: 8,
+        paddingRight: 8,
+    },
+    depositIcon: {
+        marginRight: 5,
+        marginTop: -4,
+    },
+    title: {
         display: 'inline',
+        fontWeight: 300,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.6,
+        color: '#212121',
+        fontSize: 15.8,
+        marginLeft: 6,
+        height: 30,
+        marginTop: 12,
+
     },
-    chart: {
-        marginTop: 10,
-        marginBottom: 10
-    }
+    spaceRow: {
+        backgroundColor: '#f1f1f1',
+        height: 30,
+    },
+    bottomRow: {
+        marginTop: 1,
+        backgroundColor: '#f1f1f1',
+        height: 30,
+        borderRadius: 5,
+    },
+    helpPaper: {
+        width: '100%',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    gridRow: {
+        padding: 10,
+        borderBottom: '1px solid #f1f1f1',
+    },
+    row: {
+        paddingLeft: 10,
+        paddingRight: 10,
+
+    },
+    boldText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.69,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+    },
+    semiboldText: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.69,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+    },
+    text: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.69,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+    },
+    desc: {
+        fontSize: 12,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.5,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+        marginTop: 20,
+    },
+    timeText: {
+        fontSize: 14,
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+    },
+    promotionPaper: {
+        width: '100%',
+    },
+    getStartedRow: {
+        padding: 10,
+        borderBottom: '1px solid #f1f1f1',
+        textAlign: 'center',
+
+    },
+    getStartedButton: {
+        marginTop: 13,
+        marginBottom: 15,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+
+        fontSize: 14,
+        height: 32,
+        width: 150,
+        paddingTop: 2,
+        color: '#ffffff',
+        backgroundColor: '#000000',
+        borderRadius: 22,
+        border: 'solid 2px #000000',
+        textTransform: 'capitalize',
+        outline: 'none',
+        "&:hover": {
+            backgroundColor: "#000000",
+            color: '#ffffff',
+        }
+    },
+    readMoreRow: {
+        padding: 10,
+        textAlign: 'center',
+
+    },
+    readMoreButton: {
+        textTransform: 'capitalize',
+        display: 'inline-block',
+    },
+    downIcon: {
+        marginLeft: 5,
+    },
+    termsRow: { paddingLeft: 10, paddingRight: 10, paddingBottom: 10 },
+    termslink: {
+        fontSize: 12,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.5,
+        letterSpacing: 'normal',
+        color: '#2d2d2d',
+        textDecoration: 'underline',
+        paddingBottom: 15,
+    },
+    promotionTitleRow: {
+        height: 152,
+        backgroundColor: '#212121',
+        textAlign: 'center',
+
+        paddingTop: 120,
+    },
+    promotionTitle: {
+        textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
+        fontSize: 18,
+        fontWeight: 600,
+        fontstyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#ffffff',
+    },
+    infoIcon:{
+        display: 'inline',
+        marginRight: 5,
+        marginBottom:-5,
+    },
 });
 
-export class Promotions extends React.Component {
 
+export class Promotions extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            anchorEl: null,
+            balance: 0.00,
+            balanceCurrency: "USD",
 
-            lang: 'en',
-            showLeftPanel: false,
-            showRightPanel: false,
-            showLangListItems: false,
-            term: '',
-            facebooklogin: false,
-            userID: "",
-            name: "",
-            email: "",
-            picture: ""
         };
-
-
-    }
-
-    toggleSidePanel = (side, open) => () => {
-        this.setState({
-            [side]: open,
-        });
-    };
-
-    handleLanguageMenuOpen = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
-
-    handleLanguageMenuClose = (ev) => {
-        this.setState({ anchorEl: null });
-        this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
-    };
-
-    changeLanguage = (lang) => {
-        this.props.setLanguage(lang)
-            .then((res) => {
-                // console.log("language change to:" + res.data);
-            });
-    };
-
-    componentWillReceiveProps(props) {
-        this.setState({ term: '' });
     }
 
     componentDidMount() {
-        var fackbooklogin = localStorage.getItem('facebook')
-        this.setState({ facebooklogin: fackbooklogin })
-        var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
-        if (fackbooklogin === 'true') {
-            this.setState({
-                userID: fackbookObj.userID,
-                name: fackbookObj.name,
-                email: fackbookObj.email,
-                picture: fackbookObj.picture
-            })
+        if (this.props.isAuthenticated) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
         }
     }
 
-    toggleLanguageListItem = () => {
-        this.setState(state => ({ showLangListItems: !state.showLangListItems }));
-    };
-
-    handleMenuClose = (ev) => {
-        // this.setState({ this.props.showProfilePopper: false });
-    };
-
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');      
+        this.props.onMenuItemClicked('');
     }
+
 
     render() {
         const { classes } = this.props;
-        const { formatMessage } = this.props.intl;
-        let languagesMessage = formatMessage({ id: "accountmenu.languages" });
-
-
-
+        const btn = (
+            <Button>Moreee</Button>
+        );
         return (
             <div className={classes.root}>
-                <div className={classes.sectionDesktop}>
-                    <Grid container className={classes.root} spacing={0}>
-                        <Grid item xs={12}>
-                            <Button onClick={this.backClicked}>back in promotions</Button>
-                            <div className={classes.back}>
-                                <FormattedMessage id="accountmenu.open-bets" defaultMessage="Open Bets" />
-                            </div>
-                            <span className={classes.firstNameLabel}>David</span>
-                            <span className={classes.balanceValue}>$345.00</span>
-                            <div className={classes.balanceLabel}>
-                                <FormattedMessage id="accountmenu.balance" defaultMessage="Balance:" />
-                            </div>
-                        </Grid>
-
+                <Grid container className={classes.root} spacing={0}>
+                    <Grid item xs={12} className={classes.titleRow}>
+                        <Button onClick={this.backClicked} className={classes.backButton}>
+                            <BackIcon />
+                        </Button>
+                        <div className={classes.title}>
+                            <FormattedMessage id="accountmenu.promotions" defaultMessage="Promotions" />
+                        </div>
+                        <div className={classes.grow} />
+                        <Button variant="contained" className={classes.balanceButton}>
+                            <DepositIcon className={classes.depositIcon} />
+                            <FormattedNumber
+                                maximumFractionDigits={2}
+                                value={this.state.balance}
+                                style='currency'
+                                currency={this.state.balanceCurrency}
+                            />
+                        </Button>
+                        <Button variant="outlined" className={classes.userButton}>
+                            <RedUserIcon />
+                        </Button>
                     </Grid>
-                </div>
+                    <Grid item xs={12} className={classes.spaceRow}>
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Paper className={classes.promotionPaper}>
+                            <Grid container spacing={0}>
+                                <Grid item xs={12} className={classes.promotionTitleRow}>
+                                    <span className={classes.promotionTitle}>24 Hour BLIND Roulette Cash Race</span>
+                                </Grid>
+                                <Grid item xs={12} className={classes.getStartedRow}>
+                                    <Button
+                                        variant="outlined"
+                                        className={classes.getStartedButton}
+
+                                    >
+                                        <FormattedMessage id="promotions.get-started" defaultMessage="Get Started" />
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12} className={classes.readMoreRow}>
+                                    <span className={classes.desc}>24-hours, €1,000 Cash and NO leaderboard – this June we are mixing things up. Every Monday we will be hosting a 24-hour Cash Race on Blaze Roulette in which you’ll have to solely rely on your instincts to secure a share of the €1,000 prize pool.</span>
+                                    <Button className={classes.readMoreButton}>
+                                        <FormattedMessage id="promotions.read-more" defaultMessage="Read more" />
+                                        <DownIcon className={classes.downIcon} />
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12} className={classes.row}>
+                                    <span className={classes.timeText}>Campaign period: Monday June 3, 2019 - Monday 24 June, 2019</span>
+                                </Grid>
+                                <Grid item xs={12} className={classes.termsRow}>
+                                    <Link href='/' className={classes.termslink}>
+                                    <OvalIcon className={classes.infoIcon}/>
+<FormattedMessage id="footer.terms_conditions" defaultMessage='Terms & Conditions' />
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Grid>
+
+                    <Grid item xs={12} className={classes.spaceRow}>
+                    </Grid>
+
+                </Grid>
             </div >
         );
     }

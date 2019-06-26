@@ -26,10 +26,10 @@ export const messages = {
         'footer.investory_relations': 'Investor Relations',
         'footer.visit_gambler_anonymous': ' Visit Gamblers Anonymous',
         'footer.visit_gamcare_newsroom': 'Visit GamCare Newsroom',
-        'footer.contact_support_title':'Contact Support',
-        'footer.contact_support_text':'Our friendly customer service team is on hand to answer any questions you may have 24 hours a day, 7 days a week.',
-        'footer.contact_support_email':'Contact us today at',
-        
+        'footer.contact_support_title': 'Contact Support',
+        'footer.contact_support_text': 'Our friendly customer service team is on hand to answer any questions you may have 24 hours a day, 7 days a week.',
+        'footer.contact_support_email': 'Contact us today at',
+
         // handle home page message
         'home.title': 'Claymore',
         'home.subtitle': 'Local Library Home',
@@ -376,9 +376,9 @@ export const messages = {
         'footer.investory_relations': '投资者关系',
         'footer.visit_gambler_anonymous': '访问Gamblers Anonymous',
         'footer.visit_gamcare_newsroom': '访问GamCare新闻室',
-        'footer.contact_support_title':'联系支持',
-        'footer.contact_support_text':'我们友好的客户服务团队随时为您解答一周7天，每天24小时的任何问题。',
-        'footer.contact_support_email':'立即联系我们',
+        'footer.contact_support_title': '联系支持',
+        'footer.contact_support_text': '我们友好的客户服务团队随时为您解答一周7天，每天24小时的任何问题。',
+        'footer.contact_support_email': '立即联系我们',
 
         // handle home page message
         'home.title': '克萊摩爾',
@@ -730,18 +730,39 @@ export const messages = {
         'accountmenu.settings': 'Settings',
         'accountmenu.help': 'Help',
         'accountmenu.responsible-gambling': 'Responsible Gambling',
+        'accountmenu.responsible-gaming': 'Responsible Gaming',
+        'accountmenu.my-account': 'My Account',
         'accountmenu.logout': 'Logout',
+        'accountmenu.refer-friend': 'Refer Friend',
+        'accountmenu.edit-profile': 'Edit Profile',
         'accountmenu.change-password': 'Change Password >',
         'accountmenu.open-bets': 'Open Bets',
 
         'open-bets.my-bets': 'My Bets',
         'open-bets.open-bets': 'Open Bets',
 
-        'settled-bets.open':'Open',
-        'settled-bets.cash-out':'Cash Out',
-        'settled-bets.settled':'Settled',
+        'settled-bets.open': 'Open',
+        'my-bets.cash-out': 'Cash Out',
+        'settled-bets.settled': 'Settled',
+        'help.contact-us': 'Contact Us',
+        'help.call-us': 'Call Us',
+        'help.email-us': 'Email Us',
+        'responsible-gaming.useful-tips': 'Useful Tips',
+        'responsible-gaming.gaming-list': 'Gaming List',
+        'responsible-gaming.self-exclusion': 'Self Exclusion',
+        'responsible-gaming.time-out': 'Time-Out',
+        'responsible-gaming.reality-check': 'Reality Check',
+        'settings.offer-via-email': 'Offer and news through e-mail',
+        'settings.offer-via-sms': 'Offer and news through SMS',
+        'settings.offer-via-post': 'Offer and news by post',
+        'settings.offer-via-phone': 'Offer and news through phone',
+        'settings.email-notifications': 'Email notifications about approved withdraws',
+        'settings.odds.display': 'Odds display',
+        'settings.marketing-preferences': 'Marketing Preferences',
 
-        
+        'promotions.get-started': 'Get Started',
+        'promotions.read-more': 'Read more',
+
         // footer message
         'footer.terms_conditions': 'Termes et conditions',
         'footer.cookie_policy': 'Politique de cookie',
@@ -750,9 +771,9 @@ export const messages = {
         'footer.investory_relations': 'Relations avec les investisseurs',
         'footer.visit_gambler_anonymous': 'Visitez les joueurs anonymes',
         'footer.visit_gamcare_newsroom': 'Visitez la salle de presse GamCare',
-        'footer.contact_support_title':'Contactez le support',
-        'footer.contact_support_text':'Notre sympathique équipe du service clientèle est à votre disposition pour répondre à toutes vos questions 24 heures sur 24, 7 jours sur 7.',
-        'footer.contact_support_email':'Contactez-nous aujourd\'hui',
+        'footer.contact_support_title': 'Contactez le support',
+        'footer.contact_support_text': 'Notre sympathique équipe du service clientèle est à votre disposition pour répondre à toutes vos questions 24 heures sur 24, 7 jours sur 7.',
+        'footer.contact_support_email': 'Contactez-nous aujourd\'hui',
 
         // handle home page message
         'home.title': 'Claymore',

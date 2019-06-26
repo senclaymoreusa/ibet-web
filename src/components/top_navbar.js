@@ -29,22 +29,17 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu/account_menu';
-import OpenBets from './account_menu/open_bets';
 import Deposit from './account_menu/deposit';
 import Withdraw from './account_menu/withdraw';
 import Help from './account_menu/help';
 import Promotions from './account_menu/promotions';
 import Settings from './account_menu/settings';
-import SettledBets from './account_menu/settled_bets';
+import MyBets from './account_menu/my_bets';
 import ResponsibleGambling from './account_menu/responsible_gambling';
-
-
-import Fab from '@material-ui/core/Fab';
 
 import Popper from '@material-ui/core/Popper';
 import Popover from '@material-ui/core/Popover';
 import Fade from '@material-ui/core/Fade';
-import TextField from '@material-ui/core/TextField';
 
 
 import Paper from '@material-ui/core/Paper';
@@ -59,7 +54,6 @@ import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
-import { ReactComponent as UserIcon } from '../assets/img/svg/user.svg';
 
 
 import Login from './login_2.js';
@@ -242,6 +236,12 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        "&:hover": {
+            backgroundColor: "#ffffff",
+        },
+        "&:active": {
+            backgroundColor: "#ffffff",
+        }
     },
     extendedIcon: {
         marginRight: theme.spacing.unit,
@@ -400,6 +400,14 @@ const styles = theme => ({
             backgroundColor: blue[800],
         },
     },
+    separator: {
+        width: 1.6,
+        height: 25,
+        marginTop: 20,
+        opacity: 1,
+        marginLeft: 10,
+        backgroundColor: '#212121',
+    },
 });
 
 const muiLogoBarTheme = createMuiTheme({
@@ -447,7 +455,7 @@ const SVG = ({
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >
             <g id="Nav" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke={fill} strokeWidth="1.5625">
+                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke="#212121" strokeWidth="1.5625">
                     <g id="Login-Elements">
                         <g transform="translate(1280.000000, 13.000000)">
                             <g id="Open-Account">
@@ -529,6 +537,23 @@ export class TopNavbar extends React.Component {
     handleSignupOnLeave = (event) => {
         if (event.currentTarget.children[0].classList.contains('userIconHover')) {
             event.currentTarget.children[0].classList.remove('userIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "hidden";
+
+    };
+
+    handleUserProfileOnEnter = (event) => {
+        if (!event.currentTarget.children[0].classList.contains('profileIconHover')) {
+            event.currentTarget.children[0].classList.add('profileIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "visible";
+    };
+
+    handleUserProfileLeave = (event) => {
+        if (event.currentTarget.children[0].classList.contains('profileIconHover')) {
+            event.currentTarget.children[0].classList.remove('profileIconHover');
         }
 
         event.currentTarget.children[1].style.visibility = "hidden";
@@ -622,7 +647,7 @@ export class TopNavbar extends React.Component {
 
     };
 
-    handleLoginMenuClose(){
+    handleLoginMenuClose() {
         this.props.hide_login()
     }
 
@@ -713,7 +738,7 @@ export class TopNavbar extends React.Component {
       }
 
     async componentDidMount() {
-        
+
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
@@ -773,7 +798,7 @@ export class TopNavbar extends React.Component {
 
     render() {
         const { anchorEl, showProfilePopper, showLangMenu, anchorEl2, showRightPanel } = this.state;
-      
+
         const { classes } = this.props;
 
         let countryCode = '';
@@ -798,7 +823,7 @@ export class TopNavbar extends React.Component {
         let currentMenu = <div></div>;
         switch (this.state.currentAccountMenuItem) {
             case 'open-bets':
-                currentMenu = <OpenBets onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={0} />;
                 break;
             case 'deposit':
                 currentMenu = <Deposit onMenuItemClicked={this.setCurrentAccountMenuItem} />;
@@ -819,38 +844,43 @@ export class TopNavbar extends React.Component {
                 currentMenu = <Settings onMenuItemClicked={this.setCurrentAccountMenuItem} />;
                 break;
             case 'settled-bets':
-                currentMenu = <SettledBets onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={2} />;
                 break;
             default:
-                currentMenu = <AccountMenu onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                currentMenu = <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>;
         }
 
+        
         const ProfileMenu = (
-            <div className={classes.lang_container}>
-                <IconButton
-                    className={classes.profileButton}
-                    color="inherit"
-                    aria-label="Open drawer"
-                    onClick={this.handleProfilePopper}>
-                    <SVG className="userIcon" />
-                </IconButton>
-                <Popper open={showProfilePopper}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
+           // <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
+                <div className={classes.profile_container}>
+                    <IconButton
+                        className={classes.profileButton}
+                        color="inherit"
+                        aria-label="Open drawer"
+                        onClick={this.handleProfilePopper}
+                        onMouseEnter={this.handleUserProfileOnEnter}
+                        onMouseLeave={this.handleUserProfileLeave}
+                    >
+                        <SVG className="profileIcon" />
+                    </IconButton>
+
+                    <Popper open={showProfilePopper}
+                        anchorEl={anchorEl}
+                        className={classes.profilePopper}
+                        placement="top-start"
+                        transition
+                    >
+                        {({ TransitionProps }) => (
+                            <Fade {...TransitionProps} timeout={350}>
+                                <Paper className={classes.accountMenuPaper}>
                                     {currentMenu}
-                                </ClickAwayListener>
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-            </div>
+                                </Paper>
+                            </Fade>
+                        )}
+                    </Popper>
+                </div>
+      //      </ClickAwayListener>
         );
 
         const LangMenu = (
@@ -1070,8 +1100,9 @@ export class TopNavbar extends React.Component {
                                                 currency={this.state.balanceCurrency}
                                             />
                                         </Button>
+                                        <div className={classes.separator} />
                                         {ProfileMenu}
-                                        {LangMenu}
+                                        {/* {LangMenu} */}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
@@ -1129,22 +1160,22 @@ export class TopNavbar extends React.Component {
                                             className={classes.langPopper}
                                             open={this.props.showLogin}
                                             anchorEl={this.state.anchorElLogin}
-                                            // anchorOrigin={{
-                                            //     vertical: 'bottom',
-                                            //     horizontal: 'left',
-                                            // }}
-                                            // transformOrigin={{
-                                            //     vertical: 'top',
-                                            //     horizontal: 'center',
-                                            // }}
+                                        // anchorOrigin={{
+                                        //     vertical: 'bottom',
+                                        //     horizontal: 'left',
+                                        // }}
+                                        // transformOrigin={{
+                                        //     vertical: 'top',
+                                        //     horizontal: 'center',
+                                        // }}
                                         >
                                             <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
                                                 <Login />
                                             </ClickAwayListener>
                                         </Popper>
-                                        
 
-                                        {LangMenu}
+
+                                        {/* {LangMenu} */}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
@@ -1175,19 +1206,11 @@ export class TopNavbar extends React.Component {
                                     {({ TransitionProps }) => (
                                         <Fade {...TransitionProps} timeout={350}>
                                             <Paper>
-                                                <AccountMenu />
+                                                <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>
                                             </Paper>
                                         </Fade>
                                     )}
                                 </Popper>
-                                {/* <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                    <div
-                                        tabIndex={0}
-                                        role="button"
-                                    >
-                                        <AccountMenu />
-                                    </div>
-                                </Drawer> */}
                             </div>
                         </Toolbar>
                     </AppBar>

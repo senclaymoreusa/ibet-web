@@ -373,7 +373,13 @@ $out_transition: all 0.15s ease;
   stroke: #ffffff;
 }
 
+.profileIcon path {
+  stroke: #212121;
+}
 
+.profileIconHover path{
+  stroke: #ff0000;
+}
 input[type="checkbox"] + span {
   display: inline-block;
   position: relative;
