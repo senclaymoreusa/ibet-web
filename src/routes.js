@@ -76,6 +76,7 @@ const BaseRouter = () => (
     <Route exact path="/account_settings/" component={AccountSettings} />
     <Route exact path="/deposit_paypal/" component={DepositPaypal} />
     <Route exact path="/deposit/" component={Deposit} />
+    {/* <Route exact path="/withdraw/" component={Withdraw} /> */}
     <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
     <Route exact path="/terms_conditions/" component={TermsConditions} />
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
