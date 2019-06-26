@@ -11,7 +11,7 @@ import DirectionsRun from '@material-ui/icons/DirectionsRun';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, postLogout } from '../../actions';
+import { logout, handle_search, setLanguage, postLogout, show_change_password } from '../../actions';
 
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -768,7 +768,12 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={1} className={classes.mergedGridButton}>
                         </Grid>
                         <Grid item xs={12} className={classes.mergedGridButton}>
-                            <Button className={classes.changePasswordButton}>
+                            <Button 
+                                onClick={() => {
+                                    this.props.onCloseItemClicked();
+                                    this.props.show_change_password();
+                               }} 
+                                className={classes.changePasswordButton}>
                                 <FormattedMessage id="accountmenu.change-password" defaultMessage="Change Password ›" />
                             </Button>
                         </Grid>
@@ -883,4 +888,4 @@ AccountMenu.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage })(AccountMenu))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_change_password })(AccountMenu))));

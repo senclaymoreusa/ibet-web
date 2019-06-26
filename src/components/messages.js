@@ -342,7 +342,11 @@ export const messages = {
         'error.state': 'State not valid',
         'error.zipcode': 'Zipcode not valid',
         'error.passwordnotmatch': 'Two password you entered do not match',
-        'error.address': 'Address not valid'
+        'error.address': 'Address not valid',
+
+        'changepassword': 'Change Password',
+        'changepassword2': 'CHANGE PASSWORD',
+
     },
     zh: {
         // handle account menu message
@@ -688,7 +692,10 @@ export const messages = {
         'error.state': '省市错误',
         'error.zipcode': '邮编错误',
         'error.passwordnotmatch': '两次输入的密码不一致',
-        'error.address': '地址错误'
+        'error.address': '地址错误',
+
+        'changepassword': '更改密码',
+        'changepassword2': '更改密码',
     },
     fr: {
         // handle account menu message
@@ -1081,7 +1088,10 @@ export const messages = {
         'error.state': 'Etat non valide',
         'error.zipcode': 'Code postal non valide',
         'error.passwordnotmatch': 'Deux mot de passe que vous avez entré ne correspondent pas',
-        'error.address': 'Adresse non valide'
+        'error.address': 'Adresse non valide',
+
+        'changepassword': 'Changer le mot de passe',
+        'changepassword2': 'CHANGER LE MOT DE PASSE',
     }
 }
 

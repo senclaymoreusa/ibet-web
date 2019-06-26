@@ -64,7 +64,6 @@ export class Login extends React.Component {
           showPassword: false,
 
           button_disable: true,
-          button_type: 'login-button-disable',
           error: false
         };
     
@@ -100,13 +99,13 @@ export class Login extends React.Component {
         localStorage.removeItem('one-click');
         localStorage.removeItem('username');
         localStorage.removeItem('password');
-        this.setState({username: username, password: password, button_disable: false, button_type: 'login-button' })
+        this.setState({username: username, password: password, button_disable: false })
     }else{
         const remember_check = localStorage.getItem('remember_check');
         if (remember_check){
             const username = localStorage.getItem('remember_username');
             const password = localStorage.getItem('remember_password');
-            this.setState({username: username, password: password, button_disable: false, button_type: 'login-button' })
+            this.setState({username: username, password: password, button_disable: false })
         }
     }
   }
@@ -122,7 +121,7 @@ export class Login extends React.Component {
         var temp = res.data.split('-')
         var username = temp[0]
         var password = temp[1]
-        this.setState({username: username, password: password, button_disable: false, button_type: 'login-button', check: false})
+        this.setState({username: username, password: password, button_disable: false, check: false})
 
         localStorage.removeItem('remember_username');
         localStorage.removeItem('remember_password');
@@ -134,18 +133,18 @@ export class Login extends React.Component {
 
   onInputChange_username(event){
     if(event.target.value && this.state.password){
-        this.setState({button_disable: false, button_type: 'login-button'})
+        this.setState({button_disable: false })
     }else{
-        this.setState({button_disable: true, button_type: 'login-button-disable'})
+        this.setState({button_disable: true })
     }
     this.setState({username: event.target.value});
   }
 
   onInputChange_password(event){
     if(event.target.value && this.state.username){
-        this.setState({button_disable: false, button_type: 'login-button'})
+        this.setState({button_disable: false })
     }else{
-        this.setState({button_disable: true, button_type: 'login-button-disable'})
+        this.setState({button_disable: true })
     }
     this.setState({password: event.target.value});
   }
@@ -218,9 +217,9 @@ export class Login extends React.Component {
     const remember_password = formatMessage({ id: "login.remember" });
     
     return (
-        <div style={{backgroundColor: '#ffffff'}}> 
+        <div style={{backgroundColor: '#ffffff', height: 560, width: 380, textAlign: 'center'}}> 
 
-                <div className='login-title'> 
+                <div style={{fontSize: 32}}> 
                     <FormattedMessage id="nav.login" defaultMessage='Login' />
                 </div>
 
@@ -305,7 +304,7 @@ export class Login extends React.Component {
 
                     <button
                         disabled = {this.state.button_disable} 
-                        style={{backgroundColor: 'red', height: 52, width: 272, marginTop: 30, color: 'white', cursor: 'pointer'}}
+                        style={{backgroundColor: 'red', height: 52, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none'}}
                         type="submit" 
                     > 
                         <FormattedMessage id="login.login" defaultMessage='Login' />

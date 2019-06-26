@@ -264,3 +264,15 @@ export const hide_signup_finish = () => {
     type: 'HIDE_SIGNUP_FINISH'
   }
 }
+
+export const show_change_password = () => {
+  return {
+    type: 'SHOW_CHANGE_PASSWORD'
+  }
+}
+
+export const hide_change_password = () => {
+  return {
+    type: 'HIDE_CHANGE_PASSWORD'
+  }
+}
