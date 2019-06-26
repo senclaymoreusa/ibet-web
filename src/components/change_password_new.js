@@ -54,7 +54,10 @@ class Change_Password extends Component {
             data: '',
 
             error: false,
-            live_chech_password_match: false
+            live_chech_password_match: false,
+
+            button_disable: true,
+            password_too_simple: false
         }
     }
 
@@ -81,7 +84,7 @@ class Change_Password extends Component {
     };
 
     async onInputChange_password(event){
-        await this.setState({password: event.target.value});
+        await this.setState({password: event.target.value, error: false});
         this.check_password_match();
     }
 
@@ -90,6 +93,11 @@ class Change_Password extends Component {
             this.setState({live_chech_password_match: true, button_disable: true})
         }else{
             this.setState({live_chech_password_match: false})
+        }
+        if (event.target.value.length < 8){
+            this.setState({password_too_simple: true})
+        }else{
+            this.setState({password_too_simple: false})
         }
         await this.setState({password1: event.target.value});
         this.check_password_match();
@@ -106,7 +114,7 @@ class Change_Password extends Component {
     }
 
     check_password_match(){
-        if(this.state.password && this.state.password1 && this.state.password2 && !this.state.live_chech_password_match && !this.state.error){
+        if(this.state.password && this.state.password1 && this.state.password2 && !this.state.live_chech_password_match){
             this.setState({button_disable: false})
         }
     }
@@ -119,7 +127,7 @@ class Change_Password extends Component {
 
         axios.post(API_URL + 'users/api/validateandresetpassword/', {'username': this.state.data.username, 'current_password': this.state.password, 'new_password': this.state.password1}, config)
         .then(res => {
-            if(res.data === 'Success'){
+            if(res.data.status === 'Success'){
                 alert('Password updated successfully')
                 this.props.hide_change_password()
             }else{
@@ -215,6 +223,8 @@ class Change_Password extends Component {
                         />
                     </div>
 
+                    {this.state.password_too_simple && <div style={{color: 'red', marginLeft: 25}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
+
                     <div style={{marginTop: 15, textAlign: 'center'}}> 
                         <TextField
                             className={ classes.textField}
@@ -244,7 +254,7 @@ class Change_Password extends Component {
                         />
                     </div>
 
-                    {this.state.live_chech_password_match && <div>  <FormattedMessage id="reset_password.password_not_match" defaultMessage='Password not match' /> </div>}
+                    {this.state.live_chech_password_match && <div style={{color: 'red', marginLeft: 25}}>  <FormattedMessage id="reset_password.password_not_match" defaultMessage='Password not match' /> </div>}
 
                     <button
                         disabled = {this.state.button_disable} 

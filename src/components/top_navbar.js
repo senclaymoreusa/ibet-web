@@ -932,78 +932,6 @@ export class TopNavbar extends React.Component {
                     )}
                 </Popper>
 
-
-                <Popper
-                    open={this.props.showSignup} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup />
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupEmail} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Email />
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupDetail} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Detail />
-                </Popper>
-
-
-                <Popper
-                    open={this.props.showSignupContact} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Contact /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupPhone} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Phone /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showCompleteRegistration} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Complete_Registration /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showPhoneVerification} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Phone_Verification /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showOneclickFinish} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <One_Click_Finish /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupFinish} 
-                    style={{position: 'absolute', top: this.state.height > 640 ? (this.state.height - 640) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Register_Finish /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showChangePassword} 
-                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
-                >
-                    <Change_Password /> 
-                </Popper>
-
             </div>
         );
 
@@ -1272,6 +1200,78 @@ export class TopNavbar extends React.Component {
                     </AppBar>
                 </MuiThemeProvider>
                 <div className='overlay' style={searchBackgroundStyle}></div>
+
+                <Popper
+                    open={this.props.showSignup} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup />
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupEmail} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Email />
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupDetail} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Detail />
+                </Popper>
+
+
+                <Popper
+                    open={this.props.showSignupContact} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Contact /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupPhone} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Phone /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showCompleteRegistration} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Complete_Registration /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showPhoneVerification} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Phone_Verification /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showOneclickFinish} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <One_Click_Finish /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupFinish} 
+                    style={{position: 'absolute', top: this.state.height > 640 ? (this.state.height - 640) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Register_Finish /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showChangePassword} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Change_Password /> 
+                </Popper>
+                
             </div >
         );
     }

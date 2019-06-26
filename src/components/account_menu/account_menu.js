@@ -770,7 +770,8 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={12} className={classes.mergedGridButton}>
                             <Button 
                                 onClick={() => {
-                                    this.props.show_change_password()
+                                    this.props.onCloseItemClicked();
+                                    this.props.show_change_password();
                                }} 
                                 className={classes.changePasswordButton}>
                                 <FormattedMessage id="accountmenu.change-password" defaultMessage="Change Password ›" />
