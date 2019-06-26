@@ -72,6 +72,7 @@ import Complete_Registration from './complete_registration';
 import Phone_Verification from './signup_phone_verification';
 import One_Click_Finish from './one_click_finish';
 import Register_Finish from './register_finish';
+import Change_Password from './change_password_new';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -477,6 +478,7 @@ export class TopNavbar extends React.Component {
             showProfilePopper: false,
             currentAccountMenuItem: '',
             anchorElLogin: null,
+            anchorElChangePassowrd: null, 
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -584,6 +586,11 @@ export class TopNavbar extends React.Component {
     };
 
     handleLoginMenuOpen = event => {
+        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
+        this.props.show_login()
+    };
+
+    handleShowChangePasswordMenuOpen = event => {
         this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
         this.props.show_login()
     };
@@ -761,7 +768,7 @@ export class TopNavbar extends React.Component {
     setCurrentAccountMenuItem = (menuItem) => {
         this.setState({ showProfilePopper: true });
         this.setState({ currentAccountMenuItem: menuItem });
-        this.props.history.push('/deposit/')
+        //this.props.history.push('/deposit/')
     }
 
     render() {
@@ -960,6 +967,13 @@ export class TopNavbar extends React.Component {
                     <Register_Finish /> 
                 </Popper>
 
+                <Popper
+                    open={this.props.showChangePassword} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Change_Password /> 
+                </Popper>
+
             </div>
         );
 
@@ -1102,7 +1116,7 @@ export class TopNavbar extends React.Component {
                                         </FormattedMessage> */}
                                         <Button
                                             variant="outlined"
-                                           className={classes.loginButton}
+                                            className={classes.loginButton}
                                             onClick={
                                                 this.handleLoginMenuOpen
                                             }
@@ -1125,9 +1139,7 @@ export class TopNavbar extends React.Component {
                                             // }}
                                         >
                                             <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
-                                                <div className='login-window'>
-                                                    <Login />
-                                                </div>
+                                                <Login />
                                             </ClickAwayListener>
                                         </Popper>
                                         
@@ -1245,19 +1257,20 @@ export class TopNavbar extends React.Component {
 const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated: (token !== null && token !== undefined),
-        error: state.auth.error,
-        lang: state.language.lang,
-        showLogin: state.general.show_login,
-        showSignup: state.general.show_signup,
-        showSignupEmail: state.general.show_signup_email,
-        showSignupDetail: state.general.show_signup_detail,
-        showSignupContact: state.general.show_signup_contact,
-        showSignupPhone: state.general.show_signup_phone,
-        showCompleteRegistration: state.general.show_complete_registration,
-        showPhoneVerification: state.general.show_phone_verification,
-        showOneclickFinish: state.general.show_oneclick_finish,
-        showSignupFinish: state.general.show_signup_finish
+        isAuthenticated:           (token !== null && token !== undefined),
+        error:                     state.auth.error,
+        lang:                      state.language.lang,
+        showLogin:                 state.general.show_login,
+        showSignup:                state.general.show_signup,
+        showSignupEmail:           state.general.show_signup_email,
+        showSignupDetail:          state.general.show_signup_detail,
+        showSignupContact:         state.general.show_signup_contact,
+        showSignupPhone:           state.general.show_signup_phone,
+        showCompleteRegistration:  state.general.show_complete_registration,
+        showPhoneVerification:     state.general.show_phone_verification,
+        showOneclickFinish:        state.general.show_oneclick_finish,
+        showSignupFinish:          state.general.show_signup_finish,
+        showChangePassword:        state.general.show_change_password
     }
 }
 
