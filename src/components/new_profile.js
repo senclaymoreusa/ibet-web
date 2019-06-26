@@ -60,10 +60,7 @@ class New_Profile extends Component {
         return axios.get(API_URL + 'users/api/user/', config)
         .then(res => {
             this.setState({user_data: res.data});
-            console.log(this.state.user_data)
         })
-
-        
     }
 
     onInputChange_country(event){
@@ -124,7 +121,7 @@ class New_Profile extends Component {
                 </div>
 
                 <div style={{ marginLeft: 30, marginTop: 5 }}>
-                <FormattedMessage id="profile.lastName" defaultMessage='Last Name' />
+                    <FormattedMessage id="profile.lastName" defaultMessage='Last Name' />
                 </div>
 
                 <div style={{textAlign: 'center', marginTop: 5}}> 
@@ -271,7 +268,6 @@ class New_Profile extends Component {
                         disabled={true}
                     />
                 </div>
-
             </div>
         )
     }
