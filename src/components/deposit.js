@@ -22,81 +22,63 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const CLIENT = {
     sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
     production: 'xxxXXX',
-  };
-  
+};
+
 const styles = theme => ({
     root: {
-      display: 'flex',
-      flexWrap: 'wrap',
+        display: 'flex',
+        flexWrap: 'wrap',
     },
-  
+    
     margin: {
-      margin: 'auto',
+        margin: 'auto',
     },
-  
+    
     textField: {
-      flexBasis: 200,
-      width: 300,
-      backgroundColor: '#ffffff;'
+        flexBasis: 200,
+        width: 300,
+        backgroundColor: '#ffffff;'
     },
-  
+    
     cssRoot: {
         color: theme.palette.getContrastText(blue[300]),
         backgroundColor: blue[300],
         '&:hover': {
-          backgroundColor: blue[800],
+            backgroundColor: blue[800],
         },
-      },
-  });
+    },
+});
 
 class Deposit extends Component {
     constructor(props){
         super(props);
-    
         this.state = {
-          amount: '',
-          currency: '',
-          error: false,
-          data: '',
-          type: '',
-          live_check_amount: false,
-          button_disable: true,
+            amount: '',
+            currency: '',
+            error: false,
+            data: '',
+            type: '',
+            live_check_amount: false,
+            button_disable: true,
         };
-
-        this.onInputChange_balance = this.onInputChange_balance.bind(this);
-        //this.addBalance          = this.addBalance.bind(this);
     }
-
+    
     componentDidMount() {
-        
         this.props.authCheckState()
         .then(res => {
-            if (res === 1){
-                this.props.history.push('/')
+            if (res === 1) {
+                window.location.href = ("/");
             }
         })
-
+        
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-          .then(res => {
-            this.setState({data: res.data});
-          })
-        const { type } = this.props.match.params;
         
-
-    }
-    onInputChange_balance(event){
-        if (!event.target.value || event.target.value.match(/^[0-9.]+$/)) {
-            this.setState({amount: event.target.value}); 
-
-            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
-                this.setState({live_check_amount: true, button_disable: true})
-            } else {
-                this.setState({live_check_amount: false, button_disable: false})
-            }
-        }
+        axios.get(API_URL + 'users/api/user/', config)
+        .then(res => {
+            this.setState({data: res.data});
+        })
+        const { type } = this.props.match.params;
     }
     
     render(){
@@ -106,21 +88,21 @@ class Deposit extends Component {
         
         return (
             <div>
-                <TopNavbar />
-                <div>
-                    <DepositNavBar />
-                </div>
+            <TopNavbar />
+            <div>
+            <DepositNavBar />
+            </div>
             </div>
             
-        )
-    }
-    
+            )
+        }
+        
 }
-
+    
 const mapStateToProps = (state) => {
     return {
         language: state.language.lang,
     }
 }
-
+    
 export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(Deposit)));

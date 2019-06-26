@@ -15,7 +15,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import blue from '@material-ui/core/colors/blue';
 
-
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 console.log("Process.env is");
 console.log(process.env);
@@ -99,10 +98,20 @@ class DepositPage extends Component {
         /*
          * Check if there is a user logged in
          */
-        // authCheckState().then(res => console.log("Auth check state result: " + res));
-        // var x = authCheckState();
-        // console.log(x)
+        this.props.authCheckState()
+        .then(res => {
+            console.log("Auth check state result: " + res)
+            if (res === 1) {
+                console.log(this.props);
+                window.location.href = "/";
+                return;
+            }
+        })
+        .catch(err => {
+            console.log("ERROR!!! " + err)
+        });
 
+        console.log(this.props.history);
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
@@ -118,7 +127,7 @@ class DepositPage extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes } = this.props; // props is loaded with state, style, and authCheckState ... it appears that it's loaded with everything in constructor + what is exported
         let amount = this.state.amount; // this.state.balance doesn't exist?
         let user = this.state.data.username; // this.state.data is initialized to a string not a dictionary
         
@@ -282,9 +291,11 @@ ContainedButtons.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+    console.log("State language: ");
+    console.log(state.language);
     return {
         language: state.language.lang,
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositPage)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositPage)));

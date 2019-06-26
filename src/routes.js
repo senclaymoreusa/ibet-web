@@ -35,7 +35,7 @@ import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password'
 import DepositPage from "./components/deposit_linepay"
 import DepositSuccess from "./components/deposit_success"
-import Board from './components/orion'
+// import Board from './components/orion'
 import DepositQaicah from './components/deposit_qaicash'
 import Deposit from './components/deposit'
 
@@ -84,7 +84,7 @@ const BaseRouter = () => (
     <Route exact path="/change_password/" component={Change_Password} />
     <Route exact path="/deposit_linepay/" component={DepositPage} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
-    <Route exact path="/orion/test/" component={Board} />
+    {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>
 );
 
