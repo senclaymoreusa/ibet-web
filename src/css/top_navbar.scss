@@ -329,22 +329,6 @@ $out_transition: all 0.15s ease;
    display: none; /* making it hidden by default */
 }
 
-.login-window {
-  height: 560px;
-  width: 380px;
-  text-align: center;
-}
-
-.login-title {
-  font-size: 32px;
-}
-
-.signup-window {
-  height: 700px;
-  width: 662px;
-  background-color: 'red'
-}
-
 .signup-title {
   font-size: 16px;
   margin: auto;
@@ -389,7 +373,13 @@ $out_transition: all 0.15s ease;
   stroke: #ffffff;
 }
 
+.profileIcon path {
+  stroke: #212121;
+}
 
+.profileIconHover path{
+  stroke: #ff0000;
+}
 input[type="checkbox"] + span {
   display: inline-block;
   position: relative;

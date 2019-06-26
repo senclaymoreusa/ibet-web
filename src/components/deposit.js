@@ -14,6 +14,9 @@ import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
 import { PayPalButton } from 'react-paypal-button-v2';
 
+import {  authCheckState } from '../actions';
+
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const CLIENT = {
@@ -65,6 +68,14 @@ class Deposit extends Component {
     }
 
     componentDidMount() {
+        
+        this.props.authCheckState()
+        .then(res => {
+            if (res === 1){
+                this.props.history.push('/')
+            }
+        })
+
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
@@ -112,4 +123,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(Deposit)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(Deposit)));
