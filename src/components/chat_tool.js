@@ -1,38 +1,36 @@
 import React, { Component } from 'react';
 
-import { withStyles, useTheme } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import { authSignup, authCheckState, AUTH_RESULT_FAIL } from '../actions'
+import { withStyles } from '@material-ui/core/styles';
+import { authCheckState, AUTH_RESULT_FAIL } from '../actions'
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import { FormattedMessage } from 'react-intl';
 import { config } from '../util_config';
-import AddIcon from '@material-ui/icons/Add';
-import Zoom from '@material-ui/core/Zoom';
+import AddIcon from '@material-ui/icons/ChatBubble';
 import Fab from '@material-ui/core/Fab';
-
-
-// const theme = useTheme();
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
         position: 'fixed',
-        bottom: 10,
-        right: 10
+        bottom: 40,
+        right: 10,
     },
-    chatButton: {
-
+    chatRoot: {
+        position: 'fixed',
+        bottom: 10,
+        right: 1,
+    },
+    fab: {
+        margin: theme.spacing.unit,
+        backgroundColor: '#fe0000',
+        color: '#ffffff',
+        "&:hover": {
+            backgroundColor: '#fe0000',
+        },
     },
 });
-
-// const transitionDuration = {
-//     enter: theme.transitions.duration.enteringScreen,
-//     exit: theme.transitions.duration.leavingScreen,
-//   };
-
 
 class ChatTool extends Component {
 
@@ -41,11 +39,11 @@ class ChatTool extends Component {
 
         this.state = {
             userData: {},
-            level: ''
+            level: '',
+            showChatButton: false,
         };
 
         this.handleChatButtonclicked = this.handleChatButtonclicked.bind(this);
-
     }
 
     handleChatButtonclicked = event => {
@@ -53,12 +51,44 @@ class ChatTool extends Component {
         const { level } = this.state;
         const time = new Date().getTime();
 
-        //userId+loginname+grade+name +memo+timestamp+key
+        var md5 = require('md5');
 
-        let stitchText = userData.username + userData.username + level + userData.first_name + "memo" + time + "key";
-        let i = "sdff";
+        let stitchText = userData.username + userData.username + level + userData.first_name + "memo" + time + "live800Key";
+        let encodedText = encodeURIComponent(stitchText);
+        let upperCaseEncodedText = encodedText.toUpperCase();
+        let encryptedText = md5(upperCaseEncodedText);
+        let hashCode = encryptedText.toUpperCase();
+        let stitchedInfo = "userId=" + userData.username + "&loginname=" + userData.username +
+            "&grade=" + level + "&name=" + userData.first_name + "&memo=" + "memo" +
+            "&timestamp=" + time + "&hashCode=" + hashCode;
+        let encodedInfo = encodeURIComponent(stitchedInfo);
+
+
     }
 
+    componentWillReceiveProps(prevProps) {
+        this.props.authCheckState()
+        .then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                console.log('authentication failure!!!')
+            } else {
+                this.setState({ showChatButton: true });
+
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+
+                return axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ userData: res.data });
+
+                        axios.get(API_URL + 'users/api/config/', config)
+                            .then(res => {
+                                this.setState({ level: res.data })
+                            })
+                    })
+            }
+        });
+      }
 
     componentDidMount() {
         this.props.authCheckState()
@@ -66,6 +96,8 @@ class ChatTool extends Component {
                 if (res === AUTH_RESULT_FAIL) {
                     console.log('authentication failure!!!')
                 } else {
+                    this.setState({ showChatButton: true });
+
                     const token = localStorage.getItem('token');
                     config.headers["Authorization"] = `Token ${token}`;
 
@@ -85,26 +117,43 @@ class ChatTool extends Component {
     render() {
         const { classes } = this.props;
 
-        return (
-            <div className={classes.root}>
-                {/* <Zoom
-                    key='primary'
-                    in={true}
-                    timeout={transitionDuration}
-                    style={{
-                        transitionDelay: `${transitionDuration.exit}ms`,
-                    }}
-                    unmountOnExit
-                >
-                    <Fab className={classes.chatButton} color="green">
-                        <AddIcon/>
-                    </Fab>
-                </Zoom> */}
-                <Button className={classes.chatButton} onClick={this.handleChatButtonclicked}>Start chat tool</Button>
+        const { userData,showChatButton } = this.state;
+        const { level } = this.state;
+        const time = new Date().getTime();
 
+        var md5 = require('md5');
+
+        let stitchText = userData.username + userData.username + level + userData.first_name + "memo" + time + "live800Key";
+        let encodedText = encodeURIComponent(stitchText);
+        let upperCaseEncodedText = encodedText.toUpperCase();
+        let encryptedText = md5(upperCaseEncodedText);
+        let hashCode = encryptedText.toUpperCase();
+        let stitchedInfo = "userId=" + userData.username + "&loginname=" + userData.username +
+            "&grade=" + level + "&name=" + userData.first_name + "&memo=" + "memo" +
+            "&timestamp=" + time + "&hashCode=" + hashCode;
+        let encodedInfo = encodeURIComponent(stitchedInfo);
+
+        let hrefLink = "https://care60.live800.com/live800/chatClient/monitor.js?companyID=71165577&configID=31&info=" + encodedInfo;
+
+        return (
+            <div >
+                { showChatButton ?
+                <div className={classes.chatRoot}>
+                    <Fab aria-label="Add" className={classes.fab} href={hrefLink}>
+                        <AddIcon />
+                    </Fab>
+                </div>
+                : null
+                }
             </div>
         );
     }
 }
 
-export default withStyles(styles)(connect(null, { authCheckState })(ChatTool));
+const mapStateToProps = (state) => {
+    const { token } = state.auth;
+    return {
+        isAuthenticated: (token !== null && token !== undefined)
+    }
+}
+export default withStyles(styles)(connect(mapStateToProps, { authCheckState })(ChatTool));
