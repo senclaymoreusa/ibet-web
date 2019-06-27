@@ -288,3 +288,15 @@ export const hide_user_profile = () => {
     type: 'HIDE_USER_PROFILE'
   }
 }
+
+export const show_update_profile = () => {
+  return {
+    type: 'SHOW_UPDATE_PROFILE'
+  }
+}
+
+export const hide_update_profile = () => {
+  return {
+    type: 'HIDE_UPDATE_PROFILE'
+  }
+}
