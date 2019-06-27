@@ -290,7 +290,7 @@ class New_Update_Profile extends Component {
             <div style={{backgroundColor: '#f1f1f1',  minHeight: 800, width: 380}}>
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <button 
-                        style={{position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 300, backgroundColor: 'black', color: 'white', cursor: 'pointer', borderRadius: 100, zIndex: 2002}}
+                        style={{position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 300, backgroundColor: 'black', color: 'white', cursor: 'pointer', borderRadius: 100}}
                         type='submit'
                         disabled={this.state.button_disable}
                     >

@@ -75,7 +75,7 @@ class New_Profile extends Component {
         return (
             <div style={{backgroundColor: '#f1f1f1',  height: 1150, width: 380}}>
                 <button 
-                    style={{position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 300, backgroundColor: 'black', color: 'white', cursor: 'pointer', borderRadius: 100, zIndex: 2002}}
+                    style={{position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 300, backgroundColor: 'black', color: 'white', cursor: 'pointer', borderRadius: 100}}
                     onClick={() => {
                         this.props.hide_user_profile();
                         this.props.show_update_profile();
