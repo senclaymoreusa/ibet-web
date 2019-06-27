@@ -215,7 +215,8 @@ class InputForm extends Component {
         this.setState({
             deposit_amount: amt,
             live_check_amount: false,
-            button_disable: false
+            button_disable: false,
+            error: false
         });
         console.log(typeof this.state.deposit_amount);
     }
@@ -263,11 +264,11 @@ class InputForm extends Component {
                     }
                 </form>
                 <div id="quick-deposit" className="deposit-form">
-                    {this.renderAmtButton("25")}
-                    {this.renderAmtButton("50", "primary")}
-                    {this.renderAmtButton("100", "primary")}
-                    {this.renderAmtButton("250", "secondary")}
-                    {this.renderAmtButton("500", "secondary")}
+                    {this.renderAmtButton("200")}
+                    {this.renderAmtButton("500", "primary")}
+                    {this.renderAmtButton("1000", "primary")}
+                    {this.renderAmtButton("2500", "secondary")}
+                    {this.renderAmtButton("5000", "secondary")}
                 </div>
                 <div className="deposit-form" id="submit-amount">
                     <p>Select payment method:</p>
