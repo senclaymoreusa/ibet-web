@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Flag from 'react-flagkit';
 import Grid from '@material-ui/core/Grid';
 import { FormattedMessage } from 'react-intl';
+
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Link from '@material-ui/core/Link';
@@ -80,6 +81,7 @@ const styles = theme => ({
     marginTop: 20
   },
   footer_link: {
+    cursor: 'pointer',
     marginRight: 20,
     color: 'white',
     fontSize: 14,
@@ -182,25 +184,25 @@ export class Footer extends React.Component {
 
     const FooterLinks = (
       <div className={classes.footer_link_container}>
-        <Link href='/terms_conditions' className={classes.footer_link}>
+        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/terms_conditions") }}>
           <FormattedMessage id="footer.terms_conditions" defaultMessage='Terms and Conditions' />
         </Link>
-        <Link href='/cookie_policy' className={classes.footer_link}>
+        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/cookie_policy") }}>
           <FormattedMessage id="footer.cookie_policy" defaultMessage='Cookie Policy' />
         </Link>
-        <Link href='/privacy_policy' className={classes.footer_link}>
+        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/privacy_policy") }}>
           <FormattedMessage id="footer.privacy_policy" defaultMessage='Privacy Policy' />
         </Link>
-        <Link href='/' className={classes.footer_link}>
+        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/") }}>
           <FormattedMessage id="footer.game_rules" defaultMessage='Game Rules' />
         </Link>
-        <Link href='/' className={classes.footer_link}>
+        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/") }}>
           <FormattedMessage id="footer.investory_relations" defaultMessage='Investor Relations' />
         </Link>
-        <Link href='/' className={classes.footer_link}>
+        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/") }}>
           <FormattedMessage id="footer.visit_gambler_anonymous" defaultMessage='Visit Gamblers Anonymous' />
         </Link>
-        <Link href='/' className={classes.footer_link}>
+        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/") }}>
           <FormattedMessage id="footer.visit_gamcare_newsroom" defaultMessage='Visit GamCare Newsroom' />
         </Link>
       </div>
@@ -262,25 +264,29 @@ export class Footer extends React.Component {
 
     const FooterMenu = (
       <div className={classes.footer_menu_container}>
-        <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
+        <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
+          onClick={() => { this.props.history.push("/sports_type") }}>
           <SoccerIcon className="soccer" />
           <span className="Sports">
             <FormattedMessage id="nav.sports" defaultMessage='Sports' />
           </span>
         </Button>
-        <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
+        <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
+          onClick={() => { this.props.history.push("/live_casino_type") }}>
           <BetIcon className="bet" />
           <span className="Live-Casino">
             <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
           </span>
         </Button>
-        <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
+        <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
+          onClick={() => { this.props.history.push("/slot_type") }}>
           <SlotsIcon className="games-icon" />
           <span className="Slots">
             <FormattedMessage id="nav.slots" defaultMessage='Slots' />
           </span>
         </Button>
-        <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
+        <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
+          onClick={() => { this.props.history.push("/lottery_type") }}>
           <LotteryIcon className="lottery" />
           <span className="Lottery">
             <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />

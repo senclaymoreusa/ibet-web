@@ -8,7 +8,6 @@ import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
-import PersonOutline from '@material-ui/icons/PersonOutline';
 
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
@@ -38,7 +37,6 @@ import MyBets from './account_menu/my_bets';
 import ResponsibleGambling from './account_menu/responsible_gambling';
 
 import Popper from '@material-ui/core/Popper';
-import Popover from '@material-ui/core/Popover';
 import Fade from '@material-ui/core/Fade';
 
 
@@ -664,10 +662,6 @@ export class TopNavbar extends React.Component {
         //this.setState({ term: '' });
     }
 
-    componentWillReceiveProps(props) {
-        //this.setState({ term: '' });
-    }
-
     onInputChange_username(event) {
         if (event.target.value && this.state.password) {
             this.setState({ button_disable: false })
@@ -725,27 +719,38 @@ export class TopNavbar extends React.Component {
         this.setState({ height: window.innerHeight, width: window.innerWidth })
     };
 
-    componentWillReceiveProps(prevProps) {
+    componentWillReceiveProps(props) {
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;
 
             axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ balance: res.data.main_wallet });
-                this.setState({ balanceCurrency: res.data.currency });
-            })
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
         }
-      }
+    }
 
     async componentDidMount() {
+        console.log(this.props.isAuthenticated)
+        if (this.props.isAuthenticated) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
+        }
 
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-        .then((res) => {
-            this.setState({ show_loggedin_status: true });
-        })
+            .then((res) => {
+                this.setState({ show_loggedin_status: true });
+            })
 
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
@@ -1104,6 +1109,7 @@ export class TopNavbar extends React.Component {
                                         </Popper>
 
 
+
                                         {/* {LangMenu} */}
                                     </div>
                             }
@@ -1149,7 +1155,8 @@ export class TopNavbar extends React.Component {
                         <Toolbar variant="dense" className={classes.appBar}>
                             <div className={classes.mainMenu}>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
+                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/sports_type") }}>
                                         <SoccerIcon className="soccer" />
                                         <span className="Sports">
                                             <FormattedMessage id="nav.sports" defaultMessage='Sports' />
@@ -1157,7 +1164,8 @@ export class TopNavbar extends React.Component {
                                     </Button>
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
+                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/live_casino_type") }}>
                                         <BetIcon className="bet" />
                                         <span className="Live-Casino">
                                             <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
@@ -1165,7 +1173,8 @@ export class TopNavbar extends React.Component {
                                     </Button>
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
+                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/slot_type") }}>
                                         <SlotsIcon className="games-icon" />
                                         <span className="Slots">
                                             <FormattedMessage id="nav.slots" defaultMessage='Slots' />
@@ -1173,7 +1182,8 @@ export class TopNavbar extends React.Component {
                                     </Button>
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
+                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/lottery_type") }}>
                                         <LotteryIcon className="lottery" />
                                         <span className="Lottery">
                                             <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
