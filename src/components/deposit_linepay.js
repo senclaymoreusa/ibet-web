@@ -134,6 +134,9 @@ class DepositPage extends Component {
         return (
             <div>
                 <TopNavbar />
+                {/* <div>
+                    Username: {user}
+                </div> */}
                 <InputForm className="input-form" {...classes} deposit_amount="" deposit_channel=""/>
             </div>
             

@@ -28,6 +28,14 @@ class DepositSuccess extends Component {
         }
     }
     componentDidMount() {
+        axios.get(API_URL + 'users/api/user/', config)
+        .then(res => {
+            this.setState({data: res.data});
+        })
+        .catch(err => {
+            console.log("Error with authentication! Error: " + err);
+        })
+        
         if (window.location.search.indexOf("transactionId") === 1) {
             console.log("confirming payment with LINEpay servers");
             let qs = window.location.search.slice(1);
@@ -37,22 +45,51 @@ class DepositSuccess extends Component {
             postData[kv[0]] = kv[1];
             console.log(postData);
 
+
             // was a redirect 
             axios.post(
                 API_URL + "accounting/api/linepay/confirm_payment",
                 JSON.stringify(postData),
                 config
             ).then(res => {
-                if (res.status === 200) {
-                    this.setState(
-                        {
-                            success: true,
-                            waiting: false,
-                            msg: JSON.stringify(res.data)
-                        }
-                    )
-                }
+                console.log("backend response:");
                 console.log(res);
+                if (res.status === 200) {
+                    if (res.data.returnCode !== "0000") {
+                        alert("See error message");
+                        this.setState(
+                            {
+                                success: false,
+                                waiting: false,
+                                msg: JSON.stringify(res.data)
+                            }
+                        )
+                    }
+                    else {
+                        const body = JSON.stringify({
+                            type : 'add',
+                            username: this.state.data.username || "",
+                            balance: res.data.info.payInfo[0].amount,
+                        });
+                        axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
+                        .then(res => {
+                            if (res.data === 'Failed'){
+                                this.setState({error: true});
+                            } else if (res.data === 'The balance is not enough') {
+                                alert("cannot withdraw this amount")
+                            } else{
+                                alert("your balance is updated")
+                            }
+                        });
+                        this.setState(
+                            {
+                                success: true,
+                                waiting: false,
+                                msg: JSON.stringify(res.data)
+                            }
+                        )
+                    }
+                }
             });
         }
     }
@@ -71,7 +108,7 @@ class DepositSuccess extends Component {
                     <div>
                         <p>Result was:</p>
                         {
-                            success ? 
+                            (success != false && success == true) ? 
                             <p>Success! {msg}</p> :
                             <p>Error: {msg}</p>
                         }
