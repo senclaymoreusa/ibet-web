@@ -11,6 +11,7 @@ const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo
 const styles = theme => ({
 
 })
+
 export class DepositNavBar extends Component {
   constructor(props) {
     super(props);

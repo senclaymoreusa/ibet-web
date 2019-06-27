@@ -71,7 +71,7 @@ const styles = (theme) => ({
 function  ContainedButtons(buttonProps) {
     return (
         <Button  variant="contained" color={buttonProps.color} className={buttonProps.button} onClick={buttonProps.onClick}>
-            {"$"+buttonProps.amount}
+            {buttonProps.amount.toLocaleString(undefined, {style: "currency", currency: "THB"})}
         </Button>
     );
 }
@@ -264,11 +264,11 @@ class InputForm extends Component {
                     }
                 </form>
                 <div id="quick-deposit" className="deposit-form">
-                    {this.renderAmtButton("200")}
-                    {this.renderAmtButton("500", "primary")}
-                    {this.renderAmtButton("1000", "primary")}
-                    {this.renderAmtButton("2500", "secondary")}
-                    {this.renderAmtButton("5000", "secondary")}
+                    {this.renderAmtButton(200)}
+                    {this.renderAmtButton(500, "primary")}
+                    {this.renderAmtButton(1000, "primary")}
+                    {this.renderAmtButton(2500, "secondary")}
+                    {this.renderAmtButton(5000, "secondary")}
                 </div>
                 <div className="deposit-form" id="submit-amount">
                     <p>Select payment method:</p>
