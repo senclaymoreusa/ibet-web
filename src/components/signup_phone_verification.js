@@ -1,6 +1,5 @@
 import React from 'react';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
-import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 import { ReactComponent as Check } from '../assets/img/svg/check.svg';
 
 import { hide_phone_verification, show_complete_registration, show_signup_finish } from '../actions';
@@ -122,14 +121,12 @@ class Phone_Verification extends React.Component {
                     
                     setTimeout(
                         function() {
-                            //alert('You have completed registration')
                             this.props.hide_phone_verification();
                             this.props.show_signup_finish();
                         }
                         .bind(this),
                         3000
                     );
-                    
                 }
             })
         }
