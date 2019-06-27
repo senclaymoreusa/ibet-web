@@ -269,6 +269,12 @@ export const messages = {
         'new_profile.profile': 'Profile',
         'new_profile.email': 'Email Details',
         'new_profile.mobile': 'Mobile Details',
+        'new_profile.edit': 'Edit',
+
+        // handle new update profile
+        'new_update_profile.title': 'Edit Profile',
+        'new_update_profile.save': 'Save',
+
 
 
         // handle update_profile page message
@@ -624,6 +630,11 @@ export const messages = {
         'new_profile.profile': '账户',
         'new_profile.email': '邮件详情',
         'new_profile.mobile': '手机详情',
+        'new_profile.edit': '更改',
+
+        // handle new update profile
+        'new_update_profile.title': '更改信息',
+        'new_update_profile.save': '保存',
 
         // handle update_profile page message
         'update_profile.username': '用戶名: ',
@@ -1023,6 +1034,11 @@ export const messages = {
         'new_profile.profile': 'Profil',
         'new_profile.email': "Détails de l'e-mail",
         'new_profile.mobile': 'Détails mobiles',
+        'new_profile.edit': 'modifier',
+
+        // handle new update profile
+        'new_update_profile.title': 'Editer le profil',
+        'new_update_profile.save': 'sauvegarder',
         
 
         // handle update_profile page message

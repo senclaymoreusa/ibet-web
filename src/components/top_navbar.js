@@ -21,7 +21,7 @@ import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -67,7 +67,8 @@ import Phone_Verification from './signup_phone_verification';
 import One_Click_Finish from './one_click_finish';
 import Register_Finish from './register_finish';
 import Change_Password from './change_password_new';
-import New_Profile from './new_profile'
+import New_Profile from './new_profile';
+import New_Update_Profile from './new_update_profile';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -1273,13 +1274,25 @@ export class TopNavbar extends React.Component {
                     <Change_Password /> 
                 </Popper>
 
-                
                 <Popper
                     open={this.props.showUserProfile} 
                     style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
                 >
                     <Paper>
-                        <New_Profile /> 
+                        <ClickAwayListener onClickAway={() => {this.props.hide_user_profile();}}>
+                            <New_Profile /> 
+                        </ClickAwayListener>
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showUpdateProfile} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <ClickAwayListener onClickAway={() => {this.props.hide_update_profile();}}>  
+                            <New_Update_Profile /> 
+                        </ClickAwayListener>
                     </Paper>
                 </Popper>
                 
@@ -1305,7 +1318,8 @@ const mapStateToProps = (state) => {
         showOneclickFinish:        state.general.show_oneclick_finish,
         showSignupFinish:          state.general.show_signup_finish,
         showChangePassword:        state.general.show_change_password,
-        showUserProfile:           state.general.show_user_profile
+        showUserProfile:           state.general.show_user_profile,
+        showUpdateProfile:         state.general.show_update_profile
     }
 }
 
@@ -1314,4 +1328,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login, show_signup_finish })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile })(TopNavbar))));

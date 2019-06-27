@@ -17,6 +17,7 @@ const INITIAL_STATE ={
     show_signup_finish:  false,
     show_change_password: false,
     show_user_profile: false,
+    show_update_profile: false,
     
     onc_click_username: '',
     one_click_password: '',
@@ -129,6 +130,10 @@ export default (state = INITIAL_STATE, action) => {
         return {...state, show_user_profile: true}
       case 'HIDE_USER_PROFILE':
         return {...state, show_user_profile: false}
+      case 'SHOW_UPDATE_PROFILE':
+        return {...state, show_update_profile: true}
+      case 'HIDE_UPDATE_PROFILE':
+        return {...state, show_update_profile: false}
       default:
         return state;
     }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ReactComponent as Back } from '../assets/img/svg/back.svg';
+import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { hide_user_profile } from '../actions';
+import { hide_user_profile, show_update_profile } from '../actions';
 import { connect } from 'react-redux';
 import { config } from '../util_config';
 import axios from 'axios'
@@ -73,14 +74,24 @@ class New_Profile extends Component {
 
         return (
             <div style={{backgroundColor: '#f1f1f1',  height: 1150, width: 380}}>
-                <Back 
-                    style={{cursor: 'pointer', position: 'absolute', top: 20, left: 30, height: 25, width: 15, color: 'red'}}
+                <button 
+                    style={{position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 300, backgroundColor: 'black', color: 'white', cursor: 'pointer', borderRadius: 100, zIndex: 2002}}
+                    onClick={() => {
+                        this.props.hide_user_profile();
+                        this.props.show_update_profile();
+                    }}
+                >
+                    <FormattedMessage id="new_profile.edit" defaultMessage='Edit' />
+                </button>
+
+                <CloseIcon 
+                    style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 20, width: 20, color: 'red'}}
                     onClick = { () => {
                         this.props.hide_user_profile()
                     }}
                 />
 
-                <div style={{ backgroundColor: 'white', textAlign: 'center', height: 60, fontSize: 25, paddingTop: 15 }}> 
+                <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, paddingTop: 12, paddingLeft: 60 }}> 
                     <FormattedMessage id="new_profile.profile" defaultMessage='Profile' />
                 </div>
 
@@ -265,4 +276,4 @@ class New_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_user_profile })(New_Profile));
+export default withStyles(styles)(connect(null, { hide_user_profile, show_update_profile })(New_Profile));
