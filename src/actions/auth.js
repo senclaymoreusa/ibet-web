@@ -200,7 +200,8 @@ export const FacebookSignup = (username, email) => {
                         return Promise.resolve(AUTH_RESULT_FAIL);
                     } else {
                         dispatch(authSuccess(token));
-                        dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime()) / 1000) );
+                        //dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime()) / 1000) );
+                        dispatch(checkAuthTimeout(3600));
                         return Promise.resolve(AUTH_RESULT_SUCCESS);
                     }
                 })

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -112,8 +111,12 @@ class New_Update_Profile extends Component {
             live_check_address: false,
             live_check_city: false,
             live_check_zipcode: false,
+            live_check_email: false,
+            live_check_phone: false,
 
-            button_disable: true
+            button_disable: false,
+
+            email_exist: false
 
         }
     }
@@ -136,7 +139,9 @@ class New_Update_Profile extends Component {
                 address: res.data.street_address_1,
                 city: res.data.city,
                 zipcode: res.data.zipcode,
-                country: res.data.country
+                country: res.data.country,
+                phone: res.data.phone.slice(1),
+                email: res.data.email
             });
         })
     }
@@ -245,6 +250,8 @@ class New_Update_Profile extends Component {
             !this.state.live_check_dob && 
             !this.state.live_check_city && 
             !this.state.live_check_zipcode &&
+            !this.state.live_check_email &&
+            !this.state.live_check_phone &&
             this.state.first_name && 
             this.state.last_name && 
             this.state.address && 
@@ -252,10 +259,36 @@ class New_Update_Profile extends Component {
             this.state.day && 
             this.state.year && 
             this.state.zipcode && 
-            this.state.city
+            this.state.city &&
+            this.state.email &&
+            this.state.phone
         ){
             this.setState({button_disable: false})
         }
+    }
+
+    handleForm(){
+        this.setState({form_open: !this.state.form_open})
+    }
+
+    async onInputChange_phone(event){
+        if ( !event.target.value.match(/^[0-9]+$/) || !(event.target.value.length <= 20 && event.target.value.length >= 6)){
+            this.setState({live_check_phone: true})
+        }else{
+            this.setState({live_check_phone: false, button_disable: false})
+        }
+        await this.setState({phone: event.target.value})
+    }
+
+    async onInputChange_email(event){
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!event.target.value.match(re)){
+          this.setState({live_check_email: true, button_disable: true,})
+        }else{
+          this.setState({live_check_email: false, email_exist: false})
+        }
+        await this.setState({email: event.target.value});
+        this.check_button_disable()
     }
 
     onFormSubmit(event){
@@ -264,22 +297,29 @@ class New_Update_Profile extends Component {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
-        axios.put(API_URL + 'users/api/user/', {
-            first_name:         this.state.first_name,
-            last_name:          this.state.last_name,
-            date_of_birth:      this.state.month + '/' + this.state.day + '/' + this.state.year,
-            street_address_1:   this.state.address,
-            city:               this.state.city,
-            zipcode:            this.state.zipcode,
-            country:            this.state.country,
-            email:              this.state.user_data.email,
-            phone:              this.state.user_data.phone
- 
-        }, config)
-            .then((res) => {
-                 this.props.hide_update_profile();
-                 this.props.show_user_profile();
-            })
+        axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`, config)
+        .then(res => {
+            if (res.data !== 'Exist' || this.state.email === this.state.user_data.email){
+                axios.put(API_URL + 'users/api/user/', {
+                    first_name:         this.state.first_name,
+                    last_name:          this.state.last_name,
+                    date_of_birth:      this.state.month + '/' + this.state.day + '/' + this.state.year,
+                    street_address_1:   this.state.address,
+                    city:               this.state.city,
+                    zipcode:            this.state.zipcode,
+                    country:            this.state.country,
+                    email:              this.state.email,
+                    phone:              '+' + this.state.phone,
+        
+                }, config)
+                    .then((res) => {
+                         this.props.hide_update_profile();
+                         this.props.show_user_profile();
+                    })
+            }else{
+                this.setState({email_exist: true})
+            }
+        })
     }
 
     render(){
@@ -295,6 +335,16 @@ class New_Update_Profile extends Component {
                         disabled={this.state.button_disable}
                     >
                         <FormattedMessage id="new_update_profile.save" defaultMessage='Save' />
+                    </button>
+
+                    <button 
+                        style={{position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 220, backgroundColor: 'red', color: 'white', cursor: 'pointer', borderRadius: 100}}
+                        onClick={() => {
+                            this.props.hide_update_profile();
+                            this.props.show_user_profile();
+                        }}
+                    >
+                        <FormattedMessage id="signup.cancel" defaultMessage='Cancel' />
                     </button>
 
                     <CloseIcon 
@@ -468,6 +518,65 @@ class New_Update_Profile extends Component {
                             </Select>
                         </FormControl>
                     </div>
+
+                    <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
+                        <FormattedMessage id="new_profile.mobile" defaultMessage='Mobile Details' />
+                    </div>
+
+                    <div style={{textAlign: 'center', color: '#e4e4e4'}}>
+                        _________________________________________
+                    </div>
+
+                    <div style={{textAlign: 'center'}}> 
+
+                        <TextField
+                            className={classes.textField}
+                            margin="normal"
+                            onChange={this.onInputChange_phone.bind(this)}
+                            value={this.state.phone}
+                            variant="outlined"
+                            style={{marginTop: 20}}
+                            InputProps={{
+                                classes: {
+                                    root: classes.cssOutlinedInput,
+                                    focused: classes.cssFocused,
+                                    notchedOutline: classes.notchedOutline
+                                }
+                            }}
+                        />
+                    </div>
+
+                    {this.state.live_check_phone && <div style={{color: 'red', marginLeft: 30}}> <FormattedMessage  id="error.phone" defaultMessage='Phone number not valid' /> </div>}
+
+                    <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
+                        <FormattedMessage id="new_profile.email" defaultMessage='Email Details' />
+                    </div>
+
+                    <div style={{textAlign: 'center', color: '#e4e4e4'}}>
+                        _________________________________________
+                    </div>
+
+                    <div style={{textAlign: 'center', marginTop: 10}}> 
+                        <TextField
+                            className={classes.textField}
+                            variant="outlined"
+                            type='text'
+                            value={this.state.email}
+                            onChange={this.onInputChange_email.bind(this)}
+                            InputProps={{
+                                classes: {
+                                    root: classes.cssOutlinedInput,
+                                    focused: classes.cssFocused,
+                                    notchedOutline: classes.notchedOutline
+                                }
+                            }}
+                        />
+                    </div>
+
+                    {this.state.live_check_email && <div style={{color: 'red', marginLeft: 30}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
+
+                    {this.state.email_exist && <div style={{color: 'red', marginLeft: 30}}> <FormattedMessage  id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>}
+
                 </form>
 
                 <div style={{height: 20, backgroundColor: '#f1f1f1'}}> 

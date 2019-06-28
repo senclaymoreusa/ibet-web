@@ -148,6 +148,7 @@ class Phone_Verification extends React.Component {
                         style={{cursor: 'pointer', position: 'absolute', top: 8, left: 720, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_phone_verification();
+                            axios.post(API_URL + 'users/api/cancelregistration/', {'username': this.props.signup_username})
                         }}
                     />
                 </div>
@@ -278,13 +279,13 @@ class Phone_Verification extends React.Component {
                     this.setState({code_1: '', code_2: '', code_3: '', code_4: '', error: false})
                     axios.post(API_URL + 'users/api/generateactivationcode/', {'username': this.props.signup_username})
                     .then(res => {
-                        
+                        alert('Message has been rent')
                     })
                 }}
                     style={{ fontSize: 15, height: 50, width: 320, marginLeft: 215, marginTop: 70, color: 'black', cursor: 'pointer', textAlign: 'center', border: '1px solid #e4e4e4'}}
                 > 
                     <div style={{paddingTop: 12}}>  
-                        RESEND SMS
+                        <FormattedMessage id="signup.phone.resendsms" defaultMessage='RESEND SMS' />
                     </div>
                 </div>
 
