@@ -8,7 +8,6 @@ import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
-import PersonOutline from '@material-ui/icons/PersonOutline';
 
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
@@ -21,7 +20,7 @@ import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -29,22 +28,16 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu/account_menu';
-import OpenBets from './account_menu/open_bets';
 import Deposit from './account_menu/deposit';
 import Withdraw from './account_menu/withdraw';
 import Help from './account_menu/help';
 import Promotions from './account_menu/promotions';
 import Settings from './account_menu/settings';
-import SettledBets from './account_menu/settled_bets';
+import MyBets from './account_menu/my_bets';
 import ResponsibleGambling from './account_menu/responsible_gambling';
 
-
-import Fab from '@material-ui/core/Fab';
-
 import Popper from '@material-ui/core/Popper';
-import Popover from '@material-ui/core/Popover';
 import Fade from '@material-ui/core/Fade';
-import TextField from '@material-ui/core/TextField';
 
 
 import Paper from '@material-ui/core/Paper';
@@ -59,7 +52,6 @@ import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
 import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
-import { ReactComponent as UserIcon } from '../assets/img/svg/user.svg';
 
 
 import Login from './login_2.js';
@@ -70,7 +62,11 @@ import Signup_Contact from './signup_contact';
 import Signup_Phone from './signup_phone';
 import Complete_Registration from './complete_registration';
 import Phone_Verification from './signup_phone_verification';
-import One_Click_Finish from './one_click_finish'
+import One_Click_Finish from './one_click_finish';
+import Register_Finish from './register_finish';
+import Change_Password from './change_password_new';
+import New_Profile from './new_profile';
+import New_Update_Profile from './new_update_profile';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -240,6 +236,12 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        "&:hover": {
+            backgroundColor: "#ffffff",
+        },
+        "&:active": {
+            backgroundColor: "#ffffff",
+        }
     },
     extendedIcon: {
         marginRight: theme.spacing.unit,
@@ -398,6 +400,14 @@ const styles = theme => ({
             backgroundColor: blue[800],
         },
     },
+    separator: {
+        width: 1.6,
+        height: 25,
+        marginTop: 20,
+        opacity: 1,
+        marginLeft: 10,
+        backgroundColor: '#212121',
+    },
 });
 
 const muiLogoBarTheme = createMuiTheme({
@@ -445,7 +455,7 @@ const SVG = ({
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >
             <g id="Nav" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke={fill} strokeWidth="1.5625">
+                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke="#212121" strokeWidth="1.5625">
                     <g id="Login-Elements">
                         <g transform="translate(1280.000000, 13.000000)">
                             <g id="Open-Account">
@@ -476,6 +486,7 @@ export class TopNavbar extends React.Component {
             showProfilePopper: false,
             currentAccountMenuItem: '',
             anchorElLogin: null,
+            anchorElChangePassowrd: null, 
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -526,6 +537,23 @@ export class TopNavbar extends React.Component {
     handleSignupOnLeave = (event) => {
         if (event.currentTarget.children[0].classList.contains('userIconHover')) {
             event.currentTarget.children[0].classList.remove('userIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "hidden";
+
+    };
+
+    handleUserProfileOnEnter = (event) => {
+        if (!event.currentTarget.children[0].classList.contains('profileIconHover')) {
+            event.currentTarget.children[0].classList.add('profileIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "visible";
+    };
+
+    handleUserProfileLeave = (event) => {
+        if (event.currentTarget.children[0].classList.contains('profileIconHover')) {
+            event.currentTarget.children[0].classList.remove('profileIconHover');
         }
 
         event.currentTarget.children[1].style.visibility = "hidden";
@@ -587,6 +615,11 @@ export class TopNavbar extends React.Component {
         this.props.show_login()
     };
 
+    handleShowChangePasswordMenuOpen = event => {
+        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
+        this.props.show_login()
+    };
+
     handleSignupMenuOpen = event => {
         this.setState({ anchorEl2: event.currentTarget });
         this.setState({ username: '', password: '' })
@@ -614,7 +647,7 @@ export class TopNavbar extends React.Component {
 
     };
 
-    handleLoginMenuClose(){
+    handleLoginMenuClose() {
         this.props.hide_login()
     }
 
@@ -627,10 +660,6 @@ export class TopNavbar extends React.Component {
 
     onFormSubmit(event) {
         event.preventDefault();
-        //this.setState({ term: '' });
-    }
-
-    componentWillReceiveProps(props) {
         //this.setState({ term: '' });
     }
 
@@ -691,27 +720,38 @@ export class TopNavbar extends React.Component {
         this.setState({ height: window.innerHeight, width: window.innerWidth })
     };
 
-    componentWillReceiveProps(prevProps) {
+    componentWillReceiveProps(props) {
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;
 
             axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ balance: res.data.main_wallet });
-                this.setState({ balanceCurrency: res.data.currency });
-            })
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
         }
-      }
+    }
 
     async componentDidMount() {
-        
+        console.log(this.props.isAuthenticated)
+        if (this.props.isAuthenticated) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
+        }
+
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-        .then((res) => {
-            this.setState({ show_loggedin_status: true });
-        })
+            .then((res) => {
+                this.setState({ show_loggedin_status: true });
+            })
 
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
@@ -760,11 +800,12 @@ export class TopNavbar extends React.Component {
     setCurrentAccountMenuItem = (menuItem) => {
         this.setState({ showProfilePopper: true });
         this.setState({ currentAccountMenuItem: menuItem });
+        //this.props.history.push('/deposit/')
     }
 
     render() {
         const { anchorEl, showProfilePopper, showLangMenu, anchorEl2, showRightPanel } = this.state;
-      
+
         const { classes } = this.props;
 
         let countryCode = '';
@@ -789,7 +830,7 @@ export class TopNavbar extends React.Component {
         let currentMenu = <div></div>;
         switch (this.state.currentAccountMenuItem) {
             case 'open-bets':
-                currentMenu = <OpenBets onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={0} />;
                 break;
             case 'deposit':
                 currentMenu = <Deposit onMenuItemClicked={this.setCurrentAccountMenuItem} />;
@@ -810,38 +851,43 @@ export class TopNavbar extends React.Component {
                 currentMenu = <Settings onMenuItemClicked={this.setCurrentAccountMenuItem} />;
                 break;
             case 'settled-bets':
-                currentMenu = <SettledBets onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={2} />;
                 break;
             default:
-                currentMenu = <AccountMenu onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                currentMenu = <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>;
         }
 
+        
         const ProfileMenu = (
-            <div className={classes.lang_container}>
-                <IconButton
-                    className={classes.profileButton}
-                    color="inherit"
-                    aria-label="Open drawer"
-                    onClick={this.handleProfilePopper}>
-                    <SVG className="userIcon" />
-                </IconButton>
-                <Popper open={showProfilePopper}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
+           // <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
+                <div className={classes.profile_container}>
+                    <IconButton
+                        className={classes.profileButton}
+                        color="inherit"
+                        aria-label="Open drawer"
+                        onClick={this.handleProfilePopper}
+                        onMouseEnter={this.handleUserProfileOnEnter}
+                        onMouseLeave={this.handleUserProfileLeave}
+                    >
+                        <SVG className="profileIcon" />
+                    </IconButton>
+
+                    <Popper open={showProfilePopper}
+                        anchorEl={anchorEl}
+                        className={classes.profilePopper}
+                        placement="top-start"
+                        transition
+                    >
+                        {({ TransitionProps }) => (
+                            <Fade {...TransitionProps} timeout={350}>
+                                <Paper className={classes.accountMenuPaper}>
                                     {currentMenu}
-                                </ClickAwayListener>
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-            </div>
+                                </Paper>
+                            </Fade>
+                        )}
+                    </Popper>
+                </div>
+      //      </ClickAwayListener>
         );
 
         const LangMenu = (
@@ -891,64 +937,6 @@ export class TopNavbar extends React.Component {
                             </Paper>
                         </Fade>
                     )}
-                </Popper>
-
-
-                <Popper
-                    open={this.props.showSignup} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup />
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupEmail} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Email />
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupDetail} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Detail />
-                </Popper>
-
-
-                <Popper
-                    open={this.props.showSignupContact} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Contact /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupPhone} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Phone /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showCompleteRegistration} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Complete_Registration /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showPhoneVerification} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Phone_Verification /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showOneclickFinish} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <One_Click_Finish /> 
                 </Popper>
 
             </div>
@@ -1047,8 +1035,9 @@ export class TopNavbar extends React.Component {
                                                 currency={this.state.balanceCurrency}
                                             />
                                         </Button>
+                                        <div className={classes.separator} />
                                         {ProfileMenu}
-                                        {LangMenu}
+                                        {/* {LangMenu} */}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
@@ -1093,7 +1082,7 @@ export class TopNavbar extends React.Component {
                                         </FormattedMessage> */}
                                         <Button
                                             variant="outlined"
-                                           className={classes.loginButton}
+                                            className={classes.loginButton}
                                             onClick={
                                                 this.handleLoginMenuOpen
                                             }
@@ -1106,24 +1095,23 @@ export class TopNavbar extends React.Component {
                                             className={classes.langPopper}
                                             open={this.props.showLogin}
                                             anchorEl={this.state.anchorElLogin}
-                                            // anchorOrigin={{
-                                            //     vertical: 'bottom',
-                                            //     horizontal: 'left',
-                                            // }}
-                                            // transformOrigin={{
-                                            //     vertical: 'top',
-                                            //     horizontal: 'center',
-                                            // }}
+                                        // anchorOrigin={{
+                                        //     vertical: 'bottom',
+                                        //     horizontal: 'left',
+                                        // }}
+                                        // transformOrigin={{
+                                        //     vertical: 'top',
+                                        //     horizontal: 'center',
+                                        // }}
                                         >
                                             <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
-                                                <div className='login-window'>
-                                                    <Login />
-                                                </div>
+                                                <Login />
                                             </ClickAwayListener>
                                         </Popper>
-                                        
 
-                                        {LangMenu}
+
+
+                                        {/* {LangMenu} */}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
@@ -1154,19 +1142,11 @@ export class TopNavbar extends React.Component {
                                     {({ TransitionProps }) => (
                                         <Fade {...TransitionProps} timeout={350}>
                                             <Paper>
-                                                <AccountMenu />
+                                                <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>
                                             </Paper>
                                         </Fade>
                                     )}
                                 </Popper>
-                                {/* <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                    <div
-                                        tabIndex={0}
-                                        role="button"
-                                    >
-                                        <AccountMenu />
-                                    </div>
-                                </Drawer> */}
                             </div>
                         </Toolbar>
                     </AppBar>
@@ -1176,7 +1156,8 @@ export class TopNavbar extends React.Component {
                         <Toolbar variant="dense" className={classes.appBar}>
                             <div className={classes.mainMenu}>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
+                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/sports_type") }}>
                                         <SoccerIcon className="soccer" />
                                         <span className="Sports">
                                             <FormattedMessage id="nav.sports" defaultMessage='Sports' />
@@ -1184,7 +1165,8 @@ export class TopNavbar extends React.Component {
                                     </Button>
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
+                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/live_casino_type") }}>
                                         <BetIcon className="bet" />
                                         <span className="Live-Casino">
                                             <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
@@ -1192,7 +1174,8 @@ export class TopNavbar extends React.Component {
                                     </Button>
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
+                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/slot_type") }}>
                                         <SlotsIcon className="games-icon" />
                                         <span className="Slots">
                                             <FormattedMessage id="nav.slots" defaultMessage='Slots' />
@@ -1200,7 +1183,8 @@ export class TopNavbar extends React.Component {
                                     </Button>
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
+                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/lottery_type") }}>
                                         <LotteryIcon className="lottery" />
                                         <span className="Lottery">
                                             <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
@@ -1228,6 +1212,100 @@ export class TopNavbar extends React.Component {
                     </AppBar>
                 </MuiThemeProvider>
                 <div className='overlay' style={searchBackgroundStyle}></div>
+
+                <Popper
+                    open={this.props.showSignup} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup />
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupEmail} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Email />
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupDetail} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Detail />
+                </Popper>
+
+
+                <Popper
+                    open={this.props.showSignupContact} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Contact /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupPhone} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Phone /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showCompleteRegistration} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Complete_Registration /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showPhoneVerification} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Phone_Verification /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showOneclickFinish} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <One_Click_Finish /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupFinish} 
+                    style={{position: 'absolute', top: this.state.height > 640 ? (this.state.height - 640) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Register_Finish /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showChangePassword} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Change_Password /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showUserProfile} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <ClickAwayListener onClickAway={() => {this.props.hide_user_profile();}}>
+                            <New_Profile /> 
+                        </ClickAwayListener>
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showUpdateProfile} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <ClickAwayListener onClickAway={() => {this.props.hide_update_profile();}}>  
+                            <New_Update_Profile /> 
+                        </ClickAwayListener>
+                    </Paper>
+                </Popper>
+                
             </div >
         );
     }
@@ -1236,18 +1314,22 @@ export class TopNavbar extends React.Component {
 const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated: (token !== null && token !== undefined),
-        error: state.auth.error,
-        lang: state.language.lang,
-        showLogin: state.general.show_login,
-        showSignup: state.general.show_signup,
-        showSignupEmail: state.general.show_signup_email,
-        showSignupDetail: state.general.show_signup_detail,
-        showSignupContact: state.general.show_signup_contact,
-        showSignupPhone: state.general.show_signup_phone,
-        showCompleteRegistration: state.general.show_complete_registration,
-        showPhoneVerification: state.general.show_phone_verification,
-        showOneclickFinish: state.general.show_oneclick_finish
+        isAuthenticated:           (token !== null && token !== undefined),
+        error:                     state.auth.error,
+        lang:                      state.language.lang,
+        showLogin:                 state.general.show_login,
+        showSignup:                state.general.show_signup,
+        showSignupEmail:           state.general.show_signup_email,
+        showSignupDetail:          state.general.show_signup_detail,
+        showSignupContact:         state.general.show_signup_contact,
+        showSignupPhone:           state.general.show_signup_phone,
+        showCompleteRegistration:  state.general.show_complete_registration,
+        showPhoneVerification:     state.general.show_phone_verification,
+        showOneclickFinish:        state.general.show_oneclick_finish,
+        showSignupFinish:          state.general.show_signup_finish,
+        showChangePassword:        state.general.show_change_password,
+        showUserProfile:           state.general.show_user_profile,
+        showUpdateProfile:         state.general.show_update_profile
     }
 }
 
@@ -1256,4 +1338,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile })(TopNavbar))));

@@ -26,10 +26,10 @@ export const messages = {
         'footer.investory_relations': 'Investor Relations',
         'footer.visit_gambler_anonymous': ' Visit Gamblers Anonymous',
         'footer.visit_gamcare_newsroom': 'Visit GamCare Newsroom',
-        'footer.contact_support_title':'Contact Support',
-        'footer.contact_support_text':'Our friendly customer service team is on hand to answer any questions you may have 24 hours a day, 7 days a week.',
-        'footer.contact_support_email':'Contact us today at',
-        
+        'footer.contact_support_title': 'Contact Support',
+        'footer.contact_support_text': 'Our friendly customer service team is on hand to answer any questions you may have 24 hours a day, 7 days a week.',
+        'footer.contact_support_email': 'Contact us today at',
+
         // handle home page message
         'home.title': 'Claymore',
         'home.subtitle': 'Local Library Home',
@@ -146,15 +146,15 @@ export const messages = {
         // handle profile page message
         'profile.username': 'Username: ',
         'profile.email': 'Email: ',
-        'profile.firstName': 'First Name: ',
-        'profile.lastName': 'Last Name: ',
+        'profile.firstName': 'First Name ',
+        'profile.lastName': 'Last Name ',
         'profile.phone': 'Phone: ',
         'profile.dob': 'Date of Birth: ',
         'profile.street1': 'Street Address 1: ',
         'profile.street2': 'Street Address 2: ',
-        'profile.country': 'Country: ',
+        'profile.country': 'Country ',
         'profile.city': 'City: ',
-        'profile.zipcode': 'Zipcode: ',
+        'profile.zipcode': 'Zipcode ',
         'profile.state': 'State: ',
         'profile.update': 'Update',
         'profile.back': 'Back',
@@ -241,6 +241,41 @@ export const messages = {
         'signup.phone.message2.5': 'the Privacy and Cookie Policy',
         'signup.phone.message3': 'Getting exclusive offers and promotions from ibet',
         'signup.phone.over18': 'You have to confirm you are over 18',
+        'signup.openaccount': 'OPEN ACCOUNT',
+        'signup.register': 'REGISTER',
+        'signup.onclickregister': 'REGISTER WITH ONE CLICK',
+        'signup.preferredlanguage': 'Preferred Language',
+        'signup.continue': 'CONTINUE',
+        'signup.confirm': 'CONFIRM',
+        'signup.completeregister': 'Complete Registration.',
+        'signup.realperson': "We need to know you're a real person.",
+        'signup.confirmphone': 'Please confirm either your phone number or your email to complete your registration.',
+        'signp.agree': 'I agree to: ',
+        'signup.confirmviaphone': 'CONFIRM VIA PHONE',
+        'signup.thankyou': 'Thank you',
+        'signup.emailconfirm': 'Your email is confirmed',
+        'signup.loginandcontinue': 'You can now log in and continue',
+        'signup.settingup': 'setting up your account',
+        'signup.login': 'LOGIN',
+        'signup.signupphoneerror1': "Sorry, that’s not the code we’re looking for.",
+        'signup.signupphoneerror2': "Please check and try again.",
+        'signup.oneclickregister': 'ONE-CLICK-REGISTRATION',
+        'signup.oneclickregister.acountcreated': 'Account Created',
+        'signup.oneclickregister.save': 'Save these details and use them to resume play.',
+        'signup.oneclickregister.username': 'USERNAME',
+        'signup.oneclickregister.password': 'PASSWORD',
+
+        // handle new profile
+        'new_profile.profile': 'Profile',
+        'new_profile.email': 'Email Details',
+        'new_profile.mobile': 'Mobile Details',
+        'new_profile.edit': 'Edit',
+
+        // handle new update profile
+        'new_update_profile.title': 'Edit Profile',
+        'new_update_profile.save': 'Save',
+
+
 
         // handle update_profile page message
         'update_profile.username': 'Username: ',
@@ -319,7 +354,11 @@ export const messages = {
         'error.state': 'State not valid',
         'error.zipcode': 'Zipcode not valid',
         'error.passwordnotmatch': 'Two password you entered do not match',
-        'error.address': 'Address not valid'
+        'error.address': 'Address not valid',
+
+        'changepassword': 'Change Password',
+        'changepassword2': 'CHANGE PASSWORD',
+
     },
     zh: {
         // handle account menu message
@@ -349,9 +388,9 @@ export const messages = {
         'footer.investory_relations': '投资者关系',
         'footer.visit_gambler_anonymous': '访问Gamblers Anonymous',
         'footer.visit_gamcare_newsroom': '访问GamCare新闻室',
-        'footer.contact_support_title':'联系支持',
-        'footer.contact_support_text':'我们友好的客户服务团队随时为您解答一周7天，每天24小时的任何问题。',
-        'footer.contact_support_email':'立即联系我们',
+        'footer.contact_support_title': '联系支持',
+        'footer.contact_support_text': '我们友好的客户服务团队随时为您解答一周7天，每天24小时的任何问题。',
+        'footer.contact_support_email': '立即联系我们',
 
         // handle home page message
         'home.title': '克萊摩爾',
@@ -563,6 +602,39 @@ export const messages = {
         'signup.phone.message2.5': '根据隐私和Cookie政策',
         'signup.phone.message3': '获得ibet的独家优惠和促销活动',
         'signup.phone.over18': '您必须确认您已经超过18周岁',
+        'signup.openaccount': '开户',
+        'signup.register': '注册',
+        'signup.onclickregister': '一键注册',
+        'signup.preferredlanguage': '语言偏好',
+        'signup.continue': '继续',
+        'signup.confirm': '确认',
+        'signup.completeregister': '完成注册.',
+        'signup.realperson': "我们需要知道您是个真实的人.",
+        'signup.confirmphone': '请确认你的手机或邮箱来完成你的注册',
+        'signp.agree': '我同意: ',
+        'signup.confirmviaphone': '通过手机确认',
+        'signup.thankyou': '谢谢',
+        'signup.emailconfirm': '您的邮箱已确认',
+        'signup.loginandcontinue': '您可以登录并继续',
+        'signup.settingup': '设置您的账户',
+        'signup.login': '登录',
+        'signup.signupphoneerror1': "抱歉，验证码不正确.",
+        'signup.signupphoneerror2': "请验证并重试.",
+        'signup.oneclickregister': '一键注册',
+        'signup.oneclickregister.acountcreated': '账户已创建',
+        'signup.oneclickregister.save': '保存这些改变用他们来继续玩',
+        'signup.oneclickregister.username': '用户名',
+        'signup.oneclickregister.password': '密码',
+
+        // handle new profile
+        'new_profile.profile': '账户',
+        'new_profile.email': '邮件详情',
+        'new_profile.mobile': '手机详情',
+        'new_profile.edit': '更改',
+
+        // handle new update profile
+        'new_update_profile.title': '更改信息',
+        'new_update_profile.save': '保存',
 
         // handle update_profile page message
         'update_profile.username': '用戶名: ',
@@ -642,7 +714,10 @@ export const messages = {
         'error.state': '省市错误',
         'error.zipcode': '邮编错误',
         'error.passwordnotmatch': '两次输入的密码不一致',
-        'error.address': '地址错误'
+        'error.address': '地址错误',
+
+        'changepassword': '更改密码',
+        'changepassword2': '更改密码',
     },
     fr: {
         // handle account menu message
@@ -677,18 +752,39 @@ export const messages = {
         'accountmenu.settings': 'Settings',
         'accountmenu.help': 'Help',
         'accountmenu.responsible-gambling': 'Responsible Gambling',
+        'accountmenu.responsible-gaming': 'Responsible Gaming',
+        'accountmenu.my-account': 'My Account',
         'accountmenu.logout': 'Logout',
+        'accountmenu.refer-friend': 'Refer Friend',
+        'accountmenu.edit-profile': 'Edit Profile',
         'accountmenu.change-password': 'Change Password >',
         'accountmenu.open-bets': 'Open Bets',
 
         'open-bets.my-bets': 'My Bets',
         'open-bets.open-bets': 'Open Bets',
 
-        'settled-bets.open':'Open',
-        'settled-bets.cash-out':'Cash Out',
-        'settled-bets.settled':'Settled',
+        'settled-bets.open': 'Open',
+        'my-bets.cash-out': 'Cash Out',
+        'settled-bets.settled': 'Settled',
+        'help.contact-us': 'Contact Us',
+        'help.call-us': 'Call Us',
+        'help.email-us': 'Email Us',
+        'responsible-gaming.useful-tips': 'Useful Tips',
+        'responsible-gaming.gaming-list': 'Gaming List',
+        'responsible-gaming.self-exclusion': 'Self Exclusion',
+        'responsible-gaming.time-out': 'Time-Out',
+        'responsible-gaming.reality-check': 'Reality Check',
+        'settings.offer-via-email': 'Offer and news through e-mail',
+        'settings.offer-via-sms': 'Offer and news through SMS',
+        'settings.offer-via-post': 'Offer and news by post',
+        'settings.offer-via-phone': 'Offer and news through phone',
+        'settings.email-notifications': 'Email notifications about approved withdraws',
+        'settings.odds.display': 'Odds display',
+        'settings.marketing-preferences': 'Marketing Preferences',
 
-        
+        'promotions.get-started': 'Get Started',
+        'promotions.read-more': 'Read more',
+
         // footer message
         'footer.terms_conditions': 'Termes et conditions',
         'footer.cookie_policy': 'Politique de cookie',
@@ -697,9 +793,9 @@ export const messages = {
         'footer.investory_relations': 'Relations avec les investisseurs',
         'footer.visit_gambler_anonymous': 'Visitez les joueurs anonymes',
         'footer.visit_gamcare_newsroom': 'Visitez la salle de presse GamCare',
-        'footer.contact_support_title':'Contactez le support',
-        'footer.contact_support_text':'Notre sympathique équipe du service clientèle est à votre disposition pour répondre à toutes vos questions 24 heures sur 24, 7 jours sur 7.',
-        'footer.contact_support_email':'Contactez-nous aujourd\'hui',
+        'footer.contact_support_title': 'Contactez le support',
+        'footer.contact_support_text': 'Notre sympathique équipe du service clientèle est à votre disposition pour répondre à toutes vos questions 24 heures sur 24, 7 jours sur 7.',
+        'footer.contact_support_email': 'Contactez-nous aujourd\'hui',
 
         // handle home page message
         'home.title': 'Claymore',
@@ -910,6 +1006,39 @@ export const messages = {
         'signup.phone.message2.5': 'la politique de confidentialité et de cookie',
         'signup.phone.message3': 'Obtenir des offres et promotions exclusives ibet',
         'signup.phone.over18': 'Vous devez confirmer que vous avez plus de 18 ans',
+        'signup.openaccount': 'COMPTE OUVERT',
+        'signup.register': 'REGISTRE',
+        'signup.onclickregister': 'INSCRIVEZ-VOUS EN UN CLIC',
+        'signup.preferredlanguage': 'langue préférée',
+        'signup.continue': 'CONTINUER',
+        'signup.confirm': 'CONFIRMER',
+        'signup.completeregister': 'Enregistrement complet.',
+        'signup.realperson': "Nous devons savoir que vous êtes une personne réelle.",
+        'signup.confirmphone': 'Veuillez confirmer votre numéro de téléphone ou votre adresse électronique pour compléter votre inscription.',
+        'signp.agree': "Je suis d'accord pour: ",
+        'signup.confirmviaphone': 'CONFIRMEZ PAR TÉLÉPHONE',
+        'signup.thankyou': 'Je vous remercie',
+        'signup.emailconfirm': 'Votre email est confirmé',
+        'signup.loginandcontinue': 'Vous pouvez maintenant vous connecter et continuer',
+        'signup.settingup': 'configurer votre compte',
+        'signup.login': "S'IDENTIFIER",
+        'signup.signupphoneerror1': "Désolé, ce n’est pas le code que nous recherchons.",
+        'signup.signupphoneerror2': "S'il vous plaît, vérifiez et essayez à nouveau.",
+        'signup.oneclickregister': 'ENREGISTREMENT EN UN CLIC',
+        'signup.oneclickregister.acountcreated': 'Compte créé',
+        'signup.oneclickregister.save': 'Enregistrez ces détails et utilisez-les pour reprendre la lecture.',
+        'signup.oneclickregister.username': "NOM D'UTILISATEUR",
+        'signup.oneclickregister.password': "MOT DE PASSE",
+
+        // handle new profile
+        'new_profile.profile': 'Profil',
+        'new_profile.email': "Détails de l'e-mail",
+        'new_profile.mobile': 'Détails mobiles',
+        'new_profile.edit': 'modifier',
+
+        // handle new update profile
+        'new_update_profile.title': 'Editer le profil',
+        'new_update_profile.save': 'sauvegarder',
         
 
         // handle update_profile page message
@@ -991,7 +1120,10 @@ export const messages = {
         'error.state': 'Etat non valide',
         'error.zipcode': 'Code postal non valide',
         'error.passwordnotmatch': 'Deux mot de passe que vous avez entré ne correspondent pas',
-        'error.address': 'Adresse non valide'
+        'error.address': 'Adresse non valide',
+
+        'changepassword': 'Changer le mot de passe',
+        'changepassword2': 'CHANGER LE MOT DE PASSE',
     }
 }
 

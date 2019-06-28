@@ -252,3 +252,51 @@ export const handle_signup_language = (language) => {
     payload: language
   }
 }
+
+export const show_signup_finish = () => {
+  return {
+    type: 'SHOW_SIGNUP_FINISH'
+  }
+}
+
+export const hide_signup_finish = () => {
+  return {
+    type: 'HIDE_SIGNUP_FINISH'
+  }
+}
+
+export const show_change_password = () => {
+  return {
+    type: 'SHOW_CHANGE_PASSWORD'
+  }
+}
+
+export const hide_change_password = () => {
+  return {
+    type: 'HIDE_CHANGE_PASSWORD'
+  }
+}
+
+export const show_user_profile = () => {
+  return {
+    type: 'SHOW_USER_PROFILE'
+  }
+}
+
+export const hide_user_profile = () => {
+  return {
+    type: 'HIDE_USER_PROFILE'
+  }
+}
+
+export const show_update_profile = () => {
+  return {
+    type: 'SHOW_UPDATE_PROFILE'
+  }
+}
+
+export const hide_update_profile = () => {
+  return {
+    type: 'HIDE_UPDATE_PROFILE'
+  }
+}

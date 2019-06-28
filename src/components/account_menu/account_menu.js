@@ -4,13 +4,6 @@ import PersonAdd from '@material-ui/icons/PersonAdd';
 import Person from '@material-ui/icons/Person';
 import Input from '@material-ui/icons/Input';
 import Language from '@material-ui/icons/Language';
-import Settings from '@material-ui/icons/Settings';
-import PersonOutline from '@material-ui/icons/PersonOutline';
-import BarChart from '@material-ui/icons/BarChart';
-import CardGiftcard from '@material-ui/icons/CardGiftcard';
-import Message from '@material-ui/icons/Message';
-import TouchApp from '@material-ui/icons/TouchApp';
-import AttachMoney from '@material-ui/icons/AttachMoney';
 
 import PeopleOutline from '@material-ui/icons/PeopleOutline';
 import DirectionsRun from '@material-ui/icons/DirectionsRun';
@@ -18,20 +11,16 @@ import DirectionsRun from '@material-ui/icons/DirectionsRun';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, postLogout } from '../../actions';
+import { logout, handle_search, setLanguage, postLogout, show_change_password, show_user_profile } from '../../actions';
 
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
 import Grid from '@material-ui/core/Grid';
 
-import { ReactComponent as CloseIcon } from '../../assets/img/svg/profile_close.svg';
-// import { ReactComponent as HelpIcon } from '../../assets/img/svg/help.svg';
 import { ReactComponent as LockIcon } from '../../assets/img/svg/lock.svg';
-
 import { ReactComponent as DepositIcon } from '../../assets/img/svg/account-menu-deposit.svg';
 import { ReactComponent as WithdrawIcon } from '../../assets/img/svg/account-menu-withdraw.svg';
 import { ReactComponent as OpenBetsIcon } from '../../assets/img/svg/account-menu-open-bets.svg';
@@ -41,21 +30,23 @@ import { ReactComponent as SettingsIcon } from '../../assets/img/svg/account-men
 import { ReactComponent as HelpIcon } from '../../assets/img/svg/account-menu-help.svg';
 import { ReactComponent as ResponsibleIcon } from '../../assets/img/svg/account-menu-responsible.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/img/svg/account-menu-logout.svg';
+import { ReactComponent as UserIcon } from '../../assets/img/svg/user.svg';
+import { ReactComponent as CheckIcon } from '../../assets/img/svg/account-menu-check.svg';
+import { ReactComponent as OvalIcon } from '../../assets/img/svg/oval-info.svg';
+import { ReactComponent as UserPlusIcon } from '../../assets/img/svg/user-plus.svg';
+import { ReactComponent as CloseIcon } from '../../assets/img/svg/red-close.svg';
 
 
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import Flag from 'react-flagkit';
 import Paper from '@material-ui/core/Paper';
 
 
 import '../../css/account_menu.scss';
+import { isNullOrUndefined } from 'util';
 
 
 const styles = theme => ({
@@ -101,7 +92,7 @@ const styles = theme => ({
         paddingTop: 10,
         paddingLeft: 10,
         paddingRight: 10,
-
+        backgroundImage: 'linear-gradient(#dddddd, #ffffff)'
     },
     secondRow: {
         paddingLeft: 10,
@@ -307,6 +298,10 @@ const styles = theme => ({
     menuIcon: {
         width: '100%',
     },
+    editProfileIcon: {
+        width: '100%',
+        height: 20,
+    },
     responsibleButton: {
         height: '100%',
         width: '100%',
@@ -373,6 +368,18 @@ const styles = theme => ({
         width: 20,
         height: 11.7,
     },
+    infoIcon:{
+        display: 'inline',
+        marginLeft: 5,
+        marginBottom:-3,
+    },
+    closeButton: {
+        width: 32,
+        height: 32,
+        minWidth: 32,
+        marginTop: 6,
+        marginBottom: 6,
+    },
     oval: {
         marginLeft: 8,
         width: 20,
@@ -387,7 +394,29 @@ const styles = theme => ({
     chart: {
         marginTop: 10,
         marginBottom: 10
-    }
+    },
+    titleRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        height: 44,
+        width: '100%',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    myAccountText:{
+        color: '#04599a',
+        fontSize: 15.8,
+        textTransform: 'capitalize',
+        fontWeight: 300,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.6,
+        color: '#212121',
+        marginTop: 12,
+        marginLeft: 5,
+    },
 });
 
 export class AccountMenu extends React.Component {
@@ -454,6 +483,10 @@ export class AccountMenu extends React.Component {
         }
     }
 
+    closeClicked = (event) => {
+        this.props.onCloseItemClicked();
+    }
+
     toggleLanguageListItem = () => {
         this.setState(state => ({ showLangListItems: !state.showLangListItems }));
     };
@@ -469,7 +502,7 @@ export class AccountMenu extends React.Component {
         this.props.onMenuItemClicked('withdraw');
     }
 
-    openBetsClicked = event => {
+    openBetsClicked = (ev) => {
         this.props.onMenuItemClicked('open-bets');
     }
 
@@ -551,7 +584,15 @@ export class AccountMenu extends React.Component {
             <div className={classes.root}>
                 <div className={classes.sectionDesktop}>
                     <Grid container className={classes.root} spacing={0}>
-                        <Grid item xs={12} className={classes.firstRow}>
+                    <Grid item xs={12} className={classes.titleRow}>
+                        <Button onClick={this.closeClicked} className={classes.closeButton}>
+                            <CloseIcon />
+                        </Button>
+                        <div className={classes.myAccountText}>
+                                <FormattedMessage id="accountmenu.my-account" defaultMessage="My Account" />
+                            </div>
+                    </Grid>
+                    <Grid item xs={12} className={classes.firstRow}>
                             <div className={classes.hi}>
                                 <FormattedMessage id="accountmenu.hi" defaultMessage="Hi" />
                             </div>
@@ -587,9 +628,7 @@ export class AccountMenu extends React.Component {
                             <div className={classes.bonusLabel}>
                                 <FormattedMessage id="accountmenu.next-bet-split" defaultMessage="Next Bet Split:" />
                             </div>
-                            <div className={classes.oval}>
-                                <HelpIcon className={classes.help} />
-                            </div>
+                            <OvalIcon className={classes.infoIcon}/>
                             <span className={classes.cashBetValue}>$0.00</span>
                         </Grid>
                         <Grid item xs={12} className={classes.secondRow}>
@@ -604,6 +643,8 @@ export class AccountMenu extends React.Component {
                                 </div>
                                 <span className={classes.feeBetValue}> - </span>
                                 <span className={classes.feeBetValue}>$0.00</span>
+                                <OvalIcon className={classes.infoIcon}/>
+
                                 <Grid container className={classes.root} spacing={0}>
                                     <Grid item xs={3}>
                                         <span className={classes.achievedStart}>$0.00</span>
@@ -621,7 +662,7 @@ export class AccountMenu extends React.Component {
                                     <LockIcon className={classes.lock} />
                                     <input className={classes.achievedProgressBar}>
                                     </input>
-                                    <LockIcon className={classes.lock} />
+                                    <CheckIcon className={classes.lock} />
                                 </div>
                             </Paper>
                         </Grid>
@@ -686,11 +727,37 @@ export class AccountMenu extends React.Component {
                             <Button className={classes.responsibleButton} onClick={this.responsibleGamblingClicked}>
                                 <div className={classes.blockButtonLabel}>
                                     <ResponsibleIcon className={classes.menuIcon} />
-                                    <FormattedMessage id="accountmenu.responsible-gambling" defaultMessage="Responsible Gambling" />
+                                    <FormattedMessage id="accountmenu.responsible-gaming" defaultMessage="Responsible Gaming" />
                                 </div>
                             </Button>
                         </Grid>
-                        <Grid item xs={12} className={classes.mergedGridButton}>
+                        <Grid item xs={1} className={classes.mergedGridButton}>
+                        </Grid>
+                        <Grid item xs={3} className={classes.mergedGridButton}>
+                            <Button className={classes.logoutButton}
+                                onClick={() => {
+                                    this.props.onCloseItemClicked();
+                                    this.props.show_user_profile()
+                                }}
+                                //href="/update_profile/"
+                            >
+                                <div className={classes.blockButtonLabel}>
+                                    <UserIcon className={classes.editProfileIcon} />
+                                    <FormattedMessage id="accountmenu.edit-profile" defaultMessage="Edit Profile" />
+                                </div>
+                            </Button>
+                        </Grid>
+                        <Grid item xs={4} className={classes.mergedGridButton}>
+                            <Button className={classes.logoutButton}
+                                href="/referral/">
+                                <div className={classes.blockButtonLabel}>
+                                    <UserPlusIcon className={classes.editProfileIcon} />
+
+                                    <FormattedMessage id="accountmenu.refer-friend" defaultMessage="Refer Friend" />
+                                </div>
+                            </Button>
+                        </Grid>
+                        <Grid item xs={3} className={classes.mergedGridButton}>
                             <Button className={classes.logoutButton}
                                 onClick={() => {
                                     this.props.logout()
@@ -703,8 +770,15 @@ export class AccountMenu extends React.Component {
                                 </div>
                             </Button>
                         </Grid>
+                        <Grid item xs={1} className={classes.mergedGridButton}>
+                        </Grid>
                         <Grid item xs={12} className={classes.mergedGridButton}>
-                            <Button className={classes.changePasswordButton}>
+                            <Button 
+                                onClick={() => {
+                                    this.props.onCloseItemClicked();
+                                    this.props.show_change_password();
+                               }} 
+                                className={classes.changePasswordButton}>
                                 <FormattedMessage id="accountmenu.change-password" defaultMessage="Change Password ›" />
                             </Button>
                         </Grid>
@@ -819,4 +893,4 @@ AccountMenu.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage })(AccountMenu))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_change_password, show_user_profile })(AccountMenu))));
