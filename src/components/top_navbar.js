@@ -67,6 +67,10 @@ import Register_Finish from './register_finish';
 import Change_Password from './change_password_new';
 import New_Profile from './new_profile';
 import New_Update_Profile from './new_update_profile';
+import New_Deposit from './new_deposit';
+import New_Deposit_Wechat from './new_deposit_amount_wechat';
+import New_Deposit_paypal from './new_deposite_amount_paypal';
+import New_Withdraw from './new_withdraw';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -734,7 +738,6 @@ export class TopNavbar extends React.Component {
     }
 
     async componentDidMount() {
-        console.log(this.props.isAuthenticated)
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;
@@ -1091,23 +1094,7 @@ export class TopNavbar extends React.Component {
                                         </Button>
                                         {/* {LangMenu}
                                       */}
-                                        <Popper
-                                            className={classes.langPopper}
-                                            open={this.props.showLogin}
-                                            anchorEl={this.state.anchorElLogin}
-                                        // anchorOrigin={{
-                                        //     vertical: 'bottom',
-                                        //     horizontal: 'left',
-                                        // }}
-                                        // transformOrigin={{
-                                        //     vertical: 'top',
-                                        //     horizontal: 'center',
-                                        // }}
-                                        >
-                                            <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
-                                                <Login />
-                                            </ClickAwayListener>
-                                        </Popper>
+                                        
 
 
 
@@ -1214,6 +1201,24 @@ export class TopNavbar extends React.Component {
                 <div className='overlay' style={searchBackgroundStyle}></div>
 
                 <Popper
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                    open={this.props.showLogin}
+                    // anchorEl={this.state.anchorElLogin}
+                    // anchorOrigin={{
+                    //     vertical: 'bottom',
+                    //     horizontal: 'left',
+                    // }}
+                    // transformOrigin={{
+                    //     vertical: 'top',
+                    //     horizontal: 'center',
+                    // }}
+                >
+                    <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
+                        <Login />
+                    </ClickAwayListener>
+                </Popper>
+
+                <Popper
                     open={this.props.showSignup} 
                     style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
                 >
@@ -1289,9 +1294,7 @@ export class TopNavbar extends React.Component {
                     style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
                 >
                     <Paper>
-                        <ClickAwayListener onClickAway={() => {this.props.hide_user_profile();}}>
-                            <New_Profile /> 
-                        </ClickAwayListener>
+                        <New_Profile /> 
                     </Paper>
                 </Popper>
 
@@ -1300,12 +1303,46 @@ export class TopNavbar extends React.Component {
                     style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
                 >
                     <Paper>
-                        <ClickAwayListener onClickAway={() => {this.props.hide_update_profile();}}>  
-                            <New_Update_Profile /> 
-                        </ClickAwayListener>
+                        <New_Update_Profile /> 
                     </Paper>
                 </Popper>
-                
+
+                <Popper
+                    open={this.props.showDeposit} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Deposit /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showDepositAmount} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Deposit_Wechat /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showDepositPaypal} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Deposit_paypal /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showWithdraw} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Withdraw /> 
+                    </Paper>
+                </Popper>
+
             </div >
         );
     }
@@ -1329,7 +1366,11 @@ const mapStateToProps = (state) => {
         showSignupFinish:          state.general.show_signup_finish,
         showChangePassword:        state.general.show_change_password,
         showUserProfile:           state.general.show_user_profile,
-        showUpdateProfile:         state.general.show_update_profile
+        showUpdateProfile:         state.general.show_update_profile,
+        showDeposit:               state.general.show_deposit,
+        showDepositAmount:         state.general.show_deposit_amount,
+        showDepositPaypal:         state.general.show_deposit_paypal,
+        showWithdraw:              state.general.show_withdraw
     }
 }
 

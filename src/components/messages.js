@@ -264,6 +264,7 @@ export const messages = {
         'signup.oneclickregister.save': 'Save these details and use them to resume play.',
         'signup.oneclickregister.username': 'USERNAME',
         'signup.oneclickregister.password': 'PASSWORD',
+        'signup.phone.resendsms': 'RESEND SMS',
 
         // handle new profile
         'new_profile.profile': 'Profile',
@@ -625,6 +626,7 @@ export const messages = {
         'signup.oneclickregister.save': '保存这些改变用他们来继续玩',
         'signup.oneclickregister.username': '用户名',
         'signup.oneclickregister.password': '密码',
+        'signup.phone.resendsms': '重发短信',
 
         // handle new profile
         'new_profile.profile': '账户',
@@ -1029,6 +1031,7 @@ export const messages = {
         'signup.oneclickregister.save': 'Enregistrez ces détails et utilisez-les pour reprendre la lecture.',
         'signup.oneclickregister.username': "NOM D'UTILISATEUR",
         'signup.oneclickregister.password': "MOT DE PASSE",
+        'signup.phone.resendsms': 'RESEND SMS',
 
         // handle new profile
         'new_profile.profile': 'Profil',

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="177" viewBox="0 0 360 177">
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(6.2 148.112)">
+            <text fill="#747175" font-family="Gilroy-Regular, Gilroy" font-size="14">
+                <tspan x="40.8" y="11.536">Getting exclusive offers and promotions from ibet</tspan>
+            </text>
+            <rect width="25.056" height="25.056" x=".672" y="2.872" stroke="#E4E4E4" stroke-width="1.344" rx="2.688"/>
+        </g>
+        <g transform="translate(6.2 86.912)">
+            <text font-family="Gilroy-Regular, Gilroy" font-size="14">
+                <tspan x="40.8" y="11.536" fill="#747175">Having my personal data handled according to </tspan> <tspan x="40.8" y="37.536" fill="#747175">the </tspan> <tspan x="65.538" y="37.536" fill="#212121" text-decoration="underline">Privacy and Cookie Policy</tspan>
+            </text>
+            <rect width="25.056" height="25.056" x=".672" y="2.872" stroke="#E4E4E4" stroke-width="1.344" rx="2.688"/>
+        </g>
+        <g transform="translate(6.2 42.8)">
+            <text font-family="Gilroy-Regular, Gilroy" font-size="14">
+                <tspan x="40.8" y="11.536" fill="#747175">The </tspan> <tspan x="67.848" y="11.536" fill="#212121" text-decoration="underline">Terms &amp; Conditions</tspan> <tspan x="190.376" y="11.536" fill="#747175"> &amp; confirm that I am 18+</tspan>
+            </text>
+            <rect width="25.056" height="25.056" x=".672" y="1.672" stroke="#E4E4E4" stroke-width="1.344" rx="2.688"/>
+        </g>
+        <text fill="#747175" font-family="Gilroy-Regular, Gilroy" font-size="19.2" transform="translate(-1 -9)">
+            <tspan x="0" y="15">I agree to:</tspan>
+        </text>
+    </g>
+</svg>
