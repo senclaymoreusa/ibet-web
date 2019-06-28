@@ -625,7 +625,7 @@ export class TopNavbar extends React.Component {
     };
 
     handleSignupMenuOpen = event => {
-        this.setState({ anchorEl2: event.currentTarget });
+        //this.setState({ anchorEl2: event.currentTarget });
         this.setState({ username: '', password: '' })
 
         this.props.show_signup()
