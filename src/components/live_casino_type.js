@@ -113,22 +113,6 @@ class LiveCasino_Type extends Component {
 
     }
 
-    async componentDidMount() {
-
-        this.props.authCheckState()
-
-        // var URL = API_URL + 'users/api/live_casino/?term=LiveCasino';
-
-        // await axios.get(URL, config)
-        // .then(res => {
-
-        //     this.setState({ live_casino: res.data.slice(0, 8) });
-        //     this.setState({ all_live_casino: res.data})
-        // })
-
-        this.setState({ ready: true })
-    }
-
     type_change(text) {
         this.props.slot_type(text);
     }
@@ -153,8 +137,8 @@ class LiveCasino_Type extends Component {
 
     async componentDidMount() {
 
+        this.props.authCheckState()
     }
-
 
     render() {
 
@@ -246,4 +230,13 @@ class LiveCasino_Type extends Component {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(null, { live_casino_type, authCheckState })(LiveCasino_Type)));
+const mapStateToProps = (state) => {
+    const { token } = state.auth;
+    return {
+        isAuthenticated: token !== null && token !== undefined,
+        error: state.auth.error,
+        lang: state.language.lang,
+    }
+}
+
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { live_casino_type, authCheckState })(LiveCasino_Type)));

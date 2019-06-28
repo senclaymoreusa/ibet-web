@@ -146,15 +146,15 @@ export const messages = {
         // handle profile page message
         'profile.username': 'Username: ',
         'profile.email': 'Email: ',
-        'profile.firstName': 'First Name: ',
-        'profile.lastName': 'Last Name: ',
+        'profile.firstName': 'First Name ',
+        'profile.lastName': 'Last Name ',
         'profile.phone': 'Phone: ',
         'profile.dob': 'Date of Birth: ',
         'profile.street1': 'Street Address 1: ',
         'profile.street2': 'Street Address 2: ',
-        'profile.country': 'Country: ',
+        'profile.country': 'Country ',
         'profile.city': 'City: ',
-        'profile.zipcode': 'Zipcode: ',
+        'profile.zipcode': 'Zipcode ',
         'profile.state': 'State: ',
         'profile.update': 'Update',
         'profile.back': 'Back',
@@ -265,6 +265,18 @@ export const messages = {
         'signup.oneclickregister.username': 'USERNAME',
         'signup.oneclickregister.password': 'PASSWORD',
 
+        // handle new profile
+        'new_profile.profile': 'Profile',
+        'new_profile.email': 'Email Details',
+        'new_profile.mobile': 'Mobile Details',
+        'new_profile.edit': 'Edit',
+
+        // handle new update profile
+        'new_update_profile.title': 'Edit Profile',
+        'new_update_profile.save': 'Save',
+
+
+
         // handle update_profile page message
         'update_profile.username': 'Username: ',
         'update_profile.email': 'Email:',
@@ -342,7 +354,11 @@ export const messages = {
         'error.state': 'State not valid',
         'error.zipcode': 'Zipcode not valid',
         'error.passwordnotmatch': 'Two password you entered do not match',
-        'error.address': 'Address not valid'
+        'error.address': 'Address not valid',
+
+        'changepassword': 'Change Password',
+        'changepassword2': 'CHANGE PASSWORD',
+
     },
     zh: {
         // handle account menu message
@@ -610,6 +626,16 @@ export const messages = {
         'signup.oneclickregister.username': '用户名',
         'signup.oneclickregister.password': '密码',
 
+        // handle new profile
+        'new_profile.profile': '账户',
+        'new_profile.email': '邮件详情',
+        'new_profile.mobile': '手机详情',
+        'new_profile.edit': '更改',
+
+        // handle new update profile
+        'new_update_profile.title': '更改信息',
+        'new_update_profile.save': '保存',
+
         // handle update_profile page message
         'update_profile.username': '用戶名: ',
         'update_profile.email': '郵箱:',
@@ -688,7 +714,10 @@ export const messages = {
         'error.state': '省市错误',
         'error.zipcode': '邮编错误',
         'error.passwordnotmatch': '两次输入的密码不一致',
-        'error.address': '地址错误'
+        'error.address': '地址错误',
+
+        'changepassword': '更改密码',
+        'changepassword2': '更改密码',
     },
     fr: {
         // handle account menu message
@@ -1000,6 +1029,16 @@ export const messages = {
         'signup.oneclickregister.save': 'Enregistrez ces détails et utilisez-les pour reprendre la lecture.',
         'signup.oneclickregister.username': "NOM D'UTILISATEUR",
         'signup.oneclickregister.password': "MOT DE PASSE",
+
+        // handle new profile
+        'new_profile.profile': 'Profil',
+        'new_profile.email': "Détails de l'e-mail",
+        'new_profile.mobile': 'Détails mobiles',
+        'new_profile.edit': 'modifier',
+
+        // handle new update profile
+        'new_update_profile.title': 'Editer le profil',
+        'new_update_profile.save': 'sauvegarder',
         
 
         // handle update_profile page message
@@ -1081,7 +1120,10 @@ export const messages = {
         'error.state': 'Etat non valide',
         'error.zipcode': 'Code postal non valide',
         'error.passwordnotmatch': 'Deux mot de passe que vous avez entré ne correspondent pas',
-        'error.address': 'Adresse non valide'
+        'error.address': 'Adresse non valide',
+
+        'changepassword': 'Changer le mot de passe',
+        'changepassword2': 'CHANGER LE MOT DE PASSE',
     }
 }
 

@@ -8,7 +8,6 @@ import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
-import PersonOutline from '@material-ui/icons/PersonOutline';
 
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
@@ -21,7 +20,7 @@ import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -38,7 +37,6 @@ import MyBets from './account_menu/my_bets';
 import ResponsibleGambling from './account_menu/responsible_gambling';
 
 import Popper from '@material-ui/core/Popper';
-import Popover from '@material-ui/core/Popover';
 import Fade from '@material-ui/core/Fade';
 
 
@@ -66,6 +64,9 @@ import Complete_Registration from './complete_registration';
 import Phone_Verification from './signup_phone_verification';
 import One_Click_Finish from './one_click_finish';
 import Register_Finish from './register_finish';
+import Change_Password from './change_password_new';
+import New_Profile from './new_profile';
+import New_Update_Profile from './new_update_profile';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -485,6 +486,7 @@ export class TopNavbar extends React.Component {
             showProfilePopper: false,
             currentAccountMenuItem: '',
             anchorElLogin: null,
+            anchorElChangePassowrd: null, 
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -613,6 +615,11 @@ export class TopNavbar extends React.Component {
         this.props.show_login()
     };
 
+    handleShowChangePasswordMenuOpen = event => {
+        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
+        this.props.show_login()
+    };
+
     handleSignupMenuOpen = event => {
         //this.setState({ anchorEl2: event.currentTarget });
         this.setState({ username: '', password: '' })
@@ -653,10 +660,6 @@ export class TopNavbar extends React.Component {
 
     onFormSubmit(event) {
         event.preventDefault();
-        //this.setState({ term: '' });
-    }
-
-    componentWillReceiveProps(props) {
         //this.setState({ term: '' });
     }
 
@@ -717,27 +720,38 @@ export class TopNavbar extends React.Component {
         this.setState({ height: window.innerHeight, width: window.innerWidth })
     };
 
-    componentWillReceiveProps(prevProps) {
+    componentWillReceiveProps(props) {
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;
 
             axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ balance: res.data.main_wallet });
-                this.setState({ balanceCurrency: res.data.currency });
-            })
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
         }
-      }
+    }
 
     async componentDidMount() {
+        console.log(this.props.isAuthenticated)
+        if (this.props.isAuthenticated) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
+        }
 
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-        .then((res) => {
-            this.setState({ show_loggedin_status: true });
-        })
+            .then((res) => {
+                this.setState({ show_loggedin_status: true });
+            })
 
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
@@ -786,7 +800,7 @@ export class TopNavbar extends React.Component {
     setCurrentAccountMenuItem = (menuItem) => {
         this.setState({ showProfilePopper: true });
         this.setState({ currentAccountMenuItem: menuItem });
-        this.props.history.push('/deposit/')
+        //this.props.history.push('/deposit/')
     }
 
     render() {
@@ -923,71 +937,6 @@ export class TopNavbar extends React.Component {
                             </Paper>
                         </Fade>
                     )}
-                </Popper>
-
-
-                <Popper
-                    open={this.props.showSignup} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup />
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupEmail} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Email />
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupDetail} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Detail />
-                </Popper>
-
-
-                <Popper
-                    open={this.props.showSignupContact} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Contact /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupPhone} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Signup_Phone /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showCompleteRegistration} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Complete_Registration /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showPhoneVerification} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Phone_Verification /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showOneclickFinish} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <One_Click_Finish /> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupFinish} 
-                    style={{position: 'absolute', top: this.state.height > 640 ? (this.state.height - 640) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Register_Finish /> 
                 </Popper>
 
             </div>
@@ -1156,11 +1105,10 @@ export class TopNavbar extends React.Component {
                                         // }}
                                         >
                                             <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
-                                                <div className='login-window'>
-                                                    <Login />
-                                                </div>
+                                                <Login />
                                             </ClickAwayListener>
                                         </Popper>
+
 
 
                                         {/* {LangMenu} */}
@@ -1208,7 +1156,8 @@ export class TopNavbar extends React.Component {
                         <Toolbar variant="dense" className={classes.appBar}>
                             <div className={classes.mainMenu}>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
+                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/sports_type") }}>
                                         <SoccerIcon className="soccer" />
                                         <span className="Sports">
                                             <FormattedMessage id="nav.sports" defaultMessage='Sports' />
@@ -1216,7 +1165,8 @@ export class TopNavbar extends React.Component {
                                     </Button>
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
+                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/live_casino_type") }}>
                                         <BetIcon className="bet" />
                                         <span className="Live-Casino">
                                             <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
@@ -1224,7 +1174,8 @@ export class TopNavbar extends React.Component {
                                     </Button>
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
+                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/slot_type") }}>
                                         <SlotsIcon className="games-icon" />
                                         <span className="Slots">
                                             <FormattedMessage id="nav.slots" defaultMessage='Slots' />
@@ -1232,7 +1183,8 @@ export class TopNavbar extends React.Component {
                                     </Button>
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
+                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/lottery_type") }}>
                                         <LotteryIcon className="lottery" />
                                         <span className="Lottery">
                                             <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
@@ -1260,6 +1212,100 @@ export class TopNavbar extends React.Component {
                     </AppBar>
                 </MuiThemeProvider>
                 <div className='overlay' style={searchBackgroundStyle}></div>
+
+                <Popper
+                    open={this.props.showSignup} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup />
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupEmail} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Email />
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupDetail} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Detail />
+                </Popper>
+
+
+                <Popper
+                    open={this.props.showSignupContact} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Contact /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupPhone} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Signup_Phone /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showCompleteRegistration} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Complete_Registration /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showPhoneVerification} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Phone_Verification /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showOneclickFinish} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <One_Click_Finish /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupFinish} 
+                    style={{position: 'absolute', top: this.state.height > 640 ? (this.state.height - 640) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Register_Finish /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showChangePassword} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Change_Password /> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showUserProfile} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <ClickAwayListener onClickAway={() => {this.props.hide_user_profile();}}>
+                            <New_Profile /> 
+                        </ClickAwayListener>
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showUpdateProfile} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <ClickAwayListener onClickAway={() => {this.props.hide_update_profile();}}>  
+                            <New_Update_Profile /> 
+                        </ClickAwayListener>
+                    </Paper>
+                </Popper>
+                
             </div >
         );
     }
@@ -1268,19 +1314,22 @@ export class TopNavbar extends React.Component {
 const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated: (token !== null && token !== undefined),
-        error: state.auth.error,
-        lang: state.language.lang,
-        showLogin: state.general.show_login,
-        showSignup: state.general.show_signup,
-        showSignupEmail: state.general.show_signup_email,
-        showSignupDetail: state.general.show_signup_detail,
-        showSignupContact: state.general.show_signup_contact,
-        showSignupPhone: state.general.show_signup_phone,
-        showCompleteRegistration: state.general.show_complete_registration,
-        showPhoneVerification: state.general.show_phone_verification,
-        showOneclickFinish: state.general.show_oneclick_finish,
-        showSignupFinish: state.general.show_signup_finish
+        isAuthenticated:           (token !== null && token !== undefined),
+        error:                     state.auth.error,
+        lang:                      state.language.lang,
+        showLogin:                 state.general.show_login,
+        showSignup:                state.general.show_signup,
+        showSignupEmail:           state.general.show_signup_email,
+        showSignupDetail:          state.general.show_signup_detail,
+        showSignupContact:         state.general.show_signup_contact,
+        showSignupPhone:           state.general.show_signup_phone,
+        showCompleteRegistration:  state.general.show_complete_registration,
+        showPhoneVerification:     state.general.show_phone_verification,
+        showOneclickFinish:        state.general.show_oneclick_finish,
+        showSignupFinish:          state.general.show_signup_finish,
+        showChangePassword:        state.general.show_change_password,
+        showUserProfile:           state.general.show_user_profile,
+        showUpdateProfile:         state.general.show_update_profile
     }
 }
 
@@ -1289,4 +1338,4 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login, show_signup_finish })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile })(TopNavbar))));

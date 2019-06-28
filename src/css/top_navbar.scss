@@ -251,7 +251,7 @@ $out_transition: all 0.15s ease;
 .search-button {
   width: 50px;
   height: 40px;
-  z-index: 2001;
+  //z-index: 2001;
   margin-top: 16px;
   display: inline-block;
   // display: block;
@@ -327,22 +327,6 @@ $out_transition: all 0.15s ease;
   opacity: 0.5;
 
    display: none; /* making it hidden by default */
-}
-
-.login-window {
-  height: 560px;
-  width: 380px;
-  text-align: center;
-}
-
-.login-title {
-  font-size: 32px;
-}
-
-.signup-window {
-  height: 700px;
-  width: 662px;
-  background-color: 'red'
 }
 
 .signup-title {
