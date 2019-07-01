@@ -37,9 +37,11 @@ import DepositPage from "./components/deposit_linepay"
 import DepositSuccess from "./components/deposit_success"
 // import Board from './components/orion'
 import DepositQaicah from './components/deposit_qaicash'
-import DepositAsiapay from './components/deposit_asiapay'
+import DepositAsiapayJDPay from './components/deposit_asiapay_jdpay'
+import DepositAsiapayBankcard from './components/deposit_asiapay_bankcard'
+import WithdrawAsiapay from './components/withdraw_asiapay'
 import Deposit from './components/deposit'
-
+import Withdraw from './components/withdraw'
 const divStyle = {
   minHeight: '100%',
 };
@@ -77,9 +79,11 @@ const BaseRouter = () => (
     <Route exact path="/account_settings/" component={AccountSettings} />
     <Route exact path="/deposit_paypal/" component={DepositPaypal} />
     <Route exact path="/deposit/" component={Deposit} />
-    {/* <Route exact path="/withdraw/" component={Withdraw} /> */}
+    <Route exact path="/withdraw/" component={Withdraw} />
     <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
-    <Route exact path="/deposit_asiapay/" component={DepositAsiapay} />
+    <Route exact path="/deposit_asiapay_jdpay/" component={DepositAsiapayJDPay} />
+    <Route exact path="/deposit_asiapay_bankcard/" component={DepositAsiapayBankcard} />
+    <Route exact path="/withdraw_asiapay/" component={WithdrawAsiapay} />
     <Route exact path="/terms_conditions/" component={TermsConditions} />
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
     <Route exact path="/cookie_policy/" component={CookiePolicy} />

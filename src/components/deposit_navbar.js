@@ -8,9 +8,6 @@ import Button from '@material-ui/core/Button';
 
 const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png";
 
-const styles = theme => ({
-
-})
 
 export class DepositNavBar extends Component {
   constructor(props) {
@@ -49,9 +46,14 @@ export class DepositNavBar extends Component {
               alt="LINEpay logo"
             />
           </Link>
-          <Link to="/deposit_asiapay/">
-          <Button variant="contained" color="secondary" id="nav.deposit_asiapay" className={classes.button}>
+          <Link to="/deposit_asiapay_jdpay/">
+          <Button variant="contained" color="secondary" id="nav.deposit_asiapay_jdpay" className={classes.button}>
                 Asiapay JD Pay
+            </Button>
+          </Link>
+          <Link to="/deposit_asiapay_bankcard/">
+          <Button variant="contained" color="secondary" id="nav.deposit_asiapay_bankcard" className={classes.button}>
+                Asiapay Online Pay
             </Button>
           </Link>
         </nav>
@@ -64,4 +66,4 @@ const mapStateToProps = (state) => {
         language: state.language.lang,
     }
 }
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps)(DepositNavBar))));
+export default withStyles()(injectIntl(withRouter(connect(mapStateToProps)(DepositNavBar))));

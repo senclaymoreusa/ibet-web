@@ -12,9 +12,6 @@ import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import {authCheckState} from '../actions';
 
 var QRCode = require('qrcode.react');
@@ -49,7 +46,7 @@ const styles = theme => ({
     }
   });
 
-class DepositAsiapay extends Component {
+class DepositAsiapayJDPay extends Component {
     constructor(props){
         super(props);
     
@@ -125,7 +122,7 @@ class DepositAsiapay extends Component {
                     <div>
                         <label>
                             <b>
-                                <FormattedMessage  id="deposit.amount" defaultMessage='Please enter the amount you want to add to your account' />
+                                <FormattedMessage  id="deposit.amount" defaultMessage='Please enter the amount you want to add to your account（30 - 980）' />
                             </b>
                         </label>
                     </div>
@@ -143,7 +140,7 @@ class DepositAsiapay extends Component {
                     {
                         this.state.live_check_amount && this.state.live_check_amount ? 
                         <div style={{color: 'red'}}> 
-                            <FormattedMessage id="balance.error"  defaultMessage='The balance you entered is not valid' />
+                            <FormattedMessage id="balance.error"  defaultMessage='The amount you entered is not valid' />
                         </div> :
                         <div>
                             <br />
@@ -221,4 +218,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositAsiapay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositAsiapayJDPay)));
