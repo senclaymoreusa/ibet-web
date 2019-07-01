@@ -14,10 +14,17 @@ import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import {authCheckState} from '../actions';
 import ImagePicker from 'react-image-picker'
+import img3 from '../images/aboc.jpg'//农业银行
+import img2 from '../images/ccb.png' //建设银行
+import img1 from '../images/icbc.jpeg'//工商银行
+import 'react-image-picker/dist/index.css'
 
 var QRCode = require('qrcode.react');
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
+    
+const imageList = [img1, img2, img3]
 
 const styles = theme => ({
     root: {
@@ -74,10 +81,9 @@ class DepositAsiapayBankcard extends Component {
           image: null,
         };
         
-        this.onInputChange_balance          = this.onInputChange_balance.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.onPick = this.onPick.bind(this);
-        // this.onQrChange  = this.onQrChange.bind(this);
+        this.onInputChange_amount          = this.onInputChange_amount.bind(this);
+        this.handleChange                   = this.handleChange.bind(this);
+        this.onPick                         = this.onPick.bind(this);
     }
     
     componentDidMount() {
@@ -97,9 +103,9 @@ class DepositAsiapayBankcard extends Component {
         
 
     }
-    onInputChange_balance(event){
+    onInputChange_amount(event){
         if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
-            this.setState({balance: event.target.value}); 
+            this.setState({amount: event.target.value}); 
 
             if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
                 this.setState({live_check_amount: true, button_disable: true})
@@ -108,25 +114,48 @@ class DepositAsiapayBankcard extends Component {
             }
         }
     }
+    handleClick = (depositChannel, apiRoute) => {
+            var postData = {
+                "amount": this.state.amount,
+                "userid": this.state.data.pk,
+                "currency": "0",
+                "PayWay" : "30", //online bank
+                "method": this.state.bankid, //银行卡
+            }
+            console.log(this.state.amount)
+            console.log(this.state.data.pk)
+            console.log(this.state.bankid)
+            var formBody = [];
+            for (var pd in postData) {
+                var encodedKey = encodeURIComponent(pd);
+                var encodedValue = encodeURIComponent(postData[pd]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+              },
+              body: formBody
+            }).then(function(res) {
+              return res.json();
+            });
+    }
+    
     handleChange(event) {
         this.setState({value: event.target.value});
     }
-    renderBankButton(bid){
-        return (
-            <ContainedButtons {...this.props}  bankid={bid} onClick={() => this.selectAmount(bid)} classes={{button: "ContainedButtons-button-33", input: "ContainedButtons-input-34"}} />
-        )
+    onPick(image) {
+        this.setState({image})
+        this.setState({bankid: image.value})
     }
     render(){
-        const { classes } = this.props;
-        let amount = this.state.balance;
-        let user = this.state.data.pk;
-        let myqr = this.state.qr;
-        
-        let currentComponent = this;
+        const { classes } = this.props; 
         return (
             <div>
                 <TopNavbar />
-                <form  className='deposit-form'>
+                <form  className='deposit-bankcard-form'>
                     
                     <div>
                         <label>
@@ -140,8 +169,8 @@ class DepositAsiapayBankcard extends Component {
                         className={classNames(classes.margin, classes.textField)}
                         variant="outlined"
                         type={'text'}
-                        value={this.state.balance || ''}
-                        onChange={this.onInputChange_balance}
+                        value={this.state.amount || ''}
+                        onChange={this.onInputChange_amount}
                     />
                     
 
@@ -164,7 +193,7 @@ class DepositAsiapayBankcard extends Component {
                     </div>
                     <div>
                         <ImagePicker 
-                            images={imageList.map((image, i) => ({src: image, value: i}))}
+                            images={imageList.map((image, i) => ({src: image, value: i+1}))}
                             onPick={this.onPick}
                         />
 
@@ -175,66 +204,20 @@ class DepositAsiapayBankcard extends Component {
                             variant="contained" 
                             color="primary"  
                             className={classes.button}
-                            onClick={(e) => {
-                                var postData = {
-                                    "amount": amount,
-                                    "userid": user,
-                                    "currency": "0",
-                                    "PayWay" : "42", //QRcode
-                                    "method": "49", //京东支付
-                                }
-                                console.log(amount)
-                                console.log(user)
-                                var formBody = [];
-                                for (var pd in postData) {
-                                    var encodedKey = encodeURIComponent(pd);
-                                    var encodedValue = encodeURIComponent(postData[pd]);
-                                    formBody.push(encodedKey + "=" + encodedValue);
-                                }
-                                formBody = formBody.join("&");
-                                return fetch(API_URL + 'accounting/api/asiapay/deposit', {
-                                  method: 'POST',
-                                  headers: {
-                                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                  },
-                                  body: formBody
-                                }).then(function(res) {
-                                  return res.json();
-                                }).then(function(data){
-                                    myqr = data.qr;
-                                    currentComponent.setState({value: myqr,show_qrcode:true})
-                                      
-                                });
-                            }}
+                            onClick={this.state.button_disable ? () => {} : this.handleClick}
                             
                         >
                             PAY NOW
                         </Button>
-                        <div className="asiapay-qr" style={{display: this.state.show_qrcode ? "block":"none"}}>
-                            <QRCode
-                                value={this.state.value}
-                                size={this.state.size}
-                                fgColor={this.state.fgColor}
-                                bgColor={this.state.bgColor}
-                                level={this.state.level}
-                                renderAs={this.state.renderAs}
-                                includeMargin={this.state.includeMargin}
-                            />
-                        </div>
                         
                     </div>
-                    
-
                 </form>
             </div>
             
         )
     }
-    
-    
+
 }
-
-
 
 const mapStateToProps = (state) => {
     return {
