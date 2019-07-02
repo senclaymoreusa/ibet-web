@@ -128,8 +128,9 @@ class DepositPage extends Component {
 
     render() {
         const { classes } = this.props; // props is loaded with state, style, and authCheckState ... it appears that it's loaded with everything in constructor + what is exported
-        let amount = this.state.amount; // this.state.balance doesn't exist?
-        let user = this.state.data.username; // this.state.data is initialized to a string not a dictionary
+        // console.log("classes!:");
+        // console.log(classes);
+        let user = this.state.data.username; // this.state.data is initialized to a string not a dictionary, is modified and set to be the result data from detecting what user is logged in from API call on line 118
         
         return (
             <div>
@@ -246,7 +247,7 @@ class InputForm extends Component {
                         onChange={this.handleChange}
                         className="input-deposit-amount"
                     />
-                    <br></br>
+                    <br/>
                     <FormattedMessage className="min-max" id="deposit_prompt" defaultMessage={"Min: " + MIN_DEPOSIT + " " + CURRENCY}/>
                     <FormattedMessage className="min-max" id="deposit_prompt" defaultMessage={"Max: " + MAX_DEPOSIT + " " + CURRENCY}/>
                     {
@@ -295,8 +296,6 @@ ContainedButtons.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    console.log("State language: ");
-    console.log(state.language);
     return {
         language: state.language.lang,
     }
