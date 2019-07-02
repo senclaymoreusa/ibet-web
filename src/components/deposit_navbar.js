@@ -5,7 +5,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 
-
 const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png";
 
 
@@ -54,6 +53,11 @@ export class DepositNavBar extends Component {
           <Link to="/deposit_asiapay_bankcard/">
           <Button variant="contained" color="secondary" id="nav.deposit_asiapay_bankcard" className={classes.button}>
                 Asiapay Online Pay
+            </Button>
+          </Link>
+          <Link to="/deposit_asiapay_unionpay/">
+          <Button variant="contained"  id="nav.deposit_asiapay_unionpay" className={classes.button}>
+                Asiapay UnionPay
             </Button>
           </Link>
         </nav>
