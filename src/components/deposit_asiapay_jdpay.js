@@ -181,8 +181,6 @@ class DepositAsiapayJDPay extends Component {
                                 }).then(function(data){
                                     myqr = data.qr;
                                     currentComponent.setState({value: myqr,show_qrcode:true})
-                                    console.log(this.show_qrcode)
-                                    console.log(myqr)
                                       
                                 });
                             }}

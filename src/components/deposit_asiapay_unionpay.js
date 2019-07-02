@@ -19,9 +19,6 @@ var QRCode = require('qrcode.react');
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-    
-
-
 const styles = theme => ({
     root: {
       display: 'flex',
@@ -77,7 +74,7 @@ class DepositUnionpay extends Component {
         };
         
         this.onInputChange_amount          = this.onInputChange_amount.bind(this);
-        this.handleChange                   = this.handleChange.bind(this);
+        
        
     }
     
@@ -110,40 +107,41 @@ class DepositUnionpay extends Component {
         }
     }
     handleClick = (depositChannel, apiRoute) => {
-            var postData = {
-                "amount": this.state.amount,
-                "userid": this.state.data.pk,
-                "currency": "0",
-                "PayWay" : "42", //QRCode
-                "method": "41", //alipay
-            }
-            console.log(this.state.amount)
-            console.log(this.state.data.pk)
-            var formBody = [];
-            for (var pd in postData) {
-                var encodedKey = encodeURIComponent(pd);
-                var encodedValue = encodeURIComponent(postData[pd]);
-                formBody.push(encodedKey + "=" + encodedValue);
-            }
-            formBody = formBody.join("&");
-            return fetch(API_URL + 'accounting/api/asiapay/deposit', {
-              method: 'POST',
-              headers: {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-              },
-              body: formBody
-            }).then(function(res) {
-              return res.json();
-            }).then(function(data){
-                this.state.value = data.qr;
-                this.state.show_qrcode=true;
-                  
-            });
+        let currentComponent = this;
+        var postData = {
+            "amount": this.state.amount,
+            "userid": this.state.data.pk,
+            "currency": "0",
+            "PayWay" : "42", //QRCode
+            "method": "47", //unionpay
+        }
+        console.log(this.state.amount)
+        console.log(this.state.data.pk)
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+            method: 'POST',
+            headers: {
+            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        }).then(function(res) {
+            return res.json();
+        }).then(function(data) {
+            console.log(data)
+            let qrurl = data.qr;
+            console.log(qrurl)
+            currentComponent.setState({value : qrurl, show_qrcode:true});
+            
+        
+        });
     }
     
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
     
     render(){
         const { classes } = this.props; 
@@ -192,6 +190,17 @@ class DepositUnionpay extends Component {
                             PAY NOW
                         </Button>
                         
+                    </div>
+                    <div className="asiapay-qr" style={{display: this.state.show_qrcode ? "block":"none"}}>
+                            <QRCode
+                                value={this.state.value}
+                                size={this.state.size}
+                                fgColor={this.state.fgColor}
+                                bgColor={this.state.bgColor}
+                                level={this.state.level}
+                                renderAs={this.state.renderAs}
+                                includeMargin={this.state.includeMargin}
+                            />
                     </div>
                 </form>
             </div>
