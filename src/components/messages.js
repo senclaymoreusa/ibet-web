@@ -359,7 +359,7 @@ export const messages = {
 
         'changepassword': 'Change Password',
         'changepassword2': 'CHANGE PASSWORD',
-
+        'changepassword.passwordsameerror': 'New password cannot be same as old password'
     },
     zh: {
         // handle account menu message
@@ -720,6 +720,7 @@ export const messages = {
 
         'changepassword': '更改密码',
         'changepassword2': '更改密码',
+        'changepassword.passwordsameerror': '新密码不能与旧密码相同'
     },
     fr: {
         // handle account menu message
@@ -1127,6 +1128,7 @@ export const messages = {
 
         'changepassword': 'Changer le mot de passe',
         'changepassword2': 'CHANGER LE MOT DE PASSE',
+        'changepassword.passwordsameerror': "Le nouveau mot de passe ne peut pas être identique à l'ancien mot de passe"
     }
 }
 

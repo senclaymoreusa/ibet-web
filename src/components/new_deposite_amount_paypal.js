@@ -14,6 +14,7 @@ import { PayPalButton } from 'react-paypal-button-v2';
 
 import { hide_deposit_paypal, show_deposit } from '../actions';
 import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
+import { ReactComponent as Paypal } from '../assets/img/svg/paypal.svg';
 
 import Left from '@material-ui/icons/ChevronLeft'
 
@@ -105,6 +106,11 @@ class New_Deposit_Paypal extends Component {
                             this.props.show_deposit();
                         }}
                     />
+
+                    <div style={{position: 'absolute', top: 20, left: 300, }}> 
+                        <Paypal style={{height: 50, width: 60}} />
+                    </div>
+
                     <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, color: 'black', paddingLeft: 60, paddingTop: 12}}> 
                         Deposit
                     </div>

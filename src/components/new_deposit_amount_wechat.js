@@ -17,6 +17,8 @@ import { hide_deposit_amount, show_deposit } from '../actions';
 
 import Left from '@material-ui/icons/ChevronLeft'
 
+import wechat from '../images/WeChat.png';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -200,6 +202,9 @@ class New_Deposit_Wechat extends Component {
                         this.props.show_deposit();
                     }}
                 />
+              
+                <img  style ={{position: 'absolute', top: 20, left: 300}} src={wechat} height="50" width="50" alt='Not available' />
+                
                 <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, color: 'black', paddingLeft: 60, paddingTop: 12}}> 
                     Deposit
                 </div>

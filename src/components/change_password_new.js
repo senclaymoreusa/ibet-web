@@ -14,6 +14,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 
+import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
@@ -57,7 +59,9 @@ class Change_Password extends Component {
             live_chech_password_match: false,
 
             button_disable: true,
-            password_too_simple: false
+            password_too_simple: false,
+
+            password_same: false,
         }
     }
 
@@ -84,7 +88,7 @@ class Change_Password extends Component {
     };
 
     async onInputChange_password(event){
-        await this.setState({password: event.target.value, error: false});
+        await this.setState({password: event.target.value, error: false, password_same: false});
         this.check_password_match();
     }
 
@@ -99,7 +103,7 @@ class Change_Password extends Component {
         }else{
             this.setState({password_too_simple: false})
         }
-        await this.setState({password1: event.target.value});
+        await this.setState({password1: event.target.value, password_same: false});
         this.check_password_match();
     }
 
@@ -109,7 +113,7 @@ class Change_Password extends Component {
         }else{
             this.setState({live_chech_password_match: false})
         }
-        await this.setState({password2: event.target.value});
+        await this.setState({password2: event.target.value, password_same: false});
         this.check_password_match();
     }
 
@@ -125,15 +129,19 @@ class Change_Password extends Component {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
-        axios.post(API_URL + 'users/api/validateandresetpassword/', {'username': this.state.data.username, 'current_password': this.state.password, 'new_password': this.state.password1}, config)
-        .then(res => {
-            if(res.data.status === 'Success'){
-                alert('Password updated successfully')
-                this.props.hide_change_password()
-            }else{
-                this.setState({error: true})
-            }
-        })
+        if (this.state.password === this.state.password1){
+            this.setState({password_same: true})
+        }else{
+            axios.post(API_URL + 'users/api/validateandresetpassword/', {'username': this.state.data.username, 'current_password': this.state.password, 'new_password': this.state.password1}, config)
+            .then(res => {
+                if(res.data.status === 'Success'){
+                    alert('Password updated successfully')
+                    this.props.hide_change_password()
+                }else{
+                    this.setState({error: true})
+                }
+            })
+        }
     }
 
     render(){
@@ -143,14 +151,20 @@ class Change_Password extends Component {
         return (
             <div style={{backgroundColor: '#f1f1f1', height: 480, width: 380}}>
 
-                <Back 
+                {/* <Back 
                     style={{cursor: 'pointer', position: 'absolute', top: 20, left: 30, height: 25, width: 15, color: 'red'}}
+                    onClick = { () => {
+                        this.props.hide_change_password()
+                    }}
+                /> */}
+                <CloseIcon 
+                    style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 20, width: 20, color: 'red'}}
                     onClick = { () => {
                         this.props.hide_change_password()
                     }}
                 />
 
-                <div style={{ backgroundColor: 'white', textAlign: 'center', height: 60, fontSize: 25, paddingTop: 15 }}> 
+                <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, color: 'black', paddingLeft: 60, paddingTop: 12 }}> 
                     <FormattedMessage id="changepassword" defaultMessage='Change Password' />
                 </div>
 
@@ -225,6 +239,8 @@ class Change_Password extends Component {
 
                     {this.state.password_too_simple && <div style={{color: 'red', marginLeft: 25}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
 
+                    {this.state.password_same && <div style={{color: 'red', marginLeft: 25}}> <FormattedMessage  id="changepassword.passwordsameerror" defaultMessage='New password cannot be same as old password' /> </div>}
+
                     <div style={{marginTop: 15, textAlign: 'center'}}> 
                         <TextField
                             className={ classes.textField}
@@ -258,7 +274,7 @@ class Change_Password extends Component {
 
                     <button
                         disabled = {this.state.button_disable} 
-                        style={{backgroundColor: 'red', height: 52, width: 330, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', marginLeft: 25, fontSize: 15, fontWeight: 600}}
+                        style={{backgroundColor: this.state.button_disable ? '#ff8080' : 'red', height: 52, width: 330, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', marginLeft: 25, fontSize: 15, fontWeight: 600}}
                         type="submit" 
                     > 
                         <FormattedMessage id="changepassword2" defaultMessage='CHANGE PASSWORD' />

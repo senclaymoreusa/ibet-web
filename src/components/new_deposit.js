@@ -53,7 +53,7 @@ class New_Deposit extends Component {
                     }}
                 >
                     <img  style ={{marginTop: 5}} src={wechat} height="50" width="50" alt='Not available' />
-                    <div style={{ marginTop: 20, marginLeft: 20}}>
+                    <div style={{ marginTop: 20, marginLeft: 30}}>
                         WeChat
                     </div>
                     <div style={{marginTop: 18, marginLeft: 100}}> 
@@ -69,8 +69,8 @@ class New_Deposit extends Component {
                         this.props.show_deposit_paypal();
                     }}
                 >
-                    <div style={{height: 60, width: 60, fontSize: 35}}> 
-                        <Paypal />
+                    <div style={{ marginTop: 5}}> 
+                        <Paypal style={{height: 50, width: 60}}/>
                     </div>
                     <div style={{ marginTop: 20, marginLeft: 20}}>
                         PayPal
