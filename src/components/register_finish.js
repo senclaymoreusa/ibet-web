@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { hide_signup_finish, show_login } from '../actions';
+import { hide_signup_finish, show_login, show_deposit } from '../actions';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { FormattedMessage } from 'react-intl';
 
@@ -44,12 +44,12 @@ class Register_Finish extends React.Component {
                     <button 
                         onClick ={() => {
                             this.props.hide_signup_finish();
-                            this.props.show_login();
+                            this.props.show_deposit();
                         }}
                         style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 170, color: 'white', cursor: 'pointer', border: 'none', fontSize: 14, fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: 0.88 }}
                         type='submit'
                     > 
-                        <FormattedMessage id="signup.login" defaultMessage='LOGIN' />
+                        MAKE MY FIRST DEPOSIT
                     </button>
                 </div>
 
@@ -60,4 +60,4 @@ class Register_Finish extends React.Component {
 
 
 
-export default connect(null, { hide_signup_finish, show_login })(Register_Finish);
+export default connect(null, { hide_signup_finish, show_login, show_deposit })(Register_Finish);

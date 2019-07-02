@@ -738,6 +738,14 @@ export class TopNavbar extends React.Component {
     }
 
     async componentDidMount() {
+
+        this.props.authCheckState()
+        .then(res => {
+            if (res === 1) {
+              this.props.history.push('/'); 
+            }
+        })
+
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;

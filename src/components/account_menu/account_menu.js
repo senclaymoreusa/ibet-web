@@ -741,8 +741,9 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={3} className={classes.mergedGridButton}>
                             <Button className={classes.logoutButton}
                                 onClick={() => {
-                                    this.props.onCloseItemClicked();
-                                    this.props.show_user_profile()
+                                    //this.props.onCloseItemClicked();
+                                    //this.props.show_user_profile();
+                                    this.props.history.push('/profile/')
                                 }}
                                 //href="/update_profile/"
                             >

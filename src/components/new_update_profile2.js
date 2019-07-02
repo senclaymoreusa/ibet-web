@@ -9,11 +9,11 @@ import { config } from '../util_config';
 import axios from 'axios'
 import { getNames } from 'country-list';
 
-
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
+
+import TopNavbar from "./top_navbar";
+
+import { Link } from 'react-router-dom';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -313,8 +313,7 @@ class New_Update_Profile extends Component {
         
                 }, config)
                     .then((res) => {
-                         this.props.hide_update_profile();
-                         this.props.show_user_profile();
+                        this.props.history.push('/profile/')
                     })
             }else{
                 this.setState({email_exist: true})
@@ -327,112 +326,15 @@ class New_Update_Profile extends Component {
         const { classes } = this.props;
 
         return (
-            <div style={{backgroundColor: '#f1f1f1',  minHeight: 800, width: 380}}>
+            <div >
+
+                <TopNavbar />
+
                 <form onSubmit={this.onFormSubmit.bind(this)}>
-                    <button 
-                        style={{position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 300, backgroundColor: this.state.button_disable ? '#b3b3b3' : 'black', color: 'white', cursor: 'pointer', borderRadius: 100}}
-                        type='submit'
-                        disabled={this.state.button_disable}
-                    >
-                        <FormattedMessage id="new_update_profile.save" defaultMessage='Save' />
-                    </button>
-
-                    <button 
-                        style={{position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 220, backgroundColor: 'red', color: 'white', cursor: 'pointer', borderRadius: 100}}
-                        onClick={() => {
-                            this.props.hide_update_profile();
-                            this.props.show_user_profile();
-                        }}
-                    >
-                        <FormattedMessage id="signup.cancel" defaultMessage='Cancel' />
-                    </button>
-
-                    <CloseIcon 
-                        style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 20, width: 20, color: 'red'}}
-                        onClick = { () => {
-                            this.props.hide_update_profile()
-                        }}
-                    />
 
                     <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, color: 'black', paddingLeft: 60, paddingTop: 12}}> 
                         <FormattedMessage id="new_update_profile.title" defaultMessage='Edit Profile' />
                     </div>
-
-                    <div style={{ color: 'red', fontSize: 25, paddingTop: 15, fontWeight: 600, marginLeft: 30}}> 
-                        <FormattedMessage id="new_update_profile.title" defaultMessage='Edit Profile' />
-                    </div>
-
-                    <div style={{textAlign: 'center', color: '#e4e4e4'}}>
-                        _________________________________________
-                    </div>
-
-                    <div style={{ marginLeft: 30, marginTop: 5 }}>
-                        <FormattedMessage id="profile.firstName" defaultMessage='First Name' />
-                    </div>
-
-                    <div style={{textAlign: 'center', marginTop: 5}}> 
-                        <TextField
-                            className={classes.textField}
-                            variant="outlined"
-                            type='text'
-                            value={this.state.first_name}
-                            onChange={this.onInputChange_first_name.bind(this)}
-                        />
-                    </div>
-
-                    {this.state.live_check_firstname && <div style={{color: 'red', marginLeft: 30}}> <FormattedMessage  id="error.firstname" defaultMessage='First name not valid' /> </div>}
-
-                    <div style={{ marginLeft: 30, marginTop: 5 }}>
-                        <FormattedMessage id="profile.lastName" defaultMessage='Last Name' />
-                    </div>
-
-                    <div style={{textAlign: 'center', marginTop: 5}}> 
-                        <TextField
-                            className={classes.textField}
-                            variant="outlined"
-                            type='text'
-                            value={this.state.last_name}
-                            onChange={this.onInputChange_last_name.bind(this)}
-                        />
-                    </div>
-
-                    {this.state.live_check_lastname && <div style={{color: 'red', marginLeft: 30}}> <FormattedMessage  id="error.lastname" defaultMessage='Last name not valid' /> </div>}
-                    
-                    <div style={{marginLeft: 30, marginTop: 10}}>
-                        <FormattedMessage id="signup.detail.dob" defaultMessage='DATE OF BIRTH' />
-                    </div>
-
-                    <div className='row' style={{marginLeft: 30}}>
-
-                        <TextField
-                            className={classes.textField2}
-                            label="MM"
-                            margin="normal"
-                            onChange={this.onInputChange_month.bind(this)}
-                            value={this.state.month}
-                        />
-
-                        <TextField
-                            className={classes.textField2}
-                            label="DD"
-                            margin="normal"
-                            onChange={this.onInputChange_day.bind(this)}
-                            value={this.state.day}
-                            style={{marginLeft: 10}}
-                        />
-
-                        <TextField
-                            className={classes.textField2}
-                            label="YYYY"
-                            margin="normal"
-                            onChange={this.onInputChange_year.bind(this)}
-                            value={this.state.year}
-                            style={{marginLeft: 10}}
-                        />
-
-                    </div>
-
-                    {this.state.live_check_dob && <div style={{color: 'red', marginLeft: 30}}> <FormattedMessage  id="error.dateofbirth" defaultMessage='Date of birth not valid' /> </div>}
 
                     <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30}}> 
                         <FormattedMessage  id="signup.contact.title" defaultMessage='Contact details' />
@@ -497,28 +399,6 @@ class New_Update_Profile extends Component {
         
                     </div>
 
-                    <div style={{ marginLeft: 30, marginTop: 5 }}>
-                        <FormattedMessage  id="profile.country" defaultMessage='Country' />
-                    </div>
-
-                    <div style={{marginTop: 20, textAlign: 'center'}}>
-                        <FormControl>
-                            <Select
-                                value={this.state.country}
-                                onChange={this.onInputChange_country.bind(this)}
-                                input={<BootstrapInput name="country" id="country-customized-select" />}
-                            >
-                                {
-                                    this.state.all_country_name &&  this.state.all_country_name.map(name => (
-                                        <MenuItem key={name} value={name} >
-                                            {name}
-                                        </MenuItem>
-                                    ))
-                                }
-                            </Select>
-                        </FormControl>
-                    </div>
-
                     <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
                         <FormattedMessage id="new_profile.mobile" defaultMessage='Mobile Details' />
                     </div>
@@ -548,36 +428,22 @@ class New_Update_Profile extends Component {
 
                     {this.state.live_check_phone && <div style={{color: 'red', marginLeft: 30}}> <FormattedMessage  id="error.phone" defaultMessage='Phone number not valid' /> </div>}
 
-                    <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
-                        <FormattedMessage id="new_profile.email" defaultMessage='Email Details' />
-                    </div>
-
-                    <div style={{textAlign: 'center', color: '#e4e4e4'}}>
-                        _________________________________________
-                    </div>
-
-                    <div style={{textAlign: 'center', marginTop: 10}}> 
-                        <TextField
-                            className={classes.textField}
-                            variant="outlined"
-                            type='text'
-                            value={this.state.email}
-                            onChange={this.onInputChange_email.bind(this)}
-                            InputProps={{
-                                classes: {
-                                    root: classes.cssOutlinedInput,
-                                    focused: classes.cssFocused,
-                                    notchedOutline: classes.notchedOutline
-                                }
-                            }}
-                        />
-                    </div>
-
-                    {this.state.live_check_email && <div style={{color: 'red', marginLeft: 30}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
-
-                    {this.state.email_exist && <div style={{color: 'red', marginLeft: 30}}> <FormattedMessage  id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>}
-
+                    <button 
+                        style={{ border: 'none', height: 30, width: 70, backgroundColor: this.state.button_disable ? '#b3b3b3' : 'black', color: 'white', cursor: 'pointer', borderRadius: 100}}
+                        type='submit'
+                        disabled={this.state.button_disable}
+                    >
+                        <FormattedMessage id="new_update_profile.save" defaultMessage='Save' />
+                    </button>
                 </form>
+
+                
+
+                <Link to="/profile/" >
+                    <button style={{border: 'none', height: 30, width: 70, backgroundColor: 'red', color: 'white', cursor: 'pointer', borderRadius: 100}}>
+                        <FormattedMessage id="signup.cancel" defaultMessage='Cancel' />
+                    </button>
+                </Link>
 
                 <div style={{height: 20, backgroundColor: '#f1f1f1'}}> 
 
