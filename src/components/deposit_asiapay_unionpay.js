@@ -3,7 +3,6 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import TopNavbar from "./top_navbar";
 import '../css/deposit.css';
 // Material-UI
@@ -48,7 +47,7 @@ const styles = theme => ({
   });
 
 
-class DepositUnionpay extends Component {
+class DepositAsiapayUnionpay extends Component {
     constructor(props){
         super(props);
     
@@ -115,8 +114,6 @@ class DepositUnionpay extends Component {
             "PayWay" : "42", //QRCode
             "method": "47", //unionpay
         }
-        console.log(this.state.amount)
-        console.log(this.state.data.pk)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -133,12 +130,9 @@ class DepositUnionpay extends Component {
         }).then(function(res) {
             return res.json();
         }).then(function(data) {
-            console.log(data)
             let qrurl = data.qr;
-            console.log(qrurl)
             currentComponent.setState({value : qrurl, show_qrcode:true});
-            
-        
+
         });
     }
     
@@ -216,4 +210,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositUnionpay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositAsiapayUnionpay)));
