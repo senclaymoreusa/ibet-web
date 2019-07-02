@@ -18,8 +18,6 @@ import img2 from '../images/ccb.png' //建设银行
 import img1 from '../images/icbc.jpeg'//工商银行
 import 'react-image-picker/dist/index.css'
 
-var QRCode = require('qrcode.react');
-
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
     
@@ -112,6 +110,22 @@ class DepositAsiapayBankcard extends Component {
                 this.setState({live_check_amount: false, button_disable: false})
             }
         }
+        this.check_button_disable()
+    }
+    
+    onPick(image) {
+        
+        this.setState({image})
+        this.setState({bankid: image.value})
+        this.check_button_disable()
+        
+    }
+    check_button_disable(){
+        
+        if(this.state.amount && this.state.image  && !this.state.live_check_amount ){
+            this.setState({button_disable: false})
+        }
+        console.log(this.state.image)
     }
     handleClick = (depositChannel, apiRoute) => {
             var postData = {
@@ -139,16 +153,17 @@ class DepositAsiapayBankcard extends Component {
               body: formBody
             }).then(function(res) {
               return res.json();
+            }).then(function(data){
+                let url = data.url;
+                let order_id = data.order_id;
+                window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
             });
     }
     
     handleChange(event) {
         this.setState({value: event.target.value});
     }
-    onPick(image) {
-        this.setState({image})
-        this.setState({bankid: image.value})
-    }
+    
     render(){
         const { classes } = this.props; 
         return (
@@ -194,8 +209,9 @@ class DepositAsiapayBankcard extends Component {
                         <ImagePicker 
                             images={imageList.map((image, i) => ({src: image, value: i+1}))}
                             onPick={this.onPick}
+                            
                         />
-
+                        <textarea rows="4" cols="100" value={this.state.image && JSON.stringify(this.state.image.value)} disabled/>
                     </div>
                     <div className='asiapay-button'  >
                         <Button 

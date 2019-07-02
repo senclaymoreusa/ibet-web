@@ -18,6 +18,10 @@ const INITIAL_STATE ={
     show_change_password: false,
     show_user_profile: false,
     show_update_profile: false,
+    show_deposit: false,
+    show_deposit_amount: false,
+    show_deposit_paypal: false,
+    show_withdraw: false,
     
     onc_click_username: '',
     one_click_password: '',
@@ -134,6 +138,22 @@ export default (state = INITIAL_STATE, action) => {
         return {...state, show_update_profile: true}
       case 'HIDE_UPDATE_PROFILE':
         return {...state, show_update_profile: false}
+      case 'SHOW_DEPOSIT':
+        return {...state, show_deposit: true}
+      case 'HIDE_DEPOSIT':
+        return {...state, show_deposit: false}
+      case 'SHOW_DEPOSIT_AMOUNT':
+        return {...state, show_deposit_amount: true}
+      case 'HIDE_DEPOSIT_AMOUNT':
+        return {...state, show_deposit_amount: false}
+      case 'SHOW_DEPOSIT_PAYPAL':
+        return {...state, show_deposit_paypal: true}
+      case 'HIDE_DEPOSIT_PAYPAL':
+        return {...state, show_deposit_paypal: false}
+      case 'SHOW_WITHDRAW':
+        return {...state, show_withdraw: true}
+      case 'HIDE_WITHDRAW':
+        return {...state, show_withdraw: false}
       default:
         return state;
     }

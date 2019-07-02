@@ -3,7 +3,6 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
-
 import TopNavbar from "./top_navbar";
 import '../css/deposit.css';
 // Material-UI
@@ -13,6 +12,7 @@ import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import {authCheckState} from '../actions';
+
 
 var QRCode = require('qrcode.react');
 
@@ -46,7 +46,8 @@ const styles = theme => ({
     }
   });
 
-class DepositAsiapayJDPay extends Component {
+
+class DepositAsiapayUnionpay extends Component {
     constructor(props){
         super(props);
     
@@ -68,11 +69,12 @@ class DepositAsiapayJDPay extends Component {
           renderAs: 'svg',
           includeMargin: false,
           show_qrcode: false,
+          bankid:'',
         };
         
-        this.onInputChange_balance          = this.onInputChange_balance.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        // this.onQrChange  = this.onQrChange.bind(this);
+        this.onInputChange_amount          = this.onInputChange_amount.bind(this);
+        
+       
     }
     
     componentDidMount() {
@@ -85,16 +87,16 @@ class DepositAsiapayJDPay extends Component {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
-        .then(res => {
+          .then(res => {
             this.setState({data: res.data});
-        })
+          })
         const { type } = this.props.match.params;
         
 
     }
-    onInputChange_balance(event){
+    onInputChange_amount(event){
         if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
-            this.setState({balance: event.target.value}); 
+            this.setState({amount: event.target.value}); 
 
             if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
                 this.setState({live_check_amount: true, button_disable: true})
@@ -103,26 +105,49 @@ class DepositAsiapayJDPay extends Component {
             }
         }
     }
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleClick = (depositChannel, apiRoute) => {
+        let currentComponent = this;
+        var postData = {
+            "amount": this.state.amount,
+            "userid": this.state.data.pk,
+            "currency": "0",
+            "PayWay" : "42", //QRCode
+            "method": "47", //unionpay
+        }
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+            method: 'POST',
+            headers: {
+            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        }).then(function(res) {
+            return res.json();
+        }).then(function(data) {
+            let qrurl = data.qr;
+            currentComponent.setState({value : qrurl, show_qrcode:true});
+
+        });
     }
     
+    
     render(){
-        const { classes } = this.props;
-        let amount = this.state.balance;
-        let user = this.state.data.pk;
-        let myqr = this.state.qr;
-        
-        let currentComponent = this;
+        const { classes } = this.props; 
         return (
             <div>
                 <TopNavbar />
-                <form  className='deposit-form'>
+                <form  className='deposit-bankcard-form'>
                     
                     <div>
                         <label>
                             <b>
-                                <FormattedMessage  id="deposit.amount" defaultMessage='Please enter the amount you want to add to your account（100 - 980）' />
+                                <FormattedMessage  id="deposit.amount" defaultMessage='Please enter the amount you want to add to your account' />
                             </b>
                         </label>
                     </div>
@@ -131,8 +156,8 @@ class DepositAsiapayJDPay extends Component {
                         className={classNames(classes.margin, classes.textField)}
                         variant="outlined"
                         type={'text'}
-                        value={this.state.balance || ''}
-                        onChange={this.onInputChange_balance}
+                        value={this.state.amount || ''}
+                        onChange={this.onInputChange_amount}
                     />
                     
 
@@ -146,49 +171,21 @@ class DepositAsiapayJDPay extends Component {
                             <br />
                         </div>
                     }
-                    
+                   
                     <div className='asiapay-button'  >
                         <Button 
                             disabled = {this.state.button_disable} 
                             variant="contained" 
                             color="primary"  
                             className={classes.button}
-                            onClick={(e) => {
-                                var postData = {
-                                    "amount": amount,
-                                    "userid": user,
-                                    "currency": "0",
-                                    "PayWay" : "42", //QRcode
-                                    "method": "49", //京东支付
-                                }
-                                console.log(amount)
-                                console.log(user)
-                                var formBody = [];
-                                for (var pd in postData) {
-                                    var encodedKey = encodeURIComponent(pd);
-                                    var encodedValue = encodeURIComponent(postData[pd]);
-                                    formBody.push(encodedKey + "=" + encodedValue);
-                                }
-                                formBody = formBody.join("&");
-                                return fetch(API_URL + 'accounting/api/asiapay/deposit', {
-                                  method: 'POST',
-                                  headers: {
-                                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                  },
-                                  body: formBody
-                                }).then(function(res) {
-                                  return res.json();
-                                }).then(function(data){
-                                    myqr = data.qr;
-                                    currentComponent.setState({value: myqr,show_qrcode:true})
-                                      
-                                });
-                            }}
+                            onClick={this.state.button_disable ? () => {} : this.handleClick}
                             
                         >
                             PAY NOW
                         </Button>
-                        <div className="asiapay-qr" style={{display: this.state.show_qrcode ? "block":"none"}}>
+                        
+                    </div>
+                    <div className="asiapay-qr" style={{display: this.state.show_qrcode ? "block":"none"}}>
                             <QRCode
                                 value={this.state.value}
                                 size={this.state.size}
@@ -198,18 +195,13 @@ class DepositAsiapayJDPay extends Component {
                                 renderAs={this.state.renderAs}
                                 includeMargin={this.state.includeMargin}
                             />
-                        </div>
-                        
                     </div>
-                    
-
                 </form>
             </div>
             
         )
     }
-    
-    
+
 }
 
 const mapStateToProps = (state) => {
@@ -218,4 +210,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositAsiapayJDPay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositAsiapayUnionpay)));

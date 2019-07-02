@@ -359,7 +359,7 @@ class Signup_Email extends React.Component {
                     <div style={{textAlign: 'center'}}> 
                         <button 
                             disabled = {this.state.button_disable}
-                            style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', fontSize: 14, fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: 0.88 }}
+                            style={{backgroundColor: this.state.button_disable ? '#ff8080' : 'red', height: 48, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', fontSize: 14, fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: 0.88 }}
                             type='submit'
                         > 
                             <FormattedMessage  id="signup.continue" defaultMessage='CONTINUE' />
