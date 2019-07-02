@@ -18,7 +18,8 @@ import { Input } from 'antd';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-const styles = theme => ({
+const styles = function(theme) {
+    return ({
     root: {
       display: 'flex',
       flexWrap: 'wrap',
@@ -43,11 +44,12 @@ const styles = theme => ({
         '&:hover': {
           backgroundColor: blue[800],
         },
-      },
+    },
+    
     button:{
         margin: theme.spacing.unit,
     }
-});
+})};
 
 
 
@@ -55,13 +57,35 @@ const styles = theme => ({
 class DepositAsiapayKuaiJie extends Component {
     constructor(props) {
         super(props);
+        
+        this.state = {
+            amount: ""
+        };
 
-        this.state = {};
+        this.handleChange = this.handleChange.bind(this);
+        this.depositMoney = this.depositMoney.bind(this);
     }
+
+    componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === 1) {
+                alert("Please log in to view this page");
+                window.location.href = "/";
+            }
+        })
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        axios.get(API_URL + 'users/api/user/', config)
+        .then(res => {
+            this.setState({data: res.data});
+        });
+    }
+
     handleChange(event) {
         event.preventDefault();
-        // event.persist();
-        // console.log(typeof this.state.deposit_amount);
+
         if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
             this.setState({[event.target.name]: event.target.value}); 
 
@@ -73,33 +97,66 @@ class DepositAsiapayKuaiJie extends Component {
         }
     }
 
+    depositMoney(event) {
+        event.preventDefault();
+        let amount = this.state.amount;
+        let user = this.state.data.pk;
+
+        let postData = {
+            "amount": amount,
+            "userid": user,
+            "currency": "0",
+            "PayWay" : "30", // pop up window / new tab
+            "method": "39", // 快捷支付
+        };
+
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+
+        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        }).then(function(res) {
+            console.log(res);
+            return res.json();
+        });
+    }
+
     render() {
+        const {amount} = this.state;
         return (
             <div>
                 <TopNavbar />
                 <form className="deposit-form">
                     <FormattedMessage id="balance.enter_balance" />
                     <br/>
-                    <TextField
+                    <input
                         type="text" 
-                        value={''}
+                        value={amount}
                         placeholder="Enter Amount" 
-                        name="deposit_amount" 
+                        name="amount" 
                         onChange={this.handleChange}
                         className="input-deposit-amount"
                     />
                 </form>
                 <div className="deposit-form" id="submit-amount">
                     {/* <p>Select payment method:</p> */}
-                    <Button variant="contained" value="Deposit">
-                        Deposit
+                    <Button variant="contained" value="Deposit" onClick={this.depositMoney}>
+                        {"Deposit " + this.state.amount + " to my account"}
                     </Button>
                 </div>
             </div>
         );
     }
 }
-
 
 
 const mapStateToProps = (state) => {

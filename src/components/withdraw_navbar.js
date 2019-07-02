@@ -37,4 +37,4 @@ const mapStateToProps = (state) => {
         language: state.language.lang,
     }
 }
-export default withStyles()(injectIntl(withRouter(connect(mapStateToProps)(WithdrawNavBar))));
+export default (injectIntl(withRouter(connect(mapStateToProps)(WithdrawNavBar))));
