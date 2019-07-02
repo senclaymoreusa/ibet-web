@@ -17,6 +17,7 @@
 .input-deposit-amount {
     padding: 10px;
     margin-bottom: 14px;
+    /* margin-left: 30%; */
 }
 
 #deposit_form > span:nth-child(4) {

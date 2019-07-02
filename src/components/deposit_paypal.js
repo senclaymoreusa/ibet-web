@@ -116,7 +116,7 @@ class DepositPaypal extends Component {
                     {
                         this.state.live_check_amount && this.state.live_check_amount ? 
                         <div style={{color: 'red'}}> 
-                            <FormattedMessage id="balance.error"  defaultMessage='The balance you entered is not valid' />
+                            <FormattedMessage id="balance.error"  defaultMessage='The amount you entered is not valid' />
                         </div> :
                         <div>
                             <br />

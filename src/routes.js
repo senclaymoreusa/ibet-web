@@ -40,6 +40,7 @@ import DepositQaicah from './components/deposit_qaicash'
 import DepositAsiapayJDPay from './components/deposit_asiapay_jdpay'
 import DepositAsiapayBankcard from './components/deposit_asiapay_bankcard'
 import WithdrawAsiapay from './components/withdraw_asiapay'
+import DepositAsiapayKuaiJie from "./components/deposit_asiapay_kuaijie"
 import Deposit from './components/deposit'
 import Withdraw from './components/withdraw'
 import DepositUnionpay from './components/deposit_asiapay_unionpay'
@@ -91,6 +92,7 @@ const BaseRouter = () => (
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
     <Route exact path="/change_password/" component={Change_Password} />
     <Route exact path="/deposit_linepay/" component={DepositPage} />
+    <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>

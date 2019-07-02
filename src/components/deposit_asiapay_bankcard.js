@@ -3,7 +3,6 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import TopNavbar from "./top_navbar";
 import '../css/deposit.css';
 // Material-UI
@@ -21,10 +20,10 @@ import 'react-image-picker/dist/index.css'
 
 var QRCode = require('qrcode.react');
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
     
-const imageList = [img1, img2, img3]
+const imageList = [img1, img2, img3];
 
 const styles = theme => ({
     root: {
@@ -209,7 +208,6 @@ class DepositAsiapayBankcard extends Component {
                             color="primary"  
                             className={classes.button}
                             onClick={this.state.button_disable ? () => {} : this.handleClick}
-                            
                         >
                             PAY NOW
                         </Button>
