@@ -300,3 +300,51 @@ export const hide_update_profile = () => {
     type: 'HIDE_UPDATE_PROFILE'
   }
 }
+
+export const show_deposit = () => {
+  return {
+    type: 'SHOW_DEPOSIT'
+  }
+}
+
+export const hide_deposit = () => {
+  return {
+    type: 'HIDE_DEPOSIT'
+  }
+}
+
+export const show_deposit_amount = () => {
+  return {
+    type: 'SHOW_DEPOSIT_AMOUNT'
+  }
+}
+
+export const hide_deposit_amount = () => {
+  return {
+    type: 'HIDE_DEPOSIT_AMOUNT'
+  }
+}
+
+export const show_deposit_paypal = () => {
+  return {
+    type: 'SHOW_DEPOSIT_PAYPAL'
+  }
+}
+
+export const hide_deposit_paypal = () => {
+  return {
+    type: 'HIDE_DEPOSIT_PAYPAL'
+  }
+}
+
+export const show_withdraw = () => {
+  return {
+    type: 'SHOW_WITHDRAW'
+  }
+}
+
+export const hide_withdraw = () => {
+  return {
+    type: 'HIDE_WITHDRAW'
+  }
+}

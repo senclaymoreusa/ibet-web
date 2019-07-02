@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Footer from "./footer";
 import TopNavbar from "./top_navbar";
+import ChatTool from "./chat_tool";
+
 import { connect } from 'react-redux';
 import { authCheckState } from '../actions';
 import { FormattedMessage } from 'react-intl';
@@ -315,6 +317,7 @@ export class Home extends Component {
           }
         </div> */}
         <Footer />
+        <ChatTool/>
       </div>
 
     );

@@ -208,7 +208,7 @@ export class Login extends React.Component {
     const remember_password = formatMessage({ id: "login.remember" });
     
     return (
-        <div style={{backgroundColor: '#ffffff', height: 560, width: 380}}> 
+        <div style={{backgroundColor: '#ffffff', width: 380}}> 
 
                 <div style={{fontSize: 32, textAlign: 'center'}}> 
                     <FormattedMessage id="nav.login" defaultMessage='Login' />
@@ -295,7 +295,7 @@ export class Login extends React.Component {
 
                     <button
                         disabled = {this.state.button_disable} 
-                        style={{backgroundColor: 'red', height: 52, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', marginLeft: 50}}
+                        style={{backgroundColor: this.state.button_disable ? '#ff8080' : 'red', height: 52, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', marginLeft: 50}}
                         type="submit" 
                     > 
                         <FormattedMessage id="login.login" defaultMessage='Login' />
