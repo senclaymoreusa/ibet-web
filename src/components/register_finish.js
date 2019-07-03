@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { hide_signup_finish, show_login } from '../actions';
+import { hide_signup_finish, show_login, show_deposit } from '../actions';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { FormattedMessage } from 'react-intl';
 
@@ -11,19 +11,20 @@ class Register_Finish extends React.Component {
 
     render(){
         return (
-            <div style={{backgroundColor: '#212121', height: 640, width: 770}}> 
-                
-                <div style={{color: 'white', textAlign: 'center',  fontSize: 35, fontWeight: 600, marginTop: 60}}>
-                     ibet 
-                </div>
+            <div style={{backgroundColor: '#212121', height: 650, width: 770}}> 
 
                 <Close 
-                    style={{cursor: 'pointer', position: 'absolute', top: 25, left: 690, height: 120, width: 20}}
+                    style={{cursor: 'pointer', position: 'absolute', top: 0, left: 690, height: 120, width: 20}}
                     onClick = { () => {
                         this.props.hide_signup_finish();
                     }}
                 />
+                
+                <div style={{color: 'white', textAlign: 'center', fontSize: 35, fontWeight: 600, paddingTop: 30}}>
+                     ibet 
+                </div>
 
+                
                 <div style={{color: 'white', fontSize: 45, fontWeight: 600, marginLeft: 135, marginTop: 30}}> 
                     <FormattedMessage id="signup.thankyou" defaultMessage='Your email is confirmed' />
                 </div>
@@ -44,12 +45,12 @@ class Register_Finish extends React.Component {
                     <button 
                         onClick ={() => {
                             this.props.hide_signup_finish();
-                            this.props.show_login();
+                            this.props.show_deposit();
                         }}
                         style={{backgroundColor: 'red', height: 48, width: 272, marginTop: 170, color: 'white', cursor: 'pointer', border: 'none', fontSize: 14, fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: 0.88 }}
                         type='submit'
                     > 
-                        <FormattedMessage id="signup.login" defaultMessage='LOGIN' />
+                        MAKE MY FIRST DEPOSIT
                     </button>
                 </div>
 
@@ -60,4 +61,4 @@ class Register_Finish extends React.Component {
 
 
 
-export default connect(null, { hide_signup_finish, show_login })(Register_Finish);
+export default connect(null, { hide_signup_finish, show_login, show_deposit })(Register_Finish);

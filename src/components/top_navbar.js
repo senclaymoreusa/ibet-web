@@ -738,6 +738,14 @@ export class TopNavbar extends React.Component {
     }
 
     async componentDidMount() {
+
+        this.props.authCheckState()
+        .then(res => {
+            if (res === 1) {
+              this.props.history.push('/'); 
+            }
+        })
+
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;
@@ -1214,79 +1222,101 @@ export class TopNavbar extends React.Component {
                     // }}
                 >
                     <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
-                        <Login />
+                        <Paper>
+                            <Login />
+                        </Paper>
                     </ClickAwayListener>
                 </Popper>
 
                 <Popper
                     open={this.props.showSignup} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
                 >
-                    <Signup />
+                    <Paper>
+                        <Signup />
+                    </Paper>
                 </Popper>
 
                 <Popper
                     open={this.props.showSignupEmail} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
                 >
-                    <Signup_Email />
+                    <Paper> 
+                        <Signup_Email />
+                    </Paper>
                 </Popper>
 
                 <Popper
                     open={this.props.showSignupDetail} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
                 >
-                    <Signup_Detail />
+                    <Paper> 
+                        <Signup_Detail />
+                    </Paper>
                 </Popper>
 
 
                 <Popper
                     open={this.props.showSignupContact} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
                 >
-                    <Signup_Contact /> 
+                    <Paper> 
+                        <Signup_Contact /> 
+                    </Paper>
                 </Popper>
 
                 <Popper
                     open={this.props.showSignupPhone} 
                     style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
                 >
-                    <Signup_Phone /> 
+                    <Paper> 
+                        <Signup_Phone /> 
+                    </Paper> 
                 </Popper>
 
                 <Popper
                     open={this.props.showCompleteRegistration} 
                     style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
                 >
-                    <Complete_Registration /> 
+                    <Paper> 
+                        <Complete_Registration /> 
+                    </Paper>
                 </Popper>
 
                 <Popper
                     open={this.props.showPhoneVerification} 
                     style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
                 >
-                    <Phone_Verification /> 
+                    <Paper>
+                        <Phone_Verification /> 
+                    </Paper>
                 </Popper>
 
                 <Popper
                     open={this.props.showOneclickFinish} 
                     style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
                 >
-                    <One_Click_Finish /> 
+                    <Paper> 
+                        <One_Click_Finish />
+                    </Paper> 
                 </Popper>
 
                 <Popper
                     open={this.props.showSignupFinish} 
-                    style={{position: 'absolute', top: this.state.height > 640 ? (this.state.height - 640) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
                 >
-                    <Register_Finish /> 
+                    <Paper> 
+                        <Register_Finish /> 
+                    </Paper>
                 </Popper>
 
                 <Popper
                     open={this.props.showChangePassword} 
                     style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
                 >
-                    <Change_Password /> 
+                    <Paper> 
+                        <Change_Password /> 
+                    </Paper>
                 </Popper>
 
                 <Popper

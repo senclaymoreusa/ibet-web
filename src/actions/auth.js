@@ -109,7 +109,7 @@ export const authStart = () => {
             // localStorage.setItem('expirationDate', expirationDate);
             // dispatch(authSuccess(token));
             // dispatch(checkAuthTimeout(3600));
-            return Promise.resolve()
+            // return Promise.resolve()
         })
         .catch(err => {
             dispatch(authFail(err))

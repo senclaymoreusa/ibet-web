@@ -46,6 +46,9 @@ import Withdraw from './components/withdraw'
 import DepositAsiapayUnionpay from './components/deposit_asiapay_unionpay'
 import DepositAsiapayWechatpay from './components/deposit_asiapay_wechatpay'
 import DepositAsiapayAlipay from './components/deposit_asiapay_alipay'
+import New_Profile from './components/new_profile2'
+import New_Update_Profile from './components/new_update_profile2'
+
 const divStyle = {
   minHeight: '100%',
 };
@@ -62,8 +65,10 @@ const BaseRouter = () => (
     <Route exact path="/signup/:filter?" component={Signup} />
     <Route exact path="/game_detail/:id?" component={Game_Detail} />
     <Route exact path="/game_search/:term?" component={Game_Search} />
-    <Route exact path="/profile" component={Profile} />
-    <Route exact path="/update_profile" component={Update} />
+    {/* <Route exact path="/profile" component={Profile} /> */}
+    <Route exact path="/profile" component={New_Profile} />
+    {/* <Route exact path="/update_profile" component={Update} /> */}
+    <Route exact path="/update_profile" component={New_Update_Profile} />
     <Route exact path="/change_email" component={Change_Email} />
     <Route exact path="/forget_password" component={Forget_Password} />
     {/*<Route exact path="/reset_password/:filter?" component={Reset_Password} /> */}  

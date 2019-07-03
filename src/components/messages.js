@@ -265,6 +265,7 @@ export const messages = {
         'signup.oneclickregister.username': 'USERNAME',
         'signup.oneclickregister.password': 'PASSWORD',
         'signup.phone.resendsms': 'RESEND SMS',
+        'signup.over18error': 'You have to be at least 18 to registrate an account ',
 
         // handle new profile
         'new_profile.profile': 'Profile',
@@ -359,7 +360,7 @@ export const messages = {
 
         'changepassword': 'Change Password',
         'changepassword2': 'CHANGE PASSWORD',
-
+        'changepassword.passwordsameerror': 'New password cannot be same as old password'
     },
     zh: {
         // handle account menu message
@@ -627,6 +628,7 @@ export const messages = {
         'signup.oneclickregister.username': '用户名',
         'signup.oneclickregister.password': '密码',
         'signup.phone.resendsms': '重发短信',
+        'signup.over18error': '您至少需要满18岁才能注册',
 
         // handle new profile
         'new_profile.profile': '账户',
@@ -720,6 +722,7 @@ export const messages = {
 
         'changepassword': '更改密码',
         'changepassword2': '更改密码',
+        'changepassword.passwordsameerror': '新密码不能与旧密码相同'
     },
     fr: {
         // handle account menu message
@@ -1032,6 +1035,7 @@ export const messages = {
         'signup.oneclickregister.username': "NOM D'UTILISATEUR",
         'signup.oneclickregister.password': "MOT DE PASSE",
         'signup.phone.resendsms': 'RESEND SMS',
+        'signup.over18error': 'Vous devez avoir au moins 18 ans pour enregistrer un compte',
 
         // handle new profile
         'new_profile.profile': 'Profil',
@@ -1127,6 +1131,7 @@ export const messages = {
 
         'changepassword': 'Changer le mot de passe',
         'changepassword2': 'CHANGER LE MOT DE PASSE',
+        'changepassword.passwordsameerror': "Le nouveau mot de passe ne peut pas être identique à l'ancien mot de passe"
     }
 }
 
