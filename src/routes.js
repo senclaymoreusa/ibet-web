@@ -44,6 +44,8 @@ import DepositAsiapayKuaiJie from "./components/deposit_asiapay_kuaijie"
 import Deposit from './components/deposit'
 import Withdraw from './components/withdraw'
 import DepositAsiapayUnionpay from './components/deposit_asiapay_unionpay'
+import DepositAsiapayWechatpay from './components/deposit_asiapay_wechatpay'
+import DepositAsiapayAlipay from './components/deposit_asiapay_alipay'
 const divStyle = {
   minHeight: '100%',
 };
@@ -86,6 +88,8 @@ const BaseRouter = () => (
     <Route exact path="/deposit_asiapay_jdpay/" component={DepositAsiapayJDPay} />
     <Route exact path="/deposit_asiapay_bankcard/" component={DepositAsiapayBankcard} />
     <Route exact path="/deposit_asiapay_unionpay/" component={DepositAsiapayUnionpay} />
+    <Route exact path="/deposit_asiapay_wechatpay/" component={DepositAsiapayWechatpay} />
+    <Route exact path="/deposit_asiapay_alipay/" component={DepositAsiapayAlipay} />
     <Route exact path="/withdraw_asiapay/" component={WithdrawAsiapay} />
     <Route exact path="/terms_conditions/" component={TermsConditions} />
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />

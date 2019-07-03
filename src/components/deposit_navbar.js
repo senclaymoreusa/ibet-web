@@ -65,6 +65,16 @@ export class DepositNavBar extends Component {
                 UnionPay
             </Button>
           </Link>
+          <Link to="/deposit_asiapay_wechatpay/">
+          <Button variant="contained"  color="secondary" id="nav.deposit_asiapay_wechatpay" className={classes.button}>
+                微信支付
+            </Button>
+          </Link>
+          <Link to="/deposit_asiapay_alipay/">
+          <Button variant="contained"  color="secondary" id="nav.deposit_asiapay_alipay" className={classes.button}>
+                支付宝
+            </Button>
+          </Link>
         </nav>
       </React.Fragment>
     );
