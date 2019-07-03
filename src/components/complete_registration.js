@@ -129,21 +129,10 @@ class Complete_Registration extends React.Component {
                     />
                 </div>
 
-                <div onClick={()=>{
+                <button 
+                    disabled = {!this.state.checkbox1}
+                    onClick={()=>{
                     this.props.handle_signup_over18(this.state.checkbox1)
-                    // console.log(this.props.signup_username, 
-                    //     this.props.signup_email,
-                    //     this.props.signup_password,
-                    //     this.props.signup_first_name,
-                    //     this.props.signup_last_name,
-                    //     this.props.signup_phone,
-                    //     this.props.signup_dob,
-                    //     this.props.signup_address,
-                    //     this.props.signup_country,
-                    //     this.props.signup_city,
-                    //     this.props.signup_zipcode,
-                    //     this.state.checkbox1,
-                    //     this.props.signup_language)
                     
                     this.props.authSignup(
                         this.props.signup_username, 
@@ -167,12 +156,12 @@ class Complete_Registration extends React.Component {
                         console.log(err.response)
                     })
                 }}
-                    style={{backgroundColor: 'red', fontSize: 15, height: 50, width: 320, marginLeft: 215, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center'}}
+                    style={{backgroundColor: !this.state.checkbox1 ? '#ff8080' : 'red', fontSize: 15, height: 50, width: 320, marginLeft: 215, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center', border: 'none'}}
                 > 
-                    <div style={{paddingTop: 15}}>  
+                    <div>  
                         <FormattedMessage  id="signup.confirmviaphone" defaultMessage="CONFIRM VIA PHONE" />
                     </div>
-                </div>
+                </button>
 
                 <div style={{textAlign: 'center', color: '#e4e4e4', marginTop: 30}}>
                     ________________________________________________________________________________
