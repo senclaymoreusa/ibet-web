@@ -25,7 +25,6 @@ class Register_Finish extends React.Component {
                 </div>
 
                 
-
                 <div style={{color: 'white', fontSize: 45, fontWeight: 600, marginLeft: 135, marginTop: 30}}> 
                     <FormattedMessage id="signup.thankyou" defaultMessage='Your email is confirmed' />
                 </div>
