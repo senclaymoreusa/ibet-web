@@ -15,8 +15,6 @@ export class DepositNavBar extends Component {
     this.state = {
         
     };
-
-
 }
   render() {
     const { classes } = this.props;
@@ -75,4 +73,4 @@ const mapStateToProps = (state) => {
         language: state.language.lang,
     }
 }
-export default (injectIntl(withRouter(connect(mapStateToProps)(DepositNavBar))));
+export default withStyles()(injectIntl(withRouter(connect(mapStateToProps)(DepositNavBar))));
