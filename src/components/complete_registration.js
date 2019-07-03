@@ -133,19 +133,6 @@ class Complete_Registration extends React.Component {
                     disabled = {!this.state.checkbox1}
                     onClick={()=>{
                     this.props.handle_signup_over18(this.state.checkbox1)
-                    // console.log(this.props.signup_username, 
-                    //     this.props.signup_email,
-                    //     this.props.signup_password,
-                    //     this.props.signup_first_name,
-                    //     this.props.signup_last_name,
-                    //     this.props.signup_phone,
-                    //     this.props.signup_dob,
-                    //     this.props.signup_address,
-                    //     this.props.signup_country,
-                    //     this.props.signup_city,
-                    //     this.props.signup_zipcode,
-                    //     this.state.checkbox1,
-                    //     this.props.signup_language)
                     
                     this.props.authSignup(
                         this.props.signup_username, 

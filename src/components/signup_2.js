@@ -100,7 +100,6 @@ class Signup extends React.Component {
                             this.props.handle_oneclick_password(res.data.password)
                             this.props.hide_signup()
                             this.props.show_oneclick_finish();
-
                         })
                     }} 
                     style={{backgroundColor: '#212121', fontSize: 15, height: 48, width: 272, marginLeft: 200, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center'}}
