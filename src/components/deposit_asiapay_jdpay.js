@@ -87,7 +87,8 @@ class DepositAsiapayJDPay extends Component {
         axios.get(API_URL + 'users/api/user/', config)
         .then(res => {
             this.setState({data: res.data});
-        })
+        });
+        
         const { type } = this.props.match.params;
         
 

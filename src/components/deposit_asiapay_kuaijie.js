@@ -127,6 +127,10 @@ class DepositAsiapayKuaiJie extends Component {
         }).then(function(res) {
             console.log(res);
             return res.json();
+        }).then(function(data){
+            let url = data.url;
+            let order_id = data.order_id;
+            window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
         });
     }
 
