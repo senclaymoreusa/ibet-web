@@ -85,9 +85,9 @@ class DepositAsiapayJDPay extends Component {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
-          .then(res => {
+        .then(res => {
             this.setState({data: res.data});
-          })
+        })
         const { type } = this.props.match.params;
         
 

@@ -275,7 +275,15 @@ class InputForm extends Component {
                     {this.renderAmtButton(5000, "secondary")}
                 </div>
                 <div className="deposit-form" id="submit-amount">
-                    <p>Select payment method:</p>
+                    {/* <p>Select payment method:</p> */}
+                    <Button 
+                        variant="contained" 
+                        value="Deposit"
+                        onClick={button_disable ? () => {} : this.handleClick}
+                        style={button_disable ? {} : {cursor: "pointer"}}
+                    >
+                        {"Deposit " + depositAmount + " to my account"}
+                    </Button>
                     <img 
                         id="LINElogo" 
                         type="image" 

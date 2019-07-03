@@ -85,4 +85,4 @@ const mapStateToProps = (state) => {
         language: state.language.lang,
     }
 }
-export default withStyles()(injectIntl(withRouter(connect(mapStateToProps)(DepositNavBar))));
+export default (injectIntl(withRouter(connect(mapStateToProps)(DepositNavBar))));

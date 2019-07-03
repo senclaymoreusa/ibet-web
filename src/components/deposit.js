@@ -78,22 +78,20 @@ class Deposit extends Component {
         const { type } = this.props.match.params;
     }
     
-    render(){
+    render() {
         const { classes } = this.props;
         let amount = this.state.balance;
         let user = this.state.data.username;
         
         return (
             <div>
-            <TopNavbar />
-            <div>
-            <DepositNavBar />
+                <TopNavbar />
+                <div>
+                    <DepositNavBar />
+                </div>
             </div>
-            </div>
-            
-            )
-        }
-        
+        )
+    }       
 }
     
 const mapStateToProps = (state) => {
