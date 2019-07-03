@@ -40,6 +40,10 @@ const styles = theme => ({
     cssFocused: {  },
     
     notchedOutline: {  },
+
+    labelRoot: {
+        fontSize: 15
+    }
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -141,7 +145,7 @@ class Signup_Phone extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div style={{backgroundColor: 'white', height: 700, width: 662}}> 
+            <div style={{backgroundColor: 'white', minHeight: 650, width: 662}}> 
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <div className='signup-title'>     
                         <Back 
@@ -205,8 +209,17 @@ class Signup_Phone extends React.Component {
                                 classes: {
                                     root: classes.cssOutlinedInput,
                                     focused: classes.cssFocused,
-                                    notchedOutline: classes.notchedOutline
+                                    notchedOutline: classes.notchedOutline,
+                                    
                                 }
+                            }}
+
+                            InputLabelProps={{
+                                
+                                    FormLabelClasses: {
+                                      root: classes.labelRoot
+                                    }
+                                
                             }}
                         />
                     </div>

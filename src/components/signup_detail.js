@@ -69,7 +69,9 @@ class Signup_Detail extends React.Component {
 
             username_error: false,
 
-            all_country_name: []
+            all_country_name: [],
+
+            less_18_error: false
         }
     }
 
@@ -128,6 +130,7 @@ class Signup_Detail extends React.Component {
         if (this.state.month.length === 2 && !this.state.live_check_dob){
             this.focusTextInput_1()
         }
+        this.check_18()
         this.check_button_disable()
     }
 
@@ -145,6 +148,7 @@ class Signup_Detail extends React.Component {
         if (this.state.day.length === 2 && !this.state.live_check_dob){
             this.focusTextInput_2()
         }
+        this.check_18()
         this.check_button_disable()
     }
 
@@ -161,8 +165,26 @@ class Signup_Detail extends React.Component {
         }else{
           this.setState({live_check_dob: false})
         }
-        
+        this.check_18()
         this.check_button_disable()
+    }
+
+    check_18(){
+        var today = new Date();
+        var cur_year = today.getFullYear();
+        var cur_month = today.getMonth() + 1 ;
+        var cur_day = today.getDate();
+        if (this.state.month && this.state.day && this.state.year){
+            if(Number(cur_year) - Number(this.state.year) < 18){
+                this.setState({less_18_error: true})
+            }else if(Number(cur_year) - Number(this.state.year) === 18 && Number(cur_month) - Number(this.state.month) < 0){
+                this.setState({less_18_error: true})
+            }else if(Number(cur_year) - Number(this.state.year) === 18 && Number(cur_month) - Number(this.state.month) === 0 && Number(cur_day) - Number(this.state.day) < 0){
+                this.setState({less_18_error: true})
+            }else{
+                this.setState({less_18_error: false})
+            }
+        }
     }
 
     focusTextInput_1() {
@@ -176,7 +198,7 @@ class Signup_Detail extends React.Component {
 
     check_button_disable(){
         if(this.state.username && this.state.first_name && this.state.last_name && this.state.year && this.state.day && this.state.month &&
-            !this.state.live_check_username && !this.state.live_check_firstname && !this.state.live_check_lastname && !this.state.live_check_dob){
+            !this.state.live_check_username && !this.state.live_check_firstname && !this.state.live_check_lastname && !this.state.live_check_dob && !this.state.less_18_error){
             this.setState({button_disable: false})
         }
     }
@@ -207,7 +229,7 @@ class Signup_Detail extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div style={{backgroundColor: 'white', height: 700, width: 662}}> 
+            <div style={{backgroundColor: 'white', minHeight: 650, width: 662}}> 
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <div className='signup-title'>     
 
@@ -351,6 +373,8 @@ class Signup_Detail extends React.Component {
 
                         {this.state.live_check_dob && <div style={{color: 'red'}}> <FormattedMessage  id="error.dateofbirth" defaultMessage='Date of birth not valid' /> </div>}
 
+                        {this.state.less_18_error && <div style={{color: 'red'}}> <FormattedMessage  id="signup.over18error" defaultMessage='You have to be at least 18 to registrate an account' /> </div>}
+
                     </div>
 
                     <div style={{textAlign: 'center'}}> 
@@ -366,6 +390,9 @@ class Signup_Detail extends React.Component {
                     <div style={{color: '#747175', fontSize: 12, marginTop: 10, textAlign: 'center'}}> By signing up you agree to ibet's <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/terms_conditions')}> terms and conditions </b> and</div>
                     <div style={{color: '#747175', fontSize: 12, textAlign: 'center'}}> confirm you've read and understood the <b style={{color: 'black', cursor: 'pointer'}} onClick={()=> window.open('/privacy_policy')}> privacy </b> policy</div>
                 </form>
+
+                <div style={{height: 20}}> </div>
+                
             </div>
         )
     }

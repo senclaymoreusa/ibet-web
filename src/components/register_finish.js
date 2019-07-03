@@ -11,18 +11,20 @@ class Register_Finish extends React.Component {
 
     render(){
         return (
-            <div style={{backgroundColor: '#212121', height: 640, width: 770}}> 
-                
-                <div style={{color: 'white', textAlign: 'center',  fontSize: 35, fontWeight: 600, marginTop: 60}}>
-                     ibet 
-                </div>
+            <div style={{backgroundColor: '#212121', height: 650, width: 770}}> 
 
                 <Close 
-                    style={{cursor: 'pointer', position: 'absolute', top: 25, left: 690, height: 120, width: 20}}
+                    style={{cursor: 'pointer', position: 'absolute', top: 0, left: 690, height: 120, width: 20}}
                     onClick = { () => {
                         this.props.hide_signup_finish();
                     }}
                 />
+                
+                <div style={{color: 'white', textAlign: 'center', fontSize: 35, fontWeight: 600, paddingTop: 30}}>
+                     ibet 
+                </div>
+
+                
 
                 <div style={{color: 'white', fontSize: 45, fontWeight: 600, marginLeft: 135, marginTop: 30}}> 
                     <FormattedMessage id="signup.thankyou" defaultMessage='Your email is confirmed' />

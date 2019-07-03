@@ -168,7 +168,7 @@ class Signup_Email extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div style={{backgroundColor: 'white', height: 700, width: 662}}>
+            <div style={{backgroundColor: 'white', minHeight: 650, width: 662}}>
                 <form onSubmit={this.handlesubmit.bind(this)}>
                     
                     <div className='signup-title'> 
@@ -365,6 +365,8 @@ class Signup_Email extends React.Component {
                             <FormattedMessage  id="signup.continue" defaultMessage='CONTINUE' />
                         </button>
                     </div>
+
+                    <div style={{height: 20}}> </div>
                 </form>
 
             </div>

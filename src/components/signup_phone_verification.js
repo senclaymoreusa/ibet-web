@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { ReactComponent as Check } from '../assets/img/svg/check.svg';
 
-import { hide_phone_verification, show_complete_registration, show_signup_finish } from '../actions';
+import { hide_phone_verification, show_complete_registration, show_signup_finish, authLogin } from '../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -118,14 +118,15 @@ class Phone_Verification extends React.Component {
                     this.setState({error: true})
                 }else{
                     this.setState({error: false, show_check: true})
-                    
+                    this.props.authLogin(this.props.signup_username, this.props.signup_password)
+
                     setTimeout(
                         function() {
                             this.props.hide_phone_verification();
                             this.props.show_signup_finish();
                         }
                         .bind(this),
-                        3000
+                        2000
                     );
                 }
             })
@@ -300,8 +301,9 @@ class Phone_Verification extends React.Component {
 const mapStateToProps = (state) => {
     return {
         signup_phone:    state.general.signup_phone,
-        signup_username: state.general.signup_username
+        signup_username: state.general.signup_username,
+        signup_password: state.general.signup_password,
     }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, { hide_phone_verification, show_complete_registration, show_signup_finish })(Phone_Verification));
+export default withStyles(styles)(connect(mapStateToProps, { hide_phone_verification, show_complete_registration, show_signup_finish, authLogin })(Phone_Verification));

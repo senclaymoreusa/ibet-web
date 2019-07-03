@@ -15,7 +15,7 @@ class Signup extends React.Component {
 
     render(){
         return (
-            <div style={{backgroundColor: 'white', height: 700, width: 662}}>
+            <div style={{backgroundColor: 'white', minHeight: 650, width: 662}}>
                 
                 <div className='signup-title'> 
 
@@ -85,7 +85,7 @@ class Signup extends React.Component {
                     this.props.show_signup_email()
                     this.props.hide_signup()
                     }} 
-                    style={{backgroundColor: 'red', fontSize: 15, height: 48, width: 272, marginLeft: 215, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center'}}
+                    style={{backgroundColor: 'red', fontSize: 15, height: 48, width: 272, marginLeft: 200, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center'}}
                 > 
                     <div style={{paddingTop: 12}}>  
                         <FormattedMessage id="signup.register" defaultMessage='REGISTER' />
@@ -103,7 +103,7 @@ class Signup extends React.Component {
 
                         })
                     }} 
-                    style={{backgroundColor: '#212121', fontSize: 15, height: 48, width: 272, marginLeft: 215, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center'}}
+                    style={{backgroundColor: '#212121', fontSize: 15, height: 48, width: 272, marginLeft: 200, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center'}}
                 > 
                     <div style={{paddingTop: 15}}>  
                         <FormattedMessage id="signup.onclickregister" defaultMessage='REGISTER WITH ONE CLICK' />

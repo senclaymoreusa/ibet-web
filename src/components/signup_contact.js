@@ -176,7 +176,7 @@ class Signup_Contact extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div style={{backgroundColor: 'white', height: 700, width: 662}}>
+            <div style={{backgroundColor: 'white', minHeight: 650, width: 662}}>
                 <form onSubmit={this.onFormSubmit.bind(this)}>
 
                     <div className='signup-title'>     
