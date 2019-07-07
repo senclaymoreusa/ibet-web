@@ -63,7 +63,8 @@ class Forget_Password_Validation extends Component {
             show_check: false,
             password: '',
             password_too_simple: false,
-            button_disable: true
+            button_disable: true,
+            verification_error: false
         }
     }
 
@@ -145,6 +146,19 @@ class Forget_Password_Validation extends Component {
     onFormSubmit(event){
         event.preventDefault();
 
+        axios.post(API_URL + `users/api/verifyresetpasswordcode/`, {
+            email: this.props.email, 
+            code: this.state.code_1 + this.state.code_2 + this.state.code_3 + this.state.code_4,
+            password: this.state.password
+        })
+        .then(res => {
+            if (res.data === 'Sucess'){
+                alert('You have successfully reser your password');
+                this.props.hide_forget_password_validation()
+            }else{
+                this.setState({verification_error: true})
+            }
+        })
         
     }
 
@@ -249,6 +263,8 @@ class Forget_Password_Validation extends Component {
                             </div>
                         </div>
 
+                        {this.state.verification_error && <div style={{color: 'red', marginLeft: 180}}> Verification code not correct </div>}
+
 
                         <div style={{marginTop: 15, textAlign: 'center', marginTop: 50}}> 
                             <TextField
@@ -297,5 +313,11 @@ class Forget_Password_Validation extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_forget_password_validation })(Forget_Password_Validation));
+const mapStateToProps = (state) => {
+    return {
+        email:      state.general.forget_email,
+    }
+}
+
+export default withStyles(styles)(connect(mapStateToProps, { hide_forget_password_validation })(Forget_Password_Validation));
 

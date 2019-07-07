@@ -372,3 +372,10 @@ export const hide_forget_password_validation = () => {
     type: 'HIDE_FORGET_PASSWORD_VALIDATION'
   }
 }
+
+export const forget_email = (email) => {
+  return {
+    type: 'FORGET_EMAIL',
+    payload: email
+  }
+}

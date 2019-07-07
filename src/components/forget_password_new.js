@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hide_forget_password, show_forget_password_validation } from '../actions';
+import { hide_forget_password, show_forget_password_validation, forget_email } from '../actions';
 import { connect } from 'react-redux';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { withStyles } from '@material-ui/core/styles';
@@ -63,10 +63,9 @@ class New_Forget_Password extends Component {
             if (res.data === 'Success'){
                 this.props.hide_forget_password();
                 this.props.show_forget_password_validation();
+                this.props.forget_email(this.state.email);
                 axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
-                .then(res => {
-                    
-                })
+                axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: this.state.email})
             }else{
                 this.setState({email_not_exist: true});
             }
@@ -142,4 +141,4 @@ class New_Forget_Password extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_forget_password })(New_Forget_Password));
+export default withStyles(styles)(connect(null, { hide_forget_password, show_forget_password_validation, forget_email })(New_Forget_Password));
