@@ -348,3 +348,15 @@ export const hide_withdraw = () => {
     type: 'HIDE_WITHDRAW'
   }
 }
+
+export const show_forget_password = () => {
+  return {
+    type: 'SHOW_FORGET_PASSWORD'
+  }
+}
+
+export const hide_forget_password = () => {
+  return {
+    type: 'HIDE_FORGET_PASSWORD'
+  }
+}
