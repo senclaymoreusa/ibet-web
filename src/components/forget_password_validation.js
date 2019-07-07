@@ -152,7 +152,7 @@ class Forget_Password_Validation extends Component {
             password: this.state.password
         })
         .then(res => {
-            if (res.data === 'Sucess'){
+            if (res.data === 'Success'){
                 alert('You have successfully reser your password');
                 this.props.hide_forget_password_validation()
             }else{

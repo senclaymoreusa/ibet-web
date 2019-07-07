@@ -22,7 +22,7 @@ const INITIAL_STATE ={
     show_deposit_amount: false,
     show_deposit_paypal: false,
     show_withdraw: false,
-    show_forget_password: true,
+    show_forget_password: false,
     show_forget_password_validation: false,
     
     onc_click_username: '',
