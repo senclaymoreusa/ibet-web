@@ -62,6 +62,8 @@ class Forget_Password_Validation extends Component {
             error: false,
             show_check: false,
             password: '',
+            password_too_simple: false,
+            button_disable: true
         }
     }
 
@@ -88,6 +90,7 @@ class Forget_Password_Validation extends Component {
                 this.focusTextInput_2()
             }
         }
+        this.check_valid();
     }
 
     async handle_code_2(event){
@@ -97,6 +100,7 @@ class Forget_Password_Validation extends Component {
               this.focusTextInput_3()
            }
         }
+        this.check_valid();
     }
 
     async handle_code_3(event){
@@ -106,22 +110,37 @@ class Forget_Password_Validation extends Component {
                 this.focusTextInput_4()
             }
         }
+        this.check_valid();
     }
 
     async handle_code_4(event){
         if(!event.target.value ||  (event.target.value.match(/^[0-9]+$/) && event.target.value.length < 2)){
             await this.setState({code_4: event.target.value})
         }
+        this.check_valid();
     }
 
     async onInputChange_password(event){
-        await this.setState({password: event.target.value, error: false, password_same: false});
-        this.check_password_match();
+        if (event.target.value.length < 8){
+            this.setState({password_too_simple: true, button_disable: true})
+        }else{
+            this.setState({password_too_simple: false})
+        }
+        await this.setState({password: event.target.value});
+        this.check_valid();
     }
 
     handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }));
     };
+
+    check_valid(){
+        if (!this.state.password_too_simple && this.state.password && this.state.code_1 && this.state.code_2 && this.state.code_3 && this.state.code_4){
+            this.setState({button_disable: false})
+        }else{
+            this.setState({button_disable: true})
+        }
+    }
 
     onFormSubmit(event){
         event.preventDefault();
@@ -259,6 +278,8 @@ class Forget_Password_Validation extends Component {
                                 }}
                             />
                         </div>
+
+                        {this.state.password_too_simple && <div style={{color: 'red', marginLeft: 170}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
 
                         <div style={{textAlign: 'center', marginTop: 50}}> 
                             <button 
