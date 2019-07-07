@@ -22,7 +22,8 @@ const INITIAL_STATE ={
     show_deposit_amount: false,
     show_deposit_paypal: false,
     show_withdraw: false,
-    show_forget_password: true,
+    show_forget_password: false,
+    show_forget_password_validation: true,
     
     onc_click_username: '',
     one_click_password: '',
@@ -159,6 +160,10 @@ export default (state = INITIAL_STATE, action) => {
         return {...state, show_forget_password: true}
       case 'HIDE_FORGET_PASSWORD':
         return {...state, show_forget_password: false}
+      case 'SHOW_FORGET_PASSWORD_VALIDATION':
+        return {...state, show_forget_password_validation: true}
+      case 'HIDE_FORGET_PASSWORD_VALIDATION':
+        return {...state, show_forget_password_validation: false}
       default:
         return state;
     }

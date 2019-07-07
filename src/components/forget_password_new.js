@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hide_forget_password } from '../actions';
+import { hide_forget_password, show_forget_password_validation } from '../actions';
 import { connect } from 'react-redux';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { withStyles } from '@material-ui/core/styles';
@@ -62,6 +62,7 @@ class New_Forget_Password extends Component {
         .then(res => {
             if (res.data === 'Success'){
                 this.props.hide_forget_password();
+                this.props.show_forget_password_validation();
                 axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
                 .then(res => {
                     
