@@ -92,7 +92,10 @@ class DepositPaypal extends Component {
         const { classes } = this.props;
         let amount = this.state.balance;
         let user = this.state.data.username;
-        
+        const buttonStyles = {
+            width: 400, 
+            height: 200,
+        }
         return (
             <div>
                 <TopNavbar />
@@ -122,7 +125,7 @@ class DepositPaypal extends Component {
                             <br />
                         </div>
                     }
-                    <div className='paypal-button'  >
+                    <div className='paypal-button'  style={buttonStyles}>
                     
                         <PayPalButton  
                             
