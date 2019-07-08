@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl} from 'react-intl';
 import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_signup, show_signup_email, handle_oneclick_username, handle_oneclick_password, show_oneclick_finish} from '../actions';
 import IoSocialFacebook from 'react-icons/lib/io/social-facebook';
 import IoSocialTwitter from  'react-icons/lib/io/social-twitter';
+import { withRouter } from 'react-router-dom';
 
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 
@@ -13,9 +14,29 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 class Signup extends React.Component {
 
+    constructor(props){
+        super(props);
+        
+
+        this.state = {
+            ready: false,
+            referrer: '',
+            
+        }
+    }
+
+    componentDidMount(){
+
+        axios.get(API_URL + `users/api/getusernamebyreferid/?referid=${this.props.refer_id}`)
+        .then(res => {
+            this.setState({ready: true, referrer: res.data})
+        })
+        
+    }
+
     render(){
         return (
-            <div style={{backgroundColor: 'white', minHeight: 650, width: 662}}>
+            this.state.ready && <div style={{backgroundColor: 'white', minHeight: 650, width: 662}}>
                 
                 <div className='signup-title'> 
 
@@ -30,6 +51,10 @@ class Signup extends React.Component {
                         }}
                    />
 
+                </div>
+
+                <div style={{textAlign: 'center', fontSize: 20}}> 
+                    Your referrer:   {this.state.referrer}
                 </div>
 
                 <div className='signup-top-message' style={{marginTop: 47, textAlign: 'center'}}>
@@ -132,5 +157,11 @@ class Signup extends React.Component {
     }
 }
 
-export default connect(null, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_signup, show_signup_email, handle_oneclick_username, handle_oneclick_password, show_oneclick_finish})(Signup);
+const mapStateToProps = (state) => {
+    return {
+      refer_id: state.general.refer_id
+    }
+  }
+
+export default withRouter(connect(mapStateToProps, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_signup, show_signup_email, handle_oneclick_username, handle_oneclick_password, show_oneclick_finish})(Signup));
 

@@ -4,7 +4,7 @@ import TopNavbar from "./top_navbar";
 import ChatTool from "./chat_tool";
 
 import { connect } from 'react-redux';
-import { authCheckState } from '../actions';
+import { authCheckState, handle_referid } from '../actions';
 import { FormattedMessage } from 'react-intl';
 import Marquee from "react-smooth-marquee";
 import axios from 'axios';
@@ -59,6 +59,8 @@ export class Home extends Component {
   }
 
   async componentDidMount() {
+    const { referid } = this.props.match.params;
+    this.props.handle_referid(referid)
 
     this.props.authCheckState()
     axios.get(API_URL + 'operation/api/notice-message', config)
@@ -330,4 +332,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, { authCheckState })(Home));
+export default withStyles(styles)(connect(mapStateToProps, { authCheckState, handle_referid })(Home));

@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios'
+import { config } from '../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -39,8 +40,20 @@ export class Refer_User extends React.Component {
             email: '',
             live_check_email: false,
             button_disable: true,
-            email_exist: false
+            email_exist: false,
+
+            data: ''
         }
+    }
+
+    componentDidMount(){
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        axios.get(API_URL + 'users/api/user/', config)
+        .then(res => {
+            this.setState({data: res.data});
+        }) 
     }
 
     async onInputChange_email(event){
@@ -66,6 +79,8 @@ export class Refer_User extends React.Component {
                 // axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
                 // axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: this.state.email})
                 this.props.hide_refer_user();
+                axios.get(API_URL + `users/api/sendemail/?case=referral&to_email_address=${this.state.email}&username=${this.state.data.username}&referralid=${this.state.data.referral_id}`, config)
+                alert('An email with referal link has been sent to the email address')
             }else{
                 this.setState({email_exist: true});
             }
