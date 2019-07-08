@@ -24,6 +24,7 @@ const INITIAL_STATE ={
     show_withdraw: false,
     show_forget_password: false,
     show_forget_password_validation: false,
+    show_refer_user: true,
     
     onc_click_username: '',
     one_click_password: '',
@@ -168,6 +169,10 @@ export default (state = INITIAL_STATE, action) => {
         return {...state, show_forget_password_validation: false}
       case 'FORGET_EMAIL':
         return {...state, forget_email: action.payload}
+      case 'SHOW_REFER_USER':
+        return {...state, show_refer_user: true}
+      case 'HIDE_REFER_USER':
+        return {...state, show_refer_user: false}
       default:
         return state;
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {  } from '../actions';
+import { hide_refer_user } from '../actions';
 import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -29,6 +29,8 @@ const styles = theme => ({
     notchedOutline: {  },
 });
 
+
+
 export class Refer_User extends React.Component {
     constructor(props){
         super(props);
@@ -37,8 +39,37 @@ export class Refer_User extends React.Component {
             email: '',
             live_check_email: false,
             button_disable: true,
-            email_not_exist: false
+            email_exist: false
         }
+    }
+
+    async onInputChange_email(event){
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!event.target.value.match(re)){
+          this.setState({live_check_email: true, button_disable: true,})
+        }else{
+          this.setState({live_check_email: false, button_disable: false})
+        }
+        await this.setState({email: event.target.value, email_exist: false});
+    }
+
+    handlesubmit(event){
+
+        event.preventDefault();
+
+        axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`)
+        .then(res => {
+            if (res.data !== 'Success'){
+                // this.props.hide_forget_password();
+                // this.props.show_forget_password_validation();
+                // this.props.forget_email(this.state.email);
+                // axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
+                // axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: this.state.email})
+                this.props.hide_refer_user();
+            }else{
+                this.setState({email_exist: true});
+            }
+        })
     }
 
     render(){
@@ -50,13 +81,13 @@ export class Refer_User extends React.Component {
                 <div className='signup-title'> 
 
                     <div style={{ paddingTop: 20, fontSize: 14, fontWeight: 600, color: '#212121', letterSpacing: 0.88, fontFamily: 'Gilroy', fontStyle: 'normal', fontStretch: 'normal', lineHeight: 'normal'}}> 
-                        Forget Password
+                        Refer User
                     </div>
 
                     <Close 
                         style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                         onClick = { () => {
-                            this.props.hide_forget_password();
+                            this.props.hide_refer_user();
                         }}
                     />
                 </div>
@@ -66,7 +97,7 @@ export class Refer_User extends React.Component {
                 </div>
 
                 <div style={{fontSize: 30, marginLeft: 80}}>
-                    associated to your account
+                    associated to your referee
                 </div>
 
                 <form onSubmit={this.handlesubmit.bind(this)}>
@@ -92,7 +123,7 @@ export class Refer_User extends React.Component {
 
                 {this.state.live_check_email && <div style={{color: 'red', marginLeft: 180}}> <FormattedMessage  id="error.email" defaultMessage='Email address not valid' /> </div>}
 
-                {this.state.email_not_exist && <div style={{color: 'red', marginLeft: 180}}> No user is associated with this email address </div>}
+                {this.state.email_exist && <div style={{color: 'red', marginLeft: 180}}> <FormattedMessage  id="referral.email_exist" defaultMessage='This email has already been registerd' /> </div>}
 
                 <div style={{textAlign: 'center', marginTop: 50}}> 
                     <button 
@@ -110,4 +141,4 @@ export class Refer_User extends React.Component {
     }
 }
 
-export default withStyles(styles)(connect(null, {})(Refer_User));
+export default withStyles(styles)(connect(null, { hide_refer_user })(Refer_User));
