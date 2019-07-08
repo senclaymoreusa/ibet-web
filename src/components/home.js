@@ -60,7 +60,10 @@ export class Home extends Component {
 
   async componentDidMount() {
     const { referid } = this.props.match.params;
-    this.props.handle_referid(referid)
+    if (referid){
+        this.props.handle_referid(referid);
+    }
+    
 
     this.props.authCheckState()
     axios.get(API_URL + 'operation/api/notice-message', config)

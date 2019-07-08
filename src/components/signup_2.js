@@ -52,10 +52,11 @@ class Signup extends React.Component {
                    />
 
                 </div>
-
-                <div style={{textAlign: 'center', fontSize: 20}}> 
+                {
+                this.state.referrer !== 'Failed' && <div style={{textAlign: 'center', fontSize: 20}}> 
                     Your referrer:   {this.state.referrer}
                 </div>
+                }
 
                 <div className='signup-top-message' style={{marginTop: 47, textAlign: 'center'}}>
                     <FormattedMessage id="signup.message0" defaultMessage='Future of online betting' />

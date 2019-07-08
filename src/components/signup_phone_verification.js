@@ -119,6 +119,10 @@ class Phone_Verification extends React.Component {
                 }else{
                     this.setState({error: false, show_check: true})
                     this.props.authLogin(this.props.signup_username, this.props.signup_password)
+                    if (this.props.refer_id){
+                        axios.get(API_URL + `users/api/referral/?referral_id=${this.props.refer_id}&referred=${this.props.signup_username}`)
+                    }
+                    
 
                     setTimeout(
                         function() {
@@ -303,6 +307,7 @@ const mapStateToProps = (state) => {
         signup_phone:    state.general.signup_phone,
         signup_username: state.general.signup_username,
         signup_password: state.general.signup_password,
+        refer_id:        state.general.refer_id
     }
 }
 
