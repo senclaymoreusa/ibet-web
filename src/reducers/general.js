@@ -22,6 +22,8 @@ const INITIAL_STATE ={
     show_deposit_amount: false,
     show_deposit_paypal: false,
     show_withdraw: false,
+    show_forget_password: false,
+    show_forget_password_validation: false,
     
     onc_click_username: '',
     one_click_password: '',
@@ -38,7 +40,9 @@ const INITIAL_STATE ={
     signup_country: '',
     signup_phone: '',
     signup_over18: '',
-    signup_language: ''
+    signup_language: '',
+
+    forget_email: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -154,6 +158,16 @@ export default (state = INITIAL_STATE, action) => {
         return {...state, show_withdraw: true}
       case 'HIDE_WITHDRAW':
         return {...state, show_withdraw: false}
+      case 'SHOW_FORGET_PASSWORD':
+        return {...state, show_forget_password: true}
+      case 'HIDE_FORGET_PASSWORD':
+        return {...state, show_forget_password: false}
+      case 'SHOW_FORGET_PASSWORD_VALIDATION':
+        return {...state, show_forget_password_validation: true}
+      case 'HIDE_FORGET_PASSWORD_VALIDATION':
+        return {...state, show_forget_password_validation: false}
+      case 'FORGET_EMAIL':
+        return {...state, forget_email: action.payload}
       default:
         return state;
     }

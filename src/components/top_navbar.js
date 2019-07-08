@@ -71,6 +71,8 @@ import New_Deposit from './new_deposit';
 import New_Deposit_Wechat from './new_deposit_amount_wechat';
 import New_Deposit_paypal from './new_deposite_amount_paypal';
 import New_Withdraw from './new_withdraw';
+import New_Forget_Password from './forget_password_new';
+import Forget_Password_Validation from './forget_password_validation';
 
 import axios from 'axios';
 import { config } from '../util_config';
@@ -1373,6 +1375,25 @@ export class TopNavbar extends React.Component {
                     </Paper>
                 </Popper>
 
+                <Popper
+                    open={this.props.showForgetPassword} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper>
+                        <New_Forget_Password /> 
+                    </Paper>
+                </Popper>
+
+                
+                <Popper
+                    open={this.props.showForgetPasswordValidation} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper>
+                        <Forget_Password_Validation /> 
+                    </Paper>
+                </Popper>
+
             </div >
         );
     }
@@ -1400,7 +1421,9 @@ const mapStateToProps = (state) => {
         showDeposit:               state.general.show_deposit,
         showDepositAmount:         state.general.show_deposit_amount,
         showDepositPaypal:         state.general.show_deposit_paypal,
-        showWithdraw:              state.general.show_withdraw
+        showWithdraw:              state.general.show_withdraw,
+        showForgetPassword:        state.general.show_forget_password,
+        showForgetPasswordValidation: state.general.show_forget_password_validation
     }
 }
 
