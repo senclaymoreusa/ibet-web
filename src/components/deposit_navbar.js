@@ -27,6 +27,11 @@ export class DepositNavBar extends Component {
                 Wechat Pay
             </Button>
           </Link>
+          <Link to="/deposit_qaicash_alipay/">
+            <Button variant="contained" color="primary" id="nav.deposit_qaicash_alipay" className={classes.button}>
+                ALIPAY
+            </Button>
+          </Link>
           <Link to="/deposit_paypal/">
             {/* <Button variant="contained" color="secondary" component="a" href="/deposit_paypal/" id="nav.deposit_paypal" className={classes.button}> */}
             <Button variant="contained"  id="nav.deposit_paypal" className={classes.button}>

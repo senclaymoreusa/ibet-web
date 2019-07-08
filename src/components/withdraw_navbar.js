@@ -26,6 +26,11 @@ export class WithdrawNavBar extends Component {
                 Asiapay
             </Button>
           </Link>
+          <Link to="/withdraw_qaicash_lbt/">
+            <Button variant="contained" color="secondary" id="nav.withdraw_qaicash_lbt" className={classes.button}>
+                Qaicash LOCAL BANK TRANSFER
+            </Button>
+          </Link>
           
         </nav>
       </React.Fragment>
@@ -37,4 +42,4 @@ const mapStateToProps = (state) => {
         language: state.language.lang,
     }
 }
-export default (injectIntl(withRouter(connect(mapStateToProps)(WithdrawNavBar))));
+export default withStyles()(injectIntl(withRouter(connect(mapStateToProps)(WithdrawNavBar))));
