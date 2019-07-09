@@ -10,8 +10,8 @@ import Login from './components/login';
 import Signup from './components/signup';
 import Game_Detail from './components/game_detail';
 import Game_Search from './components/game_search';
-import Profile from './components/profile';
-import Update from './components/update_profile';
+// import Profile from './components/profile';
+// import Update from './components/update_profile';
 import Change_Email from './components/change_email'
 import Forget_Password from './components/forget_password'
 import Reset_Password from './components/reset_password'
@@ -48,6 +48,7 @@ import DepositAsiapayWechatpay from './components/deposit_asiapay_wechatpay'
 import DepositAsiapayAlipay from './components/deposit_asiapay_alipay'
 import New_Profile from './components/new_profile2'
 import New_Update_Profile from './components/new_update_profile2'
+import DepositAstropay from "./components/deposit_astropay"
 
 const divStyle = {
   minHeight: '100%',
@@ -103,6 +104,7 @@ const BaseRouter = () => (
     <Route exact path="/deposit_linepay/" component={DepositPage} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
+    <Route exact path="/deposit/astropay/" component={DepositAstropay} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>
 );

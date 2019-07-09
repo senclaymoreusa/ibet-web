@@ -8,6 +8,11 @@ import Button from '@material-ui/core/Button';
 const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png";
 const QUICKPAY_LOGO_URL = "http://cdn.68design.net/work/pic/201205/5Fm4VdeqjE.jpg";
 
+
+const styles = theme => {
+  return;
+}
+
 export class DepositNavBar extends Component {
   constructor(props) {
     super(props);
@@ -83,4 +88,4 @@ const mapStateToProps = (state) => {
         language: state.language.lang,
     }
 }
-export default withStyles()(injectIntl(withRouter(connect(mapStateToProps)(DepositNavBar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps)(DepositNavBar))));
