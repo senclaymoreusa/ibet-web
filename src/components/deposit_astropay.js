@@ -9,6 +9,7 @@ import '../css/deposit.css';
 
 // Material-UI
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
@@ -58,7 +59,8 @@ class DepositAstropay extends Component {
             exp_date: "",
         };
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleAmountChange = this.handleAmountChange.bind(this);
+        this.handleNumChange = this.handleNumChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.depositMoney = this.depositMoney.bind(this);
     }
@@ -80,7 +82,20 @@ class DepositAstropay extends Component {
         });
     }
 
-    handleChange(event) {
+    handleAmountChange(event) {
+        event.preventDefault();
+        if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
+            this.setState({[event.target.name]: event.target.value}); 
+
+            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || !event.target.value || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
+                this.setState({live_check_amount: true, button_disable: true})
+            } else {
+                this.setState({live_check_amount: false, button_disable: false})
+            }
+        }
+    }
+
+    handleNumChange(event) {
         event.preventDefault();
         if (!event.target.value || event.target.value.match(/^[0-9]+$/)){
             this.setState({[event.target.name]: event.target.value}); 
@@ -184,12 +199,15 @@ class DepositAstropay extends Component {
                         required
                         label="Amount"
                         value={amount}
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>
+                        }}
                         placeholder="" 
                         name="amount" 
                         onChange={this.handleChange}
                         className={classes.textField}
                         style={{"width": 100}}
-                        // variant="outlined"
+                        variant="filled"
                         margin="normal"
                     />
                     <div id="submit-amount">
