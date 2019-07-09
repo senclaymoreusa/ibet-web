@@ -379,3 +379,22 @@ export const forget_email = (email) => {
     payload: email
   }
 }
+
+export const show_refer_user = () => {
+  return {
+    type: 'SHOW_REFER_USER'
+  }
+}
+
+export const hide_refer_user = () => {
+  return {
+    type: 'HIDE_REFER_USER'
+  }
+}
+
+export const handle_referid = (id) => {
+  return {
+    type: 'GET_REFER_ID',
+    payload: id
+  }
+}

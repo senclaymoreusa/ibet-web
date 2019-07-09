@@ -266,6 +266,13 @@ export class Login extends React.Component {
                         />
                     </div>
 
+                    {
+                        this.state.wrong_password_error && 
+                        <div style={{color: 'red', marginTop: 20, marginLeft: 40}}> 
+                            Incorrect Username / Password
+                        </div>
+                    }
+
                     
                     <div style={{color: '#747175', marginTop: 20, marginLeft: 40}}> 
 
