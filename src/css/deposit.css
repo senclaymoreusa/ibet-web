@@ -1,12 +1,23 @@
 .deposit-form {
-    margin-left: 30%;
-    /* margin-right: 30%; */
+    margin-left: 38%;
+    margin-top: 15px;
+    align-content: center
+}
+.deposit-bankcard-form {
+    margin-left: 35%;
+    margin-top: 15px;
+    align-content: center
+}
+.withdraw-form {
+    margin-left: 40%;
+    margin-right: 30%;
     margin-top: 15px;
     align-content: center
 }
 .input-deposit-amount {
     padding: 10px;
     margin-bottom: 14px;
+    /* margin-left: 30%; */
 }
 
 #deposit_form > span:nth-child(4) {

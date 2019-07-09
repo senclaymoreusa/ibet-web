@@ -11,15 +11,12 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
-import { PayPalButton } from 'react-paypal-button-v2';
+import Button from '@material-ui/core/Button';
+import {authCheckState} from '../actions';
+
+var QRCode = require('qrcode.react');
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
-const CLIENT = {
-    sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
-    production: 'xxxXXX',
-  };
-  
 
 const styles = theme => ({
     root: {
@@ -44,9 +41,12 @@ const styles = theme => ({
           backgroundColor: blue[800],
         },
       },
+    button:{
+        margin: theme.spacing.unit,
+    }
   });
 
-class DepositPaypal extends Component {
+class DepositAsiapayJDPay extends Component {
     constructor(props){
         super(props);
     
@@ -56,22 +56,39 @@ class DepositPaypal extends Component {
           error: false,
           data: '',
           type: '',
-
+          qaicash_error: false,
+          qaicash_error_msg: "",
           live_check_amount: false,
-
           button_disable: true,
+          value: "",
+          size: 128,
+          fgColor: '#000000',
+          bgColor: '#ffffff',
+          level: 'L',
+          renderAs: 'svg',
+          includeMargin: false,
+          show_qrcode: false,
         };
+        
         this.onInputChange_balance          = this.onInputChange_balance.bind(this);
-        //this.addBalance          = this.addBalance.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        // this.onQrChange  = this.onQrChange.bind(this);
     }
+    
     componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === 1){
+                this.props.history.push('/')
+            }
+        })
+
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
-
         axios.get(API_URL + 'users/api/user/', config)
-          .then(res => {
+        .then(res => {
             this.setState({data: res.data});
-          })
+        });
+        
         const { type } = this.props.match.params;
         
 
@@ -87,23 +104,26 @@ class DepositPaypal extends Component {
             }
         }
     }
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
     
     render(){
         const { classes } = this.props;
         let amount = this.state.balance;
-        let user = this.state.data.username;
-        const buttonStyles = {
-            width: 400, 
-            height: 200,
-        }
+        let user = this.state.data.pk;
+        let myqr = this.state.qr;
+        
+        let currentComponent = this;
         return (
             <div>
                 <TopNavbar />
                 <form  className='deposit-form'>
+                    
                     <div>
                         <label>
                             <b>
-                                <FormattedMessage  id="deposit.amount" defaultMessage='Please enter the amount you want to add to your account' />
+                                <FormattedMessage  id="deposit.amount" defaultMessage='Please enter the amount you want to add to your account（100 - 980）' />
                             </b>
                         </label>
                     </div>
@@ -115,6 +135,8 @@ class DepositPaypal extends Component {
                         value={this.state.balance || ''}
                         onChange={this.onInputChange_balance}
                     />
+                    
+
                     <br />
                     {
                         this.state.live_check_amount && this.state.live_check_amount ? 
@@ -125,15 +147,20 @@ class DepositPaypal extends Component {
                             <br />
                         </div>
                     }
-                    <div className='paypal-button'  style={buttonStyles}>
                     
-                        <PayPalButton  
-                            
-                            createOrder={function() {
+                    <div className='asiapay-button'  >
+                        <Button 
+                            disabled = {this.state.button_disable} 
+                            variant="contained" 
+                            color="primary"  
+                            className={classes.button}
+                            onClick={(e) => {
                                 var postData = {
                                     "amount": amount,
-                                    "currency": "USD",
-                                    "user": user,
+                                    "userid": user,
+                                    "currency": "0",
+                                    "PayWay" : "42", //QRcode
+                                    "method": "49", //京东支付
                                 }
                                 console.log(amount)
                                 console.log(user)
@@ -144,7 +171,7 @@ class DepositPaypal extends Component {
                                     formBody.push(encodedKey + "=" + encodedValue);
                                 }
                                 formBody = formBody.join("&");
-                                return fetch(API_URL + 'accounting/api/paypal/create_payment', {
+                                return fetch(API_URL + 'accounting/api/asiapay/deposit', {
                                   method: 'POST',
                                   headers: {
                                     'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -152,69 +179,28 @@ class DepositPaypal extends Component {
                                   body: formBody
                                 }).then(function(res) {
                                   return res.json();
-                                }).then(function(data) {
-                                    let token;
-                                    for (let link of data.links) {
-                                        if (link.rel === 'approval_url') {
-                                            token = link.href.match(/EC-\w+/)[0];
-                                        }
-                                    }
-                                    return token;
-                                });
-                                
-                            }}
-                            
-                            onApprove={(data) => {
-                                
-                                // Call your server to validate and capture the transaction
-                                console.log(data.orderID)
-                                var postData = {
-                                    "order_id": data.orderID, 
-                                    "user": user,
-                                }
-                                var formBody = [];
-                                for (var pd in postData) {
-                                    var encodedKey = encodeURIComponent(pd);
-                                    var encodedValue = encodeURIComponent(postData[pd]);
-                                    formBody.push(encodedKey + "=" + encodedValue);
-                                }
-                                formBody = formBody.join("&");
-                                
-                                return fetch(API_URL + 'accounting/api/paypal/get_order', {
-                                    method: "POST",
-                                    headers: {
-                                        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                    },
-                                    body: formBody
-                                    }).then(function(res) {
-                                        return res.json();
-                                    }).then(function(details) {
-                                        alert('Transaction approved by ' + details.payer.name.given_name + ' '  + details.payer.name.surname );
-                                        const body = JSON.stringify({
-                                            type : 'add',
-                                            username: user,
-                                            balance: amount,
-                                        });
-                                        console.log(body)
-                                        axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                        .then(res => {
-                                            if (res.data === 'Failed'){
-                                                this.setState({error: true});
-                                            } else if (res.data === 'The balance is not enough') {
-                                                alert("cannot withdraw this amount")
-                                            }else{
-                                                alert("your balance is updated")
-                                                window.location.reload()
-                                            }
-                                        });   
-                                        
+                                }).then(function(data){
+                                    myqr = data.qr;
+                                    currentComponent.setState({value: myqr,show_qrcode:true})
+                                      
                                 });
                             }}
                             
-                            options={{
-                                clientId: CLIENT.sandbox
-                            }}
-                        />
+                        >
+                            PAY NOW
+                        </Button>
+                        <div className="asiapay-qr" style={{display: this.state.show_qrcode ? "block":"none"}}>
+                            <QRCode
+                                value={this.state.value}
+                                size={this.state.size}
+                                fgColor={this.state.fgColor}
+                                bgColor={this.state.bgColor}
+                                level={this.state.level}
+                                renderAs={this.state.renderAs}
+                                includeMargin={this.state.includeMargin}
+                            />
+                        </div>
+                        
                     </div>
                     
 
@@ -224,6 +210,7 @@ class DepositPaypal extends Component {
         )
     }
     
+    
 }
 
 const mapStateToProps = (state) => {
@@ -232,4 +219,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositPaypal)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositAsiapayJDPay)));

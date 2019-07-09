@@ -15,12 +15,6 @@ import Button from '@material-ui/core/Button';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-const CLIENT = {
-    sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
-    production: 'xxxXXX',
-  };
-  
-
 const styles = theme => ({
     root: {
       display: 'flex',
@@ -117,7 +111,7 @@ class DepositQaicah extends Component {
                     {
                         this.state.live_check_amount && this.state.live_check_amount ? 
                         <div style={{color: 'red'}}> 
-                            <FormattedMessage id="balance.error"  defaultMessage='The balance you entered is not valid' />
+                            <FormattedMessage id="balance.error"  defaultMessage='The amount you entered is not valid' />
                         </div> :
                         <div>
                             <br />
@@ -184,7 +178,7 @@ class DepositQaicah extends Component {
                                                             return res.json();
                                                         }).then(function(data) {
                                                             console.log(data.status)
-                                                            if(data.status == 'SUCCESS'){
+                                                            if(data.status === 'SUCCESS'){
                                                                 alert('Transaction is approved.');
                                                                 const body = JSON.stringify({
                                                                     type : 'add',

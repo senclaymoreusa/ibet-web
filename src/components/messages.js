@@ -315,7 +315,7 @@ export const messages = {
         // handle balance page
         'balance.enter_balance': 'Please enter the amount you want to add to your account',
         'balance.submit': 'Submit',
-        'balance.error': 'The balance you entered is not valid',
+        'balance.error': 'The amount you entered is not valid',
         'balance.confirm': 'The amount you want to add to your balance is $ ',
         'balance.withdrawconfirm': 'The amount you want to withdraw from your balance is $ ',
 

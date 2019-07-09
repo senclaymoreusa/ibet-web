@@ -479,15 +479,16 @@ export class AccountMenu extends React.Component {
     }
 
     componentDidMount() {
-        var fackbooklogin = localStorage.getItem('facebook')
-        this.setState({ facebooklogin: fackbooklogin })
-        var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
-        if (fackbooklogin === 'true') {
+        var facebooklogin = localStorage.getItem('facebook')
+        this.setState({ facebooklogin: facebooklogin })
+        var facebookObj = JSON.parse(localStorage.getItem('facebookObj'));
+        console.log(facebooklogin);
+        if (facebooklogin === 'true') {
             this.setState({
-                userID: fackbookObj.userID,
-                name: fackbookObj.name,
-                email: fackbookObj.email,
-                picture: fackbookObj.picture
+                userID: facebookObj.userID,
+                name: facebookObj.name,
+                email: facebookObj.email,
+                picture: facebookObj.picture
             })
         }
     }
@@ -538,7 +539,6 @@ export class AccountMenu extends React.Component {
     responsibleGamblingClicked = event => {
         this.props.onMenuItemClicked('responsible-gambling');
     }
-
 
     render() {
         const { classes } = this.props;
@@ -610,14 +610,14 @@ export class AccountMenu extends React.Component {
                             <div className={classes.hi}>
                                 <FormattedMessage id="accountmenu.hi" defaultMessage="Hi" />
                             </div>
-                            <span className={classes.firstNameLabel}>David</span>
+                            <span className={classes.firstNameLabel}>{this.state.userID + "David"}</span>
                             <span className={classes.balanceValue}>$345.00</span>
                             <div className={classes.balanceLabel}>
                                 <FormattedMessage id="accountmenu.balance" defaultMessage="Balance:" />
                             </div>
                         </Grid>
                         <Grid item xs={12} className={classes.secondRow}>
-                            <span className={classes.usernameLabel}>Docallaghan86</span>
+                            <span className={classes.usernameLabel}>{this.state.name + "---Docallaghan86"}</span>
                         </Grid>
                         <Grid item xs={12} className={classes.secondRow}>
                             <LineChart className={classes.chart} data={chartData} options={chartOptions} width="340" height="150" />

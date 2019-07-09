@@ -4,13 +4,16 @@ import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
 import TopNavbar from "./top_navbar";
-import DepositNavBar from "./deposit_navbar";
+import WithdrawNavBar from "./withdraw_navbar";
 import '../css/deposit.css';
 
 // Material-UI
+import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
+import { PayPalButton } from 'react-paypal-button-v2';
+
 import {  authCheckState } from '../actions';
 
 
@@ -46,7 +49,7 @@ const styles = theme => ({
     },
 });
 
-class Deposit extends Component {
+class Withdraw extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -78,20 +81,22 @@ class Deposit extends Component {
         const { type } = this.props.match.params;
     }
     
-    render() {
+    render(){
         const { classes } = this.props;
         let amount = this.state.balance;
         let user = this.state.data.username;
         
         return (
             <div>
-                <TopNavbar />
-                <div>
-                    <DepositNavBar />
-                </div>
+            <TopNavbar />
+            <div>
+            <WithdrawNavBar />
             </div>
-        )
-    }       
+            </div>
+            
+            )
+        }
+        
 }
     
 const mapStateToProps = (state) => {
@@ -100,4 +105,4 @@ const mapStateToProps = (state) => {
     }
 }
     
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(Deposit)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(Withdraw)));
