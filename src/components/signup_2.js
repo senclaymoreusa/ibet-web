@@ -54,7 +54,7 @@ class Signup extends React.Component {
 
                 {
                     this.state.referrer !== 'Failed' && <div style={{textAlign: 'center', fontSize: 20}}> 
-                        Your referrer:   {this.state.referrer}
+                        Your Referrer:   <b> {this.state.referrer} </b>
                     </div>
                 }
 
