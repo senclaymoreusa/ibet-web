@@ -745,7 +745,7 @@ export class TopNavbar extends React.Component {
         this.props.authCheckState()
         .then(res => {
             if (res === 1) {
-              this.props.history.push('/'); 
+              this.props.history.push('/home/'); 
             }
         })
 
