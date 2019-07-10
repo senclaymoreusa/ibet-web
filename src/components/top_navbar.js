@@ -711,7 +711,7 @@ export class TopNavbar extends React.Component {
                         localStorage.removeItem('remember_password');
                         localStorage.removeItem('remember_check');
                     }
-                    this.props.history.push('/');
+                    this.props.history.push('/home/');
                 })
                 .catch(err => {
                     this.setState({ errorCode: err });
