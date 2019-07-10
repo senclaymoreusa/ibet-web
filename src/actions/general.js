@@ -348,3 +348,53 @@ export const hide_withdraw = () => {
     type: 'HIDE_WITHDRAW'
   }
 }
+
+export const show_forget_password = () => {
+  return {
+    type: 'SHOW_FORGET_PASSWORD'
+  }
+}
+
+export const hide_forget_password = () => {
+  return {
+    type: 'HIDE_FORGET_PASSWORD'
+  }
+}
+
+export const show_forget_password_validation = () => {
+  return {
+    type: 'SHOW_FORGET_PASSWORD_VALIDATION'
+  }
+}
+
+export const hide_forget_password_validation = () => {
+  return {
+    type: 'HIDE_FORGET_PASSWORD_VALIDATION'
+  }
+}
+
+export const forget_email = (email) => {
+  return {
+    type: 'FORGET_EMAIL',
+    payload: email
+  }
+}
+
+export const show_refer_user = () => {
+  return {
+    type: 'SHOW_REFER_USER'
+  }
+}
+
+export const hide_refer_user = () => {
+  return {
+    type: 'HIDE_REFER_USER'
+  }
+}
+
+export const handle_referid = (id) => {
+  return {
+    type: 'GET_REFER_ID',
+    payload: id
+  }
+}

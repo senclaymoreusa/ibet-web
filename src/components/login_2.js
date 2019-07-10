@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl} from 'react-intl';
-import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login, show_signup } from '../actions';
+import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login, show_signup, show_forget_password } from '../actions';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
@@ -81,7 +81,7 @@ export class Login extends React.Component {
         this.props.authCheckState()
         .then(res => {
         if (res === AUTH_RESULT_SUCCESS) {
-            this.props.history.push('/'); 
+            this.props.history.push('/home/'); 
         } 
     });
 
@@ -158,13 +158,13 @@ export class Login extends React.Component {
 
     this.props.FacebookauthLogin(username, email)
     .then(res => {
-        this.props.history.push('/');
+        this.props.history.push('/home/');
     }).catch(err => {
         this.props.FacebookSignup(username, email)
         .then(res => {
             this.props.FacebookauthLogin(username, email)
             .then(res => {
-                this.props.history.push('/');
+                this.props.history.push('/home/');
             })
             .catch(err => {
             })
@@ -193,7 +193,7 @@ export class Login extends React.Component {
             localStorage.removeItem('remember_check');
         }
         this.props.hide_login()
-        this.props.history.push('/');
+        this.props.history.push('/home/');
     })
     .catch(err => {
         this.setState({wrong_password_error: true})
@@ -267,17 +267,26 @@ export class Login extends React.Component {
                     </div>
 
                     {
-                        this.state.wrong_password_error && <div style={{color: 'red', marginTop: 20, marginLeft: 40}}> 
-                            Incorrect Username / Password <br/>
-                            <span 
+                        this.state.wrong_password_error && 
+                        <div style={{color: 'red', marginTop: 20, marginLeft: 40}}> 
+                            Incorrect Username / Password
+                        </div>
+                    }
+
+                    
+                    <div style={{color: '#747175', marginTop: 20, marginLeft: 40}}> 
+
+                        <span 
                             style={{cursor: 'pointer'}}
                             onClick={()=>{
                                 this.props.hide_login()
-                                this.props.history.push('/forget_password')
+                                this.props.show_forget_password();
                                 }}
-                            > <u> Forgot Password </u> </span>?
-                            </div>
-                    }
+                            > 
+                             Forgot Password ?
+                        </span>
+                    </div>
+                    
 
 
                     <div style={{ marginTop: 20, marginLeft: 40}}> 
@@ -330,4 +339,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_login, show_signup})(Login))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_login, show_signup, show_forget_password})(Login))));

@@ -11,7 +11,16 @@ import DirectionsRun from '@material-ui/icons/DirectionsRun';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, postLogout, show_change_password, show_user_profile, show_deposit, show_withdraw } from '../../actions';
+import { logout, 
+    handle_search, 
+    setLanguage, 
+    postLogout, 
+    show_change_password, 
+    show_user_profile, 
+    show_deposit, 
+    show_withdraw,
+    show_refer_user
+} from '../../actions';
 
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -755,7 +764,10 @@ export class AccountMenu extends React.Component {
                         </Grid>
                         <Grid item xs={4} className={classes.mergedGridButton}>
                             <Button className={classes.logoutButton}
-                                href="/referral/">
+                                onClick={() => {
+                                    this.props.onCloseItemClicked();
+                                    this.props.show_refer_user()
+                                }}>
                                 <div className={classes.blockButtonLabel}>
                                     <UserPlusIcon className={classes.editProfileIcon} />
 
@@ -899,4 +911,12 @@ AccountMenu.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_change_password, show_user_profile, show_deposit, show_withdraw })(AccountMenu))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { 
+    logout, 
+    handle_search, 
+    setLanguage, 
+    show_change_password, 
+    show_user_profile, 
+    show_deposit, 
+    show_withdraw,
+    show_refer_user })(AccountMenu))));
