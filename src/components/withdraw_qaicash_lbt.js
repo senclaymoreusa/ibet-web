@@ -59,9 +59,6 @@ class WithdrawQaicashLBT extends Component {
           qaicash_error: false,
           qaicash_error_msg: "",
           live_check_amount: false,
-          live_check_bank:false,
-          live_check_cardnum:false,
-          live_check_cardhoder:false,
 
           button_disable: true,
           value: "",
@@ -71,17 +68,10 @@ class WithdrawQaicashLBT extends Component {
           level: 'L',
           renderAs: 'svg',
           includeMargin: false,
-          show_qrcode: false,
-          bank:'',
-          cardnumber:'',
-          cardhodername: '',
         };
         
         this.onInputChange_amount          = this.onInputChange_amount.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.onInputChange_bank  = this.onInputChange_bank.bind(this);
-        this.onInputChange_cardnumber  = this.onInputChange_cardnumber.bind(this);
-        this.onInputChange_cardhodername  = this.onInputChange_cardhodername.bind(this);
     }
     
     componentDidMount() {
@@ -112,35 +102,9 @@ class WithdrawQaicashLBT extends Component {
         this.check_button_disable()
         
     }
-    async onInputChange_bank(event){
-        if (!event.target.value.match(/[\u4e00-\u9fa5]/)){
-            this.setState({live_check_bank: true, button_disable: true,})
-          }else{
-            this.setState({live_check_bank: false})
-          }
-          await this.setState({bank: event.target.value});
-          this.check_button_disable()
-    }
-    async onInputChange_cardnumber(event){
-        if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/)){
-            this.setState({live_check_cardnum: true, button_disable: true,})
-          }else{
-            this.setState({live_check_cardnum: false})
-          }
-          await this.setState({cardnumber: event.target.value});
-          this.check_button_disable()
-    }
-    async onInputChange_cardhodername(event){
-        if (!event.target.value.match(/^[a-zA-Z]+$/) && !event.target.value.match(/[\u4e00-\u9fa5]/)){
-            this.setState({live_check_cardhoder: true, button_disable: true,})
-        }else{
-            this.setState({live_check_cardhoder: false})
-        }
-        await this.setState({cardhodername: event.target.value});
-        this.check_button_disable()
-    }
+    
     check_button_disable(){
-        if(this.state.bank && this.state.amount && this.state.cardnumber && this.state.cardhodername && !this.state.live_check_bank && !this.state.live_check_amount && !this.state.live_check_cardnum && !this.state.live_check_cardhoder){
+        if(this.state.amount  && !this.state.live_check_amount ){
             this.setState({button_disable: false})
         }
     }
@@ -151,57 +115,12 @@ class WithdrawQaicashLBT extends Component {
     render(){
         const { classes } = this.props;
         let amount = this.state.amount;
-        let user = this.state.data.pk;
-        let cardhodername = this.state.cardhodername;
-        let cardnumber = this.state.cardnumber;
-        let bank = this.state.bank;
+        let user = this.state.data.username;
         return (
             <div>
                 <TopNavbar />
                 <form  className='withdraw-form'>
                     
-                    <div>
-                        <label>
-                            <b>
-                                <FormattedMessage  id="withdraw.bank" defaultMessage='Bank name' />
-                            </b>
-                        </label>
-                    </div>
-                    <TextField
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="outlined"
-                        type={'text'}
-                        value={this.state.bank || ''}
-                        onChange={this.onInputChange_bank}
-                    />
-                    <div>
-                        <label>
-                            <b>
-                                <FormattedMessage  id="withdraw.bank" defaultMessage='Card number' />
-                            </b>
-                        </label>
-                    </div>
-                    <TextField
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="outlined"
-                        type={'text'}
-                        value={this.state.cardnumber || ''}
-                        onChange={this.onInputChange_cardnumber}
-                    />
-                    <div>
-                        <label>
-                            <b>
-                                <FormattedMessage  id="withdraw.bank" defaultMessage='Card holder name' />
-                            </b>
-                        </label>
-                    </div>
-                    <TextField
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="outlined"
-                        type={'text'}
-                        value={this.state.cardhodername || ''}
-                        onChange={this.onInputChange_cardhodername}
-                    />
                     <div>
                         <label>
                             <b>
@@ -236,13 +155,10 @@ class WithdrawQaicashLBT extends Component {
                             onClick={(e) => {
                                 var postData = {
                                     "amount": amount,
-                                    "userid": user,
-                                    "currency": "0",
-                                    "cashoutMethod" : "cashifacebatch", //代付
-                                    "method": "49", 
-                                    "CashCardNumber": cardnumber,
-                                    "CashCardChName": cardhodername,
-                                    "CashBankDetailName":bank,
+                                    "user_id": user,
+                                    "currency": "CNY",
+                                    "method": "LOCAL_BANK_TRANSFER", 
+                                    "language" : "zh-Hans",
                                 }
                                 console.log(amount)
                                 console.log(user)
@@ -253,7 +169,7 @@ class WithdrawQaicashLBT extends Component {
                                     formBody.push(encodedKey + "=" + encodedValue);
                                 }
                                 formBody = formBody.join("&");
-                                return fetch(API_URL + 'accounting/api/asiapay/cashout', {
+                                return fetch(API_URL + 'accounting/api/qaicash/submit_payout', {
                                   method: 'POST',
                                   headers: {
                                     'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -262,11 +178,72 @@ class WithdrawQaicashLBT extends Component {
                                 }).then(function(res) {
                                   return res.json();
                                 }).then(function(data) {
-                                    if(data == '50001'){
-                                        alert('Your withdraw is success.')
+                                    let redirectUrl = data.paymentPageSession.paymentPageUrl;
+                                    if(redirectUrl != null){
+                                        const mywin = window.open(redirectUrl, 'qaicash-lbt', 'height=500,width=500');
+                                        var timer = setInterval(function() { 
+                                            console.log('checking..')
+                                              if(mywin.closed) {
+                                                    clearInterval(timer);
+                                                    var postData = {
+                                                        "order_id": data.payoutTransaction.orderId,
+                                                        "user_id":data.payoutTransaction.userId,
+                                                        "remark":"",
+                                                    }
+                                                    console.log(postData)
+                                                    var formBody = [];
+                                                    for (var pd in postData) {
+                                                        var encodedKey = encodeURIComponent(pd);
+                                                        var encodedValue = encodeURIComponent(postData[pd]);
+                                                        formBody.push(encodedKey + "=" + encodedValue);
+                                                    }
+                                                    formBody = formBody.join("&");
+                                                    
+                                                    return fetch(API_URL + 'accounting/api/qaicash/approve_payout', {
+                                                        method: "POST",
+                                                        headers: {
+                                                            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                                        },
+                                                        body: formBody
+                                                        }).then(function(res) {
+                                                            return res.json();
+                                                        }).then(function(data) {
+                                                            console.log(data.status)
+                                                            if(data.status === 'APPROVED'){
+                                                                alert('Transaction is approved.');
+                                                                const body = JSON.stringify({
+                                                                    type : 'add',
+                                                                    username: user,
+                                                                    balance: amount,
+                                                                });
+                                                                console.log(body)
+                                                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                                                .then(res => {
+                                                                    if (res.data === 'Failed'){
+                                                                        this.setState({error: true});
+                                                                    } else if (res.data === 'The balance is not enough') {
+                                                                        alert("cannot withdraw this amount")
+                                                                    }else{
+                                                                        alert("your balance is updated")
+                                                                        window.location.reload()
+                                                                    }
+                                                                });
+                                                                window.location.reload()
+
+                                                            }else{
+                                                                alert('Transaction is not approved.')
+                                                            }
+                                                            
+                                                            
+                                                    });
+                                                    
+                                              }
+                                          }, 1000);
+                                        
                                     }else{
-                                        alert('Your withdraw is failed.')
+                                        this.setState({qaicash_error: true, qaicash_error_msg: data.returnMessage});
                                     }
+
                                     
                                 });
                             }}

@@ -128,7 +128,7 @@ class DepositQaicahAlipay extends Component {
                                     "user_id": user,
                                     "currency": "0",
                                     "language" : "zh-Hans",
-                                    "method": "ONLINE_DEBIT",
+                                    "method": "ALIPAY",
                                 }
                                 console.log(amount)
                                 console.log(user)
