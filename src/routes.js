@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Home from "./components/home";
 import Slot_Type from "./components/slot_type";
 import Sports_Type from "./components/sports_type";
@@ -55,7 +55,8 @@ const divStyle = {
 
 const BaseRouter = () => (
   <div style={divStyle}>
-    <Route exact path="/:referid?" component={Home} />
+    <Redirect from="/" to="/home/" />
+    <Route exact path="/home/:referid?" component={Home} />
     <Route exact path="/slot_type/" component={Slot_Type} />
     <Route exact path="/sports_type/" component={Sports_Type} />
     <Route exact path="/live_casino_type/" component={LiveCasino_Type} />
