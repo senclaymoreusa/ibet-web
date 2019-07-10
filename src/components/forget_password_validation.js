@@ -1,24 +1,30 @@
-import React from 'react';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
-import { ReactComponent as Check } from '../assets/img/svg/check.svg';
-
-import { hide_phone_verification, show_complete_registration, show_signup_finish, authLogin } from '../actions';
+import React, { Component } from 'react';
+import { hide_forget_password_validation } from '../actions';
 import { connect } from 'react-redux';
+import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { withStyles } from '@material-ui/core/styles';
-
 import TextField from '@material-ui/core/TextField';
-
 import { FormattedMessage } from 'react-intl';
-
 import axios from 'axios'
 
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
 
 const styles = theme => ({
     textField: {
       width: 54,
       height: 44,
       backgroundColor: '#ffffff;'
+    },
+
+    textField2: {
+        width: 330,
+        backgroundColor: '#ffffff;'
     },
 
     cssOutlinedInput:{
@@ -37,7 +43,8 @@ const styles = theme => ({
     notchedOutline: {  },
   });
 
-class Phone_Verification extends React.Component {
+class Forget_Password_Validation extends Component {
+
     constructor(props){
         super(props);
 
@@ -53,7 +60,11 @@ class Phone_Verification extends React.Component {
             code_4: '',
 
             error: false,
-            show_check: false
+            show_check: false,
+            password: '',
+            password_too_simple: false,
+            button_disable: true,
+            verification_error: false
         }
     }
 
@@ -110,31 +121,45 @@ class Phone_Verification extends React.Component {
         this.check_valid();
     }
 
-    check_valid(){
-        if (this.state.code_1 && this.state.code_2 && this.state.code_3 && this.state.code_4){
-            axios.post(API_URL + 'users/api/verifyactivationcode/', {'username': this.props.signup_username, 'code': this.state.code_1.toString() + this.state.code_2.toString() + this.state.code_3.toString() + this.state.code_4.toString()})
-            .then(res => {
-                if(res.data.status === 'Failed'){
-                    this.setState({error: true})
-                }else{
-                    this.setState({error: false, show_check: true})
-                    this.props.authLogin(this.props.signup_username, this.props.signup_password)
-                    if (this.props.refer_id){
-                        axios.get(API_URL + `users/api/referral/?referral_id=${this.props.refer_id}&referred=${this.props.signup_username}`)
-                    }
-                    
-
-                    setTimeout(
-                        function() {
-                            this.props.hide_phone_verification();
-                            this.props.show_signup_finish();
-                        }
-                        .bind(this),
-                        2000
-                    );
-                }
-            })
+    async onInputChange_password(event){
+        if (event.target.value.length < 8){
+            this.setState({password_too_simple: true, button_disable: true})
+        }else{
+            this.setState({password_too_simple: false})
         }
+        await this.setState({password: event.target.value});
+        this.check_valid();
+    }
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
+
+    check_valid(){
+        if (!this.state.password_too_simple && this.state.password && this.state.code_1 && this.state.code_2 && this.state.code_3 && this.state.code_4){
+            this.setState({button_disable: false})
+        }else{
+            this.setState({button_disable: true})
+        }
+    }
+
+    onFormSubmit(event){
+        event.preventDefault();
+
+        axios.post(API_URL + `users/api/verifyresetpasswordcode/`, {
+            email: this.props.email, 
+            code: this.state.code_1 + this.state.code_2 + this.state.code_3 + this.state.code_4,
+            password: this.state.password
+        })
+        .then(res => {
+            if (res.data === 'Success'){
+                alert('You have successfully reser your password');
+                this.props.hide_forget_password_validation()
+            }else{
+                this.setState({verification_error: true})
+            }
+        })
+        
     }
 
     render(){
@@ -142,47 +167,29 @@ class Phone_Verification extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div style={{backgroundColor: 'white', height: 640, width: 770}}>
-                <div className='signup-title'>     
+            <div style={{backgroundColor: 'white', minHeight: 650, width: 662}}>
+                <div className='signup-title'> 
 
-                    <div style={{ paddingTop: 20}}> 
-                        VERIFICATION
+                    <div style={{ paddingTop: 20, fontSize: 14, fontWeight: 600, color: '#212121', letterSpacing: 0.88, fontFamily: 'Gilroy', fontStyle: 'normal', fontStretch: 'normal', lineHeight: 'normal'}}> 
+                        Forget Password
                     </div>
 
                     <Close 
-                        style={{cursor: 'pointer', position: 'absolute', top: 8, left: 720, height: 40, width: 20}}
+                        style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                         onClick = { () => {
-                            this.props.hide_phone_verification();
-                            axios.post(API_URL + 'users/api/cancelregistration/', {'username': this.props.signup_username})
+                            this.props.hide_forget_password_validation();
                         }}
                     />
-                </div>
-
-                <div style={{fontSize: 38, fontWeight: 'bold', marginLeft: 77}}> We sent you a code to </div>
-                <div style={{fontSize: 38, fontWeight: 'bold', marginLeft: 77}}> confrim you phone number </div>
-
-                <div style={{textAlign: 'center', color: '#e4e4e4'}}>
-                    ________________________________________________________________________________
-                </div>
-
-                <div className='row'> 
-   
-                   <div style={{marginLeft: 65, marginTop: 24}}> 
-                       Sent to: 
-
-                       <div style={{backgroundColor: '#f9f9f9', width: 218, height: 48, marginTop: 24, fontSize: 20, fontWeight: 600, fontFamily: 'Gilroy', textAlign: 'center'}}>
-                           <div style={{paddingTop: 12}}> {this.props.signup_phone.split('/')[0] + this.props.signup_phone.split('/')[1]} </div>
-                       </div>
                     </div>
 
-                   <div style={{marginTop: 24, marginLeft: 82}}>  
+                    <div style={{fontSize: 15, fontWeight: 600, textAlign: 'center', marginTop: 30}}> 
+                        VERIFICATION CODE
+                    </div>
 
-                       <div style={{fontSize: 15, fontWeight: 600}}> 
-                           VERIFICATION CODE
-                       </div>
+                    <form onSubmit={this.onFormSubmit.bind(this)}> 
 
-                       <div className='row' style={{marginTop: 24}}>  
-                       
+                        <div className='row' style={{marginTop: 24, marginLeft: 180}}>  
+                        
                             <div> 
                                 <TextField
                                     className={classes.textField}
@@ -254,61 +261,63 @@ class Phone_Verification extends React.Component {
                                     }}
                                 />
                             </div>
+                        </div>
 
-                            {
-                                this.state.show_check && 
-                                <div style={{position: 'absolute', left: 658, top: 272}}> 
-                                    <Check />
-                                </div>
-                            }
+                        {this.state.verification_error && <div style={{color: 'red', marginLeft: 180}}> Verification code not correct </div>}
 
-                            {
-                                this.state.error && 
-                                <div style={{position: 'absolute', left: 400, top: 292}}>
-                                    <div style={{color: 'red', fontSize: 16}}> 
-                                        <FormattedMessage id="signup.signupphoneerror1" defaultMessage='Sorry, that’s not the code we’re looking for.' />
-                                    </div>
-                                    <div style={{color: 'red', fontSize: 16}}>
-                                        <FormattedMessage id="signup.signupphoneerror2" defaultMessage='Please check and try again.' /> 
-                                    </div>
-                                </div>
-                            }
 
-                       </div>
+                        <div style={{marginTop: 15, textAlign: 'center', marginTop: 50}}> 
+                            <TextField
+                                className={classes.textField2}
+                                label="NEW PASSWORD"
+                                variant="outlined"
+                                type={this.state.showPassword ? 'text' : 'password'}
+                                value={this.state.password}
+                                onChange={this.onInputChange_password.bind(this)}
+                                InputProps={{
+                                    classes: {
+                                        root: classes.cssOutlinedInput,
+                                        focused: classes.cssFocused,
+                                        notchedOutline: classes.notchedOutline
+                                    },
+                                    
+                                    endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                        aria-label="Toggle password visibility"
+                                        onClick={this.handleClickShowPassword.bind(this)}
+                                        >
+                                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </div>
 
-                   </div>
+                        {this.state.password_too_simple && <div style={{color: 'red', marginLeft: 170}}> <FormattedMessage  id="signup.password_simple" defaultMessage='Password is too simple' /> </div>}
+
+                        <div style={{textAlign: 'center', marginTop: 50}}> 
+                            <button 
+                                disabled = {this.state.button_disable}
+                                style={{backgroundColor: this.state.button_disable ? '#ff8080' : 'red', height: 48, width: 300, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', fontSize: 14, fontWeight: 600, fontFamily: 'Gilroy', letterSpacing: 0.88 }}
+                                type='submit'
+                            > 
+                                Confirm
+                            </button>
+                        </div>
+                    </form>
 
                 </div>
-
-                <div onClick={()=>{
-                    this.setState({code_1: '', code_2: '', code_3: '', code_4: '', error: false})
-                    axios.post(API_URL + 'users/api/generateactivationcode/', {'username': this.props.signup_username})
-                    .then(res => {
-                        alert('Message has been rent')
-                    })
-                }}
-                    style={{ fontSize: 15, height: 50, width: 320, marginLeft: 215, marginTop: 70, color: 'black', cursor: 'pointer', textAlign: 'center', border: '1px solid #e4e4e4'}}
-                > 
-                    <div style={{paddingTop: 12}}>  
-                        <FormattedMessage id="signup.phone.resendsms" defaultMessage='RESEND SMS' />
-                    </div>
-                </div>
-
-                <div style={{textAlign: 'center', color: '#e4e4e4', marginTop: 30}}>
-                    ________________________________________________________________________________
-                </div>
-            </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        signup_phone:    state.general.signup_phone,
-        signup_username: state.general.signup_username,
-        signup_password: state.general.signup_password,
-        refer_id:        state.general.refer_id
+        email:      state.general.forget_email,
     }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, { hide_phone_verification, show_complete_registration, show_signup_finish, authLogin })(Phone_Verification));
+export default withStyles(styles)(connect(mapStateToProps, { hide_forget_password_validation })(Forget_Password_Validation));
+
