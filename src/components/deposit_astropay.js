@@ -80,6 +80,8 @@ class DepositAstropay extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
         .then(res => {
+            console.log("auth check results:");
+            console.log(res);
             this.setState({data: res.data});
         });
     }
@@ -126,9 +128,11 @@ class DepositAstropay extends Component {
     depositMoney(event) {
         event.preventDefault();
         let user = this.state.data.pk;
-        let {amount, card_num, card_code, exp_date} = this.state;
+        const {amount, card_num, card_code, exp_date, data} = this.state;
+
         if (amount && card_num && card_code && exp_date) {
-            console.log(user, amount)
+            console.log("amount: " + amount);
+            console.log(data)
             let postData = {
                 "card_num": card_num,
                 "card_code": card_code,
@@ -140,10 +144,10 @@ class DepositAstropay extends Component {
                 postData,
                 config
             ).then(function(res) {
-                console.log("result of deposit: " + res);
+                console.log("result of deposit: " + JSON.stringify(res));
                 const body = JSON.stringify({
                     type : 'add',
-                    username: this.state.data.username || "",
+                    username: data.username || "",
                     balance: amount,
                 });
                 axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
