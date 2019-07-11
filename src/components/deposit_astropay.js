@@ -21,32 +21,34 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = function(theme) {
     return ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      marginLeft: "30%"
-    },
-
-    textField: {
-        marginLeft: theme.spacing.unit*2,
-        marginRight: theme.spacing.unit*2,
-        width: 250,
-        // backgroundColor: "#ffffff"
-    },
-    
-
-    cssRoot: {
-        color: theme.palette.getContrastText(blue[300]),
-        backgroundColor: blue[300],
-        '&:hover': {
-          backgroundColor: blue[800],
+        root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        marginLeft: "30%"
         },
-    },
-    
-    button:{
-        margin: theme.spacing.unit,
-    }
-})};
+
+        textField: {
+            marginLeft: theme.spacing.unit*2,
+            marginRight: theme.spacing.unit*2,
+            width: 250,
+            // background:
+            backgroundColor: "#ffffff"
+        },
+        
+
+        cssRoot: {
+            color: theme.palette.getContrastText(blue[300]),
+            backgroundColor: blue[300],
+            '&:hover': {
+            backgroundColor: blue[800],
+            },
+        },
+        
+        button:{
+            margin: theme.spacing.unit,
+        }
+    })
+};
 
 class DepositAstropay extends Component {
     constructor(props) {
@@ -162,7 +164,7 @@ class DepositAstropay extends Component {
                         inputProps={{"maxLength":16}}
                         placeholder="1234 5678 9999 0000" 
                         name="card_num"
-                        onChange={this.handleChange}
+                        onChange={this.handleNumChange}
                         className={classes.textField}
                         variant="outlined"
                         margin="normal"
@@ -175,7 +177,7 @@ class DepositAstropay extends Component {
                         placeholder="eg. 1234" 
                         inputProps={{"maxLength":4}}
                         name="card_code" 
-                        onChange={this.handleChange}
+                        onChange={this.handleNumChange}
                         className={classes.textField}
                         style={{"width": 100}}
                         variant="outlined"
@@ -204,7 +206,7 @@ class DepositAstropay extends Component {
                         }}
                         placeholder="" 
                         name="amount" 
-                        onChange={this.handleChange}
+                        onChange={this.handleAmountChange}
                         className={classes.textField}
                         style={{"width": 100}}
                         variant="filled"

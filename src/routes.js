@@ -56,7 +56,7 @@ const divStyle = {
 
 const BaseRouter = () => (
   <div style={divStyle}>
-    <Redirect from="/" to="/home/" />
+    {/* <Redirect exact from="/" to="/home/" /> */}
     <Route exact path="/home/:referid?" component={Home} />
     <Route exact path="/slot_type/" component={Slot_Type} />
     <Route exact path="/sports_type/" component={Sports_Type} />
