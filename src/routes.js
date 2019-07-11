@@ -35,6 +35,7 @@ import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password'
 import DepositPage from "./components/deposit_linepay"
 import DepositSuccess from "./components/deposit_success"
+import WithdrawSuccess from "./components/withdraw_success"
 // import Board from './components/orion'
 import DepositQaicah from './components/deposit_qaicash'
 import DepositAsiapayJDPay from './components/deposit_asiapay_jdpay'
@@ -57,7 +58,8 @@ const divStyle = {
 
 const BaseRouter = () => (
   <div style={divStyle}>
-    <Redirect from="/" to="/home/" />
+    {/* <Redirect from="/" to="/home/" /> */}
+    <Route exact path="/" component={Home} />
     <Route exact path="/home/:referid?" component={Home} />
     <Route exact path="/slot_type/" component={Slot_Type} />
     <Route exact path="/sports_type/" component={Sports_Type} />
@@ -108,6 +110,7 @@ const BaseRouter = () => (
     <Route exact path="/deposit_linepay/" component={DepositPage} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
+    <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>
 );
