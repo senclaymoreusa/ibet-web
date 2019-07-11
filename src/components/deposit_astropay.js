@@ -140,7 +140,22 @@ class DepositAstropay extends Component {
                 postData,
                 config
             ).then(function(res) {
-                console.log(res);
+                console.log("result of deposit: " + res);
+                const body = JSON.stringify({
+                    type : 'add',
+                    username: this.state.data.username || "",
+                    balance: amount,
+                });
+                axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
+                .then(res => {
+                    if (res.data === 'Failed'){
+                        this.setState({error: true});
+                    } else if (res.data === 'The balance is not enough') {
+                        alert("cannot withdraw this amount")
+                    } else{
+                        alert("your balance is updated")
+                    }
+                });
             })
         }
         else {
