@@ -67,7 +67,7 @@ class New_Profile extends Component {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
-        return axios.get(API_URL + 'users/api/user/', config)
+        axios.get(API_URL + 'users/api/user/', config)
         .then(res => {
             this.setState({user_data: res.data});
         })
