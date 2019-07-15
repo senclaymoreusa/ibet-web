@@ -127,6 +127,7 @@ class New_Update_Profile extends Component {
        .then(res => {
           if (res === 1) {
             this.props.history.push('/'); 
+            window.location.reload()
         }})
 
         const token = localStorage.getItem('token');
