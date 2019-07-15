@@ -15,6 +15,9 @@ const styles = theme => {
     navcontainer: {
       textAlign: "center"
     },
+    Link: {
+      textDecoration: "none"
+    }
     // button: {
     //   backgroundColor: "green"
     // }
@@ -36,18 +39,18 @@ export class DepositNavBar extends Component {
       <>
         <div className={classes.navcontainer} >
           <nav className="navbar navbar-dark bg-dark mb-3">
-            <Link to="/deposit_qaicash/"> {/* deposit using wechat provided by qaicash */}
+            <Link to="/deposit_qaicash/" className={classes.Link}> {/* deposit using wechat provided by qaicash */}
               <Button variant="contained" color="primary" id="nav.deposit_qaicash" className={classes.button}>
                   Wechat Pay
               </Button>
             </Link>
-            <Link to="/deposit_paypal/">
+            <Link to="/deposit_paypal/" className={classes.Link}>
               {/* <Button variant="contained" color="secondary" component="a" href="/deposit_paypal/" id="nav.deposit_paypal" className={classes.button}> */}
               <Button variant="contained"  id="nav.deposit_paypal" className={classes.button}>
                   Paypal
               </Button>
             </Link>
-            <Link to="/deposit_linepay/">
+            <Link to="/deposit_linepay/" className={classes.Link}>
               <img 
                 id="LINElogo" 
                 type="image" 
@@ -57,37 +60,37 @@ export class DepositNavBar extends Component {
                 alt="LINEpay logo"
               />
             </Link>
-            <Link to="/deposit_asiapay_kuaijie/">
+            <Link to="/deposit_asiapay_kuaijie/" className={classes.Link}>
               <Button variant="contained" color="secondary" id="nav.deposit_asiapay_jdpay" className={classes.button}>
                   快捷支付
               </Button>
             </Link>
-            <Link to="/deposit_asiapay_jdpay/">
+            <Link to="/deposit_asiapay_jdpay/" className={classes.Link}>
               <Button variant="contained" color="secondary" id="nav.deposit_asiapay_jdpay" className={classes.button}>
                   JD Pay
               </Button>
             </Link>
-            <Link to="/deposit_asiapay_bankcard/">
+            <Link to="/deposit_asiapay_bankcard/" className={classes.Link}>
               <Button variant="contained" color="secondary" id="nav.deposit_asiapay_bankcard" className={classes.button}>
                   在线支付
               </Button>
             </Link>
-            <Link to="/deposit_asiapay_unionpay/">
+            <Link to="/deposit_asiapay_unionpay/" className={classes.Link}>
               <Button variant="contained"  color="secondary" id="nav.deposit_asiapay_unionpay" className={classes.button}>
                   UnionPay
               </Button>
             </Link>
-            <Link to="/deposit_asiapay_wechatpay/">
+            <Link to="/deposit_asiapay_wechatpay/" className={classes.Link}>
               <Button variant="contained"  color="secondary" id="nav.deposit_asiapay_wechatpay" className={classes.button}>
                   微信支付
               </Button>
             </Link>
-            <Link to="/deposit_asiapay_alipay/">
+            <Link to="/deposit_asiapay_alipay/" className={classes.Link}>
               <Button variant="contained"  color="secondary" id="nav.deposit_asiapay_alipay" className={classes.button}>
                   支付宝
               </Button>
             </Link>
-            <Link to="/deposit/astropay/">
+            <Link to="/deposit/astropay/" className={classes.Link}>
               <Button variant="contained"  color="primary" id="nav.deposit_astropay" className={classes.button}>
                   Astropay
               </Button>

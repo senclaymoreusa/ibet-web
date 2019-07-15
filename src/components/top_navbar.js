@@ -18,7 +18,7 @@ import { errors } from './errors';
 
 
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile } from '../actions';
 
@@ -27,6 +27,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+
 import AccountMenu from './account_menu/account_menu';
 import Deposit from './account_menu/deposit';
 import Withdraw from './account_menu/withdraw';
@@ -1036,19 +1038,20 @@ export class TopNavbar extends React.Component {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
 
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Button
-                                            variant="outlined"
-                                            className={classes.balanceButton}
-
-                                        >
-                                            <DepositIcon className={classes.balanceIcon} />
-                                            <FormattedNumber
-                                                maximumFractionDigits={2}
-                                                value={this.state.balance}
-                                                style='currency'
-                                                currency={this.state.balanceCurrency}
-                                            />
-                                        </Button>
+                                        <Link to="/deposit/" style={{textDecoration: "none"}}>
+                                            <Button
+                                                variant="outlined"
+                                                className={classes.balanceButton}
+                                            >
+                                                <DepositIcon className={classes.balanceIcon} />
+                                                <FormattedNumber
+                                                    maximumFractionDigits={2}
+                                                    value={this.state.balance}
+                                                    style="currency"
+                                                    currency={this.state.balanceCurrency}
+                                                />
+                                            </Button>
+                                        </Link>
                                         <div className={classes.separator} />
                                         {ProfileMenu}
                                         {/* {LangMenu} */}
