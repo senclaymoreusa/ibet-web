@@ -193,7 +193,6 @@ export class Login extends React.Component {
             localStorage.removeItem('remember_check');
         }
         this.props.hide_login()
-        this.props.history.push('/');
     })
     .catch(err => {
         this.setState({wrong_password_error: true})
