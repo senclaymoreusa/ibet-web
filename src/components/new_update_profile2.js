@@ -122,12 +122,19 @@ class New_Update_Profile extends Component {
     }
 
     componentDidMount() {
+
+        this.props.authCheckState()
+       .then(res => {
+          if (res === 1) {
+            this.props.history.push('/'); 
+        }})
+
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
         this.setState({all_country_name: getNames()})
 
-        return axios.get(API_URL + 'users/api/user/', config)
+        axios.get(API_URL + 'users/api/user/', config)
         .then(res => {
             this.setState({
                 user_data: res.data,
