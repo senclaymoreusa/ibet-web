@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { hide_user_profile, show_update_profile } from '../actions';
+import { hide_user_profile, show_update_profile, authCheckState } from '../actions';
 import { connect } from 'react-redux';
 import { config } from '../util_config';
 import axios from 'axios'
@@ -57,6 +57,13 @@ class New_Profile extends Component {
     }
 
     componentDidMount() {
+
+      this.props.authCheckState()
+      .then(res => {
+        if (res === 1) {
+          this.props.history.push('/'); 
+        }})
+
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
@@ -269,4 +276,4 @@ class New_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_user_profile, show_update_profile })(New_Profile));
+export default withStyles(styles)(connect(null, { hide_user_profile, show_update_profile, authCheckState })(New_Profile));
