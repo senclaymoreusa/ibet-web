@@ -110,11 +110,8 @@ const BaseRouter = () => (
     <Route exact path="/deposit_linepay/" component={DepositPage} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
-<<<<<<< HEAD
     <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
-=======
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
->>>>>>> 18bda74c73fab58d5cccd599cdee716ae40aec02
     {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>
 );
