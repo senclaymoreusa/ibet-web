@@ -37,10 +37,10 @@ const styles = theme => ({
       width: 300,
       backgroundColor: '#ffffff',
     },
+    
     textField_input:{
-
         textTransform: 'lowercase'  
-      },
+    },
     cssRoot: {
         color: theme.palette.getContrastText(blue[300]),
         backgroundColor: blue[300],

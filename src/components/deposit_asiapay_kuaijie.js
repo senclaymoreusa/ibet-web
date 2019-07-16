@@ -33,7 +33,8 @@ const styles = function(theme) {
     textField: {
       flexBasis: 200,
       width: 300,
-      marginLeft: "30%",
+      margin: theme.spacing.unit,
+    //   marginLeft: "30%",
       backgroundColor: '#ffffff;'
     },
     
