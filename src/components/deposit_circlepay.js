@@ -11,9 +11,7 @@ import '../css/deposit.css';
 import {TextField, Select, InputAdornment, Button} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
-import classNames from 'classnames';
 import { authCheckState } from '../actions';
-import { Input, Form } from 'antd';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -48,20 +46,17 @@ const styles = function(theme) {
     })
 };
 
-class DepositAstropay extends Component {
+class DepositCirclepay extends Component {
     constructor(props) {
         super(props);
         
         this.state = {
             amount: "",
-            card_num: "",
-            card_code: "",
-            exp_date: "",
         };
 
         this.handleAmountChange = this.handleAmountChange.bind(this);
-        this.handleNumChange = this.handleNumChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
+        // this.handleNumChange = this.handleNumChange.bind(this);
+        // this.handleDateChange = this.handleDateChange.bind(this);
         this.depositMoney = this.depositMoney.bind(this);
     }
 
@@ -125,7 +120,8 @@ class DepositAstropay extends Component {
     
     async depositMoney(event) {
         event.preventDefault();
-        const {amount, card_num, card_code, exp_date, data} = this.state;
+
+        const {amount} = this.state;
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -134,41 +130,29 @@ class DepositAstropay extends Component {
         config.headers["Authorization"] = `Token ${token}`;
 
         console.log("amount: " + amount);
-        console.log(data)
         let postData = {
-            "card_num": card_num,
-            "card_code": card_code,
-            "exp_date": exp_date,
             "amount": amount
         };
 
-        var res = await axios.post(API_URL + 'accounting/api/astropay/capture_transaction',
+        var res = await axios.post(API_URL + 'accounting/api/circlepay/deposit',
             postData,
             config)
         console.log("result of deposit: ");
         console.log(res);
-        if (res.data.response_msg.slice(0,5) === "1|1|1") {
-            const body = JSON.stringify({
-                type : 'add',
-                username: data.username || "",
-                balance: amount,
-            });
-            axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
-            .then(res => {
-                if (res.data === 'Failed'){
-                    this.setState({error: true});
-                } else if (res.data === 'The balance is not enough') {
-                    alert("cannot withdraw this amount")
-                } else {
-                    alert("your balance is updated")
-                    // window.location.reload();
-                }
-            });
-        }
-        else {
-            // this.showError(res.data.response_msg.split("|")[3]);
-            this.setState({error: true, error_msg: res.data.response_msg.split("|")[3]});
-        }
+
+        // axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
+        // .then(res => {
+        //     if (res.data === 'Failed'){
+        //         this.setState({error: true});
+        //     } else if (res.data === 'The balance is not enough') {
+        //         alert("cannot withdraw this amount")
+        //     } else {
+        //         alert("your balance is updated")
+        //         // window.location.reload();
+        //     }
+        // });
+        
+
     }
 
     render() {
@@ -179,46 +163,6 @@ class DepositAstropay extends Component {
                 <TopNavbar />
                 <form className="deposit-form" onSubmit={this.depositMoney}>
                     <FormattedMessage id="balance.enter_balance" />
-                    <br/>
-                    <TextField
-                        required
-                        label="Card No."
-                        value={card_num}
-                        inputProps={{"maxLength":16}}
-                        placeholder="1234 5678 9999 0000" 
-                        name="card_num"
-                        onChange={this.handleNumChange}
-                        className={classes.textField}
-                        variant="outlined"
-                        margin="normal"
-                    />
-                    <TextField
-                        required
-                        label="Code"
-                        // type="password"
-                        value={card_code}
-                        placeholder="eg. 1234" 
-                        inputProps={{"maxLength":4}}
-                        name="card_code" 
-                        onChange={this.handleNumChange}
-                        className={classes.textField}
-                        style={{"width": 100}}
-                        variant="outlined"
-                        margin="normal"
-                    />
-                    <TextField
-                        required
-                        label="Expiration Date"
-                        type="text"
-                        name="exp_date" 
-                        value={exp_date}
-                        placeholder="MM/YYYY" 
-                        inputProps={{"maxLength":7}}
-                        onChange={this.handleDateChange}
-                        className={classes.textField}
-                        variant="outlined"
-                        margin="normal"
-                    />
                     <br/>
                     <TextField
                         required
@@ -261,4 +205,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositAstropay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps,{authCheckState})(DepositCirclepay)));
