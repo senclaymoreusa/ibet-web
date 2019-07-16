@@ -4,7 +4,16 @@ import {injectIntl } from 'react-intl';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-
+const styles = theme => {
+  return {
+    navcontainer: {
+      textAlign: "center"
+    },
+    // button: {
+    //   backgroundColor: "green"
+    // }
+  }
+}
 export class WithdrawNavBar extends Component {
   constructor(props) {
     super(props);
@@ -42,4 +51,4 @@ const mapStateToProps = (state) => {
         language: state.language.lang,
     }
 }
-export default withStyles()(injectIntl(withRouter(connect(mapStateToProps)(WithdrawNavBar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps)(WithdrawNavBar))));
