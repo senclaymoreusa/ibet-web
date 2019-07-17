@@ -128,12 +128,18 @@ class DepositAsiapayUnionpay extends Component {
             },
             body: formBody
         }).then(function(res) {
+            if(res.statuscode )
             return res.json();
         }).then(function(data) {
-            let qrurl = data.qr;
-            currentComponent.setState({value : qrurl, show_qrcode:true});
+            let myqr = data.qr;
+                                    
+            if(data.code == 'ERROR'){
+                alert(data.message);
+            }else{
+                currentComponent.setState({value: myqr,show_qrcode:true})
+            }
 
-        });
+        }).catch(error => console.error('Error:', error));
     }
     
     

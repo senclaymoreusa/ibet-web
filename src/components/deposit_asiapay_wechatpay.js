@@ -128,11 +128,24 @@ class DepositAsiapayWechatpay extends Component {
             },
             body: formBody
         }).then(function(res) {
-            return res.json();
+            if(res.ok){
+                return res.text();         
+            }
+            alert("渠道维护中");
+            throw new Error('Something went wrong.');
+            
         }).then(function(data) {
-            let qrurl = data.qr;
-            currentComponent.setState({value : qrurl, show_qrcode:true});
+            console.log(data)
+            let myqr = data.qr;
+                                    
+            if(data.code == 'ERROR'){
+                alert(data.message);
+            }else{
+                currentComponent.setState({value: myqr,show_qrcode:true})
+            }
 
+        }).catch(function(error) {                        // catch
+            console.log('Request failed', error);
         });
     }
     
