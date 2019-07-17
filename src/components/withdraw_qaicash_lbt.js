@@ -116,6 +116,7 @@ class WithdrawQaicashLBT extends Component {
         const { classes } = this.props;
         let amount = this.state.amount;
         let user = this.state.data.username;
+        let main_wallet = this.state.data.main_wallet;
         return (
             <div>
                 <TopNavbar />
@@ -179,34 +180,40 @@ class WithdrawQaicashLBT extends Component {
                                   return res.json();
                                 }).then(function(data) {
                                     let redirectUrl = data.paymentPageSession.paymentPageUrl;
-                                    if(redirectUrl != null){
+                                    if(redirectUrl != null && main_wallet - amount >= 0){
                                         const mywin = window.open(redirectUrl,'qaicash-checkout', 'height=500,width=500');
                                         var timer = setInterval(function() { 
                                             console.log('checking..')
                                               if(mywin.closed) {
                                                     clearInterval(timer);
-                                                    alert('Transaction is approved.');
-                                                    const body = JSON.stringify({
-                                                        type : 'withdraw',
-                                                        username: user,
-                                                        balance: amount,
-                                                    });
-                                                    console.log(body)
-                                                    axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                                        .then(res => {
-                                                            if (res.data === 'Failed'){
-                                                                this.setState({error: true});
-                                                            } else if (res.data === 'The balance is not enough') {
-                                                                alert("cannot withdraw this amount")
-                                                            }else{
-                                                                alert("your balance is updated")
-                                                                window.location.reload()
-                                                            }
+                                                    
+                                                        alert('Transaction is approved.');
+                                                        const body = JSON.stringify({
+                                                            type : 'withdraw',
+                                                            username: user,
+                                                            balance: amount,
                                                         });
+                                                        console.log(body)
+                                                        axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                                            .then(res => {
+                                                                if (res.data === 'Failed'){
+                                                                    this.setState({error: true});
+                                                                } else if (res.data === 'The balance is not enough') {
+                                                                    alert("cannot withdraw this amount")
+                                                                }else{
+                                                                    alert("your balance is updated")
+                                                                    window.location.reload()
+                                                                }
+                                                        });
+                                                    
+                                                    
                                               }
                                           }, 1000);
                                         
+                                    }else if(main_wallet - amount < 0){
+                                        alert('Your account balance is not enough!')
                                     }else{
+                                        
                                         this.setState({qaicash_error: true, qaicash_error_msg: data.returnMessage});
                                     }
                                     
