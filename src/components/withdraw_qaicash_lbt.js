@@ -186,25 +186,51 @@ class WithdrawQaicashLBT extends Component {
                                             console.log('checking..')
                                               if(mywin.closed) {
                                                     clearInterval(timer);
+                                                    var postData = { 
+                                                        "order_id": data.payoutTransaction.orderId, 
+                                                    }
+                                                    var formBody = [];
+                                                    for (var pd in postData) {
+                                                        var encodedKey = encodeURIComponent(pd);
+                                                        var encodedValue = encodeURIComponent(postData[pd]);
+                                                        formBody.push(encodedKey + "=" + encodedValue);
+                                                    }
+                                                    formBody = formBody.join("&");
+                                                    return fetch(API_URL + 'accounting/api/qaicash/payout_transaction', {
+                                                      method: 'POST',
+                                                      headers: {
+                                                        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                                      },
+                                                      body: formBody
+                                                    }).then(function(res){
+                                                        return res.json();
+                                                    }).then(function(data){
+                                                        let status = data.status;
+                                                        if(status == 'HELD'){
+                                                            alert('Transaction is approved.');
+                                                            const body = JSON.stringify({
+                                                                type : 'withdraw',
+                                                                username: user,
+                                                                balance: amount,
+                                                            });
+                                                            console.log(body)
+                                                            axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                                                .then(res => {
+                                                                    if (res.data === 'Failed'){
+                                                                        this.setState({error: true});
+                                                                    } else if (res.data === 'The balance is not enough') {
+                                                                        alert("cannot withdraw this amount")
+                                                                    }else{
+                                                                        alert("your balance is updated")
+                                                                        window.location.reload()
+                                                                    }
+                                                            });
+                                                        }else if(status == 'PENDING'){
+                                                            alert('Please complete your withdraw payment!');
+                                                        }
+                                                    })
                                                     
-                                                        alert('Transaction is approved.');
-                                                        const body = JSON.stringify({
-                                                            type : 'withdraw',
-                                                            username: user,
-                                                            balance: amount,
-                                                        });
-                                                        console.log(body)
-                                                        axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                                            .then(res => {
-                                                                if (res.data === 'Failed'){
-                                                                    this.setState({error: true});
-                                                                } else if (res.data === 'The balance is not enough') {
-                                                                    alert("cannot withdraw this amount")
-                                                                }else{
-                                                                    alert("your balance is updated")
-                                                                    window.location.reload()
-                                                                }
-                                                        });
+                                                    
                                                     
                                                     
                                               }
