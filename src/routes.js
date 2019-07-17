@@ -49,6 +49,7 @@ import DepositAsiapayAlipay from './components/deposit_asiapay_alipay'
 import New_Profile from './components/new_profile2'
 import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/deposit_astropay"
+import DepositCirclepay from "./components/deposit_circlepay"
 
 const divStyle = {
   minHeight: '100%',
@@ -107,6 +108,7 @@ const BaseRouter = () => (
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
+    <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>
 );

@@ -81,39 +81,16 @@ class DepositCirclepay extends Component {
 
     handleAmountChange(event) {
         event.preventDefault();
+        if (event.target.value >= 20 && event.target.value <= 1000) {
+            this.setState({valid_amt: true});
+        }
         if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
             this.setState({[event.target.name]: event.target.value}); 
 
             if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || !event.target.value || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
-                this.setState({live_check_amount: true, button_disable: true})
+                this.setState({live_check_amount: true, disable_button: true})
             } else {
-                this.setState({live_check_amount: false, button_disable: false})
-            }
-        }
-    }
-
-    handleNumChange(event) {
-        event.preventDefault();
-        if (!event.target.value || event.target.value.match(/^[0-9]+$/)){
-            this.setState({[event.target.name]: event.target.value}); 
-
-            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || !event.target.value || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
-                this.setState({live_check_amount: true, button_disable: true})
-            } else {
-                this.setState({live_check_amount: false, button_disable: false})
-            }
-        }
-    }
-
-    handleDateChange(event) {
-        event.preventDefault();
-        if (!event.target.value || event.target.value.match(/^[0-9/]+$/)){
-            this.setState({[event.target.name]: event.target.value}); 
-
-            if (!event.target.value.match(/(0[1-9]|1[0-2])\/[0-9]{2}/) || !event.target.value || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
-                this.setState({live_check_amount: true, button_disable: true})
-            } else {
-                this.setState({live_check_amount: false, button_disable: false})
+                this.setState({live_check_amount: false, disable_button: false})
             }
         }
     }
@@ -123,7 +100,10 @@ class DepositCirclepay extends Component {
 
         const {amount} = this.state;
         const token = localStorage.getItem('token');
-
+        if (amount < 20 || amount > 1000) {
+            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 20, Max deposit is 1000"});
+            return;
+        }
         if (!token) {
             console.log("no token -- user is not logged in");
         }
@@ -139,7 +119,12 @@ class DepositCirclepay extends Component {
             config)
         console.log("result of deposit: ");
         console.log(res);
-
+        if(res.status !== 200) {
+            this.setState({error: true, error_msg: JSON.stringify(res)});
+        }
+        else {
+            this.setState({response: JSON.stringify(res)});
+        }
         // axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
         // .then(res => {
         //     if (res.data === 'Failed'){
@@ -157,7 +142,7 @@ class DepositCirclepay extends Component {
 
     render() {
         const {classes} = this.props;
-        const {amount, card_num, card_code, exp_date} = this.state;
+        const {amount, error, error_msg, valid_amt, disable_button, response: resp_msg} = this.state;
         return (
             <div>
                 <TopNavbar />
@@ -169,27 +154,43 @@ class DepositCirclepay extends Component {
                         label="Amount"
                         value={amount}
                         InputProps={{
-                            startAdornment: <InputAdornment position="start">$</InputAdornment>
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                            style: {
+                                "background-color": "white"
+                            }
                         }}
                         placeholder="" 
                         name="amount" 
                         onChange={this.handleAmountChange}
                         className={classes.textField}
-                        style={{"width": 100}}
+                        // style={{"width": 100}}
                         variant="filled"
                         margin="normal"
                     />
                     <div id="error-msg">
                         {
-                            this.state.error ? 
-                            <p style={{color: "red"}}>{this.state.error_msg}</p> :
+                            (error || !valid_amt) ? 
+                            <p style={{color: "red"}}>{error_msg}</p> :
                             <br></br>
                         }
                     </div>
                     <div id="submit-amount">
-                        <Button type="submit" variant="contained" value="Deposit" onSubmit={this.depositMoney}>
+                        <Button 
+                            type="submit" 
+                            variant="contained" 
+                            value="Deposit" 
+                            onSubmit={this.depositMoney}
+                            style={disable_button ? {} : {cursor: "pointer"}}
+                        >
                             {"Deposit " + this.state.amount + " to my account"}
                         </Button>
+                    </div>
+                    <div id="resp-msg">
+                        {
+                            resp_msg ?
+                            <p>{resp_msg}</p> :
+                            <br></br>
+                        }
                     </div>
 
                 </form>
