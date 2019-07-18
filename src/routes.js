@@ -35,6 +35,7 @@ import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password'
 import DepositPage from "./components/deposit_linepay"
 import DepositSuccess from "./components/deposit_success"
+import WithdrawSuccess from "./components/withdraw_success"
 // import Board from './components/orion'
 import DepositQaicah from './components/deposit_qaicash'
 import DepositAsiapayJDPay from './components/deposit_asiapay_jdpay'
@@ -43,9 +44,11 @@ import WithdrawAsiapay from './components/withdraw_asiapay'
 import DepositAsiapayKuaiJie from "./components/deposit_asiapay_kuaijie"
 import Deposit from './components/deposit'
 import Withdraw from './components/withdraw'
+import WithdrawQaicashLBT from './components/withdraw_qaicash_lbt'
 import DepositAsiapayUnionpay from './components/deposit_asiapay_unionpay'
 import DepositAsiapayWechatpay from './components/deposit_asiapay_wechatpay'
 import DepositAsiapayAlipay from './components/deposit_asiapay_alipay'
+import DepositQaicahAlipay from './components/deposit_qaicash_alipay'
 import New_Profile from './components/new_profile2'
 import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/deposit_astropay"
@@ -91,7 +94,9 @@ const BaseRouter = () => (
     <Route exact path="/deposit_paypal/" component={DepositPaypal} />
     <Route exact path="/deposit/" component={Deposit} />
     <Route exact path="/withdraw/" component={Withdraw} />
+    <Route exact path="/withdraw_qaicash_lbt/" component={WithdrawQaicashLBT} />
     <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
+    <Route exact path="/deposit_qaicash_alipay/" component={DepositQaicahAlipay} />
     <Route exact path="/deposit_asiapay_jdpay/" component={DepositAsiapayJDPay} />
     <Route exact path="/deposit_asiapay_bankcard/" component={DepositAsiapayBankcard} />
     <Route exact path="/deposit_asiapay_unionpay/" component={DepositAsiapayUnionpay} />
@@ -105,6 +110,7 @@ const BaseRouter = () => (
     <Route exact path="/deposit_linepay/" component={DepositPage} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
+    <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>
