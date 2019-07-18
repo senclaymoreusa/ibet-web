@@ -95,6 +95,11 @@ export class DepositNavBar extends Component {
                   Astropay
               </Button>
             </Link>
+            <Link to="/deposit/circlepay/" className={classes.Link}>
+              <Button variant="contained"  color="secondary" id="nav.deposit_circlepay" className={classes.button}>
+                  Circlepay
+              </Button>
+            </Link>
           </nav>
         </div>
       </>

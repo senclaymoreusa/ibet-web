@@ -24,9 +24,7 @@ import { logout,
 
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/';
 import Grid from '@material-ui/core/Grid';
 
 import { ReactComponent as LockIcon } from '../../assets/img/svg/lock.svg';
@@ -491,6 +489,8 @@ export class AccountMenu extends React.Component {
                 picture: facebookObj.picture
             })
         }
+
+        
     }
 
     closeClicked = (event) => {
