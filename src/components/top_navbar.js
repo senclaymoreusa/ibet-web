@@ -713,7 +713,7 @@ export class TopNavbar extends React.Component {
                         localStorage.removeItem('remember_password');
                         localStorage.removeItem('remember_check');
                     }
-                    this.props.history.push('/home/');
+                    this.props.history.push('/');
                 })
                 .catch(err => {
                     this.setState({ errorCode: err });
@@ -743,13 +743,6 @@ export class TopNavbar extends React.Component {
     }
 
     async componentDidMount() {
-
-        this.props.authCheckState()
-        .then(res => {
-            if (res === 1) {
-              this.props.history.push('/home/'); 
-            }
-        })
 
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
