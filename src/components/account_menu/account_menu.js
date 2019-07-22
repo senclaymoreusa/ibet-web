@@ -11,15 +11,23 @@ import DirectionsRun from '@material-ui/icons/DirectionsRun';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, 
-    handle_search, 
-    setLanguage, 
-    postLogout, 
-    show_change_password, 
-    show_user_profile, 
-    show_deposit, 
+import {
+    logout,
+    handle_search,
+    setLanguage,
+    postLogout,
+    show_change_password,
+    show_user_profile,
+    show_deposit,
     show_withdraw,
-    show_refer_user
+    show_refer_user,
+    show_open_bets,
+    show_settled_bets,
+    show_promotions,
+    show_settings,
+    show_help,
+    show_responsible_gambling,
+    hide_account_menu
 } from '../../actions';
 
 import List from '@material-ui/core/List';
@@ -28,6 +36,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
+
+import Popper from '@material-ui/core/Popper';
+
+import New_Deposit from '../new_deposit';
+import Fade from '@material-ui/core/Fade';
+
 
 import { ReactComponent as LockIcon } from '../../assets/img/svg/lock.svg';
 import { ReactComponent as DepositIcon } from '../../assets/img/svg/account-menu-deposit.svg';
@@ -377,10 +391,10 @@ const styles = theme => ({
         width: 20,
         height: 11.7,
     },
-    infoIcon:{
+    infoIcon: {
         display: 'inline',
         marginLeft: 5,
-        marginBottom:-3,
+        marginBottom: -3,
     },
     closeButton: {
         width: 32,
@@ -413,7 +427,7 @@ const styles = theme => ({
         paddingLeft: 10,
         paddingRight: 10,
     },
-    myAccountText:{
+    myAccountText: {
         color: '#04599a',
         fontSize: 15.8,
         textTransform: 'capitalize',
@@ -434,7 +448,7 @@ export class AccountMenu extends React.Component {
         super(props);
 
         this.state = {
-            anchorEl: null,
+           // anchorEl: null,
 
             lang: 'en',
             showLeftPanel: false,
@@ -445,11 +459,14 @@ export class AccountMenu extends React.Component {
             userID: "",
             name: "",
             email: "",
-            picture: ""
+            picture: "",
+
+            height: window.innerHeight,
+            width: window.innerWidth,
         };
 
         this.openBetsClicked = this.openBetsClicked.bind(this);
-
+        this.depositClicked = this.depositClicked.bind(this);
     }
 
     toggleSidePanel = (side, open) => () => {
@@ -458,21 +475,21 @@ export class AccountMenu extends React.Component {
         });
     };
 
-    handleLanguageMenuOpen = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
+    // handleLanguageMenuOpen = event => {
+    //     this.setState({ anchorEl: event.currentTarget });
+    // };
 
-    handleLanguageMenuClose = (ev) => {
-        this.setState({ anchorEl: null });
-        this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
-    };
+    // handleLanguageMenuClose = (ev) => {
+    //     this.setState({ anchorEl: null });
+    //     this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
+    // };
 
-    changeLanguage = (lang) => {
-        this.props.setLanguage(lang)
-            .then((res) => {
-                // console.log("language change to:" + res.data);
-            });
-    };
+    // changeLanguage = (lang) => {
+    //     this.props.setLanguage(lang)
+    //         .then((res) => {
+    //             // console.log("language change to:" + res.data);
+    //         });
+    // };
 
     componentWillReceiveProps(props) {
         this.setState({ term: '' });
@@ -494,7 +511,7 @@ export class AccountMenu extends React.Component {
     }
 
     closeClicked = (event) => {
-        this.props.onCloseItemClicked();
+        this.props.hide_account_menu();
     }
 
     toggleLanguageListItem = () => {
@@ -506,44 +523,49 @@ export class AccountMenu extends React.Component {
     };
 
     depositClicked = event => {
-        //this.props.onMenuItemClicked('deposit');
+        this.props.hide_account_menu();
         this.props.show_deposit();
-        this.props.onCloseItemClicked();
-    }
-    
-    withdrawClicked = event => {
-        //this.props.onMenuItemClicked('withdraw');
-        this.props.show_withdraw();
-        this.props.onCloseItemClicked();
     }
 
-    openBetsClicked = (ev) => {
-        this.props.onMenuItemClicked('open-bets');
+    withdrawClicked = event => {
+        this.props.hide_account_menu();
+        this.props.show_withdraw();
+    }
+
+    openBetsClicked = event => {
+        this.props.hide_account_menu();
+        this.props.show_open_bets();
     }
 
     settledBetsClicked = event => {
-        this.props.onMenuItemClicked('settled-bets');
+        this.props.hide_account_menu();
+        this.props.show_settled_bets();
     }
 
     promotionsClicked = event => {
-        this.props.onMenuItemClicked('promotions');
+        this.props.hide_account_menu();
+        this.props.show_promotions();
     }
     settingsClicked = event => {
-        this.props.onMenuItemClicked('settings');
+        this.props.hide_account_menu();
+        this.props.show_settings();
     }
 
     helpClicked = event => {
-        this.props.onMenuItemClicked('help');
+        this.props.hide_account_menu();
+        this.props.show_help();
     }
 
     responsibleGamblingClicked = event => {
-        this.props.onMenuItemClicked('responsible-gambling');
+        this.props.hide_account_menu();
+        this.props.show_responsible_gambling();
     }
 
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
         let languagesMessage = formatMessage({ id: "accountmenu.languages" });
+
 
         var LineChart = require("react-chartjs").Line;
 
@@ -598,15 +620,15 @@ export class AccountMenu extends React.Component {
             <div className={classes.root}>
                 <div className={classes.sectionDesktop}>
                     <Grid container className={classes.root} spacing={0}>
-                    <Grid item xs={12} className={classes.titleRow}>
-                        <Button onClick={this.closeClicked} className={classes.closeButton}>
-                            <CloseIcon />
-                        </Button>
-                        <div className={classes.myAccountText}>
+                        <Grid item xs={12} className={classes.titleRow}>
+                            <Button onClick={this.closeClicked} className={classes.closeButton}>
+                                <CloseIcon />
+                            </Button>
+                            <div className={classes.myAccountText}>
                                 <FormattedMessage id="accountmenu.my-account" defaultMessage="My Account" />
                             </div>
-                    </Grid>
-                    <Grid item xs={12} className={classes.firstRow}>
+                        </Grid>
+                        <Grid item xs={12} className={classes.firstRow}>
                             <div className={classes.hi}>
                                 <FormattedMessage id="accountmenu.hi" defaultMessage="Hi" />
                             </div>
@@ -642,7 +664,7 @@ export class AccountMenu extends React.Component {
                             <div className={classes.bonusLabel}>
                                 <FormattedMessage id="accountmenu.next-bet-split" defaultMessage="Next Bet Split:" />
                             </div>
-                            <OvalIcon className={classes.infoIcon}/>
+                            <OvalIcon className={classes.infoIcon} />
                             <span className={classes.cashBetValue}>$0.00</span>
                         </Grid>
                         <Grid item xs={12} className={classes.secondRow}>
@@ -657,7 +679,7 @@ export class AccountMenu extends React.Component {
                                 </div>
                                 <span className={classes.feeBetValue}> - </span>
                                 <span className={classes.feeBetValue}>$0.00</span>
-                                <OvalIcon className={classes.infoIcon}/>
+                                <OvalIcon className={classes.infoIcon} />
 
                                 <Grid container className={classes.root} spacing={0}>
                                     <Grid item xs={3}>
@@ -754,7 +776,7 @@ export class AccountMenu extends React.Component {
                                     //this.props.show_user_profile();
                                     this.props.history.push('/profile/')
                                 }}
-                                //href="/update_profile/"
+                            //href="/update_profile/"
                             >
                                 <div className={classes.blockButtonLabel}>
                                     <UserIcon className={classes.editProfileIcon} />
@@ -791,11 +813,11 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={1} className={classes.mergedGridButton}>
                         </Grid>
                         <Grid item xs={12} className={classes.mergedGridButton}>
-                            <Button 
+                            <Button
                                 onClick={() => {
                                     this.props.onCloseItemClicked();
                                     this.props.show_change_password();
-                               }} 
+                                }}
                                 className={classes.changePasswordButton}>
                                 <FormattedMessage id="accountmenu.change-password" defaultMessage="Change Password ›" />
                             </Button>
@@ -892,7 +914,7 @@ export class AccountMenu extends React.Component {
                             </div>
                         </List>
                     </div>
-                </div>
+                </div>            
             </div >
         );
     }
@@ -904,6 +926,7 @@ const mapStateToProps = (state) => {
         isAuthenticated: token !== null && token !== undefined,
         error: state.auth.error,
         lang: state.language.lang,
+        showDeposit: state.general.show_deposit,
     }
 }
 
@@ -911,12 +934,20 @@ AccountMenu.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { 
-    logout, 
-    handle_search, 
-    setLanguage, 
-    show_change_password, 
-    show_user_profile, 
-    show_deposit, 
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, {
+    logout,
+    handle_search,
+    setLanguage,
+    show_change_password,
+    show_user_profile,
+    show_deposit,
     show_withdraw,
-    show_refer_user })(AccountMenu))));
+    show_open_bets,
+    show_settled_bets,
+    show_promotions,
+    show_settings,
+    show_help,
+    show_responsible_gambling,
+    hide_account_menu,
+    show_refer_user
+})(AccountMenu))));

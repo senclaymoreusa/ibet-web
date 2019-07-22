@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage } from '../../actions';
+import { logout, handle_search, setLanguage, show_account_menu, hide_open_bets, hide_settled_bets  } from '../../actions';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -441,7 +441,10 @@ export class MyBets extends React.Component {
     }
 
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');
+        this.props.show_account_menu();
+
+        this.props.hide_open_bets();
+        this.props.hide_settled_bets();
     }
 
     handleTabChange(event, newValue) {
@@ -745,4 +748,4 @@ MyBets.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage })(MyBets))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_account_menu, hide_open_bets, hide_settled_bets })(MyBets))));
