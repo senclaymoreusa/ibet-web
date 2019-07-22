@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage } from '../../actions';
+import { logout, handle_search, setLanguage, show_account_menu, hide_responsible_gambling } from '../../actions';
 
 
 import Grid from '@material-ui/core/Grid';
@@ -115,7 +115,8 @@ export class ResponsibleGambling extends React.Component {
     };
 
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');
+        this.props.show_account_menu();
+        this.props.hide_responsible_gambling();
     }
 
     render() {
@@ -195,4 +196,4 @@ ResponsibleGambling.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage })(ResponsibleGambling))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage,show_account_menu, hide_responsible_gambling })(ResponsibleGambling))));

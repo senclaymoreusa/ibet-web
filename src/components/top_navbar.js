@@ -20,7 +20,22 @@ import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter, Link} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile } from '../actions';
+import {
+    logout,
+    handle_search,
+    setLanguage,
+    authCheckState,
+    AUTH_RESULT_FAIL,
+    authLogin,
+    show_login,
+    show_signup,
+    hide_login,
+    show_signup_finish,
+    hide_user_profile,
+    hide_update_profile,
+    show_account_menu,
+    hide_account_menu
+} from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -37,6 +52,7 @@ import Promotions from './account_menu/promotions';
 import Settings from './account_menu/settings';
 import MyBets from './account_menu/my_bets';
 import ResponsibleGambling from './account_menu/responsible_gambling';
+import DepositSuccess from './new_deposit_success';
 
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
@@ -70,6 +86,7 @@ import Change_Password from './change_password_new';
 import New_Profile from './new_profile';
 import New_Update_Profile from './new_update_profile';
 import New_Deposit from './new_deposit';
+import New_Deposit_Confirm from './new_deposit_confirm';
 import New_Deposit_Wechat from './new_deposit_amount_wechat';
 import New_Deposit_paypal from './new_deposite_amount_paypal';
 import New_Withdraw from './new_withdraw';
@@ -241,6 +258,7 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
     },
     profileButton: {
+        display: 'inline',
         marginTop: theme.spacing.unit,
         marginBottom: theme.spacing.unit,
         marginLeft: theme.spacing.unit,
@@ -380,10 +398,6 @@ const styles = theme => ({
         display: 'inline',
         marginTop: 20
     },
-    profile_container: {
-        display: 'inline',
-        marginLeft: 0,
-    },
     lang_container: {
         display: 'inline',
         marginLeft: 0,
@@ -392,7 +406,8 @@ const styles = theme => ({
         zIndex: 2002,
     },
     profilePopper: {
-        zIndex: 2002,
+        //zIndex: 2002,
+        width: 360,
     },
     margin: {
         margin: 'auto',
@@ -477,10 +492,13 @@ const SVG = ({
         </svg>
     );
 
+
 export class TopNavbar extends React.Component {
 
     constructor(props) {
         super(props);
+        this.profileRef = React.createRef();
+
         let langProperty = localStorage.getItem('lang');
 
         this.searchDiv = React.createRef();
@@ -495,7 +513,7 @@ export class TopNavbar extends React.Component {
             showProfilePopper: false,
             currentAccountMenuItem: '',
             anchorElLogin: null,
-            anchorElChangePassowrd: null, 
+            anchorElChangePassowrd: null,
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -533,6 +551,7 @@ export class TopNavbar extends React.Component {
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
         this.toggleSidePanel = this.toggleSidePanel.bind(this);
+        this.profileIconClicked = this.profileIconClicked.bind(this);
     }
 
     handleSignupOnEnter = (event) => {
@@ -650,11 +669,11 @@ export class TopNavbar extends React.Component {
         this.setState({ showLangMenu: false });
     };
 
-    handleProfileMenuClose = (ev) => {
-        this.setState({ showProfilePopper: false });
-        this.setState({ currentAccountMenuItem: '' });
+    // handleProfileMenuClose = (ev) => {
+    //     this.setState({ showProfilePopper: false });
+    //     this.setState({ currentAccountMenuItem: '' });
 
-    };
+    // };
 
     handleLoginMenuClose() {
         this.props.hide_login()
@@ -812,6 +831,18 @@ export class TopNavbar extends React.Component {
         //this.props.history.push('/deposit/')
     }
 
+    profileIconClicked = event => {
+
+        if (this.props.showAccountMenu) {
+            //this.setState({ anchorEl: null });
+            this.props.hide_account_menu();
+        } else {
+            this.setState({ anchorEl: event.currentTarget });
+            this.props.show_account_menu();
+        }
+        //this.props.onCloseItemClicked();
+    }
+
     render() {
         const { anchorEl, showProfilePopper, showLangMenu, anchorEl2, showRightPanel } = this.state;
 
@@ -836,67 +867,51 @@ export class TopNavbar extends React.Component {
         }
         const langButtonIcon = (<Flag country={countryCode} />);
 
-        let currentMenu = <div></div>;
-        switch (this.state.currentAccountMenuItem) {
-            case 'open-bets':
-                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={0} />;
-                break;
-            case 'deposit':
-                currentMenu = <Deposit onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-                break;
-            case 'withdraw':
-                currentMenu = <Withdraw onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-                break;
-            case 'help':
-                currentMenu = <Help onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-                break;
-            case 'promotions':
-                currentMenu = <Promotions onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-                break;
-            case 'responsible-gambling':
-                currentMenu = <ResponsibleGambling onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-                break;
-            case 'settings':
-                currentMenu = <Settings onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-                break;
-            case 'settled-bets':
-                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={2} />;
-                break;
-            default:
-                currentMenu = <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>;
-        }
+        // let currentMenu = <div></div>;
+        // switch (this.state.currentAccountMenuItem) {
+        //     case 'open-bets':
+        //         currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={0} />;
+        //         break;
+        //     case 'deposit':
+        //         currentMenu = <Deposit onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+        //         break;
+        //     case 'withdraw':
+        //         currentMenu = <Withdraw onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+        //         break;
+        //     case 'help':
+        //         currentMenu = <Help onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+        //         break;
+        //     case 'promotions':
+        //         currentMenu = <Promotions onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+        //         break;
+        //     case 'responsible-gambling':
+        //         currentMenu = <ResponsibleGambling onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+        //         break;
+        //     case 'settings':
+        //         currentMenu = <Settings onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+        //         break;
+        //     case 'settled-bets':
+        //         currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={2} />;
+        //         break;
+        //     default:
+        //         currentMenu = <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+        // }
 
-        
+
         const ProfileMenu = (
-           // <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
-                <div className={classes.profile_container}>
-                    <IconButton
-                        className={classes.profileButton}
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={this.handleProfilePopper}
-                        onMouseEnter={this.handleUserProfileOnEnter}
-                        onMouseLeave={this.handleUserProfileLeave}
-                    >
-                        <SVG className="profileIcon" />
-                    </IconButton>
+            <div ref={this.profileRef} >
+                <IconButton
+                    className={classes.profileButton}
+                    color="inherit"
+                    aria-label="Open drawer"
+                    onClick={this.profileIconClicked}
+                    onMouseEnter={this.handleUserProfileOnEnter}
+                    onMouseLeave={this.handleUserProfileLeave}
 
-                    <Popper open={showProfilePopper}
-                        anchorEl={anchorEl}
-                        className={classes.profilePopper}
-                        placement="top-start"
-                        transition
-                    >
-                        {({ TransitionProps }) => (
-                            <Fade {...TransitionProps} timeout={350}>
-                                <Paper className={classes.accountMenuPaper}>
-                                    {currentMenu}
-                                </Paper>
-                            </Fade>
-                        )}
-                    </Popper>
-                </div>
-      //      </ClickAwayListener>
+                >
+                    <SVG className="profileIcon" />
+                </IconButton>
+            </div>
         );
 
         const LangMenu = (
@@ -1047,7 +1062,6 @@ export class TopNavbar extends React.Component {
                                         </Link>
                                         <div className={classes.separator} />
                                         {ProfileMenu}
-                                        {/* {LangMenu} */}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
@@ -1064,32 +1078,6 @@ export class TopNavbar extends React.Component {
                                             <SVG className="userIcon" />
                                             <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
                                         </Button>
-                                        {/* <FormattedMessage id="nav.username" defaultMessage="Username">
-                                            {placeholder =>
-                                                <input
-                                                    id="filled-email-input"
-                                                    label="Email"
-                                                    className={classes.textField}
-                                                    type="email"
-                                                    name="email"
-                                                    margin="normal"
-                                                    placeholder={placeholder}
-                                                />
-                                            }
-                                        </FormattedMessage>
-                                        <FormattedMessage id="nav.password" defaultMessage="Password">
-                                            {placeholder =>
-
-                                                <input
-                                                    id="filled-password-input"
-                                                    label="Password"
-                                                    className={classes.textField}
-                                                    type="password"
-                                                    placeholder={placeholder}
-
-                                                />
-                                            }
-                                        </FormattedMessage> */}
                                         <Button
                                             variant="outlined"
                                             className={classes.loginButton}
@@ -1099,13 +1087,6 @@ export class TopNavbar extends React.Component {
                                         >
                                             <FormattedMessage id="nav.login" defaultMessage='Login' />
                                         </Button>
-                                        {/* {LangMenu}
-                                      */}
-                                        
-
-
-
-                                        {/* {LangMenu} */}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
@@ -1114,10 +1095,10 @@ export class TopNavbar extends React.Component {
                                     className={classes.mobileMenuButton}
                                     color="inherit"
                                     aria-label="Open drawer"
-                                    onClick={(event) => { this.toggleSidePanel(event, 'showRightPanel', true) }}>
+                                    onClick={this.profileIconClicked}>
                                     <MoreIcon />
                                 </IconButton>
-                                <Popper open={this.state.showRightPanel} anchorEl={anchorEl} className={classes.profilePopper}
+                                <Popper open={this.props.showAccountMenu} anchorEl={anchorEl} className={classes.profilePopper}
                                     placement="top-start"
                                     modifiers={{
                                         flip: {
@@ -1127,16 +1108,18 @@ export class TopNavbar extends React.Component {
                                             enabled: true,
                                             boundariesElement: 'scrollParent',
                                         },
-                                        arrow: {
-                                            enabled: true,
-                                            element: this.profileRef,
-                                        },
+                                        // arrow: {
+                                        //     enabled: true,
+                                        //     element: this.profileRef,
+                                        // },
                                     }}
                                     transition>
                                     {({ TransitionProps }) => (
                                         <Fade {...TransitionProps} timeout={350}>
                                             <Paper>
-                                                <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>
+                                                <AccountMenu onCloseItemClicked={this.handleProfileMenuClose}
+                                                    onMenuItemClicked={this.setCurrentAccountMenuItem}
+                                                    anchorElProfileIcon={this.ProfileMenu} />
                                             </Paper>
                                         </Fade>
                                     )}
@@ -1208,17 +1191,17 @@ export class TopNavbar extends React.Component {
                 <div className='overlay' style={searchBackgroundStyle}></div>
 
                 <Popper
-                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                     open={this.props.showLogin}
-                    // anchorEl={this.state.anchorElLogin}
-                    // anchorOrigin={{
-                    //     vertical: 'bottom',
-                    //     horizontal: 'left',
-                    // }}
-                    // transformOrigin={{
-                    //     vertical: 'top',
-                    //     horizontal: 'center',
-                    // }}
+                // anchorEl={this.state.anchorElLogin}
+                // anchorOrigin={{
+                //     vertical: 'bottom',
+                //     horizontal: 'left',
+                // }}
+                // transformOrigin={{
+                //     vertical: 'top',
+                //     horizontal: 'center',
+                // }}
                 >
                     <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
                         <Paper>
@@ -1228,8 +1211,8 @@ export class TopNavbar extends React.Component {
                 </Popper>
 
                 <Popper
-                    open={this.props.showSignup} 
-                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                    open={this.props.showSignup}
+                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
                         <Signup />
@@ -1237,169 +1220,332 @@ export class TopNavbar extends React.Component {
                 </Popper>
 
                 <Popper
-                    open={this.props.showSignupEmail} 
-                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                    open={this.props.showSignupEmail}
+                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
-                    <Paper> 
+                    <Paper>
                         <Signup_Email />
                     </Paper>
                 </Popper>
 
                 <Popper
-                    open={this.props.showSignupDetail} 
-                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                    open={this.props.showSignupDetail}
+                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
-                    <Paper> 
+                    <Paper>
                         <Signup_Detail />
                     </Paper>
                 </Popper>
 
-
                 <Popper
-                    open={this.props.showSignupContact} 
-                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Paper> 
-                        <Signup_Contact /> 
-                    </Paper>
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupPhone} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
-                >
-                    <Paper> 
-                        <Signup_Phone /> 
-                    </Paper> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showCompleteRegistration} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Paper> 
-                        <Complete_Registration /> 
-                    </Paper>
-                </Popper>
-
-                <Popper
-                    open={this.props.showPhoneVerification} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                    open={this.props.showSignupContact}
+                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Phone_Verification /> 
+                        <Signup_Contact />
                     </Paper>
                 </Popper>
 
                 <Popper
-                    open={this.props.showOneclickFinish} 
-                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                    open={this.props.showSignupPhone}
+                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
-                    <Paper> 
+                    <Paper>
+                        <Signup_Phone />
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showCompleteRegistration}
+                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
+                >
+                    <Paper>
+                        <Complete_Registration />
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showPhoneVerification}
+                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
+                >
+                    <Paper>
+                        <Phone_Verification />
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showOneclickFinish}
+                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
+                >
+                    <Paper>
                         <One_Click_Finish />
-                    </Paper> 
-                </Popper>
-
-                <Popper
-                    open={this.props.showSignupFinish} 
-                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
-                >
-                    <Paper> 
-                        <Register_Finish /> 
                     </Paper>
                 </Popper>
 
                 <Popper
-                    open={this.props.showChangePassword} 
-                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
-                >
-                    <Paper> 
-                        <Change_Password /> 
-                    </Paper>
-                </Popper>
-
-                <Popper
-                    open={this.props.showUserProfile} 
-                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                    open={this.props.showSignupFinish}
+                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
                 >
                     <Paper>
-                        <New_Profile /> 
+                        <Register_Finish />
                     </Paper>
                 </Popper>
 
                 <Popper
-                    open={this.props.showUpdateProfile} 
-                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                    open={this.props.showChangePassword}
+                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
-                        <New_Update_Profile /> 
+                        <Change_Password />
                     </Paper>
                 </Popper>
 
                 <Popper
-                    open={this.props.showDeposit} 
-                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                    open={this.props.showUserProfile}
+                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
-                        <New_Deposit /> 
+                        <New_Profile />
                     </Paper>
                 </Popper>
 
                 <Popper
-                    open={this.props.showDepositAmount} 
-                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                    open={this.props.showUpdateProfile}
+                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
-                        <New_Deposit_Wechat /> 
+                        <New_Update_Profile />
                     </Paper>
                 </Popper>
 
                 <Popper
-                    open={this.props.showDepositPaypal} 
-                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                    open={this.props.showDeposit}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <New_Deposit onChange={depositInfo => { this.setState({ depositInfo }) }} />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper
+                    open={this.props.showDepositConfirm}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <New_Deposit_Confirm depositInfo={this.state.depositInfo} />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper
+                    open={this.props.showDepositAmount}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <New_Deposit_Wechat  />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper
+                    open={this.props.showDepositPaypal}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <New_Deposit_paypal />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper
+                    open={this.props.showWithdraw}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <New_Withdraw />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper
+                    open={this.props.showDepositSuccess}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <DepositSuccess />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper
+                    open={this.props.showForgetPassword}
+                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <New_Deposit_paypal /> 
+                        <New_Forget_Password />
                     </Paper>
                 </Popper>
 
                 <Popper
-                    open={this.props.showWithdraw} 
-                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                    open={this.props.showForgetPasswordValidation}
+                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <New_Withdraw /> 
+                        <Forget_Password_Validation />
                     </Paper>
                 </Popper>
 
                 <Popper
-                    open={this.props.showForgetPassword} 
-                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                    open={this.props.showReferUser}
+                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
+
                 >
                     <Paper>
-                        <New_Forget_Password /> 
+                        <Refer_User />
                     </Paper>
                 </Popper>
 
-                
-                <Popper
-                    open={this.props.showForgetPasswordValidation} 
-                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                <Popper open={this.props.showAccountMenu}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
                 >
-                    <Paper>
-                        <Forget_Password_Validation /> 
-                    </Paper>
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.accountMenuPaper}>
+                                <AccountMenu />
+                            </Paper>
+                        </Fade>
+                    )}
                 </Popper>
 
-                <Popper
-                    open={this.props.showReferUser} 
-                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                <Popper open={this.props.showOpenBets}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
                 >
-                    <Paper>
-                        <Refer_User /> 
-                    </Paper>
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.accountMenuPaper}>
+                                <MyBets tabValue={0} />
+                            </Paper>
+                        </Fade>
+                    )}
                 </Popper>
 
+                <Popper open={this.props.showSettledBets}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.accountMenuPaper}>
+                                <MyBets tabValue={2} />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper open={this.props.showPromotions}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.accountMenuPaper}>
+                                <Promotions />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper open={this.props.showSettings}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.accountMenuPaper}>
+                                <Settings />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper open={this.props.showHelp}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.accountMenuPaper}>
+                                <Help />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper open={this.props.showResponsibleGambling}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.accountMenuPaper}>
+                                <ResponsibleGambling />
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
             </div >
         );
     }
@@ -1408,29 +1554,40 @@ export class TopNavbar extends React.Component {
 const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated:           (token !== null && token !== undefined),
-        error:                     state.auth.error,
-        lang:                      state.language.lang,
-        showLogin:                 state.general.show_login,
-        showSignup:                state.general.show_signup,
-        showSignupEmail:           state.general.show_signup_email,
-        showSignupDetail:          state.general.show_signup_detail,
-        showSignupContact:         state.general.show_signup_contact,
-        showSignupPhone:           state.general.show_signup_phone,
-        showCompleteRegistration:  state.general.show_complete_registration,
-        showPhoneVerification:     state.general.show_phone_verification,
-        showOneclickFinish:        state.general.show_oneclick_finish,
-        showSignupFinish:          state.general.show_signup_finish,
-        showChangePassword:        state.general.show_change_password,
-        showUserProfile:           state.general.show_user_profile,
-        showUpdateProfile:         state.general.show_update_profile,
-        showDeposit:               state.general.show_deposit,
-        showDepositAmount:         state.general.show_deposit_amount,
-        showDepositPaypal:         state.general.show_deposit_paypal,
-        showWithdraw:              state.general.show_withdraw,
-        showForgetPassword:        state.general.show_forget_password,
+        isAuthenticated: (token !== null && token !== undefined),
+        error: state.auth.error,
+        lang: state.language.lang,
+        showLogin: state.general.show_login,
+        showSignup: state.general.show_signup,
+        showSignupEmail: state.general.show_signup_email,
+        showSignupDetail: state.general.show_signup_detail,
+        showSignupContact: state.general.show_signup_contact,
+        showSignupPhone: state.general.show_signup_phone,
+        showCompleteRegistration: state.general.show_complete_registration,
+        showPhoneVerification: state.general.show_phone_verification,
+        showOneclickFinish: state.general.show_oneclick_finish,
+        showSignupFinish: state.general.show_signup_finish,
+        showChangePassword: state.general.show_change_password,
+        showUserProfile: state.general.show_user_profile,
+        showUpdateProfile: state.general.show_update_profile,
+        showDeposit: state.general.show_deposit,
+        showDepositAmount: state.general.show_deposit_amount,
+        showDepositPaypal: state.general.show_deposit_paypal,
+        showDepositConfirm: state.general.show_deposit_confirm,
+        showDepositSuccess: state.general.show_deposit_success,
+        showWithdraw: state.general.show_withdraw,
+        showForgetPassword: state.general.show_forget_password,
         showForgetPasswordValidation: state.general.show_forget_password_validation,
-        showReferUser:             state.general.show_refer_user
+        showReferUser: state.general.show_refer_user,
+        showAccountMenu: state.general.show_account_menu,
+
+        showOpenBets: state.general.show_open_bets,
+        showSettledBets: state.general.show_settled_bets,
+        showPromotions: state.general.show_promotions,
+        showSettings: state.general.show_settings,
+        showHelp: state.general.show_help,
+        showResponsibleGambling: state.general.show_responsible_gambling,
+
     }
 }
 
@@ -1439,4 +1596,18 @@ TopNavbar.propTypes = {
     callback: PropTypes.func,
 };
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile })(TopNavbar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
+    logout,
+    handle_search,
+    setLanguage,
+    authCheckState,
+    authLogin,
+    show_login,
+    show_signup,
+    hide_login,
+    show_signup_finish,
+    hide_user_profile,
+    hide_update_profile,
+    show_account_menu,
+    hide_account_menu
+})(TopNavbar))));
