@@ -1,4 +1,6 @@
-button:focus { outline:0 !important; }
+button:focus {
+  outline: 0 !important;
+}
 
 .inline {
   flex-direction: row;
@@ -137,7 +139,6 @@ button:focus { outline:0 !important; }
 
 .mainButtonActive {
   opacity: 1;
-
 }
 
 .mainButton {
@@ -150,19 +151,36 @@ button:focus { outline:0 !important; }
   background-color: #000000 !important;
 }
 
-
 $background-color: #212121;
 $search-bg-color: #212121;
 $icon-color: #fff;
-$transition: all 0.5s ease;
+$transition: all 0.45s ease;
+$out_transition: all 0.15s ease;
 * {
   box-sizing: border-box;
 }
+
+.fullscreen-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(90, 90, 90, 0.5);
+  z-index: 1999;
+  &.open {
+    display: block;
+  }
+}
+
+
 .search {
   position: absolute;
-  z-index: 2;
+  z-index: 2000;
+  bottom: 6px;
   right: 0;
-  width: 72px;
+  width: 0px;
   height: 40px;
   background-color: $search-bg-color;
   overflow: hidden;
@@ -177,10 +195,12 @@ $transition: all 0.5s ease;
   }
   &.open {
     width: 100%;
+    overflow: visible;
     &:before {
       height: 72px;
       margin: 20px 0 20px 20px;
       position: absolute;
+
     }
   }
 }
@@ -196,8 +216,23 @@ $transition: all 0.5s ease;
     outline: none;
   }
 }
+
+.search-container {
+  width: 480px;
+  height: 100%;
+  margin: 0 auto;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 22px;
+  &:focus {
+    outline: none;
+  }
+}
+
 .search-input {
-  width: 300px;
+  width: 400px;
   height: 100%;
   box-shadow: none;
   border: 0px;
@@ -214,52 +249,58 @@ $transition: all 0.5s ease;
 }
 
 .search-button {
-  width: 72px;
-  height: 52px;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 0px;
+  width: 50px;
+  height: 40px;
+  //z-index: 2001;
+  margin-top: 16px;
+  display: inline-block;
+  // display: block;
+  // position: fixed;
+  // right: 0;
+  // margin: 1;
+  // padding: 0px;
   cursor: pointer;
 }
 .search-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+  top:8px;
+  right: -15px;
   border-radius: 40px;
   border: 2px solid $icon-color;
   display: block;
   position: relative;
-  transition: $transition;
+  transition: $out_transition;
   &:before {
     content: "";
     width: 2px;
     height: 10px;
     position: absolute;
     right: -2px;
-    top: 18px;
+    top: 15px;
     display: block;
     background-color: $icon-color;
     transform: rotate(-45deg);
-    transition: $transition;
+    transition: $out_transition;
   }
   &:after {
     content: "";
     width: 2px;
-    height: 10px;
+    height: 6px;
     position: absolute;
-    right: -9px;
-    top: 25px;
+    right: -7px;
+    top: 22px;
     display: block;
     background-color: $icon-color;
     transform: rotate(-45deg);
-    transition: $transition;
+    transition: $out_transition;
   }
   .open & {
-    margin: 0;
-    width: 60px;
-    height: 60px;
-    border: 0px;
+    width: 20px;
+  height: 20px;
+  top:8px;
+  right: -40px;
+  border: 0;
     &:before {
       transform: rotate(40deg);
       right: 32px;
@@ -273,4 +314,88 @@ $transition: all 0.5s ease;
       height: 32px;
     }
   }
+}
+
+.overlay {
+  position: fixed; /* Positioning and size */
+  top: 144;
+  z-index: 1999;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0,0,0);
+  opacity: 0.5;
+
+   display: none; /* making it hidden by default */
+}
+
+.signup-title {
+  font-size: 16px;
+  margin: auto;
+  height: 52px;
+  background-color: #f5f5f5;
+  font-family: Gilroy;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.9px;
+  text-align: center;
+  color: #212121;
+}
+
+.signup-top-message{
+  font-family: Gilroy;
+  font-size: 44px;
+  color: #212121;
+  font-weight: bold;
+}
+
+.signup-text {
+  font-size: 16px;
+  font-family: Gilroy;
+  color: #747175;
+}
+
+.facebook-button {
+  border: 1px solid #e4e4e4;
+  height: 48px;
+  width: 272px;
+  margin-left: 40px;
+}
+
+.userIcon path {
+  stroke: #212121;
+}
+
+.userIconHover path{
+  stroke: #ffffff;
+}
+
+.profileIcon path {
+  stroke: #212121;
+}
+
+.profileIconHover path{
+  stroke: #ff0000;
+}
+input[type="checkbox"] + span {
+  display: inline-block;
+  position: relative;
+  top: -1px;
+  width: 12px;
+  height: 12px;
+  margin: -1px 0px 0 0;
+  vertical-align: middle;
+  background: white left top no-repeat;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+input[type="checkbox"]:checked + span {
+  background: #D9534F -19px top no-repeat;
+}
+
+input[type="checkbox"] + span {
+  margin-right: 4px;
 }

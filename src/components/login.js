@@ -79,14 +79,12 @@ export class Login extends React.Component {
           check: false,
           showPassword: false,
 
-          live_check_username: false,
-          live_check_password: false,
           button_disable: true,
           button_type: 'login-button-disable'
         };
     
         this.onInputChange_username         = this.onInputChange_username.bind(this);
-        this.onInputChange_password         = this.onInputChange_password.bind(this)
+        this.onInputChange_password         = this.onInputChange_password.bind(this);
         this.onFormSubmit                   = this.onFormSubmit.bind(this);
         this.toggleShow                     = this.toggleShow.bind(this);
         this.handle_one_click               = this.handle_one_click.bind(this);
@@ -137,16 +135,16 @@ export class Login extends React.Component {
 
         const message_password = formatMessage({ id: "login.password" });
 
-        var temp = res.data.split('-')
-        var username = temp[0]
-        var password = temp[1]
+        var username = res.data.username;
+        var password = res.data.password;
         this.setState({username: username, password: password, button_disable: false, button_type: 'login-button', check: false})
 
         localStorage.removeItem('remember_username');
         localStorage.removeItem('remember_password');
         localStorage.removeItem('remember_check');
 
-        alert(message_username + username + '  ' + message_password + password)
+        alert(message_username + ": " +  username + '  ' + message_password + ": " + password)
+        // alert(message_username + username + '  ' + message_password + password)
     })
   }
 

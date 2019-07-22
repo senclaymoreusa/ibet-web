@@ -3,38 +3,48 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import PersonAdd from '@material-ui/icons/PersonAdd';
 import Person from '@material-ui/icons/Person';
-import PersonOutline from '@material-ui/icons/PersonOutline';
-
-import Language from '@material-ui/icons/Language';
-import { AUTH_RESULT_FAIL } from '../actions';
-
 
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
-import { FormattedMessage, FormattedNumber } from 'react-intl';
-import { NavLink, withRouter } from 'react-router-dom';
+import blue from '@material-ui/core/colors/blue';
+
+import { errors } from './errors';
+
+
+import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
+import { withRouter, Link} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState, AUTH_RESULT_FAIL, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import AccountMenu from './account_menu';
-import Fab from '@material-ui/core/Fab';
 
-import ButtonBase from '@material-ui/core/ButtonBase';
+
+import AccountMenu from './account_menu/account_menu';
+import Deposit from './account_menu/deposit';
+import Withdraw from './account_menu/withdraw';
+import Help from './account_menu/help';
+import Promotions from './account_menu/promotions';
+import Settings from './account_menu/settings';
+import MyBets from './account_menu/my_bets';
+import ResponsibleGambling from './account_menu/responsible_gambling';
+
+import Popper from '@material-ui/core/Popper';
+import Fade from '@material-ui/core/Fade';
+
+
+import Paper from '@material-ui/core/Paper';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Flag from 'react-flagkit';
@@ -43,10 +53,34 @@ import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
 import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
-import { ReactComponent as CashIcon } from '../assets/img/svg/cash-out.svg';
+import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
+
+
+import Login from './login_2.js';
+import Signup from './signup_2.js';
+import Signup_Email from './signup_email';
+import Signup_Detail from './signup_detail';
+import Signup_Contact from './signup_contact';
+import Signup_Phone from './signup_phone';
+import Complete_Registration from './complete_registration';
+import Phone_Verification from './signup_phone_verification';
+import One_Click_Finish from './one_click_finish';
+import Register_Finish from './register_finish';
+import Change_Password from './change_password_new';
+import New_Profile from './new_profile';
+import New_Update_Profile from './new_update_profile';
+import New_Deposit from './new_deposit';
+import New_Deposit_Wechat from './new_deposit_amount_wechat';
+import New_Deposit_paypal from './new_deposite_amount_paypal';
+import New_Withdraw from './new_withdraw';
+import New_Forget_Password from './forget_password_new';
+import Forget_Password_Validation from './forget_password_validation';
+import Refer_User from './refer_user';
 
 import axios from 'axios';
 import { config } from '../util_config';
+
+import SearchBar from './search_bar';
 
 import '../css/top_navbar.scss';
 
@@ -61,6 +95,10 @@ const styles = theme => ({
         height: 28,
         backgroundColor: '#ffffff'
     },
+    appBar: {
+        height: 72,
+        boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)',
+    },
     list: {
         width: 250,
     },
@@ -70,11 +108,6 @@ const styles = theme => ({
     },
     grow: {
         flexGrow: 1,
-    },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
-        fontSize: 20
     },
     mobileLeftMenuButton: {
         marginLeft: -12,
@@ -90,9 +123,24 @@ const styles = theme => ({
             display: 'block',
         },
     },
-
+    mainMenu: {
+        display: 'none',
+        height: 72,
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+    },
+    logoButton: {
+        "&:hover": {
+            backgroundColor: "#ffffff",
+        },
+        "&:active": {
+            backgroundColor: "#ffffff",
+        }
+    },
     sectionDesktop: {
         display: 'none',
+        height: '100%',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
         },
@@ -114,26 +162,106 @@ const styles = theme => ({
         paddingLeft: theme.spacing.unit * 4
     },
     signupButton: {
-        margin: theme.spacing.unit,
-        color: '#ffffff',
-        backgroundColor: '#ff0000',
+        marginTop: 13,
+        marginBottom: 15,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+
+        width: 220,
+        fontSize: 18,
+        height: 44,
+        color: '#212121',
+        backgroundColor: '#ffffff',
+        borderRadius: 22,
+        border: 'solid 2px #212121',
         textTransform: 'capitalize',
         outline: 'none',
         "&:hover": {
-            backgroundColor: "#ff3f00",
+            backgroundColor: "#212121",
+            color: '#ffffff',
         }
     },
     loginButton: {
-        margin: theme.spacing.unit,
-        color: '#000000',
+        marginTop: 13,
+        marginBottom: 15,
+        width: 100,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        fontSize: 18,
+        height: 44,
+        color: '#212121',
         backgroundColor: '#ffffff',
+        borderRadius: 22,
+        border: 'solid 2px #212121',
         textTransform: 'capitalize',
+        outline: 'none',
         "&:hover": {
-            backgroundColor: "#f4f4f4",
+            backgroundColor: "#212121",
+            color: '#ffffff',
+        }
+    },
+    textField: {
+        marginTop: 13,
+        marginBottom: 15,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        paddingLeft: 25,
+        paddingRight: 25,
+        paddingTop: 13,
+        paddingBottom: 13,
+        fontSize: 18,
+        outline: 'none',
+        width: 180,
+        height: 44,
+        objectFit: 'contain',
+        borderRadius: 22,
+        border: 'solid 1px #e8e8e8',
+        backgroundColor: '#f1f1f1',
+    },
+    balanceButton: {
+        marginTop: 13,
+        marginBottom: 15,
+        width: 130,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        fontSize: 18,
+        height: 44,
+        color: '#ffffff',
+        backgroundColor: '#fe0000',
+        borderRadius: 22,
+        border: 'solid 2px #fe0000',
+        textTransform: 'capitalize',
+        outline: 'none',
+        "&:hover": {
+            backgroundColor: "#fe0000",
+            color: '#ffffff',
+        }
+    },
+    balanceIcon: {
+        marginRight: theme.spacing.unit,
+    },
+    profileButton: {
+        marginTop: theme.spacing.unit,
+        marginBottom: theme.spacing.unit,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        "&:hover": {
+            backgroundColor: "#ffffff",
+        },
+        "&:active": {
+            backgroundColor: "#ffffff",
         }
     },
     extendedIcon: {
         marginRight: theme.spacing.unit,
+    },
+    searchResult: {
+        width: 400,
+        height: 100,
+        marginTop: 42,
+        marginLeft: 0,
+        marginRight: 0
+
     },
     image: {
         position: 'relative',
@@ -155,7 +283,9 @@ const styles = theme => ({
             },
         },
     },
-    focusVisible: {},
+    focusVisible: {
+
+    },
     imageButton: {
         position: 'absolute',
         left: 0,
@@ -199,40 +329,95 @@ const styles = theme => ({
         left: 'calc(50% - 9px)',
         transition: theme.transitions.create('opacity'),
     },
-});
+    search: {
+        display: 'inline-block',
+        flexGrow: 1,
+    },
+    langMenu: {
+        zIndex: 5000
+    },
+    lang_button: {
+        marginTop: 17,
+        minWidth: 0
+    },
+    lang_menu_list: {
+        backgroundColor: '#ffffff',
+        color: 'black',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    lang_menu_list_item: {
+        border: '1px solid #ffffff',
+        "&:hover": {
+            borderRadius: 4,
+            border: '1px solid #868686',
+            backgroundColor: '#ffffff',
+        },
+    },
+    lang_menu_list_item_selected: {
+        borderRadius: 4,
+        border: '1px solid #000000',
+        backgroundColor: '#ffffff',
 
-const images = [
-    {
-        url: '/images/sports_submenu/in_play.jpg',
-        title: 'In-play',
-        width: '18%',
     },
-    {
-        url: '/images/sports_submenu/football.jpg',
-        title: 'Football',
-        width: '18%',
+    lang_menu_list_item_text: {
+        marginLeft: 10,
+        color: 'black',
     },
-    {
-        url: '/images/sports_submenu/basketball.jpg',
-        title: 'Basketball',
-        width: '18%',
+    accountMenuPaper: {
+        padding: 0,
+        width: 360,
     },
-    {
-        url: '/images/sports_submenu/tennis.jpg',
-        title: 'Tennis',
-        width: '18%',
+    footer: {
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingTop: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing.unit * 2,
+        marginTop: 20,
+        backgroundColor: '#212121',
     },
-    {
-        url: '/images/sports_submenu/horse_racing.jpg',
-        title: 'Horse Racing',
-        width: '18%',
+    footer_menu_container: {
+        display: 'inline',
+        marginTop: 20
     },
-    {
-        url: '/images/sports_submenu/all_sports.jpg',
-        title: 'All Sports',
-        width: '18%',
+    profile_container: {
+        display: 'inline',
+        marginLeft: 0,
     },
-];
+    lang_container: {
+        display: 'inline',
+        marginLeft: 0,
+    },
+    langPopper: {
+        zIndex: 2002,
+    },
+    profilePopper: {
+        zIndex: 2002,
+    },
+    margin: {
+        margin: 'auto',
+    },
+    userIcon: {
+        '&:hover': {
+            fillRule: '#fe0000',
+        }
+    },
+    cssRoot: {
+        color: theme.palette.getContrastText(blue[300]),
+        backgroundColor: blue[300],
+        '&:hover': {
+            backgroundColor: blue[800],
+        },
+    },
+    separator: {
+        width: 1.6,
+        height: 25,
+        marginTop: 20,
+        opacity: 1,
+        marginLeft: 10,
+        backgroundColor: '#212121',
+    },
+});
 
 const muiLogoBarTheme = createMuiTheme({
     palette: {
@@ -262,14 +447,44 @@ const muiMenuBarTheme = createMuiTheme({
     },
 });
 
+const SVG = ({
+    style = {},
+    fill = "transparent",
+    width = "36px",
+    viewBox = "0 0 26 27",
+    className = "userIcon",
+}) => (
+        <svg
+            width={width}
+            style={style}
+            height="27px"
+            viewBox={viewBox}
+            xmlns="http://www.w3.org/2000/svg"
+            className={`svg-icon ${className || ""}`}
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+        >
+            <g id="Nav" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
+                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke="#212121" strokeWidth="1.5625">
+                    <g id="Login-Elements">
+                        <g transform="translate(1280.000000, 13.000000)">
+                            <g id="Open-Account">
+                                <path d="M43,14.6367187 C43,17.5362187 40.6495,19.8867188 37.75,19.8867188 C34.8505,19.8867188 32.5,17.5362187 32.5,14.6367187 C32.5,11.7372188 34.8505,9.38671875 37.75,9.38671875 C40.6495,9.38671875 43,11.7372188 43,14.6367187 Z M37,24.3867187 C40.8128,24.3867187 44.2816,25.7412188 46.4976,26.8602187 C48.032,27.6372188 49,29.1792188 49,30.8757188 L49,31.6992187 C49,32.6307187 48.2336,33.3867187 47.2864,33.3867187 L26.7136,33.3867187 C25.7664,33.3867187 25,32.6307187 25,31.6992187 L25,30.8757188 C25,29.1792188 25.968,27.6372188 27.5024,26.8602187 C29.7184,25.7412188 33.1872,24.3867187 37,24.3867187 Z" id="User"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    );
+
 export class TopNavbar extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.search_focus = React.createRef();
-
         let langProperty = localStorage.getItem('lang');
+
+        this.searchDiv = React.createRef();
+        this.profileRef = React.createRef();
 
         this.state = {
             open: false,
@@ -277,7 +492,10 @@ export class TopNavbar extends React.Component {
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
-            lang: langProperty ? langProperty : 'en',
+            showProfilePopper: false,
+            currentAccountMenuItem: '',
+            anchorElLogin: null,
+            anchorElChangePassowrd: null, 
             showTopPanel: false,
             showLeftPanel: false,
             showRightPanel: false,
@@ -288,30 +506,80 @@ export class TopNavbar extends React.Component {
             name: "",
             email: "",
             picture: "",
-
+            showLangMenu: false,
             show_loggedin_status: false,
 
+
             balance: 0.00,
-            balanceCurrency: "USD"
+            balanceCurrency: "USD",
+
+            username: '',
+            password: '',
+            showPassword: false,
+            button_disable: true,
+            check: false,
+
+            height: window.innerHeight,
+            width: window.innerWidth,
+
+            errorCode: '',
 
         };
 
-        this.onInputChange = this.onInputChange.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.focus_search = this.focus_search.bind(this);
+        this.onInputChange_username = this.onInputChange_username.bind(this);
+        this.onInputChange_password = this.onInputChange_password.bind(this);
+        this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+        this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
+        this.toggleSidePanel = this.toggleSidePanel.bind(this);
     }
 
-    focus_search() {
-        this.search_focus.current.focus();
-    }
+    handleSignupOnEnter = (event) => {
+        if (!event.currentTarget.children[0].classList.contains('userIconHover')) {
+            event.currentTarget.children[0].classList.add('userIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "visible";
+    };
+
+    handleSignupOnLeave = (event) => {
+        if (event.currentTarget.children[0].classList.contains('userIconHover')) {
+            event.currentTarget.children[0].classList.remove('userIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "hidden";
+
+    };
+
+    handleUserProfileOnEnter = (event) => {
+        if (!event.currentTarget.children[0].classList.contains('profileIconHover')) {
+            event.currentTarget.children[0].classList.add('profileIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "visible";
+    };
+
+    handleUserProfileLeave = (event) => {
+        if (event.currentTarget.children[0].classList.contains('profileIconHover')) {
+            event.currentTarget.children[0].classList.remove('profileIconHover');
+        }
+
+        event.currentTarget.children[1].style.visibility = "hidden";
+
+    };
 
     handleSearch = () => {
+        if (!this.state.expandSearchBar)
+            this.actualChild.focusInput();
+        else
+            this.actualChild.blurInput();
+
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
-        this.focus_search()
     }
 
     handleSubMenuToggle = (param) => {
-        if (this.state.subMenuType == param) {
+        if (this.state.subMenuType === param) {
             this.setState({ showSubMenu: false });
             this.setState({ subMenuType: null });
         } else {
@@ -332,14 +600,40 @@ export class TopNavbar extends React.Component {
         this.setState({ submenu });
     };
 
-    toggleSidePanel = (side, open) => () => {
+    toggleSidePanel(event, side, open) {
+        const { currentTarget } = event;
         this.setState({
+            anchorEl: currentTarget,
             [side]: open,
         });
     };
 
+    handleProfilePopper = event => {
+        this.setState({ anchorEl: event.currentTarget });
+        this.setState({ showProfilePopper: !this.state.showProfilePopper });
+
+    }
+
     handleLanguageMenuOpen = event => {
         this.setState({ anchorEl: event.currentTarget });
+        this.setState({ showLangMenu: !this.state.showLangMenu });
+    };
+
+    handleLoginMenuOpen = event => {
+        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
+        this.props.show_login()
+    };
+
+    handleShowChangePasswordMenuOpen = event => {
+        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
+        this.props.show_login()
+    };
+
+    handleSignupMenuOpen = event => {
+        //this.setState({ anchorEl2: event.currentTarget });
+        this.setState({ username: '', password: '' })
+
+        this.props.show_signup()
     };
 
     langMenuClicked = (event) => {
@@ -347,42 +641,121 @@ export class TopNavbar extends React.Component {
         this.setState({
             lang: event.currentTarget.dataset.myValue
         })
-        //console.log(this.state.lang)
+
         this.changeLanguage(event.currentTarget.dataset.myValue);
+        this.setState({ showLangMenu: false });
     }
 
     handleLanguageMenuClose = (ev) => {
-        this.setState({ anchorEl: null });
-
-        if (ev.nativeEvent.target.dataset.myValue)
-            this.changeLanguage(ev.nativeEvent.target.dataset.myValue);
+        this.setState({ showLangMenu: false });
     };
+
+    handleProfileMenuClose = (ev) => {
+        this.setState({ showProfilePopper: false });
+        this.setState({ currentAccountMenuItem: '' });
+
+    };
+
+    handleLoginMenuClose() {
+        this.props.hide_login()
+    }
 
     changeLanguage = (lang) => {
         this.props.setLanguage(lang)
             .then((res) => {
-                localStorage.setItem("lang", lang);
+                // localStorage.setItem("lang", lang);
             });
     };
 
-    onInputChange(event) {
-        this.setState({ term: event.target.value });
-    }
-
-    search() {
-        this.props.history.push('/game_search/' + this.state.term);
-    }
-
     onFormSubmit(event) {
         event.preventDefault();
-        this.setState({ term: '' });
+        //this.setState({ term: '' });
     }
+
+    onInputChange_username(event) {
+        if (event.target.value && this.state.password) {
+            this.setState({ button_disable: false })
+        } else {
+            this.setState({ button_disable: true })
+        }
+        this.setState({ username: event.target.value });
+    }
+
+    onInputChange_password(event) {
+        if (event.target.value && this.state.username) {
+            this.setState({ button_disable: false })
+        } else {
+            this.setState({ button_disable: true })
+        }
+        this.setState({ password: event.target.value });
+    }
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
+
+    onloginFormSubmit(event) {
+        event.preventDefault();
+
+        if (!this.state.username) {
+            this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
+        } else if (!this.state.password) {
+            this.setState({ errorCode: errors.PASSWORD_EMPTY_ERROR });
+        } else {
+            this.props.authLogin(this.state.username, this.state.password)
+                .then(() => {
+                    if (this.state.check) {
+                        localStorage.setItem('remember_username', this.state.username);
+                        localStorage.setItem('remember_password', this.state.password);
+                        localStorage.setItem('remember_check', 'checked')
+                    } else {
+                        localStorage.removeItem('remember_username');
+                        localStorage.removeItem('remember_password');
+                        localStorage.removeItem('remember_check');
+                    }
+                    this.props.history.push('/');
+                })
+                .catch(err => {
+                    this.setState({ errorCode: err });
+                });
+        }
+    }
+
+    onInputChange_checkbox = async (event) => {
+        await this.setState({ check: !this.state.check })
+    }
+
+    handleResize = e => {
+        this.setState({ height: window.innerHeight, width: window.innerWidth })
+    };
 
     componentWillReceiveProps(props) {
-        this.setState({ term: '' });
+        if (this.props.isAuthenticated) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
+        }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+
+        if (this.props.isAuthenticated) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ balance: res.data.main_wallet });
+                    this.setState({ balanceCurrency: res.data.currency });
+                })
+        }
+
+        window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
             .then((res) => {
@@ -401,41 +774,58 @@ export class TopNavbar extends React.Component {
             })
         }
 
-        this.props.authCheckState()
-            .then(res => {
-                if (res !== AUTH_RESULT_FAIL) {
-                    const token = localStorage.getItem('token');
-                    config.headers["Authorization"] = `Token ${token}`;
+        const remember_check = localStorage.getItem('remember_check');
+        if (remember_check) {
+            await this.setState({ check: true })
+        }
 
-                    axios.get(API_URL + 'users/api/user/', config)
-                        .then(res => {
-                            this.setState({ balance: res.data.main_wallet });
-                            this.setState({ balanceCurrency: res.data.currency });
-                        })
-                }
-            });
-
-    }
-
-    getCurrencySymbol(currnecy) {
-
+        const check = localStorage.getItem('one-click');
+        if (check) {
+            const username = localStorage.getItem('username');
+            const password = localStorage.getItem('password');
+            localStorage.removeItem('one-click');
+            localStorage.removeItem('username');
+            localStorage.removeItem('password');
+            this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+        } else {
+            const remember_check = localStorage.getItem('remember_check');
+            if (remember_check) {
+                const username = localStorage.getItem('remember_username');
+                const password = localStorage.getItem('remember_password');
+                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+            }
+        }
     }
 
     toggleLanguageListItem = () => {
         this.setState(state => ({ showLangListItems: !state.showLangListItems }));
     };
 
+    handleClickAway = () => {
+        this.actualChild.blurInput();
+        this.setState(state => ({ expandSearchBar: false }));
+    };
+
+    setCurrentAccountMenuItem = (menuItem) => {
+        this.setState({ showProfilePopper: true });
+        this.setState({ currentAccountMenuItem: menuItem });
+        //this.props.history.push('/deposit/')
+    }
+
     render() {
-        const { anchorEl } = this.state;
+        const { anchorEl, showProfilePopper, showLangMenu, anchorEl2, showRightPanel } = this.state;
+
         const { classes } = this.props;
 
-
         let countryCode = '';
-        switch (this.state.lang) {
+        switch (this.props.lang) {
             case 'en':
                 countryCode = 'US';
                 break;
             case 'zh-hans':
+                countryCode = 'CN';
+                break;
+            case 'zh':
                 countryCode = 'CN';
                 break;
             case 'fr':
@@ -445,6 +835,121 @@ export class TopNavbar extends React.Component {
                 countryCode = 'US';
         }
         const langButtonIcon = (<Flag country={countryCode} />);
+
+        let currentMenu = <div></div>;
+        switch (this.state.currentAccountMenuItem) {
+            case 'open-bets':
+                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={0} />;
+                break;
+            case 'deposit':
+                currentMenu = <Deposit onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'withdraw':
+                currentMenu = <Withdraw onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'help':
+                currentMenu = <Help onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'promotions':
+                currentMenu = <Promotions onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'responsible-gambling':
+                currentMenu = <ResponsibleGambling onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'settings':
+                currentMenu = <Settings onMenuItemClicked={this.setCurrentAccountMenuItem} />;
+                break;
+            case 'settled-bets':
+                currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={2} />;
+                break;
+            default:
+                currentMenu = <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>;
+        }
+
+        
+        const ProfileMenu = (
+           // <ClickAwayListener onClickAway={this.handleProfileMenuClose}>
+                <div className={classes.profile_container}>
+                    <IconButton
+                        className={classes.profileButton}
+                        color="inherit"
+                        aria-label="Open drawer"
+                        onClick={this.handleProfilePopper}
+                        onMouseEnter={this.handleUserProfileOnEnter}
+                        onMouseLeave={this.handleUserProfileLeave}
+                    >
+                        <SVG className="profileIcon" />
+                    </IconButton>
+
+                    <Popper open={showProfilePopper}
+                        anchorEl={anchorEl}
+                        className={classes.profilePopper}
+                        placement="top-start"
+                        transition
+                    >
+                        {({ TransitionProps }) => (
+                            <Fade {...TransitionProps} timeout={350}>
+                                <Paper className={classes.accountMenuPaper}>
+                                    {currentMenu}
+                                </Paper>
+                            </Fade>
+                        )}
+                    </Popper>
+                </div>
+      //      </ClickAwayListener>
+        );
+
+        const LangMenu = (
+            <div className={classes.lang_container}>
+                <Button className={classes.lang_button} onClick={this.handleLanguageMenuOpen}>{langButtonIcon}</Button>
+                <Popper className={classes.langPopper} open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper id="menu-list-grow" className={classes.lang_menu_list}>
+                                <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
+                                    <Menu>
+                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'en'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="US" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.english" defaultMessage='English' />
+                                            </div>
+                                        </MenuItem>
+                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="CN" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
+                                            </div>
+                                        </MenuItem>
+                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'fr'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="FR" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.french" defaultMessage='French' />
+                                            </div>
+                                        </MenuItem>
+                                    </Menu>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+            </div>
+        );
 
         const leftMobileSideList = (
             <div className={classes.list}>
@@ -486,35 +991,39 @@ export class TopNavbar extends React.Component {
         );
 
         let searchClass = ["search"];
+        let searchButtonClass = ["search-button"];
         if (this.state.expandSearchBar) {
             searchClass.push('open');
+            searchButtonClass.push('open');
         }
+
+        const searchBackgroundStyle = !this.state.expandSearchBar ? {} : { 'display': 'block' };
 
         return (
             <div className={classes.root}>
-                <MuiThemeProvider theme={muiLogoBarTheme}>
-                    <AppBar position="static">
-                        <Toolbar variant="dense">
+                <MuiThemeProvider theme={muiLogoBarTheme} >
+                    <AppBar position="static" >
+                        <Toolbar variant="dense" className={classes.appBar}>
                             <div className={classes.sectionMobile}>
                                 <IconButton
                                     className={classes.mobileLeftMenuButton}
                                     color="inherit"
                                     aria-label="Open drawer"
-                                    onClick={this.toggleSidePanel('showLeftPanel', true)}>
+                                    onClick={(event) => { this.toggleSidePanel(event, 'showLeftPanel', true) }}>
                                     <MenuIcon />
                                 </IconButton>
-                                <Drawer open={this.state.showLeftPanel} onClose={this.toggleSidePanel('showLeftPanel', false)}>
+                                <Drawer open={this.state.showLeftPanel} onClose={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}>
                                     <div
                                         tabIndex={0}
                                         role="button"
-                                        onClick={this.toggleSidePanel('showLeftPanel', false)}
-                                        onKeyDown={this.toggleSidePanel('showLeftPanel', false)}
+                                        onClick={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}
+                                        onKeyDown={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}
                                     >
                                         {leftMobileSideList}
                                     </div>
                                 </Drawer>
                             </div>
-                            <IconButton href='/'>
+                            <IconButton href='/' className={classes.logoButton}>
                                 <IbetLogo />
                             </IconButton>
                             <div className={classes.grow} />
@@ -522,205 +1031,375 @@ export class TopNavbar extends React.Component {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
 
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Button className={classes.menuButton} >
-                                            <FormattedNumber
-                                                maximumFractionDigits={2}
-                                                value={this.state.balance}
-                                                style='currency'
-                                                currency={this.state.balanceCurrency}
-                                            />
-                                        </Button>
-                                        <IconButton
-                                            className={classes.menuButton}
-                                            color="inherit"
-                                            aria-label="Open drawer"
-                                            onClick={this.toggleSidePanel('showRightPanel', true)}>
-                                            <Person />
-                                        </IconButton>
-                                        <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                            <div
-                                                tabIndex={0}
-                                                role="button"
-                                                onClick={this.toggleSidePanel('showRightPanel', false)}
-                                                onKeyDown={this.toggleSidePanel('showRightPanel', false)}
+                                        <Link to="/deposit/" style={{textDecoration: "none"}}>
+                                            <Button
+                                                variant="outlined"
+                                                className={classes.balanceButton}
                                             >
-                                                <AccountMenu />
-                                            </div>
-                                        </Drawer>
-
-                                        <IconButton
-                                            className={classes.menuButton}
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
-                                        >
-                                            {langButtonIcon}
-                                        </IconButton>
-                                        <Menu
-                                            value={this.state.lang} onChange={this.langMenuClicked}
-                                            anchorEl={anchorEl}
-                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            open={Boolean(anchorEl)}
-                                        >
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'en'}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="US" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English">
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'zh-hans'}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="CN" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem onClick={this.langMenuClicked} data-my-value={'fr'}><ListItemIcon className={classes.icon}>
-                                                <Flag country="FR" />
-                                            </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                        </Menu>
+                                                <DepositIcon className={classes.balanceIcon} />
+                                                <FormattedNumber
+                                                    maximumFractionDigits={2}
+                                                    value={this.state.balance}
+                                                    style="currency"
+                                                    currency={this.state.balanceCurrency}
+                                                />
+                                            </Button>
+                                        </Link>
+                                        <div className={classes.separator} />
+                                        {ProfileMenu}
+                                        {/* {LangMenu} */}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Fab
-                                            variant="extended"
-                                            size="small"
-                                            color="primary"
-                                            aria-label="Add"
+                                        <Button
+                                            variant="outlined"
                                             className={classes.signupButton}
-                                            onClick={() => { this.props.history.push('/signup/') }}
+                                            onClick={
+                                                //this.props.history.push('/signup/') 
+                                                this.handleSignupMenuOpen
+                                            }
+                                            onMouseEnter={this.handleSignupOnEnter}
+                                            onMouseLeave={this.handleSignupOnLeave}
                                         >
-                                            <CashIcon className={classes.extendedIcon} />
+                                            <SVG className="userIcon" />
                                             <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
-                                        </Fab>
-                                        <Fab
-                                            variant="extended"
-                                            size="small"
-                                            color="primary"
-                                            aria-label="Add"
-                                            className={classes.loginButton}
-                                            onClick={() => { this.props.history.push('/login/') }}
-                                        >
-                                            <PersonOutline className={classes.extendedIcon} />
-                                            <FormattedMessage id="nav.login" defaultMessage='Login' />
-                                        </Fab>
-                                        <IconButton
-                                            aria-owns={Boolean(anchorEl) ? 'material-appbar' : undefined}
-                                            aria-haspopup="true"
-                                            onClick={this.handleLanguageMenuOpen}
-                                            color="inherit"
-                                        >
-                                            {langButtonIcon}
-                                        </IconButton>
-                                        <Menu
-                                            value={this.state.lang}
-                                            onChange={this.langMenuClicked}
-                                            anchorEl={anchorEl}
-                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                            open={Boolean(anchorEl)}
-                                            onClose={this.handleLanguageMenuClose}
-                                        >
-                                            <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="US" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="English" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="CN" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="簡體中文" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                            <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}>
-                                                <ListItemIcon className={classes.icon}>
-                                                    <Flag country="FR" />
-                                                </ListItemIcon>
-                                                <ListItemText classes={{ primary: classes.primary }} inset primary="Français" >
-                                                </ListItemText>
-                                            </MenuItem>
-                                        </Menu>
+                                        </Button>
+                                        {/* <FormattedMessage id="nav.username" defaultMessage="Username">
+                                            {placeholder =>
+                                                <input
+                                                    id="filled-email-input"
+                                                    label="Email"
+                                                    className={classes.textField}
+                                                    type="email"
+                                                    name="email"
+                                                    margin="normal"
+                                                    placeholder={placeholder}
+                                                />
+                                            }
+                                        </FormattedMessage>
+                                        <FormattedMessage id="nav.password" defaultMessage="Password">
+                                            {placeholder =>
 
+                                                <input
+                                                    id="filled-password-input"
+                                                    label="Password"
+                                                    className={classes.textField}
+                                                    type="password"
+                                                    placeholder={placeholder}
+
+                                                />
+                                            }
+                                        </FormattedMessage> */}
+                                        <Button
+                                            variant="outlined"
+                                            className={classes.loginButton}
+                                            onClick={
+                                                this.handleLoginMenuOpen
+                                            }
+                                        >
+                                            <FormattedMessage id="nav.login" defaultMessage='Login' />
+                                        </Button>
+                                        {/* {LangMenu}
+                                      */}
+                                        
+
+
+
+                                        {/* {LangMenu} */}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
                                 <IconButton
+                                    ref={this.profileRef}
                                     className={classes.mobileMenuButton}
                                     color="inherit"
                                     aria-label="Open drawer"
-                                    onClick={this.toggleSidePanel('showRightPanel', true)}>
+                                    onClick={(event) => { this.toggleSidePanel(event, 'showRightPanel', true) }}>
                                     <MoreIcon />
                                 </IconButton>
-                                <Drawer anchor="right" open={this.state.showRightPanel} onClose={this.toggleSidePanel('showRightPanel', false)}>
-                                    <div
-                                        tabIndex={0}
-                                        role="button"
-                                    >
-                                        <AccountMenu />
-                                    </div>
-                                </Drawer>
+                                <Popper open={this.state.showRightPanel} anchorEl={anchorEl} className={classes.profilePopper}
+                                    placement="top-start"
+                                    modifiers={{
+                                        flip: {
+                                            enabled: true,
+                                        },
+                                        preventOverflow: {
+                                            enabled: true,
+                                            boundariesElement: 'scrollParent',
+                                        },
+                                        arrow: {
+                                            enabled: true,
+                                            element: this.profileRef,
+                                        },
+                                    }}
+                                    transition>
+                                    {({ TransitionProps }) => (
+                                        <Fade {...TransitionProps} timeout={350}>
+                                            <Paper>
+                                                <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem}/>
+                                            </Paper>
+                                        </Fade>
+                                    )}
+                                </Popper>
                             </div>
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
                 <MuiThemeProvider theme={muiMenuBarTheme}>
-                    <AppBar position="static">
-                        <Toolbar variant="dense">
-                            <div className={classes.sectionDesktop}>
-                                <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'} href='/sports_type/'>
-                                    <SoccerIcon className="soccer" />
-                                    <span className="Sports">
-                                        <FormattedMessage id="nav.sports" defaultMessage='Sports' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'} href='/live_casino_type/'>
-                                    <BetIcon className="bet" />
-                                    <span className="Live-Casino">
-                                        <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'} href='/slot_type/'>
-                                    <SlotsIcon className="games-icon" />
-                                    <span className="Slots">
-                                        <FormattedMessage id="nav.slots" defaultMessage='Slots' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'} href='/lottery_type/'>
-                                    <LotteryIcon className="lottery" />
-                                    <span className="Lottery">
-                                        <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
-                                    </span>
-                                </Button>
-                                <div className={searchClass.join(' ')}>
-                                    <div className="search-box">
-                                        <input type="search" className="search-input"
-                                            value={this.state.term}
-                                            onChange={event => { this.setState({ term: event.target.value }) }}
-                                            onKeyPress={event => {
-                                                if (event.key === 'Enter') {
-                                                    this.search()
-                                                }
-                                            }}
-                                            ref={this.search_focus}
-                                        />
-                                    </div>
-                                    <span className="search-button" onClick={this.handleSearch}>
+                    <AppBar position="static" >
+                        <Toolbar variant="dense" className={classes.appBar}>
+                            <div className={classes.mainMenu}>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/sports_type") }}>
+                                        <SoccerIcon className="soccer" />
+                                        <span className="Sports">
+                                            <FormattedMessage id="nav.sports" defaultMessage='Sports' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/live_casino_type") }}>
+                                        <BetIcon className="bet" />
+                                        <span className="Live-Casino">
+                                            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/slot_type") }}>
+                                        <SlotsIcon className="games-icon" />
+                                        <span className="Slots">
+                                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
+                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
+                                        onClick={() => { this.props.history.push("/lottery_type") }}>
+                                        <LotteryIcon className="lottery" />
+                                        <span className="Lottery">
+                                            <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
+                                        </span>
+                                    </Button>
+                                </Fade>
+                            </div>
+
+                            <div className={classes.grow} />
+                            <ClickAwayListener onClickAway={this.handleClickAway}>
+                                <div className={classes.sectionDesktop}>
+                                    <span className={searchButtonClass.join(' ')} onClick={this.handleSearch}>
                                         <span className="search-icon"></span>
                                     </span>
+                                    <div className={searchClass.join(' ')} ref={this.searchDiv}>
+                                        <div className="search-box">
+                                            <div className="search-container">
+                                                <SearchBar onRef={actualChild => this.actualChild = actualChild} className={classes.grow} activeMenu={this.props.activeMenu} loaded={this.state.expandSearchBar}></SearchBar>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </ClickAwayListener>
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
+                <div className='overlay' style={searchBackgroundStyle}></div>
+
+                <Popper
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                    open={this.props.showLogin}
+                    // anchorEl={this.state.anchorElLogin}
+                    // anchorOrigin={{
+                    //     vertical: 'bottom',
+                    //     horizontal: 'left',
+                    // }}
+                    // transformOrigin={{
+                    //     vertical: 'top',
+                    //     horizontal: 'center',
+                    // }}
+                >
+                    <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
+                        <Paper>
+                            <Login />
+                        </Paper>
+                    </ClickAwayListener>
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignup} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper>
+                        <Signup />
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupEmail} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper> 
+                        <Signup_Email />
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupDetail} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper> 
+                        <Signup_Detail />
+                    </Paper>
+                </Popper>
+
+
+                <Popper
+                    open={this.props.showSignupContact} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper> 
+                        <Signup_Contact /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupPhone} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper> 
+                        <Signup_Phone /> 
+                    </Paper> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showCompleteRegistration} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Paper> 
+                        <Complete_Registration /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showPhoneVerification} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Paper>
+                        <Phone_Verification /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showOneclickFinish} 
+                    style={{position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Paper> 
+                        <One_Click_Finish />
+                    </Paper> 
+                </Popper>
+
+                <Popper
+                    open={this.props.showSignupFinish} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0}}
+                >
+                    <Paper> 
+                        <Register_Finish /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showChangePassword} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper> 
+                        <Change_Password /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showUserProfile} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Profile /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showUpdateProfile} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Update_Profile /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showDeposit} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Deposit /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showDepositAmount} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Deposit_Wechat /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showDepositPaypal} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Deposit_paypal /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showWithdraw} 
+                    style={{position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0}}
+                >
+                    <Paper>
+                        <New_Withdraw /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showForgetPassword} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper>
+                        <New_Forget_Password /> 
+                    </Paper>
+                </Popper>
+
+                
+                <Popper
+                    open={this.props.showForgetPasswordValidation} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper>
+                        <Forget_Password_Validation /> 
+                    </Paper>
+                </Popper>
+
+                <Popper
+                    open={this.props.showReferUser} 
+                    style={{position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2: 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0}}
+                >
+                    <Paper>
+                        <Refer_User /> 
+                    </Paper>
+                </Popper>
+
             </div >
         );
     }
@@ -729,14 +1408,35 @@ export class TopNavbar extends React.Component {
 const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated: (token !== null && token !== undefined),
-        error: state.auth.error,
-        lang: state.language.lang,
+        isAuthenticated:           (token !== null && token !== undefined),
+        error:                     state.auth.error,
+        lang:                      state.language.lang,
+        showLogin:                 state.general.show_login,
+        showSignup:                state.general.show_signup,
+        showSignupEmail:           state.general.show_signup_email,
+        showSignupDetail:          state.general.show_signup_detail,
+        showSignupContact:         state.general.show_signup_contact,
+        showSignupPhone:           state.general.show_signup_phone,
+        showCompleteRegistration:  state.general.show_complete_registration,
+        showPhoneVerification:     state.general.show_phone_verification,
+        showOneclickFinish:        state.general.show_oneclick_finish,
+        showSignupFinish:          state.general.show_signup_finish,
+        showChangePassword:        state.general.show_change_password,
+        showUserProfile:           state.general.show_user_profile,
+        showUpdateProfile:         state.general.show_update_profile,
+        showDeposit:               state.general.show_deposit,
+        showDepositAmount:         state.general.show_deposit_amount,
+        showDepositPaypal:         state.general.show_deposit_paypal,
+        showWithdraw:              state.general.show_withdraw,
+        showForgetPassword:        state.general.show_forget_password,
+        showForgetPasswordValidation: state.general.show_forget_password_validation,
+        showReferUser:             state.general.show_refer_user
     }
 }
 
 TopNavbar.propTypes = {
     classes: PropTypes.object.isRequired,
+    callback: PropTypes.func,
 };
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState })(TopNavbar)));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState, authLogin, show_login, show_signup, hide_login, show_signup_finish, hide_user_profile, hide_update_profile })(TopNavbar))));
