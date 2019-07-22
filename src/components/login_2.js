@@ -81,7 +81,7 @@ export class Login extends React.Component {
         this.props.authCheckState()
         .then(res => {
         if (res === AUTH_RESULT_SUCCESS) {
-            this.props.history.push('/home/'); 
+            this.props.history.push('/'); 
         } 
     });
 
@@ -158,13 +158,13 @@ export class Login extends React.Component {
 
     this.props.FacebookauthLogin(username, email)
     .then(res => {
-        this.props.history.push('/home/');
+        this.props.history.push('/');
     }).catch(err => {
         this.props.FacebookSignup(username, email)
         .then(res => {
             this.props.FacebookauthLogin(username, email)
             .then(res => {
-                this.props.history.push('/home/');
+                this.props.history.push('/');
             })
             .catch(err => {
             })
@@ -193,7 +193,6 @@ export class Login extends React.Component {
             localStorage.removeItem('remember_check');
         }
         this.props.hide_login()
-        this.props.history.push('/home/');
     })
     .catch(err => {
         this.setState({wrong_password_error: true})
