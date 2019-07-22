@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button';
 
 import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
 
-import { hide_deposit_confirm, show_deposit_success } from '../actions';
+import { hide_deposit_confirm, show_deposit_success, show_deposit } from '../actions';
 import { ReactComponent as BackIcon } from '../assets/img/svg/account-menu-back.svg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -224,4 +224,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_confirm, show_deposit_success })(New_Deposit_Confirm)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_confirm, show_deposit_success, show_deposit })(New_Deposit_Confirm)));
