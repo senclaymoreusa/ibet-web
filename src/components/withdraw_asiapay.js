@@ -14,8 +14,6 @@ import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import {authCheckState} from '../actions';
 
-var QRCode = require('qrcode.react');
-
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
@@ -78,7 +76,6 @@ class WithdrawAsiapay extends Component {
         };
         
         this.onInputChange_amount          = this.onInputChange_amount.bind(this);
-        this.handleChange = this.handleChange.bind(this);
         this.onInputChange_bank  = this.onInputChange_bank.bind(this);
         this.onInputChange_cardnumber  = this.onInputChange_cardnumber.bind(this);
         this.onInputChange_cardhodername  = this.onInputChange_cardhodername.bind(this);
@@ -118,8 +115,8 @@ class WithdrawAsiapay extends Component {
           }else{
             this.setState({live_check_bank: false})
           }
-          await this.setState({bank: event.target.value});
-          this.check_button_disable()
+        await this.setState({bank: event.target.value});
+        this.check_button_disable()
     }
     async onInputChange_cardnumber(event){
         if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/)){
@@ -127,8 +124,8 @@ class WithdrawAsiapay extends Component {
           }else{
             this.setState({live_check_cardnum: false})
           }
-          await this.setState({cardnumber: event.target.value});
-          this.check_button_disable()
+        await this.setState({cardnumber: event.target.value});
+        this.check_button_disable()
     }
     async onInputChange_cardhodername(event){
         if (!event.target.value.match(/^[a-zA-Z]+$/) && !event.target.value.match(/[\u4e00-\u9fa5]/)){
@@ -144,17 +141,47 @@ class WithdrawAsiapay extends Component {
             this.setState({button_disable: false})
         }
     }
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleClick = (cashoutChannel, apiRoute) => {
+        var postData = {
+            "amount": this.state.amount,
+            "userid": this.state.data.pk,
+            "currency": "0",
+            "cashoutMethod" : "cashifacebatch", //代付
+            "method": "49", 
+            "CashCardNumber": this.state.cardnumber,
+            "CashCardChName": this.state.cardhodername,
+            "CashBankDetailName":this.state.bank,
+        }
+        console.log(this.state.amount)
+        console.log(this.state.data.pk)
+        console.log(this.state.cardnumber)
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        return fetch(API_URL + 'accounting/api/asiapay/cashout', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          body: formBody
+        }).then(function(res) {
+          return res.json();
+        }).then(function(data) {
+            if(data == '50001'){
+                alert('Your withdraw is success.')
+            }else{
+                alert('Your withdraw is failed.')
+            }
+            
+        });
     }
     
     render(){
         const { classes } = this.props;
-        let amount = this.state.amount;
-        let user = this.state.data.pk;
-        let cardhodername = this.state.cardhodername;
-        let cardnumber = this.state.cardnumber;
-        let bank = this.state.bank;
         return (
             <div>
                 <TopNavbar />
@@ -177,7 +204,7 @@ class WithdrawAsiapay extends Component {
                     <div>
                         <label>
                             <b>
-                                <FormattedMessage  id="withdraw.bank" defaultMessage='Card number' />
+                                <FormattedMessage  id="withdraw.cardnumber" defaultMessage='Card number' />
                             </b>
                         </label>
                     </div>
@@ -191,7 +218,7 @@ class WithdrawAsiapay extends Component {
                     <div>
                         <label>
                             <b>
-                                <FormattedMessage  id="withdraw.bank" defaultMessage='Card holder name' />
+                                <FormattedMessage  id="withdraw.cardhodername" defaultMessage='Card holder name' />
                             </b>
                         </label>
                     </div>
@@ -233,43 +260,7 @@ class WithdrawAsiapay extends Component {
                             variant="contained" 
                             color="primary"  
                             className={classes.button}
-                            onClick={(e) => {
-                                var postData = {
-                                    "amount": amount,
-                                    "userid": user,
-                                    "currency": "0",
-                                    "cashoutMethod" : "cashifacebatch", //代付
-                                    "method": "49", 
-                                    "CashCardNumber": cardnumber,
-                                    "CashCardChName": cardhodername,
-                                    "CashBankDetailName":bank,
-                                }
-                                console.log(amount)
-                                console.log(user)
-                                var formBody = [];
-                                for (var pd in postData) {
-                                    var encodedKey = encodeURIComponent(pd);
-                                    var encodedValue = encodeURIComponent(postData[pd]);
-                                    formBody.push(encodedKey + "=" + encodedValue);
-                                }
-                                formBody = formBody.join("&");
-                                return fetch(API_URL + 'accounting/api/asiapay/cashout', {
-                                  method: 'POST',
-                                  headers: {
-                                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                  },
-                                  body: formBody
-                                }).then(function(res) {
-                                  return res.json();
-                                }).then(function(data) {
-                                    if(data == '50001'){
-                                        alert('Your withdraw is success.')
-                                    }else{
-                                        alert('Your withdraw is failed.')
-                                    }
-                                    
-                                });
-                            }}
+                            onClick={this.state.button_disable ? () => {} : this.handleClick}
                             
                         >
                             Withdraw NOW
