@@ -138,12 +138,12 @@ button:focus {
 }
 
 .mainButtonActive {
-  opacity: 1;
+  opacity: 0.5 !important;
 }
 
 .mainButton {
-  opacity: 0.5;
-  background-color: #ffffff;
+  opacity: 1;
+//   background-color: #ffffff !important;
 }
 
 .mainButton:hover {

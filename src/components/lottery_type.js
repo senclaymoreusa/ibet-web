@@ -111,7 +111,7 @@ class Lottery_Type extends Component {
 
     async componentDidMount() {
 
-        this.props.authCheckState()
+        this.props.authCheckState();
         
         // var URL = API_URL + 'users/api/lottery/?term=Lottery';
 
