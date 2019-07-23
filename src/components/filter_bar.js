@@ -43,6 +43,7 @@ class SelectFieldExampleMultiSelect extends Component {
             providerFilter: [],
             featuresFilter: [],
             themeFilter: [],
+            sortFilter: '',
             filterOptions: [],
             url: '',
         };
@@ -58,7 +59,7 @@ class SelectFieldExampleMultiSelect extends Component {
     //     });
     // }
 
-    handleChange(name, event)  { 
+    handleChange(event, name)  { 
 
         // console.log(event.target.value);
         if (name === 'Games Category') {
@@ -96,6 +97,13 @@ class SelectFieldExampleMultiSelect extends Component {
                 this.redirectUrl(event.target.value);
             });
         }
+        if (name === 'Sort by') {
+            this.setState({ 
+                sortFilter: event.target.value
+            }, () => {
+                this.redirectUrl(event.target.value);
+            });
+        }
     }
 
     redirectUrl(data) {
@@ -126,6 +134,10 @@ class SelectFieldExampleMultiSelect extends Component {
             const themes = this.state.themeFilter.join('+');
             filterParts.push('theme=' + themes);
         }
+        if (this.state.sortFilter.length > 0) {
+            const sorts = this.state.sortFilter.toLowerCase();
+            filterParts.push('sort=' + sorts);
+        }
         const filterUrl = filterParts.join('&');
         const finalUrl = baseUrl + '/' + filterUrl;
         // console.log('final url: ' + finalUrl);
@@ -152,7 +164,7 @@ class SelectFieldExampleMultiSelect extends Component {
                 <Select key={'123'}
                     multiple
                     value={this.state.categoryFilter}
-                    onChange={ (e) => this.handleChange(name, e)}
+                    onChange={ (e) => this.handleChange(e, name)}
                     input={<Input id="select-multiple-checkbox" />}
                     renderValue={selected => selected.join(', ')}
                 >
@@ -165,7 +177,7 @@ class SelectFieldExampleMultiSelect extends Component {
                     <Select key={'456'}
                         multiple
                         value={this.state.jackpotFilter}
-                        onChange={ (e) => this.handleChange(name, e)}
+                        onChange={ (e) => this.handleChange(e, name)}
                         input={<Input id="select-multiple-checkbox" />}
                         renderValue={selected => selected.join(', ')}
                     >
@@ -178,7 +190,7 @@ class SelectFieldExampleMultiSelect extends Component {
                     <Select key={'345'}
                         multiple
                         value={this.state.providerFilter}
-                        onChange={ (e) => this.handleChange(name, e)}
+                        onChange={ (e) => this.handleChange(e, name)}
                         input={<Input id="select-multiple-checkbox" />}
                         renderValue={selected => selected.join(', ')}
                     >
@@ -191,7 +203,7 @@ class SelectFieldExampleMultiSelect extends Component {
                     <Select key={'234'}
                         multiple
                         value={this.state.featuresFilter}
-                        onChange={ (e) => this.handleChange(name, e)}
+                        onChange={ (e) => this.handleChange(e, name)}
                         input={<Input id="select-multiple-checkbox" />}
                         renderValue={selected => selected.join(', ')}
                     >
@@ -204,13 +216,37 @@ class SelectFieldExampleMultiSelect extends Component {
                     <Select key={'456'}
                         multiple
                         value={this.state.themeFilter}
-                        onChange={ (e) => this.handleChange(name, e)}
+                        onChange={ (e) => this.handleChange(e, name)}
                         input={<Input id="select-multiple-checkbox" />}
                         renderValue={selected => selected.join(', ')}
                     >
                         {this.menuItems(this.state.themeFilter, data)}
                     </Select>
 
+                ]);
+            case 'Sort by':
+                return ([
+                    <Select key={'567'}
+                        value={this.state.sortFilter}
+                        onChange={(e) => this.handleChange(e, name)}
+                        inputProps={{
+                        name: 'sort',
+                        id: 'sort',
+                        }}
+                    >
+                    {
+                        data.map((sort, index) => {
+                            var sortValue = sort.replace(/\s+/g, '-').toLowerCase();
+                            return (
+                                <MenuItem key={index} value={sortValue}>{sort}</MenuItem>
+                            )
+                        })
+                    }
+{/*                     
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem> */}
+                    </Select>
                 ]);
           }
     }
@@ -227,6 +263,7 @@ class SelectFieldExampleMultiSelect extends Component {
             this.setState({ providerFilter:[] });
             this.setState({ featuresFilter:[] });
             this.setState({ themeFilter:[] });
+            this.setState({ sortFilter:[] });
         } else {
             // console.log("filter: " + filter);  
             var filterList = filter.split('&');
@@ -251,6 +288,9 @@ class SelectFieldExampleMultiSelect extends Component {
                     this.setState({ featuresFilter: filterValueList});
                 }
                 if (filterName == 'theme') {
+                    this.setState({ featuresFilter: filterValueList});
+                }
+                if (filterName == 'Sort by') {
                     this.setState({ featuresFilter: filterValueList});
                 }
             }

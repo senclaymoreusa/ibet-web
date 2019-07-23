@@ -1166,7 +1166,7 @@ export class TopNavbar extends React.Component {
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/slot_type/slots") }}>
+                                        onClick={() => { this.props.history.push("/slot_type/slots/top-rated") }}>
                                         <SlotsIcon className="games-icon" />
                                         <span className="Slots">
                                             <FormattedMessage id="nav.slots" defaultMessage='Slots' />

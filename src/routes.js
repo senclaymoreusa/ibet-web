@@ -61,7 +61,7 @@ const BaseRouter = () => (
   <div style={divStyle}>
     <Route exact path="/" component={Home} />
     <Route exact path="/home/:referid?" component={Home} />
-    <Route exact path="/slot_type/:type?" component={Slot_Type} />
+    <Route exact path="/slot_type/:type?/:sub?/:filter?" component={Slot_Type} />
     <Route exact path="/sports_type/:type?" component={Sports_Type} />
     <Route exact path="/lottery_type/:type?" component={Lottery_Type} />
     <Route exact path="/liveCasino_type/:type?/:sub?/:filter?" component={LiveCasino_Type} />
