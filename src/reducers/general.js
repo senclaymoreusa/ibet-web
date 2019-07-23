@@ -34,6 +34,8 @@ const INITIAL_STATE = {
   show_responsible_gambling: false,
   show_deposit_success: false,
   show_deposit_confirm: false,
+  show_withdraw_confirm: false,
+  show_withdraw_success: false,
 
   onc_click_username: '',
   one_click_password: '',
@@ -169,6 +171,10 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, show_withdraw: true }
     case 'HIDE_WITHDRAW':
       return { ...state, show_withdraw: false }
+    case 'SHOW_WITHDRAW_CONFIRM':
+      return { ...state, show_withdraw_confirm: true }
+    case 'HIDE_WITHDRAW_CONFIRM':
+      return { ...state, show_withdraw_confirm: false }
     case 'SHOW_FORGET_PASSWORD':
       return { ...state, show_forget_password: true }
     case 'HIDE_FORGET_PASSWORD':
@@ -207,11 +213,15 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, show_help: true }
     case 'HIDE_HELP':
       return { ...state, show_help: false }
-      case 'SHOW_DEPOSIT_CONFIRM':
+    case 'SHOW_DEPOSIT_CONFIRM':
       return { ...state, show_deposit_confirm: true }
     case 'HIDE_DEPOSIT_CONFIRM':
       return { ...state, show_deposit_confirm: false }
-    case 'SHOW_DEPOSIT_SUCCESS':
+    case 'SHOW_WITHDRAW_SUCCESS':
+      return { ...state, show_withdraw_success: true }
+    case 'HIDE_WITHDRAW_SUCCESS':
+      return { ...state, show_withdraw_success: false }
+      case 'SHOW_DEPOSIT_SUCCESS':
       return { ...state, show_deposit_success: true }
     case 'HIDE_DEPOSIT_SUCCESS':
       return { ...state, show_deposit_success: false }

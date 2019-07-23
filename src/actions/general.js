@@ -506,3 +506,27 @@ export const hide_deposit_confirm = () => {
     type: 'HIDE_DEPOSIT_CONFIRM'
   }
 }
+
+export const show_withdraw_confirm = () => {
+  return {
+    type: 'SHOW_WITHDRAW_CONFIRM'
+  }
+}
+
+export const hide_withdraw_confirm = () => {
+  return {
+    type: 'HIDE_WITHDRAW_CONFIRM'
+  }
+}
+
+export const show_withdraw_success = () => {
+  return {
+    type: 'SHOW_WITHDRAW_SUCCESS'
+  }
+}
+
+export const hide_withdraw_success = () => {
+  return {
+    type: 'HIDE_WITHDRAW_SUCCESS'
+  }
+}

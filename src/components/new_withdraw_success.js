@@ -5,8 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, show_account_menu, hide_deposit_success, show_deposit } from '../actions';
-import { ReactComponent as DepositCompletedIcon } from '../assets/img/svg/complete-deposit-icon.svg';
+import { logout, handle_search, setLanguage, show_account_menu, hide_withdraw_success, show_withdraw } from '../actions';
+import { ReactComponent as WithdrawCompletedIcon } from '../assets/img/svg/complete-deposit-icon.svg';
 
 import Grid from '@material-ui/core/Grid';
 
@@ -64,7 +64,7 @@ const styles = theme => ({
         paddingLeft: 8,
         paddingRight: 8,
     },
-    depositIcon: {
+    withdrawIcon: {
         marginRight: 5,
         marginTop: -4,
     },
@@ -86,13 +86,13 @@ const styles = theme => ({
         backgroundColor: '#f1f1f1',
         height: 30,
     },
-    depositRow: {
+    withdrawRow: {
         height: 32,
         width: '100%',
         backgroundColor: '#212121',
         paddingTop: 6,
     },
-    depositLabel: {
+    withdrawLabel: {
         fontWeight: 600,
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -106,7 +106,7 @@ const styles = theme => ({
     contentRow: {
         display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'
     },
-    depositAgainButton: {
+    withdrawAgainButton: {
         marginTop: 10,
         marginBottom: 10,
         textTransform: 'capitalize',
@@ -131,7 +131,7 @@ const styles = theme => ({
         color: '#212121',
         fontSize: 24,
     },
-    depositCompletedLabel: {
+    withdrawCompletedLabel: {
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -148,23 +148,21 @@ const styles = theme => ({
     }
 });
 
-
-export class DepositSuccess extends React.Component {
-
+export class WithdrawSuccess extends React.Component {
 
     backClicked = (event) => {
         this.props.show_account_menu();
-        this.props.hide_deposit_success();
+        this.props.hide_withdraw_success();
     }
 
     doneClicked = (event) => {
-        this.props.hide_deposit_success();
+        this.props.hide_withdraw_success();
         this.props.show_account_menu();
     }
 
-    depositAgainClicked = (event) => {
-        this.props.hide_deposit_success();
-        this.props.show_deposit();
+    withdrawAgainClicked = (event) => {
+        this.props.hide_withdraw_success();
+        this.props.show_withdraw();
     }
 
     render() {
@@ -178,23 +176,23 @@ export class DepositSuccess extends React.Component {
                             <BackIcon />
                         </Button>
                         <div className={classes.title}>
-                            <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />
+                            <FormattedMessage id="accountmenu.withdraw" defaultMessage="Withdraw" />
                         </div>
                     </Grid>
-                    <Grid item xs={12} className={classes.depositRow}>
-                        <div className={classes.depositLabel}>
-                            <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />
+                    <Grid item xs={12} className={classes.withdrawRow}>
+                        <div className={classes.withdrawLabel}>
+                            <FormattedMessage id="accountmenu.withdraw" defaultMessage="Withdraw" />
                         </div>
                     </Grid>
                     <Grid item xs={12} className={classes.contentRow}>
-                        <DepositCompletedIcon className={classes.successIcon} />
+                        <WithdrawCompletedIcon className={classes.successIcon} />
                         <div className={classes.successLabel}>
-                            <FormattedMessage id="deposit.successful" defaultMessage="Successful!" />
+                            <FormattedMessage id="withdraw.successful" defaultMessage="Successful!" />
                         </div>
-                        <div className={classes.depositCompletedLabel}>
-                            <FormattedMessage id="deposit.deposit-completed" defaultMessage="Deposit was completed." />
+                        <div className={classes.withdrawCompletedLabel}>
+                            <FormattedMessage id="withdraw.withdraw-completed" defaultMessage="Withdraw was completed." />
                         </div>
-                        <Button className={classes.depositAgainButton} variant="outlined" onClick={this.depositAgainClicked}>Deposit Again</Button>
+                        <Button className={classes.withdrawAgainButton} variant="outlined" onClick={this.withdrawAgainClicked}>Withdraw Again</Button>
                         <Button className={classes.doneButton} variant="contained" color="primary" onClick={this.doneClicked}>Done</Button>
                     </Grid>
                 </Grid>
@@ -213,8 +211,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-DepositSuccess.propTypes = {
+WithdrawSuccess.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_deposit, show_account_menu, hide_deposit_success })(DepositSuccess))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_withdraw, show_account_menu, hide_withdraw_success })(WithdrawSuccess))));
