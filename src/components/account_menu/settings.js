@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage } from '../../actions';
+import { logout, handle_search, setLanguage, show_account_menu, hide_settings } from '../../actions';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -153,7 +153,7 @@ const styles = theme => ({
     switch: {
         height: 20,
     },
-    selectOddsDisplay:{
+    selectOddsDisplay: {
         width: 90,
         height: 30,
         paddingTop: 0,
@@ -228,7 +228,8 @@ export class Settings extends React.Component {
     }
 
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');
+        this.props.show_account_menu();
+        this.props.hide_settings();
     }
 
     handleEmailChange(event) {
@@ -288,8 +289,8 @@ export class Settings extends React.Component {
             checkMarketingPost,
             checkMarketingPhone,
             checkMarketingEmailNotification,
-        
-            oddsDisplay} = this.state;
+
+            oddsDisplay } = this.state;
 
         return (
             <div className={classes.root}>
@@ -466,7 +467,6 @@ export class Settings extends React.Component {
                                         value="checkMarketingEmailNotification"
                                     />
                                 </Grid>
-
                             </Grid>
                         </Paper>
                     </Grid>
@@ -491,4 +491,4 @@ Settings.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage })(Settings))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_account_menu, hide_settings })(Settings))));

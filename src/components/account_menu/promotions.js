@@ -1,10 +1,11 @@
-import React from 'react'; import PropTypes from 'prop-types';
+import React from 'react'; 
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage } from '../../actions';
+import { logout, handle_search, setLanguage, show_account_menu, hide_promotions } from '../../actions';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -234,10 +235,10 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#ffffff',
     },
-    infoIcon:{
+    infoIcon: {
         display: 'inline',
         marginRight: 5,
-        marginBottom:-5,
+        marginBottom: -5,
     },
 });
 
@@ -267,7 +268,8 @@ export class Promotions extends React.Component {
     }
 
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');
+        this.props.show_account_menu();
+        this.props.hide_promotions();
     }
 
 
@@ -329,8 +331,8 @@ export class Promotions extends React.Component {
                                 </Grid>
                                 <Grid item xs={12} className={classes.termsRow}>
                                     <Link href='/' className={classes.termslink}>
-                                    <OvalIcon className={classes.infoIcon}/>
-<FormattedMessage id="footer.terms_conditions" defaultMessage='Terms & Conditions' />
+                                        <OvalIcon className={classes.infoIcon} />
+                                        <FormattedMessage id="footer.terms_conditions" defaultMessage='Terms & Conditions' />
                                     </Link>
                                 </Grid>
                             </Grid>
@@ -359,4 +361,4 @@ Promotions.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage })(Promotions))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_account_menu, hide_promotions })(Promotions))));

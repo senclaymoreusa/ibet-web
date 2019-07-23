@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage } from '../../actions';
+import { logout, handle_search, setLanguage, show_account_menu, hide_help } from '../../actions';
 
 
 import Grid from '@material-ui/core/Grid';
@@ -96,7 +96,8 @@ export class Help extends React.Component {
     };
 
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');
+        this.props.show_account_menu();
+        this.props.hide_help();
     }
 
     render() {
@@ -171,4 +172,4 @@ Help.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage })(Help))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_account_menu, hide_help })(Help))));
