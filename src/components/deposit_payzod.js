@@ -141,7 +141,10 @@ class DepositPayzod extends Component {
                         label="Amount"
                         value={amount}
                         InputProps={{
-                            startAdornment: <InputAdornment position="start">$</InputAdornment>
+                            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                            style: {
+                                "background-color": "white"
+                            }
                         }}
                         placeholder="" 
                         name="amount" 

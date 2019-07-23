@@ -105,6 +105,11 @@ export class DepositNavBar extends Component {
                   Circlepay
               </Button>
             </Link>
+            <Link to="/deposit/payzod/" className={classes.Link}>
+              <Button variant="contained"  color="secondary" id="nav.deposit_payzod" className={classes.button}>
+                  Payzod
+              </Button>
+            </Link>
           </nav>
         </div>
       </>
