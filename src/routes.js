@@ -53,6 +53,7 @@ import New_Profile from './components/new_profile2'
 import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/deposit_astropay"
 import DepositCirclepay from "./components/deposit_circlepay"
+import DepositPayzod from "./components/deposit_payzod"
 
 const divStyle = {
   minHeight: '100%',
@@ -114,6 +115,7 @@ const BaseRouter = () => (
     <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
     <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
+    <Route exact path="/deposit/payzod/" component={DepositPayzod} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>
 );
