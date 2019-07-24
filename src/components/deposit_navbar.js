@@ -100,6 +100,11 @@ export class DepositNavBar extends Component {
                   Astropay
               </Button>
             </Link>
+            <Link to="/deposit_help2pay/" className={classes.Link}>
+              <Button variant="contained"   id="nav.deposit_help2pay" className={classes.button}>
+                  Help2pay
+              </Button>
+            </Link>
           </nav>
         </div>
       </>

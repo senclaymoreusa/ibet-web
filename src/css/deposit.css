@@ -35,4 +35,11 @@
 .paypal-button {
     padding-top: 12px;
 }
-
+.select-currency{
+    width: 20%;
+    align-content: center
+}
+.select-bank{
+    width: 45%;
+    align-content: center
+}
