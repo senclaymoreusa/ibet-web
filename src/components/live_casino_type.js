@@ -227,7 +227,7 @@ class LiveCasino_Type extends Component {
 
         const { formatMessage } = this.props.intl;
         let topRatedMessage = formatMessage({ id: "nav.top-rated" });
-        let newMessage = formatMessage({ id: "nav.new" });
+        let allMessage = formatMessage({ id: "nav.all" });
         let rouletteMessage = formatMessage({ id: "nav.roulette" });
         let blackjackMessage = formatMessage({ id: "nav.blackjack" });
         let baccaratMessage = formatMessage({ id: "nav.baccarat" });
@@ -244,7 +244,7 @@ class LiveCasino_Type extends Component {
 
                     <AppBar position="static" style={{zIndex: 0}} >
                         <StyledTabs centered value={this.props.match.params.sub} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>
-                            <StyledTab
+                            {/* <StyledTab
                                 style={{ outline: 'none' }}
                                 value="top-rated"
                                 label={topRatedMessage}
@@ -253,14 +253,14 @@ class LiveCasino_Type extends Component {
                                         this.handle_category_change('top-rated', this.props.match.params.sub);
                                     }
                                 }}
-                            />
+                            /> */}
                             <StyledTab
                                 style={{ outline: 'none' }}
-                                label={newMessage}
-                                value="new"
+                                label={allMessage}
+                                value="all"
                                 onClick={() => {
-                                    if (this.props.match.params.sub !== 'new') {
-                                        this.handle_category_change('new');
+                                    if (this.props.match.params.sub !== 'all') {
+                                        this.handle_category_change('all');
                                     }
                                 }}
                             />

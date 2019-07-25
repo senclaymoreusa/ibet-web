@@ -115,23 +115,23 @@ class SelectFieldExampleMultiSelect extends Component {
 
         var filterParts = []
         if (this.state.categoryFilter.length > 0) {
-            const categories = this.state.categoryFilter.join('+');
+            const categories = this.state.categoryFilter.join('%2B');
             filterParts.push('filtercategory=' + categories);
         }
         if (this.state.jackpotFilter.length > 0) {
-            const jackpots = this.state.jackpotFilter.join('+');
+            const jackpots = this.state.jackpotFilter.join('%2B');
             filterParts.push('jackpot=' + jackpots);
         }
         if (this.state.providerFilter.length > 0) {
-            const providers = this.state.providerFilter.join('+');
+            const providers = this.state.providerFilter.join('%2B');
             filterParts.push('provider=' + providers);
         }
         if (this.state.featuresFilter.length > 0) {
-            const features = this.state.featuresFilter.join('+');
+            const features = this.state.featuresFilter.join('%2B');
             filterParts.push('feature=' + features);
         }
         if (this.state.themeFilter.length > 0) {
-            const themes = this.state.themeFilter.join('+');
+            const themes = this.state.themeFilter.join('%2B');
             filterParts.push('theme=' + themes);
         }
         if (this.state.sortFilter.length > 0) {
@@ -274,7 +274,7 @@ class SelectFieldExampleMultiSelect extends Component {
                 var length = filterList[i].length;
                 var filterName = filterList[i].slice(0, index);
                 var filterValue = filterList[i].slice(index+1, index+length+1);
-                var filterValueList = filterValue.split('+');
+                var filterValueList = filterValue.split('%2B');
                 if (filterName == 'category') {
                     this.setState({ categoryFilter: filterValueList});
                 }
@@ -321,7 +321,7 @@ class SelectFieldExampleMultiSelect extends Component {
                 var length = filterList[i].length;
                 var filterName = filterList[i].slice(0, index);
                 var filterValue = filterList[i].slice(index+1, index+length+1);
-                var filterValueList = filterValue.split('+');
+                var filterValueList = filterValue.split('%2B');
                 if (filterName == 'category') {
                     this.setState({ categoryFilter: filterValueList});
                 }

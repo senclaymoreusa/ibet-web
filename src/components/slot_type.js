@@ -225,7 +225,7 @@ class Slot_Type extends Component {
 
         const { formatMessage } = this.props.intl;
         let topRatedMessage = formatMessage({ id: "nav.top-rated" });
-        let newMessage = formatMessage({ id: "nav.new" });
+        let allMessage = formatMessage({ id: "nav.all" });
         let slotsMessage = formatMessage({ id: "nav.slots" });
         let jackpotsMessage = formatMessage({ id: "nav.jackpots" });
         let tableGamesMessage = formatMessage({ id: "nav.table-games" });
@@ -242,7 +242,7 @@ class Slot_Type extends Component {
             
                     <AppBar position="static" >
                         <StyledTabs centered value={this.props.match.params.sub} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
-                            <StyledTab 
+                            {/* <StyledTab 
                                 style={{outline: 'none'}} 
                                 value="top-rated"
                                 label={topRatedMessage} 
@@ -252,15 +252,15 @@ class Slot_Type extends Component {
                                         this.handle_category_change('top-rated', this.props.match.params.sub);
                                     }
                                 }}
-                            />
+                            /> */}
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                value="new"
-                                label={newMessage}
+                                value="all"
+                                label={allMessage}
                                 onClick={() => {
                                     // this.handle_category_change('ball', 'new');
-                                    if (this.props.match.params.sub !== 'new') {
-                                        this.handle_category_change('new', this.props.match.params.sub);
+                                    if (this.props.match.params.sub !== 'all') {
+                                        this.handle_category_change('all', this.props.match.params.sub);
                                     }
                                 }}
                             />
