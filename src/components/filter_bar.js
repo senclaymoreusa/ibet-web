@@ -288,10 +288,10 @@ class SelectFieldExampleMultiSelect extends Component {
                     this.setState({ featuresFilter: filterValueList});
                 }
                 if (filterName == 'theme') {
-                    this.setState({ featuresFilter: filterValueList});
+                    this.setState({ themeFilter: filterValueList});
                 }
                 if (filterName == 'Sort by') {
-                    this.setState({ featuresFilter: filterValueList});
+                    this.setState({ sortFilter: filterValueList});
                 }
             }
         }
@@ -335,7 +335,10 @@ class SelectFieldExampleMultiSelect extends Component {
                     this.setState({ featuresFilter: filterValueList});
                 }
                 if (filterName == 'theme') {
-                    this.setState({ featuresFilter: filterValueList});
+                    this.setState({ themeFilter: filterValueList});
+                }
+                if (filterName == 'Sort by') {
+                    this.setState({ sortFilter: filterValueList});
                 }
             }
         }
