@@ -105,6 +105,11 @@ export class DepositNavBar extends Component {
                   Help2pay
               </Button>
             </Link>
+            <Link to="/deposit_fgo/" className={classes.Link}>
+              <Button variant="contained"   color="primary" id="nav.deposit_fgo" className={classes.button}>
+                  Fgo
+              </Button>
+            </Link>
           </nav>
         </div>
       </>
