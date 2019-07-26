@@ -211,7 +211,7 @@ export class Home extends Component {
 
               <br />
               <div className='game-title'>
-                AG Games
+                AG
               </div>
 
               </a>
