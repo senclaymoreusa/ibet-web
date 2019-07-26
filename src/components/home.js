@@ -147,9 +147,12 @@ export class Home extends Component {
           </div>
         }
 
-        {/* please don't delete code below */}
         
+
         <div className="cont">    
+
+          {/* please don't delete code below */}
+
           {/* {
             this.state.ready && this.state.sports.map(item => {
               return (
