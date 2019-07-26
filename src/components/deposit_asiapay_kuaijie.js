@@ -8,13 +8,11 @@ import '../css/deposit.css';
 
 
 // Material-UI
-import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
-import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import {authCheckState} from '../actions';
-import { Input } from 'antd';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 

@@ -52,7 +52,8 @@ import DepositQaicahAlipay from './components/deposit_qaicash_alipay'
 import New_Profile from './components/new_profile2'
 import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/deposit_astropay"
-
+import DepositHelp2pay from "./components/deposit_help2pay"
+import DepositFgo from "./components/deposit_fgo"
 const divStyle = {
   minHeight: '100%',
 };
@@ -109,9 +110,11 @@ const BaseRouter = () => (
     <Route exact path="/change_password/" component={Change_Password} />
     <Route exact path="/deposit_linepay/" component={DepositPage} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
+    <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
     <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
+    <Route exact path="/deposit_fgo/" component={DepositFgo} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>
 );
