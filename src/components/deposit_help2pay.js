@@ -112,13 +112,13 @@ class DepositHelp2pay extends Component {
     }
     handleCurrencyChange= selectedCurrencyOption => {
         this.setState({ selectedCurrencyOption });
-        console.log(`Option selected:`, selectedCurrencyOption);
+        //console.log(`Option selected:`, selectedCurrencyOption);
         this.check_button_disable()
     };
     handleBankChange= selectedBankOption => {
         
         this.setState({ selectedBankOption });
-        console.log(`Option selected:`, selectedBankOption);
+        //console.log(`Option selected:`, selectedBankOption);
         this.check_button_disable()
     };
 
@@ -150,7 +150,7 @@ class DepositHelp2pay extends Component {
             "language": "en-Us", 
             "order_id" :orderid,
         }
-        console.log(orderid)
+        //console.log(orderid)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -158,11 +158,14 @@ class DepositHelp2pay extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
+        const token = localStorage.getItem('token');
         
         return fetch(API_URL + 'accounting/api/help2pay/deposit', {
             method: 'POST',
+            withCredentials: true,
             headers: {
-            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Authorization': 'Token ' + token
             },
             body: formBody
         }).then(function(res) {
@@ -176,7 +179,7 @@ class DepositHelp2pay extends Component {
             let newwin = window.open('');
             newwin.document.write(data);
             var timer = setInterval(function() {
-                console.log('checking..')
+                //console.log('checking..')
                 if(newwin.closed){
                     clearInterval(timer);
                     const pd = JSON.stringify({
@@ -186,22 +189,24 @@ class DepositHelp2pay extends Component {
                     
                     return fetch(API_URL + 'accounting/api/help2pay/deposit_status', {
                         method: 'POST',
+                        withCredentials: true,
                         headers: {
-                            'content-type': 'application/json'
+                            'content-type': 'application/json',
+                            'Authorization': 'Token ' + token
                         },
                         body: pd
     
                     }).then(function(res){
                         return res.text();
                     }).then(function(data){
-                        console.log(data)
+                        //console.log(data)
                         if(data == '0'){
                             const body = JSON.stringify({
                                 type : 'add',
                                 username: this.state.data.username,
                                 balance: this.state.amount,
                             });
-                            console.log(body)
+                            //console.log(body)
                             axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                 .then(res => {
                                     if (res.data === 'Failed'){
@@ -210,17 +215,18 @@ class DepositHelp2pay extends Component {
                                         alert("cannot withdraw this amount")
                                     }else{
                                         alert("your balance is updated")
-                                        window.location.reload()
+                                        
                                     }
                             });
                         }else{
                             alert('Your deposit is not success!');
                         }
+                        window.location.reload()
                     });
                 }
             }, 1000);
             
-        }).catch(function(error) {                        // catch
+        }).catch(function(error) {  
             console.log('Request failed', error);
         });
     }
@@ -303,17 +309,7 @@ class DepositHelp2pay extends Component {
                         </Button>
                         
                     </div>
-                    <div className="asiapay-qr" style={{display: this.state.show_qrcode ? "block":"none"}}>
-                            <QRCode
-                                value={this.state.value}
-                                size={this.state.size}
-                                fgColor={this.state.fgColor}
-                                bgColor={this.state.bgColor}
-                                level={this.state.level}
-                                renderAs={this.state.renderAs}
-                                includeMargin={this.state.includeMargin}
-                            />
-                    </div>
+                    
                 </form>
             </div>
             

@@ -147,7 +147,7 @@ class DepositFgo extends Component {
                                     "user": username,
                                     "serial": serial,
                                 }
-
+                                const token = localStorage.getItem('token');
                                 var formBody = [];
                                 for (var pd in postData) {
                                     var encodedKey = encodeURIComponent(pd);
@@ -157,8 +157,10 @@ class DepositFgo extends Component {
                                 formBody = formBody.join("&");
                                 return fetch(API_URL + 'accounting/api/fgate/chargeCard', {
                                   method: 'POST',
+                                  withCredentials: true,
                                   headers: {
-                                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                    'Authorization': 'Token ' + token
                                   },
                                   body: formBody
                                 }).then(function(res) {
