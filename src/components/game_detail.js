@@ -86,7 +86,9 @@ class Game_Detail extends Component {
           <button style={{backgroundColor: 'white', border: '1px solid red', color: 'red'}} onClick={ () => {this.props.history.push('/')}}>
               <FormattedMessage id="login.back" defaultMessage='Back' />
           </button> */}
-          <iframe src="http://gci.aggdemo.com:81/forwardGame.do?params=PHK2xZBxrv2U5okjcK0KRlj+nX+cq6KkFdccJvGzFUXi60wZuT2d+k88AefKf9l+GazjahBcChNc92jEEsHhiGu5etApJC93JYcvvLciCEZ0VG8Du3p3f+ED9KPSbvznosgdlxlSVJgan/CcRmpGvmZEjiSlE/sdvLRJQ17S64kaFjkLxoKTmbNNEs6ld2mRgwnrIayAZodFkeVpI2xWd3HJ7GYDPof6XOxdg3z16ETKCZ+0ZLARF7OSnnYERS7S&key=62a9c3eb22302893b8bdff7d67970491" width = '100%' height="800"></iframe>
+          <div style={{textAlign: 'center'}}> 
+              <iframe src="http://gci.aggdemo.com:81/forwardGame.do?params=PHK2xZBxrv2U5okjcK0KRlj+nX+cq6KkFdccJvGzFUXi60wZuT2d+k88AefKf9l+GazjahBcChNc92jEEsHhiGu5etApJC93JYcvvLciCEZ0VG8Du3p3f+ED9KPSbvznosgdlxlSVJgan/CcRmpGvmZEjiSlE/sdvLRJQ17S64kaFjkLxoKTmbNNEs6ld2mRgwnrIayAZodFkeVpI2xWd3HJ7GYDPof6XOxdg3z16ETKCZ+0ZLARF7OSnnYERS7S&key=62a9c3eb22302893b8bdff7d67970491" width = '1500' height="700"></iframe>
+          </div>
       </div>
     )
   }
