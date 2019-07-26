@@ -66,11 +66,11 @@ export class Home extends Component {
     
 
     this.props.authCheckState()
-    axios.get(API_URL + 'operation/api/notice-message', config)
-      .then(res => {
-        //   console.log(res);
-        this.setState({ notices: res.data });
-      })
+    // axios.get(API_URL + 'operation/api/notice-message', config)
+    //   .then(res => {
+    //     //   console.log(res);
+    //     this.setState({ notices: res.data });
+    //   })
 
     var URL = API_URL + 'users/api/games/?term=Sports';
 

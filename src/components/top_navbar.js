@@ -1134,7 +1134,7 @@ export class TopNavbar extends React.Component {
                             <div className={classes.mainMenu}>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/sports_type") }}>
+                                        onClick={() => { this.props.history.push("/sports_type/sports") }}>
                                         <SoccerIcon className="soccer" />
                                         <span className="Sports">
                                             <FormattedMessage id="nav.sports" defaultMessage='Sports' />
@@ -1143,7 +1143,7 @@ export class TopNavbar extends React.Component {
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/live_casino_type") }}>
+                                        onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
                                         <BetIcon className="bet" />
                                         <span className="Live-Casino">
                                             <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
@@ -1152,7 +1152,7 @@ export class TopNavbar extends React.Component {
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/slot_type") }}>
+                                        onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
                                         <SlotsIcon className="games-icon" />
                                         <span className="Slots">
                                             <FormattedMessage id="nav.slots" defaultMessage='Slots' />
@@ -1161,7 +1161,7 @@ export class TopNavbar extends React.Component {
                                 </Fade>
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/lottery_type") }}>
+                                        onClick={() => { this.props.history.push("/lottery_type/lottery") }}>
                                         <LotteryIcon className="lottery" />
                                         <span className="Lottery">
                                             <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
