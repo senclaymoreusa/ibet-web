@@ -54,7 +54,6 @@ export class Home extends Component {
     poker: [],
     ready: false,
     expand: false,
-    show_game: true,
 
     all_sports: []
   }
@@ -202,7 +201,6 @@ export class Home extends Component {
           } */}
 
           {
-            this.state.show_game && 
             <div 
               className='each-game' 
               style={{cursor: 'pointer'}}
