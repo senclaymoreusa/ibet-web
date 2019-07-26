@@ -147,8 +147,10 @@ export class Home extends Component {
           </div>
         }
 
-        <div className="cont">
-          {
+        {/* please don't delete code below */}
+        
+        <div className="cont">    
+          {/* {
             this.state.ready && this.state.sports.map(item => {
               return (
                 <div key={item.pk} className='each-game' onClick={() => {
@@ -193,6 +195,24 @@ export class Home extends Component {
                 </div>
               )
             })
+          } */}
+
+          {
+            <div className='each-game'>
+              <a href = 'http://gci.aggdemo.com:81/forwardGame.do?params=PHK2xZBxrv2U5okjcK0KRlj+nX+cq6KkFdccJvGzFUXi60wZuT2d+k88AefKf9l+GazjahBcChNc92jEEsHhiGu5etApJC93JYcvvLciCEZ0VG8Du3p3f+ED9KPSbvznosgdlxlSVJgan/CcRmpGvmZEjiSlE/sdvLRJQ17S64kaFjkLxoKTmbNNEs6ld2mRgwnrIayAZodFkeVpI2xWd3HJ7GYDPof6XOxdg3z16ETKCZ+0ZLARF7OSnnYERS7S&key=62a9c3eb22302893b8bdff7d67970491' style={{ textDecoration: 'none' }}>
+
+              {
+                <img src={placeholdimage} height="220" width="300" alt='Not available' />
+              }
+
+
+              <br />
+              <div className='game-title'>
+                AG Games
+              </div>
+
+              </a>
+            </div>
           }
         </div>
 
