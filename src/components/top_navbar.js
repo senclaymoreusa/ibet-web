@@ -16,17 +16,15 @@ import blue from '@material-ui/core/colors/blue';
 
 import { errors } from './errors';
 
-
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter, Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
     logout,
     handle_search,
+    authLogin,
     setLanguage,
     authCheckState,
-    AUTH_RESULT_FAIL,
-    authLogin,
     show_login,
     show_signup,
     hide_login,
@@ -45,22 +43,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 
 import AccountMenu from './account_menu/account_menu';
-import Deposit from './account_menu/deposit';
-import Withdraw from './account_menu/withdraw';
-import Help from './account_menu/help';
 import Promotions from './account_menu/promotions';
 import Settings from './account_menu/settings';
 import MyBets from './account_menu/my_bets';
 import ResponsibleGambling from './account_menu/responsible_gambling';
 import DepositSuccess from './new_deposit_success';
-
+import WithdrawSuccess from './new_withdraw_success';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
-
-
 import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Flag from 'react-flagkit';
@@ -90,6 +82,10 @@ import New_Deposit_Confirm from './new_deposit_confirm';
 import New_Deposit_Wechat from './new_deposit_amount_wechat';
 import New_Deposit_paypal from './new_deposite_amount_paypal';
 import New_Withdraw from './new_withdraw';
+import New_Withdraw_Confirm from './new_withdraw_confirm';
+
+import Help from './account_menu/help';
+
 import New_Forget_Password from './forget_password_new';
 import Forget_Password_Validation from './forget_password_validation';
 import Refer_User from './refer_user';
@@ -867,37 +863,6 @@ export class TopNavbar extends React.Component {
         }
         const langButtonIcon = (<Flag country={countryCode} />);
 
-        // let currentMenu = <div></div>;
-        // switch (this.state.currentAccountMenuItem) {
-        //     case 'open-bets':
-        //         currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={0} />;
-        //         break;
-        //     case 'deposit':
-        //         currentMenu = <Deposit onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-        //         break;
-        //     case 'withdraw':
-        //         currentMenu = <Withdraw onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-        //         break;
-        //     case 'help':
-        //         currentMenu = <Help onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-        //         break;
-        //     case 'promotions':
-        //         currentMenu = <Promotions onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-        //         break;
-        //     case 'responsible-gambling':
-        //         currentMenu = <ResponsibleGambling onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-        //         break;
-        //     case 'settings':
-        //         currentMenu = <Settings onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-        //         break;
-        //     case 'settled-bets':
-        //         currentMenu = <MyBets onMenuItemClicked={this.setCurrentAccountMenuItem} tabValue={2} />;
-        //         break;
-        //     default:
-        //         currentMenu = <AccountMenu onCloseItemClicked={this.handleProfileMenuClose} onMenuItemClicked={this.setCurrentAccountMenuItem} />;
-        // }
-
-
         const ProfileMenu = (
             <div ref={this.profileRef} >
                 <IconButton
@@ -1193,15 +1158,6 @@ export class TopNavbar extends React.Component {
                 <Popper
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                     open={this.props.showLogin}
-                // anchorEl={this.state.anchorElLogin}
-                // anchorOrigin={{
-                //     vertical: 'bottom',
-                //     horizontal: 'left',
-                // }}
-                // transformOrigin={{
-                //     vertical: 'top',
-                //     horizontal: 'center',
-                // }}
                 >
                     <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
                         <Paper>
@@ -1392,7 +1348,39 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw />
+                                <New_Withdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }}/>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper
+                    open={this.props.showWithdrawConfirm}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <New_Withdraw_Confirm withdrawInfo={this.state.withdrawInfo}/>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper
+                    open={this.props.showWithdrawSuccess}
+                    anchorEl={anchorEl}
+                    className={classes.profilePopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <WithdrawSuccess />
                             </Paper>
                         </Fade>
                     )}
@@ -1575,7 +1563,9 @@ const mapStateToProps = (state) => {
         showDepositPaypal: state.general.show_deposit_paypal,
         showDepositConfirm: state.general.show_deposit_confirm,
         showDepositSuccess: state.general.show_deposit_success,
+        showWithdrawSuccess: state.general.show_withdraw_success,
         showWithdraw: state.general.show_withdraw,
+        showWithdrawConfirm: state.general.show_withdraw_confirm,
         showForgetPassword: state.general.show_forget_password,
         showForgetPasswordValidation: state.general.show_forget_password_validation,
         showReferUser: state.general.show_refer_user,
