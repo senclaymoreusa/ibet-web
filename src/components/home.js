@@ -54,6 +54,7 @@ export class Home extends Component {
     poker: [],
     ready: false,
     expand: false,
+    show_game: true,
 
     all_sports: []
   }
@@ -102,6 +103,13 @@ export class Home extends Component {
   handle_expand() {
     this.setState({ sports: this.state.all_sports })
     this.setState({ expand: true })
+  }
+
+  open_window(event){
+
+    event.preventDefault();
+
+    window.open('http://gci.aggdemo.com:81/forwardGame.do?params=PHK2xZBxrv2U5okjcK0KRlj+nX+cq6KkFdccJvGzFUXi60wZuT2d+k88AefKf9l+GazjahBcChNc92jEEsHhiGu5etApJC93JYcvvLciCEZ0VG8Du3p3f+ED9KPSbvznosgdlxlSVJgan/CcRmpGvmZEjiSlE/sdvLRJQ17S64kaFjkLxoKTmbNNEs6ld2mRgwnrIayAZodFkeVpI2xWd3HJ7GYDPof6XOxdg3z16ETKCZ+0ZLARF7OSnnYERS7S&key=62a9c3eb22302893b8bdff7d67970491')
   }
 
   render() {
@@ -201,8 +209,14 @@ export class Home extends Component {
           } */}
 
           {
-            <div className='each-game'>
-              <a href = 'http://gci.aggdemo.com:81/forwardGame.do?params=PHK2xZBxrv2U5okjcK0KRlj+nX+cq6KkFdccJvGzFUXi60wZuT2d+k88AefKf9l+GazjahBcChNc92jEEsHhiGu5etApJC93JYcvvLciCEZ0VG8Du3p3f+ED9KPSbvznosgdlxlSVJgan/CcRmpGvmZEjiSlE/sdvLRJQ17S64kaFjkLxoKTmbNNEs6ld2mRgwnrIayAZodFkeVpI2xWd3HJ7GYDPof6XOxdg3z16ETKCZ+0ZLARF7OSnnYERS7S&key=62a9c3eb22302893b8bdff7d67970491' style={{ textDecoration: 'none' }}>
+            this.state.show_game && 
+            <div 
+              className='each-game' 
+              style={{cursor: 'pointer'}}
+              onClick={() => {
+                this.props.history.push('/game_detail/')
+              }}>
+              <span >
 
               {
                 <img src={placeholdimage} height="220" width="300" alt='Not available' />
@@ -214,10 +228,11 @@ export class Home extends Component {
                 AG
               </div>
 
-              </a>
+              </span>
             </div>
           }
         </div>
+
 
         {
           this.state.ready && !this.state.expand && this.state.all_sports.length > 8 &&
