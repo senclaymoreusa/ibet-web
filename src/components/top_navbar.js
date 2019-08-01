@@ -8,16 +8,18 @@ import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
-
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import blue from '@material-ui/core/colors/blue';
 
 import { errors } from './errors';
 
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
-import { withRouter, Link} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
     logout,
@@ -32,7 +34,9 @@ import {
     hide_user_profile,
     hide_update_profile,
     show_account_menu,
-    hide_account_menu
+    hide_account_menu,
+    show_profile_menu,
+    hide_profile_menu
 } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -40,8 +44,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
-
 import AccountMenu from './account_menu/account_menu';
 import Promotions from './account_menu/promotions';
 import Settings from './account_menu/settings';
@@ -52,6 +54,8 @@ import WithdrawSuccess from './new_withdraw_success';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
+import Collapse from '@material-ui/core/Collapse';
+
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -61,8 +65,6 @@ import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
 import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
-import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
-
 
 import Login from './login_2.js';
 import Signup from './signup_2.js';
@@ -83,9 +85,7 @@ import New_Deposit_Wechat from './new_deposit_amount_wechat';
 import New_Deposit_paypal from './new_deposite_amount_paypal';
 import New_Withdraw from './new_withdraw';
 import New_Withdraw_Confirm from './new_withdraw_confirm';
-
 import Help from './account_menu/help';
-
 import New_Forget_Password from './forget_password_new';
 import Forget_Password_Validation from './forget_password_validation';
 import Refer_User from './refer_user';
@@ -175,42 +175,39 @@ const styles = theme => ({
         paddingLeft: theme.spacing.unit * 4
     },
     signupButton: {
-        marginTop: 13,
-        marginBottom: 15,
+        marginTop: 16,
+        marginBottom: 16,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-
-        width: 220,
-        fontSize: 18,
-        height: 44,
-        color: '#212121',
-        backgroundColor: '#ffffff',
-        borderRadius: 22,
-        border: 'solid 2px #212121',
+        fontSize: 17,
+        height: 40,
+        color: '#ffffff',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderRadius: 6,
         textTransform: 'capitalize',
         outline: 'none',
         "&:hover": {
-            backgroundColor: "#212121",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
             color: '#ffffff',
         }
     },
     loginButton: {
-        marginTop: 13,
-        marginBottom: 15,
-        width: 100,
+        marginTop: 16,
+        marginBottom: 16,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        fontSize: 18,
-        height: 44,
-        color: '#212121',
+        paddingLeft: 6,
+        fontSize: 17,
+        height: 40,
+        color: 'rgba(0, 0, 0, 0.5)',
         backgroundColor: '#ffffff',
-        borderRadius: 22,
-        border: 'solid 2px #212121',
+        borderRadius: 6,
+        border: 'solid 2px rgba(0, 0, 0, 0.5)',
         textTransform: 'capitalize',
         outline: 'none',
         "&:hover": {
-            backgroundColor: "#212121",
-            color: '#ffffff',
+            backgroundColor: "#ffffff",
+            color: 'rgba(0, 0, 0, 0.5)',
         }
     },
     textField: {
@@ -232,39 +229,58 @@ const styles = theme => ({
         backgroundColor: '#f1f1f1',
     },
     balanceButton: {
-        marginTop: 13,
-        marginBottom: 15,
-        width: 130,
+        marginTop: 16,
+        marginBottom: 16,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        fontSize: 18,
-        height: 44,
-        color: '#ffffff',
-        backgroundColor: '#fe0000',
-        borderRadius: 22,
-        border: 'solid 2px #fe0000',
+        paddingTop: 4,
+        fontSize: 17,
+        height: 40,
+        color: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: '#ffffff',
+        borderRadius: 6,
+        border: 'solid 2px rgba(0, 0, 0, 0.5)',
         textTransform: 'capitalize',
         outline: 'none',
         "&:hover": {
-            backgroundColor: "#fe0000",
-            color: '#ffffff',
+            backgroundColor: "#ffffff",
+            color: 'rgba(0, 0, 0, 0.5)',
         }
     },
-    balanceIcon: {
-        marginRight: theme.spacing.unit,
+    balanceDepositText: {
+        fontSize: 17,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        color: '#ffffff',
+        borderRadius: 6,
+        paddingLeft: 6,
+        paddingRight: 6,
+        marginLeft: 16,
     },
     profileButton: {
-        display: 'inline',
-        marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
+        marginTop: 16,
+        marginBottom: 16,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        fontSize: 17,
+        height: 40,
+        borderRadius: 6,
+        color: 'rgba(0, 0, 0, 0.85)',
+        fontWeight: 500,
+        letterSpacing: 0.66,
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
         "&:hover": {
-            backgroundColor: "#ffffff",
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
         },
         "&:active": {
-            backgroundColor: "#ffffff",
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
         }
+    },
+    profileLabel: {
+        fontSize: 17,
+        fontWeight: 500,
+        textTransform: 'capitalize',
+        letterSpacing: 0.66,
+        color: 'rgba(0, 0, 0, 0.85)',
     },
     extendedIcon: {
         marginRight: theme.spacing.unit,
@@ -347,12 +363,22 @@ const styles = theme => ({
         display: 'inline-block',
         flexGrow: 1,
     },
-    langMenu: {
-        zIndex: 5000
+    langButton: {
+        height: '100%',
+        borderRadius: 6,
+        padding: 0,
     },
-    lang_button: {
-        marginTop: 17,
-        minWidth: 0
+
+    flag: {
+        width: 64,
+        height: 38,
+        borderRadius: 6,
+    },
+    langContainer: {
+        display: 'inline',
+        marginLeft: theme.spacing.unit,
+        marginTop: 16,
+        marginBottom: 16,
     },
     lang_menu_list: {
         backgroundColor: '#ffffff',
@@ -382,6 +408,12 @@ const styles = theme => ({
         padding: 0,
         width: 360,
     },
+    profileMenuPaper: {
+        padding: 0,
+        width: 210,
+        backgroundColor: '#ffffff',
+
+    },
     footer: {
         paddingLeft: 24,
         paddingRight: 24,
@@ -394,16 +426,11 @@ const styles = theme => ({
         display: 'inline',
         marginTop: 20
     },
-    lang_container: {
-        display: 'inline',
-        marginLeft: 0,
-    },
-    langPopper: {
-        zIndex: 2002,
-    },
     profilePopper: {
-        //zIndex: 2002,
         width: 360,
+    },
+    profileMenuPopper: {
+        width: 210,
     },
     margin: {
         margin: 'auto',
@@ -420,13 +447,9 @@ const styles = theme => ({
             backgroundColor: blue[800],
         },
     },
-    separator: {
-        width: 1.6,
-        height: 25,
-        marginTop: 20,
-        opacity: 1,
-        marginLeft: 10,
-        backgroundColor: '#212121',
+
+    nested: {
+        paddingLeft: theme.spacing.unit * 4,
     },
 });
 
@@ -461,21 +484,21 @@ const muiMenuBarTheme = createMuiTheme({
 const SVG = ({
     style = {},
     fill = "transparent",
-    width = "36px",
+    width = "32px",
     viewBox = "0 0 26 27",
     className = "userIcon",
 }) => (
         <svg
             width={width}
             style={style}
-            height="27px"
+            height="20px"
             viewBox={viewBox}
             xmlns="http://www.w3.org/2000/svg"
             className={`svg-icon ${className || ""}`}
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >
-            <g id="Nav" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke="#212121" strokeWidth="1.5625">
+            <g id="Nav" stroke="none" strokeWidth="2" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
+                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke="rgba(0, 0, 0, 0.5)" strokeWidth="1.9625">
                     <g id="Login-Elements">
                         <g transform="translate(1280.000000, 13.000000)">
                             <g id="Open-Account">
@@ -488,17 +511,12 @@ const SVG = ({
         </svg>
     );
 
-
 export class TopNavbar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.profileRef = React.createRef();
-
-        let langProperty = localStorage.getItem('lang');
 
         this.searchDiv = React.createRef();
-        this.profileRef = React.createRef();
 
         this.state = {
             open: false,
@@ -506,7 +524,6 @@ export class TopNavbar extends React.Component {
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
-            showProfilePopper: false,
             currentAccountMenuItem: '',
             anchorElLogin: null,
             anchorElChangePassowrd: null,
@@ -522,22 +539,20 @@ export class TopNavbar extends React.Component {
             picture: "",
             showLangMenu: false,
             show_loggedin_status: false,
-
-
             balance: 0.00,
             balanceCurrency: "USD",
-
             username: '',
             password: '',
             showPassword: false,
             button_disable: true,
             check: false,
-
             height: window.innerHeight,
             width: window.innerWidth,
-
             errorCode: '',
-
+            showBankingProfileSubMenu: false,
+            showAnalysisProfileSubMenu: false,
+            showUserAccountProfileSubMenu: false,
+            showAgencyProfileSubMenu: false,
         };
 
         this.handleSearch = this.handleSearch.bind(this);
@@ -548,6 +563,7 @@ export class TopNavbar extends React.Component {
         this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
         this.toggleSidePanel = this.toggleSidePanel.bind(this);
         this.profileIconClicked = this.profileIconClicked.bind(this);
+        this.bankingProfileMenuItemClick = this.bankingProfileMenuItemClick.bind(this);
     }
 
     handleSignupOnEnter = (event) => {
@@ -623,12 +639,6 @@ export class TopNavbar extends React.Component {
         });
     };
 
-    handleProfilePopper = event => {
-        this.setState({ anchorEl: event.currentTarget });
-        this.setState({ showProfilePopper: !this.state.showProfilePopper });
-
-    }
-
     handleLanguageMenuOpen = event => {
         this.setState({ anchorEl: event.currentTarget });
         this.setState({ showLangMenu: !this.state.showLangMenu });
@@ -645,7 +655,6 @@ export class TopNavbar extends React.Component {
     };
 
     handleSignupMenuOpen = event => {
-        //this.setState({ anchorEl2: event.currentTarget });
         this.setState({ username: '', password: '' })
 
         this.props.show_signup()
@@ -664,12 +673,6 @@ export class TopNavbar extends React.Component {
     handleLanguageMenuClose = (ev) => {
         this.setState({ showLangMenu: false });
     };
-
-    // handleProfileMenuClose = (ev) => {
-    //     this.setState({ showProfilePopper: false });
-    //     this.setState({ currentAccountMenuItem: '' });
-
-    // };
 
     handleLoginMenuClose() {
         this.props.hide_login()
@@ -812,35 +815,48 @@ export class TopNavbar extends React.Component {
         }
     }
 
-    toggleLanguageListItem = () => {
-        this.setState(state => ({ showLangListItems: !state.showLangListItems }));
-    };
-
     handleClickAway = () => {
         this.actualChild.blurInput();
         this.setState(state => ({ expandSearchBar: false }));
     };
 
-    setCurrentAccountMenuItem = (menuItem) => {
-        this.setState({ showProfilePopper: true });
-        this.setState({ currentAccountMenuItem: menuItem });
-        //this.props.history.push('/deposit/')
-    }
+
 
     profileIconClicked = event => {
-
-        if (this.props.showAccountMenu) {
-            //this.setState({ anchorEl: null });
-            this.props.hide_account_menu();
+        if (this.props.showProfileMenu) {
+            this.props.hide_profile_menu();
         } else {
             this.setState({ anchorEl: event.currentTarget });
-            this.props.show_account_menu();
+            this.props.show_profile_menu();
         }
-        //this.props.onCloseItemClicked();
+
+        // this.setState({ anchorEl: event.currentTarget });
+        // this.setState(state => ({ showProfileMenu: !state.showProfileMenu }));
     }
 
+    bankingProfileMenuItemClick = () => {
+        this.setState(state => ({ showBankingProfileSubMenu: !state.showBankingProfileSubMenu }));
+    };
+
+    analysisProfileMenuItemClick = () => {
+        this.setState(state => ({ showAnalysisProfileSubMenu: !state.showAnalysisProfileSubMenu }));
+    };
+
+    userAccountProfileMenuItemClick = () => {
+        this.setState(state => ({ showUserAccountProfileSubMenu: !state.showUserAccountProfileSubMenu }));
+    };
+
+    agencyProfileMenuItemClick = () => {
+        this.setState(state => ({ showAgencyProfileSubMenu: !state.showAgencyProfileSubMenu }));
+    };
+
+
+    handleProfileMenuClose = () => {
+        this.setState(state => ({ anchorEl: null }));
+    };
+
     render() {
-        const { anchorEl, showProfilePopper, showLangMenu, anchorEl2, showRightPanel } = this.state;
+        const { anchorEl, showLangMenu } = this.state;
 
         const { classes } = this.props;
 
@@ -861,73 +877,37 @@ export class TopNavbar extends React.Component {
             default:
                 countryCode = 'US';
         }
-        const langButtonIcon = (<Flag country={countryCode} />);
+        const langButtonIcon = (<Flag country={countryCode} className={classes.flag} />);
 
         const ProfileMenu = (
-            <div ref={this.profileRef} >
-                <IconButton
+            <div >
+                <Button
                     className={classes.profileButton}
                     color="inherit"
                     aria-label="Open drawer"
                     onClick={this.profileIconClicked}
-                    onMouseEnter={this.handleUserProfileOnEnter}
-                    onMouseLeave={this.handleUserProfileLeave}
-
+                    //onMouseEnter={this.handleUserProfileOnEnter}
+                    //onMouseLeave={this.handleUserProfileLeave}
                 >
+
                     <SVG className="profileIcon" />
-                </IconButton>
+                    <div className={classes.profileLabel} >
+                        <FormattedMessage id="nav.hello" defaultMessage='Hello' />
+                    </div>
+                    <span>, </span>
+                    {this.state.username}
+                    <KeyboardArrowUpIcon />
+                </Button>
             </div>
         );
 
         const LangMenu = (
-            <div className={classes.lang_container}>
-                <Button className={classes.lang_button} onClick={this.handleLanguageMenuOpen}>{langButtonIcon}</Button>
-                <Popper className={classes.langPopper} open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper id="menu-list-grow" className={classes.lang_menu_list}>
-                                <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
-                                    <Menu>
-                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
-                                            selected={this.props.lang === 'en'}
-                                            classes={{
-                                                root: classes.lang_menu_list_item,
-                                                selected: classes.lang_menu_list_item_selected
-                                            }}>
-                                            <Flag country="US" />
-                                            <div className={classes.lang_menu_list_item_text}>
-                                                <FormattedMessage id="lang.english" defaultMessage='English' />
-                                            </div>
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
-                                            selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
-                                            classes={{
-                                                root: classes.lang_menu_list_item,
-                                                selected: classes.lang_menu_list_item_selected
-                                            }}>
-                                            <Flag country="CN" />
-                                            <div className={classes.lang_menu_list_item_text}>
-                                                <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
-                                            </div>
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
-                                            selected={this.props.lang === 'fr'}
-                                            classes={{
-                                                root: classes.lang_menu_list_item,
-                                                selected: classes.lang_menu_list_item_selected
-                                            }}>
-                                            <Flag country="FR" />
-                                            <div className={classes.lang_menu_list_item_text}>
-                                                <FormattedMessage id="lang.french" defaultMessage='French' />
-                                            </div>
-                                        </MenuItem>
-                                    </Menu>
-                                </ClickAwayListener>
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
+            <div className={classes.langContainer}>
+                <Button
+                    className={classes.langButton}
+                    onClick={this.handleLanguageMenuOpen}>
+                    {langButtonIcon}
+                </Button>
             </div>
         );
 
@@ -983,7 +963,7 @@ export class TopNavbar extends React.Component {
             <div className={classes.root}>
                 <MuiThemeProvider theme={muiLogoBarTheme} >
                     <AppBar position="static" >
-                        <Toolbar variant="dense" className={classes.appBar}>
+                        <Toolbar className={classes.appBar}>
                             <div className={classes.sectionMobile}>
                                 <IconButton
                                     className={classes.mobileLeftMenuButton}
@@ -1011,22 +991,24 @@ export class TopNavbar extends React.Component {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
 
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Link to="/deposit/" style={{textDecoration: "none"}}>
+                                        <Link to="/deposit/" style={{ textDecoration: "none" }}>
                                             <Button
                                                 variant="outlined"
                                                 className={classes.balanceButton}
                                             >
-                                                <DepositIcon className={classes.balanceIcon} />
                                                 <FormattedNumber
                                                     maximumFractionDigits={2}
                                                     value={this.state.balance}
                                                     style="currency"
                                                     currency={this.state.balanceCurrency}
                                                 />
+                                                <div className={classes.balanceDepositText} >
+                                                    <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
+                                                </div>
                                             </Button>
                                         </Link>
-                                        <div className={classes.separator} />
                                         {ProfileMenu}
+                                        {LangMenu}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
@@ -1034,14 +1016,12 @@ export class TopNavbar extends React.Component {
                                             variant="outlined"
                                             className={classes.signupButton}
                                             onClick={
-                                                //this.props.history.push('/signup/') 
                                                 this.handleSignupMenuOpen
                                             }
                                             onMouseEnter={this.handleSignupOnEnter}
                                             onMouseLeave={this.handleSignupOnLeave}
                                         >
-                                            <SVG className="userIcon" />
-                                            <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
+                                            <FormattedMessage id="nav.register" defaultMessage='Register' />
                                         </Button>
                                         <Button
                                             variant="outlined"
@@ -1050,13 +1030,15 @@ export class TopNavbar extends React.Component {
                                                 this.handleLoginMenuOpen
                                             }
                                         >
+                                            <SVG className="userIcon" />
+
                                             <FormattedMessage id="nav.login" defaultMessage='Login' />
                                         </Button>
+                                        {LangMenu}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
                                 <IconButton
-                                    ref={this.profileRef}
                                     className={classes.mobileMenuButton}
                                     color="inherit"
                                     aria-label="Open drawer"
@@ -1073,18 +1055,12 @@ export class TopNavbar extends React.Component {
                                             enabled: true,
                                             boundariesElement: 'scrollParent',
                                         },
-                                        // arrow: {
-                                        //     enabled: true,
-                                        //     element: this.profileRef,
-                                        // },
                                     }}
                                     transition>
                                     {({ TransitionProps }) => (
                                         <Fade {...TransitionProps} timeout={350}>
                                             <Paper>
-                                                <AccountMenu onCloseItemClicked={this.handleProfileMenuClose}
-                                                    onMenuItemClicked={this.setCurrentAccountMenuItem}
-                                                    anchorElProfileIcon={this.ProfileMenu} />
+                                                <AccountMenu />
                                             </Paper>
                                         </Fade>
                                     )}
@@ -1316,7 +1292,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Deposit_Wechat  />
+                                <New_Deposit_Wechat />
                             </Paper>
                         </Fade>
                     )}
@@ -1348,7 +1324,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }}/>
+                                <New_Withdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }} />
                             </Paper>
                         </Fade>
                     )}
@@ -1364,7 +1340,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw_Confirm withdrawInfo={this.state.withdrawInfo}/>
+                                <New_Withdraw_Confirm withdrawInfo={this.state.withdrawInfo} />
                             </Paper>
                         </Fade>
                     )}
@@ -1534,6 +1510,123 @@ export class TopNavbar extends React.Component {
                         </Fade>
                     )}
                 </Popper>
+
+                <Popper
+                    open={showLangMenu}
+                    anchorEl={anchorEl}
+                    placement='top-start' transition>
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper id="menu-list-grow" className={classes.lang_menu_list}>
+                                <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
+                                    <Menu>
+                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'en'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="US" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.english" defaultMessage='English' />
+                                            </div>
+                                        </MenuItem>
+                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="CN" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
+                                            </div>
+                                        </MenuItem>
+                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
+                                            selected={this.props.lang === 'fr'}
+                                            classes={{
+                                                root: classes.lang_menu_list_item,
+                                                selected: classes.lang_menu_list_item_selected
+                                            }}>
+                                            <Flag country="FR" />
+                                            <div className={classes.lang_menu_list_item_text}>
+                                                <FormattedMessage id="lang.french" defaultMessage='French' />
+                                            </div>
+                                        </MenuItem>
+                                    </Menu>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
+
+                <Popper open={this.props.showProfileMenu}
+                    anchorEl={anchorEl}
+                    className={classes.profileMenuPopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.profileMenuPaper}>
+                                <List
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader"
+                                >
+                                    <ListItem button onClick={this.bankingProfileMenuItemClick}>
+                                        <ListItemText primary="Banking" />
+                                        {this.state.showBankingProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                    <Collapse in={this.state.showBankingProfileSubMenu} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Deposit" />
+                                            </ListItem>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Withdraw" />
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+                                    <ListItem button onClick={this.analysisProfileMenuItemClick}>
+                                        <ListItemText primary="Analysis" />
+                                        {this.state.showAnalysisProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                    <Collapse in={this.state.showAnalysisProfileSubMenu} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Bets" />
+                                            </ListItem>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Banking" />
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+                                    <ListItem button onClick={this.userAccountProfileMenuItemClick}>
+                                        <ListItemText primary="User Account" />
+                                        {this.state.showUserAccountProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                    <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="User Informations" />
+                                            </ListItem>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Security Settings" />
+                                            </ListItem>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Support" />
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+                                    <ListItem button onClick={this.agencyProfileMenuItemClick}>
+                                        <ListItemText primary="Agency" />
+                                        {this.state.showAgencyProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                </List>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
             </div >
         );
     }
@@ -1571,6 +1664,8 @@ const mapStateToProps = (state) => {
         showReferUser: state.general.show_refer_user,
         showAccountMenu: state.general.show_account_menu,
 
+        showProfileMenu: state.general.show_profile_menu,
+
         showOpenBets: state.general.show_open_bets,
         showSettledBets: state.general.show_settled_bets,
         showPromotions: state.general.show_promotions,
@@ -1599,5 +1694,7 @@ export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps,
     hide_user_profile,
     hide_update_profile,
     show_account_menu,
-    hide_account_menu
+    hide_account_menu,
+    show_profile_menu,
+    hide_profile_menu
 })(TopNavbar))));

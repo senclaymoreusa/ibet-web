@@ -530,3 +530,15 @@ export const hide_withdraw_success = () => {
     type: 'HIDE_WITHDRAW_SUCCESS'
   }
 }
+
+export const show_profile_menu = () => {
+  return {
+    type: 'SHOW_PROFILE_MENU'
+  }
+}
+
+export const hide_profile_menu = () => {
+  return {
+    type: 'HIDE_PROFILE_MENU'
+  }
+}
