@@ -13,7 +13,11 @@ import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import { authCheckState } from '../actions';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const 
+    crypto = require("crypto"),
+    API_URL = process.env.REACT_APP_DEVELOP_API_URL,
+    CIRCLEPAY_DEPOSIT_URL = "https://gateway.circlepay.ph/payment/",
+    USER_CODE = 297802061195;
 
 const styles = function(theme) {
     return ({
@@ -30,7 +34,6 @@ const styles = function(theme) {
             // background:
             backgroundColor: "#ffffff"
         },
-        
 
         cssRoot: {
             color: theme.palette.getContrastText(blue[300]),
@@ -100,8 +103,8 @@ class DepositCirclepay extends Component {
 
         const {amount} = this.state;
         const token = localStorage.getItem('token');
-        if (amount < 20 || amount > 1000) {
-            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 20, Max deposit is 1000"});
+        if (amount < 20000 || amount > 1000000) {
+            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 20000, Max deposit is 1000000"});
             return;
         }
         if (!token) {
@@ -109,22 +112,77 @@ class DepositCirclepay extends Component {
         }
         config.headers["Authorization"] = `Token ${token}`;
 
-        console.log("amount: " + amount);
-        let postData = {
-            "amount": amount
-        };
 
-        var res = await axios.post(API_URL + 'accounting/api/circlepay/deposit',
+        // setup POST request params
+        let currDate = new Date();
+        function createCORSRequest(method, url) {
+            var xhr = new XMLHttpRequest();
+            
+            if ("withCredentials" in xhr) {
+          
+              // Check if the XMLHttpRequest object has a "withCredentials" property.
+              // "withCredentials" only exists on XMLHTTPRequest2 objects.
+              xhr.open(method, url, true);
+          
+            } else {
+          
+              // Otherwise, CORS is not supported by the browser.
+              xhr = null;
+          
+            }
+            return xhr;
+        }
+          
+        
+        let transId = "testOrder" + currDate.getFullYear() + currDate.getMonth() + currDate.getDate() + currDate.getHours() + currDate.getMinutes();
+        // let transId = "Abcdefg4321"
+        const secret = 'Kiy4O3IAvPpHxXJ9ht1mBfZs';
+
+        let secretMsg = 'jennyto@ibet.com' + transId + amount;
+        console.log(secretMsg);
+
+        const hash = crypto.createHmac('sha256', secret)
+                           .update(secretMsg)
+                           .digest('hex');
+        console.log(transId);
+        console.log(hash);
+        let corsURL = "https://cors-anywhere.herokuapp.com/"
+        let postURL = CIRCLEPAY_DEPOSIT_URL + USER_CODE + "/?partner_tran_id=" + transId + "&amount=" + amount + "&token=" + hash;
+        
+
+        var xhr = createCORSRequest('GET', corsURL+postURL);
+        // xhr.setRequestHeader("X-Request-Url", postURL);
+        // xhr.setRequestHeader("Origin", postURL);
+        console.log(xhr);
+        // xhr.onreadystatechange = function () {
+        //     console.log(xhr.readyState, xhr.status);
+        //     if(xhr.readyState === 4 && xhr.status === 200) {
+        //         window.open(postURL);
+        //     }
+        // };
+        
+        window.open(postURL);
+        // xhr.send();
+
+        let postData = {
+            "amount": amount,
+            "trans_id": transId
+        }
+
+        axios.post(API_URL + 'accounting/api/circlepay/deposit',
             postData,
-            config)
-        console.log("result of deposit: ");
-        console.log(res);
-        if(res.status !== 200) {
-            this.setState({error: true, error_msg: JSON.stringify(res)});
-        }
-        else {
-            this.setState({response: JSON.stringify(res)});
-        }
+        config).then(res => {
+            console.log("result of deposit: ");
+            console.log(res);
+            if(res.status !== 200) {
+                this.setState({error: true, error_msg: JSON.stringify(res)});
+            }
+            else {
+                console.log(res);
+                
+            }
+        });
+
         // axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
         // .then(res => {
         //     if (res.data === 'Failed'){
@@ -156,7 +214,7 @@ class DepositCirclepay extends Component {
                         InputProps={{
                             startAdornment: <InputAdornment position="start">$</InputAdornment>,
                             style: {
-                                "background-color": "white"
+                                backgroundColor: "white"
                             }
                         }}
                         placeholder="" 
