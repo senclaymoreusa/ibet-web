@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { hide_update_profile, show_user_profile } from '../actions';
+import { hide_update_profile, show_user_profile, authCheckState } from '../actions';
 import { connect } from 'react-redux';
 import { config } from '../util_config';
 import axios from 'axios'
@@ -461,4 +461,4 @@ class New_Update_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile })(New_Update_Profile));
+export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile, authCheckState })(New_Update_Profile));

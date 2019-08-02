@@ -64,13 +64,13 @@ class New_Forget_Password extends Component {
             this.setState({email_not_exist: true});
              
         }).catch(err => {
-            
 
             this.props.hide_forget_password();
             this.props.show_forget_password_validation();
             this.props.forget_email(this.state.email);
             axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
             axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: this.state.email})
+            
         })
     }
 
