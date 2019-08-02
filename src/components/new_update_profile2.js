@@ -307,7 +307,7 @@ class New_Update_Profile extends Component {
 
         axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`, config)
         .then(res => {
-            if (res.data !== 'Exist' || this.state.email === this.state.user_data.email){
+            if (this.state.email === this.state.user_data.email){
                 axios.put(API_URL + 'users/api/user/', {
                     first_name:         this.state.first_name,
                     last_name:          this.state.last_name,
@@ -323,9 +323,9 @@ class New_Update_Profile extends Component {
                     .then((res) => {
                         this.props.history.push('/profile/')
                     })
-            }else{
-                this.setState({email_exist: true})
             }
+        }).catch(err => {
+            this.setState({email_exist: true})
         })
     }
 

@@ -60,15 +60,17 @@ class New_Forget_Password extends Component {
 
         axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`)
         .then(res => {
-            if (res.data === 'Success'){
-                this.props.hide_forget_password();
-                this.props.show_forget_password_validation();
-                this.props.forget_email(this.state.email);
-                axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
-                axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: this.state.email})
-            }else{
-                this.setState({email_not_exist: true});
-            }
+   
+            this.setState({email_not_exist: true});
+             
+        }).catch(err => {
+            
+
+            this.props.hide_forget_password();
+            this.props.show_forget_password_validation();
+            this.props.forget_email(this.state.email);
+            axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
+            axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: this.state.email})
         })
     }
 
