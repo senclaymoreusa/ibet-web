@@ -150,16 +150,16 @@ class Signup_Email extends React.Component {
 
         axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`, config)
         .then(res => {
-            if (res.data !== 'Exist'){
-                this.setState({email_exist: false})
-                this.props.handle_signup_email(this.state.email);
-                this.props.handle_signup_password(this.state.password);
-                this.props.handle_signup_language(this.state.language);
-                this.props.hide_signup_email();
-                this.props.show_signup_detail();
-            }else{
-                this.setState({email_exist: true})
-            }
+
+            this.setState({email_exist: false})
+            this.props.handle_signup_email(this.state.email);
+            this.props.handle_signup_password(this.state.password);
+            this.props.handle_signup_language(this.state.language);
+            this.props.hide_signup_email();
+            this.props.show_signup_detail();
+            
+        }).catch(err => {
+            this.setState({email_exist: true})
         })
     }
 

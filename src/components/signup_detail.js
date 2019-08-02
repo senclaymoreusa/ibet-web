@@ -208,18 +208,17 @@ class Signup_Detail extends React.Component {
 
         axios.get(API_URL + `users/api/checkusernameexist/?username=${this.state.username}`, config)
         .then(res => {
-            if (res.data === 'Exist'){
-                this.setState({username_error: true})
-            }
-            else{
-                this.setState({username_error: false});
-                this.props.handle_signup_username(this.state.username);
-                this.props.handle_signup_first_name(this.state.first_name);
-                this.props.handle_signup_last_name(this.state.last_name);
-                this.props.handle_signup_dob(this.state.month + '/' + this.state.day + '/' + this.state.year);
-                this.props.hide_signup_detail();
-                this.props.show_signup_contact();
-            }
+
+            this.setState({username_error: false});
+            this.props.handle_signup_username(this.state.username);
+            this.props.handle_signup_first_name(this.state.first_name);
+            this.props.handle_signup_last_name(this.state.last_name);
+            this.props.handle_signup_dob(this.state.month + '/' + this.state.day + '/' + this.state.year);
+            this.props.hide_signup_detail();
+            this.props.show_signup_contact();
+            
+        }).catch(err => {
+            this.setState({username_error: true})
         })
     }
 

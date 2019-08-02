@@ -1265,14 +1265,14 @@ export class TopNavbar extends React.Component {
                     </Paper>
                 </Popper>
 
-                <Popper
+                {/* <Popper
                     open={this.props.showUpdateProfile}
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
                         <New_Update_Profile />
                     </Paper>
-                </Popper>
+                </Popper> */}
 
                 <Popper
                     open={this.props.showDeposit}
