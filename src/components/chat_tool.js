@@ -81,10 +81,10 @@ class ChatTool extends Component {
                     .then(res => {
                         this.setState({ userData: res.data });
 
-                        axios.get(API_URL + 'users/api/config/', config)
-                            .then(res => {
-                                this.setState({ level: res.data })
-                            })
+                        // axios.get(API_URL + 'users/api/config/', config)
+                        //     .then(res => {
+                        //         this.setState({ level: res.data })
+                        //     })
                     })
             }
         });
@@ -105,10 +105,10 @@ class ChatTool extends Component {
                         .then(res => {
                             this.setState({ userData: res.data });
 
-                            axios.get(API_URL + 'users/api/config/', config)
-                                .then(res => {
-                                    this.setState({ level: res.data })
-                                })
+                            // axios.get(API_URL + 'users/api/config/', config)
+                            //     .then(res => {
+                            //         this.setState({ level: res.data })
+                            //     })
                         })
                 }
             });

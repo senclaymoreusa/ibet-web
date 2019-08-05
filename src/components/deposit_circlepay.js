@@ -100,7 +100,7 @@ class DepositCirclepay extends Component {
     
     async depositMoney(event) {
         event.preventDefault();
-
+        const {data: userData} = this.state;
         const {amount} = this.state;
         const token = localStorage.getItem('token');
         if (amount < 20000 || amount > 1000000) {
@@ -133,8 +133,9 @@ class DepositCirclepay extends Component {
             return xhr;
         }
           
-        
-        let transId = "testOrder" + currDate.getFullYear() + currDate.getMonth() + currDate.getDate() + currDate.getHours() + currDate.getMinutes();
+        let month = (currDate.getMonth()+1) < 10 ? ("0" + (currDate.getMonth()+1)) : (currDate.getMonth()+1);
+        let date = currDate.getDate() < 10 ? ("0" + currDate.getDate()) : currDate.getDate();
+        let transId = userData.username + "Order" + month + date + currDate.getFullYear() + currDate.getHours() + currDate.getMinutes() + currDate.getSeconds()
         // let transId = "Abcdefg4321"
         const secret = 'Kiy4O3IAvPpHxXJ9ht1mBfZs';
 

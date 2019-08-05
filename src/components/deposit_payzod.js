@@ -102,7 +102,10 @@ class DepositPayzod extends Component {
         event.preventDefault();
         const {amount, data} = this.state;
         const token = localStorage.getItem('token');
-
+        if (amount < 500 || amount > 500000) {
+            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 20000, Max deposit is 1000000"});
+            return;
+        }
         if (!token) {
             console.log("no token -- user is not logged in");
         }
