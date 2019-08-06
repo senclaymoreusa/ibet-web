@@ -54,6 +54,9 @@ import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/deposit_astropay"
 import DepositHelp2pay from "./components/deposit_help2pay"
 import DepositFgo from "./components/deposit_fgo"
+
+import Profile from "./components/profile/profile"
+
 const divStyle = {
   minHeight: '100%',
 };
@@ -116,6 +119,9 @@ const BaseRouter = () => (
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
     <Route exact path="/deposit_fgo/" component={DepositFgo} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
+
+    <Route exact path="/p/:type?/:sub?" component={Profile} />
+
   </div>
 );
 

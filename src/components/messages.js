@@ -18,6 +18,36 @@ export const messages = {
         'accountmenu.referral': 'Refer new user',
         'accountmenu.languages': 'Languages',
 
+        'analysis.january': 'January',
+        'analysis.february': 'February',
+        'analysis.march': 'March',
+        'analysis.april': 'April',
+        'analysis.may': 'May',
+        'analysis.june': 'June',
+        'analysis.july': 'July',
+        'analysis.august': 'August',
+        'analysis.september': 'September',
+        'analysis.october': 'October',
+        'analysis.november': 'November',
+        'analysis.december': 'December',
+        'analysis.lifetime': 'Lifetime',
+        'analysis.win_loss': 'Total Win/Loss',
+        'analysis.total_net_position': 'Total Net Position',
+        'analysis.sport_bets': 'Sports Bets',
+        'analysis.slot_spins': 'Slots Spins',
+        'analysis.live_casino_bets': 'Live Casino Bets',
+
+        'analysis.placed': 'Placed',
+        'analysis.category': 'Category',
+        'analysis.winloss': 'Win/Loss',
+        'analysis.balance': 'Balance',
+
+        'analysis.date': 'Date',
+        'analysis.time': 'Time',
+        'analysis.amount': 'Amount',
+
+ 
+
         // footer message
         'footer.terms_conditions': 'Terms and Conditions',
         'footer.cookie_policy': 'Cookie Policy',
@@ -162,6 +192,12 @@ export const messages = {
         'profile.balance': 'Current balance: ',
         'profile.add': 'Add Balance',
         'profile.referral': 'Referral link: ',
+
+        'profile-nav.banking':'Banking',
+        'profile-nav.analysis':'Analysis',
+        'profile-nav.account':'Account',
+        'profile-nav.responsible':'Responsible Gaming',
+        'profile-nav.settings':'Settings',
 
         // handle forget_password page message
         'forget_password.enter_email': 'Enter your email address: ',
@@ -382,6 +418,35 @@ export const messages = {
         'accountmenu.referral': '推荐新用户',
         'accountmenu.languages': '语言',
 
+        'analysis.january': '一月',
+        'analysis.february': '二月',
+        'analysis.march': '游行',
+        'analysis.april': '四月',
+        'analysis.may': '可以',
+        'analysis.june': '六月',
+        'analysis.july': '七月',
+        'analysis.august': '八月',
+        'analysis.september': '九月',
+        'analysis.october': '十月',
+        'analysis.november': '十一月',
+        'analysis.december': '十二月',
+        'analysis.lifetime': '一生',
+        'analysis.win_loss': '总赢/输',
+        'analysis.total_net_position': '总净头寸',
+
+        'analysis.sport_bets': '运动投注',
+        'analysis.slot_spins': '老虎机旋转',
+        'analysis.live_casino_bets': '真人娱乐场投注',
+
+        'analysis.placed': '放置',
+        'analysis.category': '类别',
+        'analysis.winloss': '赢/输',
+        'analysis.balance': '平衡',
+
+        'analysis.date': '日期',
+        'analysis.time': '时间',
+        'analysis.amount': '量',
+
         // footer message
         'footer.terms_conditions': '条款和条件',
         'footer.cookie_policy': 'Cookie政策',
@@ -527,6 +592,12 @@ export const messages = {
         'profile.referral': '推荐链接: ',
         'signup.detail.sms': "我们会发您短信验证",
 
+        'profile-nav.banking':'银行业',
+        'profile-nav.analysis':'分析',
+        'profile-nav.account':'帐户',
+        'profile-nav.responsible':'负责任的游戏',
+        'profile-nav.settings':'设置',
+        
         // handle forget_password page message
         'forget_password.enter_email': '請輸入郵箱: ',
         'forget_password.mail': '郵箱: ',
@@ -765,6 +836,34 @@ export const messages = {
         'accountmenu.change-password': 'Change Password >',
         'accountmenu.open-bets': 'Open Bets',
 
+
+        'analysis.january': 'Janvier',
+        'analysis.february': 'Février',
+        'analysis.march': 'Mars',
+        'analysis.april': 'Avril',
+        'analysis.may': 'Mai',
+        'analysis.june': 'Juin',
+        'analysis.july': 'Juillet',
+        'analysis.august': 'Août',
+        'analysis.september': 'Septembre',
+        'analysis.october': 'Octobre',
+        'analysis.november': 'Novembre',
+        'analysis.december': 'Décembre',
+        'analysis.lifetime': 'Durée de vie',
+        'analysis.win_loss': 'Total victoire / perte',
+        'analysis.total_net_position': 'Position nette totale',
+        'analysis.sport_bets': 'Paris sportifs',
+        'analysis.slot_spins': 'Tours de machines à sous',
+        'analysis.live_casino_bets': 'Live Casino Paris',
+        'analysis.placed': 'Mis',
+        'analysis.category': 'Catégorie',
+        'analysis.winloss': 'Victoire/Perte',
+        'analysis.balance': 'Équilibre',
+
+        'analysis.date': 'Rendez-vous amoureux',
+        'analysis.time': 'Temps',
+        'analysis.amount': 'Montant',
+        
         'open-bets.my-bets': 'My Bets',
         'open-bets.open-bets': 'Open Bets',
 
@@ -932,6 +1031,12 @@ export const messages = {
         'profile.balance': 'Solde du compte courant: ',
         'profile.add': 'Ajouter des fonds',
         "profile.referral": "Lien recommandé': ",
+      
+        'profile-nav.banking':'Bancaire',
+        'profile-nav.analysis':'Une analyse',
+        'profile-nav.account':'Compte',
+        'profile-nav.responsible':'Jeu responsable',
+        'profile-nav.settings':'Réglages',
 
         // handle forget_password page message
         'forget_password.enter_email': 'Entrez votre adresse email: ',

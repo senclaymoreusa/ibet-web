@@ -567,23 +567,23 @@ export class AccountMenu extends React.Component {
         let languagesMessage = formatMessage({ id: "accountmenu.languages" });
 
 
-        var LineChart = require("react-chartjs").Line;
+        // var LineChart = require("react-chartjs").Line;
 
-        var chartData = {
-            labels: ["Week1", "Week2", "Week3", "Week4", "Week5", "Week6", "Week7"],
-            datasets: [
-                {
-                    label: "My First dataset",
-                    fillColor: "rgba(220,220,220,0.2)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [28, 48, 60, 30, 45, 30, 20]
-                }
-            ]
-        };
+        // var chartData = {
+        //     labels: ["Week1", "Week2", "Week3", "Week4", "Week5", "Week6", "Week7"],
+        //     datasets: [
+        //         {
+        //             label: "My First dataset",
+        //             fillColor: "rgba(220,220,220,0.2)",
+        //             strokeColor: "rgba(220,220,220,1)",
+        //             pointColor: "rgba(220,220,220,1)",
+        //             pointStrokeColor: "#fff",
+        //             pointHighlightFill: "#fff",
+        //             pointHighlightStroke: "rgba(220,220,220,1)",
+        //             data: [28, 48, 60, 30, 45, 30, 20]
+        //         }
+        //     ]
+        // };
 
         const chartOptions = {
             ///Boolean - Whether grid lines are shown across the chart
@@ -642,7 +642,7 @@ export class AccountMenu extends React.Component {
                             <span className={classes.usernameLabel}>{this.state.name + "---Docallaghan86"}</span>
                         </Grid>
                         <Grid item xs={12} className={classes.secondRow}>
-                            <LineChart className={classes.chart} data={chartData} options={chartOptions} width="340" height="150" />
+                            {/* <LineChart className={classes.chart} data={chartData} options={chartOptions} width="340" height="150" /> */}
                         </Grid>
                         <Grid item xs={12} className={classes.secondRow}>
                             <div className={classes.cashLabel}>
