@@ -272,14 +272,14 @@ export class Footer extends React.Component {
           </span>
         </Button>
         <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
-          onClick={() => { this.props.history.push("/live_casino_type") }}>
+          onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
           <BetIcon className="bet" />
           <span className="Live-Casino">
             <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
           </span>
         </Button>
         <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
-          onClick={() => { this.props.history.push("/slot_type") }}>
+          onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
           <SlotsIcon className="games-icon" />
           <span className="Slots">
             <FormattedMessage id="nav.slots" defaultMessage='Slots' />

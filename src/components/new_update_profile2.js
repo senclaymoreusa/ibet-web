@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { hide_update_profile, show_user_profile } from '../actions';
+import { hide_update_profile, show_user_profile, authCheckState } from '../actions';
 import { connect } from 'react-redux';
 import { config } from '../util_config';
 import axios from 'axios'
@@ -307,7 +307,7 @@ class New_Update_Profile extends Component {
 
         axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`, config)
         .then(res => {
-            if (res.data !== 'Exist' || this.state.email === this.state.user_data.email){
+            if (this.state.email === this.state.user_data.email){
                 axios.put(API_URL + 'users/api/user/', {
                     first_name:         this.state.first_name,
                     last_name:          this.state.last_name,
@@ -323,9 +323,9 @@ class New_Update_Profile extends Component {
                     .then((res) => {
                         this.props.history.push('/profile/')
                     })
-            }else{
-                this.setState({email_exist: true})
             }
+        }).catch(err => {
+            this.setState({email_exist: true})
         })
     }
 
@@ -461,4 +461,4 @@ class New_Update_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile })(New_Update_Profile));
+export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile, authCheckState })(New_Update_Profile));

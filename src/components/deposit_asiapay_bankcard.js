@@ -104,9 +104,7 @@ class DepositAsiapayBankcard extends Component {
           .then(res => {
             this.setState({data: res.data});
           })
-        const { type } = this.props.match.params;
         
-
     }
     onInputChange_amount(event){
         if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){

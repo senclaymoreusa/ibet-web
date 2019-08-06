@@ -54,6 +54,8 @@ import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/deposit_astropay"
 import DepositCirclepay from "./components/deposit_circlepay"
 import DepositPayzod from "./components/deposit_payzod"
+import DepositHelp2pay from "./components/deposit_help2pay"
+import DepositFgo from "./components/deposit_fgo"
 
 const divStyle = {
   minHeight: '100%',
@@ -63,10 +65,10 @@ const BaseRouter = () => (
   <div style={divStyle}>
     <Route exact path="/" component={Home} />
     <Route exact path="/home/:referid?" component={Home} />
-    <Route exact path="/slot_type/" component={Slot_Type} />
-    <Route exact path="/sports_type/" component={Sports_Type} />
-    <Route exact path="/live_casino_type/" component={LiveCasino_Type} />
-    <Route exact path="/lottery_type/" component={Lottery_Type} />
+    <Route exact path="/slot_type/:type?/:sub?/:filter?" component={Slot_Type} />
+    <Route exact path="/sports_type/:type?" component={Sports_Type} />
+    <Route exact path="/lottery_type/:type?" component={Lottery_Type} />
+    <Route exact path="/liveCasino_type/:type?/:sub?/:filter?" component={LiveCasino_Type} />
     <Route exact path="/game_list/:term?" component={Game_List} />
     <Route exact path="/login" component={Login} />
     <Route exact path="/signup/:filter?" component={Signup} />
@@ -111,11 +113,13 @@ const BaseRouter = () => (
     <Route exact path="/change_password/" component={Change_Password} />
     <Route exact path="/deposit_linepay/" component={DepositPage} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
+    <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
     <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
     <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
     <Route exact path="/deposit/payzod/" component={DepositPayzod} />
+    <Route exact path="/deposit_fgo/" component={DepositFgo} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
   </div>
 );

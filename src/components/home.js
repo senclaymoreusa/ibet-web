@@ -66,11 +66,11 @@ export class Home extends Component {
     
 
     this.props.authCheckState()
-    axios.get(API_URL + 'operation/api/notice-message', config)
-      .then(res => {
-        //   console.log(res);
-        this.setState({ notices: res.data });
-      })
+    // axios.get(API_URL + 'operation/api/notice-message', config)
+    //   .then(res => {
+    //     //   console.log(res);
+    //     this.setState({ notices: res.data });
+    //   })
 
     var URL = API_URL + 'users/api/games/?term=Sports';
 
@@ -147,8 +147,13 @@ export class Home extends Component {
           </div>
         }
 
-        <div className="cont">
-          {
+        
+
+        <div className="cont">    
+
+          {/* please don't delete code below */}
+
+          {/* {
             this.state.ready && this.state.sports.map(item => {
               return (
                 <div key={item.pk} className='each-game' onClick={() => {
@@ -193,8 +198,32 @@ export class Home extends Component {
                 </div>
               )
             })
+          } */}
+
+          {
+            <div 
+              className='each-game' 
+              style={{cursor: 'pointer'}}
+              onClick={() => {
+                this.props.history.push('/game_detail/')
+              }}>
+              <span >
+
+              {
+                <img src={placeholdimage} height="220" width="300" alt='Not available' />
+              }
+
+
+              <br />
+              <div className='game-title'>
+                AG
+              </div>
+
+              </span>
+            </div>
           }
         </div>
+
 
         {
           this.state.ready && !this.state.expand && this.state.all_sports.length > 8 &&

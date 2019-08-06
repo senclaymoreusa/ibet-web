@@ -8,6 +8,8 @@ import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../util_config';
 import { authCheckState } from '../actions';
+import { Redirect } from 'react-router-dom';
+import SelectFieldExampleMultiSelect from "./filter_bar";
 
 import Footer from "./footer";
 
@@ -16,10 +18,23 @@ import Footer from "./footer";
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Fab from '@material-ui/core/Fab';
 import classNames from 'classnames';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
+
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
+
+// import { makeStyles } from '@material-ui/core/styles';
+
 
 // import { ReactComponent as Black } from '../images/black-background.svg';
 // import { ReactComponent as Jack } from '../images/jackpot.svg';
@@ -30,6 +45,7 @@ import Tab from '@material-ui/core/Tab';
 import placeholdimage from '../images/handsomecat.jpg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+const HOST_URL = process.env.REACT_APP_LOCAL_API;
 
 
 const styles = theme => ({
@@ -51,6 +67,10 @@ const styles = theme => ({
     },
     grow: {
         flexGrow: 1,
+    },
+    paper: {
+        height: 140,
+        width: 100,
     },
 });
 
@@ -86,6 +106,7 @@ const StyledTab = withStyles(theme => ({
     }
 }))(props => <Tab disableRipple {...props} />);
 
+
 class LiveCasino_Type extends Component {
 
     constructor(props) {
@@ -101,6 +122,7 @@ class LiveCasino_Type extends Component {
             other_game: false,
 
             expand: false,
+            urlPath: '',
 
             live_casino: [],
             all_live_casino: [],
@@ -121,23 +143,82 @@ class LiveCasino_Type extends Component {
         this.setState({ live_casino: this.state.all_live_casino, expand: true })
     }
 
-    async handle_category_change(category) {
-        // var URL = API_URL + 'users/api/live_casino/?term=' + category
-
-        // await axios.get(URL, config)
-        // .then(res => {
-        //     this.setState({ live_casino: res.data.slice(0, 8) });
-        //     this.setState({ all_live_casino: res.data})
-        // })
+    async handle_category_change(category, sub) {
+        // const { sub } = this.props.match.params;
+        var url = this.state.urlPath;
+        var parts = url.split('/');
+        // console.log("domainUrl: "  + domainUrl);
+        if (parts.length >= 3) {
+            url = '/';
+            var path = parts.slice(1, 3).join('/');
+            url = url + path;
+        }
+        // console.log("sub: " + sub);
+        // console.log("category: " + category);
+        url = url + '/' + category;
+        // this.setState({ api: url });
+        // console.log("URL: " + url);
+        this.props.history.push(url);
     }
 
     handlechange(event, newValue) {
         this.setState({ value: newValue })
     }
 
+    async componentWillReceiveProps(props) {
+        // console.log('componentWillReceiveProps');
+        const { type } = this.props.match.params;
+        const { sub } = props.match.params;
+        const { filter } = props.match.params;
+        // console.log("live page filter:" + filter);
+        var URL =  API_URL + 'games/api/games/?type=' + type;
+        if (sub) {
+            URL = URL + '&category=' + sub;
+        }
+        if (filter) {
+            URL = URL + '&' + filter;
+        }
+        await axios.get(URL, config)
+        .then(res => {
+            // console.log(res);
+            var gameArray = []
+            var chunk = 6;
+            for (var i = 0, j = res.data.length; i < j; i += chunk) {
+                var tempArr = res.data.slice(i, i + chunk);
+                gameArray.push(tempArr);
+            }
+            this.setState({ live_casino: gameArray });
+            // this.setState({ all_live_casino: res.data})
+        })
+    }
+
+
     async componentDidMount() {
 
-        this.props.authCheckState()
+        this.props.authCheckState();
+        const { type } = this.props.match.params;
+        const { sub } = this.props.match.params;
+        const { filter } = this.props.match.params;
+        this.setState({ urlPath: this.props.history.location.pathname });
+        var URL =  API_URL + 'games/api/games/?type=' + type;
+        if (sub) {
+            URL = URL + '&category=' + sub;
+        }
+        if (filter) {
+            URL = URL + '&' + filter;
+        }
+        await axios.get(URL, config)
+        .then(res => {
+            // console.log(res);
+            var gameArray = []
+            var chunk = 6;
+            for (var i = 0, j = res.data.length; i < j; i += chunk) {
+                var tempArr = res.data.slice(i, i + chunk);
+                gameArray.push(tempArr);
+            }
+            this.setState({ live_casino: gameArray });
+        })
+        // console.log(this.state.live_casino);
     }
 
     render() {
@@ -146,7 +227,7 @@ class LiveCasino_Type extends Component {
 
         const { formatMessage } = this.props.intl;
         let topRatedMessage = formatMessage({ id: "nav.top-rated" });
-        let newMessage = formatMessage({ id: "nav.new" });
+        let allMessage = formatMessage({ id: "nav.all" });
         let rouletteMessage = formatMessage({ id: "nav.roulette" });
         let blackjackMessage = formatMessage({ id: "nav.blackjack" });
         let baccaratMessage = formatMessage({ id: "nav.baccarat" });
@@ -161,22 +242,26 @@ class LiveCasino_Type extends Component {
 
                 <TopNavbar activeMenu={'live-casino'} />
 
-                    <AppBar position="static" >
-                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>
-                            <StyledTab
+                    <AppBar position="static" style={{zIndex: 0}} >
+                        <StyledTabs centered value={this.props.match.params.sub} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>
+                            {/* <StyledTab
                                 style={{ outline: 'none' }}
                                 value="top-rated"
                                 label={topRatedMessage}
                                 onClick={() => {
-                                    this.handle_category_change('top-rated');
+                                    if (this.props.match.params.sub !== 'top-rated') {
+                                        this.handle_category_change('top-rated', this.props.match.params.sub);
+                                    }
                                 }}
-                            />
+                            /> */}
                             <StyledTab
                                 style={{ outline: 'none' }}
-                                label={newMessage}
-                                value="new"
+                                label={allMessage}
+                                value="all"
                                 onClick={() => {
-                                    this.handle_category_change('new');
+                                    if (this.props.match.params.sub !== 'all') {
+                                        this.handle_category_change('all');
+                                    }
                                 }}
                             />
                             <StyledTab
@@ -184,7 +269,9 @@ class LiveCasino_Type extends Component {
                                 label={rouletteMessage}
                                 value="roulette"
                                 onClick={() => {
-                                    this.handle_category_change('roulette');
+                                    if (this.props.match.params.sub !== 'roulette') {
+                                        this.handle_category_change('roulette');
+                                    }
                                 }}
                             />
                             <StyledTab
@@ -192,7 +279,9 @@ class LiveCasino_Type extends Component {
                                 value="blackjack"
                                 label={blackjackMessage}
                                 onClick={() => {
-                                    this.handle_category_change('blackjack');
+                                    if (this.props.match.params.sub !== 'blackjack') {
+                                        this.handle_category_change('blackjack');
+                                    }
                                 }}
                             />
                             <StyledTab
@@ -200,7 +289,9 @@ class LiveCasino_Type extends Component {
                                 value="baccarat"
                                 label={baccaratMessage}
                                 onClick={() => {
-                                    this.handle_category_change('baccarat');
+                                    if (this.props.match.params.sub !== 'baccarat') {
+                                        this.handle_category_change('baccarat');
+                                    }
                                 }}
                             />
                             <StyledTab
@@ -208,7 +299,9 @@ class LiveCasino_Type extends Component {
                                 value="poker"
                                 label={pokerMessage}
                                 onClick={() => {
-                                    this.handle_category_change('poker');
+                                    if (this.props.match.params.sub !== 'poker') {
+                                        this.handle_category_change('poker');
+                                    }
                                 }}
                             />
                             <StyledTab
@@ -216,13 +309,55 @@ class LiveCasino_Type extends Component {
                                 value="tournaments"
                                 label={torunamentsMessage}
                                 onClick={() => {
-                                    this.handle_category_change('tournaments');
+                                    if (this.props.match.params.sub !== 'tournaments') {
+                                        this.handle_category_change('tournaments');
+                                    }
                                 }}
                             />
-
                         </StyledTabs>
                     </AppBar>
-                    <div className={classes.grow}></div>
+                    <SelectFieldExampleMultiSelect/>
+                    <Grid container item xs={12} sm={12} key="455">
+                        {/* <Grid item xs={11} sm={11} key="234"> */}
+                        {  
+                            this.state.live_casino.map((games, index) => {
+                                return (
+                                    <Grid container item xs={12} sm={12} key={index}>
+                                    {
+                                        games.map(game => {
+                                            var gameFields = game['fields'];
+                                            var gameName = '';
+                                            if (gameFields.name) {
+                                                gameName = gameFields.name.replace(/\s+/g, '-').toLowerCase();
+                                            }
+                                            return (
+                                                <Grid item xs={2} sm={2} key={game.pk}>
+                                                    <Paper style={{ margin: 15 }}>
+                                                        <NavLink to = {`/game_detail/${game.pk}`} style={{ textDecoration: 'none' }}> 
+                                                            <div>
+                                                                <img src={placeholdimage} height = "200" width="100%" alt = 'Not available'/>
+                                                                
+                                                                <br/>
+            
+                                                                <div className='game-title'> 
+                                                                    {gameFields.name} 
+                                                                </div>
+                                                            </div>
+                                                        </NavLink>
+                                                    </Paper>
+                                                </Grid>
+                                            )
+                                        })
+                                    }
+                                    </Grid>
+                                )
+                            })
+                        }
+                        {/* </Grid>
+                        <Grid item xs={1} sm={1} key="123">
+                        123
+                        </Grid> */}
+                    </Grid>
 
    <Footer activeMenu={'live-casino'} />
             </div>

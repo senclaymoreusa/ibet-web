@@ -114,25 +114,23 @@ class Phone_Verification extends React.Component {
         if (this.state.code_1 && this.state.code_2 && this.state.code_3 && this.state.code_4){
             axios.post(API_URL + 'users/api/verifyactivationcode/', {'username': this.props.signup_username, 'code': this.state.code_1.toString() + this.state.code_2.toString() + this.state.code_3.toString() + this.state.code_4.toString()})
             .then(res => {
-                if(res.data.status === 'Failed'){
-                    this.setState({error: true})
-                }else{
-                    this.setState({error: false, show_check: true})
-                    this.props.authLogin(this.props.signup_username, this.props.signup_password)
-                    if (this.props.refer_id){
-                        axios.get(API_URL + `users/api/referral/?referral_id=${this.props.refer_id}&referred=${this.props.signup_username}`)
-                    }
-                    
-
-                    setTimeout(
-                        function() {
-                            this.props.hide_phone_verification();
-                            this.props.show_signup_finish();
-                        }
-                        .bind(this),
-                        2000
-                    );
+                this.setState({error: false, show_check: true})
+                this.props.authLogin(this.props.signup_username, this.props.signup_password)
+                if (this.props.refer_id){
+                    axios.get(API_URL + `users/api/referral/?referral_id=${this.props.refer_id}&referred=${this.props.signup_username}`)
                 }
+                
+                setTimeout(
+                    function() {
+                        this.props.hide_phone_verification();
+                        this.props.show_signup_finish();
+                    }
+                    .bind(this),
+                    2000
+                );
+            })
+            .catch(err => {
+                this.setState({error: true})
             })
         }
     }
