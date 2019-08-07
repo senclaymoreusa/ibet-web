@@ -104,7 +104,7 @@ class DepositCirclepay extends Component {
         const {amount} = this.state;
         const token = localStorage.getItem('token');
         if (amount < 20000 || amount > 1000000) {
-            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 20000, Max deposit is 1000000"});
+            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 20000 VND, Max deposit is 1000000 VND"});
             return;
         }
         if (!token) {
@@ -135,35 +135,21 @@ class DepositCirclepay extends Component {
           
         let month = (currDate.getMonth()+1) < 10 ? ("0" + (currDate.getMonth()+1)) : (currDate.getMonth()+1);
         let date = currDate.getDate() < 10 ? ("0" + currDate.getDate()) : currDate.getDate();
-        let transId = userData.username + "Order" + month + date + currDate.getFullYear() + currDate.getHours() + currDate.getMinutes() + currDate.getSeconds()
-        // let transId = "Abcdefg4321"
+        let transId = userData.username + "CirclePayOrder" + month + date + currDate.getFullYear() + currDate.getHours() + currDate.getMinutes() + currDate.getSeconds()
+
         const secret = 'Kiy4O3IAvPpHxXJ9ht1mBfZs';
 
         let secretMsg = 'jennyto@ibet.com' + transId + amount;
-        console.log(secretMsg);
 
         const hash = crypto.createHmac('sha256', secret)
                            .update(secretMsg)
                            .digest('hex');
-        console.log(transId);
-        console.log(hash);
-        let corsURL = "https://cors-anywhere.herokuapp.com/"
+
+
         let postURL = CIRCLEPAY_DEPOSIT_URL + USER_CODE + "/?partner_tran_id=" + transId + "&amount=" + amount + "&token=" + hash;
         
-
-        var xhr = createCORSRequest('GET', corsURL+postURL);
-        // xhr.setRequestHeader("X-Request-Url", postURL);
-        // xhr.setRequestHeader("Origin", postURL);
-        console.log(xhr);
-        // xhr.onreadystatechange = function () {
-        //     console.log(xhr.readyState, xhr.status);
-        //     if(xhr.readyState === 4 && xhr.status === 200) {
-        //         window.open(postURL);
-        //     }
-        // };
-        
         window.open(postURL);
-        // xhr.send();
+
 
         let postData = {
             "amount": amount,

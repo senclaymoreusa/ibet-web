@@ -103,7 +103,7 @@ class DepositPayzod extends Component {
         const {amount, data} = this.state;
         const token = localStorage.getItem('token');
         if (amount < 500 || amount > 500000) {
-            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 500, Max deposit is 500000"});
+            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 500 THB, Max deposit is 500000 THB"});
             return;
         }
         if (!token) {
