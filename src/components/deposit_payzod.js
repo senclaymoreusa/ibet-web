@@ -103,7 +103,7 @@ class DepositPayzod extends Component {
         const {amount, data} = this.state;
         const token = localStorage.getItem('token');
         if (amount < 500 || amount > 500000) {
-            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 20000, Max deposit is 1000000"});
+            this.setState({valid_amt: false, disable_button: true, error_msg: "Min deposit is 500, Max deposit is 500000"});
             return;
         }
         if (!token) {
@@ -131,7 +131,7 @@ class DepositPayzod extends Component {
 
     render() {
         const {classes} = this.props;
-        const {amount, qr_code} = this.state;
+        const {amount, error, valid_amt, qr_code} = this.state;
 
         return (
             <div>
@@ -146,7 +146,7 @@ class DepositPayzod extends Component {
                         InputProps={{
                             startAdornment: <InputAdornment position="start">$</InputAdornment>,
                             style: {
-                                "background-color": "white"
+                                "backgroundColor": "white"
                             }
                         }}
                         placeholder="" 
@@ -159,21 +159,21 @@ class DepositPayzod extends Component {
                     />
                     <div id="error-msg">
                         {
-                            this.state.error ? 
+                            (error || !valid_amt) ? 
                             <p style={{color: "red"}}>{this.state.error_msg}</p> :
                             <br></br>
-                        }
-                    </div>
-                    <div id="api-response">
-                        {
-                            qr_code ? 
-                            <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/> : <br/>
                         }
                     </div>
                     <div id="submit-amount">
                         <Button type="submit" variant="contained" value="Deposit" onSubmit={this.depositMoney}>
                             {"Deposit " + this.state.amount + " to my account"}
                         </Button>
+                    </div>
+                    <div id="api-response">
+                        {
+                            qr_code ? 
+                            <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/> : <br/>
+                        }
                     </div>
 
                 </form>
