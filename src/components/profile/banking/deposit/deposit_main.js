@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
+import DepositSuccess from './deposit_success';
 
 const styles = theme => ({
     root: {
@@ -17,23 +18,22 @@ export class DepositMain extends Component {
         super(props);
 
         this.state = {
-            stepValue: '1'
+            stepValue: 1
         }
+    }
+
+    myCallback = (dataFromChild) => {
+        this.setState({ stepValue: dataFromChild });
     }
 
     render() {
         const { classes } = this.props;
-        const { formatMessage } = this.props.intl;
-
-        // let bankingMessage = formatMessage({ id: "profile-nav.banking" });
-        // let analysisMessage = formatMessage({ id: "profile-nav.analysis" });
-        // let accountMessage = formatMessage({ id: "profile-nav.account" });
-        // let affiliatesMessage = formatMessage({ id: "profile-nav.affiliates" });
+        const {stepValue} = this.state;
 
         return (
             <div className={classes.root}>
-              burasi deposit main
-            </div>
+            {stepValue === 1 && <DepositSuccess callbackFromParent={this.myCallback}/>}
+                 </div>
         );
     }
 }

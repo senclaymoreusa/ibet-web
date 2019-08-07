@@ -16,11 +16,13 @@ const styles = theme => ({
         width: '100%',
     },
     leftPane: {
-       display: 'flex',
+        paddingTop: 50,
+        display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
     rightPane: {
+        paddingTop: 50,
     },
     leftPaneButton: {
         width: 250,
@@ -28,7 +30,19 @@ const styles = theme => ({
         height: 76,
         backgroundColor: '#f1f1f1',
         marginTop: 2,
-
+        "&:hover": {
+            backgroundColor: '#f1f1f1',
+        },
+    },
+    activeLeftPaneButton: {
+        width: 250,
+        maxWidth: 250,
+        height: 76,
+        backgroundColor: '#dfdfdf',
+        marginTop: 2,
+        "&:hover": {
+            backgroundColor: '#dfdfdf',
+        },
     }
 });
 
@@ -42,7 +56,6 @@ export class Banking extends Component {
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
-
     }
 
     handleTabChange(event, newValue) {
@@ -57,8 +70,8 @@ export class Banking extends Component {
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={4} className={classes.leftPane}>
-                        <Button className={classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'deposit')}>Deposit</Button>
-                        <Button className={classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'withdraw')}>Withdraw</Button>
+                    <Button className={(tabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'deposit')}>Deposit</Button>
+                    <Button className={(tabValue === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'withdraw')}>Withdraw</Button>
                     </Grid>
                     <Grid item xs={8} className={classes.leftPane}>
                         {tabValue === 'deposit' && <DepositMain />}

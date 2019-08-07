@@ -76,8 +76,6 @@ export class Analysis extends Component {
         return (
             <div className={classes.root}>
                 <Grid container>
-                    <Grid item xs={12}>
-                    </Grid>
                     <Grid item xs={4} className={classes.leftPane}>
                         <Button className={(tabValue === 'bets') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'bets')}>Bets</Button>
                         <Button className={(tabValue === 'banking') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'banking')}>Banking</Button>
