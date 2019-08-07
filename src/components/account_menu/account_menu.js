@@ -32,9 +32,7 @@ import {
 
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/';
 import Grid from '@material-ui/core/Grid';
 
 import Popper from '@material-ui/core/Popper';
@@ -508,6 +506,8 @@ export class AccountMenu extends React.Component {
                 picture: facebookObj.picture
             })
         }
+
+        
     }
 
     closeClicked = (event) => {
@@ -787,7 +787,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={4} className={classes.mergedGridButton}>
                             <Button className={classes.logoutButton}
                                 onClick={() => {
-                                    this.props.onCloseItemClicked();
+                                    this.props.hide_account_menu();
                                     this.props.show_refer_user()
                                 }}>
                                 <div className={classes.blockButtonLabel}>
@@ -815,7 +815,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={12} className={classes.mergedGridButton}>
                             <Button
                                 onClick={() => {
-                                    this.props.onCloseItemClicked();
+                                    this.props.hide_account_menu();
                                     this.props.show_change_password();
                                 }}
                                 className={classes.changePasswordButton}>

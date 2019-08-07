@@ -284,14 +284,14 @@ class InputForm extends Component {
                     >
                         {"Deposit " + depositAmount + " to my account"}
                     </Button>
-                    <img 
+                    {/* <img 
                         id="LINElogo" 
                         type="image" 
                         onClick={button_disable ? () => {} : this.handleClick}
                         style={button_disable ? {} : {cursor: "pointer"}}  
                         src={LINEPAY_LOGO_URL} 
                         alt="LINEpay logo"
-                    />
+                    /> */}
                 </div>
             </div>
         )

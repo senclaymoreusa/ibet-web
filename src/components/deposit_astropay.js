@@ -125,6 +125,12 @@ class DepositAstropay extends Component {
     async depositMoney(event) {
         event.preventDefault();
         const {amount, card_num, card_code, exp_date, data} = this.state;
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.log("no token -- user is not logged in");
+        }
+        config.headers["Authorization"] = `Token ${token}`;
 
         console.log("amount: " + amount);
         console.log(data)
