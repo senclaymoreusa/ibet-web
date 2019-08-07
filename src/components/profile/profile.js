@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { connect } from 'react-redux';
 import { authCheckState } from '../../actions';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from "@material-ui/core/AppBar";
@@ -63,7 +63,6 @@ const StyledTab = withStyles(theme => ({
         width: '20%',
         maxWidth: '20%',
         borderBottom: '2px solid #d8d8d8',
-        textTransform: 'capitalize',
         "&:focus": {
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
@@ -148,15 +147,15 @@ export class Profile extends Component {
     }
 
     async componentWillReceiveProps(props) {
-        const { type } = this.props.match.params;
-        const { sub } = props.match.params;
+        // const { type } = this.props.match.params;
+        // const { sub } = props.match.params;
     }
 
     async componentDidMount() {
 
         this.props.authCheckState();
-        const { type } = this.props.match.params;
-        const { sub } = this.props.match.params;
+        // const { type } = this.props.match.params;
+        // const { sub } = this.props.match.params;
 
         this.setState({ urlPath: this.props.history.location.pathname });
     }

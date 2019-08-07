@@ -385,6 +385,22 @@ export class MainAnalysis extends Component {
             legend: {
                 display: false,
             },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        return data['datasets'][0]['data'][tooltipItem['index']];
+                    },
+                },
+                bodyFontSize: 28,
+                xPadding: 5,
+                yPadding: 2,
+                cornerRadius:3,
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                borderColor: 'rgba(0, 0, 0, 0)',
+                bodyFontColor: '#000',
+                displayColors: false,
+                position: 'average',
+            }
         };
 
         return (
