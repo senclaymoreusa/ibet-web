@@ -407,11 +407,29 @@ export class MainAnalysis extends Component {
                 }
             ]
         };
-
+        
         const options = {
             legend: {
                 display: false,
             },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        return data['datasets'][0]['data'][tooltipItem['index']];
+                    },
+                },
+                titleFontSize:0,
+                bodyFontSize: 20,
+                xPadding: 5,
+                yPadding: 2,
+                cornerRadius:3,
+                backgroundColor: '#fff',
+                borderColor: '#32c5ff',
+                borderWidth: 1,
+                bodyFontColor: '#6dd400',
+                displayColors: false,
+                position: 'average',
+            }
         };
 
         return (
