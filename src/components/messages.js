@@ -46,7 +46,14 @@ export const messages = {
         'analysis.time': 'Time',
         'analysis.amount': 'Amount',
 
- 
+        'deposit.add_payment_method': 'Add Payment Method',
+        'deposit.deposit_method': 'Deposit Method',
+        'deposit.credit_card': 'Credit Card',
+        'deposit.remember_this_card': 'Remember card details for quicker deposit',
+        'deposit.deposit_amount': 'Deposit Amount',
+        'deposit.choose_payment_method': 'Choose Payment Method',
+
+
 
         // footer message
         'footer.terms_conditions': 'Terms and Conditions',
@@ -433,20 +440,25 @@ export const messages = {
         'analysis.lifetime': '一生',
         'analysis.win_loss': '总赢/输',
         'analysis.total_net_position': '总净头寸',
-
         'analysis.sport_bets': '运动投注',
         'analysis.slot_spins': '老虎机旋转',
         'analysis.live_casino_bets': '真人娱乐场投注',
-
         'analysis.placed': '放置',
         'analysis.category': '类别',
         'analysis.winloss': '赢/输',
         'analysis.balance': '平衡',
-
         'analysis.date': '日期',
         'analysis.time': '时间',
         'analysis.amount': '量',
 
+        'deposit.add_payment_method': '添加付款方式',
+        'deposit.deposit_method': '存款方式',
+        'deposit.credit_card': '信用卡',
+        'deposit.remember_this_card': '记住卡片详细信息，以便快速存款',
+       
+        'deposit.deposit_amount': '存款金额',
+        'deposit.choose_payment_method': '选择付款方式',
+       
         // footer message
         'footer.terms_conditions': '条款和条件',
         'footer.cookie_policy': 'Cookie政策',
@@ -859,11 +871,18 @@ export const messages = {
         'analysis.category': 'Catégorie',
         'analysis.winloss': 'Victoire/Perte',
         'analysis.balance': 'Équilibre',
-
         'analysis.date': 'Rendez-vous amoureux',
         'analysis.time': 'Temps',
         'analysis.amount': 'Montant',
         
+
+        'deposit.add_payment_method': 'Ajouter un mode de paiement',
+        'deposit.deposit_method': 'Méthode de dépôt',
+        'deposit.credit_card': 'Carte de crédit',
+        'deposit.remember_this_card': 'Rappelez-vous les détails de la carte pour un dépôt plus rapide',
+        'deposit.deposit_amount': 'Montant du dépôt',
+        'deposit.choose_payment_method': 'Choisissez le mode de paiement',
+
         'open-bets.my-bets': 'My Bets',
         'open-bets.open-bets': 'Open Bets',
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';
 import TopNavbar from "./top_navbar";
-import DepositNavBar from "./deposit_navbar";
+import DepositNavBar from "./profile/banking/deposit/deposit_types/deposit_navbar";
 import '../css/deposit.css';
 
 // Material-UI

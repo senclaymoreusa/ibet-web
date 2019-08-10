@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../util_config';
+import { config } from '../../../../../util_config';
 import { connect } from 'react-redux';
-import TopNavbar from "./top_navbar";
-import '../css/deposit.css';
+import TopNavbar from "../../../../top_navbar";
+import '../../../../../css/deposit.css';
 
 
 // Material-UI
@@ -13,7 +13,7 @@ import {TextField, Select, InputAdornment, Button} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
-import { authCheckState } from '../actions';
+import { authCheckState } from '../../../../../actions';
 import { Input, Form } from 'antd';
 var QRCode = require('qrcode.react');
 
