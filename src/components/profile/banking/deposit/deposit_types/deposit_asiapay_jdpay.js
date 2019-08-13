@@ -248,7 +248,6 @@ class DepositAsiapayJDPay extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currencyValue: res.data.currency });
-
             });
     }
 

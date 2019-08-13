@@ -270,11 +270,6 @@ class DepositAstropay extends Component {
         this.amountInput = React.createRef();
 
         this.state = {
-            amount: "",
-            card_num: "",
-            card_code: "",
-            exp_date: "",
-
             number: '',
             numberFocused: false,
             numberInvalid: true,
@@ -433,7 +428,7 @@ class DepositAstropay extends Component {
 
     async handleClick(event) {
         event.preventDefault();
-        const { amount, card_num, card_code, exp_date, data } = this.state;
+       
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -441,13 +436,13 @@ class DepositAstropay extends Component {
         }
         config.headers["Authorization"] = `Token ${token}`;
 
-        console.log("amount: " + amount);
-        console.log(data)
+        console.log("amount: " + this.state.amount);
+        console.log(this.state.data)
         let postData = {
-            "card_num": card_num,
-            "card_code": card_code,
-            "exp_date": exp_date,
-            "amount": amount
+            "card_num": this.state.number,
+            "card_code": this.state.cvv,
+            "exp_date": this.state.expireDate,
+            "amount": this.state.amount
         };
 
         var res = await axios.post(API_URL + 'accounting/api/astropay/capture_transaction',
@@ -458,8 +453,8 @@ class DepositAstropay extends Component {
         if (res.data.response_msg.slice(0, 5) === "1|1|1") {
             const body = JSON.stringify({
                 type: 'add',
-                username: data.username || "",
-                balance: amount,
+                username: this.state.data.username || "",
+                balance: this.state.amount,
             });
             axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
                 .then(res => {
@@ -481,8 +476,7 @@ class DepositAstropay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, card_num, card_code, exp_date } = this.state;
-
+       
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
 

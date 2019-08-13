@@ -310,6 +310,10 @@ class DepositAsiapayQucikpay extends Component {
             body: formBody
         }).then(function (res) {
             console.log(res);
+
+            currentComponent.setState({ showLinearProgressBar: false });
+
+            
             return res.json();
         }).then(function (data) {
             currentComponent.setState({ showLinearProgressBar: false });

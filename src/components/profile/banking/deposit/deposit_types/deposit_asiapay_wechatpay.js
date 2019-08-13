@@ -299,6 +299,9 @@ class DepositAsiapayWechatpay extends Component {
 
     handleClick = () => {
         let currentComponent = this;
+        
+        currentComponent.setState({ showLinearProgressBar: true });
+        
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -323,7 +326,12 @@ class DepositAsiapayWechatpay extends Component {
             if (res.ok) {
                 return res.text();
             }
-            alert("渠道维护中");
+            //alert("渠道维护中");
+            
+            currentComponent.setState({ showLinearProgressBar: false });
+            currentComponent.props.callbackFromParentForError("渠道维护中");
+
+            
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
@@ -331,13 +339,20 @@ class DepositAsiapayWechatpay extends Component {
             let myqr = data.qr;
 
             if (data.code == 'ERROR') {
-                alert(data.message);
+                // alert(data.message);
+                currentComponent.props.callbackFromParentForError(data.message);
             } else {
                 currentComponent.setState({ value: myqr, show_qrcode: true })
             }
 
+            currentComponent.setState({ showLinearProgressBar: true });
+
         }).catch(function (error) {                        // catch
             console.log('Request failed', error);
+
+            currentComponent.setState({ showLinearProgressBar: true });
+            currentComponent.props.callbackFromParentForError(error);
+
         });
     }
 

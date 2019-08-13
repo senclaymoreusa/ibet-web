@@ -283,22 +283,6 @@ class DepositCirclepay extends Component {
         this.props.callbackFromParent('deposit_method');
     }
 
-    // handleAmountChange(event) {
-    //     event.preventDefault();
-    //     if (event.target.value >= 20 && event.target.value <= 1000) {
-    //         this.setState({valid_amt: true});
-    //     }
-    //     if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
-    //         this.setState({[event.target.name]: event.target.value}); 
-
-    //         if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || !event.target.value || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
-    //             this.setState({live_check_amount: true, disable_button: true})
-    //         } else {
-    //             this.setState({live_check_amount: false, disable_button: false})
-    //         }
-    //     }
-    // }
-
     async handleClick(event) {
         event.preventDefault();
 
@@ -396,8 +380,7 @@ class DepositCirclepay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, error, error_msg, valid_amt, disable_button, response: resp_msg } = this.state;
-
+     
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
 

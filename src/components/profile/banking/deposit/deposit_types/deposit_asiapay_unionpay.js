@@ -323,6 +323,8 @@ class DepositAsiapayUnionpay extends Component {
             },
             body: formBody
         }).then(function (res) {
+            currentComponent.setState({ showLinearProgressBar: false });
+
             if (res.statuscode)
                 return res.json();
         }).then(function (data) {

@@ -160,7 +160,7 @@ const styles = function (theme) {
             height: 44,
             paddingLeft: 10,
             paddingRight: 10,
-            paddingTop:6,
+            paddingTop: 6,
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -286,12 +286,9 @@ class DepositPayzod extends Component {
 
         currentComponent.setState({ showLinearProgressBar: true });
 
-        const { amount, data } = this.state;
+        const { amount } = this.state;
         const token = localStorage.getItem('token');
-        if (amount < 500 || amount > 500000) {
-            this.setState({ valid_amt: false, disable_button: true, error_msg: "Min deposit is 500 THB, Max deposit is 500000 THB" });
-            return;
-        }
+       
         if (!token) {
             console.log("no token -- user is not logged in");
         }

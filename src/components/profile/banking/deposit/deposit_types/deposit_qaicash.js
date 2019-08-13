@@ -359,27 +359,24 @@ class DepositQaicah extends Component {
                                         if (res.data === 'Failed') {
                                             this.setState({ error: true });
                                         } else if (res.data === 'The balance is not enough') {
-                                            alert("cannot withdraw this amount")
+                                            currentComponent.props.callbackFromParentForError('Cannot withdraw this amount.');
                                         } else {
-                                            alert("your balance is updated")
-                                            window.location.reload()
+                                            currentComponent.props.callbackFromParent('success');
+
                                         }
+
+                                        currentComponent.setState({ showLinearProgressBar: false });
                                     });
                             } else {
-                                alert('Transaction is not approved.')
+                                currentComponent.props.callbackFromParentForError('Transaction is not approved.');
                             }
-
-                            currentComponent.setState({ showLinearProgressBar: false });
-
                         });
                     }
                 }, 1000);
-
             } else {
                 this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
         });
-
     }
 
     render() {

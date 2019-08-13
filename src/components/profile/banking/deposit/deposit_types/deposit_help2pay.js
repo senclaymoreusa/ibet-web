@@ -190,7 +190,6 @@ const styles = theme => ({
         height: 44,
         marginTop: 10,
         width: 400,
-
     },
     otherText: {
         fontSize: 14,
@@ -201,7 +200,7 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
         height: 44,
-        paddingTop:6,
+        paddingTop: 6,
         paddingLeft: 10,
         paddingRight: 10,
         width: 400,
@@ -273,6 +272,8 @@ class DepositHelp2pay extends Component {
     constructor(props) {
         super(props);
 
+        this.amountInput = React.createRef();
+
         this.state = {
             amount: '',
             error: false,
@@ -285,15 +286,25 @@ class DepositHelp2pay extends Component {
             selectedBankOption: 'none',
             order_id: "ibet" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
 
+            amountFocused: false,
+            amountInvalid: true,
+
+            firstOption: 500,
+            secondOption: 750,
+            thirdOption: 1000,
+            fourthOption: 5000,
             currencyValue: "USD",
             showLinearProgressBar: false,
         };
 
-        this.onInputChange_amount = this.onInputChange_amount.bind(this);
-
+        this.firstOptionClicked = this.firstOptionClicked.bind(this);
+        this.secondOptionClicked = this.secondOptionClicked.bind(this);
+        this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
+        this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
 
         this.backClicked = this.backClicked.bind(this);
         this.amountChanged = this.amountChanged.bind(this);
+        this.amountFocused = this.amountFocused.bind(this);
         this.handleClick = this.handleClick.bind(this);
 
     }
@@ -303,14 +314,14 @@ class DepositHelp2pay extends Component {
     }
 
     amountChanged(event) {
-        if (parseInt(event.target.value) > 2000) {
-            let val = parseInt(event.target.value) / 10;
-            this.setState({ amount: val.toFixed(0) });
-            this.amountInput.current.value = val.toFixed(0);
-        } else
+        if (event.target.value.length == 0 || parseInt(event.target.value) > 500000 || parseInt(event.target.value) < 500) {
+            this.setState({ amount: 0 });
+            this.setState({ amountInvalid: true });
+        } else {
             this.setState({ amount: event.target.value });
+            this.setState({ amountInvalid: false });
+        }
     }
-
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -322,37 +333,47 @@ class DepositHelp2pay extends Component {
             });
     }
 
-    handleCurrencyChange = selectedCurrencyOption => {
-        this.setState({ selectedCurrencyOption });
-        //console.log(`Option selected:`, selectedCurrencyOption);
-        this.check_button_disable()
-    };
-    handleBankChange = selectedBankOption => {
-
-        this.setState({ selectedBankOption });
-        //console.log(`Option selected:`, selectedBankOption);
-        this.check_button_disable()
-    };
-
-    onInputChange_amount(event) {
-        if (!event.target.value || event.target.value.match(/^[0-9.]+$/)) {
-            this.setState({ amount: event.target.value });
-
-            if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)) {
-                this.setState({ live_check_amount: true, button_disable: true })
-            } else {
-                this.setState({ live_check_amount: false, button_disable: false })
-            }
-        }
-        this.check_button_disable()
+    firstOptionClicked(event) {
+        this.setState({ amount: this.state.firstOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
     }
 
-    check_button_disable() {
-
-        if (this.state.amount && this.state.selectedCurrencyOption != {} && this.state.selectedBankOption != {} && !this.state.live_check_amount) {
-            this.setState({ button_disable: false })
-        }
+    secondOptionClicked(event) {
+        this.setState({ amount: this.state.secondOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
     }
+
+    thirdOptionClicked(event) {
+        this.setState({ amount: this.state.thirdOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
+    }
+
+    fourthOptionClicked(event) {
+        this.setState({ amount: this.state.fourthOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
+    }
+
+    handleCurrencyChange = event => {
+        this.setState({ selectedCurrencyOption: event.target.value });
+        this.setState({ selectedBankOption: 'none' });
+
+    };
+
+    amountFocused(event) {
+        this.setState({ amountFocused: true });
+    }
+
+    handleBankChange = event => {
+        this.setState({ selectedBankOption: event.target.value });
+    };
 
     handleClick = () => {
         let currentComponent = this;
@@ -390,7 +411,11 @@ class DepositHelp2pay extends Component {
             if (res.ok) {
                 return res.text();
             }
-            alert("渠道维护中");
+            
+            currentComponent.setState({ showLinearProgressBar: false });
+            currentComponent.props.callbackFromParentForError("渠道维护中");
+
+            //alert("渠道维护中");
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
@@ -451,7 +476,8 @@ class DepositHelp2pay extends Component {
 
                                 });
                         } else {
-                            alert('Your deposit is not success!');
+                            currentComponent.setState({ showLinearProgressBar: false });
+                            currentComponent.props.callbackFromParentForError('Your deposit is not success!');
                         }
                         window.location.reload()
                     });
@@ -460,6 +486,10 @@ class DepositHelp2pay extends Component {
 
         }).catch(function (error) {
             console.log('Request failed', error);
+
+            currentComponent.setState({ showLinearProgressBar: false });
+            currentComponent.props.callbackFromParentForError(error);
+
         });
     }
 
@@ -468,7 +498,7 @@ class DepositHelp2pay extends Component {
         const { classes } = this.props;
         const { selectedCurrencyOption } = this.state;
         const { selectedBankOption } = this.state;
-        const filteredOptions = bank_options.filter((o) => o.link === this.state.selectedCurrencyOption.value)
+        const filteredOptions = bank_options.filter((o) => o.link === this.state.selectedCurrencyOption)
 
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
@@ -520,15 +550,6 @@ class DepositHelp2pay extends Component {
                                             ))
                                         }
                                     </Select>
-                                    {/* <div className="select-currency">
-                                        <Select
-                                            placeholder="Currency"
-                                            className={classes.select}
-                                            value={selectedCurrencyOption}
-                                            onChange={this.handleCurrencyChange}
-                                            options={currency_options}
-                                        />
-                                    </div> */}
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Select
@@ -545,17 +566,8 @@ class DepositHelp2pay extends Component {
                                             ))
                                         }
                                     </Select>
-
-                                    {/* <div className="select-bank">
-                                        <Select
-                                            className={classes.select}
-                                            value={selectedBankOption}
-                                            onChange={this.handleBankChange}
-                                            options={filteredOptions}
-                                        />
-                                    </div> */}
                                 </Grid>
-                                {/* <Grid item xs={12} >
+                                <Grid item xs={12} >
                                     <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
                                         {this.state.firstOption}
                                     </Button>
@@ -568,12 +580,13 @@ class DepositHelp2pay extends Component {
                                     <Button className={classes.rightButton} onClick={this.fourthOptionClicked}>
                                         {this.state.fourthOption}
                                     </Button>
-                                </Grid> */}
+                                </Grid>
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit $10 - $2,000"
+                                        placeholder="Deposit 500 - 500,000"
                                         onChange={this.amountChanged}
+                                        onFocus={this.amountFocused}
                                         error={this.state.amountInvalid && this.state.amountFocused}
                                         helperText={(this.state.amountInvalid && this.state.amountFocused) ? 'Please enter a valid amount.' : ' '}
                                         InputProps={{
@@ -583,13 +596,13 @@ class DepositHelp2pay extends Component {
                                         type="number"
                                         inputProps={{
                                             step: 10,
-                                            min: 10,
-                                            max: 2000
+                                            min: 500,
+                                            max: 500000
                                         }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
-                                {/* <Grid item xs={6} className={classes.amountRow}>
+                                <Grid item xs={6} className={classes.amountRow}>
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
@@ -600,11 +613,11 @@ class DepositHelp2pay extends Component {
                                 </Grid>
                                 <Grid item xs={6} className={classes.amountRightRow}>
                                     <span className={classes.amountText}>Total</span>
-                                </Grid> */}
+                                </Grid>
                                 <Grid item xs={12} className={classes.buttonCell}>
                                     <Button className={classes.continueButton}
                                         onClick={this.handleClick}
-                                        disabled={this.state.amountInvalid}
+                                        disabled={this.state.amountInvalid || this.state.selectedBankOption == 'none' || this.state.selectedCurrencyOption == 'none'}
                                     >Continue</Button>
                                 </Grid>
                             </Grid>
@@ -612,81 +625,6 @@ class DepositHelp2pay extends Component {
                     </Grid>
                 </form>
             </div>
-
-            // <div>
-            //         <form className='deposit-bankcard-form'>
-            //             <div>
-            //                 <label>
-            //                     <b>
-            //                         <FormattedMessage id="deposit.currency" defaultMessage='Please choose the currency you want to use' />
-            //                     </b>
-            //                 </label>
-            //             </div>
-            //             <div className="select-currency">
-            //                 <Select
-            //                     value={selectedCurrencyOption}
-            //                     onChange={this.handleCurrencyChange}
-            //                     options={currency_options}
-            //                 />
-            //             </div>
-
-            //             <div>
-            //                 <label>
-            //                     <b>
-            //                         <FormattedMessage id="deposit.bank" defaultMessage='Please choose the bank you want to use' />
-            //                     </b>
-            //                 </label>
-            //             </div>
-            //             <div className="select-bank">
-            //                 <Select
-            //                     value={selectedBankOption}
-            //                     onChange={this.handleBankChange}
-            //                     options={filteredOptions}
-            //                 />
-            //             </div>
-            //             <div>
-            //                 <label>
-            //                     <b>
-            //                         <FormattedMessage id="deposit.amount" defaultMessage='Please enter the amount you want to add to your account' />
-            //                     </b>
-            //                 </label>
-            //             </div>
-
-            //             <TextField
-            //                 className={classNames(classes.margin, classes.textField)}
-            //                 variant="outlined"
-            //                 type={'text'}
-            //                 value={this.state.amount || ''}
-            //                 onChange={this.onInputChange_amount}
-            //             />
-            //             <br />
-            //             {
-            //                 this.state.live_check_amount && this.state.live_check_amount ?
-            //                     <div style={{ color: 'red' }}>
-            //                         <FormattedMessage id="balance.error" defaultMessage='The amount you entered is not valid' />
-            //                     </div> :
-            //                     <div>
-            //                         <br />
-            //                     </div>
-            //             }
-
-            //             <div className='asiapay-button'  >
-            //                 <Button
-            //                     disabled={this.state.button_disable}
-            //                     variant="contained"
-            //                     color="primary"
-            //                     className={classes.button}
-            //                     onClick={this.state.button_disable ? () => { } : this.handleClick}
-
-            //                 >
-            //                     PAY NOW
-            //                 </Button>
-
-            //             </div>
-
-            //         </form>
-            //     </div>
-
         )
     }
 

@@ -305,6 +305,9 @@ class DepositAsiapayAlipay extends Component {
 
     handleClick = () => {
         let currentComponent = this;
+
+        currentComponent.setState({ showLinearProgressBar: true });
+
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -330,6 +333,8 @@ class DepositAsiapayAlipay extends Component {
                 return res.text();
             }
             //alert("渠道维护中");
+
+            currentComponent.setState({ showLinearProgressBar: false });            
             currentComponent.props.callbackFromParentForError("渠道维护中");
 
             //throw new Error('Something went wrong.');
@@ -341,8 +346,14 @@ class DepositAsiapayAlipay extends Component {
                 currentComponent.setState({ value: qrurl, show_qrcode: true });
             }
 
+            currentComponent.setState({ showLinearProgressBar: false });
+
         }).catch(function (error) {                        // catch
             console.log('Request failed', error);
+
+            currentComponent.setState({ showLinearProgressBar: false });            
+            currentComponent.props.callbackFromParentForError(error);
+
         });
     }
 
