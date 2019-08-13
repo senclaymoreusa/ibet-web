@@ -47,6 +47,7 @@ const styles = function(theme) {
     })
 };
 
+const amountChoices = [10000,20000,30000,50000,100000,200000,300000,500000,1000000];
 const operators = [
     {
         value: "vtt",
@@ -60,7 +61,8 @@ const operators = [
         value: "vms",
         label: "Mobifone"
     }
-]
+];
+
 class DepositScratchCard extends Component {
     constructor(props) {
         super(props);
@@ -150,12 +152,30 @@ class DepositScratchCard extends Component {
 
         if (res.status === 200) {
             console.log("nice!");
-            if (res.data.status === 6 || res.data.status === 1) {
+            if (res.data.status === 6) {
                 this.setState({
                     receive_response: true, 
-                    response_msg: JSON.stringify(res.data.msg) + ", please check your transaction history for updates to your balance once we finish processing",
+                    response_msg: "Deposit request is processing. Please check your transaction history for updates to your balance once we finish processing",
                     error: false,
                     error_msg: ""
+                });
+            }
+            else if (res.data.status === 1) {
+                const body = JSON.stringify({
+                    type : 'add',
+                    username: data.username || "",
+                    balance: amount,
+                });
+                axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
+                .then(res => {
+                    if (res.data === 'Failed'){
+                        this.setState({error: true});
+                    } else if (res.data === 'The balance is not enough') {
+                        alert("cannot withdraw this amount")
+                    } else {
+                        alert("your balance is updated")
+                        // window.location.reload();
+                    }
                 });
             }
             else {
@@ -166,22 +186,6 @@ class DepositScratchCard extends Component {
                     response_msg: ""
                 });
             }
-            // const body = JSON.stringify({
-            //     type : 'add',
-            //     username: data.username || "",
-            //     balance: amount,
-            // });
-            // axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
-            // .then(res => {
-            //     if (res.data === 'Failed'){
-            //         this.setState({error: true});
-            //     } else if (res.data === 'The balance is not enough') {
-            //         alert("cannot withdraw this amount")
-            //     } else {
-            //         alert("your balance is updated")
-            //         // window.location.reload();
-            //     }
-            // });
         }
         else {
             this.setState({error: true, error_msg: "Could not communicate with iBet servers. Error code: " + res.status});
@@ -268,9 +272,9 @@ class DepositScratchCard extends Component {
                         margin="normal"
                     >
                         {
-                            [10000,20000,30000,50000,100000,200000,300000,500000,1000000].map(option => (
+                            amountChoices.map(option => (
                                 <MenuItem key={option} value={option}>
-                                    {option + " VND"}
+                                    {Intl.NumberFormat('us-EN', {currency: 'VND'}).format(option) + " VND"}
                                 </MenuItem>
                             ))
                         }
