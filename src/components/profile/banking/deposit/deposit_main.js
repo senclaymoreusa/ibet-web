@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import DepositSuccess from './deposit_success';
 
@@ -13,7 +13,18 @@ import DepositAmount from './deposit_amount';
 import DepositAsiapayAlipay from './deposit_types/deposit_asiapay_alipay';
 import DepositLinepay from './deposit_types/deposit_linepay';
 import DepositAsiapayJDPay from './deposit_types/deposit_asiapay_jdpay';
+import DepositQaicah from './deposit_types/deposit_qaicash';
+import DepositQaicashAlipay from './deposit_types/deposit_qaicash_alipay';
+import DepositPaypal from './deposit_types/deposit_paypal';
+import DepositAsiapayQucikpay from './deposit_types/deposit_asiapay_kuaijie';
+import DepositAsiapayUnionpay from './deposit_types/deposit_asiapay_unionpay';
+import DepositAsiapayWechatpay from './deposit_types/deposit_asiapay_wechatpay';
 
+import DepositCirclepay from './deposit_types/deposit_circlepay';
+import DepositPayzod from './deposit_types/deposit_payzod';
+import DepositHelp2pay from './deposit_types/deposit_help2pay';
+import DepositFgo from './deposit_types/deposit_fgo';
+import DepositAstropay from './deposit_types/deposit_astropay';
 
 const styles = theme => ({
     root: {
@@ -28,42 +39,56 @@ export class DepositMain extends Component {
         super(props);
 
         this.state = {
-            stepValue: 1,
-            creditCardType:'',
-            depositErrorMessage:'',
+            contentValue: 'deposit_method',
+            creditCardType: '',
+            depositErrorMessage: '',
         }
     }
 
     addCard = (step, type) => {
         this.setState({ creditCardType: type });
-        this.setState({ stepValue: step });
+        this.setState({ contentValue: step });
     }
 
     setPage = (step) => {
-        this.setState({ stepValue: step });
+        this.setState({ contentValue: step });
+    }
+
+    swtInitialPage() {
+        let e = 0;
     }
 
     setDepositErrorPage = (msg) => {
         this.setState({ depositErrorMessage: msg });
-        this.setState({ stepValue: 11 });
+        this.setState({ contentValue: 'error' });
     }
 
     render() {
         const { classes } = this.props;
-        const { stepValue } = this.state;
+        const { contentValue } = this.state;
 
         return (
             <div className={classes.root}>
-                {stepValue === 1 && <DepositMethod callbackForPayment={this.setPage} callbackForAddPayment={this.addCard}/>}
-                {stepValue === 2 && <AddCreditCard callbackFromParent={this.setPage} cardType={this.state.creditCardType}/>}
-                {stepValue === 3 && <DepositAmount callbackFromParent={this.setPage} />}
-                {stepValue === 4 && <DepositAsiapayAlipay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {stepValue === 5 && <DepositLinepay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {stepValue === 6 && <DepositAsiapayJDPay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'deposit_method' && <DepositMethod callbackForPayment={this.setPage} callbackForAddPayment={this.addCard} />}
+                {contentValue === 'add_credit_card' && <AddCreditCard callbackFromParent={this.setPage} cardType={this.state.creditCardType} />}
+                {contentValue === 'deposit_amount' && <DepositAmount callbackFromParent={this.setPage} />}
+                {contentValue === 'asiapay_alipay' && <DepositAsiapayAlipay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'linepay' && <DepositLinepay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'asia_jdpay' && <DepositAsiapayJDPay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'qaicash_wechat' && <DepositQaicah callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'qaicash_alipay' && <DepositQaicashAlipay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'paypal' && <DepositPaypal callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'asia_quickpay' && <DepositAsiapayQucikpay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'asia_wechatpay' && <DepositAsiapayWechatpay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'unionpay' && <DepositAsiapayUnionpay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'circlepay' && <DepositCirclepay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'payzod' && <DepositPayzod callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'help2pay' && <DepositHelp2pay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'fgo' && <DepositFgo callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'astropay' && <DepositAstropay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
 
-                {stepValue === 0 && <DepositSuccess callbackFromParent={this.setPage} />}
-
-                {stepValue === 11 && <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositErrorMessage}/>}
+                {contentValue === 'success' && <DepositSuccess callbackFromParent={this.setPage} />}
+                {contentValue === 'error' && <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositErrorMessage} />}
             </div>
         );
     }
@@ -75,4 +100,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositMain)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, withRef: true })(DepositMain), { withRef: true }));

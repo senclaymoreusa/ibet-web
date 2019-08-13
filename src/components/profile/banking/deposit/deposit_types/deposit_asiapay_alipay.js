@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
+import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config } from '../../../../../util_config';
 import { connect } from 'react-redux';
@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 // Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
-import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
@@ -24,7 +22,6 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
         width: 925,
-        height: 688,
         backgroundColor: '#ffffff',
         border: 'solid 1px #979797',
     },
@@ -46,12 +43,14 @@ const styles = theme => ({
         paddingLeft: 263,
         paddingRight: 262,
         paddingTop: 50,
+        paddingBottom: 50,
     },
     cardTypeCell: {
         borderTop: '1px solid #d8d8d8',
         borderBottom: '1px solid #d8d8d8',
         height: 77,
         paddingTop: 15,
+        textAlign: 'center',
     },
     title: {
         fontSize: 18,
@@ -161,7 +160,7 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
         height: 44,
-        marginTop: 10,
+        paddingTop:6,
         paddingLeft: 10,
         paddingRight: 10,
         width: 400,
@@ -191,9 +190,6 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#292929',
-    },
-    depositBankcardForm: {
-
     }
 });
 
@@ -201,6 +197,8 @@ const styles = theme => ({
 class DepositAsiapayAlipay extends Component {
     constructor(props) {
         super(props);
+
+        this.amountInput = React.createRef();
 
         this.state = {
             amount: '',
@@ -222,10 +220,13 @@ class DepositAsiapayAlipay extends Component {
             show_qrcode: false,
             bankid: '',
 
-            firstOption: 20,
-            secondOption: 50,
-            thirdOption: 100,
-            fourthOption: 250,
+            amountFocused: false,
+            amountInvalid: true,
+
+            firstOption: 300,
+            secondOption: 400,
+            thirdOption: 500,
+            fourthOption: 1000,
             currencyValue: "USD",
         };
 
@@ -234,38 +235,55 @@ class DepositAsiapayAlipay extends Component {
         this.secondOptionClicked = this.secondOptionClicked.bind(this);
         this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
         this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
-
         this.amountChanged = this.amountChanged.bind(this);
+        this.amountFocused = this.amountFocused.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
     firstOptionClicked(event) {
         this.setState({ amount: this.state.firstOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false }); 
+               this.amountInput.current.value = '';
     }
 
     secondOptionClicked(event) {
         this.setState({ amount: this.state.secondOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
     }
 
     thirdOptionClicked(event) {
         this.setState({ amount: this.state.thirdOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
     }
 
     fourthOptionClicked(event) {
         this.setState({ amount: this.state.fourthOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
     }
 
     amountChanged(event) {
-        if (parseInt(event.target.value) > 2000) {
-            let val = parseInt(event.target.value) / 10;
-            this.setState({ amount: val.toFixed(0) });
-            this.amountInput.current.value = val.toFixed(0);
-        } else
+        if (parseInt(event.target.value) > 1500 || parseInt(event.target.value) < 300) {
+            this.setState({ amount: 0 });
+            this.setState({ amountInvalid: true });
+        } else {
             this.setState({ amount: event.target.value });
+            this.setState({ amountInvalid: false });
+        }
     }
 
+    amountFocused(event) {
+        this.setState({ amountFocused: true });
+    }
+    
     backClicked(ev) {
-        this.props.callbackFromParent(1);
+        this.props.callbackFromParent('deposit_method');
     }
 
     componentDidMount() {
@@ -285,19 +303,7 @@ class DepositAsiapayAlipay extends Component {
             })
     }
 
-    // onInputChange_amount(event) {
-    //     if (!event.target.value || event.target.value.match(/^[0-9.]+$/)) {
-    //         this.setState({ amount: event.target.value });
-
-    //         if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)) {
-    //             this.setState({ live_check_amount: true, button_disable: true })
-    //         } else {
-    //             this.setState({ live_check_amount: false, button_disable: false })
-    //         }
-    //     }
-    // }
-
-    handleClick = (depositChannel, apiRoute) => {
+    handleClick = () => {
         let currentComponent = this;
         var postData = {
             "amount": this.state.amount,
@@ -353,7 +359,7 @@ class DepositAsiapayAlipay extends Component {
 
         return (
             <div className={classes.root}>
-                <form className={classes.depositBankcardForm}>
+                <form>
                     <Grid container>
                         <Grid item xs={2} className={classes.backCell}>
                             {backButton}
@@ -367,33 +373,10 @@ class DepositAsiapayAlipay extends Component {
                         </Grid>
                         <Grid item xs={12} className={classes.contentRow}>
                             <Grid container>
-                                <Grid item xs={3} className={classes.cardTypeCell}>
+                                <Grid item xs={12} className={classes.cardTypeCell}>
                                     <Button className={classes.cardTypeButton} disabled>
                                         Ali Pay
                                     </Button>
-                                </Grid>
-                                <Grid item xs={9} className={classes.cardTypeCell}>
-                                    <div className={classes.infoRow}>
-                                        <span className={classes.infoValue}>Credit card</span>
-                                        <span className={classes.infoValue}>**** 0718</span>
-                                    </div>
-                                    <div className={classes.infoRow}>
-                                        <span className={classes.infoValue}>07/20</span>
-                                        <span className={classes.infoValue}>|</span>
-                                        <span className={classes.infoValue}>Default</span>
-                                    </div>
-                                </Grid>
-                                <Grid item xs={3} className={classes.infoCell}>
-                                    <div className={classes.infoRow}>
-                                        <span className={classes.infoLabel}>Fee:</span>
-                                        <span className={classes.infoValue}>Free</span>
-                                    </div>
-                                </Grid>
-                                <Grid item xs={9} className={classes.infoCell}>
-                                    <div className={classes.infoRow}>
-                                        <span className={classes.infoLabel}>Process Time:</span>
-                                        <span className={classes.infoValue}>1-3 banking days</span>
-                                    </div>
                                 </Grid>
                                 <Grid item xs={12} >
                                     <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
@@ -412,10 +395,11 @@ class DepositAsiapayAlipay extends Component {
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit $10 - $2,000"
+                                        placeholder="Deposit 300 - 1500"
                                         onChange={this.amountChanged}
-                                        error={this.state.nameInvalid && this.state.nameFocused}
-                                        helperText={(this.state.nameInvalid && this.state.nameFocused) ? 'Please enter cardholder name.' : ' '}
+                                        onFocus={this.amountFocused}
+                                        error={this.state.amountInvalid && this.state.amountFocused}
+                                        helperText={(this.state.amountInvalid && this.state.amountFocused) ? 'Please enter a valid amount.' : ' '}
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
@@ -423,8 +407,8 @@ class DepositAsiapayAlipay extends Component {
                                         type="number"
                                         inputProps={{
                                             step: 10,
-                                            min: 10,
-                                            max: 2000
+                                            min: 300,
+                                            max: 1500
                                         }}
                                         inputRef={this.amountInput}
 
@@ -444,8 +428,8 @@ class DepositAsiapayAlipay extends Component {
                                 </Grid>
                                 <Grid item xs={12} className={classes.buttonCell}>
                                     <Button className={classes.continueButton}
-                                        onClick={this.state.button_disable ? () => { } : this.handleClick}
-                                        disabled={(parseInt(this.state.amount) == 0)}
+                                        onClick={this.handleClick}
+                                        disabled={this.state.amountInvalid}
                                     >Continue</Button>
                                 </Grid>
                             </Grid>

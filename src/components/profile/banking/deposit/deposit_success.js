@@ -131,11 +131,11 @@ export class DepositSuccess extends Component {
     }
 
     doneClicked(ev) {
-        //this.props.callbackFromParent(2);
+        this.props.callbackFromParent('deposit_method');
     }
 
     checkBalanceClicked(ev) {
-        //this.props.callbackFromParent(2);
+        this.props.callbackFromParent('deposit_method');
     }
 
     componentDidMount() {

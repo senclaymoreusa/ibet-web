@@ -70,8 +70,8 @@ export class Banking extends Component {
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={4} className={classes.leftPane}>
-                    <Button className={(tabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'deposit')}>Deposit</Button>
-                    <Button className={(tabValue === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'withdraw')}>Withdraw</Button>
+                        <Button className={(tabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'deposit')}>Deposit</Button>
+                        <Button className={(tabValue === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'withdraw')}>Withdraw</Button>
                     </Grid>
                     <Grid item xs={8} className={classes.leftPane}>
                         {tabValue === 'deposit' && <DepositMain />}

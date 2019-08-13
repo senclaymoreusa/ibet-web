@@ -41,14 +41,14 @@ import DepositQaicah from './components/profile/banking/deposit/deposit_types/de
 import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay'
 import DepositAsiapayBankcard from './components/profile/banking/deposit/deposit_types/deposit_asiapay_bankcard'
 import WithdrawAsiapay from './components/withdraw_asiapay'
-import DepositAsiapayKuaiJie from "./components/profile/banking/deposit/deposit_types/deposit_asiapay_kuaijie"
+import DepositAsiapayQucikpay from "./components/profile/banking/deposit/deposit_types/deposit_asiapay_kuaijie"
 import Deposit from './components/deposit'
 import Withdraw from './components/withdraw'
 import WithdrawQaicashLBT from './components/withdraw_qaicash_lbt'
 import DepositAsiapayUnionpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_unionpay'
 import DepositAsiapayWechatpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_wechatpay'
 import DepositAsiapayAlipay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_alipay'
-import DepositQaicahAlipay from './components/profile/banking/deposit/deposit_types/deposit_qaicash_alipay'
+import DepositQaicashAlipay from './components/profile/banking/deposit/deposit_types/deposit_qaicash_alipay'
 import New_Profile from './components/new_profile2'
 import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/profile/banking/deposit/deposit_types/deposit_astropay"
@@ -102,7 +102,7 @@ const BaseRouter = () => (
     <Route exact path="/withdraw/" component={Withdraw} />
     <Route exact path="/withdraw_qaicash_lbt/" component={WithdrawQaicashLBT} />
     <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
-    <Route exact path="/deposit_qaicash_alipay/" component={DepositQaicahAlipay} />
+    <Route exact path="/deposit_qaicash_alipay/" component={DepositQaicashAlipay} />
     <Route exact path="/deposit_asiapay_jdpay/" component={DepositAsiapayJDPay} />
     <Route exact path="/deposit_asiapay_bankcard/" component={DepositAsiapayBankcard} />
     <Route exact path="/deposit_asiapay_unionpay/" component={DepositAsiapayUnionpay} />
@@ -114,7 +114,7 @@ const BaseRouter = () => (
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
     <Route exact path="/change_password/" component={Change_Password} />
     <Route exact path="/deposit_linepay/" component={DepositLinePay} />
-    <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
+    <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayQucikpay} />
     <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
     <Route exact path="/withdraw/success/" component={WithdrawSuccess} />

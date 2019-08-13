@@ -334,7 +334,7 @@ export class AddCreditCard extends Component {
 
 
     backClicked(ev) {
-        this.props.callbackFromParent(1);
+        this.props.callbackFromParent('deposit_method');
     }
 
     render() {

@@ -133,7 +133,7 @@ export class DepositError extends Component {
      }
 
     againClicked(ev) {
-        this.props.callbackFromParent(1);
+        this.props.callbackFromParent('deposit_method');
     }
 
     componentDidMount() {

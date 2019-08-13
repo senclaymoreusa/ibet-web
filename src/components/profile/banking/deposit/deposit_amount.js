@@ -158,7 +158,7 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
         height: 44,
-        marginTop: 10,
+        paddingTop:6,
         paddingLeft: 10,
         paddingRight: 10,
         width: 400,
@@ -226,19 +226,23 @@ export class DepositAmount extends Component {
 
     firstOptionClicked(event) {
         this.setState({ amount: this.state.firstOption });
-    }
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false }); }
 
     secondOptionClicked(event) {
         this.setState({ amount: this.state.secondOption });
-    }
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false }); }
 
     thirdOptionClicked(event) {
         this.setState({ amount: this.state.thirdOption });
-    }
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false }); }
 
     fourthOptionClicked(event) {
         this.setState({ amount: this.state.fourthOption });
-    }
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false }); }
 
     amountChanged(event) {
         if (parseInt(event.target.value) > 2000){
@@ -263,7 +267,7 @@ export class DepositAmount extends Component {
 
 
     backClicked(ev) {
-        this.props.callbackFromParent(1);
+        this.props.callbackFromParent('deposit_method');
     }
 
     render() {
@@ -340,8 +344,8 @@ export class DepositAmount extends Component {
                                     className={classes.otherText}
                                     placeholder="Deposit $10 - $2,000"
                                     onChange={this.amountChanged}
-                                    error={this.state.nameInvalid && this.state.nameFocused}
-                                    helperText={(this.state.nameInvalid && this.state.nameFocused) ? 'Please enter cardholder name.' : ' '}
+                                    error={this.state.amountInvalid && this.state.amountFocused}
+                                    helperText={(this.state.amountInvalid && this.state.amountFocused) ? 'Please enter a valid amount.' : ' '}
                                     InputProps={{
                                         disableUnderline: true,
                                         endAdornment: <InputAdornment position="end">Other</InputAdornment>,

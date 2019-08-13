@@ -11,21 +11,6 @@ import { ReactComponent as PaypalIcon } from '../../../../assets/img/svg/paypal.
 import { ReactComponent as VisaIcon } from '../../../../assets/img/svg/visa-blue.svg';
 import { ReactComponent as MastercardIcon } from '../../../../assets/img/svg/master-card.svg';
 
-
-import DepositQaicah from './deposit_types/deposit_qaicash'
-import DepositAsiapayJDPay from './deposit_types/deposit_asiapay_jdpay'
-import DepositAsiapayBankcard from './deposit_types/deposit_asiapay_bankcard'
-import DepositAsiapayKuaiJie from "./deposit_types/deposit_asiapay_kuaijie"
-import DepositAsiapayUnionpay from './deposit_types/deposit_asiapay_unionpay'
-import DepositAsiapayWechatpay from './deposit_types/deposit_asiapay_wechatpay'
-import DepositAsiapayAlipay from './deposit_types/deposit_asiapay_alipay'
-import DepositQaicahAlipay from './deposit_types/deposit_qaicash_alipay'
-import DepositAstropay from "./deposit_types/deposit_astropay"
-import DepositCirclepay from "./deposit_types/deposit_circlepay"
-import DepositPayzod from "./deposit_types/deposit_payzod"
-import DepositHelp2pay from "./deposit_types/deposit_help2pay"
-import DepositFgo from "./deposit_types/deposit_fgo"
-
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -111,49 +96,32 @@ export class DepositMethod extends Component {
         this.addMasterCard = this.addMasterCard.bind(this);
         this.addBankAccount = this.addBankAccount.bind(this);
         this.addPaypal = this.addPaypal.bind(this);
-
         this.depositWith = this.depositWith.bind(this);
-
     }
 
     addVisaCard(ev) {
-        this.props.callbackForAddPayment(2, 'visa');
+        this.props.callbackForAddPayment('add_credit_card', 'visa');
     }
 
     addMasterCard(ev) {
-        this.props.callbackForAddPayment(2, 'mastercard');
+        this.props.callbackForAddPayment('add_credit_card', 'mastercard');
     }
 
     addBankAccount(ev) {
-        this.props.callbackForAddPayment(2, 'bankaccount');
+        this.props.callbackForAddPayment('add_credit_card', 'bankaccount');
     }
 
     addPaypal(ev) {
-        this.props.callbackForAddPayment(2, 'paypal');
+        this.props.callbackForAddPayment('add_credit_card', 'paypal');
     }
 
     depositWith(ev) {
-        switch (ev) {
-            case 'asiapay_alipay':
-                this.props.callbackForPayment(4);
-                break;
-            case 'linepay':
-                this.props.callbackForPayment(5);
-                break;
-            case 'asian_jdpay':
-                this.props.callbackForPayment(6);
-                break;
-        }
-    }
-
-    componentDidMount() {
-
+        this.props.callbackForPayment(ev);
     }
 
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
-
 
         let addPaymentMethodTitle = formatMessage({ id: 'deposit.add_payment_method' });
         let depositMethodTitle = formatMessage({ id: 'deposit.deposit_method' });
@@ -173,52 +141,51 @@ export class DepositMethod extends Component {
                                 {choosePaymentMethodTitle}
                             </Grid>
                             <Grid item xs={12} className={classes.buttonsRow}>
-                                <Button className={classes.addButton} onClick={this.addVisaCard}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("qaicash_wechat") }}>
                                     Qaicash WeChat
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addMasterCard}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("qaicash_alipay") }}>
                                     Qaicash Alipay
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addBankAccount}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("paypal") }}>
                                     Paypal
                                 </Button>
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("linepay") }} >
                                     Line Pay
                                 </Button>
 
-                                <Button className={classes.addButton} onClick={this.addVisaCard}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("asia_quickpay") }}>
                                     Quick Pay
                                 </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("asian_jdpay") }}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("asia_jdpay") }}>
                                     JD Pay
                                 </Button>
                                 <Button className={classes.addButton} onClick={this.addBankAccount}>
                                     Online Pay
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addPaypal}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("unionpay") }}>
                                     Union Pay
                                 </Button>
 
-                                <Button className={classes.addButton} onClick={this.addVisaCard}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("asia_wechatpay") }}>
                                     WeChat
                                 </Button>
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("asiapay_alipay") }} >
                                     Ali Pay
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addBankAccount}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("astropay") }}>
                                     Astro Pay
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addPaypal}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("circlepay") }}>
                                     Circle Pay
                                 </Button>
-
-                                <Button className={classes.addButton} onClick={this.addVisaCard}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("payzod") }}>
                                     Payzod
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addMasterCard}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("help2pay") }}>
                                     Help2Pay
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addBankAccount}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("fgo") }}>
                                     FGO
                                 </Button>
                             </Grid>
