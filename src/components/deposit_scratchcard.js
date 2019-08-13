@@ -153,7 +153,7 @@ class DepositScratchCard extends Component {
             if (res.data.status === 6 || res.data.status === 1) {
                 this.setState({
                     receive_response: true, 
-                    response_msg: JSON.stringify(res.data.msg),
+                    response_msg: JSON.stringify(res.data.msg) + ", please check your transaction history for updates to your balance once we finish processing",
                     error: false,
                     error_msg: ""
                 });
