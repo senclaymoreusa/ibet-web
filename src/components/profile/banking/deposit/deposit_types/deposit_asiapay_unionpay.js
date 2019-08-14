@@ -323,15 +323,14 @@ class DepositAsiapayUnionpay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            currentComponent.setState({ showLinearProgressBar: false });
-
+           
             if (res.statuscode)
                 return res.json();
         }).then(function (data) {
             let myqr = data.qr;
 
             if (data.code == 'ERROR') {
-                alert(data.message);
+                currentComponent.props.callbackFromParent("error", data.message);
             } else {
                 currentComponent.setState({ value: myqr, show_qrcode: true })
             }
@@ -339,8 +338,7 @@ class DepositAsiapayUnionpay extends Component {
             currentComponent.setState({ showLinearProgressBar: false });
 
         }).catch(error => {
-            currentComponent.setState({ showLinearProgressBar: false })
-            console.error('Error:', error)
+            currentComponent.props.callbackFromParent("error", error.returnMessage);
         });
     }
 

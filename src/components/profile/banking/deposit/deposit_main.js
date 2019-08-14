@@ -41,26 +41,20 @@ export class DepositMain extends Component {
         this.state = {
             contentValue: 'deposit_method',
             creditCardType: '',
-            depositErrorMessage: '',
+            depositResultMessage: '',
         }
     }
 
-    addCard = (step, type) => {
+    addCard = (page, type) => {
         this.setState({ creditCardType: type });
-        this.setState({ contentValue: step });
+        this.setState({ contentValue: page });
     }
 
-    setPage = (step) => {
-        this.setState({ contentValue: step });
-    }
+    setPage = (page, msg) => {
+        this.setState({ contentValue: page });
 
-    swtInitialPage() {
-        let e = 0;
-    }
-
-    setDepositErrorPage = (msg) => {
-        this.setState({ depositErrorMessage: msg });
-        this.setState({ contentValue: 'error' });
+        if (msg)
+            this.setState({ depositMessage: msg });
     }
 
     render() {
@@ -72,23 +66,23 @@ export class DepositMain extends Component {
                 {contentValue === 'deposit_method' && <DepositMethod callbackForPayment={this.setPage} callbackForAddPayment={this.addCard} />}
                 {contentValue === 'add_credit_card' && <AddCreditCard callbackFromParent={this.setPage} cardType={this.state.creditCardType} />}
                 {contentValue === 'deposit_amount' && <DepositAmount callbackFromParent={this.setPage} />}
-                {contentValue === 'asiapay_alipay' && <DepositAsiapayAlipay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'linepay' && <DepositLinepay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'asia_jdpay' && <DepositAsiapayJDPay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'qaicash_wechat' && <DepositQaicah callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'qaicash_alipay' && <DepositQaicashAlipay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'paypal' && <DepositPaypal callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'asia_quickpay' && <DepositAsiapayQucikpay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'asia_wechatpay' && <DepositAsiapayWechatpay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'unionpay' && <DepositAsiapayUnionpay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'circlepay' && <DepositCirclepay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'payzod' && <DepositPayzod callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'help2pay' && <DepositHelp2pay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'fgo' && <DepositFgo callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
-                {contentValue === 'astropay' && <DepositAstropay callbackFromParent={this.setPage} callbackFromParentForError={this.setDepositErrorPage} />}
+                {contentValue === 'asiapay_alipay' && <DepositAsiapayAlipay callbackFromParent={this.setPage} />}
+                {contentValue === 'linepay' && <DepositLinepay callbackFromParent={this.setPage} />}
+                {contentValue === 'asia_jdpay' && <DepositAsiapayJDPay callbackFromParent={this.setPage} />}
+                {contentValue === 'qaicash_wechat' && <DepositQaicah callbackFromParent={this.setPage} />}
+                {contentValue === 'qaicash_alipay' && <DepositQaicashAlipay callbackFromParent={this.setPage} />}
+                {contentValue === 'paypal' && <DepositPaypal callbackFromParent={this.setPage} />}
+                {contentValue === 'asia_quickpay' && <DepositAsiapayQucikpay callbackFromParent={this.setPage} />}
+                {contentValue === 'asia_wechatpay' && <DepositAsiapayWechatpay callbackFromParent={this.setPage} />}
+                {contentValue === 'unionpay' && <DepositAsiapayUnionpay callbackFromParent={this.setPage} />}
+                {contentValue === 'circlepay' && <DepositCirclepay callbackFromParent={this.setPage} />}
+                {contentValue === 'payzod' && <DepositPayzod callbackFromParent={this.setPage} />}
+                {contentValue === 'help2pay' && <DepositHelp2pay callbackFromParent={this.setPage} />}
+                {contentValue === 'fgo' && <DepositFgo callbackFromParent={this.setPage} />}
+                {contentValue === 'astropay' && <DepositAstropay callbackFromParent={this.setPage} />}
 
-                {contentValue === 'success' && <DepositSuccess callbackFromParent={this.setPage} />}
-                {contentValue === 'error' && <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositErrorMessage} />}
+                {contentValue === 'success' && <DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
+                {contentValue === 'error' && <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />}
             </div>
         );
     }

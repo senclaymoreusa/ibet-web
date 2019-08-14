@@ -299,7 +299,7 @@ class DepositPaypal extends Component {
             </Button>);
 
 
-        let amount = this.state.balance;
+        let amount = this.state.amount;
         let user = this.state.data.username;
         let currentComponent = this;
 
@@ -443,7 +443,7 @@ class DepositPaypal extends Component {
                                             }).then(function (res) {
                                                 return res.json();
                                             }).then(function (details) {
-                                                alert('Transaction approved by ' + details.payer.name.given_name + ' ' + details.payer.name.surname);
+                                                //alert('Transaction approved by ' + details.payer.name.given_name + ' ' + details.payer.name.surname);
                                                 const body = JSON.stringify({
                                                     type: 'add',
                                                     username: user,
@@ -453,16 +453,13 @@ class DepositPaypal extends Component {
                                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                                     .then(res => {
                                                         if (res.data === 'Failed') {
-                                                            this.setState({ error: true });
+                                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
                                                         } else if (res.data === 'The balance is not enough') {
-                                                            alert("cannot withdraw this amount")
+                                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                                         } else {
-                                                            alert("your balance is updated")
-                                                            window.location.reload()
+                                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                                         }
                                                     });
-
-                                                currentComponent.setState({ showLinearProgressBar: false });
                                             });
                                         }}
                                         options={{

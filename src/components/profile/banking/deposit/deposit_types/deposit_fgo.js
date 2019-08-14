@@ -9,8 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import InputMask from 'react-input-mask';
 
 import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
 
@@ -157,7 +157,7 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
         height: 44,
-        paddingTop:6,
+        paddingTop: 6,
         paddingLeft: 10,
         paddingRight: 10,
         width: 400,
@@ -219,6 +219,7 @@ class DepositFgo extends Component {
 
         this.serialChanged = this.serialChanged.bind(this);
         this.serialFocused = this.serialFocused.bind(this);
+        this.handleClick = this.handleClick.bind(this);
 
         // this.onInputChange_pin = this.onInputChange_pin.bind(this);
         // this.onInputChange_serial = this.onInputChange_serial.bind(this);
@@ -319,8 +320,10 @@ class DepositFgo extends Component {
         }).then(function (res) {
             return res.json();
         }).then(function (data) {
-            if (data.error_code == '00' && data.status == '1') {
-                alert('Your fgo card is successfully deposit to your account!');
+            if (data.error_code == '00' && data.status == '0') {
+                currentComponent.props.callbackFromParent('error', data.message);
+            } else if (data.error_code == '00' && data.status == '1') {
+                //alert('Your fgo card is successfully deposit to your account!');
                 const body = JSON.stringify({
                     type: 'add',
                     username: username,
@@ -329,20 +332,22 @@ class DepositFgo extends Component {
                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                     .then(res => {
                         if (res.data === 'Failed') {
-                            this.setState({ error: true });
+                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
                         } else if (res.data === 'The balance is not enough') {
-                            alert("cannot withdraw this amount")
+                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                         } else {
-                            alert("your balance is updated")
+                            currentComponent.props.callbackFromParent("success", data.amount);
                         }
                     });
 
                 currentComponent.setState({ showLinearProgressBar: false });
 
             } else {
-                alert(data.message);
+                // alert(data.message);
+                currentComponent.props.callbackFromParent('error', data.error_message);
+
             }
-            window.location.reload()
+            // window.location.reload()
         });
     }
 
@@ -384,22 +389,24 @@ class DepositFgo extends Component {
                                 </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.detailRow}>
-                                    <TextField
-                                        className={classes.otherText}
-                                        placeholder="Card pin number"
+                                    <InputMask
+                                        mask="99999999999999" maskChar={null}
                                         onFocus={this.pinFocused}
                                         onChange={this.pinChanged}
-                                        error={this.state.pinInvalid && this.state.pinFocused}
-                                        helperText={(this.state.pinInvalid && this.state.pinFocused) ? 'Please enter a valid pin number' : ' '}
-                                        InputProps={{
-                                            disableUnderline: true,
-                                        }}
-                                        type="text"
-                                    />
+                                        value={this.state.pin}
+                                        className={classes.otherText}>
+                                        {() => <TextField
+                                            className={classes.otherText}
+                                            placeholder="Card Number"
+                                            type="text"
+                                            error={(this.state.pinInvalid && this.state.pinFocused)}
+                                            helperText={(this.state.pinInvalid && this.state.pinFocused) ? 'Please enter a valid 14-digit pin number.' : ' '}
+                                            InputProps={{ disableUnderline: true }}
+                                        />}
+                                    </InputMask>
                                 </Grid>
-
                                 <Grid item xs={12} className={classes.detailRow}>
-                                    <TextField
+                                    {/* <TextField
                                         className={classes.otherText}
                                         placeholder="Card serial number"
                                         onFocus={this.serialFocused}
@@ -410,7 +417,23 @@ class DepositFgo extends Component {
                                             disableUnderline: true,
                                         }}
                                         type="text"
-                                    />
+                                    /> */}
+
+                                    <InputMask
+                                        mask="***************" maskChar={null}
+                                        onFocus={this.serialFocused}
+                                        onChange={this.serialChanged}
+                                        value={this.state.serial}
+                                        className={classes.otherText}>
+                                        {() => <TextField
+                                            className={classes.otherText}
+                                            placeholder="Card Serial Number"
+                                            type="text"
+                                            error={this.state.serialInvalid && this.state.serialFocused}
+                                            helperText={(this.state.serialInvalid && this.state.serialFocused) ? 'Please enter a valid 15-digit serial number' : ' '}
+                                            InputProps={{ disableUnderline: true }}
+                                        />}
+                                    </InputMask>
                                 </Grid>
                                 <Grid item xs={12} className={classes.buttonCell}>
                                     <Button className={classes.continueButton}

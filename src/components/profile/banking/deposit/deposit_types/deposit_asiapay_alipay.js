@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
 
@@ -160,7 +161,7 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
         height: 44,
-        paddingTop:6,
+        paddingTop: 6,
         paddingLeft: 10,
         paddingRight: 10,
         width: 400,
@@ -222,6 +223,7 @@ class DepositAsiapayAlipay extends Component {
 
             amountFocused: false,
             amountInvalid: true,
+            showLinearProgressBar: false,
 
             firstOption: 300,
             secondOption: 400,
@@ -243,8 +245,8 @@ class DepositAsiapayAlipay extends Component {
     firstOptionClicked(event) {
         this.setState({ amount: this.state.firstOption });
         this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false }); 
-               this.amountInput.current.value = '';
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
     }
 
     secondOptionClicked(event) {
@@ -281,7 +283,7 @@ class DepositAsiapayAlipay extends Component {
     amountFocused(event) {
         this.setState({ amountFocused: true });
     }
-    
+
     backClicked(ev) {
         this.props.callbackFromParent('deposit_method');
     }
@@ -334,25 +336,25 @@ class DepositAsiapayAlipay extends Component {
             }
             //alert("渠道维护中");
 
-            currentComponent.setState({ showLinearProgressBar: false });            
-            currentComponent.props.callbackFromParentForError("渠道维护中");
+            currentComponent.setState({ showLinearProgressBar: false });
+            currentComponent.props.callbackFromParent("error", "渠道维护中");
 
             //throw new Error('Something went wrong.');
         }).then(function (data) {
             let qrurl = data.qr;
             if (data.code == 'ERROR') {
-                alert(data.message);
+                currentComponent.props.callbackFromParent("error", data.message);
             } else {
                 currentComponent.setState({ value: qrurl, show_qrcode: true });
             }
+
+            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
 
             currentComponent.setState({ showLinearProgressBar: false });
 
         }).catch(function (error) {                        // catch
             console.log('Request failed', error);
-
-            currentComponent.setState({ showLinearProgressBar: false });            
-            currentComponent.props.callbackFromParentForError(error);
+            currentComponent.props.callbackFromParent("error", error.message);
 
         });
     }
@@ -360,6 +362,7 @@ class DepositAsiapayAlipay extends Component {
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
+        const { showLinearProgressBar } = this.state;
 
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
 
@@ -382,7 +385,10 @@ class DepositAsiapayAlipay extends Component {
                         </Grid>
                         <Grid item xs={2} className={classes.backCell}>
                         </Grid>
-                        <Grid item xs={12} className={classes.contentRow}>
+                        <Grid item xs={12}>
+                            {showLinearProgressBar === true && <LinearProgress />}
+                        </Grid>
+                        <Grid item xs={12} className={classes.contentRow} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }} >
                             <Grid container>
                                 <Grid item xs={12} className={classes.cardTypeCell}>
                                     <Button className={classes.cardTypeButton} disabled>

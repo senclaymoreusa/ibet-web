@@ -297,7 +297,7 @@ class DepositAsiapayJDPay extends Component {
         this.props.callbackFromParent('deposit_method');
     }
 
-    handleClick = (depositChannel, apiRoute) => {
+    handleClick = () => {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
@@ -333,7 +333,7 @@ class DepositAsiapayJDPay extends Component {
 
             // alert("渠道维护中");
             // throw new Error('Something went wrong.');
-            currentComponent.props.callbackFromParentForError("渠道维护中");
+            currentComponent.props.callbackFromParent("error", "渠道维护中");
 
         }).then(function (data) {
             currentComponent.setState({ qr: data.qr });
@@ -342,7 +342,7 @@ class DepositAsiapayJDPay extends Component {
             if (data.code == 'ERROR') {
                 alert(data.message);
             } else {
-                currentComponent.setState({ value: this.state.qr, show_qrcode: true })
+                currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
             }
         }).catch(function (error) {
             currentComponent.setState({ showLinearProgressBar: false });

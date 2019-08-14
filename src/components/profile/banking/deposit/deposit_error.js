@@ -93,7 +93,7 @@ const styles = theme => ({
         backgroundColor: '#cdcdcd',
         height: 170,
     },
-    successText: {
+    errorText: {
         fontSize: 40,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -105,7 +105,7 @@ const styles = theme => ({
         display: 'inline-block',
         marginTop: 44,
     },
-    successDesc: {
+    errorDesc: {
         fontSize: 24,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -154,8 +154,8 @@ export class DepositError extends Component {
                         <AlertIcon className={classes.alertIcon} />
                     </Grid>
                     <Grid item xs={12} className={classes.errorRow}>
-                        <span className={classes.successText}>Transaction Failed</span>
-                        <span className={classes.successDesc}>
+                        <span className={classes.errorText}>Transaction Failed</span>
+                        <span className={classes.errorDesc}>
                             {errorMessage}
                         </span>
                     </Grid>

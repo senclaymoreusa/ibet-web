@@ -384,8 +384,8 @@ class DepositHelp2pay extends Component {
         var postData = {
             "amount": this.state.amount,
             "user_id": this.state.data.pk,
-            "currency": this.state.selectedCurrencyOption.value,
-            "bank": this.state.selectedBankOption.value,
+            "currency": this.state.selectedCurrencyOption,
+            "bank": this.state.selectedBankOption,
             "language": "en-Us",
             "order_id": orderid,
         }
@@ -413,7 +413,7 @@ class DepositHelp2pay extends Component {
             }
             
             currentComponent.setState({ showLinearProgressBar: false });
-            currentComponent.props.callbackFromParentForError("渠道维护中");
+            currentComponent.props.callbackFromParent("error", "渠道维护中");
 
             //alert("渠道维护中");
             throw new Error('Something went wrong.');
@@ -464,22 +464,16 @@ class DepositHelp2pay extends Component {
                             axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                 .then(res => {
                                     if (res.data === 'Failed') {
-                                        this.setState({ error: true });
+                                        currentComponent.props.callbackFromParent("error", "Transaction failed.");
                                     } else if (res.data === 'The balance is not enough') {
-                                        alert("cannot withdraw this amount")
+                                        currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                     } else {
-                                        alert("your balance is updated")
-
+                                        currentComponent.props.callbackFromParent("success", "Transaction completed.");
                                     }
-
-                                    currentComponent.setState({ showLinearProgressBar: false });
-
                                 });
                         } else {
-                            currentComponent.setState({ showLinearProgressBar: false });
-                            currentComponent.props.callbackFromParentForError('Your deposit is not success!');
+                            currentComponent.props.callbackFromParent("error", 'Your deposit failed!');
                         }
-                        window.location.reload()
                     });
                 }
             }, 1000);
@@ -487,8 +481,7 @@ class DepositHelp2pay extends Component {
         }).catch(function (error) {
             console.log('Request failed', error);
 
-            currentComponent.setState({ showLinearProgressBar: false });
-            currentComponent.props.callbackFromParentForError(error);
+            currentComponent.props.callbackFromParent("error", error.message);
 
         });
     }

@@ -144,6 +144,7 @@ export class DepositSuccess extends Component {
 
     render() {
         const { classes } = this.props;
+        const { successMessage } = this.props;
 
         return (
             <div className={classes.root}>
@@ -157,7 +158,9 @@ export class DepositSuccess extends Component {
                     <Grid item xs={12} className={classes.successRow}>
                        <span className={classes.successText}>Successful!</span>
 
-                       <span className={classes.successDesc}>Deposit $50.00 completed</span>
+                       <span className={classes.successDesc}>
+                        Deposit {successMessage} completed
+                       </span>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.button} onClick={this.doneClicked}>

@@ -329,7 +329,7 @@ class DepositAsiapayWechatpay extends Component {
             //alert("渠道维护中");
             
             currentComponent.setState({ showLinearProgressBar: false });
-            currentComponent.props.callbackFromParentForError("渠道维护中");
+            currentComponent.props.callbackFromParent("error", "渠道维护中");
 
             
             throw new Error('Something went wrong.');
@@ -340,7 +340,7 @@ class DepositAsiapayWechatpay extends Component {
 
             if (data.code == 'ERROR') {
                 // alert(data.message);
-                currentComponent.props.callbackFromParentForError(data.message);
+                currentComponent.props.callbackFromParent("error", data.message);
             } else {
                 currentComponent.setState({ value: myqr, show_qrcode: true })
             }
@@ -350,9 +350,7 @@ class DepositAsiapayWechatpay extends Component {
         }).catch(function (error) {                        // catch
             console.log('Request failed', error);
 
-            currentComponent.setState({ showLinearProgressBar: true });
-            currentComponent.props.callbackFromParentForError(error);
-
+            currentComponent.props.callbackFromParent("error", error.message);
         });
     }
 

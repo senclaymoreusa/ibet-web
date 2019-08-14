@@ -329,7 +329,7 @@ class DepositLinePay extends Component {
             })
     }
 
-    handleClick = (depositChannel, apiRoute) => {
+    handleClick = () => {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
@@ -355,8 +355,10 @@ class DepositLinePay extends Component {
                 }
                 else {
                     this.setState({ error: true });
-                    if (response.data.returnMessage) this.setState({ error_msg: response.data.returnMessage });
-                    else this.setState({ error_msg: response.data.errorMsg });
+                    if (response.data.returnMessage)
+                        this.setState({ error_msg: response.data.returnMessage });
+                    else
+                        this.setState({ error_msg: response.data.errorMsg });
 
                 }
 
@@ -364,7 +366,7 @@ class DepositLinePay extends Component {
 
             }
         ).catch(function (error) {                        // catch
-            currentComponent.props.callbackFromParentForError(error.message);
+            currentComponent.props.callbackFromParent("error", error.message);
             console.log('Request failed', error);
 
             currentComponent.setState({ showLinearProgressBar: false });

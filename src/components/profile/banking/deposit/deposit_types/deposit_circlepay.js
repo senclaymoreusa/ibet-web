@@ -293,10 +293,8 @@ class DepositCirclepay extends Component {
         const { data: userData } = this.state;
         const { amount } = this.state;
         const token = localStorage.getItem('token');
-        if (amount < 20000 || amount > 1000000) {
-            this.setState({ valid_amt: false, disable_button: true, error_msg: "Min deposit is 20000 VND, Max deposit is 1000000 VND" });
-            return;
-        }
+       
+
         if (!token) {
             console.log("no token -- user is not logged in");
         }
@@ -353,6 +351,8 @@ class DepositCirclepay extends Component {
                 console.log(res);
                 if (res.status !== 200) {
                     this.setState({ error: true, error_msg: JSON.stringify(res) });
+                    currentComponent.props.callbackFromParent("error", JSON.stringify(res));
+
                 }
                 else {
                     console.log(res);

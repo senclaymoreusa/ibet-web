@@ -321,6 +321,8 @@ class DepositAsiapayQucikpay extends Component {
             let url = data.url;
             let order_id = data.order_id;
             window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
+        }).catch(err => {
+            console.log(err);
         });
     }
 

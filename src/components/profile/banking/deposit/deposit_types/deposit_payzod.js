@@ -312,6 +312,9 @@ class DepositPayzod extends Component {
         if (res.data) {
             this.setState({ qr_code: res.data });
         }
+
+        currentComponent.props.callbackFromParent('success', amount);
+
     }
 
     render() {

@@ -315,8 +315,7 @@ class DepositQaicah extends Component {
             let redirectUrl = data.paymentPageSession.paymentPageUrl
             console.log(redirectUrl)
 
-            currentComponent.setState({ showLinearProgressBar: false });
-
+           
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Wechatpay', 'height=500,width=500');
                 var timer = setInterval(function () {
@@ -334,8 +333,6 @@ class DepositQaicah extends Component {
                         }
                         formBody = formBody.join("&");
 
-                        currentComponent.setState({ showLinearProgressBar: true });
-
                         return fetch(API_URL + 'accounting/api/qaicash/deposit_transaction', {
                             method: "POST",
                             headers: {
@@ -347,34 +344,33 @@ class DepositQaicah extends Component {
                         }).then(function (data) {
                             console.log(data.status)
                             if (data.status === 'SUCCESS') {
-                                alert('Transaction is approved.');
+                                //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
-                                    username: this.state.data.username,
-                                    balance: this.state.amountamount,
+                                    username: currentComponent.state.data.username,
+                                    balance: currentComponent.state.amount,
                                 });
                                 console.log(body)
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {
-                                            this.setState({ error: true });
-                                        } else if (res.data === 'The balance is not enough') {
-                                            currentComponent.props.callbackFromParentForError('Cannot withdraw this amount.');
+                                            //currentComponent.setState({ error: true });
+                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        } else if (res.data === "The balance is not enough") {
+                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                         } else {
-                                            currentComponent.props.callbackFromParent('success');
-
-                                        }
-
-                                        currentComponent.setState({ showLinearProgressBar: false });
-                                    });
+                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                        } });
                             } else {
-                                currentComponent.props.callbackFromParentForError('Transaction is not approved.');
+                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
                             }
                         });
                     }
                 }, 1000);
             } else {
-                this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+                currentComponent.setState({ showLinearProgressBar: false });
+                currentComponent.props.callbackFromParent("error", data.returnMessage);
+                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
         });
     }
