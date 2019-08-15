@@ -281,18 +281,19 @@ export class Home extends Component {
             this.state.ready && this.state.sports.slice(0, 4).map(item => {
               return (
                 <div key={item.name} className='each-game' >
-                  <NavLink to={`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}>
+                  <span onClick={()=>{window.open(item.game_url)}}>
+
                     {
-                      // item.image ? 
-                      // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                      // :
                       <img src={placeholdimage} height="220" width="300" alt='Not available' />
                     }
+
                     <br />
+                    
                     <div className='game-title'>
                       {item.name}
                     </div>
-                  </NavLink>
+
+                  </span>
                 </div>
               )
             })
