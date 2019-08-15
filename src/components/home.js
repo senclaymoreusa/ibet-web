@@ -72,7 +72,7 @@ export class Home extends Component {
     //     this.setState({ notices: res.data });
     //   })
 
-    var URL = API_URL + 'users/api/games/?term=Sports';
+    var URL = API_URL + 'users/api/games/?term=game';
 
     await axios.get(URL, config)
       .then(res => {
@@ -153,7 +153,7 @@ export class Home extends Component {
 
           {/* please don't delete code below */}
 
-          {/* {
+          {
             this.state.ready && this.state.sports.map(item => {
               return (
                 <div key={item.pk} className='each-game' onClick={() => {
@@ -179,7 +179,7 @@ export class Home extends Component {
                   localStorage.setItem("recent-games", JSON.stringify(array));
 
                 }}>
-                  <NavLink to={`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}>
+                  <span onClick={()=>{window.open(item.game_url)}}>
 
                     {
                       //  item.image ? 
@@ -194,13 +194,13 @@ export class Home extends Component {
                       {item.name}
                     </div>
 
-                  </NavLink>
+                  </span>
                 </div>
               )
             })
-          } */}
+          }
 
-          {
+          {/* {
             <div 
               className='each-game' 
               style={{cursor: 'pointer'}}
@@ -221,7 +221,7 @@ export class Home extends Component {
 
               </span>
             </div>
-          }
+          } */}
         </div>
 
 
