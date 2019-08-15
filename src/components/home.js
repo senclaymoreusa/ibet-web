@@ -182,9 +182,6 @@ export class Home extends Component {
                   <span onClick={()=>{window.open(item.game_url)}}>
 
                     {
-                      //  item.image ? 
-                      //  <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                      //  :
                       <img src={placeholdimage} height="220" width="300" alt='Not available' />
                     }
 
