@@ -159,7 +159,7 @@ export class DepositMethod extends Component {
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("asia_jdpay") }}>
                                     JD Pay
                                 </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("onlinepay") }}>
+                                <Button className={classes.addButton} disabled={true} onClick={() => { this.depositWith("onlinepay") }}>
                                     Online Pay
                                 </Button>
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("unionpay") }}>
