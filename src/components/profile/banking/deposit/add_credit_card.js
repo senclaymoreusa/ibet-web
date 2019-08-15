@@ -59,10 +59,6 @@ const styles = theme => ({
         color: 'black',
         marginTop: 28,
     },
-    buttonCell: {
-        paddingTop: 50,
-        textAlign: 'center',
-    },
     addButton: {
         width: 87,
         height: 58,

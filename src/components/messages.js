@@ -52,8 +52,8 @@ export const messages = {
         'deposit.remember_this_card': 'Remember card details for quicker deposit',
         'deposit.deposit_amount': 'Deposit Amount',
         'deposit.choose_payment_method': 'Choose Payment Method',
-
-
+        'deposit.continue': 'Continue',
+        'deposit.back_to_banking': 'Back to Banking',
 
         // footer message
         'footer.terms_conditions': 'Terms and Conditions',
@@ -455,10 +455,11 @@ export const messages = {
         'deposit.deposit_method': '存款方式',
         'deposit.credit_card': '信用卡',
         'deposit.remember_this_card': '记住卡片详细信息，以便快速存款',
-       
         'deposit.deposit_amount': '存款金额',
-        'deposit.choose_payment_method': '选择付款方式',
-       
+        'deposit.choose_payment_method': '选择付款方式', 
+        'deposit.continue': '继续',
+        'deposit.back_to_banking': '回到银行业',
+
         // footer message
         'footer.terms_conditions': '条款和条件',
         'footer.cookie_policy': 'Cookie政策',
@@ -882,7 +883,9 @@ export const messages = {
         'deposit.remember_this_card': 'Rappelez-vous les détails de la carte pour un dépôt plus rapide',
         'deposit.deposit_amount': 'Montant du dépôt',
         'deposit.choose_payment_method': 'Choisissez le mode de paiement',
-
+        'deposit.continue': 'Continuer',
+        'deposit.back_to_banking': 'Retour à la banque',
+      
         'open-bets.my-bets': 'My Bets',
         'open-bets.open-bets': 'Open Bets',
 

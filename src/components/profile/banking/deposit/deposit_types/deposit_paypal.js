@@ -75,11 +75,23 @@ const styles = theme => ({
         borderRadius: 22,
         backgroundColor: '#d8d8d8',
     },
+    backBankingButton: {
+        width: 324,
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: '#d8d8d8',
+    },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         paddingTop: 40,
+    },
+    backButtonCell: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: 20,
     },
     rememberCell: {
         paddingTop: 20,
@@ -292,6 +304,7 @@ class DepositPaypal extends Component {
         const { showLinearProgressBar } = this.state;
 
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
+        let backMessage = formatMessage({ id: 'deposit.back_to_banking' });
 
         const backButton = (
             <Button onClick={this.backClicked}>
@@ -466,8 +479,12 @@ class DepositPaypal extends Component {
                                             clientId: CLIENT.sandbox
                                         }}
                                     />
-                                </Grid>
-                            </Grid>
+                                </Grid> 
+                                <Grid item xs={12} className={classes.buttonCell}>
+                                    <Button className={classes.backBankingButton}
+                                        onClick={this.backClicked}
+                                    >{backMessage}</Button>
+                                </Grid> </Grid>
                         </Grid>
                     </Grid>
                 </form>

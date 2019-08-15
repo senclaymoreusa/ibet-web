@@ -65,11 +65,13 @@ const styles = function (theme) {
             color: 'black',
             marginTop: 28,
         },
-        buttonCell: {
-            paddingTop: 50,
-            textAlign: 'center',
-        },
         continueButton: {
+            width: 324,
+            height: 44,
+            borderRadius: 22,
+            backgroundColor: '#d8d8d8',
+        },
+        backBankingButton: {
             width: 324,
             height: 44,
             borderRadius: 22,
@@ -80,6 +82,12 @@ const styles = function (theme) {
             flexDirection: 'column',
             alignItems: 'center',
             paddingTop: 40,
+        },
+        backButtonCell: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            paddingTop: 20,
         },
         rememberCell: {
             paddingTop: 20,
@@ -480,8 +488,9 @@ class DepositAstropay extends Component {
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
 
-
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
+        let continueMessage = formatMessage({ id: 'deposit.continue' });
+        let backMessage = formatMessage({ id: 'deposit.back_to_banking' });
 
         const backButton = (
             <Button onClick={this.backClicked}>
@@ -625,7 +634,12 @@ class DepositAstropay extends Component {
                                             this.state.numberInvalid ||
                                             this.state.expireDateInvalid ||
                                             this.state.cvvInvalid}
-                                    >Continue</Button>
+                                    >{continueMessage}</Button>
+                                </Grid>
+                                <Grid item xs={12} className={classes.backButtonCell}>
+                                    <Button className={classes.backBankingButton}
+                                        onClick={this.backClicked}
+                                    >{backMessage}</Button>
                                 </Grid>
                             </Grid>
                         </Grid>

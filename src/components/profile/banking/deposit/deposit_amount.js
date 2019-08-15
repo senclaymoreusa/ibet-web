@@ -61,11 +61,6 @@ const styles = theme => ({
         color: 'black',
         marginTop: 28,
     },
-    buttonCell: {
-        paddingTop: 50,
-        textAlign: 'center',
-    },
-
     continueButton: {
         width: 324,
         height: 44,

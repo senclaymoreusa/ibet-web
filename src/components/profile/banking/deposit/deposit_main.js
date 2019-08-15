@@ -25,6 +25,7 @@ import DepositPayzod from './deposit_types/deposit_payzod';
 import DepositHelp2pay from './deposit_types/deposit_help2pay';
 import DepositFgo from './deposit_types/deposit_fgo';
 import DepositAstropay from './deposit_types/deposit_astropay';
+import DepositAsiapayBankcard from './deposit_types/deposit_asiapay_bankcard';
 
 const styles = theme => ({
     root: {
@@ -80,6 +81,7 @@ export class DepositMain extends Component {
                 {contentValue === 'help2pay' && <DepositHelp2pay callbackFromParent={this.setPage} />}
                 {contentValue === 'fgo' && <DepositFgo callbackFromParent={this.setPage} />}
                 {contentValue === 'astropay' && <DepositAstropay callbackFromParent={this.setPage} />}
+                {contentValue === 'onlinepay' && <DepositAsiapayBankcard callbackFromParent={this.setPage} />}
 
                 {contentValue === 'success' && <DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
                 {contentValue === 'error' && <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />}

@@ -153,20 +153,18 @@ export class DepositMethod extends Component {
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("linepay") }} >
                                     Line Pay
                                 </Button>
-
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("asia_quickpay") }}>
                                     Quick Pay
                                 </Button>
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("asia_jdpay") }}>
                                     JD Pay
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addBankAccount}>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("onlinepay") }}>
                                     Online Pay
                                 </Button>
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("unionpay") }}>
                                     Union Pay
                                 </Button>
-
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("asia_wechatpay") }}>
                                     WeChat
                                 </Button>
