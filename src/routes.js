@@ -58,6 +58,8 @@ import DepositHelp2pay from "./components/deposit_help2pay";
 import DepositScratchCard from "./components/deposit_scratchcard";
 import DepositFgo from "./components/deposit_fgo";
 
+import Profile from "./components/profile/profile"
+
 const divStyle = {
   minHeight: '100%',
 };
@@ -123,6 +125,9 @@ const BaseRouter = () => (
     <Route exact path="/deposit/scratch_card/" component={DepositScratchCard} />
     <Route exact path="/deposit_fgo/" component={DepositFgo} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
+
+    <Route exact path="/p/:type?/:sub?" component={Profile} />
+
   </div>
 );
 
