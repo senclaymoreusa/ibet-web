@@ -6,11 +6,10 @@ import ChatTool from "./chat_tool";
 import { connect } from 'react-redux';
 import { authCheckState, handle_referid } from '../actions';
 import { FormattedMessage } from 'react-intl';
+import { config } from '../util_config';
 
 import axios from 'axios';
-import { config } from '../util_config';
 import moment from 'moment';
-
 import classNames from 'classnames';
 
 import '../css/home.css';
@@ -347,8 +346,11 @@ export class Home extends Component {
             })
           }
         </div> */}
+
         <Footer />
+
         <ChatTool/>
+
       </div>
 
     );
