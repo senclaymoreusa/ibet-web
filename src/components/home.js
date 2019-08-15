@@ -6,11 +6,11 @@ import ChatTool from "./chat_tool";
 import { connect } from 'react-redux';
 import { authCheckState, handle_referid } from '../actions';
 import { FormattedMessage } from 'react-intl';
-import Marquee from "react-smooth-marquee";
+
 import axios from 'axios';
 import { config } from '../util_config';
 import moment from 'moment';
-import { NavLink } from 'react-router-dom';
+
 import classNames from 'classnames';
 
 import '../css/home.css';
@@ -151,8 +151,6 @@ export class Home extends Component {
 
         <div className="cont">    
 
-          {/* please don't delete code below */}
-
           {
             this.state.ready && this.state.sports.map(item => {
               return (
@@ -288,7 +286,7 @@ export class Home extends Component {
                     }
 
                     <br />
-                    
+
                     <div className='game-title'>
                       {item.name}
                     </div>
