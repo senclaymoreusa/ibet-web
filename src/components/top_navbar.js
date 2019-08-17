@@ -8,7 +8,6 @@ import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -451,6 +450,10 @@ const styles = theme => ({
     nested: {
         paddingLeft: theme.spacing.unit * 4,
     },
+    subMenu:{
+        backgroundColor:'#dedede',
+
+    }
 });
 
 const muiLogoBarTheme = createMuiTheme({
@@ -552,7 +555,7 @@ export class TopNavbar extends React.Component {
             showBankingProfileSubMenu: false,
             showAnalysisProfileSubMenu: false,
             showUserAccountProfileSubMenu: false,
-            showAgencyProfileSubMenu: false,
+            showSettingsProfileSubMenu: false,
         };
 
         this.handleSearch = this.handleSearch.bind(this);
@@ -830,26 +833,47 @@ export class TopNavbar extends React.Component {
             this.props.show_profile_menu();
         }
 
-        // this.setState({ anchorEl: event.currentTarget });
-        // this.setState(state => ({ showProfileMenu: !state.showProfileMenu }));
+        this.setState(state => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(state => ({ showBankingProfileSubMenu: false }));
+        this.setState(state => ({ showSettingsProfileSubMenu: false }));
+        this.setState(state => ({ showUserAccountProfileSubMenu: false }));
     }
 
     bankingProfileMenuItemClick = () => {
         this.setState(state => ({ showBankingProfileSubMenu: !state.showBankingProfileSubMenu }));
+
+        this.setState(state => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(state => ({ showUserAccountProfileSubMenu: false}));
+        this.setState(state => ({ showSettingsProfileSubMenu: false }));
     };
 
     analysisProfileMenuItemClick = () => {
         this.setState(state => ({ showAnalysisProfileSubMenu: !state.showAnalysisProfileSubMenu }));
+
+        this.setState(state => ({ showBankingProfileSubMenu: false }));
+        this.setState(state => ({ showSettingsProfileSubMenu: false }));
+        this.setState(state => ({ showUserAccountProfileSubMenu: false }));
     };
 
     userAccountProfileMenuItemClick = () => {
         this.setState(state => ({ showUserAccountProfileSubMenu: !state.showUserAccountProfileSubMenu }));
+
+        this.setState(state => ({ showBankingProfileSubMenu: false }));
+        this.setState(state => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(state => ({ showSettingsProfileSubMenu: false }));
     };
 
-    agencyProfileMenuItemClick = () => {
-        this.setState(state => ({ showAgencyProfileSubMenu: !state.showAgencyProfileSubMenu }));
+    settingsProfileMenuItemClick = () => {
+        this.setState(state => ({ showSettingsProfileSubMenu: !state.showSettingsProfileSubMenu }));
+
+        this.setState(state => ({ showBankingProfileSubMenu: false }));
+        this.setState(state => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(state => ({ showUserAccountProfileSubMenu: false }));
     };
 
+    logoutMenuItemClick = () => {
+
+    }
 
     handleProfileMenuClose = () => {
         this.setState(state => ({ anchorEl: null }));
@@ -886,8 +910,6 @@ export class TopNavbar extends React.Component {
                     color="inherit"
                     aria-label="Open drawer"
                     onClick={this.profileIconClicked}
-                    //onMouseEnter={this.handleUserProfileOnEnter}
-                    //onMouseLeave={this.handleUserProfileLeave}
                 >
 
                     <SVG className="profileIcon" />
@@ -896,7 +918,8 @@ export class TopNavbar extends React.Component {
                     </div>
                     <span>, </span>
                     {this.state.username}
-                    <KeyboardArrowUpIcon />
+                    {this.props.showProfileMenu ? <ExpandLess /> : <ExpandMore />}
+
                 </Button>
             </div>
         );
@@ -1032,7 +1055,7 @@ export class TopNavbar extends React.Component {
                                         >
                                             <SVG className="userIcon" />
 
-                                            <FormattedMessage id="nav.login" defaultMessage='Login' />
+                                            <FormattedMessage id="nav.signin" defaultMessage='Sign in' />
                                         </Button>
                                         {LangMenu}
                                     </div>
@@ -1577,8 +1600,8 @@ export class TopNavbar extends React.Component {
                                         <ListItemText primary="Banking" />
                                         {this.state.showBankingProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
                                     </ListItem>
-                                    <Collapse in={this.state.showBankingProfileSubMenu} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
+                                    <Collapse in={this.state.showBankingProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                        <List component="div" disablePadding>
                                             <ListItem button className={classes.nested}>
                                                 <ListItemText primary="Deposit" />
                                             </ListItem>
@@ -1591,8 +1614,8 @@ export class TopNavbar extends React.Component {
                                         <ListItemText primary="Analysis" />
                                         {this.state.showAnalysisProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
                                     </ListItem>
-                                    <Collapse in={this.state.showAnalysisProfileSubMenu} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
+                                    <Collapse in={this.state.showAnalysisProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                        <List component="div" disablePadding>
                                             <ListItem button className={classes.nested}>
                                                 <ListItemText primary="Bets" />
                                             </ListItem>
@@ -1605,22 +1628,35 @@ export class TopNavbar extends React.Component {
                                         <ListItemText primary="User Account" />
                                         {this.state.showUserAccountProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
                                     </ListItem>
-                                    <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit>
+                                    <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
                                         <List component="div" disablePadding>
                                             <ListItem button className={classes.nested}>
-                                                <ListItemText primary="User Informations" />
+                                                <ListItemText primary="User Information" />
                                             </ListItem>
                                             <ListItem button className={classes.nested}>
-                                                <ListItemText primary="Security Settings" />
-                                            </ListItem>
-                                            <ListItem button className={classes.nested}>
-                                                <ListItemText primary="Support" />
+                                                <ListItemText primary="Inbox" />
                                             </ListItem>
                                         </List>
                                     </Collapse>
-                                    <ListItem button onClick={this.agencyProfileMenuItemClick}>
-                                        <ListItemText primary="Agency" />
-                                        {this.state.showAgencyProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    <ListItem button onClick={this.responsibleGamingMenuItemClick}>
+                                        <ListItemText primary="Responsible Gaming" />
+                                    </ListItem>
+                                    <ListItem button onClick={this.settingsProfileMenuItemClick}>
+                                        <ListItemText primary="Settings" />
+                                        {this.state.showSettingsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                    <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                        <List component="div" disablePadding>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Marketing" />
+                                            </ListItem>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Privacy" />
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+                                    <ListItem button onClick={this.logoutMenuItemClick}>
+                                        <ListItemText primary="Logout" />
                                     </ListItem>
                                 </List>
                             </Paper>
