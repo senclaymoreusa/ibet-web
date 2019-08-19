@@ -158,6 +158,7 @@ const styles = theme => ({
     },
     otherText: {
         fontSize: 14,
+        marginTop: 10,
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -412,7 +413,7 @@ class WithdrawQaicashLBT extends Component {
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Minimum 10"
+                                        placeholder="Minimum 100"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={this.state.amountInvalid && this.state.amountFocused}
