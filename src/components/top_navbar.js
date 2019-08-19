@@ -24,6 +24,7 @@ import {
     logout,
     handle_search,
     authLogin,
+    postLogout,
     setLanguage,
     authCheckState,
     show_login,
@@ -235,7 +236,7 @@ const styles = theme => ({
         paddingTop: 4,
         fontSize: 17,
         height: 40,
-        color: 'rgba(0, 0, 0, 0.5)',
+        color: '#6a6a6a',
         backgroundColor: '#ffffff',
         borderRadius: 6,
         border: 'solid 2px rgba(0, 0, 0, 0.5)',
@@ -260,18 +261,18 @@ const styles = theme => ({
         marginBottom: 16,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        paddingTop: 4,
         fontSize: 17,
         height: 40,
+        color: '#6a6a6a',
+        backgroundColor: '#ffffff',
         borderRadius: 6,
-        color: 'rgba(0, 0, 0, 0.85)',
-        fontWeight: 500,
-        letterSpacing: 0.66,
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        border: 'solid 2px rgba(0, 0, 0, 0.5)',
+        textTransform: 'capitalize',
+        outline: 'none',
         "&:hover": {
-            backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        },
-        "&:active": {
-            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+            backgroundColor: "#ffffff",
+            color: 'rgba(0, 0, 0, 0.5)',
         }
     },
     profileLabel: {
@@ -279,7 +280,7 @@ const styles = theme => ({
         fontWeight: 500,
         textTransform: 'capitalize',
         letterSpacing: 0.66,
-        color: 'rgba(0, 0, 0, 0.85)',
+        color: '#6a6a6a',
     },
     extendedIcon: {
         marginRight: theme.spacing.unit,
@@ -450,9 +451,17 @@ const styles = theme => ({
     nested: {
         paddingLeft: theme.spacing.unit * 4,
     },
-    subMenu:{
-        backgroundColor:'#dedede',
+    subMenu: {
+        backgroundColor: '#dedede',
 
+    },
+    mainMenuItem:{
+        "&:hover": {
+            backgroundColor: '#ffffff',
+        },
+        "&:focus": {
+            backgroundColor: '#ffffff',
+        },
     }
 });
 
@@ -750,7 +759,7 @@ export class TopNavbar extends React.Component {
         this.setState({ height: window.innerHeight, width: window.innerWidth })
     };
 
-    componentWillReceiveProps(props) {
+    async componentWillReceiveProps(props) {
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;
@@ -760,6 +769,47 @@ export class TopNavbar extends React.Component {
                     this.setState({ balance: res.data.main_wallet });
                     this.setState({ balanceCurrency: res.data.currency });
                 })
+        }
+
+        window.addEventListener("resize", this.handleResize);
+
+        this.props.authCheckState()
+            .then((res) => {
+                this.setState({ show_loggedin_status: true });
+            })
+
+        var fackbooklogin = localStorage.getItem('facebook')
+        this.setState({ facebooklogin: fackbooklogin })
+        var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
+        if (fackbooklogin === 'true') {
+            this.setState({
+                userID: fackbookObj.userID,
+                name: fackbookObj.name,
+                email: fackbookObj.email,
+                picture: fackbookObj.picture
+            })
+        }
+
+        const remember_check = localStorage.getItem('remember_check');
+        if (remember_check) {
+            await this.setState({ check: true })
+        }
+
+        const check = localStorage.getItem('one-click');
+        if (check) {
+            const username = localStorage.getItem('username');
+            const password = localStorage.getItem('password');
+            localStorage.removeItem('one-click');
+            localStorage.removeItem('username');
+            localStorage.removeItem('password');
+            this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+        } else {
+            const remember_check = localStorage.getItem('remember_check');
+            if (remember_check) {
+                const username = localStorage.getItem('remember_username');
+                const password = localStorage.getItem('remember_password');
+                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+            }
         }
     }
 
@@ -823,7 +873,9 @@ export class TopNavbar extends React.Component {
         this.setState(state => ({ expandSearchBar: false }));
     };
 
-
+    profileMenuClickAway = () => {
+        this.props.hide_profile_menu();
+    }
 
     profileIconClicked = event => {
         if (this.props.showProfileMenu) {
@@ -840,14 +892,16 @@ export class TopNavbar extends React.Component {
     }
 
     bankingProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
         this.setState(state => ({ showBankingProfileSubMenu: !state.showBankingProfileSubMenu }));
 
         this.setState(state => ({ showAnalysisProfileSubMenu: false }));
-        this.setState(state => ({ showUserAccountProfileSubMenu: false}));
+        this.setState(state => ({ showUserAccountProfileSubMenu: false }));
         this.setState(state => ({ showSettingsProfileSubMenu: false }));
     };
 
     analysisProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
         this.setState(state => ({ showAnalysisProfileSubMenu: !state.showAnalysisProfileSubMenu }));
 
         this.setState(state => ({ showBankingProfileSubMenu: false }));
@@ -856,6 +910,7 @@ export class TopNavbar extends React.Component {
     };
 
     userAccountProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
         this.setState(state => ({ showUserAccountProfileSubMenu: !state.showUserAccountProfileSubMenu }));
 
         this.setState(state => ({ showBankingProfileSubMenu: false }));
@@ -864,16 +919,13 @@ export class TopNavbar extends React.Component {
     };
 
     settingsProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
         this.setState(state => ({ showSettingsProfileSubMenu: !state.showSettingsProfileSubMenu }));
 
         this.setState(state => ({ showBankingProfileSubMenu: false }));
         this.setState(state => ({ showAnalysisProfileSubMenu: false }));
         this.setState(state => ({ showUserAccountProfileSubMenu: false }));
     };
-
-    logoutMenuItemClick = () => {
-
-    }
 
     handleProfileMenuClose = () => {
         this.setState(state => ({ anchorEl: null }));
@@ -905,22 +957,21 @@ export class TopNavbar extends React.Component {
 
         const ProfileMenu = (
             <div >
-                <Button
-                    className={classes.profileButton}
-                    color="inherit"
-                    aria-label="Open drawer"
-                    onClick={this.profileIconClicked}
-                >
-
-                    <SVG className="profileIcon" />
-                    <div className={classes.profileLabel} >
-                        <FormattedMessage id="nav.hello" defaultMessage='Hello' />
-                    </div>
-                    <span>, </span>
-                    {this.state.username}
-                    {this.props.showProfileMenu ? <ExpandLess /> : <ExpandMore />}
-
-                </Button>
+                <ClickAwayListener onClickAway={this.profileMenuClickAway}>
+                    <Button
+                        className={classes.profileButton}
+                        color="inherit"
+                        aria-label="Open drawer"
+                        onClick={this.profileIconClicked}>
+                        <SVG className="profileIcon" />
+                        <div className={classes.profileLabel} >
+                            <FormattedMessage id="nav.hello" defaultMessage='Hello' />
+                        </div>
+                        <span>, </span>
+                        {this.state.username}
+                        {this.props.showProfileMenu ? <ExpandLess /> : <ExpandMore />}
+                    </Button>
+                </ClickAwayListener>
             </div>
         );
 
@@ -1012,7 +1063,6 @@ export class TopNavbar extends React.Component {
                             <div className={classes.grow} />
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
-
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
                                         <Link to="/deposit/" style={{ textDecoration: "none" }}>
                                             <Button
@@ -1031,7 +1081,7 @@ export class TopNavbar extends React.Component {
                                             </Button>
                                         </Link>
                                         {ProfileMenu}
-                                        {LangMenu}
+                                        {/* {LangMenu} */}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
@@ -1057,7 +1107,7 @@ export class TopNavbar extends React.Component {
 
                                             <FormattedMessage id="nav.signin" defaultMessage='Sign in' />
                                         </Button>
-                                        {LangMenu}
+                                        {/* {LangMenu} */}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
@@ -1152,6 +1202,7 @@ export class TopNavbar extends React.Component {
                         </Toolbar>
                     </AppBar>
                 </MuiThemeProvider>
+
                 <div className='overlay' style={searchBackgroundStyle}></div>
 
                 <Popper
@@ -1596,7 +1647,7 @@ export class TopNavbar extends React.Component {
                                     component="nav"
                                     aria-labelledby="nested-list-subheader"
                                 >
-                                    <ListItem button onClick={this.bankingProfileMenuItemClick}>
+                                    <ListItem button onClick={this.bankingProfileMenuItemClick} className={classes.mainMenuItem}>
                                         <ListItemText primary="Banking" />
                                         {this.state.showBankingProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
                                     </ListItem>
@@ -1610,7 +1661,7 @@ export class TopNavbar extends React.Component {
                                             </ListItem>
                                         </List>
                                     </Collapse>
-                                    <ListItem button onClick={this.analysisProfileMenuItemClick}>
+                                    <ListItem button onClick={this.analysisProfileMenuItemClick} className={classes.mainMenuItem}>
                                         <ListItemText primary="Analysis" />
                                         {this.state.showAnalysisProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
                                     </ListItem>
@@ -1624,8 +1675,8 @@ export class TopNavbar extends React.Component {
                                             </ListItem>
                                         </List>
                                     </Collapse>
-                                    <ListItem button onClick={this.userAccountProfileMenuItemClick}>
-                                        <ListItemText primary="User Account" />
+                                    <ListItem button onClick={this.userAccountProfileMenuItemClick} className={classes.mainMenuItem}>
+                                        <ListItemText primary="Account" />
                                         {this.state.showUserAccountProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
                                     </ListItem>
                                     <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
@@ -1638,10 +1689,10 @@ export class TopNavbar extends React.Component {
                                             </ListItem>
                                         </List>
                                     </Collapse>
-                                    <ListItem button onClick={this.responsibleGamingMenuItemClick}>
+                                    <ListItem button onClick={this.responsibleGamingMenuItemClick} className={classes.mainMenuItem}>
                                         <ListItemText primary="Responsible Gaming" />
                                     </ListItem>
-                                    <ListItem button onClick={this.settingsProfileMenuItemClick}>
+                                    <ListItem button onClick={this.settingsProfileMenuItemClick} className={classes.mainMenuItem}>
                                         <ListItemText primary="Settings" />
                                         {this.state.showSettingsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
                                     </ListItem>
@@ -1655,7 +1706,11 @@ export class TopNavbar extends React.Component {
                                             </ListItem>
                                         </List>
                                     </Collapse>
-                                    <ListItem button onClick={this.logoutMenuItemClick}>
+                                    <ListItem button
+                                        onClick={() => {
+                                            this.props.logout()
+                                            postLogout();
+                                        }}  className={classes.mainMenuItem}>
                                         <ListItemText primary="Logout" />
                                     </ListItem>
                                 </List>
