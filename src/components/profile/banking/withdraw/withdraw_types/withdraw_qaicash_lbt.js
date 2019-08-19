@@ -252,7 +252,7 @@ class WithdrawQaicashLBT extends Component {
     }
 
     amountChanged(event) {
-        if (parseInt(event.target.value) < 10) {
+        if (parseInt(event.target.value) < 100) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -424,7 +424,7 @@ class WithdrawQaicashLBT extends Component {
                                         type="number"
                                         inputProps={{
                                             step: 10,
-                                            min: 10
+                                            min: 100
                                         }}
                                         inputRef={this.amountInput}
 
