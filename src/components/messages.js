@@ -46,7 +46,16 @@ export const messages = {
         'analysis.time': 'Time',
         'analysis.amount': 'Amount',
 
- 
+
+        'withdraw.add_payment_method': 'Add Payment Method',
+        'withdraw.withdraw_method': 'Withdraw Method',
+        'withdraw.choose_payment_method': 'Choose Withdraw Method',
+        'withdraw.continue': 'Continue',
+        'withdraw.back_to_banking': 'Back to Banking',
+        'withdraw.credit_card': 'Credit Card',
+        'withdraw.remember_this_card': 'Remember card details for quicker withdraw',
+        'withdraw.withdraw_amount': 'Withdraw Amount',
+        
 
         // footer message
         'footer.terms_conditions': 'Terms and Conditions',
@@ -193,11 +202,11 @@ export const messages = {
         'profile.add': 'Add Balance',
         'profile.referral': 'Referral link: ',
 
-        'profile-nav.banking':'Banking',
-        'profile-nav.analysis':'Analysis',
-        'profile-nav.account':'Account',
-        'profile-nav.responsible':'Responsible Gaming',
-        'profile-nav.settings':'Settings',
+        'profile-nav.banking': 'Banking',
+        'profile-nav.analysis': 'Analysis',
+        'profile-nav.account': 'Account',
+        'profile-nav.responsible': 'Responsible Gaming',
+        'profile-nav.settings': 'Settings',
 
         // handle forget_password page message
         'forget_password.enter_email': 'Enter your email address: ',
@@ -447,7 +456,19 @@ export const messages = {
         'analysis.time': '时间',
         'analysis.amount': '量',
 
-        // footer message
+
+    
+        'withdraw.add_payment_method': '添加付款方式',
+        'withdraw.withdraw_method': '退出方法',
+        'withdraw.choose_payment_method': '选择退出方法',
+        'withdraw.continue': '继续',
+        'withdraw.back_to_banking': '回到银行业',
+        'withdraw.credit_card': '信用卡',
+        'withdraw.remember_this_card': '记住卡片详细信息，以便更快退出',
+        'withdraw.withdraw_amount': '取款数量',
+
+
+         // footer message
         'footer.terms_conditions': '条款和条件',
         'footer.cookie_policy': 'Cookie政策',
         'footer.privacy_policy': '隐私政策',
@@ -592,12 +613,12 @@ export const messages = {
         'profile.referral': '推荐链接: ',
         'signup.detail.sms': "我们会发您短信验证",
 
-        'profile-nav.banking':'银行业',
-        'profile-nav.analysis':'分析',
-        'profile-nav.account':'帐户',
-        'profile-nav.responsible':'负责任的游戏',
-        'profile-nav.settings':'设置',
-        
+        'profile-nav.banking': '银行业',
+        'profile-nav.analysis': '分析',
+        'profile-nav.account': '帐户',
+        'profile-nav.responsible': '负责任的游戏',
+        'profile-nav.settings': '设置',
+
         // handle forget_password page message
         'forget_password.enter_email': '請輸入郵箱: ',
         'forget_password.mail': '郵箱: ',
@@ -863,7 +884,18 @@ export const messages = {
         'analysis.date': 'Rendez-vous amoureux',
         'analysis.time': 'Temps',
         'analysis.amount': 'Montant',
-        
+
+
+        'withdraw.add_payment_method': 'Ajouter un mode de paiement',
+        'withdraw.withdraw_method': 'Méthode de retrait',
+        'withdraw.choose_payment_method': 'Choisir la méthode de retrait',
+        'withdraw.continue': 'Continuer',
+        'withdraw.back_to_banking': 'Retour à la banque',
+        'withdraw.credit_card': 'Carte de crédit',
+        'withdraw.remember_this_card': 'Mémoriser les détails de la carte pour un retrait plus rapide',
+        'withdraw.withdraw_amount': 'Retrait du montant',
+
+
         'open-bets.my-bets': 'My Bets',
         'open-bets.open-bets': 'Open Bets',
 
@@ -1031,12 +1063,12 @@ export const messages = {
         'profile.balance': 'Solde du compte courant: ',
         'profile.add': 'Ajouter des fonds',
         "profile.referral": "Lien recommandé': ",
-      
-        'profile-nav.banking':'Bancaire',
-        'profile-nav.analysis':'Une analyse',
-        'profile-nav.account':'Compte',
-        'profile-nav.responsible':'Jeu responsable',
-        'profile-nav.settings':'Réglages',
+
+        'profile-nav.banking': 'Bancaire',
+        'profile-nav.analysis': 'Une analyse',
+        'profile-nav.account': 'Compte',
+        'profile-nav.responsible': 'Jeu responsable',
+        'profile-nav.settings': 'Réglages',
 
         // handle forget_password page message
         'forget_password.enter_email': 'Entrez votre adresse email: ',
@@ -1151,7 +1183,7 @@ export const messages = {
         // handle new update profile
         'new_update_profile.title': 'Editer le profil',
         'new_update_profile.save': 'sauvegarder',
-        
+
 
         // handle update_profile page message
         'update_profile.username': 'Nom d\'utilisateur: ',

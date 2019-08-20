@@ -44,7 +44,7 @@ import WithdrawAsiapay from './components/withdraw_asiapay'
 import DepositAsiapayKuaiJie from "./components/deposit_asiapay_kuaijie"
 import Deposit from './components/deposit'
 import Withdraw from './components/withdraw'
-import WithdrawQaicashLBT from './components/withdraw_qaicash_lbt'
+import WithdrawQaicashLBT from './components/profile/banking/withdraw/withdraw_types/withdraw_qaicash_lbt'
 import DepositAsiapayUnionpay from './components/deposit_asiapay_unionpay'
 import DepositAsiapayWechatpay from './components/deposit_asiapay_wechatpay'
 import DepositAsiapayAlipay from './components/deposit_asiapay_alipay'
