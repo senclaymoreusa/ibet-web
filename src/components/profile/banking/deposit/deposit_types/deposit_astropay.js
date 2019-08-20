@@ -427,7 +427,7 @@ class DepositAstropay extends Component {
         this.setState({ cvv: event.target.value });
         this.setState({ cvvFocused: true });
 
-        this.setState({ cvvInvalid: (event.target.value.length < 4 || event.target.value === '0000') });
+        this.setState({ cvvInvalid: (event.target.value.length < 4 || !event.target.value ) });
     }
 
     cvvFocused(event) {
