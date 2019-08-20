@@ -44,11 +44,11 @@ import WithdrawAsiapay from './components/withdraw_asiapay'
 import DepositAsiapayQucikpay from "./components/profile/banking/deposit/deposit_types/deposit_asiapay_kuaijie"
 import Deposit from './components/deposit'
 import Withdraw from './components/withdraw'
-import WithdrawQaicashLBT from './components/withdraw_qaicash_lbt'
 import DepositAsiapayUnionpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_unionpay'
 import DepositAsiapayWechatpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_wechatpay'
 import DepositAsiapayAlipay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_alipay'
 import DepositQaicashAlipay from './components/profile/banking/deposit/deposit_types/deposit_qaicash_alipay'
+import WithdrawQaicashLBT from './components/profile/banking/withdraw/withdraw_types/withdraw_qaicash_lbt'
 import New_Profile from './components/new_profile2'
 import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/profile/banking/deposit/deposit_types/deposit_astropay"

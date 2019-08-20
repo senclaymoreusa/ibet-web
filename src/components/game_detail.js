@@ -63,32 +63,31 @@ class Game_Detail extends Component {
     return(
       <div>
           <TopNavbar activeMenu={'slots'}/>
-        {/* <div>
-          <h1><FormattedMessage id="game_detail.title" defaultMessage='Game Details' /></h1>
           
-          <div><b><FormattedMessage id="game_detail.name" defaultMessage='name: ' /></b>{game._name}</div>
-          <br/>
-          <div><b><FormattedMessage id="game_detail.category" defaultMessage='category: ' /></b>{game.categoryName}</div>
-          <br/>
-          <div><b><FormattedMessage id="game_detail.startTime" defaultMessage='start_time: ' /></b>{game.start_time}</div>
-          <br/>
-          <div><b><FormattedMessage id="game_detail.endTime" defaultMessage='end_time: ' /></b>{game.end_time}</div>
-          <br/>
-          <div><b><FormattedMessage id="game_detail.opponent1" defaultMessage='opponent1: ' /></b>{game.opponent1}</div>
-          <br/>
-          <div><b><FormattedMessage id="game_detail.opponent2" defaultMessage='opponent2: ' /></b>{game.opponent2}</div>
-          <br/>
-          <div><b><FormattedMessage id="game_detail.description" defaultMessage='description: ' /></b>{game._description}</div>
-          <br/>
-          <img src={game.image} height = "100" width="100" alt = 'Not available'/>
-        </div>
+          <div>
+            <h1><FormattedMessage id="game_detail.title" defaultMessage='Game Details' /></h1>
+            
+            <div><b><FormattedMessage id="game_detail.name" defaultMessage='name: ' /></b>{game._name}</div>
+            <br/>
+            <div><b><FormattedMessage id="game_detail.category" defaultMessage='category: ' /></b>{game.categoryName}</div>
+            <br/>
+            <div><b><FormattedMessage id="game_detail.startTime" defaultMessage='start_time: ' /></b>{game.start_time}</div>
+            <br/>
+            <div><b><FormattedMessage id="game_detail.endTime" defaultMessage='end_time: ' /></b>{game.end_time}</div>
+            <br/>
+            <div><b><FormattedMessage id="game_detail.opponent1" defaultMessage='opponent1: ' /></b>{game.opponent1}</div>
+            <br/>
+            <div><b><FormattedMessage id="game_detail.opponent2" defaultMessage='opponent2: ' /></b>{game.opponent2}</div>
+            <br/>
+            <div><b><FormattedMessage id="game_detail.description" defaultMessage='description: ' /></b>{game._description}</div>
+            <br/>
+            <img src={game.image} height = "100" width="100" alt = 'Not available'/>
+          </div>
 
           <button style={{backgroundColor: 'white', border: '1px solid red', color: 'red'}} onClick={ () => {this.props.history.push('/')}}>
               <FormattedMessage id="login.back" defaultMessage='Back' />
-          </button> */}
-          <div style={{textAlign: 'center'}}> 
-              <iframe src="http://gci.aggdemo.com:81/forwardGame.do?params=PHK2xZBxrv2U5okjcK0KRlj+nX+cq6KkFdccJvGzFUXi60wZuT2d+k88AefKf9l+GazjahBcChNc92jEEsHhiGu5etApJC93JYcvvLciCEZ0VG8Du3p3f+ED9KPSbvznosgdlxlSVJgan/CcRmpGvmZEjiSlE/sdvLRJQ17S64kaFjkLxoKTmbNNEs6ld2mRgwnrIayAZodFkeVpI2xWd3HJ7GYDPof6XOxdg3z16ETKCZ+0ZLARF7OSnnYERS7S&key=62a9c3eb22302893b8bdff7d67970491" width = '1500' height="700"></iframe>
-          </div>
+          </button>
+
       </div>
     )
   }

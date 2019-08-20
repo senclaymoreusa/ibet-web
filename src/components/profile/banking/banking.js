@@ -73,6 +73,15 @@ export class Banking extends Component {
         this.setState({ tabValue: newValue })
     }
 
+
+    componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL){
+                this.props.history.push('/')
+            }
+        })
+    }
+
     render() {
         const { classes } = this.props;
         const { tabValue } = this.state;
