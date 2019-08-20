@@ -106,7 +106,7 @@ const StyledTabs = withStyles({
     indicator: {
         display: "flex",
         justifyContent: "center",
-        height:8,
+        height:5,
         backgroundColor: "transparent",
         "& > div": {
             width: "100%",
@@ -118,7 +118,7 @@ const StyledTabs = withStyles({
 const StyledTab = withStyles(theme => ({
     root: {
         textTransform: "uppercase",
-        height: 62,
+        height: 60,
         minWidth: 250,
         fontSize: 22,
         fontWeight: 'normal',
@@ -1142,7 +1142,7 @@ export class TopNavbar extends React.Component {
                     </AppBar>
                 </MuiThemeProvider>
                 <MuiThemeProvider theme={muiMenuBarTheme}>
-                    <AppBar position="static" style={{height:62, backgroundColor: 'transparent'}}>
+                    <AppBar position="static" >
                         <StyledTabs className={classes.appBar} value={mainTabValue} style={{ backgroundColor: '#212121' }}>
                             <StyledTab
                                 style={{ outline: 'none' }}
