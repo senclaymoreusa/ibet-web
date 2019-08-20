@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
 
-import { ReactComponent as CompleteIcon } from '../../../assets/img/svg/complete-icon.svg';
-
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
         width: 925,
-        height: 688,
         backgroundColor: '#ffffff',
         border: 'solid 1px #979797',
     },
-    backCell: {
-        paddingLeft: 10,
-        paddingTop: 20,
-        alignItems: 'left',
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        height: 80
-    },
+
     titleCell: {
         display: 'flex',
         flexDirection: 'column',
@@ -66,56 +62,47 @@ const styles = theme => ({
         borderBottom: '1px solid #212121',
     },
     button: {
-        width: 324,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#d8d8d8',
+        height: 52,
+        borderRadius: 10,
+        minWidth: 162,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         display: 'inline-block',
         marginBottom: 23,
+        color: '#fff',
     },
-    buttonCell: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingTop: 64,
+    updateRow: {
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        height: 75,
+        textAlign: 'right',
+        paddingTop: 13,
+        paddingRight: 52,
     },
-    completeCell:{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingTop: 50,
-        paddingBottom:50,
-    },
-    successRow:{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor:'#eaeaea',
-        height:170,
-    },
-    successText:{
-        fontSize: 40,
+    text: {
+        fontSize: 15,
         fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.33,
+        letterSpacing: 'normal',
+    },
+    subTitle: {
+        marginLeft: 10,
+        fontSize: 20,
+        fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        textAlign: 'center',
-        color: '#292929',
-        display:'inline-block',
-        marginTop:44,
     },
-    successDesc:{
-        fontSize: 24,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 'normal',
-        textAlign: 'center',
-        color: '#212121',
-        display:'inline-block',
-marginTop:19
+    row: {
+        paddingLeft: 85,
+        paddingRight: 85,
+        paddingTop: 30,
+    },
+    subRow: {
+        paddingLeft: 140,
+        paddingRight: 85,
+        paddingTop: 10,
     }
 });
 
@@ -141,10 +128,11 @@ export class Marketing extends Component {
         this.smsClicked = this.smsClicked.bind(this);
         this.postalMailClicked = this.postalMailClicked.bind(this);
         this.socialMediaClicked = this.socialMediaClicked.bind(this);
+    
     }
 
     updateClicked(ev) {
-        
+
     }
 
     communicationClicked(ev) {
@@ -177,23 +165,81 @@ export class Marketing extends Component {
 
     render() {
         const { classes } = this.props;
+        const { communication, phone, email, sms, postalMail, socialMedia, } = this.state;
+        const { formatMessage } = this.props.intl;
+
+        let titleMessage = formatMessage({ id: "settings.marketing_title" });
+        let marketingtextMessage = formatMessage({ id: "settings.marketing_text" });
+        let communicationMessage = formatMessage({ id: "settings.communication" });
+        let communicationTextMessage = formatMessage({ id: "settings.communication_text" });
+        let phoneMessage = formatMessage({ id: "settings.phone" });
+        let emailMessage = formatMessage({ id: "settings.email" });
+        let smsMessage = formatMessage({ id: "settings.sms" });
+        let postalMessage = formatMessage({ id: "settings.postal_mail" });
+        let socialMediaMessage = formatMessage({ id: "settings.social_media" });
+        let socialMediaTextMessage = formatMessage({ id: "settings.social_media_text" });
+        let updateMessage = formatMessage({ id: "settings.update" });
 
         return (
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={12} className={classes.titleCell}>
-                        <span className={classes.title}>Marketing Settings</span>
+                        <span className={classes.title}>{titleMessage}</span>
                     </Grid>
-                    <Grid item xs={12} className={classes.completeCell}>
-                        <CompleteIcon/>
+                    <Grid item xs={12} className={classes.row}>
+                        <span className={classes.text}>{marketingtextMessage}</span>
                     </Grid>
-                    <Grid item xs={12} className={classes.successRow}>
-                       <span className={classes.successText}>Successful!</span>
-
+                    <Grid item xs={12} className={classes.row}>
+                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={communication} onChange={this.communicationClicked()}
+                            value="checkedA" />}
+                            label={<Typography className={classes.subTitle}>{communicationMessage}</Typography>} />
                     </Grid>
-                    <Grid item xs={12} className={classes.buttonCell}>
+                    <Grid item xs={12} className={classes.subRow}>
+                        <span className={classes.text}>{communicationTextMessage}</span>
+                    </Grid>
+                    <Grid item xs={3} style={{ paddingLeft: 85, marginTop: 30 }}>
+                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={phone} onChange={this.phoneClicked()}
+                            value="checkedA" />}
+                            label={<Typography className={classes.subTitle}>{phoneMessage}</Typography>} />
+                    </Grid>
+                    <Grid item xs={3} style={{ marginTop: 30 }}>
+                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={email} onChange={this.emailClicked()}
+                            value="checkedA" />}
+                            label={<Typography className={classes.subTitle}>{emailMessage}</Typography>} />
+                    </Grid>
+                    <Grid item xs={3} style={{ marginTop: 30 }}>
+                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={sms} onChange={this.smsClicked()}
+                            value="checkedA" />}
+                            label={<Typography className={classes.subTitle}>{smsMessage}</Typography>} />
+                    </Grid>
+                    <Grid item xs={3} style={{ marginTop: 30 }}>
+                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={postalMail} onChange={this.postalMailClicked()}
+                            value="checkedA" />}
+                            label={<Typography className={classes.subTitle}>{postalMessage}</Typography>} />
+                    </Grid>
+                    <Grid item xs={12} className={classes.row}>
+                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={socialMedia} onChange={this.socialMediaClicked()}
+                            value="checkedA" />}
+                            label={<Typography className={classes.subTitle}>{socialMediaMessage}</Typography>} />
+                    </Grid>
+                    <Grid item xs={12} className={classes.subRow} style={{ paddingBottom: 30 }}>
+                        <span className={classes.text}>{socialMediaTextMessage}</span>
+                    </Grid>
+                    <Grid item xs={12} className={classes.updateRow}>
                         <Button className={classes.button} onClick={this.updateClicked}>
-                            Done
+                            {updateMessage}
                         </Button>
                     </Grid>
                 </Grid>
@@ -201,6 +247,10 @@ export class Marketing extends Component {
         );
     }
 }
+
+Marketing.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => {
     return {

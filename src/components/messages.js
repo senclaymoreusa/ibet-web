@@ -172,6 +172,20 @@ export const messages = {
         'reset_password.simple': "Password is too simple",
         'reset_password.done': 'You have successfully reset you password',
 
+        'settings.marketing_title':'Marketing Settings',
+        'settings.privacy_title':'Privacy Settings',
+        'settings.marketing_text': 'We only want to send you information that you will find interesting and you have full control to ensure you are only contacted when and how you prefer. Update your preferences below as often as you like and don\'t forget to press \'Update\' when done.',
+        'settings.communication': 'Communication',
+        'settings.communication_text': 'If you choose this option we will contact you with information about promotions, latest offers and other information that you will find interesting.',
+        'settings.phone': 'Phone',
+        'settings.email': 'Email',
+        'settings.sms': 'SMS',
+        'settings.postal_mail': 'Postal mail',
+        'settings.social_media': 'Social media',
+        'settings.social_media_text': 'If you choose this option, we may use our social media channels such as Facebook to contact you. This will only apply if you already use these channels and we decide to display marketing material to you. We will not provide any information about you via our social media channels.',
+        'settings.update': 'Update',
+       
+       
 
         // handle profile page message
         'profile.username': 'Username: ',
@@ -569,6 +583,19 @@ export const messages = {
         'reset_password.resend': '重新发送',
         'reset_password.simple': "密码过于简单",
         'reset_password.done': '您已成功修改密码',
+
+        'settings.marketing_title':'营销设置',
+        'settings.privacy_title':'隐私设置',
+        'settings.marketing_text': '我们只希望向您发送您会感兴趣的信息，并且您可以完全控制，以确保只在您喜欢的时间和方式联系您。 您可以根据需要随时更新您的偏好设置，并在完成后不要忘记按“更新”',
+        'settings.communication': '通讯',
+        'settings.communication_text': '如果您选择此选项，我们将与您联系，提供有关促销活动，最新优惠和其他您感兴趣的信息',
+        'settings.phone': '电话',
+        'settings.email': '电子邮件',
+        'settings.sms': '短信',
+        'settings.postal_mail': '邮政邮件',
+        'settings.social_media': '社交媒体',
+        'settings.social_media_text': '如果您选择此选项，我们可能会使用Facebook等社交媒体渠道与您联系。 这仅适用于您已经使用这些渠道并且我们决定向您展示营销材料的情况。 我们不会通过社交媒体渠道提供有关您的任何信息',
+        'settings.update': '更新',
 
 
         // handle profile page message
@@ -1011,7 +1038,19 @@ export const messages = {
         'reset_password.simple': "Le mot de passe est trop simple",
         'reset_password.done': 'Vous avez réinitialisé votre mot de passe avec succès',
 
-
+        'settings.marketing_title':'Paramètres de marketing',
+        'settings.privacy_title':'Paramètres de confidentialité',
+        'settings.marketing_text': 'Nous voulons seulement vous envoyer des informations que vous trouverez intéressantes et vous avez le contrôle total pour vous assurer que vous ne serez contacté que quand et comme vous préférez. Mettez à jour vos préférences ci-dessous aussi souvent que vous le souhaitez et n\'oubliez pas d\'appuyer sur \'Mettre à jour\' lorsque vous avez terminé.',
+        'settings.communication': 'la communication',
+        'settings.communication_text': 'Si vous choisissez cette option, nous vous contacterons avec des informations sur les promotions, les dernières offres et d\'autres informations que vous trouverez intéressantes.',
+        'settings.phone': 'Téléphone',
+        'settings.email': 'Email',
+        'settings.sms': 'SMS',
+        'settings.postal_mail': 'Courrier postal',
+        'settings.social_media': 'Des médias sociaux',
+        'settings.social_media_text': 'Si vous choisissez cette option, nous pouvons utiliser nos canaux de médias sociaux tels que Facebook pour vous contacter. Cela ne s\'appliquera que si vous utilisez déjà ces canaux et que nous décidons de vous présenter des supports marketing. Nous ne fournirons aucune information à votre sujet via nos canaux de médias sociaux.',
+        'settings.update': 'Mettre à jour',
+        
         // handle profile page message
         'profile.username': 'Nom d\'utilisateur: ',
         'profile.email': 'Email: ',
