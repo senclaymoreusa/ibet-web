@@ -60,15 +60,6 @@ export class Banking extends Component {
         this.handleTabChange = this.handleTabChange.bind(this);
     }
 
-    async componentDidMount() {
-        this.props.authCheckState()
-            .then(res => {
-                if (res === AUTH_RESULT_FAIL) {
-                    this.props.history.push('/');
-                }
-            });
-    }
-
     handleTabChange(event, newValue) {
         this.setState({ tabValue: newValue })
     }

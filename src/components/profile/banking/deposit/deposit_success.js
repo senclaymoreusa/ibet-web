@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 import { ReactComponent as CompleteIcon } from '../../../../assets/img/svg/complete-icon.svg';

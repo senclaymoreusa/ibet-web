@@ -46,7 +46,6 @@ export const messages = {
         'analysis.time': 'Time',
         'analysis.amount': 'Amount',
 
-<<<<<<< HEAD
         'deposit.add_payment_method': 'Add Payment Method',
         'deposit.deposit_method': 'Deposit Method',
         'deposit.credit_card': 'Credit Card',
@@ -55,7 +54,6 @@ export const messages = {
         'deposit.choose_payment_method': 'Choose Payment Method',
         'deposit.continue': 'Continue',
         'deposit.back_to_banking': 'Back to Banking',
-=======
 
         'withdraw.add_payment_method': 'Add Payment Method',
         'withdraw.withdraw_method': 'Withdraw Method',
@@ -66,7 +64,6 @@ export const messages = {
         'withdraw.remember_this_card': 'Remember card details for quicker withdraw',
         'withdraw.withdraw_amount': 'Withdraw Amount',
         
->>>>>>> 987300c78baa0a7e4264257d078f49196f82cbd2
 
         // footer message
         'footer.terms_conditions': 'Terms and Conditions',
@@ -464,7 +461,6 @@ export const messages = {
         'analysis.time': '时间',
         'analysis.amount': '量',
 
-<<<<<<< HEAD
         'deposit.add_payment_method': '添加付款方式',
         'deposit.deposit_method': '存款方式',
         'deposit.credit_card': '信用卡',
@@ -475,7 +471,6 @@ export const messages = {
         'deposit.back_to_banking': '回到银行业',
 
         // footer message
-=======
 
     
         'withdraw.add_payment_method': '添加付款方式',
@@ -489,7 +484,6 @@ export const messages = {
 
 
          // footer message
->>>>>>> 987300c78baa0a7e4264257d078f49196f82cbd2
         'footer.terms_conditions': '条款和条件',
         'footer.cookie_policy': 'Cookie政策',
         'footer.privacy_policy': '隐私政策',
@@ -904,7 +898,6 @@ export const messages = {
         'analysis.date': 'Rendez-vous amoureux',
         'analysis.time': 'Temps',
         'analysis.amount': 'Montant',
-<<<<<<< HEAD
         
 
         'deposit.add_payment_method': 'Ajouter un mode de paiement',
@@ -916,7 +909,6 @@ export const messages = {
         'deposit.continue': 'Continuer',
         'deposit.back_to_banking': 'Retour à la banque',
       
-=======
 
 
         'withdraw.add_payment_method': 'Ajouter un mode de paiement',
@@ -929,7 +921,6 @@ export const messages = {
         'withdraw.withdraw_amount': 'Retrait du montant',
 
 
->>>>>>> 987300c78baa0a7e4264257d078f49196f82cbd2
         'open-bets.my-bets': 'My Bets',
         'open-bets.open-bets': 'Open Bets',
 
