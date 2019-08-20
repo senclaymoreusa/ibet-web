@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
 import { injectIntl } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
@@ -62,6 +63,15 @@ export class Banking extends Component {
         this.setState({ tabValue: newValue })
     }
 
+
+    componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL){
+                this.props.history.push('/')
+            }
+        })
+    }
+
     render() {
         const { classes } = this.props;
         const { tabValue } = this.state;
@@ -89,4 +99,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(Banking)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Banking))));
