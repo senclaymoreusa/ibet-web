@@ -405,7 +405,7 @@ class DepositAstropay extends Component {
                 this.setState({ expireDateInvalid: true });
             else {
                 let year = event.target.value.split('/')[1];
-                let yearInt = parseInt("20" + year);
+                let yearInt = parseInt(year);
 
                 let expireDate = new Date();
                 expireDate.setDate(1);
@@ -427,7 +427,7 @@ class DepositAstropay extends Component {
         this.setState({ cvv: event.target.value });
         this.setState({ cvvFocused: true });
 
-        this.setState({ cvvInvalid: (event.target.value.length < 3 || event.target.value === '000') });
+        this.setState({ cvvInvalid: (event.target.value.length < 4 || event.target.value === '0000') });
     }
 
     cvvFocused(event) {
@@ -447,7 +447,7 @@ class DepositAstropay extends Component {
         console.log("amount: " + this.state.amount);
         console.log(this.state.data)
         let postData = {
-            "card_num": this.state.number,
+            "card_num": this.state.number.replace(/\s+/g, ''),
             "card_code": this.state.cvv,
             "exp_date": this.state.expireDate,
             "amount": this.state.amount
@@ -542,7 +542,7 @@ class DepositAstropay extends Component {
                                 </Grid>
                                 <Grid item xs={6} className={classes.expireCell}>
                                     <InputMask
-                                        mask="99/99" maskChar={null}
+                                        mask="99/9999" maskChar={null}
                                         onChange={this.expireDateChanged}
                                         onFocus={this.expireDateFocused}
                                         value={this.state.expireDate}
@@ -550,7 +550,7 @@ class DepositAstropay extends Component {
                                         className={classes.expireText}>
                                         {() => <TextField
                                             className={classes.expireText}
-                                            placeholder="MM/YY"
+                                            placeholder="MM/YYYY"
                                             type="text"
                                             error={(this.state.expireDateInvalid && this.state.expireDateFocused)}
                                             helperText={(this.state.expireDateInvalid && this.state.expireDateFocused) ? 'Invalid expiration card' : ' '}
@@ -561,7 +561,7 @@ class DepositAstropay extends Component {
                                 </Grid>
                                 <Grid item xs={6} className={classes.cvvCell}>
                                     <InputMask
-                                        mask="999" maskChar={null}
+                                        mask="9999" maskChar={null}
                                         onChange={this.cvvChanged}
                                         onFocus={this.cvvFocused}
                                         value={this.state.cvv}
