@@ -209,10 +209,10 @@ class DepositAsiapayQucikpay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 20,
-            secondOption: 50,
-            thirdOption: 100,
-            fourthOption: 250,
+            firstOption: 100,
+            secondOption: 200,
+            thirdOption: 500,
+            fourthOption: 1000,
             currencyValue: "USD",
             showLinearProgressBar: false,
         };
