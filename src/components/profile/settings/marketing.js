@@ -69,6 +69,12 @@ const styles = theme => ({
         display: 'inline-block',
         marginBottom: 23,
         color: '#fff',
+        '&:hover': {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        },
+        '&:focus': {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        },
     },
     updateRow: {
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
@@ -137,6 +143,14 @@ export class Marketing extends Component {
 
     communicationClicked(ev) {
         this.setState({ communication: !this.state.communication });
+
+        if(this.state.communication){
+            this.setState({ phone: false });
+            this.setState({ email: false });
+            this.setState({ sms: false });
+            this.setState({ postalMail: false });
+
+        }
     }
 
     phoneClicked(ev) {
@@ -190,9 +204,9 @@ export class Marketing extends Component {
                         <span className={classes.text}>{marketingtextMessage}</span>
                     </Grid>
                     <Grid item xs={12} className={classes.row}>
-                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                        <FormControlLabel control={<Checkbox color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                             checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={communication} onChange={this.communicationClicked()}
+                            checked={communication} onChange={this.communicationClicked}
                             value="checkedA" />}
                             label={<Typography className={classes.subTitle}>{communicationMessage}</Typography>} />
                     </Grid>
@@ -200,38 +214,39 @@ export class Marketing extends Component {
                         <span className={classes.text}>{communicationTextMessage}</span>
                     </Grid>
                     <Grid item xs={3} style={{ paddingLeft: 85, marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                        <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                             checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={phone} onChange={this.phoneClicked()}
+                            checked={phone} onChange={this.phoneClicked}
                             value="checkedA" />}
                             label={<Typography className={classes.subTitle}>{phoneMessage}</Typography>} />
                     </Grid>
                     <Grid item xs={3} style={{ marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                        <FormControlLabel control={<Checkbox  disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                             checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={email} onChange={this.emailClicked()}
+                            checked={email} onChange={this.emailClicked}
                             value="checkedA" />}
                             label={<Typography className={classes.subTitle}>{emailMessage}</Typography>} />
                     </Grid>
                     <Grid item xs={3} style={{ marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                        <FormControlLabel control={<Checkbox  disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                             checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={sms} onChange={this.smsClicked()}
+                            checked={sms} onChange={this.smsClicked}
                             value="checkedA" />}
                             label={<Typography className={classes.subTitle}>{smsMessage}</Typography>} />
                     </Grid>
                     <Grid item xs={3} style={{ marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                        <FormControlLabel control={<Checkbox  disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                             checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={postalMail} onChange={this.postalMailClicked()}
+                            checked={postalMail} onChange={this.postalMailClicked}
                             value="checkedA" />}
                             label={<Typography className={classes.subTitle}>{postalMessage}</Typography>} />
                     </Grid>
                     <Grid item xs={12} className={classes.row}>
-                        <FormControlLabel control={<Checkbox icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                        <FormControlLabel control={<Checkbox color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                             checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={socialMedia} onChange={this.socialMediaClicked()}
+                            checked={socialMedia} onChange={this.socialMediaClicked}
                             value="checkedA" />}
+                            
                             label={<Typography className={classes.subTitle}>{socialMediaMessage}</Typography>} />
                     </Grid>
                     <Grid item xs={12} className={classes.subRow} style={{ paddingBottom: 30 }}>

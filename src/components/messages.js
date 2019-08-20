@@ -184,8 +184,36 @@ export const messages = {
         'settings.social_media': 'Social media',
         'settings.social_media_text': 'If you choose this option, we may use our social media channels such as Facebook to contact you. This will only apply if you already use these channels and we decide to display marketing material to you. We will not provide any information about you via our social media channels.',
         'settings.update': 'Update',
-       
-       
+
+        'settings.privacy_text': 'We only want to send you information that you will find interesting and you have full control to ensure you are only contacted when and how you prefer. Update your preferences below as often as you like and don\'t forget to press \'Update\' when done.',
+        'settings.bonuses': 'Bonuses',
+        'settings.no': 'No',
+        'settings.yes': 'Yes',
+        'settings.bonus_text': 'I would like to be informed about relevant promotions such as Deposit Bonuses and new products available in my account.',
+        'settings.read_more': 'Read More',
+        'settings.vip': 'VIP Program',
+        'settings.vip_text': 'I would like to be informed about VIP Programe of my account.',
+
+
+        'settings.privacy_text': '我们只希望向您发送您会感兴趣的信息，并且您可以完全控制，以确保只在您喜欢的时间和方式联系您。 您可以根据需要随时更新您的偏好设置，并在完成后不要忘记按“更新”。',
+        'settings.bonuses': '',
+        'settings.no': '',
+        'settings.yes': '',
+        'settings.bonus_text': '',
+        'settings.read_more': '',
+        'settings.vip': '',
+        'settings.vip_text': '',
+
+        'settings.privacy_text': 'Nous voulons seulement vous envoyer des informations que vous trouverez intéressantes et vous avez le contrôle total pour vous assurer que vous ne serez contacté que quand et comme vous préférez. Mettez à jour vos préférences ci-dessous aussi souvent que vous le souhaitez et n\'oubliez pas d\'appuyer sur \'Mettre à jour\' lorsque vous avez terminé.',
+        'settings.bonuses': '',
+        'settings.no': '',
+        'settings.yes': '',
+        'settings.bonus_text': '',
+        'settings.read_more': '',
+        'settings.vip': '',
+        'settings.vip_text': '',
+
+
 
         // handle profile page message
         'profile.username': 'Username: ',
