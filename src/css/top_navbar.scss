@@ -116,38 +116,47 @@ button:focus {
 .soccer {
   width: 22px;
   height: 22px;
+  margin-right: 10px;
+  margin-bottom: -3px;
   object-fit: contain;
 }
 
 .bet {
   width: 22px;
   height: 22px;
+  margin-right: 10px;
+  margin-bottom: -3px;
   object-fit: contain;
 }
 
 .games-icon {
   width: 26px;
   height: 24px;
+  margin-right: 10px;
+  margin-bottom: -3px;
   object-fit: contain;
 }
 
 .lottery {
   width: 20px;
   height: 23px;
+  margin-right: 10px;
+  margin-bottom: -3px;
   object-fit: contain;
 }
 
 .mainButtonActive {
-  opacity: 0.5 !important;
+  opacity: 1;
+  border-radius: 0 !important;
+  border-bottom: 5px solid #ff0000 !important;
 }
 
 .mainButton {
-  opacity: 1;
-//   background-color: #ffffff !important;
+  opacity: 0.5 !important;
 }
 
 .mainButton:hover {
-  opacity: 1;
+  opacity: 1 !important;
   background-color: #000000 !important;
 }
 

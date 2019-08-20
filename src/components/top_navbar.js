@@ -55,6 +55,11 @@ import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import Collapse from '@material-ui/core/Collapse';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
@@ -93,11 +98,47 @@ import Refer_User from './refer_user';
 import axios from 'axios';
 import { config } from '../util_config';
 
-import SearchBar from './search_bar';
-
 import '../css/top_navbar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
+const StyledTabs = withStyles({
+    indicator: {
+        display: "flex",
+        justifyContent: "center",
+        height:8,
+        backgroundColor: "transparent",
+        "& > div": {
+            width: "100%",
+            backgroundColor: "#ff0000",
+        }
+    }
+})(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
+
+const StyledTab = withStyles(theme => ({
+    root: {
+        textTransform: "uppercase",
+        height: 62,
+        minWidth: 250,
+        fontSize: 22,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 1.02,
+        color: '#ffffff',
+        "&:focus": {
+            opacity: 1,
+        },
+        "&:hover": {
+            color: "white",
+            opacity: 1,
+            // backgroundColor: 'black'
+        },
+    }
+}))(props => <Tab disableRipple {...props} />);
+
+
 
 const styles = theme => ({
     root: {
@@ -109,7 +150,7 @@ const styles = theme => ({
         backgroundColor: '#ffffff'
     },
     appBar: {
-        height: 72,
+        height: 60,
         boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)',
     },
     list: {
@@ -138,7 +179,7 @@ const styles = theme => ({
     },
     mainMenu: {
         display: 'none',
-        height: 72,
+        height: 60,
         [theme.breakpoints.up('md')]: {
             display: 'flex',
         },
@@ -447,7 +488,6 @@ const styles = theme => ({
             backgroundColor: blue[800],
         },
     },
-
     nested: {
         paddingLeft: theme.spacing.unit * 4,
     },
@@ -455,7 +495,7 @@ const styles = theme => ({
         backgroundColor: '#dedede',
 
     },
-    mainMenuItem:{
+    mainMenuItem: {
         "&:hover": {
             backgroundColor: '#ffffff',
         },
@@ -480,13 +520,9 @@ const muiLogoBarTheme = createMuiTheme({
 });
 
 const muiMenuBarTheme = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#212121'
-        },
-    },
     appBar: {
-        height: 72,
+        height: 62,
+        paddingBottom:2,
     },
     typography: {
         useNextVariants: true,
@@ -549,7 +585,6 @@ export class TopNavbar extends React.Component {
             name: "",
             email: "",
             picture: "",
-            showLangMenu: false,
             show_loggedin_status: false,
             balance: 0.00,
             balanceCurrency: "USD",
@@ -565,10 +600,11 @@ export class TopNavbar extends React.Component {
             showAnalysisProfileSubMenu: false,
             showUserAccountProfileSubMenu: false,
             showSettingsProfileSubMenu: false,
+
+            mainTabValue: 'sports',
         };
 
         this.handleSearch = this.handleSearch.bind(this);
-        this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onInputChange_username = this.onInputChange_username.bind(this);
         this.onInputChange_password = this.onInputChange_password.bind(this);
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
@@ -576,6 +612,12 @@ export class TopNavbar extends React.Component {
         this.toggleSidePanel = this.toggleSidePanel.bind(this);
         this.profileIconClicked = this.profileIconClicked.bind(this);
         this.bankingProfileMenuItemClick = this.bankingProfileMenuItemClick.bind(this);
+        this.navBarItemChanged = this.navBarItemChanged.bind(this);
+        // this.handleMainNavChange = this.handleMainNavChange.bind(this);
+    }
+
+    handleMainTabChange(event, newValue) {
+        this.setState({ mainTabValue: newValue });
     }
 
     handleSignupOnEnter = (event) => {
@@ -651,10 +693,6 @@ export class TopNavbar extends React.Component {
         });
     };
 
-    handleLanguageMenuOpen = event => {
-        this.setState({ anchorEl: event.currentTarget });
-        this.setState({ showLangMenu: !this.state.showLangMenu });
-    };
 
     handleLoginMenuOpen = event => {
         this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
@@ -672,20 +710,6 @@ export class TopNavbar extends React.Component {
         this.props.show_signup()
     };
 
-    langMenuClicked = (event) => {
-        this.setState({ anchorEl: null });
-        this.setState({
-            lang: event.currentTarget.dataset.myValue
-        })
-
-        this.changeLanguage(event.currentTarget.dataset.myValue);
-        this.setState({ showLangMenu: false });
-    }
-
-    handleLanguageMenuClose = (ev) => {
-        this.setState({ showLangMenu: false });
-    };
-
     handleLoginMenuClose() {
         this.props.hide_login()
     }
@@ -696,11 +720,6 @@ export class TopNavbar extends React.Component {
                 // localStorage.setItem("lang", lang);
             });
     };
-
-    onFormSubmit(event) {
-        event.preventDefault();
-        //this.setState({ term: '' });
-    }
 
     onInputChange_username(event) {
         if (event.target.value && this.state.password) {
@@ -931,29 +950,13 @@ export class TopNavbar extends React.Component {
         this.setState(state => ({ anchorEl: null }));
     };
 
+    navBarItemChanged(newValue) {
+        this.setState(state => ({ mainTabValue: newValue }));
+    }
+
     render() {
-        const { anchorEl, showLangMenu } = this.state;
-
+        const { anchorEl, mainTabValue } = this.state;
         const { classes } = this.props;
-
-        let countryCode = '';
-        switch (this.props.lang) {
-            case 'en':
-                countryCode = 'US';
-                break;
-            case 'zh-hans':
-                countryCode = 'CN';
-                break;
-            case 'zh':
-                countryCode = 'CN';
-                break;
-            case 'fr':
-                countryCode = 'FR';
-                break;
-            default:
-                countryCode = 'US';
-        }
-        const langButtonIcon = (<Flag country={countryCode} className={classes.flag} />);
 
         const ProfileMenu = (
             <div >
@@ -972,16 +975,6 @@ export class TopNavbar extends React.Component {
                         {this.props.showProfileMenu ? <ExpandLess /> : <ExpandMore />}
                     </Button>
                 </ClickAwayListener>
-            </div>
-        );
-
-        const LangMenu = (
-            <div className={classes.langContainer}>
-                <Button
-                    className={classes.langButton}
-                    onClick={this.handleLanguageMenuOpen}>
-                    {langButtonIcon}
-                </Button>
             </div>
         );
 
@@ -1032,6 +1025,12 @@ export class TopNavbar extends React.Component {
         }
 
         const searchBackgroundStyle = !this.state.expandSearchBar ? {} : { 'display': 'block' };
+
+        const { formatMessage } = this.props.intl;
+        let sportsMessage = formatMessage({ id: "nav.sports" });
+        let liveCasinoMessage = formatMessage({ id: "nav.live-casino" });
+        let slotsMessage = formatMessage({ id: "nav.slots" });
+        let lotteryMessage = formatMessage({ id: "nav.lottery" });
 
         return (
             <div className={classes.root}>
@@ -1143,47 +1142,75 @@ export class TopNavbar extends React.Component {
                     </AppBar>
                 </MuiThemeProvider>
                 <MuiThemeProvider theme={muiMenuBarTheme}>
-                    <AppBar position="static" >
-                        <Toolbar variant="dense" className={classes.appBar}>
-                            <div className={classes.mainMenu}>
-                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/sports_type/sports") }}>
-                                        <SoccerIcon className="soccer" />
-                                        <span className="Sports">
-                                            <FormattedMessage id="nav.sports" defaultMessage='Sports' />
-                                        </span>
-                                    </Button>
-                                </Fade>
-                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
-                                        <BetIcon className="bet" />
-                                        <span className="Live-Casino">
-                                            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
-                                        </span>
-                                    </Button>
-                                </Fade>
-                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
-                                        <SlotsIcon className="games-icon" />
-                                        <span className="Slots">
-                                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
-                                        </span>
-                                    </Button>
-                                </Fade>
-                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/lottery_type/lottery") }}>
-                                        <LotteryIcon className="lottery" />
-                                        <span className="Lottery">
-                                            <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
-                                        </span>
-                                    </Button>
-                                </Fade>
-                            </div>
+                    <AppBar position="static" style={{height:62, backgroundColor: 'transparent'}}>
+                        <StyledTabs className={classes.appBar} value={mainTabValue} style={{ backgroundColor: '#212121' }}>
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value="sports"
+                                label={<div><SoccerIcon className="soccer" />{sportsMessage}</div>}
+                                onClick={() => {
+                                    this.navBarItemChanged('sports');
+                                }}
+                            />
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value="live_casino"
+                                label={<div><BetIcon className="bet" />{liveCasinoMessage}</div>}
+                                onClick={() => {
+                                    this.navBarItemChanged('live_casino');
+                                }}
+                            />
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value="slots"
+                                label={<div><SlotsIcon className="games-icon" />{slotsMessage}</div>}
+                                onClick={() => {
+                                    this.navBarItemChanged('slots');
+                                }}
+                            />
 
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value='lottery'
+                                label={<div><LotteryIcon className="lottery" />{lotteryMessage}</div>}
+                                onClick={() => {
+                                    this.navBarItemChanged('lottery');
+                                }}
+                            />
+                        </StyledTabs>
+
+
+                        {/* <Toolbar variant="dense" className={classes.appBar}>
+                            <div className={classes.mainMenu}>
+                                <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
+                                    onClick={() => { this.props.history.push("/sports_type/sports") }}>
+                                    <SoccerIcon className="soccer" />
+                                    <span className="Sports">
+                                        <FormattedMessage id="nav.sports" defaultMessage='Sports' />
+                                    </span>
+                                </Button>
+                                <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
+                                    onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
+                                    <BetIcon className="bet" />
+                                    <span className="Live-Casino">
+                                        <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
+                                    </span>
+                                </Button>
+                                <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
+                                    onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
+                                    <SlotsIcon className="games-icon" />
+                                    <span className="Slots">
+                                        <FormattedMessage id="nav.slots" defaultMessage='Slots' />
+                                    </span>
+                                </Button>
+                                <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
+                                    onClick={() => { this.props.history.push("/lottery_type/lottery") }}>
+                                    <LotteryIcon className="lottery" />
+                                    <span className="Lottery">
+                                        <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
+                                    </span>
+                                </Button>
+                            </div>
                             <div className={classes.grow} />
                             <ClickAwayListener onClickAway={this.handleClickAway}>
                                 <div className={classes.sectionDesktop}>
@@ -1199,7 +1226,7 @@ export class TopNavbar extends React.Component {
                                     </div>
                                 </div>
                             </ClickAwayListener>
-                        </Toolbar>
+                        </Toolbar> */}
                     </AppBar>
                 </MuiThemeProvider>
 
@@ -1585,55 +1612,6 @@ export class TopNavbar extends React.Component {
                     )}
                 </Popper>
 
-                <Popper
-                    open={showLangMenu}
-                    anchorEl={anchorEl}
-                    placement='top-start' transition>
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper id="menu-list-grow" className={classes.lang_menu_list}>
-                                <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
-                                    <Menu>
-                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
-                                            selected={this.props.lang === 'en'}
-                                            classes={{
-                                                root: classes.lang_menu_list_item,
-                                                selected: classes.lang_menu_list_item_selected
-                                            }}>
-                                            <Flag country="US" />
-                                            <div className={classes.lang_menu_list_item_text}>
-                                                <FormattedMessage id="lang.english" defaultMessage='English' />
-                                            </div>
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
-                                            selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
-                                            classes={{
-                                                root: classes.lang_menu_list_item,
-                                                selected: classes.lang_menu_list_item_selected
-                                            }}>
-                                            <Flag country="CN" />
-                                            <div className={classes.lang_menu_list_item_text}>
-                                                <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
-                                            </div>
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
-                                            selected={this.props.lang === 'fr'}
-                                            classes={{
-                                                root: classes.lang_menu_list_item,
-                                                selected: classes.lang_menu_list_item_selected
-                                            }}>
-                                            <Flag country="FR" />
-                                            <div className={classes.lang_menu_list_item_text}>
-                                                <FormattedMessage id="lang.french" defaultMessage='French' />
-                                            </div>
-                                        </MenuItem>
-                                    </Menu>
-                                </ClickAwayListener>
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
                 <Popper open={this.props.showProfileMenu}
                     anchorEl={anchorEl}
                     className={classes.profileMenuPopper}
@@ -1710,7 +1688,7 @@ export class TopNavbar extends React.Component {
                                         onClick={() => {
                                             this.props.logout()
                                             postLogout();
-                                        }}  className={classes.mainMenuItem}>
+                                        }} className={classes.mainMenuItem}>
                                         <ListItemText primary="Logout" />
                                     </ListItem>
                                 </List>
