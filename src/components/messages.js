@@ -195,23 +195,6 @@ export const messages = {
         'settings.vip_text': 'I would like to be informed about VIP Programe of my account.',
 
 
-        'settings.privacy_text': '我们只希望向您发送您会感兴趣的信息，并且您可以完全控制，以确保只在您喜欢的时间和方式联系您。 您可以根据需要随时更新您的偏好设置，并在完成后不要忘记按“更新”。',
-        'settings.bonuses': '',
-        'settings.no': '',
-        'settings.yes': '',
-        'settings.bonus_text': '',
-        'settings.read_more': '',
-        'settings.vip': '',
-        'settings.vip_text': '',
-
-        'settings.privacy_text': 'Nous voulons seulement vous envoyer des informations que vous trouverez intéressantes et vous avez le contrôle total pour vous assurer que vous ne serez contacté que quand et comme vous préférez. Mettez à jour vos préférences ci-dessous aussi souvent que vous le souhaitez et n\'oubliez pas d\'appuyer sur \'Mettre à jour\' lorsque vous avez terminé.',
-        'settings.bonuses': '',
-        'settings.no': '',
-        'settings.yes': '',
-        'settings.bonus_text': '',
-        'settings.read_more': '',
-        'settings.vip': '',
-        'settings.vip_text': '',
 
 
 
@@ -624,6 +607,15 @@ export const messages = {
         'settings.social_media': '社交媒体',
         'settings.social_media_text': '如果您选择此选项，我们可能会使用Facebook等社交媒体渠道与您联系。 这仅适用于您已经使用这些渠道并且我们决定向您展示营销材料的情况。 我们不会通过社交媒体渠道提供有关您的任何信息',
         'settings.update': '更新',
+
+        'settings.privacy_text': '我们只希望向您发送您会感兴趣的信息，并且您可以完全控制，以确保只在您喜欢的时间和方式联系您。 您可以根据需要随时更新您的偏好设置，并在完成后不要忘记按“更新”。',
+        'settings.bonuses': '奖金',
+        'settings.no': '没有',
+        'settings.yes': '是',
+        'settings.bonus_text': '我希望了解相关促销信息，例如存款奖金和我帐户中提供的新产品。',
+        'settings.read_more': '阅读更多',
+        'settings.vip': 'VIP计划',
+        'settings.vip_text': '我想知道我的帐户的VIP计划。',
 
 
         // handle profile page message
@@ -1078,7 +1070,15 @@ export const messages = {
         'settings.social_media': 'Des médias sociaux',
         'settings.social_media_text': 'Si vous choisissez cette option, nous pouvons utiliser nos canaux de médias sociaux tels que Facebook pour vous contacter. Cela ne s\'appliquera que si vous utilisez déjà ces canaux et que nous décidons de vous présenter des supports marketing. Nous ne fournirons aucune information à votre sujet via nos canaux de médias sociaux.',
         'settings.update': 'Mettre à jour',
-        
+        'settings.privacy_text': 'Nous voulons seulement vous envoyer des informations que vous trouverez intéressantes et vous avez le contrôle total pour vous assurer que vous ne serez contacté que quand et comme vous préférez. Mettez à jour vos préférences ci-dessous aussi souvent que vous le souhaitez et n\'oubliez pas d\'appuyer sur \'Mettre à jour\' lorsque vous avez terminé.',
+        'settings.bonuses': 'Bonus',
+        'settings.no': 'Non',
+        'settings.yes': 'Oui',
+        'settings.bonus_text': 'Je souhaite être informé des promotions pertinentes telles que les bonus de dépôt et les nouveaux produits disponibles sur mon compte.',
+        'settings.read_more': 'Lire la suite',
+        'settings.vip': 'Programme VIP',
+        'settings.vip_text': 'Je souhaite être informé sur le programme VIP de mon compte.',
+
         // handle profile page message
         'profile.username': 'Nom d\'utilisateur: ',
         'profile.email': 'Email: ',

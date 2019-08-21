@@ -5,12 +5,9 @@ import { authCheckState } from '../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -92,7 +89,6 @@ const styles = theme => ({
         letterSpacing: 'normal',
     },
     subTitle: {
-        marginLeft: 10,
         fontSize: 20,
         fontWeight: 500,
         fontStyle: 'normal',
@@ -113,85 +109,49 @@ const styles = theme => ({
 });
 
 
+
 export class Privacy extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            communication: false,
-            phone: false,
-            email: false,
-            sms: false,
-            postalMail: false,
-            socialMedia: false,
+            bonus: false,
+            vip: false,
         }
 
         this.updateClicked = this.updateClicked.bind(this);
-        this.communicationClicked = this.communicationClicked.bind(this);
-        this.phoneClicked = this.phoneClicked.bind(this);
-        this.emailClicked = this.emailClicked.bind(this);
-        this.smsClicked = this.smsClicked.bind(this);
-        this.postalMailClicked = this.postalMailClicked.bind(this);
-        this.socialMediaClicked = this.socialMediaClicked.bind(this);
-    
+        this.bonusClicked = this.bonusClicked.bind(this);
+        this.vipClicked = this.vipClicked.bind(this);
+  
     }
 
     updateClicked(ev) {
 
     }
 
-    communicationClicked(ev) {
-        this.setState({ communication: !this.state.communication });
-
-        if(this.state.communication){
-            this.setState({ phone: false });
-            this.setState({ email: false });
-            this.setState({ sms: false });
-            this.setState({ postalMail: false });
-
-        }
+    bonusClicked(ev) {
+        this.setState({ bonus: !this.state.bonus });
     }
 
-    phoneClicked(ev) {
-        this.setState({ phone: !this.state.phone });
-    }
-
-    emailClicked(ev) {
-        this.setState({ email: !this.state.email });
-    }
-
-    smsClicked(ev) {
-        this.setState({ sms: !this.state.sms });
-    }
-
-    postalMailClicked(ev) {
-        this.setState({ postalMail: !this.state.postalMail });
-    }
-
-    socialMediaClicked(ev) {
-        this.setState({ socialMedia: !this.state.socialMedia });
-    }
-
-    componentDidMount() {
-
+    vipClicked(ev) {
+        this.setState({ vip: !this.state.vip });
     }
 
     render() {
         const { classes } = this.props;
-        const { communication, phone, email, sms, postalMail, socialMedia, } = this.state;
+        const { bonus, vip, } = this.state;
         const { formatMessage } = this.props.intl;
 
         let titleMessage = formatMessage({ id: "settings.privacy_title" });
-        let marketingtextMessage = formatMessage({ id: "settings.marketing_text" });
-        let communicationMessage = formatMessage({ id: "settings.communication" });
-        let communicationTextMessage = formatMessage({ id: "settings.communication_text" });
-        let phoneMessage = formatMessage({ id: "settings.phone" });
-        let emailMessage = formatMessage({ id: "settings.email" });
-        let smsMessage = formatMessage({ id: "settings.sms" });
-        let postalMessage = formatMessage({ id: "settings.postal_mail" });
-        let socialMediaMessage = formatMessage({ id: "settings.social_media" });
-        let socialMediaTextMessage = formatMessage({ id: "settings.social_media_text" });
+        let privacyTextMessage = formatMessage({ id: "settings.privacy_text" });
+        let bonusesMessage = formatMessage({ id: "settings.bonuses" });
+        let noMessage = formatMessage({ id: "settings.no" });
+        let yesMessage = formatMessage({ id: "settings.yes" });
+        let bonusTextMessage = formatMessage({ id: "settings.bonus_text" });
+        let readMoreMessage = formatMessage({ id: "settings.read_more" });
+        let vipMessage = formatMessage({ id: "settings.vip" });
+        let vipTextMessage = formatMessage({ id: "settings.vip_text" });
         let updateMessage = formatMessage({ id: "settings.update" });
 
         return (
@@ -201,56 +161,52 @@ export class Privacy extends Component {
                         <span className={classes.title}>{titleMessage}</span>
                     </Grid>
                     <Grid item xs={12} className={classes.row}>
-                        <span className={classes.text}>{marketingtextMessage}</span>
+                        <span className={classes.text}>{privacyTextMessage}</span>
                     </Grid>
-                    <Grid item xs={12} className={classes.row}>
-                        <FormControlLabel control={<Checkbox color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={communication} onChange={this.communicationClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{communicationMessage}</Typography>} />
+                    <Grid item xs={4} className={classes.row}>
+                        <span className={classes.subTitle}>{bonusesMessage}</span>
                     </Grid>
-                    <Grid item xs={12} className={classes.subRow}>
-                        <span className={classes.text}>{communicationTextMessage}</span>
+                    <Grid item xs={8} style={{paddingTop:20}}>
+                        <Typography component="div">
+                            <Grid component="label" container alignItems="center" >
+                                <Grid item>{noMessage}</Grid>
+                                <Grid item>
+                                    <Switch
+                                    color="secondary"
+                                        checked={bonus}
+                                        onChange={this.bonusClicked}
+                                        value="checkedC"
+                                    />
+                                </Grid>
+                                <Grid item>{yesMessage}</Grid>
+                            </Grid>
+                        </Typography>
                     </Grid>
-                    <Grid item xs={3} style={{ paddingLeft: 85, marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={phone} onChange={this.phoneClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{phoneMessage}</Typography>} />
+                    <Grid item xs={9} className={classes.row}>
+                        <span className={classes.text}>{bonusTextMessage}</span>
                     </Grid>
-                    <Grid item xs={3} style={{ marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox  disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={email} onChange={this.emailClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{emailMessage}</Typography>} />
+                    <Grid item xs={3}></Grid>
+                    <Grid item xs={4} className={classes.row}>
+                        <span className={classes.subTitle}>{vipMessage}</span>
                     </Grid>
-                    <Grid item xs={3} style={{ marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox  disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={sms} onChange={this.smsClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{smsMessage}</Typography>} />
+                    <Grid item xs={8} style={{paddingTop:20}}>
+                        <Typography component="div">
+                            <Grid component="label" container alignItems="center" >
+                                <Grid item>{noMessage}</Grid>
+                                <Grid item>
+                                    <Switch
+                                    color="secondary"
+                                        checked={vip}
+                                        onChange={this.vipClicked}
+                                        value="checkedC"
+                                    />
+                                </Grid>
+                                <Grid item>{yesMessage}</Grid>
+                            </Grid>
+                        </Typography>
                     </Grid>
-                    <Grid item xs={3} style={{ marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox  disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={postalMail} onChange={this.postalMailClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{postalMessage}</Typography>} />
-                    </Grid>
-                    <Grid item xs={12} className={classes.row}>
-                        <FormControlLabel control={<Checkbox color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={socialMedia} onChange={this.socialMediaClicked}
-                            value="checkedA" />}
-                            
-                            label={<Typography className={classes.subTitle}>{socialMediaMessage}</Typography>} />
-                    </Grid>
-                    <Grid item xs={12} className={classes.subRow} style={{ paddingBottom: 30 }}>
-                        <span className={classes.text}>{socialMediaTextMessage}</span>
+                    <Grid item xs={9} className={classes.row} style={{ paddingBottom: 30 }}>
+                        <span className={classes.text}>{vipTextMessage}</span>
                     </Grid>
                     <Grid item xs={12} className={classes.updateRow}>
                         <Button className={classes.button} onClick={this.updateClicked}>
