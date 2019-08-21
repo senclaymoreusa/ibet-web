@@ -8,18 +8,25 @@ import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
+import clsx from 'clsx';
 
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 import Fade from '@material-ui/core/Fade';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
+import WarningIcon from '@material-ui/icons/Warning';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { withStyles } from '@material-ui/core/styles';
+
+import { makeStyles } from '@material-ui/styles';
+
 
 const styles = theme => ({
     root: {
@@ -117,21 +124,86 @@ const styles = theme => ({
         paddingRight: 85,
         paddingTop: 10,
     },
-    notification: {
-        backgroundColor: '#3ce86a',
-        marginTop: 202,
-        minWidth: 1330,
+    success: {
+        backgroundColor: '#72f542',
+    },
+    error: {
+        backgroundColor: '#f54257',
+    },
+    info: {
+        backgroundColor: '#42eff5',
+    },
+    warning: {
+        backgroundColor: '#f5b642',
+    },
+    icon: {
+        fontSize: 20,
+    },
+    iconVariant: {
+        opacity: 0.9,
+        marginRight: theme.spacing.unit,
     },
     message: {
-        marginLeft: 10,
-        float: 'left',
-        lineHeight: 1.9
+        display: 'flex',
+        alignItems: 'center',
     },
-    checkIcon: {
-        float: 'left',
-    }
+    margin: {
+        margin: theme.spacing.unit,
+    },
 });
 
+const useStyles1 = makeStyles(theme => ({
+    icon: {
+        fontSize: 20,
+    },
+    iconVariant: {
+        opacity: 0.9,
+        marginRight: theme.spacing.unit,
+    },
+    message: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+}));
+
+const variantIcon = {
+    success: CheckCircleIcon,
+    warning: WarningIcon,
+    error: ErrorIcon,
+    info: InfoIcon,
+};
+
+const MySnackbarContentWrapper = (props) => {
+    const classes = props;
+    const { className, message, onClose, variant, ...other } = props;
+    const Icon = variantIcon[variant];
+
+    return (
+        <SnackbarContent
+            className={clsx(classes[variant], className)}
+            aria-describedby="client-snackbar"
+            message={
+                <span id="client-snackbar" className={classes.message}>
+                    <Icon className={clsx(classes.icon, classes.iconVariant)} />
+                    {message}
+                </span>
+            }
+            action={[
+                <IconButton key="close" aria-label="close" color="inherit" onClick={onClose}>
+                    <CloseIcon className={classes.icon} />
+                </IconButton>,
+            ]}
+            {...other}
+        />
+    );
+}
+
+MySnackbarContentWrapper.propTypes = {
+    className: PropTypes.string,
+    message: PropTypes.string,
+    onClose: PropTypes.func,
+    variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
+};
 
 export class Marketing extends Component {
 
@@ -161,6 +233,7 @@ export class Marketing extends Component {
     }
 
     updateClicked(ev) {
+
         this.setState({ showSuccessMessage: true });
 
     }
@@ -296,31 +369,15 @@ export class Marketing extends Component {
                     open={showSuccessMessage}
                     onClose={this.closeNotificationClicked}
                     autoHideDuration={3000}
-                    TransitionComponent={Fade}
-                >
-                    <SnackbarContent
-                        className={classes.notification}
-                        aria-describedby="client-snackbar"
-                        message={
-                            <div>
-                                <CheckCircleIcon className={classes.checkIcon} />
-                                <span id="client-snackbar" className={classes.message}>
-                                    Your changes are successfully updated.
-                            </span>
-                            </div>
-                        }
-                        action={[
-                            <IconButton
-                                key="close"
-                                aria-label="close"
-                                color="inherit"
-                                className={classes.close}
-                                onClick={this.closeNotificationClicked}
-                            >
-                                <CloseIcon />
-                            </IconButton>,
-                        ]}
-                    /></Snackbar>
+                    TransitionComponent={Fade}>
+                    <MySnackbarContentWrapper
+                        onClose={this.closeNotificationClicked}
+                        variant="success"
+                        message="This is a success message!"
+                        classes={classes}
+                        className={classes.margin}
+                    />
+                </Snackbar>
             </div>
         );
     }
