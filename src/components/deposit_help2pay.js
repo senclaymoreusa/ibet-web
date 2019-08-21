@@ -87,7 +87,7 @@ class DepositHelp2pay extends Component {
           value: "",
           selectedCurrencyOption: {},
           selectedBankOption: {},
-          order_id: "ibet" + new Date().toISOString().replace(/-/g, '').replace('T','').replace(/:/g,'').split('.')[0],
+        //   order_id: "ibet" + new Date().toISOString().replace(/-/g, '').replace('T','').replace(/:/g,'').split('.')[0],
         };
         
         this.onInputChange_amount          = this.onInputChange_amount.bind(this);
