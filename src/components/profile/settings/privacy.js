@@ -7,6 +7,12 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Fade from '@material-ui/core/Fade';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 
 import { withStyles } from '@material-ui/core/styles';
@@ -105,6 +111,19 @@ const styles = theme => ({
         paddingLeft: 140,
         paddingRight: 85,
         paddingTop: 10,
+    },
+    notification: {
+        backgroundColor: '#3ce86a',
+        marginTop: 202,
+        minWidth: 1330,
+    },
+    message: {
+        marginLeft: 10,
+        float: 'left',
+        lineHeight: 1.9
+    },
+    checkIcon: {
+        float: 'left',
     }
 });
 
@@ -118,15 +137,18 @@ export class Privacy extends Component {
         this.state = {
             bonus: false,
             vip: false,
+            showSuccessMessage: false,
         }
 
         this.updateClicked = this.updateClicked.bind(this);
         this.bonusClicked = this.bonusClicked.bind(this);
         this.vipClicked = this.vipClicked.bind(this);
-  
+        this.closeNotificationClicked = this.closeNotificationClicked.bind(this);
+
     }
 
     updateClicked(ev) {
+        this.setState({ showSuccessMessage: true });
 
     }
 
@@ -138,9 +160,14 @@ export class Privacy extends Component {
         this.setState({ vip: !this.state.vip });
     }
 
+    closeNotificationClicked() {
+        this.setState({ showSuccessMessage: false });
+
+    }
+
     render() {
         const { classes } = this.props;
-        const { bonus, vip, } = this.state;
+        const { bonus, vip, showSuccessMessage } = this.state;
         const { formatMessage } = this.props.intl;
 
         let titleMessage = formatMessage({ id: "settings.privacy_title" });
@@ -166,13 +193,13 @@ export class Privacy extends Component {
                     <Grid item xs={4} className={classes.row}>
                         <span className={classes.subTitle}>{bonusesMessage}</span>
                     </Grid>
-                    <Grid item xs={8} style={{paddingTop:20}}>
+                    <Grid item xs={8} style={{ paddingTop: 20 }}>
                         <Typography component="div">
                             <Grid component="label" container alignItems="center" >
                                 <Grid item>{noMessage}</Grid>
                                 <Grid item>
                                     <Switch
-                                    color="secondary"
+                                        color="secondary"
                                         checked={bonus}
                                         onChange={this.bonusClicked}
                                         value="checkedC"
@@ -189,13 +216,13 @@ export class Privacy extends Component {
                     <Grid item xs={4} className={classes.row}>
                         <span className={classes.subTitle}>{vipMessage}</span>
                     </Grid>
-                    <Grid item xs={8} style={{paddingTop:20}}>
+                    <Grid item xs={8} style={{ paddingTop: 20 }}>
                         <Typography component="div">
                             <Grid component="label" container alignItems="center" >
                                 <Grid item>{noMessage}</Grid>
                                 <Grid item>
                                     <Switch
-                                    color="secondary"
+                                        color="secondary"
                                         checked={vip}
                                         onChange={this.vipClicked}
                                         value="checkedC"
@@ -214,6 +241,40 @@ export class Privacy extends Component {
                         </Button>
                     </Grid>
                 </Grid>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                    open={showSuccessMessage}
+                    onClose={this.closeNotificationClicked}
+                    autoHideDuration={3000}
+                    TransitionComponent={Fade}
+                >
+                    <SnackbarContent
+                        className={classes.notification}
+                        aria-describedby="client-snackbar"
+                        message={
+                            <div>
+                                <CheckCircleIcon className={classes.checkIcon} />
+                                <span id="client-snackbar" className={classes.message}>
+                                    Your changes are successfully updated.
+                            </span>
+                            </div>
+                        }
+                        action={[
+                            <IconButton
+                                key="close"
+                                aria-label="close"
+                                color="inherit"
+                                className={classes.close}
+                                onClick={this.closeNotificationClicked}
+                            >
+                                <CloseIcon />
+                            </IconButton>,
+                        ]}
+                    /></Snackbar>
+
             </div>
         );
     }
