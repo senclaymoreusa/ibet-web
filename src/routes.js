@@ -56,7 +56,7 @@ import DepositCirclepay from "./components/deposit_circlepay"
 import DepositPayzod from "./components/deposit_payzod"
 import DepositHelp2pay from "./components/deposit_help2pay"
 import DepositFgo from "./components/deposit_fgo"
-
+import PlayerInbox from "./components/player_inbox"
 import Profile from "./components/profile/profile"
 
 const divStyle = {
@@ -123,7 +123,7 @@ const BaseRouter = () => (
     <Route exact path="/deposit/payzod/" component={DepositPayzod} />
     <Route exact path="/deposit_fgo/" component={DepositFgo} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
-
+    <Route exact path="/inbox/" component={PlayerInbox} />
     <Route exact path="/p/:type?/:sub?" component={Profile} />
 
   </div>

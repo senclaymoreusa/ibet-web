@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { authCheckState } from '../actions';
+
 import { connect } from 'react-redux';
+import { authCheckState } from '../actions';
 import TopNavbar from "./top_navbar";
 
 
-class PlayerInbox extends Component {
+class PersonalDetails extends Component {
 
     state = {
         data: {},
@@ -23,7 +24,7 @@ class PlayerInbox extends Component {
       return (
         <div>
              <TopNavbar />
-            <p>personal details page works!!</p>
+            <p>player inbox page works!!</p>
          </div>
       )
     }
@@ -35,4 +36,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { authCheckState })(PlayerInbox);
+export default connect(mapStateToProps, { authCheckState })(PersonalDetails);
