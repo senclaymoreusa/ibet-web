@@ -6,7 +6,6 @@ import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 
 
 import { ReactComponent as PrevStepIcon } from '../../../../assets/img/svg/prev_step.svg';
