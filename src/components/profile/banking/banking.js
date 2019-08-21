@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
+
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
@@ -77,11 +78,11 @@ export class Banking extends Component {
         const { tabValue } = this.state;
 
         return (
-            <div className={classes.root}>
+            <div className={classes.root} >
                 <Grid container>
                     <Grid item xs={4} className={classes.leftPane}>
-                    <Button className={(tabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'deposit')}>Deposit</Button>
-                    <Button className={(tabValue === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'withdraw')}>Withdraw</Button>
+                        <Button className={(tabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'deposit')}>Deposit</Button>
+                        <Button className={(tabValue === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'withdraw')}>Withdraw</Button>
                     </Grid>
                     <Grid item xs={8} className={classes.leftPane}>
                         {tabValue === 'deposit' && <DepositMain />}
