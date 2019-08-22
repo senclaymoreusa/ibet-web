@@ -56,7 +56,7 @@ import DepositCirclepay from "./components/profile/banking/deposit/deposit_types
 import DepositPayzod from "./components/profile/banking/deposit/deposit_types/deposit_payzod"
 import DepositHelp2pay from "./components/profile/banking/deposit/deposit_types/deposit_help2pay"
 import DepositFgo from "./components/profile/banking/deposit/deposit_types/deposit_fgo"
-
+import DepositScratchCard from "./components/deposit_scratchcard"
 import Profile from "./components/profile/profile"
 
 const divStyle = {
@@ -121,7 +121,7 @@ const BaseRouter = () => (
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
     <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
     <Route exact path="/deposit/payzod/" component={DepositPayzod} />
-    {/* <Route exact path="/deposit/scratch_card/" component={DepositScratchCard} /> */}
+    <Route exact path="/deposit/scratch_card/" component={DepositScratchCard} />
     <Route exact path="/deposit_fgo/" component={DepositFgo} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
 
