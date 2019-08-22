@@ -126,7 +126,7 @@ export class Home extends Component {
 
     return (
       <div >
-        <TopNavbar currentMenu='sports'/>
+        <TopNavbar/>
         {
           this.state.ready &&
           <div className='top-title'>

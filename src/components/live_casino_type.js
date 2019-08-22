@@ -217,7 +217,7 @@ class LiveCasino_Type extends Component {
             
             <div className={classes.root}>
 
-                <TopNavbar activeMenu={'live-casino'} />
+                <TopNavbar />
 
                     <AppBar position="static" style={{zIndex: 0}} >
                         <StyledTabs centered value={this.props.match.params.sub} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>

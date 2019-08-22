@@ -576,7 +576,7 @@ export class TopNavbar extends React.Component {
             showUserAccountProfileSubMenu: false,
             showSettingsProfileSubMenu: false,
 
-            mainTabValue: props.currentMenu ? props.currentMenu : 'sports',
+            mainTabValue: '',
         };
 
         this.handleSearch = this.handleSearch.bind(this);
@@ -588,10 +588,6 @@ export class TopNavbar extends React.Component {
         this.profileIconClicked = this.profileIconClicked.bind(this);
         this.bankingProfileMenuItemClick = this.bankingProfileMenuItemClick.bind(this);
         this.navBarItemChanged = this.navBarItemChanged.bind(this);
-    }
-
-    handleMainTabChange(newValue) {
-        this.setState({ mainTabValue: newValue });
     }
 
     handleSignupOnEnter = (event) => {
@@ -685,13 +681,6 @@ export class TopNavbar extends React.Component {
         this.props.hide_login()
     }
 
-    changeLanguage = (lang) => {
-        this.props.setLanguage(lang)
-            .then(() => {
-                // localStorage.setItem("lang", lang);
-            });
-    };
-
     onInputChange_username(event) {
         if (event.target.value && this.state.password) {
             this.setState({ button_disable: false })
@@ -750,6 +739,8 @@ export class TopNavbar extends React.Component {
     };
 
     componentWillReceiveProps(props) {
+        this.setMainMenuIndicator();
+
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;
@@ -804,6 +795,8 @@ export class TopNavbar extends React.Component {
     }
 
     componentDidMount() {
+        this.setMainMenuIndicator();
+
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
@@ -852,6 +845,16 @@ export class TopNavbar extends React.Component {
                 const password = localStorage.getItem('remember_password');
                 this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
             }
+        }
+    }
+
+    setMainMenuIndicator() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+
+        if (parts.length >= 2) {
+            if (parts[1].length > 0)
+                this.setState({ mainTabValue: parts[1] })
         }
     }
 
@@ -1112,31 +1115,35 @@ export class TopNavbar extends React.Component {
                         <StyledTabs className={classes.appBar} value={mainTabValue} style={{ backgroundColor: '#212121' }}>
                             <StyledTab
                                 style={{ outline: 'none' }}
-                                value="sports"
+                                value="sports_type"
                                 label={<div><SoccerIcon className="soccer" />{sportsMessage}</div>}
                                 onClick={() => {
-                                    this.navBarItemChanged('sports');
+                                    this.setState({ mainTabValue: 'sports_type' });
+                                    this.props.history.push("/sports_type/sports");
                                 }} />
                             <StyledTab
                                 style={{ outline: 'none' }}
-                                value="live_casino"
+                                value="liveCasino_type"
                                 label={<div><BetIcon className="bet" />{liveCasinoMessage}</div>}
                                 onClick={() => {
-                                    this.navBarItemChanged('live_casino');
+                                    this.setState({ mainTabValue: 'liveCasino_type' });
+                                    this.props.history.push("/liveCasino_type/live-casino/all");
                                 }} />
                             <StyledTab
                                 style={{ outline: 'none' }}
-                                value="slots"
+                                value="slot_type"
                                 label={<div><SlotsIcon className="games-icon" />{slotsMessage}</div>}
                                 onClick={() => {
-                                    this.navBarItemChanged('slots');
+                                    this.setState({ mainTabValue: 'liveCasino_type' });
+                                    this.props.history.push("/slot_type/slots/all");
                                 }} />
                             <StyledTab
                                 style={{ outline: 'none' }}
-                                value='lottery'
-                                label={<div><LotteryIcon className="lottery" />{lotteryMessage}</div>}
+                                value='lottery_type'
+                                label={<div><LotteryIcon className="lottery_type" />{lotteryMessage}</div>}
                                 onClick={() => {
-                                    this.navBarItemChanged('lottery');
+                                    this.setState({ mainTabValue: 'lottery_type' });
+                                    this.props.history.push("/lottery_type/lottery");
                                 }} />
                         </StyledTabs>
                     </AppBar>
