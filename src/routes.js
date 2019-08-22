@@ -12,52 +12,51 @@ import Game_Detail from './components/game_detail';
 import Game_Search from './components/game_search';
 // import Profile from './components/profile';
 // import Update from './components/update_profile';
-import Change_Email from './components/change_email';
-import Forget_Password from './components/forget_password';
-import Reset_Password from './components/reset_password';
-import Email_Sent from './components/email_sent';
-import Reset_Password_Done from './components/reset_password_done';
-import Referral from './components/referral';
-import Balance from './components/balance';
-import Activation from './components/activation';
-import Activate from './components/activate';
-import FundManagement from './components/fund_management';
-import OpenBets from './components/open_bets';
-import UserMessages from './components/user_messages';
-import PointsRewards from './components/points_rewards';
-import UsageAnalysis from './components/usage_analysis';
-import PersonalDetails from './components/personal_details';
-import AccountSettings from './components/account_settings';
-import DepositPaypal from './components/deposit_paypal';
-import TermsConditions from './components/policy/terms_conditions';
-import PrivacyPolicy from './components/policy/privacy_policy';
-import CookiePolicy from './components/policy/cookie_policy';
-import Change_Password from './components/change_password';
-import DepositPage from "./components/deposit_linepay";
-import DepositSuccess from "./components/deposit_success";
-import WithdrawSuccess from "./components/withdraw_success";
-// import Board from './components/orion';
-import DepositQaicah from './components/deposit_qaicash';
-import DepositAsiapayJDPay from './components/deposit_asiapay_jdpay';
-import DepositAsiapayBankcard from './components/deposit_asiapay_bankcard';
-import WithdrawAsiapay from './components/withdraw_asiapay';
-import DepositAsiapayKuaiJie from "./components/deposit_asiapay_kuaijie";
-import Deposit from './components/deposit';
-import Withdraw from './components/withdraw';
-import WithdrawQaicashLBT from './components/withdraw_qaicash_lbt';
-import DepositAsiapayUnionpay from './components/deposit_asiapay_unionpay';
-import DepositAsiapayWechatpay from './components/deposit_asiapay_wechatpay';
-import DepositAsiapayAlipay from './components/deposit_asiapay_alipay';
-import DepositQaicahAlipay from './components/deposit_qaicash_alipay';
-import New_Profile from './components/new_profile2';
-import New_Update_Profile from './components/new_update_profile2';
-import DepositAstropay from "./components/deposit_astropay";
-import DepositCirclepay from "./components/deposit_circlepay";
-import DepositPayzod from "./components/deposit_payzod";
-import DepositHelp2pay from "./components/deposit_help2pay";
-import DepositScratchCard from "./components/deposit_scratchcard";
-import DepositFgo from "./components/deposit_fgo";
-
+import Change_Email from './components/change_email'
+import Forget_Password from './components/forget_password'
+import Reset_Password from './components/reset_password'
+import Email_Sent from './components/email_sent'
+import Reset_Password_Done from './components/reset_password_done'
+import Referral from './components/referral'
+import Balance from './components/balance'
+import Activation from './components/activation'
+import Activate from './components/activate'
+import FundManagement from './components/fund_management'
+import OpenBets from './components/open_bets'
+import UserMessages from './components/user_messages'
+import PointsRewards from './components/points_rewards'
+import UsageAnalysis from './components/usage_analysis'
+import PersonalDetails from './components/personal_details'
+import AccountSettings from './components/account_settings'
+import DepositPaypal from './components/profile/banking/deposit/deposit_types/deposit_paypal'
+import TermsConditions from './components/policy/terms_conditions'
+import PrivacyPolicy from './components/policy/privacy_policy'
+import CookiePolicy from './components/policy/cookie_policy'
+import Change_Password from './components/change_password'
+import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
+import DepositSuccess from "./components/deposit_success"
+import WithdrawSuccess from "./components/withdraw_success"
+// import Board from './components/orion'
+import DepositQaicah from './components/profile/banking/deposit/deposit_types/deposit_qaicash'
+import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay'
+import DepositAsiapayBankcard from './components/profile/banking/deposit/deposit_types/deposit_asiapay_bankcard'
+import WithdrawAsiapay from './components/withdraw_asiapay'
+import DepositAsiapayQucikpay from "./components/profile/banking/deposit/deposit_types/deposit_asiapay_kuaijie"
+import Deposit from './components/deposit'
+import Withdraw from './components/withdraw'
+import DepositAsiapayUnionpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_unionpay'
+import DepositAsiapayWechatpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_wechatpay'
+import DepositAsiapayAlipay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_alipay'
+import DepositQaicashAlipay from './components/profile/banking/deposit/deposit_types/deposit_qaicash_alipay'
+import WithdrawQaicashLBT from './components/profile/banking/withdraw/withdraw_types/withdraw_qaicash_lbt'
+import New_Profile from './components/new_profile2'
+import New_Update_Profile from './components/new_update_profile2'
+import DepositAstropay from "./components/profile/banking/deposit/deposit_types/deposit_astropay"
+import DepositCirclepay from "./components/profile/banking/deposit/deposit_types/deposit_circlepay"
+import DepositPayzod from "./components/profile/banking/deposit/deposit_types/deposit_payzod"
+import DepositHelp2pay from "./components/profile/banking/deposit/deposit_types/deposit_help2pay"
+import DepositFgo from "./components/profile/banking/deposit/deposit_types/deposit_fgo"
+import DepositScratchCard from "./components/deposit_scratchcard"
 import Profile from "./components/profile/profile"
 
 const divStyle = {
@@ -103,7 +102,7 @@ const BaseRouter = () => (
     <Route exact path="/withdraw/" component={Withdraw} />
     <Route exact path="/withdraw_qaicash_lbt/" component={WithdrawQaicashLBT} />
     <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
-    <Route exact path="/deposit_qaicash_alipay/" component={DepositQaicahAlipay} />
+    <Route exact path="/deposit_qaicash_alipay/" component={DepositQaicashAlipay} />
     <Route exact path="/deposit_asiapay_jdpay/" component={DepositAsiapayJDPay} />
     <Route exact path="/deposit_asiapay_bankcard/" component={DepositAsiapayBankcard} />
     <Route exact path="/deposit_asiapay_unionpay/" component={DepositAsiapayUnionpay} />
@@ -114,8 +113,8 @@ const BaseRouter = () => (
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
     <Route exact path="/change_password/" component={Change_Password} />
-    <Route exact path="/deposit_linepay/" component={DepositPage} />
-    <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayKuaiJie} />
+    <Route exact path="/deposit_linepay/" component={DepositLinePay} />
+    <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayQucikpay} />
     <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />
     <Route exact path="/deposit/success/" component={DepositSuccess} />
     <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
