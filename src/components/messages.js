@@ -18,6 +18,53 @@ export const messages = {
         'accountmenu.referral': 'Refer new user',
         'accountmenu.languages': 'Languages',
 
+        'analysis.january': 'January',
+        'analysis.february': 'February',
+        'analysis.march': 'March',
+        'analysis.april': 'April',
+        'analysis.may': 'May',
+        'analysis.june': 'June',
+        'analysis.july': 'July',
+        'analysis.august': 'August',
+        'analysis.september': 'September',
+        'analysis.october': 'October',
+        'analysis.november': 'November',
+        'analysis.december': 'December',
+        'analysis.lifetime': 'Lifetime',
+        'analysis.win_loss': 'Total Win/Loss',
+        'analysis.total_net_position': 'Total Net Position',
+        'analysis.sport_bets': 'Sports Bets',
+        'analysis.slot_spins': 'Slots Spins',
+        'analysis.live_casino_bets': 'Live Casino Bets',
+
+        'analysis.placed': 'Placed',
+        'analysis.category': 'Category',
+        'analysis.winloss': 'Win/Loss',
+        'analysis.balance': 'Balance',
+
+        'analysis.date': 'Date',
+        'analysis.time': 'Time',
+        'analysis.amount': 'Amount',
+
+        'deposit.add_payment_method': 'Add Payment Method',
+        'deposit.deposit_method': 'Deposit Method',
+        'deposit.credit_card': 'Credit Card',
+        'deposit.remember_this_card': 'Remember card details for quicker deposit',
+        'deposit.deposit_amount': 'Deposit Amount',
+        'deposit.choose_payment_method': 'Choose Payment Method',
+        'deposit.continue': 'Continue',
+        'deposit.back_to_banking': 'Back to Banking',
+
+        'withdraw.add_payment_method': 'Add Payment Method',
+        'withdraw.withdraw_method': 'Withdraw Method',
+        'withdraw.choose_payment_method': 'Choose Withdraw Method',
+        'withdraw.continue': 'Continue',
+        'withdraw.back_to_banking': 'Back to Banking',
+        'withdraw.credit_card': 'Credit Card',
+        'withdraw.remember_this_card': 'Remember card details for quicker withdraw',
+        'withdraw.withdraw_amount': 'Withdraw Amount',
+        
+
         // footer message
         'footer.terms_conditions': 'Terms and Conditions',
         'footer.cookie_policy': 'Cookie Policy',
@@ -162,6 +209,12 @@ export const messages = {
         'profile.balance': 'Current balance: ',
         'profile.add': 'Add Balance',
         'profile.referral': 'Referral link: ',
+
+        'profile-nav.banking': 'Banking',
+        'profile-nav.analysis': 'Analysis',
+        'profile-nav.account': 'Account',
+        'profile-nav.responsible': 'Responsible Gaming',
+        'profile-nav.settings': 'Settings',
 
         // handle forget_password page message
         'forget_password.enter_email': 'Enter your email address: ',
@@ -382,7 +435,55 @@ export const messages = {
         'accountmenu.referral': '推荐新用户',
         'accountmenu.languages': '语言',
 
+        'analysis.january': '一月',
+        'analysis.february': '二月',
+        'analysis.march': '游行',
+        'analysis.april': '四月',
+        'analysis.may': '可以',
+        'analysis.june': '六月',
+        'analysis.july': '七月',
+        'analysis.august': '八月',
+        'analysis.september': '九月',
+        'analysis.october': '十月',
+        'analysis.november': '十一月',
+        'analysis.december': '十二月',
+        'analysis.lifetime': '一生',
+        'analysis.win_loss': '总赢/输',
+        'analysis.total_net_position': '总净头寸',
+        'analysis.sport_bets': '运动投注',
+        'analysis.slot_spins': '老虎机旋转',
+        'analysis.live_casino_bets': '真人娱乐场投注',
+        'analysis.placed': '放置',
+        'analysis.category': '类别',
+        'analysis.winloss': '赢/输',
+        'analysis.balance': '平衡',
+        'analysis.date': '日期',
+        'analysis.time': '时间',
+        'analysis.amount': '量',
+
+        'deposit.add_payment_method': '添加付款方式',
+        'deposit.deposit_method': '存款方式',
+        'deposit.credit_card': '信用卡',
+        'deposit.remember_this_card': '记住卡片详细信息，以便快速存款',
+        'deposit.deposit_amount': '存款金额',
+        'deposit.choose_payment_method': '选择付款方式', 
+        'deposit.continue': '继续',
+        'deposit.back_to_banking': '回到银行业',
+
         // footer message
+
+    
+        'withdraw.add_payment_method': '添加付款方式',
+        'withdraw.withdraw_method': '退出方法',
+        'withdraw.choose_payment_method': '选择退出方法',
+        'withdraw.continue': '继续',
+        'withdraw.back_to_banking': '回到银行业',
+        'withdraw.credit_card': '信用卡',
+        'withdraw.remember_this_card': '记住卡片详细信息，以便更快退出',
+        'withdraw.withdraw_amount': '取款数量',
+
+
+         // footer message
         'footer.terms_conditions': '条款和条件',
         'footer.cookie_policy': 'Cookie政策',
         'footer.privacy_policy': '隐私政策',
@@ -527,6 +628,12 @@ export const messages = {
         'profile.add': '添加资金',
         'profile.referral': '推荐链接: ',
         'signup.detail.sms': "我们会发您短信验证",
+
+        'profile-nav.banking': '银行业',
+        'profile-nav.analysis': '分析',
+        'profile-nav.account': '帐户',
+        'profile-nav.responsible': '负责任的游戏',
+        'profile-nav.settings': '设置',
 
         // handle forget_password page message
         'forget_password.enter_email': '請輸入郵箱: ',
@@ -766,6 +873,55 @@ export const messages = {
         'accountmenu.change-password': 'Change Password >',
         'accountmenu.open-bets': 'Open Bets',
 
+
+        'analysis.january': 'Janvier',
+        'analysis.february': 'Février',
+        'analysis.march': 'Mars',
+        'analysis.april': 'Avril',
+        'analysis.may': 'Mai',
+        'analysis.june': 'Juin',
+        'analysis.july': 'Juillet',
+        'analysis.august': 'Août',
+        'analysis.september': 'Septembre',
+        'analysis.october': 'Octobre',
+        'analysis.november': 'Novembre',
+        'analysis.december': 'Décembre',
+        'analysis.lifetime': 'Durée de vie',
+        'analysis.win_loss': 'Total victoire / perte',
+        'analysis.total_net_position': 'Position nette totale',
+        'analysis.sport_bets': 'Paris sportifs',
+        'analysis.slot_spins': 'Tours de machines à sous',
+        'analysis.live_casino_bets': 'Live Casino Paris',
+        'analysis.placed': 'Mis',
+        'analysis.category': 'Catégorie',
+        'analysis.winloss': 'Victoire/Perte',
+        'analysis.balance': 'Équilibre',
+        'analysis.date': 'Rendez-vous amoureux',
+        'analysis.time': 'Temps',
+        'analysis.amount': 'Montant',
+        
+
+        'deposit.add_payment_method': 'Ajouter un mode de paiement',
+        'deposit.deposit_method': 'Méthode de dépôt',
+        'deposit.credit_card': 'Carte de crédit',
+        'deposit.remember_this_card': 'Rappelez-vous les détails de la carte pour un dépôt plus rapide',
+        'deposit.deposit_amount': 'Montant du dépôt',
+        'deposit.choose_payment_method': 'Choisissez le mode de paiement',
+        'deposit.continue': 'Continuer',
+        'deposit.back_to_banking': 'Retour à la banque',
+      
+
+
+        'withdraw.add_payment_method': 'Ajouter un mode de paiement',
+        'withdraw.withdraw_method': 'Méthode de retrait',
+        'withdraw.choose_payment_method': 'Choisir la méthode de retrait',
+        'withdraw.continue': 'Continuer',
+        'withdraw.back_to_banking': 'Retour à la banque',
+        'withdraw.credit_card': 'Carte de crédit',
+        'withdraw.remember_this_card': 'Mémoriser les détails de la carte pour un retrait plus rapide',
+        'withdraw.withdraw_amount': 'Retrait du montant',
+
+
         'open-bets.my-bets': 'My Bets',
         'open-bets.open-bets': 'Open Bets',
 
@@ -934,6 +1090,12 @@ export const messages = {
         'profile.add': 'Ajouter des fonds',
         "profile.referral": "Lien recommandé': ",
 
+        'profile-nav.banking': 'Bancaire',
+        'profile-nav.analysis': 'Une analyse',
+        'profile-nav.account': 'Compte',
+        'profile-nav.responsible': 'Jeu responsable',
+        'profile-nav.settings': 'Réglages',
+
         // handle forget_password page message
         'forget_password.enter_email': 'Entrez votre adresse email: ',
         'forget_password.mail': 'Email: ',
@@ -1047,7 +1209,7 @@ export const messages = {
         // handle new update profile
         'new_update_profile.title': 'Editer le profil',
         'new_update_profile.save': 'sauvegarder',
-        
+
 
         // handle update_profile page message
         'update_profile.username': 'Nom d\'utilisateur: ',

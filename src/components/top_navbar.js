@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
@@ -12,11 +10,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-
-import blue from '@material-ui/core/colors/blue';
-
 import { errors } from './errors';
-
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -41,6 +35,7 @@ import {
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
+
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -58,13 +53,9 @@ import Collapse from '@material-ui/core/Collapse';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
-import Flag from 'react-flagkit';
 import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
 import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
 import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
@@ -83,7 +74,6 @@ import One_Click_Finish from './one_click_finish';
 import Register_Finish from './register_finish';
 import Change_Password from './change_password_new';
 import New_Profile from './new_profile';
-import New_Update_Profile from './new_update_profile';
 import New_Deposit from './new_deposit';
 import New_Deposit_Confirm from './new_deposit_confirm';
 import New_Deposit_Wechat from './new_deposit_amount_wechat';
@@ -106,7 +96,7 @@ const StyledTabs = withStyles({
     indicator: {
         display: "flex",
         justifyContent: "center",
-        height:5,
+        height: 5,
         backgroundColor: "transparent",
         "& > div": {
             width: "100%",
@@ -115,7 +105,7 @@ const StyledTabs = withStyles({
     }
 })(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
 
-const StyledTab = withStyles(theme => ({
+const StyledTab = withStyles(() => ({
     root: {
         textTransform: "uppercase",
         height: 60,
@@ -133,7 +123,6 @@ const StyledTab = withStyles(theme => ({
         "&:hover": {
             color: "white",
             opacity: 1,
-            // backgroundColor: 'black'
         },
     }
 }))(props => <Tab disableRipple {...props} />);
@@ -155,10 +144,6 @@ const styles = theme => ({
     },
     list: {
         width: 250,
-    },
-    subMenu: {
-        width: '99%',
-        marginTop: 15
     },
     grow: {
         flexGrow: 1,
@@ -342,7 +327,6 @@ const styles = theme => ({
             height: 100,
         },
         '&:hover, &$focusVisible': {
-            zIndex: 1,
             '& $imageBackdrop': {
                 opacity: 0.15,
             },
@@ -481,19 +465,10 @@ const styles = theme => ({
             fillRule: '#fe0000',
         }
     },
-    cssRoot: {
-        color: theme.palette.getContrastText(blue[300]),
-        backgroundColor: blue[300],
-        '&:hover': {
-            backgroundColor: blue[800],
-        },
-    },
-    nested: {
-        paddingLeft: theme.spacing.unit * 4,
-    },
     subMenu: {
         backgroundColor: '#dedede',
-
+        width: '99%',
+        marginTop: 15
     },
     mainMenuItem: {
         "&:hover": {
@@ -522,7 +497,8 @@ const muiLogoBarTheme = createMuiTheme({
 const muiMenuBarTheme = createMuiTheme({
     appBar: {
         height: 62,
-        paddingBottom:2,
+        paddingBottom: 2,
+
     },
     typography: {
         useNextVariants: true,
@@ -531,7 +507,6 @@ const muiMenuBarTheme = createMuiTheme({
 
 const SVG = ({
     style = {},
-    fill = "transparent",
     width = "32px",
     viewBox = "0 0 26 27",
     className = "userIcon",
@@ -601,7 +576,7 @@ export class TopNavbar extends React.Component {
             showUserAccountProfileSubMenu: false,
             showSettingsProfileSubMenu: false,
 
-            mainTabValue: 'sports',
+            mainTabValue: props.currentMenu ? props.currentMenu : 'sports',
         };
 
         this.handleSearch = this.handleSearch.bind(this);
@@ -613,10 +588,9 @@ export class TopNavbar extends React.Component {
         this.profileIconClicked = this.profileIconClicked.bind(this);
         this.bankingProfileMenuItemClick = this.bankingProfileMenuItemClick.bind(this);
         this.navBarItemChanged = this.navBarItemChanged.bind(this);
-        // this.handleMainNavChange = this.handleMainNavChange.bind(this);
     }
 
-    handleMainTabChange(event, newValue) {
+    handleMainTabChange(newValue) {
         this.setState({ mainTabValue: newValue });
     }
 
@@ -634,7 +608,6 @@ export class TopNavbar extends React.Component {
         }
 
         event.currentTarget.children[1].style.visibility = "hidden";
-
     };
 
     handleUserProfileOnEnter = (event) => {
@@ -651,7 +624,6 @@ export class TopNavbar extends React.Component {
         }
 
         event.currentTarget.children[1].style.visibility = "hidden";
-
     };
 
     handleSearch = () => {
@@ -693,7 +665,6 @@ export class TopNavbar extends React.Component {
         });
     };
 
-
     handleLoginMenuOpen = event => {
         this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
         this.props.show_login()
@@ -704,7 +675,7 @@ export class TopNavbar extends React.Component {
         this.props.show_login()
     };
 
-    handleSignupMenuOpen = event => {
+    handleSignupMenuOpen = () => {
         this.setState({ username: '', password: '' })
 
         this.props.show_signup()
@@ -716,7 +687,7 @@ export class TopNavbar extends React.Component {
 
     changeLanguage = (lang) => {
         this.props.setLanguage(lang)
-            .then((res) => {
+            .then(() => {
                 // localStorage.setItem("lang", lang);
             });
     };
@@ -770,15 +741,15 @@ export class TopNavbar extends React.Component {
         }
     }
 
-    onInputChange_checkbox = async (event) => {
+    onInputChange_checkbox = async () => {
         await this.setState({ check: !this.state.check })
     }
 
-    handleResize = e => {
+    handleResize = () => {
         this.setState({ height: window.innerHeight, width: window.innerWidth })
     };
 
-    async componentWillReceiveProps(props) {
+    componentWillReceiveProps(props) {
         if (this.props.isAuthenticated) {
             const token = localStorage.getItem('token');
             config.headers["Authorization"] = `Token ${token}`;
@@ -793,7 +764,7 @@ export class TopNavbar extends React.Component {
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-            .then((res) => {
+            .then(() => {
                 this.setState({ show_loggedin_status: true });
             })
 
@@ -811,7 +782,7 @@ export class TopNavbar extends React.Component {
 
         const remember_check = localStorage.getItem('remember_check');
         if (remember_check) {
-            await this.setState({ check: true })
+            this.setState({ check: true })
         }
 
         const check = localStorage.getItem('one-click');
@@ -832,24 +803,21 @@ export class TopNavbar extends React.Component {
         }
     }
 
-    async componentDidMount() {
-
-        if (this.props.isAuthenticated) {
-            const token = localStorage.getItem('token');
-            config.headers["Authorization"] = `Token ${token}`;
-
-            axios.get(API_URL + 'users/api/user/', config)
-                .then(res => {
-                    this.setState({ balance: res.data.main_wallet });
-                    this.setState({ balanceCurrency: res.data.currency });
-                })
-        }
-
+    componentDidMount() {
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-            .then((res) => {
+            .then(() => {
                 this.setState({ show_loggedin_status: true });
+
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ balance: res.data.main_wallet });
+                        this.setState({ balanceCurrency: res.data.currency });
+                    })
             })
 
         var fackbooklogin = localStorage.getItem('facebook')
@@ -866,7 +834,7 @@ export class TopNavbar extends React.Component {
 
         const remember_check = localStorage.getItem('remember_check');
         if (remember_check) {
-            await this.setState({ check: true })
+            this.setState({ check: true })
         }
 
         const check = localStorage.getItem('one-click');
@@ -889,7 +857,7 @@ export class TopNavbar extends React.Component {
 
     handleClickAway = () => {
         this.actualChild.blurInput();
-        this.setState(state => ({ expandSearchBar: false }));
+        this.setState(() => ({ expandSearchBar: false }));
     };
 
     profileMenuClickAway = () => {
@@ -904,58 +872,58 @@ export class TopNavbar extends React.Component {
             this.props.show_profile_menu();
         }
 
-        this.setState(state => ({ showAnalysisProfileSubMenu: false }));
-        this.setState(state => ({ showBankingProfileSubMenu: false }));
-        this.setState(state => ({ showSettingsProfileSubMenu: false }));
-        this.setState(state => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
     }
 
     bankingProfileMenuItemClick = () => {
         this.props.show_profile_menu();
         this.setState(state => ({ showBankingProfileSubMenu: !state.showBankingProfileSubMenu }));
 
-        this.setState(state => ({ showAnalysisProfileSubMenu: false }));
-        this.setState(state => ({ showUserAccountProfileSubMenu: false }));
-        this.setState(state => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
     };
 
     analysisProfileMenuItemClick = () => {
         this.props.show_profile_menu();
         this.setState(state => ({ showAnalysisProfileSubMenu: !state.showAnalysisProfileSubMenu }));
 
-        this.setState(state => ({ showBankingProfileSubMenu: false }));
-        this.setState(state => ({ showSettingsProfileSubMenu: false }));
-        this.setState(state => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
     };
 
     userAccountProfileMenuItemClick = () => {
         this.props.show_profile_menu();
         this.setState(state => ({ showUserAccountProfileSubMenu: !state.showUserAccountProfileSubMenu }));
 
-        this.setState(state => ({ showBankingProfileSubMenu: false }));
-        this.setState(state => ({ showAnalysisProfileSubMenu: false }));
-        this.setState(state => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
     };
 
     settingsProfileMenuItemClick = () => {
         this.props.show_profile_menu();
         this.setState(state => ({ showSettingsProfileSubMenu: !state.showSettingsProfileSubMenu }));
 
-        this.setState(state => ({ showBankingProfileSubMenu: false }));
-        this.setState(state => ({ showAnalysisProfileSubMenu: false }));
-        this.setState(state => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
     };
 
     handleProfileMenuClose = () => {
-        this.setState(state => ({ anchorEl: null }));
+        this.setState(() => ({ anchorEl: null }));
     };
 
     navBarItemChanged(newValue) {
-        this.setState(state => ({ mainTabValue: newValue }));
+        this.setState(() => ({ mainTabValue: newValue }));
     }
 
     render() {
-        const { anchorEl, mainTabValue } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
@@ -1070,9 +1038,9 @@ export class TopNavbar extends React.Component {
                                             >
                                                 <FormattedNumber
                                                     maximumFractionDigits={2}
-                                                    value={this.state.balance}
-                                                    style="currency"
-                                                    currency={this.state.balanceCurrency}
+                                                    value={balance}
+                                                    style='currency'
+                                                    currency={balanceCurrency}
                                                 />
                                                 <div className={classes.balanceDepositText} >
                                                     <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
@@ -1080,7 +1048,6 @@ export class TopNavbar extends React.Component {
                                             </Button>
                                         </Link>
                                         {ProfileMenu}
-                                        {/* {LangMenu} */}
                                     </div>
                                     :
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
@@ -1106,7 +1073,6 @@ export class TopNavbar extends React.Component {
 
                                             <FormattedMessage id="nav.signin" defaultMessage='Sign in' />
                                         </Button>
-                                        {/* {LangMenu} */}
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
@@ -1150,83 +1116,29 @@ export class TopNavbar extends React.Component {
                                 label={<div><SoccerIcon className="soccer" />{sportsMessage}</div>}
                                 onClick={() => {
                                     this.navBarItemChanged('sports');
-                                }}
-                            />
+                                }} />
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="live_casino"
                                 label={<div><BetIcon className="bet" />{liveCasinoMessage}</div>}
                                 onClick={() => {
                                     this.navBarItemChanged('live_casino');
-                                }}
-                            />
+                                }} />
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="slots"
                                 label={<div><SlotsIcon className="games-icon" />{slotsMessage}</div>}
                                 onClick={() => {
                                     this.navBarItemChanged('slots');
-                                }}
-                            />
-
+                                }} />
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value='lottery'
                                 label={<div><LotteryIcon className="lottery" />{lotteryMessage}</div>}
                                 onClick={() => {
                                     this.navBarItemChanged('lottery');
-                                }}
-                            />
+                                }} />
                         </StyledTabs>
-
-
-                        {/* <Toolbar variant="dense" className={classes.appBar}>
-                            <div className={classes.mainMenu}>
-                                <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
-                                    onClick={() => { this.props.history.push("/sports_type/sports") }}>
-                                    <SoccerIcon className="soccer" />
-                                    <span className="Sports">
-                                        <FormattedMessage id="nav.sports" defaultMessage='Sports' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
-                                    onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
-                                    <BetIcon className="bet" />
-                                    <span className="Live-Casino">
-                                        <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
-                                    onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
-                                    <SlotsIcon className="games-icon" />
-                                    <span className="Slots">
-                                        <FormattedMessage id="nav.slots" defaultMessage='Slots' />
-                                    </span>
-                                </Button>
-                                <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
-                                    onClick={() => { this.props.history.push("/lottery_type/lottery") }}>
-                                    <LotteryIcon className="lottery" />
-                                    <span className="Lottery">
-                                        <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
-                                    </span>
-                                </Button>
-                            </div>
-                            <div className={classes.grow} />
-                            <ClickAwayListener onClickAway={this.handleClickAway}>
-                                <div className={classes.sectionDesktop}>
-                                    <span className={searchButtonClass.join(' ')} onClick={this.handleSearch}>
-                                        <span className="search-icon"></span>
-                                    </span>
-                                    <div className={searchClass.join(' ')} ref={this.searchDiv}>
-                                        <div className="search-box">
-                                            <div className="search-container">
-                                                <SearchBar onRef={actualChild => this.actualChild = actualChild} className={classes.grow} activeMenu={this.props.activeMenu} loaded={this.state.expandSearchBar}></SearchBar>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ClickAwayListener>
-                        </Toolbar> */}
                     </AppBar>
                 </MuiThemeProvider>
 
@@ -1342,14 +1254,14 @@ export class TopNavbar extends React.Component {
                     </Paper>
                 </Popper>
 
-                <Popper
+                {/* <Popper
                     open={this.props.showUpdateProfile}
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
                         <New_Update_Profile />
                     </Paper>
-                </Popper>
+                </Popper> */}
 
                 <Popper
                     open={this.props.showDeposit}
@@ -1631,10 +1543,19 @@ export class TopNavbar extends React.Component {
                                     </ListItem>
                                     <Collapse in={this.state.showBankingProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
                                         <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/banking/deposit')
+                                                }}
+                                            >
                                                 <ListItemText primary="Deposit" />
                                             </ListItem>
-                                            <ListItem button className={classes.nested}>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/banking/withdraw')
+                                                }}>
                                                 <ListItemText primary="Withdraw" />
                                             </ListItem>
                                         </List>
@@ -1645,10 +1566,18 @@ export class TopNavbar extends React.Component {
                                     </ListItem>
                                     <Collapse in={this.state.showAnalysisProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
                                         <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/analysis/bets')
+                                                }}>
                                                 <ListItemText primary="Bets" />
                                             </ListItem>
-                                            <ListItem button className={classes.nested}>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/analysis/banking')
+                                                }}>
                                                 <ListItemText primary="Banking" />
                                             </ListItem>
                                         </List>
@@ -1732,16 +1661,13 @@ const mapStateToProps = (state) => {
         showForgetPasswordValidation: state.general.show_forget_password_validation,
         showReferUser: state.general.show_refer_user,
         showAccountMenu: state.general.show_account_menu,
-
         showProfileMenu: state.general.show_profile_menu,
-
         showOpenBets: state.general.show_open_bets,
         showSettledBets: state.general.show_settled_bets,
         showPromotions: state.general.show_promotions,
         showSettings: state.general.show_settings,
         showHelp: state.general.show_help,
         showResponsibleGambling: state.general.show_responsible_gambling,
-
     }
 }
 

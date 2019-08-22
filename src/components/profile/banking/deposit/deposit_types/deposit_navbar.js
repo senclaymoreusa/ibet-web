@@ -4,7 +4,7 @@ import {injectIntl } from 'react-intl';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import '../css/deposit.css';
+import '../../../../../css/deposit.css';
 
 const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png";
 const QUICKPAY_LOGO_URL = "http://cdn.68design.net/work/pic/201205/5Fm4VdeqjE.jpg";
@@ -98,6 +98,16 @@ export class DepositNavBar extends Component {
             <Link to="/deposit/astropay/" className={classes.Link}>
               <Button variant="contained"  color="primary" id="nav.deposit_astropay" className={classes.button}>
                   Astropay
+              </Button>
+            </Link>
+            <Link to="/deposit/circlepay/" className={classes.Link}>
+              <Button variant="contained"  color="secondary" id="nav.deposit_circlepay" className={classes.button}>
+                  Circlepay
+              </Button>
+            </Link>
+            <Link to="/deposit/payzod/" className={classes.Link}>
+              <Button variant="contained"  color="secondary" id="nav.deposit_payzod" className={classes.button}>
+                  Payzod
               </Button>
             </Link>
             <Link to="/deposit_help2pay/" className={classes.Link}>

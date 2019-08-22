@@ -32,9 +32,7 @@ import {
 
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/';
 import Grid from '@material-ui/core/Grid';
 
 import Popper from '@material-ui/core/Popper';
@@ -508,6 +506,8 @@ export class AccountMenu extends React.Component {
                 picture: facebookObj.picture
             })
         }
+
+        
     }
 
     closeClicked = (event) => {
@@ -567,23 +567,23 @@ export class AccountMenu extends React.Component {
         let languagesMessage = formatMessage({ id: "accountmenu.languages" });
 
 
-        var LineChart = require("react-chartjs").Line;
+        // var LineChart = require("react-chartjs").Line;
 
-        var chartData = {
-            labels: ["Week1", "Week2", "Week3", "Week4", "Week5", "Week6", "Week7"],
-            datasets: [
-                {
-                    label: "My First dataset",
-                    fillColor: "rgba(220,220,220,0.2)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [28, 48, 60, 30, 45, 30, 20]
-                }
-            ]
-        };
+        // var chartData = {
+        //     labels: ["Week1", "Week2", "Week3", "Week4", "Week5", "Week6", "Week7"],
+        //     datasets: [
+        //         {
+        //             label: "My First dataset",
+        //             fillColor: "rgba(220,220,220,0.2)",
+        //             strokeColor: "rgba(220,220,220,1)",
+        //             pointColor: "rgba(220,220,220,1)",
+        //             pointStrokeColor: "#fff",
+        //             pointHighlightFill: "#fff",
+        //             pointHighlightStroke: "rgba(220,220,220,1)",
+        //             data: [28, 48, 60, 30, 45, 30, 20]
+        //         }
+        //     ]
+        // };
 
         const chartOptions = {
             ///Boolean - Whether grid lines are shown across the chart
@@ -642,7 +642,7 @@ export class AccountMenu extends React.Component {
                             <span className={classes.usernameLabel}>{this.state.name + "---Docallaghan86"}</span>
                         </Grid>
                         <Grid item xs={12} className={classes.secondRow}>
-                            <LineChart className={classes.chart} data={chartData} options={chartOptions} width="340" height="150" />
+                            {/* <LineChart className={classes.chart} data={chartData} options={chartOptions} width="340" height="150" /> */}
                         </Grid>
                         <Grid item xs={12} className={classes.secondRow}>
                             <div className={classes.cashLabel}>
@@ -787,7 +787,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={4} className={classes.mergedGridButton}>
                             <Button className={classes.logoutButton}
                                 onClick={() => {
-                                    this.props.onCloseItemClicked();
+                                    this.props.hide_account_menu();
                                     this.props.show_refer_user()
                                 }}>
                                 <div className={classes.blockButtonLabel}>
@@ -815,7 +815,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={12} className={classes.mergedGridButton}>
                             <Button
                                 onClick={() => {
-                                    this.props.onCloseItemClicked();
+                                    this.props.hide_account_menu();
                                     this.props.show_change_password();
                                 }}
                                 className={classes.changePasswordButton}>

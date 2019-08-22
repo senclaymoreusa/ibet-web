@@ -134,12 +134,12 @@ class Change_Password extends Component {
         }else{
             axios.post(API_URL + 'users/api/validateandresetpassword/', {'username': this.state.data.username, 'current_password': this.state.password, 'new_password': this.state.password1}, config)
             .then(res => {
-                if(res.data.status === 'Success'){
-                    alert('Password updated successfully')
-                    this.props.hide_change_password()
-                }else{
-                    this.setState({error: true})
-                }
+
+                alert('Password updated successfully')
+                this.props.hide_change_password()
+                
+            }).catch(err => {
+                this.setState({error: true})
             })
         }
     }

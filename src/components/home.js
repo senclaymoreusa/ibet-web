@@ -6,11 +6,10 @@ import ChatTool from "./chat_tool";
 import { connect } from 'react-redux';
 import { authCheckState, handle_referid } from '../actions';
 import { FormattedMessage } from 'react-intl';
-import Marquee from "react-smooth-marquee";
-import axios from 'axios';
 import { config } from '../util_config';
+
+import axios from 'axios';
 import moment from 'moment';
-import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 
 import '../css/home.css';
@@ -22,9 +21,6 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import placeholdimage from '../images/handsomecat.jpg';
 
-
-//const API_URL = process.env.REACT_APP_REST_API;
-//const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
@@ -66,13 +62,8 @@ export class Home extends Component {
     
 
     this.props.authCheckState()
-    // axios.get(API_URL + 'operation/api/notice-message', config)
-    //   .then(res => {
-    //     //   console.log(res);
-    //     this.setState({ notices: res.data });
-    //   })
-
-    var URL = API_URL + 'users/api/games/?term=Sports';
+  
+    var URL = API_URL + 'users/api/games/?term=game';
 
     await axios.get(URL, config)
       .then(res => {
@@ -135,11 +126,7 @@ export class Home extends Component {
 
     return (
       <div >
-        <TopNavbar style={{ zIndex: '100' }} />
-        {/* {noticeStr && <div style={{ overflowX: 'hidden', zIndex: 0 }}>
-          <Marquee >{noticeStr}</Marquee>
-        </div>} */}
-
+        <TopNavbar currentMenu='sports'/>
         {
           this.state.ready &&
           <div className='top-title'>
@@ -147,13 +134,9 @@ export class Home extends Component {
           </div>
         }
 
-        
-
         <div className="cont">    
 
-          {/* please don't delete code below */}
-
-          {/* {
+          {
             this.state.ready && this.state.sports.map(item => {
               return (
                 <div key={item.pk} className='each-game' onClick={() => {
@@ -179,12 +162,9 @@ export class Home extends Component {
                   localStorage.setItem("recent-games", JSON.stringify(array));
 
                 }}>
-                  <NavLink to={`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}>
+                  <span onClick={()=>{window.open(item.game_url)}}>
 
                     {
-                      //  item.image ? 
-                      //  <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                      //  :
                       <img src={placeholdimage} height="220" width="300" alt='Not available' />
                     }
 
@@ -194,13 +174,13 @@ export class Home extends Component {
                       {item.name}
                     </div>
 
-                  </NavLink>
+                  </span>
                 </div>
               )
             })
-          } */}
+          }
 
-          {
+          {/* {
             <div 
               className='each-game' 
               style={{cursor: 'pointer'}}
@@ -221,7 +201,7 @@ export class Home extends Component {
 
               </span>
             </div>
-          }
+          } */}
         </div>
 
 
@@ -253,18 +233,19 @@ export class Home extends Component {
             this.state.ready && recent_games && recent_games.map(item => {
               return (
                 <div key={item.name} className='each-game' >
-                  <NavLink to={`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}>
+                  <span onClick={()=>{window.open(item.game_url)}}>
+
                     {
-                      // item.image ? 
-                      // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                      // :
                       <img src={placeholdimage} height="220" width="300" alt='Not available' />
                     }
+
                     <br />
+                    
                     <div className='game-title'>
                       {item.name}
                     </div>
-                  </NavLink>
+
+                    </span>
                 </div>
               )
             })
@@ -283,18 +264,19 @@ export class Home extends Component {
             this.state.ready && this.state.sports.slice(0, 4).map(item => {
               return (
                 <div key={item.name} className='each-game' >
-                  <NavLink to={`/game_detail/${item.pk}`} style={{ textDecoration: 'none' }}>
+                  <span onClick={()=>{window.open(item.game_url)}}>
+
                     {
-                      // item.image ? 
-                      // <img src={item.image} height = "240" width="319" alt = 'Not available'/>
-                      // :
                       <img src={placeholdimage} height="220" width="300" alt='Not available' />
                     }
+
                     <br />
+
                     <div className='game-title'>
                       {item.name}
                     </div>
-                  </NavLink>
+
+                  </span>
                 </div>
               )
             })
@@ -350,8 +332,11 @@ export class Home extends Component {
             })
           }
         </div> */}
+
         <Footer />
+
         <ChatTool/>
+
       </div>
 
     );
