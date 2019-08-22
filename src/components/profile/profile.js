@@ -131,7 +131,7 @@ export class Profile extends Component {
 
         this.state = {
             urlPath: '',
-            tabValue: 'banking'
+            tabValue: ''
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -154,8 +154,10 @@ export class Profile extends Component {
         this.props.history.push(url);
     }
 
-    async componentWillReceiveProps(props) {
-
+    componentWillReceiveProps(props) {
+        this.setState({ urlPath: this.props.history.location.pathname });
+    
+        this.setContent();
     }
 
     componentDidMount() {
@@ -165,10 +167,20 @@ export class Profile extends Component {
             }
         })
 
-        const { type } = this.props.match.params;
-        const { sub } = this.props.match.params;
-
         this.setState({ urlPath: this.props.history.location.pathname });
+
+        this.setContent();
+    }
+
+    setContent() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+
+        if (parts.length >= 2) {
+            if (parts[1].length > 0) {
+                this.setState({ tabValue: parts[2] })
+            }
+        }
     }
 
     render() {

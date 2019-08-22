@@ -15,7 +15,7 @@ import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
-    AUTH_RESULT_SUCCESS, 
+    AUTH_RESULT_SUCCESS,
     logout,
     handle_search,
     authLogin,
@@ -536,7 +536,7 @@ const SVG = ({
     );
 
 export class TopNavbar extends React.Component {
-
+    _isMounted = false;
     constructor(props) {
         super(props);
 
@@ -742,63 +742,70 @@ export class TopNavbar extends React.Component {
     componentWillReceiveProps(props) {
         this.setMainMenuIndicator();
 
-        if (this.props.isAuthenticated) {
-            const token = localStorage.getItem('token');
-            config.headers["Authorization"] = `Token ${token}`;
-
-            axios.get(API_URL + 'users/api/user/', config)
-                .then(res => {
-                    this.setState({ balance: res.data.main_wallet });
-                    this.setState({ balanceCurrency: res.data.currency });
-                })
-        }
-
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-            .then(() => {
-                this.setState({ show_loggedin_status: true });
+            .then((res) => {
+                if (this._isMounted)
+                    this.setState({ show_loggedin_status: true });
             })
 
-        var fackbooklogin = localStorage.getItem('facebook')
-        this.setState({ facebooklogin: fackbooklogin })
-        var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
-        if (fackbooklogin === 'true') {
-            this.setState({
-                userID: fackbookObj.userID,
-                name: fackbookObj.name,
-                email: fackbookObj.email,
-                picture: fackbookObj.picture
-            })
-        }
+        this.setUserDetails();
 
         const remember_check = localStorage.getItem('remember_check');
         if (remember_check) {
             this.setState({ check: true })
         }
 
-        const check = localStorage.getItem('one-click');
-        if (check) {
-            const username = localStorage.getItem('username');
-            const password = localStorage.getItem('password');
-            localStorage.removeItem('one-click');
-            localStorage.removeItem('username');
-            localStorage.removeItem('password');
-            this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
-        } else {
-            const remember_check = localStorage.getItem('remember_check');
-            if (remember_check) {
-                const username = localStorage.getItem('remember_username');
-                const password = localStorage.getItem('remember_password');
-                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+        this.checkFacebookLogin();
+
+        this.checkOneClickLogin();
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+
+        this.setMainMenuIndicator();
+
+        window.addEventListener("resize", this.handleResize);
+
+        this.props.authCheckState()
+            .then((res) => {
+                if (this._isMounted)
+                    this.setState({ show_loggedin_status: true });
+            })
+
+        this.setUserDetails();
+
+        const remember_check = localStorage.getItem('remember_check');
+        if (remember_check) {
+            this.setState({ check: true })
+        }
+
+        this.checkFacebookLogin();
+
+        this.checkOneClickLogin();
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    setMainMenuIndicator() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+
+        if (parts.length >= 2) {
+            if (parts[1].length > 0) {
+                let path = parts[1];
+                if (path === 'sports_type' || path === 'liveCasino_type' || path === 'slot_type' || path === 'lottery_type')
+                    if (this._isMounted)
+                        this.setState({ mainTabValue: parts[1] })
             }
         }
     }
 
-    componentDidMount() {
-        this.setMainMenuIndicator();
-
-
+    setUserDetails() {
         this.props.authCheckState()
             .then(res => {
                 if (res === AUTH_RESULT_SUCCESS) {
@@ -807,37 +814,32 @@ export class TopNavbar extends React.Component {
 
                     axios.get(API_URL + 'users/api/user/', config)
                         .then(res => {
-                            this.setState({ balance: res.data.main_wallet });
-                            this.setState({ balanceCurrency: res.data.currency });
+                            if (this._isMounted) {
+                                this.setState({ username: res.data.username });
+                                this.setState({ balance: res.data.main_wallet });
+                                this.setState({ balanceCurrency: res.data.currency });
+                            }
                         })
                 }
             });
+    }
 
-        window.addEventListener("resize", this.handleResize);
-
-        this.props.authCheckState()
-            .then((res) => {
-                this.setState({ show_loggedin_status: true });
-            })
-
-
+    checkFacebookLogin() {
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
         var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
         if (fackbooklogin === 'true') {
-            this.setState({
-                userID: fackbookObj.userID,
-                name: fackbookObj.name,
-                email: fackbookObj.email,
-                picture: fackbookObj.picture
-            })
+            if (this._isMounted)
+                this.setState({
+                    userID: fackbookObj.userID,
+                    name: fackbookObj.name,
+                    email: fackbookObj.email,
+                    picture: fackbookObj.picture
+                })
         }
+    }
 
-        const remember_check = localStorage.getItem('remember_check');
-        if (remember_check) {
-            this.setState({ check: true })
-        }
-
+    checkOneClickLogin() {
         const check = localStorage.getItem('one-click');
         if (check) {
             const username = localStorage.getItem('username');
@@ -845,24 +847,16 @@ export class TopNavbar extends React.Component {
             localStorage.removeItem('one-click');
             localStorage.removeItem('username');
             localStorage.removeItem('password');
-            this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+            if (this._isMounted)
+                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
         } else {
             const remember_check = localStorage.getItem('remember_check');
             if (remember_check) {
                 const username = localStorage.getItem('remember_username');
                 const password = localStorage.getItem('remember_password');
-                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+                if (this._isMounted)
+                    this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
             }
-        }
-    }
-
-    setMainMenuIndicator() {
-        var url = this.props.history.location.pathname;
-        var parts = url.split('/');
-
-        if (parts.length >= 2) {
-            if (parts[1].length > 0)
-                this.setState({ mainTabValue: parts[1] })
         }
     }
 
@@ -1042,24 +1036,24 @@ export class TopNavbar extends React.Component {
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                            <Button
-                                                variant="outlined"
-                                                className={classes.balanceButton}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/banking/deposit')
-                                                }}
-                                            >
-                                                <FormattedNumber
-                                                    maximumFractionDigits={2}
-                                                    value={balance}
-                                                    style='currency'
-                                                    currency={balanceCurrency}
-                                                />
-                                                <div className={classes.balanceDepositText} >
-                                                    <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
-                                                </div>
-                                            </Button>
+                                        <Button
+                                            variant="outlined"
+                                            className={classes.balanceButton}
+                                            onClick={() => {
+                                                this.setState({ mainTabValue: 'none' });
+                                                this.props.history.push('/p/banking/deposit')
+                                            }}
+                                        >
+                                            <FormattedNumber
+                                                maximumFractionDigits={2}
+                                                value={balance}
+                                                style='currency'
+                                                currency={balanceCurrency}
+                                            />
+                                            <div className={classes.balanceDepositText} >
+                                                <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
+                                            </div>
+                                        </Button>
                                         {ProfileMenu}
                                     </div>
                                     :

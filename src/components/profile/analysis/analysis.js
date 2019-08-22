@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState ,AUTH_RESULT_FAIL} from '../../../actions';
 import { injectIntl } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
@@ -45,17 +46,15 @@ const styles = theme => ({
         },
     }
 });
-
-
-
-  
+ 
 export class Analysis extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            tabValue: 'bets'
+            urlPath: '',
+            tabValue: ''
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -73,10 +72,9 @@ export class Analysis extends Component {
             }
         })
 
-        const { sub } = this.props.match.params;
+        this.setState({ urlPath: this.props.history.location.pathname });
 
-        if(sub)
-            this.setState({ tabValue: sub });
+        this.setContent();
     }
     
     componentDidMount() {
@@ -86,10 +84,20 @@ export class Analysis extends Component {
             }
         })
 
-        const { sub } = this.props.match.params;
+        this.setState({ urlPath: this.props.history.location.pathname });
 
-        if(sub)
-            this.setState({ tabValue: sub });
+        this.setContent();
+    }
+
+    setContent() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+
+        if (parts.length >= 3) {
+            if (parts[1].length > 0) {
+                this.setState({ tabValue: parts[3] })
+            }
+        }
     }
 
     render() {
@@ -120,4 +128,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(Analysis)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Analysis))));
