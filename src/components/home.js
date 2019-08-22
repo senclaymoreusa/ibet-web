@@ -61,7 +61,7 @@ export class Home extends Component {
     }
     
 
-    this.props.authCheckState()
+  this.props.authCheckState()
   
     var URL = API_URL + 'users/api/games/?term=game';
 

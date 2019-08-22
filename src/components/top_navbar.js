@@ -15,6 +15,7 @@ import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
+    AUTH_RESULT_SUCCESS, 
     logout,
     handle_search,
     authLogin,
@@ -576,7 +577,7 @@ export class TopNavbar extends React.Component {
             showUserAccountProfileSubMenu: false,
             showSettingsProfileSubMenu: false,
 
-            mainTabValue: '',
+            mainTabValue: 'none',
         };
 
         this.handleSearch = this.handleSearch.bind(this);
@@ -797,21 +798,28 @@ export class TopNavbar extends React.Component {
     componentDidMount() {
         this.setMainMenuIndicator();
 
+
+        this.props.authCheckState()
+            .then(res => {
+                if (res === AUTH_RESULT_SUCCESS) {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            this.setState({ balance: res.data.main_wallet });
+                            this.setState({ balanceCurrency: res.data.currency });
+                        })
+                }
+            });
+
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-            .then(() => {
+            .then((res) => {
                 this.setState({ show_loggedin_status: true });
-
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ balance: res.data.main_wallet });
-                        this.setState({ balanceCurrency: res.data.currency });
-                    })
             })
+
 
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
@@ -1034,10 +1042,13 @@ export class TopNavbar extends React.Component {
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Link to="/deposit/" style={{ textDecoration: "none" }}>
                                             <Button
                                                 variant="outlined"
                                                 className={classes.balanceButton}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/banking/deposit')
+                                                }}
                                             >
                                                 <FormattedNumber
                                                     maximumFractionDigits={2}
@@ -1049,7 +1060,6 @@ export class TopNavbar extends React.Component {
                                                     <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
                                                 </div>
                                             </Button>
-                                        </Link>
                                         {ProfileMenu}
                                     </div>
                                     :
@@ -1145,6 +1155,10 @@ export class TopNavbar extends React.Component {
                                     this.setState({ mainTabValue: 'lottery_type' });
                                     this.props.history.push("/lottery_type/lottery");
                                 }} />
+                            <StyledTab
+                                style={{ width: 0, minWidth: 0, }}
+                                value='none'
+                            />
                         </StyledTabs>
                     </AppBar>
                 </MuiThemeProvider>
