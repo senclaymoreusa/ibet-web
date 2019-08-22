@@ -311,27 +311,12 @@ class DepositCirclepay extends Component {
 
         // setup POST request params
         let currDate = new Date();
-        function createCORSRequest(method, url) {
-            var xhr = new XMLHttpRequest();
-
-            if ("withCredentials" in xhr) {
-
-                // Check if the XMLHttpRequest object has a "withCredentials" property.
-                // "withCredentials" only exists on XMLHTTPRequest2 objects.
-                xhr.open(method, url, true);
-
-            } else {
-
-                // Otherwise, CORS is not supported by the browser.
-                xhr = null;
-
-            }
-            return xhr;
-        }
-
+      
         let month = (currDate.getMonth() + 1) < 10 ? ("0" + (currDate.getMonth() + 1)) : (currDate.getMonth() + 1);
         let date = currDate.getDate() < 10 ? ("0" + currDate.getDate()) : currDate.getDate();
-        let transId = userData.username + "CirclePayOrder" + month + date + currDate.getFullYear() + currDate.getHours() + currDate.getMinutes() + currDate.getSeconds()
+        
+        let transId = userData.username + currDate.getFullYear() + month + date + "T" + currDate.getHours() + currDate.getMinutes() + currDate.getSeconds()
+
 
         const secret = 'Kiy4O3IAvPpHxXJ9ht1mBfZs';
 
@@ -342,7 +327,8 @@ class DepositCirclepay extends Component {
             .digest('hex');
 
 
-        let postURL = CIRCLEPAY_DEPOSIT_URL + USER_CODE + "/?partner_tran_id=" + transId + "&amount=" + amount + "&token=" + hash;
+        let postURL = CIRCLEPAY_DEPOSIT_URL + USER_CODE + "/?partner_tran_id=" + transId + "&amount=" + amount + "&username=" + userData.username + "&token=" + hash;
+        // let postURL = CIRCLEPAY_DEPOSIT_URL + USER_CODE + "/?partner_tran_id=" + transId + "&amount=" + amount + "&token=" + hash;
 
         window.open(postURL);
 
