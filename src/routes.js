@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Home from "./components/home";
 import Slot_Type from "./components/slot_type";
 import Sports_Type from "./components/sports_type";
@@ -36,7 +36,6 @@ import Change_Password from './components/change_password'
 import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
 import DepositSuccess from "./components/deposit_success"
 import WithdrawSuccess from "./components/withdraw_success"
-// import Board from './components/orion'
 import DepositQaicah from './components/profile/banking/deposit/deposit_types/deposit_qaicash'
 import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay'
 import DepositAsiapayBankcard from './components/profile/banking/deposit/deposit_types/deposit_asiapay_bankcard'
@@ -122,9 +121,8 @@ const BaseRouter = () => (
     <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
     <Route exact path="/deposit/payzod/" component={DepositPayzod} />
     <Route exact path="/deposit/scratch_card/" component={DepositScratchCard} />
-    <Route exact path="/deposit_fgo/" component={DepositFgo} />
-    {/* <Route exact path="/orion/test/" component={Board} /> */}
 
+    <Route exact path="/deposit_fgo/" component={DepositFgo} />
     <Route exact path="/p/:type?/:sub?" component={Profile} />
 
   </div>

@@ -328,7 +328,7 @@ class DepositCirclepay extends Component {
 
 
         let postURL = CIRCLEPAY_DEPOSIT_URL + USER_CODE + "/?partner_tran_id=" + transId + "&amount=" + amount + "&username=" + userData.username + "&token=" + hash;
-        // let postURL = CIRCLEPAY_DEPOSIT_URL + USER_CODE + "/?partner_tran_id=" + transId + "&amount=" + amount + "&token=" + hash;
+
 
         window.open(postURL);
 
