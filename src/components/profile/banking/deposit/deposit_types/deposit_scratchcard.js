@@ -279,6 +279,19 @@ const styles = function (theme) {
                 border: 'solid 1px #717171',
             },
         },
+        dropDowns: {
+            paddingTop: 20,
+            paddingBottom: 20
+        },
+        textField: {
+            border: 'solid 1px #e4e4e4',
+            "&:hover": {
+                border: 'solid 1px #717171',
+            },
+            "&:focus": {
+                border: 'solid 1px #717171',
+            },
+        },
         amountButtonRow: {
             paddingTop: 30,
         }
@@ -292,28 +305,21 @@ class DepositScratchCard extends Component {
         this.amountInput = React.createRef();
 
         this.state = {
-            number: '',
+            serialNumber: '',
             numberFocused: false,
             numberInvalid: true,
 
-            expireDate: '',
+            pinNumber: '',
             pinNumberFocused: false,
             pinNumberInvalid: true,
 
             operator: '',
-            cvv: '',
-            cvvFocused: false,
-            cvvInvalid: true,
+            operatorInvalid: true,
 
             amount: '',
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 10,
-            secondOption: 50,
-            thirdOption: 100,
-            fourthOption: 500,
-            currencyValue: "USD",
             showLinearProgressBar: false,
         };
         
@@ -324,18 +330,12 @@ class DepositScratchCard extends Component {
         this.pinNumberChanged = this.pinNumberChanged.bind(this);
         this.pinNumberFocused = this.pinNumberFocused.bind(this);
 
-        this.cvvChanged = this.cvvChanged.bind(this);
-        this.cvvFocused = this.cvvFocused.bind(this);
-
         this.backClicked = this.backClicked.bind(this);
-        this.firstOptionClicked = this.firstOptionClicked.bind(this);
-        this.secondOptionClicked = this.secondOptionClicked.bind(this);
-        this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
-        this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
+
         this.amountChanged = this.amountChanged.bind(this);
         this.amountFocused = this.amountFocused.bind(this);
 
-        this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleOperatorChange = this.handleOperatorChange.bind(this);
         this.handleAmountChange = this.handleAmountChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
 
@@ -351,33 +351,6 @@ class DepositScratchCard extends Component {
             });
     }
 
-    firstOptionClicked(event) {
-        this.setState({ amount: this.state.firstOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    secondOptionClicked(event) {
-        this.setState({ amount: this.state.secondOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    thirdOptionClicked(event) {
-        this.setState({ amount: this.state.thirdOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    fourthOptionClicked(event) {
-        this.setState({ amount: this.state.fourthOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
 
     amountChanged(event) {
         if (event.target.value.length == 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 10) {
@@ -398,45 +371,25 @@ class DepositScratchCard extends Component {
     }
 
     numberChanged(event) {
-        this.setState({ number: event.target.value });
+        this.setState({ serialNumber: event.target.value });
         this.setState({ numberFocused: true });
-        this.setState({ numberInvalid: (event.target.value.toString().length < 9 || event.target.value.toString().length > 15) });
+        this.setState({ numberInvalid: (event.target.value.toString().length < 10 || event.target.value.toString().length > 17) });
     }
 
     numberFocused(event) {
+        event.preventDefault();
         this.setState({ numberFocused: true });
     }
 
     pinNumberChanged(event) {
-        this.setState({ expireDate: event.target.value });
+        this.setState({ pinNumber: event.target.value });
         this.setState({ pinNumberFocused: true });
 
-
-        if (event.target.value.toString().length < 9 || event.target.value.toString().length > 15) {
-            this.setState({ pinNumberInvalid: true });
-        } else {
-            let month = event.target.value.split('/')[0];
-            let monthInt = parseInt(month);
-
-            if (month === '00' || monthInt > 12)
-                this.setState({ pinNumberInvalid: true });
-            else {
-                let year = event.target.value.split('/')[1];
-                let yearInt = parseInt(year);
-
-                let expireDate = new Date();
-                expireDate.setDate(1);
-                expireDate.setMonth(monthInt - 1);
-                expireDate.setFullYear(yearInt);
-
-                let today = new Date();
-
-                this.setState({ pinNumberInvalid: (expireDate <= today) });
-            }
-        }
+        this.setState({ pinNumberInvalid: (event.target.value.toString().length < 10 || event.target.value.toString().length > 17) });
     }
 
     pinNumberFocused(event) {
+        event.preventDefault();
         this.setState({ pinNumberFocused: true });
     }
 
@@ -451,19 +404,24 @@ class DepositScratchCard extends Component {
         this.setState({ cvvFocused: true });
     }
 
-    handleDateChange(event) {
+    handleOperatorChange(event) {
         event.preventDefault();
 
-        this.setState({operator: event.target.value}); 
+        this.setState({ operator: event.target.value }); 
+        this.setState({ operatorInvalid: false });
     }
+
     handleAmountChange(event) {
         event.preventDefault();
 
-        this.setState({amount: event.target.value}); 
+        this.setState({ amount: event.target.value }); 
+        this.setState({ amountInvalid: false });
+
     }
 
     async handleClick(event) {
         event.preventDefault();
+        const {serialNumber, pinNumber, amount, operator, data} = this.state;
        
         const token = localStorage.getItem('token');
 
@@ -472,30 +430,42 @@ class DepositScratchCard extends Component {
         }
         config.headers["Authorization"] = `Token ${token}`;
 
-        console.log("amount: " + this.state.amount);
-        console.log(this.state.data)
+        console.log("amount: " + amount);
+        console.log(data)
         let postData = {
-            "card_num": this.state.number.replace(/\s+/g, ''),
-            "card_code": this.state.cvv,
-            "exp_date": this.state.expireDate,
-            "amount": this.state.amount
+            "serial": serialNumber.replace(/\s/g, ""),
+            "pin": pinNumber.replace(/\s/g, ""),
+            "operator": operator,
+            "amount": amount
         };
+        console.log(postData);
 
-        var res = await axios.post(API_URL + 'accounting/api/astropay/capture_transaction',
+        var res = await axios.post(API_URL + 'accounting/api/scratchcard/deposit',
             postData,
             config)
         console.log("result of deposit: ");
         console.log(res);
-        if (res.data.response_msg.slice(0, 5) === "1|1|1") {
-            const body = JSON.stringify({
-                type: 'add',
-                username: this.state.data.username || "",
-                balance: this.state.amount,
-            });
-            axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
+
+        if (res.status === 200) {
+            console.log("nice!");
+            if (res.data.status === 6) {
+                this.setState({
+                    receive_response: true, 
+                    response_msg: "Deposit request is processing. Please check your transaction history for updates to your balance once we finish processing",
+                    error: false,
+                    error_msg: ""
+                });
+            }
+            else if (res.data.status === 1) {
+                const body = JSON.stringify({
+                    type : 'add',
+                    username: data.username || "",
+                    balance: amount,
+                });
+                axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
                 .then(res => {
-                    if (res.data === 'Failed') {
-                        this.setState({ error: true });
+                    if (res.data === 'Failed'){
+                        this.setState({error: true});
                     } else if (res.data === 'The balance is not enough') {
                         alert("cannot withdraw this amount")
                     } else {
@@ -503,10 +473,18 @@ class DepositScratchCard extends Component {
                         // window.location.reload();
                     }
                 });
+            }
+            else {
+                this.setState({
+                    error: true, 
+                    error_msg: JSON.stringify(res.data.msg),
+                    receive_response: false,
+                    response_msg: ""
+                });
+            }
         }
         else {
-            // this.showError(res.data.response_msg.split("|")[3]);
-            this.setState({ error: true, error_msg: res.data.response_msg.split("|")[3] });
+            this.setState({error: true, error_msg: "Could not communicate with iBet servers. Error code: " + res.status});
         }
     }
 
@@ -590,7 +568,7 @@ class DepositScratchCard extends Component {
                                         />}
                                     </InputMask>
                                 </Grid>
-                                <Grid item xs={6} className={classes.operator}>
+                                <Grid item xs={6} className={classes.dropDowns}>
                                     <TextField
                                         required
                                         // id="select-operator"
@@ -603,7 +581,7 @@ class DepositScratchCard extends Component {
                                                 className: classes.menu,
                                             },
                                         }}
-                                        onChange={this.handleDateChange}
+                                        onChange={this.handleOperatorChange}
                                         helperText="Telecom Company"
                                         variant="outlined"
                                         margin="normal"
@@ -618,7 +596,7 @@ class DepositScratchCard extends Component {
                                         }
                                     </TextField>
                                 </Grid>
-                                <Grid item xs={6} className={classes.amountDropDown}>
+                                <Grid item xs={6} className={classes.dropDowns}>
                                     <TextField
                                         id="select-amount"
                                         select
@@ -663,7 +641,7 @@ class DepositScratchCard extends Component {
                                         disabled={this.state.amountInvalid ||
                                             this.state.numberInvalid ||
                                             this.state.pinNumberInvalid ||
-                                            this.state.cvvInvalid}
+                                            this.state.operatorInvalid}
                                     >{continueMessage}</Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.backButtonCell}>
