@@ -4,13 +4,12 @@ import {
     hide_complete_registration,
     show_signup_phone,
     show_phone_verification,
-    handle_signup_over18,
-    authSignup
+    handle_signup_over18, authSignup
 } from '../actions';
+import { images } from '../util_config';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { images } from '../util_config';
 import axios from 'axios'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -50,7 +49,7 @@ class Complete_Registration extends React.Component {
         return (
             <div style={{ backgroundColor: 'white', height: 640, width: 770 }}>
                 <div className='signup-title'>
-                    <img src={images.src + 'back.svg'}
+                    <img src={images.src + 'close.svg'}
                         style={{ cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15 }}
                         onClick={() => {
                             this.props.hide_complete_registration()
@@ -62,10 +61,12 @@ class Complete_Registration extends React.Component {
                         VERIFICATION
                     </div>
 
-                    <img src={images.src + 'close.svg'} style={{ cursor: 'pointer', position: 'absolute', top: 8, left: 720, height: 40, width: 20 }}
+                    <img src={images.src + 'close.svg'}
+                        style={{ cursor: 'pointer', position: 'absolute', top: 8, left: 720, height: 40, width: 20 }}
                         onClick={() => {
                             this.props.hide_complete_registration()
-                        }} />
+                        }}
+                    />
                 </div>
 
                 <div style={{ fontSize: 38, fontWeight: 'bold', color: '#212121', marginLeft: 65, marginTop: 30 }}>
