@@ -9,7 +9,7 @@ class Register_Finish extends React.Component {
     render() {
         return (
             <div style={{ backgroundColor: '#212121', height: 650, width: 770 }}>
-                <img src={images.src + 'close.svg'}
+                <img src={images.src + 'close_page.svg'}
                     style={{ cursor: 'pointer', position: 'absolute', top: 0, left: 690, height: 120, width: 20 }}
                     onClick={() => {
                         this.props.hide_signup_finish();

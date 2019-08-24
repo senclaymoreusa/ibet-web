@@ -98,7 +98,7 @@ export class Refer_User extends React.Component {
                         Refer User
                     </div>
 
-                    <img src={images.src + 'close.svg'}
+                    <img src={images.src + 'close_page.svg'}
                         style={{ cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20 }}
                         onClick={() => {
                             this.props.hide_refer_user();

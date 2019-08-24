@@ -173,7 +173,7 @@ class Forget_Password_Validation extends Component {
                         Forget Password
                     </div>
 
-                    <img src={images.src + 'close.svg'}   style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
+                    <img src={images.src + 'close_page.svg'}   style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_forget_password_validation();
                         }}

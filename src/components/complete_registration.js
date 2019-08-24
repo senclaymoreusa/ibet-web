@@ -49,7 +49,7 @@ class Complete_Registration extends React.Component {
         return (
             <div style={{ backgroundColor: 'white', height: 640, width: 770 }}>
                 <div className='signup-title'>
-                    <img src={images.src + 'close.svg'}
+                    <img src={images.src + 'close_page.svg'}
                         style={{ cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15 }}
                         onClick={() => {
                             this.props.hide_complete_registration()
@@ -61,7 +61,7 @@ class Complete_Registration extends React.Component {
                         VERIFICATION
                     </div>
 
-                    <img src={images.src + 'close.svg'}
+                    <img src={images.src + 'close_page.svg'}
                         style={{ cursor: 'pointer', position: 'absolute', top: 8, left: 720, height: 40, width: 20 }}
                         onClick={() => {
                             this.props.hide_complete_registration()
