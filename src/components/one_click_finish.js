@@ -1,10 +1,7 @@
 import React from 'react';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
-
+import { images } from '../util_config';
 import { connect } from 'react-redux';
-
 import { hide_oneclick_finish, show_login } from '../actions';
-
 import { FormattedMessage } from 'react-intl';
 
 class One_Click_Finish extends React.Component {
@@ -17,7 +14,7 @@ class One_Click_Finish extends React.Component {
                         <FormattedMessage id="signup.oneclickregister" defaultMessage='ONE-CLICK-REGISTRATION' />
                     </div>
 
-                    <Close 
+                    <img src={images.src + 'close.svg'}
                         style={{cursor: 'pointer', position: 'absolute', top: 8, left: 720, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_oneclick_finish()

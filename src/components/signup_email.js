@@ -1,24 +1,22 @@
 import React from 'react';
-import { hide_signup_email, show_signup_detail, show_signup, handle_signup_email, handle_signup_password, handle_signup_language } from '../actions';
-import { FormattedMessage, injectIntl} from 'react-intl';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
+import { hide_signup_email, 
+    show_signup_detail, 
+    show_signup, 
+    handle_signup_email, 
+    handle_signup_password, 
+    handle_signup_language } from '../actions';
+import { FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import axios from 'axios'
-import { config } from "../util_config";
-import { ReactComponent as Back } from '../assets/img/svg/back.svg';
-
-
+import { config, images } from "../util_config";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-
-import { Select, MenuItem, Input } from "@material-ui/core";
-
+import { Select, MenuItem } from "@material-ui/core";
 import InputBase from '@material-ui/core/InputBase';
-
 import Flag from 'react-flagkit';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -172,7 +170,7 @@ class Signup_Email extends React.Component {
                 <form onSubmit={this.handlesubmit.bind(this)}>
                     
                     <div className='signup-title'> 
-                        <Back 
+                    <img src={images.src + 'back.svg'}
                             style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
                             onClick = { () => {
                                 this.props.hide_signup_email();
@@ -184,7 +182,7 @@ class Signup_Email extends React.Component {
                         <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
                     </div>
 
-                        <Close 
+                    <img src={images.src + 'close.svg'} 
                             style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_email();

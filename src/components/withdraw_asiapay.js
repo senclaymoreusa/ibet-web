@@ -93,9 +93,7 @@ class WithdrawAsiapay extends Component {
         axios.get(API_URL + 'users/api/user/', config)
           .then(res => {
             this.setState({data: res.data});
-          })
-        const { type } = this.props.match.params;
-        
+          })   
 
     }
     async onInputChange_amount(event){
@@ -171,7 +169,7 @@ class WithdrawAsiapay extends Component {
         }).then(function(res) {
           return res.json();
         }).then(function(data) {
-            if(data == '50001'){
+            if(data === '50001'){
                 alert('Your withdraw is success.')
             }else{
                 alert('Your withdraw is failed.')

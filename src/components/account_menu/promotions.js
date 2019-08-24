@@ -1,26 +1,16 @@
-import React from 'react'; 
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, show_account_menu, hide_promotions } from '../../actions';
-
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as BackIcon } from '../../assets/img/svg/account-menu-back.svg';
-import { ReactComponent as RedUserIcon } from '../../assets/img/svg/red-user.svg';
-import { ReactComponent as DepositIcon } from '../../assets/img/svg/deposit.svg';
-import { ReactComponent as DownIcon } from '../../assets/img/svg/down.svg';
-import { ReactComponent as OvalIcon } from '../../assets/img/svg/oval-info.svg';
-
 import axios from 'axios';
-import { config } from '../../util_config';
+import { config, images } from '../../util_config';
 
 import '../../css/account_menu.scss';
 
@@ -283,14 +273,14 @@ export class Promotions extends React.Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                            <img src={images.src + 'account-menu-back.svg'} />
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.promotions" defaultMessage="Promotions" />
                         </div>
                         <div className={classes.grow} />
                         <Button variant="contained" className={classes.balanceButton}>
-                            <DepositIcon className={classes.depositIcon} />
+                            <img src={images.src + 'deposit.svg'} className={classes.depositIcon} />
                             <FormattedNumber
                                 maximumFractionDigits={2}
                                 value={this.state.balance}
@@ -299,7 +289,7 @@ export class Promotions extends React.Component {
                             />
                         </Button>
                         <Button variant="outlined" className={classes.userButton}>
-                            <RedUserIcon />
+                            <img src={images.src + 'red-user.svg'} />
                         </Button>
                     </Grid>
                     <Grid item xs={12} className={classes.spaceRow}>
@@ -323,7 +313,7 @@ export class Promotions extends React.Component {
                                     <span className={classes.desc}>24-hours, €1,000 Cash and NO leaderboard – this June we are mixing things up. Every Monday we will be hosting a 24-hour Cash Race on Blaze Roulette in which you’ll have to solely rely on your instincts to secure a share of the €1,000 prize pool.</span>
                                     <Button className={classes.readMoreButton}>
                                         <FormattedMessage id="promotions.read-more" defaultMessage="Read more" />
-                                        <DownIcon className={classes.downIcon} />
+                                        <img src={images.src + 'down.svg'} className={classes.downIcon} />
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.row}>
@@ -331,7 +321,7 @@ export class Promotions extends React.Component {
                                 </Grid>
                                 <Grid item xs={12} className={classes.termsRow}>
                                     <Link href='/' className={classes.termslink}>
-                                        <OvalIcon className={classes.infoIcon} />
+                                    <img src={images.src + 'oval-info.svg'} className={classes.infoIcon} />
                                         <FormattedMessage id="footer.terms_conditions" defaultMessage='Terms & Conditions' />
                                     </Link>
                                 </Grid>

@@ -4,24 +4,16 @@ import Downshift from 'downshift';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
-
 import { logout, handle_search, setLanguage, authCheckState } from '../actions';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-
-import { ReactComponent as SearchIcon } from '../assets/img/svg/search.svg';
-
 import axios from 'axios';
-import { config } from '../util_config';
-
+import { config, images } from '../util_config';
 import Typography from '@material-ui/core/Typography';
-
 import Fade from '@material-ui/core/Fade';
-
 import '../css/search_bar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -30,7 +22,6 @@ function renderInput(inputProps) {
     const { InputProps, classes, ref, ...other } = inputProps;
 
     return (
-
         <TextField
             InputProps={{
                 inputRef: ref,
@@ -339,12 +330,6 @@ export class SearchBar extends React.Component {
             that.setState({ results: gameResults, providerResults: providerResults });
             that.setState({ entireSiteResults: entireSiteResults });   
           }))
-        // console.log("game include type:");
-        // console.log(this.state.results);
-        // console.log("provider:");
-        // console.log(this.state.providerResults);
-        // console.log("entire:");
-        // console.log(this.state.entireSiteResults);
     }
 
     handleInputChange = (event) => {
@@ -365,23 +350,6 @@ export class SearchBar extends React.Component {
         if (this.props.activeMenu) {
             URL = URL +'&type=' + this.props.activeMenu;
         }
-        // switch (this.props.activeMenu) {
-        //     case 'slots':
-        //         URL = API_URL + 'games/api/games/?term=' + term;
-        //         break;
-        //     case 'sports':
-        //         URL = API_URL + 'users/api/sports/?term=' + term;
-        //         break;
-        //     case 'live_casino':
-        //         URL = API_URL + 'users/api/live_casino/?term=' + term;
-        //         break;
-        //     case 'lottery':
-        //         URL = API_URL + 'users/api/lottery/?term=' + term;
-        //         break;
-        //     default:
-        //         URL = API_URL + 'users/api/games/?term=' + term;
-        //         break;
-        // }
 
         return URL;
     }
@@ -391,7 +359,7 @@ export class SearchBar extends React.Component {
 
         return (
             <div className={classes.root}>
-                <SearchIcon className={classes.searchIcon} />
+                <img src={images.src + 'search.svg'} className={classes.searchIcon} />
                 <div className={classes.searchInput}>
                     <Downshift id="downshift-options" >
                         {({

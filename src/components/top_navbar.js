@@ -12,12 +12,10 @@ import Person from '@material-ui/icons/Person';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
-import blue from '@material-ui/core/colors/blue';
-
 import { errors } from './errors';
 
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
-import { withRouter, Link} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
     logout,
@@ -56,13 +54,6 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Flag from 'react-flagkit';
-import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
-import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
-import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
-import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
-import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
-import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
-
 
 import Login from './login_2.js';
 import Signup from './signup_2.js';
@@ -91,7 +82,7 @@ import Forget_Password_Validation from './forget_password_validation';
 import Refer_User from './refer_user';
 
 import axios from 'axios';
-import { config } from '../util_config';
+import { config, images } from '../util_config';
 
 import SearchBar from './search_bar';
 
@@ -412,13 +403,6 @@ const styles = theme => ({
         '&:hover': {
             fillRule: '#fe0000',
         }
-    },
-    cssRoot: {
-        color: theme.palette.getContrastText(blue[300]),
-        backgroundColor: blue[300],
-        '&:hover': {
-            backgroundColor: blue[800],
-        },
     },
     separator: {
         width: 1.6,
@@ -1004,19 +988,19 @@ export class TopNavbar extends React.Component {
                                 </Drawer>
                             </div>
                             <IconButton href='/' className={classes.logoButton}>
-                                <IbetLogo />
+                                <img src={images.src + 'ibet_logo.svg'} />
                             </IconButton>
                             <div className={classes.grow} />
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
 
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Link to="/deposit/" style={{textDecoration: "none"}}>
+                                        <Link to="/deposit/" style={{ textDecoration: "none" }}>
                                             <Button
                                                 variant="outlined"
                                                 className={classes.balanceButton}
                                             >
-                                                <DepositIcon className={classes.balanceIcon} />
+                                                <img src={images.src + 'deposit.svg'} className={classes.balanceIcon} />
                                                 <FormattedNumber
                                                     maximumFractionDigits={2}
                                                     value={this.state.balance}
@@ -1100,7 +1084,7 @@ export class TopNavbar extends React.Component {
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
                                         onClick={() => { this.props.history.push("/sports_type/sports") }}>
-                                        <SoccerIcon className="soccer" />
+                                        <img src={images.src + 'soccer.svg'} className="soccer" />
                                         <span className="Sports">
                                             <FormattedMessage id="nav.sports" defaultMessage='Sports' />
                                         </span>
@@ -1109,7 +1093,7 @@ export class TopNavbar extends React.Component {
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
                                         onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
-                                        <BetIcon className="bet" />
+                                        <img src={images.src + 'bet.svg'} className="bet" />
                                         <span className="Live-Casino">
                                             <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
                                         </span>
@@ -1118,7 +1102,7 @@ export class TopNavbar extends React.Component {
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
                                         onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
-                                        <SlotsIcon className="games-icon" />
+                                        <img src={images.src + 'slots.svg'} className="games-icon" />
                                         <span className="Slots">
                                             <FormattedMessage id="nav.slots" defaultMessage='Slots' />
                                         </span>
@@ -1127,7 +1111,7 @@ export class TopNavbar extends React.Component {
                                 <Fade in={!this.state.expandSearchBar} timeout={1000}>
                                     <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
                                         onClick={() => { this.props.history.push("/lottery_type/lottery") }}>
-                                        <LotteryIcon className="lottery" />
+                                        <img src={images.src + 'lottery.svg'} className="lottery" />
                                         <span className="Lottery">
                                             <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
                                         </span>
@@ -1316,7 +1300,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Deposit_Wechat  />
+                                <New_Deposit_Wechat />
                             </Paper>
                         </Fade>
                     )}
@@ -1348,7 +1332,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }}/>
+                                <New_Withdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }} />
                             </Paper>
                         </Fade>
                     )}
@@ -1364,7 +1348,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw_Confirm withdrawInfo={this.state.withdrawInfo}/>
+                                <New_Withdraw_Confirm withdrawInfo={this.state.withdrawInfo} />
                             </Paper>
                         </Fade>
                     )}

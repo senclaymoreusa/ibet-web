@@ -1,23 +1,15 @@
 import React from 'react'; import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, show_account_menu, hide_settings } from '../../actions';
-
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
-
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as BackIcon } from '../../assets/img/svg/account-menu-back.svg';
-import { ReactComponent as RedUserIcon } from '../../assets/img/svg/red-user.svg';
-import { ReactComponent as DepositIcon } from '../../assets/img/svg/deposit.svg';
-
 import axios from 'axios';
-import { config } from '../../util_config';
+import { config, images } from '../../util_config';
 
 import '../../css/account_menu.scss';
 
@@ -297,14 +289,14 @@ export class Settings extends React.Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                            <img src={images.src + 'account-menu-back.svg'} />
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.Settings" defaultMessage="Settings" />
                         </div>
                         <div className={classes.grow} />
                         <Button variant="contained" className={classes.balanceButton}>
-                            <DepositIcon className={classes.depositIcon} />
+                            <img src={images.src + 'deposit.svg'} className={classes.depositIcon} />
                             <FormattedNumber
                                 maximumFractionDigits={2}
                                 value={this.state.balance}
@@ -313,7 +305,7 @@ export class Settings extends React.Component {
                             />
                         </Button>
                         <Button variant="outlined" className={classes.userButton}>
-                            <RedUserIcon />
+                            <img src={images.src + 'red-user.svg'} />
                         </Button>
                     </Grid>
                     <Grid item xs={12} className={classes.spaceRow}>

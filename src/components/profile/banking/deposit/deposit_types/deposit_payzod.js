@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-
 import { authCheckState } from '../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -296,7 +291,7 @@ class DepositPayzod extends Component {
 
         const { amount } = this.state;
         const token = localStorage.getItem('token');
-       
+
         if (!token) {
             console.log("no token -- user is not logged in");
         }
@@ -327,7 +322,6 @@ class DepositPayzod extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, error, valid_amt, qr_code } = this.state;
 
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
@@ -338,7 +332,7 @@ class DepositPayzod extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (

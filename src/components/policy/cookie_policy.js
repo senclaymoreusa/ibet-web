@@ -8,10 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-
-import { ReactComponent as IbetLogo } from '../../assets/img/svg/ibet_logo.svg';
-import { ReactComponent as CloseIcon } from '../../assets/img/svg/close_page.svg';
-
+import { images } from '../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -89,14 +86,14 @@ export class CookiePolicy extends React.Component {
                     <Grid item xs={12} sm={6} md={6} lg={5}>
                         <Paper className={classes.contentPaper}>
                             <div className={classes.titleContainer}>
-                                <IbetLogo className={classes.page_icon} />
+                            <img src={images.src + 'ibet_logo.svg'}  className={classes.page_icon} />
                                 <div className={classes.page_title}>
                                     <FormattedMessage id="privacy_policy.title" defaultMessage='Cookie Policy' />
                                 </div>
                                 <div className={classes.grow}></div>
                                 <div className={classes.closeButton}>
                                     <IconButton href='/'>
-                                        <CloseIcon />
+                                    <img src={images.src + 'close_page.svg'} />
                                     </IconButton>
                                 </div>
                             </div>

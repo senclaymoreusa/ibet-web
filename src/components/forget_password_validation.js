@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { hide_forget_password_validation } from '../actions';
 import { connect } from 'react-redux';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios'
-
+import { images } from '../util_config';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
@@ -174,8 +173,7 @@ class Forget_Password_Validation extends Component {
                         Forget Password
                     </div>
 
-                    <Close 
-                        style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
+                    <img src={images.src + 'close.svg'}   style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_forget_password_validation();
                         }}

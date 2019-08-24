@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
-import { FormattedNumber, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InputMask from 'react-input-mask';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -328,9 +324,9 @@ class DepositFgo extends Component {
         }).then(function (res) {
             return res.json();
         }).then(function (data) {
-            if (data.error_code == '00' && data.status == '0') {
+            if (data.error_code === '00' && data.status === '0') {
                 currentComponent.props.callbackFromParent('error', data.message);
-            } else if (data.error_code == '00' && data.status == '1') {
+            } else if (data.error_code === '00' && data.status === '1') {
                 //alert('Your fgo card is successfully deposit to your account!');
                 const body = JSON.stringify({
                     type: 'add',
@@ -370,7 +366,7 @@ class DepositFgo extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (
