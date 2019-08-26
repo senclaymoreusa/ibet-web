@@ -127,86 +127,23 @@ const styles = theme => ({
         paddingRight: 85,
         paddingTop: 10,
     },
-    success: {
-        backgroundColor: '#72f542',
-    },
-    error: {
-        backgroundColor: '#f54257',
-    },
-    info: {
-        backgroundColor: '#42eff5',
-    },
-    warning: {
-        backgroundColor: '#f5b642',
-    },
-    icon: {
-        fontSize: 20,
-    },
-    iconVariant: {
-        opacity: 0.9,
-        marginRight: theme.spacing.unit,
+    notification: {
+        backgroundColor: '#3ce86a',
+        // marginTop: 202,
+        minWidth: 1330,
     },
     message: {
-        display: 'flex',
-        alignItems: 'center',
+        marginLeft: 10,
+        float: 'left',
+        lineHeight: 1.9
     },
     margin: {
         margin: theme.spacing.unit,
     },
+    checkIcon: {
+        float: 'left',
+    }
 });
-
-const useStyles1 = makeStyles(theme => ({
-    icon: {
-        fontSize: 20,
-    },
-    iconVariant: {
-        opacity: 0.9,
-        marginRight: theme.spacing.unit,
-    },
-    message: {
-        display: 'flex',
-        alignItems: 'center',
-    },
-}));
-
-const variantIcon = {
-    success: CheckCircleIcon,
-    warning: WarningIcon,
-    error: ErrorIcon,
-    info: InfoIcon,
-};
-
-const MySnackbarContentWrapper = (props) => {
-    const classes = props;
-    const { className, message, onClose, variant, ...other } = props;
-    const Icon = variantIcon[variant];
-
-    return (
-        <SnackbarContent
-            className={clsx(classes[variant], className)}
-            aria-describedby="client-snackbar"
-            message={
-                <span id="client-snackbar" className={classes.message}>
-                    <Icon className={clsx(classes.icon, classes.iconVariant)} />
-                    {message}
-                </span>
-            }
-            action={[
-                <IconButton key="close" aria-label="close" color="inherit" onClick={onClose}>
-                    <CloseIcon className={classes.icon} />
-                </IconButton>,
-            ]}
-            {...other}
-        />
-    );
-}
-
-MySnackbarContentWrapper.propTypes = {
-    className: PropTypes.string,
-    message: PropTypes.string,
-    onClose: PropTypes.func,
-    variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
-};
 
 export class Marketing extends Component {
 
@@ -214,17 +151,17 @@ export class Marketing extends Component {
         super(props);
 
         this.state = {
+            userId: null,
             communication: false,
             phone: false,
             email: false,
             sms: false,
             postalMail: false,
             socialMedia: false,
-            showSuccessMessage: false,
-
+            showMessage: false,
+            messageText: '',
         }
 
-        this.updateClicked = this.updateClicked.bind(this);
         this.communicationClicked = this.communicationClicked.bind(this);
         this.phoneClicked = this.phoneClicked.bind(this);
         this.emailClicked = this.emailClicked.bind(this);
@@ -232,47 +169,36 @@ export class Marketing extends Component {
         this.postalMailClicked = this.postalMailClicked.bind(this);
         this.socialMediaClicked = this.socialMediaClicked.bind(this);
         this.closeNotificationClicked = this.closeNotificationClicked.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
 
-    }
-
-    componentWillReceiveProps(props) {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        alert('will')
-        axios.get(API_URL + 'users/api/marketing-settings/', config)
-            .then(res => {
-                this.setState({ communication: res.data })
-                this.setState({ phone: res.data })
-                this.setState({ email: res.data })
-                this.setState({ sms: res.data })
-                this.setState({ postalMail: res.data })
-                this.setState({ socialMedia: res.data })
-
-            })
     }
 
     componentDidMount() {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
-        alert('did')
-        axios.get(API_URL + 'users/api/marketing-settings/', config)
+
+        axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ communication: res.data })
-                this.setState({ phone: res.data })
-                this.setState({ email: res.data })
-                this.setState({ sms: res.data })
-                this.setState({ postalMail: res.data })
-                this.setState({ socialMedia: res.data })
+                this.setState({ userId: res.data.pk });
 
-            })
+                axios.get(API_URL + 'users/api/marketing-settings/?userId=' + res.data.pk, config)
+                    .then(res => {
+                        this.setState({ communication: res.data.bonus })
+                        this.setState({ phone: res.data.vip })
+                        this.setState({ email: res.data.vip })
+                        this.setState({ sms: res.data.vip })
+                        this.setState({ postalMail: res.data.vip })
+                        this.setState({ socialMedia: res.data.vip })
+                    }).catch(err => {
+                        this.setState({ messageText: "An error occured while getting user marketing settings" });
+                        this.setState({ showMessage: true });
+                    });
+            }).catch(err => {
+                this.setState({ messageText: "An error occured while validating user credentials" });
+                this.setState({ showMessage: true });
+            });
     }
 
-    updateClicked(ev) {
-
-        this.setState({ showSuccessMessage: true });
-
-    }
 
     communicationClicked(ev) {
         this.setState({ communication: !this.state.communication });
@@ -306,19 +232,35 @@ export class Marketing extends Component {
         this.setState({ socialMedia: !this.state.socialMedia });
     }
 
-    componentDidMount() {
-
+    closeNotificationClicked() {
+        this.setState({ showMessage: false });
     }
 
+    onFormSubmit(event) {
+        event.preventDefault();
 
-    closeNotificationClicked() {
-        this.setState({ showSuccessMessage: false });
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
 
+        axios.post(API_URL + `users/api/marketing-settings/`, {
+            communication: this.state.communication,
+            email: this.state.email,
+            phone: this.state.phone,
+            sms: this.state.sms,
+            postalMail: this.state.postalMail,
+            socialMedia: this.state.socialMedia,
+            userId: this.state.userId
+
+        }, config)
+            .then(res => {
+                this.setState({ messageText: res.data });
+                this.setState({ showMessage: true });
+            })
     }
 
     render() {
         const { classes } = this.props;
-        const { communication, phone, email, sms, postalMail, socialMedia, showSuccessMessage } = this.state;
+        const { communication, phone, email, sms, postalMail, socialMedia, showMessage, messageText } = this.state;
         const { formatMessage } = this.props.intl;
 
         let titleMessage = formatMessage({ id: "settings.marketing_title" });
@@ -335,85 +277,103 @@ export class Marketing extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={12} className={classes.titleCell}>
-                        <span className={classes.title}>{titleMessage}</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.row}>
-                        <span className={classes.text}>{marketingtextMessage}</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.row}>
-                        <FormControlLabel control={<Checkbox color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={communication} onChange={this.communicationClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{communicationMessage}</Typography>} />
-                    </Grid>
-                    <Grid item xs={12} className={classes.subRow}>
-                        <span className={classes.text}>{communicationTextMessage}</span>
-                    </Grid>
-                    <Grid item xs={3} style={{ paddingLeft: 85, marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={phone} onChange={this.phoneClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{phoneMessage}</Typography>} />
-                    </Grid>
-                    <Grid item xs={3} style={{ marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={email} onChange={this.emailClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{emailMessage}</Typography>} />
-                    </Grid>
-                    <Grid item xs={3} style={{ marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={sms} onChange={this.smsClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{smsMessage}</Typography>} />
-                    </Grid>
-                    <Grid item xs={3} style={{ marginTop: 30 }}>
-                        <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={postalMail} onChange={this.postalMailClicked}
-                            value="checkedA" />}
-                            label={<Typography className={classes.subTitle}>{postalMessage}</Typography>} />
-                    </Grid>
-                    <Grid item xs={12} className={classes.row}>
-                        <FormControlLabel control={<Checkbox color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                            checkedIcon={<CheckBoxIcon fontSize="large" />}
-                            checked={socialMedia} onChange={this.socialMediaClicked}
-                            value="checkedA" />}
+                <form onSubmit={this.onFormSubmit}>
+                    <Grid container>
+                        <Grid item xs={12} className={classes.titleCell}>
+                            <span className={classes.title}>{titleMessage}</span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <span className={classes.text}>{marketingtextMessage}</span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <FormControlLabel control={<Checkbox color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                                checkedIcon={<CheckBoxIcon fontSize="large" />}
+                                checked={communication} onChange={this.communicationClicked}
+                                value="checkedA" />}
+                                label={<Typography className={classes.subTitle}>{communicationMessage}</Typography>} />
+                        </Grid>
+                        <Grid item xs={12} className={classes.subRow}>
+                            <span className={classes.text}>{communicationTextMessage}</span>
+                        </Grid>
+                        <Grid item xs={3} style={{ paddingLeft: 85, marginTop: 30 }}>
+                            <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                                checkedIcon={<CheckBoxIcon fontSize="large" />}
+                                checked={phone} onChange={this.phoneClicked}
+                                value="checkedA" />}
+                                label={<Typography className={classes.subTitle}>{phoneMessage}</Typography>} />
+                        </Grid>
+                        <Grid item xs={3} style={{ marginTop: 30 }}>
+                            <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                                checkedIcon={<CheckBoxIcon fontSize="large" />}
+                                checked={email} onChange={this.emailClicked}
+                                value="checkedA" />}
+                                label={<Typography className={classes.subTitle}>{emailMessage}</Typography>} />
+                        </Grid>
+                        <Grid item xs={3} style={{ marginTop: 30 }}>
+                            <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                                checkedIcon={<CheckBoxIcon fontSize="large" />}
+                                checked={sms} onChange={this.smsClicked}
+                                value="checkedA" />}
+                                label={<Typography className={classes.subTitle}>{smsMessage}</Typography>} />
+                        </Grid>
+                        <Grid item xs={3} style={{ marginTop: 30 }}>
+                            <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                                checkedIcon={<CheckBoxIcon fontSize="large" />}
+                                checked={postalMail} onChange={this.postalMailClicked}
+                                value="checkedA" />}
+                                label={<Typography className={classes.subTitle}>{postalMessage}</Typography>} />
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <FormControlLabel control={<Checkbox color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                                checkedIcon={<CheckBoxIcon fontSize="large" />}
+                                checked={socialMedia} onChange={this.socialMediaClicked}
+                                value="checkedA" />}
 
-                            label={<Typography className={classes.subTitle}>{socialMediaMessage}</Typography>} />
+                                label={<Typography className={classes.subTitle}>{socialMediaMessage}</Typography>} />
+                        </Grid>
+                        <Grid item xs={12} className={classes.subRow} style={{ paddingBottom: 30 }}>
+                            <span className={classes.text}>{socialMediaTextMessage}</span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.updateRow}>
+                            <Button className={classes.button} type="submit" >
+                                {updateMessage}
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} className={classes.subRow} style={{ paddingBottom: 30 }}>
-                        <span className={classes.text}>{socialMediaTextMessage}</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.updateRow}>
-                        <Button className={classes.button} onClick={this.updateClicked}>
-                            {updateMessage}
-                        </Button>
-                    </Grid>
-                </Grid>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                    }}
-                    open={showSuccessMessage}
-                    onClose={this.closeNotificationClicked}
-                    autoHideDuration={3000}
-                    TransitionComponent={Fade}>
-                    <MySnackbarContentWrapper
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                        open={showMessage}
                         onClose={this.closeNotificationClicked}
-                        variant="success"
-                        message="This is a success message!"
-                        classes={classes}
-                        className={classes.margin}
-                    />
-                </Snackbar>
+                        autoHideDuration={3000}
+                        TransitionComponent={Fade}
+                    >
+                        <SnackbarContent
+                            className={classes.notification}
+                            aria-describedby="client-snackbar"
+                            message={
+                                <div>
+                                    <CheckCircleIcon className={classes.checkIcon} />
+                                    <span id="client-snackbar" className={classes.message}>
+                                        {messageText}
+                                    </span>
+                                </div>
+                            }
+                            action={[
+                                <IconButton
+                                    key="close"
+                                    aria-label="close"
+                                    color="inherit"
+                                    className={classes.close}
+                                    onClick={this.closeNotificationClicked}
+                                >
+                                    <CloseIcon />
+                                </IconButton>,
+                            ]}
+                        /></Snackbar>
+                </form>
             </div>
         );
     }

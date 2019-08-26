@@ -13,9 +13,12 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Fade from '@material-ui/core/Fade';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-
+import axios from 'axios';
+import { config } from '../../../util_config';
 
 import { withStyles } from '@material-ui/core/styles';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
@@ -114,7 +117,7 @@ const styles = theme => ({
     },
     notification: {
         backgroundColor: '#3ce86a',
-        marginTop: 202,
+        // marginTop: 202,
         minWidth: 1330,
     },
     message: {
@@ -127,8 +130,6 @@ const styles = theme => ({
     }
 });
 
-
-
 export class Privacy extends Component {
 
     constructor(props) {
@@ -137,19 +138,38 @@ export class Privacy extends Component {
         this.state = {
             bonus: false,
             vip: false,
-            showSuccessMessage: false,
+            userId: null,
+            showMessage: false,
+            messageText: '',
         }
 
-        this.updateClicked = this.updateClicked.bind(this);
         this.bonusClicked = this.bonusClicked.bind(this);
         this.vipClicked = this.vipClicked.bind(this);
         this.closeNotificationClicked = this.closeNotificationClicked.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
 
     }
 
-    updateClicked(ev) {
-        this.setState({ showSuccessMessage: true });
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
 
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ userId: res.data.pk });
+
+                axios.get(API_URL + 'users/api/privacy-settings/?userId=' + res.data.pk, config)
+                    .then(res => {
+                        this.setState({ bonus: res.data.bonus })
+                        this.setState({ vip: res.data.vip })
+                    }).catch(err => {
+                        this.setState({ messageText: "An error occured while getting user privacy settings" });
+                        this.setState({ showMessage: true });
+                    });
+            }).catch(err => {
+                this.setState({ messageText: "An error occured while validating user credentials" });
+                this.setState({ showMessage: true });
+            });
     }
 
     bonusClicked(ev) {
@@ -161,13 +181,29 @@ export class Privacy extends Component {
     }
 
     closeNotificationClicked() {
-        this.setState({ showSuccessMessage: false });
+        this.setState({ showMessage: false });
+    }
 
+    onFormSubmit(event) {
+        event.preventDefault();
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        axios.post(API_URL + `users/api/privacy-settings/`, {
+            bonuses: this.state.bonus,
+            vip: this.state.vip,
+            userId: this.state.userId
+        }, config)
+            .then(res => {
+                this.setState({ messageText: res.data });
+                this.setState({ showMessage: true });
+            })
     }
 
     render() {
         const { classes } = this.props;
-        const { bonus, vip, showSuccessMessage } = this.state;
+        const { bonus, vip, showMessage, messageText } = this.state;
         const { formatMessage } = this.props.intl;
 
         let titleMessage = formatMessage({ id: "settings.privacy_title" });
@@ -183,98 +219,99 @@ export class Privacy extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={12} className={classes.titleCell}>
-                        <span className={classes.title}>{titleMessage}</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.row}>
-                        <span className={classes.text}>{privacyTextMessage}</span>
-                    </Grid>
-                    <Grid item xs={4} className={classes.row}>
-                        <span className={classes.subTitle}>{bonusesMessage}</span>
-                    </Grid>
-                    <Grid item xs={8} style={{ paddingTop: 20 }}>
-                        <Typography component="div">
-                            <Grid component="label" container alignItems="center" >
-                                <Grid item>{noMessage}</Grid>
-                                <Grid item>
-                                    <Switch
-                                        color="secondary"
-                                        checked={bonus}
-                                        onChange={this.bonusClicked}
-                                        value="checkedC"
-                                    />
+                <form onSubmit={this.onFormSubmit}>
+                    <Grid container>
+                        <Grid item xs={12} className={classes.titleCell}>
+                            <span className={classes.title}>{titleMessage}</span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <span className={classes.text}>{privacyTextMessage}</span>
+                        </Grid>
+                        <Grid item xs={4} className={classes.row}>
+                            <span className={classes.subTitle}>{bonusesMessage}</span>
+                        </Grid>
+                        <Grid item xs={8} style={{ paddingTop: 20 }}>
+                            <Typography component="div">
+                                <Grid component="label" container alignItems="center" >
+                                    <Grid item>{noMessage}</Grid>
+                                    <Grid item>
+                                        <Switch
+                                            color="secondary"
+                                            checked={bonus}
+                                            onChange={this.bonusClicked}
+                                            value="checkedC"
+                                        />
+                                    </Grid>
+                                    <Grid item>{yesMessage}</Grid>
                                 </Grid>
-                                <Grid item>{yesMessage}</Grid>
-                            </Grid>
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={9} className={classes.row}>
-                        <span className={classes.text}>{bonusTextMessage}</span>
-                    </Grid>
-                    <Grid item xs={3}></Grid>
-                    <Grid item xs={4} className={classes.row}>
-                        <span className={classes.subTitle}>{vipMessage}</span>
-                    </Grid>
-                    <Grid item xs={8} style={{ paddingTop: 20 }}>
-                        <Typography component="div">
-                            <Grid component="label" container alignItems="center" >
-                                <Grid item>{noMessage}</Grid>
-                                <Grid item>
-                                    <Switch
-                                        color="secondary"
-                                        checked={vip}
-                                        onChange={this.vipClicked}
-                                        value="checkedC"
-                                    />
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={9} className={classes.row}>
+                            <span className={classes.text}>{bonusTextMessage}</span>
+                        </Grid>
+                        <Grid item xs={3}></Grid>
+                        <Grid item xs={4} className={classes.row}>
+                            <span className={classes.subTitle}>{vipMessage}</span>
+                        </Grid>
+                        <Grid item xs={8} style={{ paddingTop: 20 }}>
+                            <Typography component="div">
+                                <Grid component="label" container alignItems="center" >
+                                    <Grid item>{noMessage}</Grid>
+                                    <Grid item>
+                                        <Switch
+                                            color="secondary"
+                                            checked={vip}
+                                            onChange={this.vipClicked}
+                                            value="checkedC"
+                                        />
+                                    </Grid>
+                                    <Grid item>{yesMessage}</Grid>
                                 </Grid>
-                                <Grid item>{yesMessage}</Grid>
-                            </Grid>
-                        </Typography>
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={9} className={classes.row} style={{ paddingBottom: 30 }}>
+                            <span className={classes.text}>{vipTextMessage}</span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.updateRow}>
+                            <Button className={classes.button} type="submit" >
+                                {updateMessage}
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={9} className={classes.row} style={{ paddingBottom: 30 }}>
-                        <span className={classes.text}>{vipTextMessage}</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.updateRow}>
-                        <Button className={classes.button} onClick={this.updateClicked}>
-                            {updateMessage}
-                        </Button>
-                    </Grid>
-                </Grid>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                    }}
-                    open={showSuccessMessage}
-                    onClose={this.closeNotificationClicked}
-                    autoHideDuration={3000}
-                    TransitionComponent={Fade}
-                >
-                    <SnackbarContent
-                        className={classes.notification}
-                        aria-describedby="client-snackbar"
-                        message={
-                            <div>
-                                <CheckCircleIcon className={classes.checkIcon} />
-                                <span id="client-snackbar" className={classes.message}>
-                                    Your changes are successfully updated.
-                            </span>
-                            </div>
-                        }
-                        action={[
-                            <IconButton
-                                key="close"
-                                aria-label="close"
-                                color="inherit"
-                                className={classes.close}
-                                onClick={this.closeNotificationClicked}
-                            >
-                                <CloseIcon />
-                            </IconButton>,
-                        ]}
-                    /></Snackbar>
-
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                        open={showMessage}
+                        onClose={this.closeNotificationClicked}
+                        autoHideDuration={3000}
+                        TransitionComponent={Fade}
+                    >
+                        <SnackbarContent
+                            className={classes.notification}
+                            aria-describedby="client-snackbar"
+                            message={
+                                <div>
+                                    <CheckCircleIcon className={classes.checkIcon} />
+                                    <span id="client-snackbar" className={classes.message}>
+                                        {messageText}
+                                    </span>
+                                </div>
+                            }
+                            action={[
+                                <IconButton
+                                    key="close"
+                                    aria-label="close"
+                                    color="inherit"
+                                    className={classes.close}
+                                    onClick={this.closeNotificationClicked}
+                                >
+                                    <CloseIcon />
+                                </IconButton>,
+                            ]}
+                        /></Snackbar>
+                </form>
             </div>
         );
     }
