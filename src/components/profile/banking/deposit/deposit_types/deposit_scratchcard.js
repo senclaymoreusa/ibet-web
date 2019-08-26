@@ -5,17 +5,11 @@ import { config } from '../../../../../util_config';
 import { connect } from 'react-redux';
 
 // Material-UI
-import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import { MenuItem, Input, InputBase, InputLabel } from '@material-ui/core';
-import Select from '@material-ui/core/Select'
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { LinearProgress, Grid, Button, Select, MenuItem, TextField, InputBase } from '@material-ui/core';
 import InputMask from 'react-input-mask';
 
 import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-import { ReactComponent as CvvIcon } from '../../../../../assets/img/svg/card-cvv.svg';
 
 import { authCheckState } from '../../../../../actions';
 
