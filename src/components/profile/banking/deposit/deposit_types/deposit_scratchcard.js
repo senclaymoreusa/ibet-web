@@ -9,7 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { MenuItem, InputAdornment } from '@material-ui/core';
+import { MenuItem, Input, InputBase, InputLabel } from '@material-ui/core';
+import Select from '@material-ui/core/Select'
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InputMask from 'react-input-mask';
 
@@ -35,6 +36,43 @@ const operators = [
         label: "Mobifone"
     }
 ];
+
+const BootstrapInput = withStyles(theme => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing.unit * 3,
+        },
+    },
+    input: {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        padding: '10px 2px 10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}))(InputBase);
+
+
 const styles = function (theme) {
     return ({
         root: {
@@ -118,7 +156,6 @@ const styles = function (theme) {
         },
         infoRow: {
             display: 'block',
-
         },
         infoLabel: {
             display: 'inline-block',
@@ -294,7 +331,19 @@ const styles = function (theme) {
         },
         amountButtonRow: {
             paddingTop: 30,
-        }
+        },
+        select: {
+            fontSize: 14,
+            fontWeight: 500,
+            fontStyle: 'normal',
+            fontStretch: 'normal',
+            lineHeight: 'normal',
+            letterSpacing: 'normal',
+            color: '#292929',
+            height: 44,
+            marginTop: 10,
+            width: 190,
+        },
     })
 };
 
@@ -313,16 +362,16 @@ class DepositScratchCard extends Component {
             pinNumberFocused: false,
             pinNumberInvalid: true,
 
-            operator: '',
+            operator: 'none',
             operatorInvalid: true,
 
-            amount: '',
+            amount: 'none',
             amountFocused: false,
             amountInvalid: true,
 
             showLinearProgressBar: false,
         };
-        
+
 
         this.numberChanged = this.numberChanged.bind(this);
         this.numberFocused = this.numberFocused.bind(this);
@@ -340,6 +389,7 @@ class DepositScratchCard extends Component {
         this.handleClick = this.handleClick.bind(this);
 
     }
+
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -404,6 +454,7 @@ class DepositScratchCard extends Component {
         this.setState({ cvvFocused: true });
     }
 
+    
     handleOperatorChange(event) {
         event.preventDefault();
 
@@ -569,50 +620,30 @@ class DepositScratchCard extends Component {
                                     </InputMask>
                                 </Grid>
                                 <Grid item xs={6} className={classes.dropDowns}>
-                                    <TextField
-                                        required
-                                        // id="select-operator"
-                                        select
-                                        label="Operator"
-                                        className={classes.textField}
+                                    <Select
+                                        className={classes.select}
                                         value={operator}
-                                        SelectProps={{
-                                            MenuProps: {
-                                                className: classes.menu,
-                                            },
-                                        }}
                                         onChange={this.handleOperatorChange}
-                                        helperText="Telecom Company"
-                                        variant="outlined"
-                                        margin="normal"
-                                        style={{"width": 125}}
+                                        input={<BootstrapInput name="operator" id="select-operator" />}>
                                     >
+                                        <MenuItem key='none' value='none' disabled>Select Operator</MenuItem>
                                         {
-                                            operators.map(option => (
-                                                <MenuItem key={option.value} value={option.value}>
-                                                    {option.label}
+                                            operators.map(currency => (
+                                                <MenuItem key={currency.label} value={currency.value} >
+                                                    {currency.label}
                                                 </MenuItem>
                                             ))
                                         }
-                                    </TextField>
+                                    </Select>
                                 </Grid>
                                 <Grid item xs={6} className={classes.dropDowns}>
-                                    <TextField
-                                        id="select-amount"
-                                        select
-                                        label="Amount"
-                                        className={classes.textField}
+                                    <Select
+                                        className={classes.select}
                                         value={amount}
-                                        SelectProps={{
-                                            MenuProps: {
-                                                className: classes.menu,
-                                            },
-                                        }}
                                         onChange={this.handleAmountChange}
-                                        helperText="Please Select Deposit Amount"
-                                        variant="outlined"
-                                        margin="normal"
+                                        input={<BootstrapInput name="amount" id="select-amount" />}>
                                     >
+                                        <MenuItem key='none' value='none' disabled>Select Amount</MenuItem>
                                         {
                                             amountChoices.map(option => (
                                                 <MenuItem key={option} value={option}>
@@ -620,7 +651,7 @@ class DepositScratchCard extends Component {
                                                 </MenuItem>
                                             ))
                                         }
-                                    </TextField>
+                                    </Select>
                                 </Grid>
                                 <br/>
                                 <Grid item xs={6} className={classes.amountRow}>
