@@ -15,6 +15,7 @@ import DepositLinepay from './deposit_types/deposit_linepay';
 import DepositAsiapayJDPay from './deposit_types/deposit_asiapay_jdpay';
 import DepositQaicah from './deposit_types/deposit_qaicash';
 import DepositQaicashAlipay from './deposit_types/deposit_qaicash_alipay';
+import DepositQaicashJdpay from './deposit_types/deposit_qaicash_jdpay';
 import DepositPaypal from './deposit_types/deposit_paypal';
 import DepositAsiapayQucikpay from './deposit_types/deposit_asiapay_kuaijie';
 import DepositAsiapayUnionpay from './deposit_types/deposit_asiapay_unionpay';
@@ -72,6 +73,7 @@ export class DepositMain extends Component {
                 {contentValue === 'asia_jdpay' && <DepositAsiapayJDPay callbackFromParent={this.setPage} />}
                 {contentValue === 'qaicash_wechat' && <DepositQaicah callbackFromParent={this.setPage} />}
                 {contentValue === 'qaicash_alipay' && <DepositQaicashAlipay callbackFromParent={this.setPage} />}
+                {contentValue === 'qaicash_jdpay' && <DepositQaicashJdpay callbackFromParent={this.setPage} />}
                 {contentValue === 'paypal' && <DepositPaypal callbackFromParent={this.setPage} />}
                 {contentValue === 'asia_quickpay' && <DepositAsiapayQucikpay callbackFromParent={this.setPage} />}
                 {contentValue === 'asia_wechatpay' && <DepositAsiapayWechatpay callbackFromParent={this.setPage} />}
