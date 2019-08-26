@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../actions';
+import { config } from '../../../util_config';
+
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -22,11 +24,12 @@ import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
+import axios from 'axios';
 
 import { withStyles } from '@material-ui/core/styles';
-
 import { makeStyles } from '@material-ui/styles';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
@@ -230,6 +233,39 @@ export class Marketing extends Component {
         this.socialMediaClicked = this.socialMediaClicked.bind(this);
         this.closeNotificationClicked = this.closeNotificationClicked.bind(this);
 
+    }
+
+    componentWillReceiveProps(props) {
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        alert('will')
+        axios.get(API_URL + 'users/api/marketing-settings/', config)
+            .then(res => {
+                this.setState({ communication: res.data })
+                this.setState({ phone: res.data })
+                this.setState({ email: res.data })
+                this.setState({ sms: res.data })
+                this.setState({ postalMail: res.data })
+                this.setState({ socialMedia: res.data })
+
+            })
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+        alert('did')
+        axios.get(API_URL + 'users/api/marketing-settings/', config)
+            .then(res => {
+                this.setState({ communication: res.data })
+                this.setState({ phone: res.data })
+                this.setState({ email: res.data })
+                this.setState({ sms: res.data })
+                this.setState({ postalMail: res.data })
+                this.setState({ socialMedia: res.data })
+
+            })
     }
 
     updateClicked(ev) {
