@@ -118,7 +118,7 @@ const styles = theme => ({
     notification: {
         backgroundColor: '#3ce86a',
         // marginTop: 202,
-        minWidth: 1330,
+        //minWidth: 1330,
     },
     message: {
         marginLeft: 10,

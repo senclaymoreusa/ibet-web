@@ -138,7 +138,6 @@ const styles = theme => ({
     },
     middleButton: {
         marginRight: 10,
-        marginRight: 10,
         borderRadius: 4,
         backgroundColor: '#efefef',
         marginTop: 15,

@@ -15,8 +15,6 @@ import InputBase from '@material-ui/core/InputBase';
 
 import { ReactComponent as BackIcon } from '../assets/img/svg/account-menu-back.svg';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
 const styles = theme => ({
     root: {
         width: '100%',
@@ -167,7 +165,6 @@ const styles = theme => ({
         marginTop: 20,
         width: 180,
         height: 48,
-        textAlign: 'center',
         borderTop: '0',
         borderLeft: '0',
         borderRight: '0',

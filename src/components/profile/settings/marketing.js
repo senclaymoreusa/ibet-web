@@ -3,31 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../actions';
 import { config } from '../../../util_config';
-
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
-
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
 import Fade from '@material-ui/core/Fade';
-
-import WarningIcon from '@material-ui/icons/Warning';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from 'axios';
 
 import { withStyles } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/styles';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -130,7 +122,7 @@ const styles = theme => ({
     notification: {
         backgroundColor: '#3ce86a',
         // marginTop: 202,
-        minWidth: 1330,
+        //minWidth: 1330,
     },
     message: {
         marginLeft: 10,

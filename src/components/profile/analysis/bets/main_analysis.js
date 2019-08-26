@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl, FormattedNumber } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
 import { ReactComponent as PrevStepIcon } from '../../../../assets/img/svg/prev_step.svg';
 import { ReactComponent as NextStepIcon } from '../../../../assets/img/svg/next_step.svg';
-
 import { ReactComponent as SportIcon } from '../../../../assets/img/svg/soccer_in_analysis.svg';
 import { ReactComponent as SlotsIcon } from '../../../../assets/img/svg/slots_in_analysis.svg';
 import { ReactComponent as LiveCasinoIcon } from '../../../../assets/img/svg/casino_in_analysis.svg';
-
 import { Line } from 'react-chartjs-2';
-import { Chart } from 'react-chartjs-2';
-
-
 import { withStyles } from '@material-ui/core/styles';
-
 import axios from 'axios';
 import { config } from '../../../../util_config';
 

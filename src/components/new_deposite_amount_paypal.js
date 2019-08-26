@@ -11,11 +11,9 @@ import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
 import { PayPalButton } from 'react-paypal-button-v2';
-import Paper from '@material-ui/core/Paper';
 
 
 import { hide_deposit_paypal, show_deposit } from '../actions';
-import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
 import { ReactComponent as Paypal } from '../assets/img/svg/paypal.svg';
 
 import Left from '@material-ui/icons/ChevronLeft'

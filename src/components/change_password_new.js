@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { hide_change_password } from '../actions';
-
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios'
 import { config } from '../util_config';
@@ -11,9 +10,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-
-import { ReactComponent as Back } from '../assets/img/svg/back.svg';
-
 import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
