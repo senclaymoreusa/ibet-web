@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-import { ReactComponent as CompleteIcon } from '../../../../assets/img/svg/complete-icon.svg';
+import { ReactComponent as AlertIcon } from '../../../../assets/img/svg/alert.svg';
 
 
 import { withStyles } from '@material-ui/core/styles';
@@ -79,21 +79,21 @@ const styles = theme => ({
         alignItems: 'center',
         paddingTop: 64,
     },
-    completeCell:{
+    completeCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         paddingTop: 50,
-        paddingBottom:50,
+        paddingBottom: 50,
     },
-    successRow:{
+    errorRow: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor:'#eaeaea',
-        height:170,
+        backgroundColor: '#cdcdcd',
+        height: 170,
     },
-    successText:{
+    errorText: {
         fontSize: 40,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -102,10 +102,10 @@ const styles = theme => ({
         letterSpacing: 'normal',
         textAlign: 'center',
         color: '#292929',
-        display:'inline-block',
-        marginTop:44,
+        display: 'inline-block',
+        marginTop: 44,
     },
-    successDesc:{
+    errorDesc: {
         fontSize: 24,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -114,26 +114,25 @@ const styles = theme => ({
         letterSpacing: 'normal',
         textAlign: 'center',
         color: '#212121',
-        display:'inline-block',
-marginTop:19
+        display: 'inline-block',
+        marginTop: 19
+    },
+    alertIcon: {
+        width: 66,
+        height: 66,
     }
 });
 
 
-export class DepositSuccess extends Component {
+export class DepositError extends Component {
 
     constructor(props) {
         super(props);
 
-        this.doneClicked = this.doneClicked.bind(this);
-        this.checkBalanceClicked = this.checkBalanceClicked.bind(this);
-    }
+        this.againClicked = this.againClicked.bind(this);
+     }
 
-    doneClicked(ev) {
-        this.props.callbackFromParent('deposit_method');
-    }
-
-    checkBalanceClicked(ev) {
+    againClicked(ev) {
         this.props.callbackFromParent('deposit_method');
     }
 
@@ -143,7 +142,7 @@ export class DepositSuccess extends Component {
 
     render() {
         const { classes } = this.props;
-        const { successMessage } = this.props;
+        const { errorMessage } = this.props;
 
         return (
             <div className={classes.root}>
@@ -152,21 +151,17 @@ export class DepositSuccess extends Component {
                         <span className={classes.title}>Deposit</span>
                     </Grid>
                     <Grid item xs={12} className={classes.completeCell}>
-                        <CompleteIcon/>
+                        <AlertIcon className={classes.alertIcon} />
                     </Grid>
-                    <Grid item xs={12} className={classes.successRow}>
-                       <span className={classes.successText}>Successful!</span>
-
-                       <span className={classes.successDesc}>
-                        Deposit {successMessage} completed
-                       </span>
+                    <Grid item xs={12} className={classes.errorRow}>
+                        <span className={classes.errorText}>Transaction Failed</span>
+                        <span className={classes.errorDesc}>
+                            {errorMessage}
+                        </span>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
-                        <Button className={classes.button} onClick={this.doneClicked}>
-                            Done
-                        </Button>
-                        <Button className={classes.button} onClick={this.checkBalanceClicked}>
-                            Check Balance
+                        <Button className={classes.button} onClick={this.againClicked}>
+                            Try Again
                         </Button>
                     </Grid>
                 </Grid>
@@ -181,4 +176,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositSuccess)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositError)));

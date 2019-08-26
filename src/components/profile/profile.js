@@ -6,8 +6,9 @@ import ChatTool from "../chat_tool";
 import Typography from '@material-ui/core/Typography';
 
 import { connect } from 'react-redux';
-import { authCheckState } from '../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../actions';
 import { injectIntl } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from "@material-ui/core/AppBar";
@@ -19,7 +20,11 @@ import Banking from './banking/banking';
 import Analysis from './analysis/analysis';
 import Settings from './settings/settings';
 
+import axios from 'axios';
+import { config } from '../../util_config';
 import { withStyles } from '@material-ui/core/styles';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -62,17 +67,23 @@ const StyledTab = withStyles(theme => ({
         fontSize: 20,
         outline: 'none',
         width: '20%',
+        minWidth:280,
         maxWidth: '20%',
+        height:'100%',
         borderBottom: '2px solid #d8d8d8',
+        whiteSpace: 'nowrap',
         "&:focus": {
+            height:'100%',
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
         },
         "&:hover": {
+            height:'100%',
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
         },
         "&:selected": {
+            height:'100%',
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
         },
@@ -147,16 +158,12 @@ export class Profile extends Component {
         this.props.history.push(url);
     }
 
-    async componentWillReceiveProps(props) {
-        // const { type } = this.props.match.params;
-        // const { sub } = props.match.params;
-    }
-
-    async componentDidMount() {
-
-        this.props.authCheckState();
-        // const { type } = this.props.match.params;
-        // const { sub } = this.props.match.params;
+    componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
 
         this.setState({ urlPath: this.props.history.location.pathname });
     }
@@ -215,7 +222,7 @@ export class Profile extends Component {
                                     }
                                 }}
                             />
-                             <StyledTab
+                            <StyledTab
                                 value="settings"
                                 label={settingsMessage}
                                 onClick={() => {
@@ -246,4 +253,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(Profile)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Profile))));
