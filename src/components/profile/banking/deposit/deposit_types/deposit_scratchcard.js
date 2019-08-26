@@ -651,9 +651,9 @@ class DepositScratchCard extends Component {
                                 <Grid item xs={6} className={classes.amountRow}>
                                     <div className={classes.amountText}>
                                         <FormattedNumber
-                                            value={this.state.amount}
+                                            value={this.state.amount == "none" ? 0 : this.state.amount}
                                             style='currency'
-                                            currency={this.state.currencyValue}
+                                            currency={"VND"}
                                         />
                                     </div>
                                 </Grid>
