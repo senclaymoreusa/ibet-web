@@ -90,7 +90,7 @@ const styles = theme => ({
     }
 });
 
-class New_Profile extends Component {
+class UserInformationEdit extends Component {
 
     constructor(props) {
         super(props);
@@ -407,4 +407,4 @@ class New_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(null, { hide_user_profile, show_update_profile, authCheckState })(New_Profile)));
+export default withStyles(styles)(injectIntl(connect(null, { hide_user_profile, show_update_profile, authCheckState })(UserInformationEdit)));
