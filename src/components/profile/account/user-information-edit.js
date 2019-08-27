@@ -18,7 +18,6 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
         width: 925,
-        height: 688,
         backgroundColor: '#ffffff',
         border: 'solid 1px #979797',
     },

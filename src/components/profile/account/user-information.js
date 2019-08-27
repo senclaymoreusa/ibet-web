@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedDate, FormattedTime } from 'react-intl';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { hide_user_profile, show_update_profile, authCheckState } from '../../../actions';
 import { connect } from 'react-redux';
 import { config } from '../../../util_config';
 import axios from 'axios'
-
-import { Link } from 'react-router-dom';
 
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
@@ -18,7 +16,6 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
         width: 925,
-        height: 688,
         backgroundColor: '#ffffff',
         border: 'solid 1px #979797',
     },
@@ -90,7 +87,7 @@ const styles = theme => ({
     }
 });
 
-class New_Profile extends Component {
+class UserInformation extends Component {
 
     constructor(props) {
         super(props);
@@ -202,7 +199,7 @@ class New_Profile extends Component {
                             fullWidth
                             value={this.state.user_data.street_address_1 + ' ' +
                                 this.state.user_data.street_address_2 + ' \n' +
-                                this.state.user_data.city + ', ' +
+                                this.state.user_data.city + ' ' +
                                 this.state.user_data.zipcode + ' ' +
                                 this.state.user_data.state + ' ' +
                                 this.state.user_data.country}
@@ -249,6 +246,11 @@ class New_Profile extends Component {
                                 shrink: true,
                             }}
                         />
+                        <FormattedDate
+                            value={this.state.user_data.time_of_registration}
+                            day="numeric"
+                            month="numeric"
+                            year="numeric" />
                         <Grid item xs={6} className={classes.rightRow}></Grid>
                     </Grid>
                     <Grid item xs={12} className={classes.updateRow}>
@@ -407,4 +409,4 @@ class New_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(null, { hide_user_profile, show_update_profile, authCheckState })(New_Profile)));
+export default withStyles(styles)(injectIntl(connect(null, { hide_user_profile, show_update_profile, authCheckState })(UserInformation)));
