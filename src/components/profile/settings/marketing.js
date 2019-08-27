@@ -175,12 +175,14 @@ export class Marketing extends Component {
 
                 axios.get(API_URL + 'users/api/marketing-settings/?userId=' + res.data.pk, config)
                     .then(res => {
-                        this.setState({ communication: res.data.bonus })
-                        this.setState({ phone: res.data.vip })
-                        this.setState({ email: res.data.vip })
-                        this.setState({ sms: res.data.vip })
-                        this.setState({ postalMail: res.data.vip })
-                        this.setState({ socialMedia: res.data.vip })
+                        this.setState({ phone: res.data.phone })
+                        this.setState({ email: res.data.email })
+                        this.setState({ sms: res.data.sms })
+                        this.setState({ postalMail: res.data.postal })
+                        this.setState({ socialMedia: res.data.socialMedia })
+
+                        this.setState({ communication: (res.data.phone || res.data.email || res.data.sms || res.data.postal) })
+
                     }).catch(err => {
                         this.setState({ messageText: "An error occured while getting user marketing settings" });
                         this.setState({ showMessage: true });
@@ -200,7 +202,6 @@ export class Marketing extends Component {
             this.setState({ email: false });
             this.setState({ sms: false });
             this.setState({ postalMail: false });
-
         }
     }
 
@@ -288,28 +289,28 @@ export class Marketing extends Component {
                             <span className={classes.text}>{communicationTextMessage}</span>
                         </Grid>
                         <Grid item xs={3} style={{ paddingLeft: 85, marginTop: 30 }}>
-                            <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            <FormControlLabel control={<Checkbox disabled={communication !== true} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                                 checkedIcon={<CheckBoxIcon fontSize="large" />}
                                 checked={phone} onChange={this.phoneClicked}
                                 value="checkedA" />}
                                 label={<Typography className={classes.subTitle}>{phoneMessage}</Typography>} />
                         </Grid>
                         <Grid item xs={3} style={{ marginTop: 30 }}>
-                            <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            <FormControlLabel control={<Checkbox disabled={communication !== true} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                                 checkedIcon={<CheckBoxIcon fontSize="large" />}
                                 checked={email} onChange={this.emailClicked}
                                 value="checkedA" />}
                                 label={<Typography className={classes.subTitle}>{emailMessage}</Typography>} />
                         </Grid>
                         <Grid item xs={3} style={{ marginTop: 30 }}>
-                            <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            <FormControlLabel control={<Checkbox disabled={communication !== true} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                                 checkedIcon={<CheckBoxIcon fontSize="large" />}
                                 checked={sms} onChange={this.smsClicked}
                                 value="checkedA" />}
                                 label={<Typography className={classes.subTitle}>{smsMessage}</Typography>} />
                         </Grid>
                         <Grid item xs={3} style={{ marginTop: 30 }}>
-                            <FormControlLabel control={<Checkbox disabled={!communication} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            <FormControlLabel control={<Checkbox disabled={communication !== true} color="default" icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
                                 checkedIcon={<CheckBoxIcon fontSize="large" />}
                                 checked={postalMail} onChange={this.postalMailClicked}
                                 value="checkedA" />}
