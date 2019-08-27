@@ -311,8 +311,10 @@ const styles = function (theme) {
             },
         },
         dropDowns: {
-            paddingTop: 20,
-            paddingBottom: 20
+            paddingTop: 12,
+            paddingBottom: 20,
+            // marginRight: 5,
+            // marginLeft: 10
         },
         textField: {
             border: 'solid 1px #e4e4e4',
@@ -336,8 +338,11 @@ const styles = function (theme) {
             color: '#292929',
             height: 44,
             marginTop: 10,
-            width: 190,
+            width: 200,
         },
+        menuItem: {
+            marginRight: 20
+        }
     })
 };
 
@@ -613,14 +618,15 @@ class DepositScratchCard extends Component {
                                         />}
                                     </InputMask>
                                 </Grid>
-                                <Grid item xs={6} className={classes.dropDowns}>
+                                <Grid item xs={6} className={classes.dropDowns} style={{alignContent: 'center', textAlign: 'center'}}>
                                     <Select
                                         className={classes.select}
                                         value={operator}
+                                        style={{textAlign: 'left'}}
                                         onChange={this.handleOperatorChange}
                                         input={<BootstrapInput name="operator" id="select-operator" />}>
                                     >
-                                        <MenuItem key='none' value='none' disabled>Select Operator</MenuItem>
+                                        <MenuItem key='none' value='none' disabled >Select Operator</MenuItem>
                                         {
                                             operators.map(currency => (
                                                 <MenuItem key={currency.label} value={currency.value} >
@@ -630,10 +636,11 @@ class DepositScratchCard extends Component {
                                         }
                                     </Select>
                                 </Grid>
-                                <Grid item xs={6} className={classes.dropDowns}>
+                                <Grid item xs={6} className={classes.dropDowns} style={{alignContent: 'center', textAlign: 'center'}}>
                                     <Select
                                         className={classes.select}
                                         value={amount}
+                                        style={{textAlign: 'left'}}
                                         onChange={this.handleAmountChange}
                                         input={<BootstrapInput name="amount" id="select-amount" />}>
                                     >
