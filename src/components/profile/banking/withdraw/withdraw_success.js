@@ -120,7 +120,7 @@ marginTop:19
 });
 
 
-export class DepositSuccess extends Component {
+export class WithdrawSuccess extends Component {
 
     constructor(props) {
         super(props);
@@ -130,11 +130,11 @@ export class DepositSuccess extends Component {
     }
 
     doneClicked(ev) {
-        this.props.callbackFromParent('deposit_method');
+        this.props.callbackFromParent('withdraw_method');
     }
 
     checkBalanceClicked(ev) {
-        this.props.callbackFromParent('deposit_method');
+        this.props.callbackFromParent('withdraw_method');
     }
 
     componentDidMount() {
@@ -149,7 +149,7 @@ export class DepositSuccess extends Component {
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={12} className={classes.titleCell}>
-                        <span className={classes.title}>Deposit</span>
+                        <span className={classes.title}>Withdraw</span>
                     </Grid>
                     <Grid item xs={12} className={classes.completeCell}>
                         <CompleteIcon/>
@@ -158,7 +158,7 @@ export class DepositSuccess extends Component {
                        <span className={classes.successText}>Successful!</span>
 
                        <span className={classes.successDesc}>
-                        Deposit {successMessage} completed
+                        Withdraw {successMessage} completed
                        </span>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
@@ -181,4 +181,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositSuccess)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(WithdrawSuccess)));

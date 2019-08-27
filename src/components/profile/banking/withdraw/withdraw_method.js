@@ -87,7 +87,7 @@ const styles = theme => ({
 });
 
 
-export class DepositMethod extends Component {
+export class WithdrawMethod extends Component {
 
     constructor(props) {
         super(props);
@@ -96,7 +96,7 @@ export class DepositMethod extends Component {
         this.addMasterCard = this.addMasterCard.bind(this);
         this.addBankAccount = this.addBankAccount.bind(this);
         this.addPaypal = this.addPaypal.bind(this);
-        this.depositWith = this.depositWith.bind(this);
+        this.withdrawWith = this.withdrawWith.bind(this);
     }
 
     addVisaCard(ev) {
@@ -115,7 +115,7 @@ export class DepositMethod extends Component {
         this.props.callbackForAddPayment('add_credit_card', 'paypal');
     }
 
-    depositWith(ev) {
+    withdrawWith(ev) {
         this.props.callbackForPayment(ev);
     }
 
@@ -123,16 +123,16 @@ export class DepositMethod extends Component {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
 
-        let addPaymentMethodTitle = formatMessage({ id: 'deposit.add_payment_method' });
-        let depositMethodTitle = formatMessage({ id: 'deposit.deposit_method' });
-        let choosePaymentMethodTitle = formatMessage({ id: 'deposit.choose_payment_method' });
+        let addPaymentMethodTitle = formatMessage({ id: 'withdraw.add_payment_method' });
+        let withdrawMethodTitle = formatMessage({ id: 'withdraw.withdraw_method' });
+        let choosePaymentMethodTitle = formatMessage({ id: 'withdraw.choose_payment_method' });
 
         return (
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={12} className={classes.titleCell}>
                         <span className={classes.title}>
-                            {depositMethodTitle}
+                            {withdrawMethodTitle}
                         </span>
                     </Grid>
                     <Grid item xs={12} className={classes.contentRow}>
@@ -141,66 +141,25 @@ export class DepositMethod extends Component {
                                 {choosePaymentMethodTitle}
                             </Grid>
                             <Grid item xs={12} className={classes.buttonsRow}>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("qaicash_wechat") }}>
-                                    Qaicash WeChat
+                                <Button className={classes.addButton} onClick={() => { this.withdrawWith("qaicash_lbt") }}>
+                                    Qaicash Lbt
                                 </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("qaicash_alipay") }}>
-                                    Qaicash Alipay
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("paypal") }}>
-                                    Paypal
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("linepay") }} >
-                                    Line Pay
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("asia_quickpay") }}>
-                                    Quick Pay
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("asia_jdpay") }}>
-                                    JD Pay
-                                </Button>
-                                <Button className={classes.addButton} disabled={true} onClick={() => { this.depositWith("onlinepay") }}>
-                                    Online Pay
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("unionpay") }}>
-                                    Union Pay
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("asia_wechatpay") }}>
-                                    WeChat
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("asiapay_alipay") }} >
-                                    Ali Pay
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("astropay") }}>
-                                    Astro Pay
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("circlepay") }}>
-                                    Circle Pay
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("payzod") }}>
-                                    Payzod
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("help2pay") }}>
-                                    Help2Pay
-                                </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("fgo") }}>
-                                    FGO
-                                </Button>
+
                             </Grid>
                             <Grid item xs={12} className={classes.addPaymentTitleRow}>
                                 {addPaymentMethodTitle}
                             </Grid>
                             <Grid item xs={12} className={classes.buttonsRow}>
-                                <Button className={classes.addButton} onClick={this.addVisaCard}>
+                                <Button className={classes.addButton} disabled={true} onClick={this.addVisaCard}>
                                     <VisaIcon />
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addMasterCard}>
+                                <Button className={classes.addButton} disabled={true} onClick={this.addMasterCard}>
                                     <MastercardIcon />
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addBankAccount}>
+                                <Button className={classes.addButton} disabled={true} onClick={this.addBankAccount}>
                                     <BankIcon />
                                 </Button>
-                                <Button className={classes.addButton} onClick={this.addPaypal}>
+                                <Button className={classes.addButton} disabled={true} onClick={this.addPaypal}>
                                     <PaypalIcon />
                                 </Button>
                             </Grid>
@@ -218,4 +177,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositMethod)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(WithdrawMethod)));
