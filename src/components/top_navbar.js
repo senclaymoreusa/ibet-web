@@ -3,26 +3,23 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Person from '@material-ui/icons/Person';
-
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
-
-import blue from '@material-ui/core/colors/blue';
-
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import { errors } from './errors';
-
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
-import { withRouter, Link} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
+    AUTH_RESULT_SUCCESS,
     logout,
     handle_search,
     authLogin,
+    postLogout,
     setLanguage,
     authCheckState,
     show_login,
@@ -32,16 +29,17 @@ import {
     hide_user_profile,
     hide_update_profile,
     show_account_menu,
-    hide_account_menu
+    hide_account_menu,
+    show_profile_menu,
+    hide_profile_menu
 } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
+
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
-
 import AccountMenu from './account_menu/account_menu';
 import Promotions from './account_menu/promotions';
 import Settings from './account_menu/settings';
@@ -52,17 +50,18 @@ import WithdrawSuccess from './new_withdraw_success';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
+import Collapse from '@material-ui/core/Collapse';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
-import Flag from 'react-flagkit';
 import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
 import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
 import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
 import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
 import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
-import { ReactComponent as DepositIcon } from '../assets/img/svg/deposit.svg';
-
 
 import Login from './login_2.js';
 import Signup from './signup_2.js';
@@ -76,16 +75,13 @@ import One_Click_Finish from './one_click_finish';
 import Register_Finish from './register_finish';
 import Change_Password from './change_password_new';
 import New_Profile from './new_profile';
-import New_Update_Profile from './new_update_profile';
 import New_Deposit from './new_deposit';
 import New_Deposit_Confirm from './new_deposit_confirm';
 import New_Deposit_Wechat from './new_deposit_amount_wechat';
 import New_Deposit_paypal from './new_deposite_amount_paypal';
 import New_Withdraw from './new_withdraw';
 import New_Withdraw_Confirm from './new_withdraw_confirm';
-
 import Help from './account_menu/help';
-
 import New_Forget_Password from './forget_password_new';
 import Forget_Password_Validation from './forget_password_validation';
 import Refer_User from './refer_user';
@@ -93,11 +89,46 @@ import Refer_User from './refer_user';
 import axios from 'axios';
 import { config } from '../util_config';
 
-import SearchBar from './search_bar';
-
 import '../css/top_navbar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
+const StyledTabs = withStyles({
+    indicator: {
+        display: "flex",
+        justifyContent: "center",
+        height: 5,
+        backgroundColor: "transparent",
+        "& > div": {
+            width: "100%",
+            backgroundColor: "#ff0000",
+        }
+    }
+})(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
+
+const StyledTab = withStyles(() => ({
+    root: {
+        textTransform: "uppercase",
+        height: 60,
+        minWidth: 250,
+        fontSize: 22,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 1.02,
+        color: '#ffffff',
+        "&:focus": {
+            opacity: 1,
+        },
+        "&:hover": {
+            color: "white",
+            opacity: 1,
+        },
+    }
+}))(props => <Tab disableRipple {...props} />);
+
+
 
 const styles = theme => ({
     root: {
@@ -109,15 +140,11 @@ const styles = theme => ({
         backgroundColor: '#ffffff'
     },
     appBar: {
-        height: 72,
+        height: 60,
         boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)',
     },
     list: {
         width: 250,
-    },
-    subMenu: {
-        width: '99%',
-        marginTop: 15
     },
     grow: {
         flexGrow: 1,
@@ -138,7 +165,7 @@ const styles = theme => ({
     },
     mainMenu: {
         display: 'none',
-        height: 72,
+        height: 60,
         [theme.breakpoints.up('md')]: {
             display: 'flex',
         },
@@ -175,42 +202,39 @@ const styles = theme => ({
         paddingLeft: theme.spacing.unit * 4
     },
     signupButton: {
-        marginTop: 13,
-        marginBottom: 15,
+        marginTop: 16,
+        marginBottom: 16,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-
-        width: 220,
-        fontSize: 18,
-        height: 44,
-        color: '#212121',
-        backgroundColor: '#ffffff',
-        borderRadius: 22,
-        border: 'solid 2px #212121',
+        fontSize: 17,
+        height: 40,
+        color: '#ffffff',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderRadius: 6,
         textTransform: 'capitalize',
         outline: 'none',
         "&:hover": {
-            backgroundColor: "#212121",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
             color: '#ffffff',
         }
     },
     loginButton: {
-        marginTop: 13,
-        marginBottom: 15,
-        width: 100,
+        marginTop: 16,
+        marginBottom: 16,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        fontSize: 18,
-        height: 44,
-        color: '#212121',
+        paddingLeft: 6,
+        fontSize: 17,
+        height: 40,
+        color: 'rgba(0, 0, 0, 0.5)',
         backgroundColor: '#ffffff',
-        borderRadius: 22,
-        border: 'solid 2px #212121',
+        borderRadius: 6,
+        border: 'solid 2px rgba(0, 0, 0, 0.5)',
         textTransform: 'capitalize',
         outline: 'none',
         "&:hover": {
-            backgroundColor: "#212121",
-            color: '#ffffff',
+            backgroundColor: "#ffffff",
+            color: 'rgba(0, 0, 0, 0.5)',
         }
     },
     textField: {
@@ -232,39 +256,58 @@ const styles = theme => ({
         backgroundColor: '#f1f1f1',
     },
     balanceButton: {
-        marginTop: 13,
-        marginBottom: 15,
-        width: 130,
+        marginTop: 16,
+        marginBottom: 16,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        fontSize: 18,
-        height: 44,
-        color: '#ffffff',
-        backgroundColor: '#fe0000',
-        borderRadius: 22,
-        border: 'solid 2px #fe0000',
+        paddingTop: 4,
+        fontSize: 17,
+        height: 40,
+        color: '#6a6a6a',
+        backgroundColor: '#ffffff',
+        borderRadius: 6,
+        border: 'solid 2px rgba(0, 0, 0, 0.5)',
         textTransform: 'capitalize',
         outline: 'none',
         "&:hover": {
-            backgroundColor: "#fe0000",
-            color: '#ffffff',
+            backgroundColor: "#ffffff",
+            color: 'rgba(0, 0, 0, 0.5)',
         }
     },
-    balanceIcon: {
-        marginRight: theme.spacing.unit,
+    balanceDepositText: {
+        fontSize: 17,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        color: '#ffffff',
+        borderRadius: 6,
+        paddingLeft: 6,
+        paddingRight: 6,
+        marginLeft: 16,
     },
     profileButton: {
-        display: 'inline',
-        marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
+        marginTop: 16,
+        marginBottom: 16,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        paddingTop: 4,
+        fontSize: 17,
+        height: 40,
+        color: '#6a6a6a',
+        backgroundColor: '#ffffff',
+        borderRadius: 6,
+        border: 'solid 2px rgba(0, 0, 0, 0.5)',
+        textTransform: 'capitalize',
+        outline: 'none',
         "&:hover": {
             backgroundColor: "#ffffff",
-        },
-        "&:active": {
-            backgroundColor: "#ffffff",
+            color: 'rgba(0, 0, 0, 0.5)',
         }
+    },
+    profileLabel: {
+        fontSize: 17,
+        fontWeight: 500,
+        textTransform: 'capitalize',
+        letterSpacing: 0.66,
+        color: '#6a6a6a',
     },
     extendedIcon: {
         marginRight: theme.spacing.unit,
@@ -285,7 +328,6 @@ const styles = theme => ({
             height: 100,
         },
         '&:hover, &$focusVisible': {
-            zIndex: 1,
             '& $imageBackdrop': {
                 opacity: 0.15,
             },
@@ -347,12 +389,22 @@ const styles = theme => ({
         display: 'inline-block',
         flexGrow: 1,
     },
-    langMenu: {
-        zIndex: 5000
+    langButton: {
+        height: '100%',
+        borderRadius: 6,
+        padding: 0,
     },
-    lang_button: {
-        marginTop: 17,
-        minWidth: 0
+
+    flag: {
+        width: 64,
+        height: 38,
+        borderRadius: 6,
+    },
+    langContainer: {
+        display: 'inline',
+        marginLeft: theme.spacing.unit,
+        marginTop: 16,
+        marginBottom: 16,
     },
     lang_menu_list: {
         backgroundColor: '#ffffff',
@@ -382,6 +434,12 @@ const styles = theme => ({
         padding: 0,
         width: 360,
     },
+    profileMenuPaper: {
+        padding: 0,
+        width: 210,
+        backgroundColor: '#ffffff',
+
+    },
     footer: {
         paddingLeft: 24,
         paddingRight: 24,
@@ -394,16 +452,11 @@ const styles = theme => ({
         display: 'inline',
         marginTop: 20
     },
-    lang_container: {
-        display: 'inline',
-        marginLeft: 0,
-    },
-    langPopper: {
-        zIndex: 2002,
-    },
     profilePopper: {
-        //zIndex: 2002,
         width: 360,
+    },
+    profileMenuPopper: {
+        width: 210,
     },
     margin: {
         margin: 'auto',
@@ -413,21 +466,19 @@ const styles = theme => ({
             fillRule: '#fe0000',
         }
     },
-    cssRoot: {
-        color: theme.palette.getContrastText(blue[300]),
-        backgroundColor: blue[300],
-        '&:hover': {
-            backgroundColor: blue[800],
+    subMenu: {
+        backgroundColor: '#dedede',
+        width: '99%',
+        marginTop: 15
+    },
+    mainMenuItem: {
+        "&:hover": {
+            backgroundColor: '#ffffff',
         },
-    },
-    separator: {
-        width: 1.6,
-        height: 25,
-        marginTop: 20,
-        opacity: 1,
-        marginLeft: 10,
-        backgroundColor: '#212121',
-    },
+        "&:focus": {
+            backgroundColor: '#ffffff',
+        },
+    }
 });
 
 const muiLogoBarTheme = createMuiTheme({
@@ -445,13 +496,10 @@ const muiLogoBarTheme = createMuiTheme({
 });
 
 const muiMenuBarTheme = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#212121'
-        },
-    },
     appBar: {
-        height: 72,
+        height: 62,
+        paddingBottom: 2,
+
     },
     typography: {
         useNextVariants: true,
@@ -460,22 +508,21 @@ const muiMenuBarTheme = createMuiTheme({
 
 const SVG = ({
     style = {},
-    fill = "transparent",
-    width = "36px",
+    width = "32px",
     viewBox = "0 0 26 27",
     className = "userIcon",
 }) => (
         <svg
             width={width}
             style={style}
-            height="27px"
+            height="20px"
             viewBox={viewBox}
             xmlns="http://www.w3.org/2000/svg"
             className={`svg-icon ${className || ""}`}
             xmlnsXlink="http://www.w3.org/1999/xlink"
         >
-            <g id="Nav" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke="#212121" strokeWidth="1.5625">
+            <g id="Nav" stroke="none" strokeWidth="2" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
+                <g id="navigation" transform="translate(-1304.000000, -21.000000)" stroke="rgba(0, 0, 0, 0.5)" strokeWidth="1.9625">
                     <g id="Login-Elements">
                         <g transform="translate(1280.000000, 13.000000)">
                             <g id="Open-Account">
@@ -488,17 +535,12 @@ const SVG = ({
         </svg>
     );
 
-
 export class TopNavbar extends React.Component {
-
+    _isMounted = false;
     constructor(props) {
         super(props);
-        this.profileRef = React.createRef();
-
-        let langProperty = localStorage.getItem('lang');
 
         this.searchDiv = React.createRef();
-        this.profileRef = React.createRef();
 
         this.state = {
             open: false,
@@ -506,7 +548,6 @@ export class TopNavbar extends React.Component {
             showSubMenu: false,
             expandSearchBar: false,
             anchorEl: null,
-            showProfilePopper: false,
             currentAccountMenuItem: '',
             anchorElLogin: null,
             anchorElChangePassowrd: null,
@@ -520,34 +561,34 @@ export class TopNavbar extends React.Component {
             name: "",
             email: "",
             picture: "",
-            showLangMenu: false,
             show_loggedin_status: false,
-
-
             balance: 0.00,
             balanceCurrency: "USD",
-
             username: '',
             password: '',
             showPassword: false,
             button_disable: true,
             check: false,
-
             height: window.innerHeight,
             width: window.innerWidth,
-
             errorCode: '',
+            showBankingProfileSubMenu: false,
+            showAnalysisProfileSubMenu: false,
+            showUserAccountProfileSubMenu: false,
+            showSettingsProfileSubMenu: false,
 
+            mainTabValue: 'none',
         };
 
         this.handleSearch = this.handleSearch.bind(this);
-        this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onInputChange_username = this.onInputChange_username.bind(this);
         this.onInputChange_password = this.onInputChange_password.bind(this);
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
         this.toggleSidePanel = this.toggleSidePanel.bind(this);
         this.profileIconClicked = this.profileIconClicked.bind(this);
+        this.bankingProfileMenuItemClick = this.bankingProfileMenuItemClick.bind(this);
+        this.navBarItemChanged = this.navBarItemChanged.bind(this);
     }
 
     handleSignupOnEnter = (event) => {
@@ -564,7 +605,6 @@ export class TopNavbar extends React.Component {
         }
 
         event.currentTarget.children[1].style.visibility = "hidden";
-
     };
 
     handleUserProfileOnEnter = (event) => {
@@ -581,7 +621,6 @@ export class TopNavbar extends React.Component {
         }
 
         event.currentTarget.children[1].style.visibility = "hidden";
-
     };
 
     handleSearch = () => {
@@ -623,17 +662,6 @@ export class TopNavbar extends React.Component {
         });
     };
 
-    handleProfilePopper = event => {
-        this.setState({ anchorEl: event.currentTarget });
-        this.setState({ showProfilePopper: !this.state.showProfilePopper });
-
-    }
-
-    handleLanguageMenuOpen = event => {
-        this.setState({ anchorEl: event.currentTarget });
-        this.setState({ showLangMenu: !this.state.showLangMenu });
-    };
-
     handleLoginMenuOpen = event => {
         this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
         this.props.show_login()
@@ -644,47 +672,14 @@ export class TopNavbar extends React.Component {
         this.props.show_login()
     };
 
-    handleSignupMenuOpen = event => {
-        //this.setState({ anchorEl2: event.currentTarget });
+    handleSignupMenuOpen = () => {
         this.setState({ username: '', password: '' })
 
         this.props.show_signup()
     };
 
-    langMenuClicked = (event) => {
-        this.setState({ anchorEl: null });
-        this.setState({
-            lang: event.currentTarget.dataset.myValue
-        })
-
-        this.changeLanguage(event.currentTarget.dataset.myValue);
-        this.setState({ showLangMenu: false });
-    }
-
-    handleLanguageMenuClose = (ev) => {
-        this.setState({ showLangMenu: false });
-    };
-
-    // handleProfileMenuClose = (ev) => {
-    //     this.setState({ showProfilePopper: false });
-    //     this.setState({ currentAccountMenuItem: '' });
-
-    // };
-
     handleLoginMenuClose() {
         this.props.hide_login()
-    }
-
-    changeLanguage = (lang) => {
-        this.props.setLanguage(lang)
-            .then((res) => {
-                // localStorage.setItem("lang", lang);
-            });
-    };
-
-    onFormSubmit(event) {
-        event.preventDefault();
-        //this.setState({ term: '' });
     }
 
     onInputChange_username(event) {
@@ -736,64 +731,115 @@ export class TopNavbar extends React.Component {
         }
     }
 
-    onInputChange_checkbox = async (event) => {
+    onInputChange_checkbox = async () => {
         await this.setState({ check: !this.state.check })
     }
 
-    handleResize = e => {
+    handleResize = () => {
         this.setState({ height: window.innerHeight, width: window.innerWidth })
     };
 
     componentWillReceiveProps(props) {
-        if (this.props.isAuthenticated) {
-            const token = localStorage.getItem('token');
-            config.headers["Authorization"] = `Token ${token}`;
-
-            axios.get(API_URL + 'users/api/user/', config)
-                .then(res => {
-                    this.setState({ balance: res.data.main_wallet });
-                    this.setState({ balanceCurrency: res.data.currency });
-                })
-        }
-    }
-
-    async componentDidMount() {
-
-        if (this.props.isAuthenticated) {
-            const token = localStorage.getItem('token');
-            config.headers["Authorization"] = `Token ${token}`;
-
-            axios.get(API_URL + 'users/api/user/', config)
-                .then(res => {
-                    this.setState({ balance: res.data.main_wallet });
-                    this.setState({ balanceCurrency: res.data.currency });
-                })
-        }
+        this.setMainMenuIndicator();
 
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
             .then((res) => {
-                this.setState({ show_loggedin_status: true });
+                if (this._isMounted)
+                    this.setState({ show_loggedin_status: true });
             })
 
+        this.setUserDetails();
+
+        const remember_check = localStorage.getItem('remember_check');
+        if (remember_check) {
+            this.setState({ check: true })
+        }
+
+        this.checkFacebookLogin();
+
+        this.checkOneClickLogin();
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+
+        this.setMainMenuIndicator();
+
+        window.addEventListener("resize", this.handleResize);
+
+        this.props.authCheckState()
+            .then((res) => {
+                if (this._isMounted)
+                    this.setState({ show_loggedin_status: true });
+            })
+
+        this.setUserDetails();
+
+        const remember_check = localStorage.getItem('remember_check');
+        if (remember_check) {
+            this.setState({ check: true })
+        }
+
+        this.checkFacebookLogin();
+
+        this.checkOneClickLogin();
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    setMainMenuIndicator() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+
+        if (parts.length >= 2) {
+            if (parts[1].length > 0) {
+                let path = parts[1];
+                if (path === 'sports_type' || path === 'liveCasino_type' || path === 'slot_type' || path === 'lottery_type')
+                    if (this._isMounted)
+                        this.setState({ mainTabValue: parts[1] })
+            }
+        }
+    }
+
+    setUserDetails() {
+        this.props.authCheckState()
+            .then(res => {
+                if (res === AUTH_RESULT_SUCCESS) {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            if (this._isMounted) {
+                                this.setState({ username: res.data.username });
+                                this.setState({ balance: res.data.main_wallet });
+                                this.setState({ balanceCurrency: res.data.currency });
+                            }
+                        })
+                }
+            });
+    }
+
+    checkFacebookLogin() {
         var fackbooklogin = localStorage.getItem('facebook')
         this.setState({ facebooklogin: fackbooklogin })
         var fackbookObj = JSON.parse(localStorage.getItem('facebookObj'))
         if (fackbooklogin === 'true') {
-            this.setState({
-                userID: fackbookObj.userID,
-                name: fackbookObj.name,
-                email: fackbookObj.email,
-                picture: fackbookObj.picture
-            })
+            if (this._isMounted)
+                this.setState({
+                    userID: fackbookObj.userID,
+                    name: fackbookObj.name,
+                    email: fackbookObj.email,
+                    picture: fackbookObj.picture
+                })
         }
+    }
 
-        const remember_check = localStorage.getItem('remember_check');
-        if (remember_check) {
-            await this.setState({ check: true })
-        }
-
+    checkOneClickLogin() {
         const check = localStorage.getItem('one-click');
         if (check) {
             const username = localStorage.getItem('username');
@@ -801,133 +847,107 @@ export class TopNavbar extends React.Component {
             localStorage.removeItem('one-click');
             localStorage.removeItem('username');
             localStorage.removeItem('password');
-            this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+            if (this._isMounted)
+                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
         } else {
             const remember_check = localStorage.getItem('remember_check');
             if (remember_check) {
                 const username = localStorage.getItem('remember_username');
                 const password = localStorage.getItem('remember_password');
-                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+                if (this._isMounted)
+                    this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
             }
         }
     }
 
-    toggleLanguageListItem = () => {
-        this.setState(state => ({ showLangListItems: !state.showLangListItems }));
-    };
-
     handleClickAway = () => {
         this.actualChild.blurInput();
-        this.setState(state => ({ expandSearchBar: false }));
+        this.setState(() => ({ expandSearchBar: false }));
     };
 
-    setCurrentAccountMenuItem = (menuItem) => {
-        this.setState({ showProfilePopper: true });
-        this.setState({ currentAccountMenuItem: menuItem });
-        //this.props.history.push('/deposit/')
+    profileMenuClickAway = () => {
+        this.props.hide_profile_menu();
     }
 
     profileIconClicked = event => {
-
-        if (this.props.showAccountMenu) {
-            //this.setState({ anchorEl: null });
-            this.props.hide_account_menu();
+        if (this.props.showProfileMenu) {
+            this.props.hide_profile_menu();
         } else {
             this.setState({ anchorEl: event.currentTarget });
-            this.props.show_account_menu();
+            this.props.show_profile_menu();
         }
-        //this.props.onCloseItemClicked();
+
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+    }
+
+    bankingProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
+        this.setState(state => ({ showBankingProfileSubMenu: !state.showBankingProfileSubMenu }));
+
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
+    };
+
+    analysisProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
+        this.setState(state => ({ showAnalysisProfileSubMenu: !state.showAnalysisProfileSubMenu }));
+
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+    };
+
+    userAccountProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
+        this.setState(state => ({ showUserAccountProfileSubMenu: !state.showUserAccountProfileSubMenu }));
+
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
+    };
+
+    settingsProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
+        this.setState(state => ({ showSettingsProfileSubMenu: !state.showSettingsProfileSubMenu }));
+
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+    };
+
+    handleProfileMenuClose = () => {
+        this.setState(() => ({ anchorEl: null }));
+    };
+
+    navBarItemChanged(newValue) {
+        this.setState(() => ({ mainTabValue: newValue }));
     }
 
     render() {
-        const { anchorEl, showProfilePopper, showLangMenu, anchorEl2, showRightPanel } = this.state;
-
+        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
         const { classes } = this.props;
 
-        let countryCode = '';
-        switch (this.props.lang) {
-            case 'en':
-                countryCode = 'US';
-                break;
-            case 'zh-hans':
-                countryCode = 'CN';
-                break;
-            case 'zh':
-                countryCode = 'CN';
-                break;
-            case 'fr':
-                countryCode = 'FR';
-                break;
-            default:
-                countryCode = 'US';
-        }
-        const langButtonIcon = (<Flag country={countryCode} />);
-
         const ProfileMenu = (
-            <div ref={this.profileRef} >
-                <IconButton
-                    className={classes.profileButton}
-                    color="inherit"
-                    aria-label="Open drawer"
-                    onClick={this.profileIconClicked}
-                    onMouseEnter={this.handleUserProfileOnEnter}
-                    onMouseLeave={this.handleUserProfileLeave}
-
-                >
-                    <SVG className="profileIcon" />
-                </IconButton>
-            </div>
-        );
-
-        const LangMenu = (
-            <div className={classes.lang_container}>
-                <Button className={classes.lang_button} onClick={this.handleLanguageMenuOpen}>{langButtonIcon}</Button>
-                <Popper className={classes.langPopper} open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper id="menu-list-grow" className={classes.lang_menu_list}>
-                                <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
-                                    <Menu>
-                                        <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
-                                            selected={this.props.lang === 'en'}
-                                            classes={{
-                                                root: classes.lang_menu_list_item,
-                                                selected: classes.lang_menu_list_item_selected
-                                            }}>
-                                            <Flag country="US" />
-                                            <div className={classes.lang_menu_list_item_text}>
-                                                <FormattedMessage id="lang.english" defaultMessage='English' />
-                                            </div>
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
-                                            selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
-                                            classes={{
-                                                root: classes.lang_menu_list_item,
-                                                selected: classes.lang_menu_list_item_selected
-                                            }}>
-                                            <Flag country="CN" />
-                                            <div className={classes.lang_menu_list_item_text}>
-                                                <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
-                                            </div>
-                                        </MenuItem>
-                                        <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
-                                            selected={this.props.lang === 'fr'}
-                                            classes={{
-                                                root: classes.lang_menu_list_item,
-                                                selected: classes.lang_menu_list_item_selected
-                                            }}>
-                                            <Flag country="FR" />
-                                            <div className={classes.lang_menu_list_item_text}>
-                                                <FormattedMessage id="lang.french" defaultMessage='French' />
-                                            </div>
-                                        </MenuItem>
-                                    </Menu>
-                                </ClickAwayListener>
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
+            <div >
+                <ClickAwayListener onClickAway={this.profileMenuClickAway}>
+                    <Button
+                        className={classes.profileButton}
+                        color="inherit"
+                        aria-label="Open drawer"
+                        onClick={this.profileIconClicked}>
+                        <SVG className="profileIcon" />
+                        <div className={classes.profileLabel} >
+                            <FormattedMessage id="nav.hello" defaultMessage='Hello' />
+                        </div>
+                        <span>, </span>
+                        {this.state.username}
+                        {this.props.showProfileMenu ? <ExpandLess /> : <ExpandMore />}
+                    </Button>
+                </ClickAwayListener>
             </div>
         );
 
@@ -979,11 +999,17 @@ export class TopNavbar extends React.Component {
 
         const searchBackgroundStyle = !this.state.expandSearchBar ? {} : { 'display': 'block' };
 
+        const { formatMessage } = this.props.intl;
+        let sportsMessage = formatMessage({ id: "nav.sports" });
+        let liveCasinoMessage = formatMessage({ id: "nav.live-casino" });
+        let slotsMessage = formatMessage({ id: "nav.slots" });
+        let lotteryMessage = formatMessage({ id: "nav.lottery" });
+
         return (
             <div className={classes.root}>
                 <MuiThemeProvider theme={muiLogoBarTheme} >
                     <AppBar position="static" >
-                        <Toolbar variant="dense" className={classes.appBar}>
+                        <Toolbar className={classes.appBar}>
                             <div className={classes.sectionMobile}>
                                 <IconButton
                                     className={classes.mobileLeftMenuButton}
@@ -1009,23 +1035,25 @@ export class TopNavbar extends React.Component {
                             <div className={classes.grow} />
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
-
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Link to="/deposit/" style={{textDecoration: "none"}}>
-                                            <Button
-                                                variant="outlined"
-                                                className={classes.balanceButton}
-                                            >
-                                                <DepositIcon className={classes.balanceIcon} />
-                                                <FormattedNumber
-                                                    maximumFractionDigits={2}
-                                                    value={this.state.balance}
-                                                    style="currency"
-                                                    currency={this.state.balanceCurrency}
-                                                />
-                                            </Button>
-                                        </Link>
-                                        <div className={classes.separator} />
+                                        <Button
+                                            variant="outlined"
+                                            className={classes.balanceButton}
+                                            onClick={() => {
+                                                this.setState({ mainTabValue: 'none' });
+                                                this.props.history.push('/p/banking/deposit')
+                                            }}
+                                        >
+                                            <FormattedNumber
+                                                maximumFractionDigits={2}
+                                                value={balance}
+                                                style='currency'
+                                                currency={balanceCurrency}
+                                            />
+                                            <div className={classes.balanceDepositText} >
+                                                <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
+                                            </div>
+                                        </Button>
                                         {ProfileMenu}
                                     </div>
                                     :
@@ -1034,14 +1062,12 @@ export class TopNavbar extends React.Component {
                                             variant="outlined"
                                             className={classes.signupButton}
                                             onClick={
-                                                //this.props.history.push('/signup/') 
                                                 this.handleSignupMenuOpen
                                             }
                                             onMouseEnter={this.handleSignupOnEnter}
                                             onMouseLeave={this.handleSignupOnLeave}
                                         >
-                                            <SVG className="userIcon" />
-                                            <FormattedMessage id="nav.open-account" defaultMessage='Open Account' />
+                                            <FormattedMessage id="nav.register" defaultMessage='Register' />
                                         </Button>
                                         <Button
                                             variant="outlined"
@@ -1050,13 +1076,14 @@ export class TopNavbar extends React.Component {
                                                 this.handleLoginMenuOpen
                                             }
                                         >
-                                            <FormattedMessage id="nav.login" defaultMessage='Login' />
+                                            <SVG className="userIcon" />
+
+                                            <FormattedMessage id="nav.signin" defaultMessage='Sign in' />
                                         </Button>
                                     </div>
                             }
                             <div className={classes.sectionMobile}>
                                 <IconButton
-                                    ref={this.profileRef}
                                     className={classes.mobileMenuButton}
                                     color="inherit"
                                     aria-label="Open drawer"
@@ -1073,18 +1100,12 @@ export class TopNavbar extends React.Component {
                                             enabled: true,
                                             boundariesElement: 'scrollParent',
                                         },
-                                        // arrow: {
-                                        //     enabled: true,
-                                        //     element: this.profileRef,
-                                        // },
                                     }}
                                     transition>
                                     {({ TransitionProps }) => (
                                         <Fade {...TransitionProps} timeout={350}>
                                             <Paper>
-                                                <AccountMenu onCloseItemClicked={this.handleProfileMenuClose}
-                                                    onMenuItemClicked={this.setCurrentAccountMenuItem}
-                                                    anchorElProfileIcon={this.ProfileMenu} />
+                                                <AccountMenu />
                                             </Paper>
                                         </Fade>
                                     )}
@@ -1095,64 +1116,47 @@ export class TopNavbar extends React.Component {
                 </MuiThemeProvider>
                 <MuiThemeProvider theme={muiMenuBarTheme}>
                     <AppBar position="static" >
-                        <Toolbar variant="dense" className={classes.appBar}>
-                            <div className={classes.mainMenu}>
-                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/sports_type/sports") }}>
-                                        <SoccerIcon className="soccer" />
-                                        <span className="Sports">
-                                            <FormattedMessage id="nav.sports" defaultMessage='Sports' />
-                                        </span>
-                                    </Button>
-                                </Fade>
-                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
-                                        <BetIcon className="bet" />
-                                        <span className="Live-Casino">
-                                            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
-                                        </span>
-                                    </Button>
-                                </Fade>
-                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
-                                        <SlotsIcon className="games-icon" />
-                                        <span className="Slots">
-                                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
-                                        </span>
-                                    </Button>
-                                </Fade>
-                                <Fade in={!this.state.expandSearchBar} timeout={1000}>
-                                    <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
-                                        onClick={() => { this.props.history.push("/lottery_type/lottery") }}>
-                                        <LotteryIcon className="lottery" />
-                                        <span className="Lottery">
-                                            <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
-                                        </span>
-                                    </Button>
-                                </Fade>
-                            </div>
-
-                            <div className={classes.grow} />
-                            <ClickAwayListener onClickAway={this.handleClickAway}>
-                                <div className={classes.sectionDesktop}>
-                                    <span className={searchButtonClass.join(' ')} onClick={this.handleSearch}>
-                                        <span className="search-icon"></span>
-                                    </span>
-                                    <div className={searchClass.join(' ')} ref={this.searchDiv}>
-                                        <div className="search-box">
-                                            <div className="search-container">
-                                                <SearchBar onRef={actualChild => this.actualChild = actualChild} className={classes.grow} activeMenu={this.props.activeMenu} loaded={this.state.expandSearchBar}></SearchBar>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ClickAwayListener>
-                        </Toolbar>
+                        <StyledTabs className={classes.appBar} value={mainTabValue} style={{ backgroundColor: '#212121' }}>
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value="sports_type"
+                                label={<div><SoccerIcon className="soccer" />{sportsMessage}</div>}
+                                onClick={() => {
+                                    this.setState({ mainTabValue: 'sports_type' });
+                                    this.props.history.push("/sports_type/sports");
+                                }} />
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value="liveCasino_type"
+                                label={<div><BetIcon className="bet" />{liveCasinoMessage}</div>}
+                                onClick={() => {
+                                    this.setState({ mainTabValue: 'liveCasino_type' });
+                                    this.props.history.push("/liveCasino_type/live-casino/all");
+                                }} />
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value="slot_type"
+                                label={<div><SlotsIcon className="games-icon" />{slotsMessage}</div>}
+                                onClick={() => {
+                                    this.setState({ mainTabValue: 'liveCasino_type' });
+                                    this.props.history.push("/slot_type/slots/all");
+                                }} />
+                            <StyledTab
+                                style={{ outline: 'none' }}
+                                value='lottery_type'
+                                label={<div><LotteryIcon className="lottery_type" />{lotteryMessage}</div>}
+                                onClick={() => {
+                                    this.setState({ mainTabValue: 'lottery_type' });
+                                    this.props.history.push("/lottery_type/lottery");
+                                }} />
+                            <StyledTab
+                                style={{ width: 0, minWidth: 0, }}
+                                value='none'
+                            />
+                        </StyledTabs>
                     </AppBar>
                 </MuiThemeProvider>
+
                 <div className='overlay' style={searchBackgroundStyle}></div>
 
                 <Popper
@@ -1316,7 +1320,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Deposit_Wechat  />
+                                <New_Deposit_Wechat />
                             </Paper>
                         </Fade>
                     )}
@@ -1348,7 +1352,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }}/>
+                                <New_Withdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }} />
                             </Paper>
                         </Fade>
                     )}
@@ -1364,7 +1368,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw_Confirm withdrawInfo={this.state.withdrawInfo}/>
+                                <New_Withdraw_Confirm withdrawInfo={this.state.withdrawInfo} />
                             </Paper>
                         </Fade>
                     )}
@@ -1534,6 +1538,108 @@ export class TopNavbar extends React.Component {
                         </Fade>
                     )}
                 </Popper>
+
+                <Popper open={this.props.showProfileMenu}
+                    anchorEl={anchorEl}
+                    className={classes.profileMenuPopper}
+                    placement="top-start"
+                    transition
+                >
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper className={classes.profileMenuPaper}>
+                                <List
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader"
+                                >
+                                    <ListItem button onClick={this.bankingProfileMenuItemClick} className={classes.mainMenuItem}>
+                                        <ListItemText primary="Banking" />
+                                        {this.state.showBankingProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                    <Collapse in={this.state.showBankingProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                        <List component="div" disablePadding>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/banking/deposit')
+                                                }}
+                                            >
+                                                <ListItemText primary="Deposit" />
+                                            </ListItem>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/banking/withdraw')
+                                                }}>
+                                                <ListItemText primary="Withdraw" />
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+                                    <ListItem button onClick={this.analysisProfileMenuItemClick} className={classes.mainMenuItem}>
+                                        <ListItemText primary="Analysis" />
+                                        {this.state.showAnalysisProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                    <Collapse in={this.state.showAnalysisProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                        <List component="div" disablePadding>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/analysis/bets')
+                                                }}>
+                                                <ListItemText primary="Bets" />
+                                            </ListItem>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/analysis/banking')
+                                                }}>
+                                                <ListItemText primary="Banking" />
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+                                    <ListItem button onClick={this.userAccountProfileMenuItemClick} className={classes.mainMenuItem}>
+                                        <ListItemText primary="Account" />
+                                        {this.state.showUserAccountProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                    <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                        <List component="div" disablePadding>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="User Information" />
+                                            </ListItem>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Inbox" />
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+                                    <ListItem button onClick={this.responsibleGamingMenuItemClick} className={classes.mainMenuItem}>
+                                        <ListItemText primary="Responsible Gaming" />
+                                    </ListItem>
+                                    <ListItem button onClick={this.settingsProfileMenuItemClick} className={classes.mainMenuItem}>
+                                        <ListItemText primary="Settings" />
+                                        {this.state.showSettingsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                    <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                        <List component="div" disablePadding>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Marketing" />
+                                            </ListItem>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemText primary="Privacy" />
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+                                    <ListItem button
+                                        onClick={() => {
+                                            this.props.logout()
+                                            postLogout();
+                                        }} className={classes.mainMenuItem}>
+                                        <ListItemText primary="Logout" />
+                                    </ListItem>
+                                </List>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
             </div >
         );
     }
@@ -1570,14 +1676,13 @@ const mapStateToProps = (state) => {
         showForgetPasswordValidation: state.general.show_forget_password_validation,
         showReferUser: state.general.show_refer_user,
         showAccountMenu: state.general.show_account_menu,
-
+        showProfileMenu: state.general.show_profile_menu,
         showOpenBets: state.general.show_open_bets,
         showSettledBets: state.general.show_settled_bets,
         showPromotions: state.general.show_promotions,
         showSettings: state.general.show_settings,
         showHelp: state.general.show_help,
         showResponsibleGambling: state.general.show_responsible_gambling,
-
     }
 }
 
@@ -1599,5 +1704,7 @@ export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps,
     hide_user_profile,
     hide_update_profile,
     show_account_menu,
-    hide_account_menu
+    hide_account_menu,
+    show_profile_menu,
+    hide_profile_menu
 })(TopNavbar))));

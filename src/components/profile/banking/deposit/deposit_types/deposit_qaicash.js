@@ -136,7 +136,6 @@ const styles = theme => ({
     },
     middleButton: {
         marginRight: 10,
-        marginRight: 10,
         borderRadius: 4,
         backgroundColor: '#efefef',
         marginTop: 15,
@@ -273,7 +272,7 @@ class DepositQaicah extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 2000 || parseInt(event.target.value) < 500) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 2000 || parseInt(event.target.value) < 500) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {

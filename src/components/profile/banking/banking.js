@@ -7,7 +7,6 @@ import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
 import DepositMain from './deposit/deposit_main';
 import WithdrawMain from './withdraw/withdraw_main';
 
@@ -54,8 +53,9 @@ export class Banking extends Component {
         super(props);
 
         this.state = {
-            tabValue: 'deposit'
-        }
+            urlPath: '',
+            tabValue: ''
+         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
     }
@@ -64,13 +64,40 @@ export class Banking extends Component {
         this.setState({ tabValue: newValue })
     }
 
-
-    componentDidMount() {
+    componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL){
                 this.props.history.push('/')
             }
         })
+        
+        this.setState({ urlPath: this.props.history.location.pathname });
+
+        this.setContent();
+    }
+
+    componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
+
+        this.setState({ urlPath: this.props.history.location.pathname });
+
+        this.setContent();
+    }
+
+
+    setContent() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+
+        if (parts.length >= 3) {
+            if (parts[1].length > 0) {
+                this.setState({ tabValue: parts[3] })
+            }
+        }
     }
 
     render() {

@@ -9,7 +9,6 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 
 import { ReactComponent as PrevStepIcon } from '../../../../assets/img/svg/prev_step.svg';
-import { ReactComponent as NextStepIcon } from '../../../../assets/img/svg/next_step.svg';
 
 
 import { withStyles } from '@material-ui/core/styles';

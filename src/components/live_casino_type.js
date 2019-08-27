@@ -8,44 +8,21 @@ import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../util_config';
 import { authCheckState } from '../actions';
-import { Redirect } from 'react-router-dom';
 import SelectFieldExampleMultiSelect from "./filter_bar";
 
 import Footer from "./footer";
 
-
 // Material-UI
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Fab from '@material-ui/core/Fab';
-import classNames from 'classnames';
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
+import { withStyles,  } from '@material-ui/core/styles';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
-
-// import { makeStyles } from '@material-ui/core/styles';
-
-
-// import { ReactComponent as Black } from '../images/black-background.svg';
-// import { ReactComponent as Jack } from '../images/jackpot.svg';
-// import { ReactComponent as Table } from '../images/table-game.svg';
-// import { ReactComponent as Poker}  from '../images/poker.svg';
-// import { ReactComponent as Grey}  from '../images/grey.svg';
-
 import placeholdimage from '../images/handsomecat.jpg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
-const HOST_URL = process.env.REACT_APP_LOCAL_API;
 
 
 const styles = theme => ({
@@ -240,7 +217,7 @@ class LiveCasino_Type extends Component {
             
             <div className={classes.root}>
 
-                <TopNavbar activeMenu={'live-casino'} />
+                <TopNavbar />
 
                     <AppBar position="static" style={{zIndex: 0}} >
                         <StyledTabs centered value={this.props.match.params.sub} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>

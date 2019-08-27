@@ -36,6 +36,9 @@ const styles = theme => ({
     grow: {
         flexGrow: 1,
     },
+    appBar:{
+        zIndex:0,
+    }
 });
 
 const StyledTabs = withStyles({
@@ -134,7 +137,7 @@ class Sports_Type extends Component {
         return (
             <div className={classes.root}>
                 <TopNavbar activeMenu={'sports'} />
-                <AppBar position="static" >
+                <AppBar position="static" className={classes.appBar}>
                     <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>
                         <StyledTab
                             style={{ outline: 'none' }}
