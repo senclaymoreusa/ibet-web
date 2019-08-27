@@ -147,8 +147,11 @@ export class DepositMethod extends Component {
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("qaicash_alipay") }}>
                                     Qaicash Alipay
                                 </Button>
-                                <Button className={classes.addButton} onClick={() => { this.depositWith("qaicash_jdpay") }}>
-                                    Qaicash JDpay
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("qaicash_bankTrans") }}>
+                                    Qaicash BT
+                                </Button>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("qaicash_unionpay") }}>
+                                    Qaicash UnionPay
                                 </Button>
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("paypal") }}>
                                     Paypal

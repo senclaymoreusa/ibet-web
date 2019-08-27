@@ -56,7 +56,7 @@ import DepositCirclepay from "./components/profile/banking/deposit/deposit_types
 import DepositPayzod from "./components/profile/banking/deposit/deposit_types/deposit_payzod"
 import DepositHelp2pay from "./components/profile/banking/deposit/deposit_types/deposit_help2pay"
 import DepositFgo from "./components/profile/banking/deposit/deposit_types/deposit_fgo"
-import DepositQaicashJdpay from "./components/profile/banking/deposit/deposit_types/deposit_qaicash_jdpay"
+
 
 import Profile from "./components/profile/profile"
 
@@ -104,7 +104,6 @@ const BaseRouter = () => (
     <Route exact path="/withdraw_qaicash_lbt/" component={WithdrawQaicashLBT} />
     <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
     <Route exact path="/deposit_qaicash_alipay/" component={DepositQaicashAlipay} />
-    <Route exact path="/deposit_qaicash_jdpay/" component={DepositQaicashJdpay} />
     <Route exact path="/deposit_asiapay_jdpay/" component={DepositAsiapayJDPay} />
     <Route exact path="/deposit_asiapay_bankcard/" component={DepositAsiapayBankcard} />
     <Route exact path="/deposit_asiapay_unionpay/" component={DepositAsiapayUnionpay} />

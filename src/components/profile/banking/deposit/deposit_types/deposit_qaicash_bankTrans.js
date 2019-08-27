@@ -11,11 +11,61 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import Select from '@material-ui/core/Select';
 import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import InputBase from '@material-ui/core/InputBase';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
+const bank_options = [
+    //CN
+    { value: 'OOO6CN', label: 'China UnionPay' },
+    { value: 'ABOCCN', label: 'Agricultural Bank of China' },
+    { value: 'BEASCN', label: 'Bank of East Asia' },
+    { value: 'BJCNCN', label: 'Bank of Beijing'},
+    { value: 'BKCHCN', label: 'Bank of China' },
+    { value: 'BKNBCN', label: 'Bank of Ningbo'},
+    { value: 'BKSHCN', label: 'Bank Of Hebei'},
+    { value: 'BOSHCN', label: 'Bank of Shanghai' },
+    { value: 'BRCBCN', label: 'Beijing Rural Commercial Bank'},
+    { value: 'CBOCCN', label: 'Bank of Chengdu' },
+    { value: 'CHBHCN', label: 'China Bohai Bank' },
+    { value: 'CIBKCN', label: 'China Citic Bank' },
+    { value: 'CMBCCN', label: 'China Merchants Bank' },
+    { value: 'CN01CN', label: 'Zhongshan Rural Credit Union' },
+    { value: 'CN03CN', label: 'Yao Credit Cooperative Union' },
+    { value: 'COMMCN', label: 'Bank of Communication'},
+    { value: 'CZCBCN', label: 'Zhejiang Chouzhou commercial bank'},
+    { value: 'EVSOCN', label: 'China Everbright Bank'},
+    { value: 'FJIBCN', label: 'Industrial Bank Co Ltd'},
+    { value: 'GDBKCN', label: 'China Guangfa Bank'},
+    { value: 'GNXSCN', label: 'Guangzhou Rural Credit Cooperatives'},
+    { value: 'GZCBCN', label: 'Bank of Guangzhou'},
+    { value: 'GZRCCN', label: 'GuangZhou Commercial Bank'},
+    { value: 'HFCBCN', label: 'Huishang Bank'},
+    { value: 'HXBKCN', label: 'Huaxia Bank'},
+    { value: 'HZCBCN', label: 'Hangzhou Bank'},
+    { value: 'ICBKCN', label: 'Industrial and Commercial Bank of China'},
+    { value: 'JSHBCN', label: 'Jinshang Bank'},
+    { value: 'MSBCCN', label: 'China Minsheng Bank'},
+    { value: 'NJCBCN', label: 'Bank of Nanjing'},
+    { value: 'NYCBCN', label: 'Nanyang Commercial Bank'},
+    { value: 'PCBCCN', label: 'China Construction Bank'},
+    { value: 'PSBCCN', label: 'Postal Savings Bank of China'},
+    { value: 'RCCSCN', label: 'Shunde Rural Commercial Bank'},
+    { value: 'SHRCCN', label: 'Shanghai Rural Commercial Bank'},
+    { value: 'SPDBCN', label: 'Shanghai Pudong Development Bank'},
+    { value: 'SZCBCN', label: 'Ping An Bank'},
+    { value: 'SZDBCN', label: 'Shenzhen Development Bank'},
+    { value: 'TCCBCN', label: 'Bank of Tianjin'},
+    { value: 'WHCBCN', label: 'Hankou Bank'},
+    { value: 'WZCBCN', label: 'Bank of Wenzhou'},
+    { value: 'ZJCBCN', label: 'China Zheshang Bank'},
+    { value: 'ZJTLCN', label: 'Zhejiang Tailong Commercial Bank'},
+    { value: 'PBOCCN', label: 'People’s Bank of China'},
+    { value: 'HSBCCN', label: 'HSBC'},
+    { value: 'DGCBCN', label: 'Bank of Dongguang'},
+    
+];
 const styles = theme => ({
     root: {
         width: 925,
@@ -194,9 +244,55 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
     },
+    select: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 44,
+        marginTop: 10,
+        width: 400,
+    },
 });
+const BootstrapInput = withStyles(theme => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing.unit * 5,
+        },
+    },
+    input: {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        padding: '10px 2px 10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
 
-class DepositQaicashJdpay extends Component {
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}))(InputBase);
+
+class DepositQaicashBT extends Component {
     constructor(props) {
         super(props);
 
@@ -208,6 +304,7 @@ class DepositQaicashJdpay extends Component {
             error: false,
             data: '',
             type: '',
+            selectedBankOption: 'none',
             qaicash_error: false,
             qaicash_error_msg: "",
             live_check_amount: false,
@@ -220,7 +317,7 @@ class DepositQaicashJdpay extends Component {
             secondOption: 200,
             thirdOption: 500,
             fourthOption: 900,
-            currencyValue: "CNY",
+            currencyValue: "USD",
             showLinearProgressBar: false,
         };
 
@@ -289,6 +386,10 @@ class DepositQaicashJdpay extends Component {
     backClicked(ev) {
         this.props.callbackFromParent('deposit_method');
     }
+    
+    handleBankChange = event => {
+        this.setState({ selectedBankOption: event.target.value });
+    };
 
     handleClick = () => {
         let currentComponent = this;
@@ -300,10 +401,11 @@ class DepositQaicashJdpay extends Component {
             "user_id": this.state.data.pk,
             "currency": "0",
             "language": "zh-Hans",
-            "method": "JDWALLET",
+            "method": "BANK_TRANSFER",
+            "bank":this.state.selectedBankOption,
         }
         console.log(this.state.amount)
-        console.log(this.state.data)
+        console.log(currentComponent.state.data.username)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -325,13 +427,13 @@ class DepositQaicashJdpay extends Component {
 
            
             if (redirectUrl != null) {
-                const mywin = window.open(redirectUrl, 'qaicash_jdpay');
+                const mywin = window.open(redirectUrl, 'qaicash_BT');
                 var timer = setInterval(function () {
                     console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
-                            "order_id": data.paymentPageSession.orderId
+                            "trans_id": data.paymentPageSession.orderId
                         }
                         var formBody = [];
                         for (var pd in postData) {
@@ -341,7 +443,7 @@ class DepositQaicashJdpay extends Component {
                         }
                         formBody = formBody.join("&");
 
-                        return fetch(API_URL + 'accounting/api/qaicash/deposit_transaction', {
+                        return fetch(API_URL + 'accounting/api/qaicash/confirm', {
                             method: "POST",
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -351,7 +453,7 @@ class DepositQaicashJdpay extends Component {
                             return res.json();
                         }).then(function (data) {
                             console.log(data.status)
-                            if (data.status === 'SUCCESS') {
+                            if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
@@ -387,6 +489,7 @@ class DepositQaicashJdpay extends Component {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
+        const { selectedBankOption } = this.state;
 
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
         let continueMessage = formatMessage({ id: 'deposit.continue' });
@@ -419,8 +522,24 @@ class DepositQaicashJdpay extends Component {
                             <Grid container>
                                 <Grid item xs={12} className={classes.cardTypeCell}>
                                     <Button className={classes.cardTypeButton} disabled>
-                                        Qaicash JDPAY
+                                        Qaicash BT
                                     </Button>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Select
+                                        className={classes.select}
+                                        value={selectedBankOption}
+                                        onChange={this.handleBankChange}
+                                        input={<BootstrapInput name="bank" id="bank-select" />}>
+                                        <MenuItem key='none' value='none' disabled>Select Bank</MenuItem>
+                                        {
+                                            bank_options.map(bank => (
+                                                <MenuItem key={bank.label} value={bank.value} >
+                                                    {bank.label}
+                                                </MenuItem>
+                                            ))
+                                        }
+                                    </Select>
                                 </Grid>
                                 <Grid item xs={12} >
                                     <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
@@ -495,4 +614,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositQaicashJdpay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositQaicashBT)));
