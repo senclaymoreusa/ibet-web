@@ -2,18 +2,73 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { hide_user_profile, show_update_profile, authCheckState } from '../actions';
+import { hide_user_profile, show_update_profile, authCheckState } from '../../../actions';
 import { connect } from 'react-redux';
-import { config } from '../util_config';
+import { config } from '../../../util_config';
 import axios from 'axios'
 
 import { Link } from 'react-router-dom';
 
-import TopNavbar from "./top_navbar";
+import { injectIntl } from 'react-intl';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
+    root: {
+        width: 925,
+        height: 688,
+        backgroundColor: '#ffffff',
+        border: 'solid 1px #979797',
+    },
+    titleCell: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        height: 80
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.64,
+        textAlign: 'center',
+        color: 'black',
+        marginTop: 28,
+    },
+    updateRow: {
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        height: 75,
+        textAlign: 'right',
+        paddingTop: 13,
+        paddingRight: 52,
+    },
+    button: {
+        height: 52,
+        borderRadius: 10,
+        minWidth: 162,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'inline-block',
+        marginBottom: 23,
+        color: '#fff',
+        '&:hover': {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        },
+        '&:focus': {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        },
+    },
+    row:{
+        paddingLeft:128,
+        paddingRight:128,
+        paddingTop:10,
+    },
+
+
     textField: {
       width: 330,
       backgroundColor: 'white'
@@ -81,10 +136,45 @@ class New_Profile extends Component {
     render(){
 
         const { classes } = this.props;
+        const { formatMessage } = this.props.intl;
+
+        let titleMessage = formatMessage({ id: "user_information.user_information" });
+        let editButtonMessage = formatMessage({ id: "user_information.edit_information" });
 
         return (
-            <div>
-                <TopNavbar />
+            <div className={classes.root}>
+                <Grid container>
+                    <Grid item xs={12} className={classes.titleCell}>
+                        <span className={classes.title}>{titleMessage}</span>
+                    </Grid>
+                    <Grid item xs={12} style={{marginTop:30}} className={classes.row}>
+                    <TextField
+                        className={classes.textField}
+                        variant="outlined"
+                        type='text'
+                        disabled={true}
+                        value={this.state.user_data.first_name}
+                    />    
+
+                    <TextField
+                        className={classes.textField}
+                        variant="outlined"
+                        type='text'
+                        disabled={true}
+                        value={this.state.user_data.last_name}
+                    />                    
+                    </Grid>
+                    <Grid item xs={12} >
+                       
+                    </Grid>
+                    <Grid item xs={12} className={classes.updateRow}>
+                            <Button className={classes.button}  >
+                                {editButtonMessage}
+                            </Button>
+                        </Grid>
+                </Grid>
+
+
 
                 <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, paddingTop: 12, paddingLeft: 60 }}> 
                     <FormattedMessage id="new_profile.profile" defaultMessage='Profile' />
@@ -112,34 +202,7 @@ class New_Profile extends Component {
                     />
                 </div>
 
-                <div style={{ marginLeft: 30, marginTop: 5 }}>
-                    <FormattedMessage id="profile.firstName" defaultMessage='First Name' />
-                </div>
-
-                <div style={{textAlign: 'center', marginTop: 5}}> 
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        disabled={true}
-                        value={this.state.user_data.first_name}
-                    />
-                </div>
-
-                <div style={{ marginLeft: 30, marginTop: 5 }}>
-                    <FormattedMessage id="profile.lastName" defaultMessage='Last Name' />
-                </div>
-
-                <div style={{textAlign: 'center', marginTop: 5}}> 
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        disabled={true}
-                        value={this.state.user_data.last_name}
-                    />
-                </div>
-
+            
                 
                 <div style={{marginLeft: 30, marginTop: 10}}>
                     <FormattedMessage id="signup.detail.dob" defaultMessage='DATE OF BIRTH' />
