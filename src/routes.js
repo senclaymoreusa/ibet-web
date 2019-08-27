@@ -51,8 +51,6 @@ import DepositQaicashAlipay from './components/profile/banking/deposit/deposit_t
 import WithdrawQaicashLBT from './components/profile/banking/withdraw/withdraw_types/withdraw_qaicash_lbt'
 import New_Profile from './components/new_profile2'
 import New_Update_Profile from './components/new_update_profile2'
-
-import PlayerInbox from "./components/player_inbox"
 import DepositAstropay from "./components/profile/banking/deposit/deposit_types/deposit_astropay"
 import DepositCirclepay from "./components/profile/banking/deposit/deposit_types/deposit_circlepay"
 import DepositPayzod from "./components/profile/banking/deposit/deposit_types/deposit_payzod"
