@@ -58,14 +58,16 @@ const styles = theme => ({
         display: 'inline-block',
         width: 10,
         height: 58,
-        borderRadius: 5,
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius:5,   
         backgroundColor: '#bfbfbf',
     },
     readMark: {
         display: 'inline-block',
         width: 10,
         height: 58,
-        borderRadius: 5,
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius:5,
     },
     message: {
         width: 310,
@@ -96,29 +98,6 @@ const styles = theme => ({
         textAlign: 'right',
         color: '#787878',
         marginTop: 23,
-    },
-    first:{
-        width: 10,
-        height: 58,
-        borderRadius: 5,
-        backgroundColor: '#bfbfbf',
-    },
-    second:{
-        width: 60,
-        height: 58,
-        backgroundColor: '#ff0000',
-    },
-    third:{
-        minWidth: 60,
-        height: 30,
-        marginTop:14,
-
-        backgroundColor: '#ff0000',
-    },
-    fourth:{
-        width: 60,
-        height: 58,
-        backgroundColor: '#ff0000',
     },
 });
 
