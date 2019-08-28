@@ -684,6 +684,22 @@ class DepositScratchCard extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <div style={{textAlign: 'center', paddingLeft: 262, paddingRight: 262}}>
+                        <div id="response-msg">
+                            {
+                                this.state.receive_response ? 
+                                <p>{this.state.response_msg}</p> :
+                                <br></br>
+                            }
+                        </div>
+                        <div id="error-msg">
+                            {
+                                this.state.error ? 
+                                <p style={{color: "red"}}>{this.state.error_msg}</p> :
+                                <br></br>
+                            }
+                        </div>
+                    </div>
                 </form>
             </div>
         );

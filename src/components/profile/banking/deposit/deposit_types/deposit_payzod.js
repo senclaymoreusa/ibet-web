@@ -321,7 +321,7 @@ class DepositPayzod extends Component {
             this.setState({ qr_code: res.data });
         }
 
-        currentComponent.props.callbackFromParent('success', amount);
+        // currentComponent.props.callbackFromParent('success', amount);
 
     }
 
@@ -427,6 +427,17 @@ class DepositPayzod extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <div id="api-response" style={{textAlign: 'center', paddingLeft: 262, paddingRight: 262}}>
+                        {
+                            qr_code ? 
+                            <>
+                                <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/>
+                                <p>Once you have scanned the QR code, please check your e-mail and transaction history to confirm that the deposit was successful.</p>
+                            </>
+                            : 
+                            <br/>
+                        }
+                    </div>
                 </form>
             </div>
         );
