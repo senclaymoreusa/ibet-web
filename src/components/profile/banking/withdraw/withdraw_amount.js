@@ -120,7 +120,6 @@ const styles = theme => ({
     },
     middleButton: {
         marginRight: 10,
-        marginRight: 10,
         borderRadius: 4,
         backgroundColor: '#efefef',
         marginTop: 15,
@@ -368,7 +367,7 @@ export class WithdrawAmount extends Component {
                             <Grid item xs={12} className={classes.buttonCell}>
                                 <Button className={classes.continueButton}
                                     onClick={this.continueClicked}
-                                    disabled={(parseInt(this.state.amount) == 0)}
+                                    disabled={(parseInt(this.state.amount) === 0 )}
                                 >Continue</Button>
                             </Grid>
                         </Grid>
