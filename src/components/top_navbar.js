@@ -1620,10 +1620,18 @@ export class TopNavbar extends React.Component {
                                     </ListItem>
                                     <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
                                         <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}>
+                                            <ListItem button className={classes.nested}
+                                            onClick={() => {
+                                                this.setState({ mainTabValue: 'none' });
+                                                this.props.history.push('/p/settings/marketing')
+                                            }}>
                                                 <ListItemText primary="Marketing" />
                                             </ListItem>
-                                            <ListItem button className={classes.nested}>
+                                            <ListItem button className={classes.nested} 
+                                            onClick={() => {
+                                                this.setState({ mainTabValue: 'none' });
+                                                this.props.history.push('/p/settings/privacy')
+                                            }}>
                                                 <ListItemText primary="Privacy" />
                                             </ListItem>
                                         </List>

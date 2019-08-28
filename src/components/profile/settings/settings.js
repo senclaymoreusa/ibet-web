@@ -53,7 +53,9 @@ export class Settings extends Component {
         super(props);
 
         this.state = {
-            tabValue: 'marketing'
+            tabValue: '',
+            urlPath: '',
+
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -63,12 +65,40 @@ export class Settings extends Component {
         this.setState({ tabValue: newValue })
     }
 
+    componentWillReceiveProps(props) {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL){
+                this.props.history.push('/')
+            }
+        })
+        
+        this.setState({ urlPath: this.props.history.location.pathname });
+
+        this.setContent();
+    }
+
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             }
         })
+
+        this.setState({ urlPath: this.props.history.location.pathname });
+
+        this.setContent();
+    }
+
+
+    setContent() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+
+        if (parts.length >= 3) {
+            if (parts[1].length > 0) {
+                this.setState({ tabValue: parts[3] })
+            }
+        }
     }
 
     render() {
