@@ -7,17 +7,12 @@ import { connect } from 'react-redux';
 import { config } from '../../../util_config';
 import axios from 'axios'
 import { withRouter } from 'react-router-dom';
-import { fade } from '@material-ui/core/styles';
 import { getNames } from 'country-list';
-
-import { Link } from 'react-router-dom';
-
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputBase from '@material-ui/core/InputBase';
-
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -117,7 +112,6 @@ const styles = theme => ({
         color: '#000',
     },
     margin: {
-        //marginTop: theme.spacing.unit, 
         width: '100%',
     },
     bootstrapInput: {
@@ -151,7 +145,6 @@ const BootstrapInput = withStyles(theme => ({
         backgroundColor: theme.palette.common.white,
         border: '1px solid #ced4da',
         fontSize: 16,
-        width: '100%',
         marginTop: 10,
         padding: '10px 12px',
         transition: theme.transitions.create(['border-color', 'box-shadow']),
@@ -177,6 +170,7 @@ class UserInformationEdit extends Component {
         super(props);
 
         this.state = {
+            fetchedUserData: '',
             firstName: '',
             lastName: '',
             userId: '',
@@ -192,13 +186,26 @@ class UserInformationEdit extends Component {
             registrationDate: '',
             countries: [],
 
+            usernameFocused: false,
+            usernameInvalid: true,
+            usernameAlreadyExists: false,
         }
 
         this.cancelClicked = this.cancelClicked.bind(this);
         this.updateClicked = this.updateClicked.bind(this);
         this.usernameChanged = this.usernameChanged.bind(this);
         this.phoneChanged = this.phoneChanged.bind(this);
+        this.address1Changed = this.address1Changed.bind(this);
+        this.address2Changed = this.address2Changed.bind(this);
+        this.cityChanged = this.cityChanged.bind(this);
+        this.zipCodeChanged = this.zipCodeChanged.bind(this);
+        this.stateChanged = this.stateChanged.bind(this);
         this.countryChanged = this.countryChanged.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+
+        this.usernameFocused = this.usernameFocused.bind(this);
+
+
     }
 
     componentDidMount() {
@@ -217,6 +224,7 @@ class UserInformationEdit extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
+                this.setState({ fetchedUserData: res.data })
                 this.setState({ userId: res.data.pk });
                 this.setState({ username: res.data.username });
                 this.setState({ firstName: res.data.first_name });
@@ -243,14 +251,72 @@ class UserInformationEdit extends Component {
 
     usernameChanged(event) {
         this.setState({ username: event.target.value });
+
+        if (event.target.value.length === 0)
+            this.setState({ usernameAlreadyExists: true });
+    }
+
+    usernameFocused(event) {
+        this.setState({ usernameFocused: true });
     }
 
     phoneChanged(event) {
         this.setState({ phone: event.target.value });
     }
 
-    countryChanged(event){
-        this.setState({country: event.target.value});
+    countryChanged(event) {
+        this.setState({ country: event.target.value });
+    }
+
+    address1Changed(event) {
+        this.setState({ address1: event.target.value });
+    }
+
+    address2Changed(event) {
+        this.setState({ address2: event.target.value });
+    }
+
+    zipCodeChanged(event) {
+        this.setState({ zipCode: event.target.value });
+    }
+
+    cityChanged(event) {
+        this.setState({ city: event.target.value });
+    }
+
+    stateChanged(event) {
+        this.setState({ state: event.target.value });
+    }
+
+    onFormSubmit(event) {
+        event.preventDefault();
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        const body = JSON.stringify({
+            username: this.state.username ? this.state.username : this.state.fetchedUserData.username,
+            phone: this.state.phone ? this.state.phone : this.state.fetchedUserData.phone,
+            street_address_1: this.state.street_address_1,
+            street_address_2: this.state.street_address_2,
+            country: this.state.country ? this.state.country : this.state.fetchedUserData.country,
+            city: this.state.city ? this.state.city : this.state.fetchedUserData.city,
+            state: this.state.state ? this.state.state : this.state.fetchedUserData.state,
+            zipcode: this.state.zipcode ? this.state.zipCode : this.state.fetchedUserData.zipcode,
+
+            date_of_birth: this.state.fetchedUserData.date_of_birth,
+            email: this.state.fetchedUserData.email,
+            first_name: this.state.fetchedUserData.first_name,
+            last_name: this.state.fetchedUserData.last_name,
+        });
+
+        axios.put(API_URL + 'users/api/user/', body, config)
+            .then(() => {
+                this.props.callbackFromParent('user_information');
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
     }
 
     render() {
@@ -264,294 +330,164 @@ class UserInformationEdit extends Component {
         let cancelButtonMessage = formatMessage({ id: "user_information.cancel" });
         let supportMessage = formatMessage({ id: "user_information.support" });
 
+
+        let usernameErrorMessage = 'Username cannot be empty.';
+
+        if (this.state.usernameAlreadyExists)
+            usernameErrorMessage = 'This username is taken. Please, try another one.';
+
         return (
             <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={12} className={classes.titleCell}>
-                        <span className={classes.title}>{titleMessage}</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.nameRow}>
-                        <span className={classes.username}>{firstName}</span>
-                        <span className={classes.username}>{lastName}</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.idRow}>
-                        <span className={classes.text}>ID: </span>
-                        <span className={classes.text}>{userId}</span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.leftRow}>
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <FormControl className={classes.margin}>
-                                    <InputLabel shrink htmlFor="bootstrap-username">
-                                        Username
+                <form onSubmit={this.onFormSubmit}  >
+                    <Grid container>
+                        <Grid item xs={12} className={classes.titleCell}>
+                            <span className={classes.title}>{titleMessage}</span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.nameRow}>
+                            <span className={classes.username}>{firstName}</span>
+                            <span className={classes.username}>{lastName}</span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.idRow}>
+                            <span className={classes.text}>ID: </span>
+                            <span className={classes.text}>{userId}</span>
+                        </Grid>
+                        <Grid item xs={6} className={classes.leftRow}>
+                            <Grid container>
+                                <Grid item xs={12}>
+                                    <FormControl className={classes.margin}>
+                                        <InputLabel shrink htmlFor="bootstrap-username">
+                                            Username
                                     </InputLabel>
-                                    <BootstrapInput id="bootstrap-username" value={username} placeholder="Username" onChange={this.usernameChanged} />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    className={classes.text}
-                                    label="Email"
-                                    margin="normal"
-                                    fullWidth
-                                    value={email}
-                                    InputProps={{
-                                        disableUnderline: true,
-                                        readOnly: true,
-                                    }}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl className={classes.margin}>
-                                    <InputLabel shrink htmlFor="bootstrap-phone">
-                                        Phone
+                                        <BootstrapInput id="bootstrap-username"
+                                            value={username} placeholder="Username"
+                                            onChange={this.usernameChanged}
+                                            onFocus={this.usernameFocused}
+                                            error={this.state.usernameInvalid && this.state.usernameFocused}
+                                            // helperText={(this.state.usernameInvalid && this.state.usernameFocused) ? usernameErrorMessage : ''}
+                                        />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        className={classes.text}
+                                        label="Email"
+                                        margin="normal"
+                                        fullWidth
+                                        value={email}
+                                        InputProps={{
+                                            disableUnderline: true,
+                                            readOnly: true,
+                                        }}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl className={classes.margin}>
+                                        <InputLabel shrink htmlFor="bootstrap-phone">
+                                            Phone
                                     </InputLabel>
-                                    <BootstrapInput id="bootstrap-phone" value={phone} placeholder="Phone" onChange={this.phoneChanged} />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    className={classes.text}
-                                    label="Member Since"
-                                    margin="normal"
-                                    fullWidth
-                                    value={new Date(registrationDate).toLocaleDateString()}
-                                    InputProps={{
-                                        disableUnderline: true,
-                                        readOnly: true,
-                                    }}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
+                                        <BootstrapInput id="bootstrap-phone" value={phone} placeholder="Phone" onChange={this.phoneChanged} />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        className={classes.text}
+                                        label="Member Since"
+                                        margin="normal"
+                                        fullWidth
+                                        value={new Date(registrationDate).toLocaleDateString()}
+                                        InputProps={{
+                                            disableUnderline: true,
+                                            readOnly: true,
+                                        }}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid item xs={6} className={classes.rightRow}>
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <FormControl className={classes.margin}>
-                                    <InputLabel shrink htmlFor="bootstrap-password">
-                                        Current Password
+                        <Grid item xs={6} className={classes.rightRow}>
+                            <Grid container>
+                                <Grid item xs={12}>
+                                    <FormControl className={classes.margin}>
+                                        <InputLabel shrink htmlFor="bootstrap-password">
+                                            Current Password
                                     </InputLabel>
-                                    <BootstrapInput id="bootstrap-password" placeholder="Current password" />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-new-password" placeholder="New password" />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-confirm-new-password" placeholder="Confirm password" />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12} style={{ marginTop: 20 }}>
-                                <FormControl className={classes.margin}>
-                                    <InputLabel shrink htmlFor="bootstrap-address1">
-                                        Address
+                                        <BootstrapInput id="bootstrap-password" placeholder="Current password" type="password"/>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl className={classes.margin}>
+                                        <BootstrapInput id="bootstrap-new-password" placeholder="New password" type="password"/>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl className={classes.margin}>
+                                        <BootstrapInput id="bootstrap-confirm-new-password" placeholder="Confirm password" type="password"/>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12} style={{ marginTop: 20 }}>
+                                    <FormControl className={classes.margin}>
+                                        <InputLabel shrink htmlFor="bootstrap-address1">
+                                            Address
                                     </InputLabel>
-                                    <BootstrapInput id="bootstrap-address1" placeholder="Street Address 1" value={address1} />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-address2" placeholder="Street Address 2" value={address2} />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6} style={{ paddingRight: 4 }}>
-                                <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-city" placeholder="City" value={city} />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6} style={{ paddingLeft: 4 }}>
-                                <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-zipcode" placeholder="Zip code" value={zipCode} />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-state" placeholder="State" value={state} />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl className={classes.margin}>
-                                    <Select
-                                        className={classes.textField}
-                                        value={country}
-                                        onChange={this.countryChanged}
-                                        input={<BootstrapInput name="country" id="country-customized-select" value={country}/>}
-                                    >
-                                        {countries.map(name => (
-                                            <MenuItem key={name} value={name} >
-                                                {name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                        <BootstrapInput id="bootstrap-address1" placeholder="Street Address 1" value={address1} onChange={this.address1Changed} />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl className={classes.margin}>
+                                        <BootstrapInput id="bootstrap-address2" placeholder="Street Address 2" value={address2} onChange={this.address2Changed} />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={6} style={{ paddingRight: 4 }}>
+                                    <FormControl className={classes.margin}>
+                                        <BootstrapInput id="bootstrap-city" placeholder="City" value={city} onChange={this.cityChanged} />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={3} style={{ paddingLeft: 4, paddingRight: 4 }}>
+                                    <FormControl className={classes.margin}>
+                                        <BootstrapInput id="bootstrap-zipcode" placeholder="Zip code" value={zipCode} onChange={this.zipCodeChanged} />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={3} style={{ paddingLeft: 4 }}>
+                                    <FormControl className={classes.margin}>
+                                        <BootstrapInput id="bootstrap-state" placeholder="State" value={state} onChange={this.stateChanged} />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl className={classes.margin}>
+                                        <Select
+                                            className={classes.textField}
+                                            value={country}
+                                            onChange={this.countryChanged}
+                                            input={<BootstrapInput name="country" id="country-customized-select" value={country} />}
+                                        >
+                                            {countries.map(name => (
+                                                <MenuItem key={name} value={name} >
+                                                    {name}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
                             </Grid>
                         </Grid>
+                        <Grid item xs={12} className={classes.supportRow}>
+                            <span className={classes.supportText}>{supportMessage}</span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.updateRow}>
+                            <Button className={classes.cancelButton} onClick={this.cancelClicked} >
+                                {cancelButtonMessage}
+                            </Button>
+                            <Button className={classes.button} type="submit" >
+                                {saveButtonMessage}
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} className={classes.supportRow}>
-                        <span className={classes.supportText}>{supportMessage}</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.updateRow}>
-                        <Button className={classes.cancelButton} onClick={this.cancelClicked} >
-                            {cancelButtonMessage}
-                        </Button><Button className={classes.button}  >
-                            {saveButtonMessage}
-                        </Button>
-                    </Grid>
-                </Grid>
-
-
-                {/* <div style={{ textAlign: 'center', marginTop: 5 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        disabled={true}
-                        value={this.state.user_data.username}
-                    />
-                </div>
-
-
-
-                <div style={{ marginLeft: 30, marginTop: 10 }}>
-                    <FormattedMessage id="signup.detail.dob" defaultMessage='DATE OF BIRTH' />
-                </div>
-
-                <div className='row'>
-
-                    <div style={{ borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 30 }}>
-                        {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[0] : ''}
-                    </div>
-
-                    <div style={{ borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10 }}>
-                        {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[1] : ''}
-                    </div>
-
-                    <div style={{ borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10 }}>
-                        {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[2] : ''}
-                    </div>
-
-                </div>
-
-                <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
-                    <FormattedMessage id="signup.contact.title" defaultMessage='Contact details' />
-                </div>
-
-                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
-                    _________________________________________
-                </div>
-
-                <div style={{ marginLeft: 30, marginTop: 5 }}>
-                    <FormattedMessage id="signup.detail.address" defaultMessage='Address' />
-                </div>
-
-                <div style={{ textAlign: 'center', marginTop: 5 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        value={this.state.user_data.street_address_1}
-                        disabled={true}
-                    />
-                </div>
-
-                <div className='row' style={{ marginLeft: 25, marginTop: 5 }}>
-
-                    <div>
-                        <div>
-                            <FormattedMessage id="profile.city" defaultMessage='City' />
-                        </div>
-
-                        <TextField
-                            className={classes.textField3}
-                            variant="outlined"
-                            type='text'
-                            value={this.state.user_data.city}
-                            disabled={true}
-                            style={{ marginTop: 5 }}
-                        />
-
-                    </div>
-
-                    <div style={{ marginLeft: 30 }}>
-                        <div>
-                            <FormattedMessage id="profile.zipcode" defaultMessage='Zipcode' />
-                        </div>
-
-                        <TextField
-                            className={classes.textField3}
-                            variant="outlined"
-                            type='text'
-                            value={this.state.user_data.zipcode}
-                            disabled={true}
-                            style={{ marginTop: 5 }}
-                        />
-                    </div>
-                </div>
-
-                <div style={{ marginLeft: 30, marginTop: 5 }}>
-                    <FormattedMessage id="profile.country" defaultMessage='Country' />
-                </div>
-
-                <div style={{ textAlign: 'center', marginTop: 5 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        value={this.state.user_data.country}
-                        disabled={true}
-                    />
-                </div>
-
-                <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
-                    <FormattedMessage id="new_profile.mobile" defaultMessage='Mobile Details' />
-                </div>
-
-                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
-                    _________________________________________
-                </div>
-
-                <div style={{ textAlign: 'center', marginTop: 10 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        value={this.state.user_data.phone}
-                        disabled={true}
-                    />
-                </div>
-
-                <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
-                    <FormattedMessage id="new_profile.email" defaultMessage='Email Details' />
-                </div>
-
-                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
-                    _________________________________________
-                </div>
-
-                <div style={{ textAlign: 'center', marginTop: 10 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        value={this.state.user_data.email}
-                        disabled={true}
-                    />
-                </div>
-
-                <Link to="/update_profile/" >
-                    <button style={{ border: 'none', height: 30, width: 70, backgroundColor: 'black', color: 'white', cursor: 'pointer', borderRadius: 100 }}>
-                        <FormattedMessage id="new_profile.edit" defaultMessage='Edit' />
-                    </button>
-                </Link> */}
+                </form>
             </div>
         )
     }
