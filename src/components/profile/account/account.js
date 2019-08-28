@@ -44,6 +44,9 @@ const styles = theme => ({
         "&:hover": {
             backgroundColor: '#dfdfdf',
         },
+    },
+    text:{
+        marginLeft:0,
     }
 });
 
@@ -92,11 +95,12 @@ export class Account extends Component {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
 
-        if (parts.length >= 3) {
+        if (parts.length > 3) {
             if (parts[1].length > 0) {
                 this.setState({ contentValue: parts[3] })
             }
-        }
+        } else
+            this.setState({ contentValue: 'user_information' })
     }
 
 
@@ -116,8 +120,8 @@ export class Account extends Component {
                         <Button className={(contentValue === 'inbox') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'inbox')}>Inbox</Button>
                     </Grid>
                     <Grid item xs={8} className={classes.leftPane}>
-                        {contentValue === 'user_information' && <UserInformation callbackFromParent={this.setContent}/>}
-                        {contentValue === 'user_information_edit' && <UserInformationEdit callbackFromParent={this.setContent}/>}
+                        {contentValue === 'user_information' && <UserInformation callbackFromParent={this.setContent} />}
+                        {contentValue === 'user_information_edit' && <UserInformationEdit callbackFromParent={this.setContent} />}
                         {contentValue === 'inbox' && <InboxMain />}
                     </Grid>
                 </Grid>

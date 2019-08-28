@@ -8,9 +8,13 @@ import { config } from '../../../util_config';
 import axios from 'axios'
 import { withRouter } from 'react-router-dom';
 import { fade } from '@material-ui/core/styles';
+import { getNames } from 'country-list';
 
 import { Link } from 'react-router-dom';
+
+import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputBase from '@material-ui/core/InputBase';
 
@@ -84,6 +88,17 @@ const styles = theme => ({
         marginRight: 20,
         border: 'solid 0.8px #979797',
     },
+    nameRow: {
+        paddingTop: 30,
+        paddingLeft: 128,
+        paddingRight: 30,
+        paddingBottom: 20,
+    },
+    idRow: {
+        paddingLeft: 128,
+        paddingRight: 30,
+        paddingBottom: 20,
+    },
     leftRow: {
         paddingLeft: 128,
         paddingRight: 30,
@@ -102,8 +117,26 @@ const styles = theme => ({
         color: '#000',
     },
     margin: {
-        margin: theme.spacing.unit,
+        //marginTop: theme.spacing.unit, 
+        width: '100%',
     },
+    bootstrapInput: {
+        height: 30,
+    },
+    supportRow: {
+        paddingTop: 20,
+        paddingBottom: 30,
+        paddingLeft: 128,
+    },
+    supportText: {
+        fontSize: 16,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.17,
+        letterSpacing: 0.3,
+        color: '#000',
+    }
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -118,7 +151,8 @@ const BootstrapInput = withStyles(theme => ({
         backgroundColor: theme.palette.common.white,
         border: '1px solid #ced4da',
         fontSize: 16,
-        width: 'auto',
+        width: '100%',
+        marginTop: 10,
         padding: '10px 12px',
         transition: theme.transitions.create(['border-color', 'box-shadow']),
         // Use the system font instead of the default Roboto font.
@@ -143,9 +177,9 @@ class UserInformationEdit extends Component {
         super(props);
 
         this.state = {
-            user_data: '',
             firstName: '',
             lastName: '',
+            userId: '',
             username: '',
             email: '',
             phone: '',
@@ -155,15 +189,20 @@ class UserInformationEdit extends Component {
             city: '',
             state: '',
             country: '',
-            registrationDate: ''
+            registrationDate: '',
+            countries: [],
+
         }
 
         this.cancelClicked = this.cancelClicked.bind(this);
         this.updateClicked = this.updateClicked.bind(this);
-
+        this.usernameChanged = this.usernameChanged.bind(this);
+        this.phoneChanged = this.phoneChanged.bind(this);
+        this.countryChanged = this.countryChanged.bind(this);
     }
 
     componentDidMount() {
+        this.setState({ countries: getNames() })
 
         this.props.authCheckState()
             .then(res => {
@@ -178,6 +217,7 @@ class UserInformationEdit extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
+                this.setState({ userId: res.data.pk });
                 this.setState({ username: res.data.username });
                 this.setState({ firstName: res.data.first_name });
                 this.setState({ lastName: res.data.last_name });
@@ -190,12 +230,7 @@ class UserInformationEdit extends Component {
                 this.setState({ state: res.data.state });
                 this.setState({ country: res.data.country });
                 this.setState({ registrationDate: res.data.time_of_registration });
-
             })
-    }
-
-    onInputChange_country(event) {
-        this.setState({ country: event.target.value });
     }
 
     cancelClicked() {
@@ -206,15 +241,28 @@ class UserInformationEdit extends Component {
         this.props.callbackFromParent('user_information');
     }
 
+    usernameChanged(event) {
+        this.setState({ username: event.target.value });
+    }
+
+    phoneChanged(event) {
+        this.setState({ phone: event.target.value });
+    }
+
+    countryChanged(event){
+        this.setState({country: event.target.value});
+    }
+
     render() {
 
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
-        const { username, firstName, lastName, email, phone, address1, address2, zipCode, city, state, country, registrationDate } = this.state;
+        const { countries, username, userId, firstName, lastName, email, phone, address1, address2, zipCode, city, state, country, registrationDate } = this.state;
 
         let titleMessage = formatMessage({ id: "user_information.user_information" });
         let saveButtonMessage = formatMessage({ id: "user_information.save_changes" });
         let cancelButtonMessage = formatMessage({ id: "user_information.cancel" });
+        let supportMessage = formatMessage({ id: "user_information.support" });
 
         return (
             <div className={classes.root}>
@@ -222,13 +270,13 @@ class UserInformationEdit extends Component {
                     <Grid item xs={12} className={classes.titleCell}>
                         <span className={classes.title}>{titleMessage}</span>
                     </Grid>
-                    <Grid item xs={12} style={{ marginTop: 30 }} className={classes.leftRow}>
+                    <Grid item xs={12} className={classes.nameRow}>
                         <span className={classes.username}>{firstName}</span>
                         <span className={classes.username}>{lastName}</span>
                     </Grid>
-                    <Grid item xs={12} className={classes.leftRow}>
-                        <span className={classes.text}>ID:</span>
-                        <span className={classes.text}>{username}</span>
+                    <Grid item xs={12} className={classes.idRow}>
+                        <span className={classes.text}>ID: </span>
+                        <span className={classes.text}>{userId}</span>
                     </Grid>
                     <Grid item xs={6} className={classes.leftRow}>
                         <Grid container>
@@ -237,7 +285,7 @@ class UserInformationEdit extends Component {
                                     <InputLabel shrink htmlFor="bootstrap-username">
                                         Username
                                     </InputLabel>
-                                    <BootstrapInput id="bootstrap-username" value={username} />
+                                    <BootstrapInput id="bootstrap-username" value={username} placeholder="Username" onChange={this.usernameChanged} />
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
@@ -261,7 +309,7 @@ class UserInformationEdit extends Component {
                                     <InputLabel shrink htmlFor="bootstrap-phone">
                                         Phone
                                     </InputLabel>
-                                    <BootstrapInput id="bootstrap-phone" value={phone} />
+                                    <BootstrapInput id="bootstrap-phone" value={phone} placeholder="Phone" onChange={this.phoneChanged} />
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
@@ -270,7 +318,7 @@ class UserInformationEdit extends Component {
                                     label="Member Since"
                                     margin="normal"
                                     fullWidth
-                                    value={registrationDate}
+                                    value={new Date(registrationDate).toLocaleDateString()}
                                     InputProps={{
                                         disableUnderline: true,
                                         readOnly: true,
@@ -289,48 +337,67 @@ class UserInformationEdit extends Component {
                                     <InputLabel shrink htmlFor="bootstrap-password">
                                         Current Password
                                     </InputLabel>
-                                    <BootstrapInput id="bootstrap-password" />
+                                    <BootstrapInput id="bootstrap-password" placeholder="Current password" />
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-new-password" />
+                                    <BootstrapInput id="bootstrap-new-password" placeholder="New password" />
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-confirm-new-password" />
+                                    <BootstrapInput id="bootstrap-confirm-new-password" placeholder="Confirm password" />
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} style={{ marginTop: 20 }}>
                                 <FormControl className={classes.margin}>
-                                <InputLabel shrink htmlFor="bootstrap-address1">
+                                    <InputLabel shrink htmlFor="bootstrap-address1">
                                         Address
-                                    </InputLabel> 
-                                    <BootstrapInput id="bootstrap-address1" />
+                                    </InputLabel>
+                                    <BootstrapInput id="bootstrap-address1" placeholder="Street Address 1" value={address1} />
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-address2" />
+                                    <BootstrapInput id="bootstrap-address2" placeholder="Street Address 2" value={address2} />
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={6} style={{ paddingRight: 4 }}>
                                 <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-city" />
+                                    <BootstrapInput id="bootstrap-city" placeholder="City" value={city} />
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={6} style={{ paddingLeft: 4 }}>
                                 <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-zipcode" />
+                                    <BootstrapInput id="bootstrap-zipcode" placeholder="Zip code" value={zipCode} />
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={12}>
                                 <FormControl className={classes.margin}>
-                                    <BootstrapInput id="bootstrap-country" />
+                                    <BootstrapInput id="bootstrap-state" placeholder="State" value={state} />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl className={classes.margin}>
+                                    <Select
+                                        className={classes.textField}
+                                        value={country}
+                                        onChange={this.countryChanged}
+                                        input={<BootstrapInput name="country" id="country-customized-select" value={country}/>}
+                                    >
+                                        {countries.map(name => (
+                                            <MenuItem key={name} value={name} >
+                                                {name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
                                 </FormControl>
                             </Grid>
                         </Grid>
+                    </Grid>
+                    <Grid item xs={12} className={classes.supportRow}>
+                        <span className={classes.supportText}>{supportMessage}</span>
                     </Grid>
                     <Grid item xs={12} className={classes.updateRow}>
                         <Button className={classes.cancelButton} onClick={this.cancelClicked} >

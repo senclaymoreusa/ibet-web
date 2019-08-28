@@ -357,6 +357,7 @@ export const messages = {
         'user_information.edit_information': 'Edit Information',
         'user_information.save_changes': 'Save Changes',
         'user_information.cancel': 'Cancel',
+        'user_information.support': 'To change your name or email, please contact our customer service.',
 
         // handle change_email page message
         'change_email.enter_email': 'New Email address: ',

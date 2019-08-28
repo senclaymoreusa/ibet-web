@@ -69,6 +69,17 @@ const styles = theme => ({
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
         },
     },
+    nameRow: {
+        paddingTop: 30,
+        paddingLeft: 128,
+        paddingRight: 30,
+        paddingBottom: 20,
+    },
+    idRow: {
+        paddingLeft: 128,
+        paddingRight: 30,
+        paddingBottom: 20,
+    },
     leftRow: {
         paddingLeft: 128,
         paddingRight: 30,
@@ -85,6 +96,9 @@ const styles = theme => ({
         lineHeight: 2,
         letterSpacing: 0.7,
         color: '#000',
+    },
+    text: {
+        marginTop: 0,
     }
 });
 
@@ -94,7 +108,19 @@ class UserInformation extends Component {
         super(props);
 
         this.state = {
-            user_data: ''
+            firstName: '',
+            lastName: '',
+            userId: '',
+            username: '',
+            email: '',
+            phone: '',
+            address1: '',
+            address2: '',
+            zipCode: '',
+            city: '',
+            state: '',
+            country: '',
+            registrationDate: ''
         }
 
         this.updateClicked = this.updateClicked.bind(this);
@@ -116,7 +142,19 @@ class UserInformation extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ user_data: res.data });
+                this.setState({ userId: res.data.pk });
+                this.setState({ username: res.data.username });
+                this.setState({ firstName: res.data.first_name });
+                this.setState({ lastName: res.data.last_name });
+                this.setState({ email: res.data.email });
+                this.setState({ phone: res.data.phone });
+                this.setState({ address1: res.data.street_address_1 });
+                this.setState({ address2: res.data.street_address_2 });
+                this.setState({ zipCode: res.data.zipcode });
+                this.setState({ city: res.data.city });
+                this.setState({ state: res.data.state });
+                this.setState({ country: res.data.country });
+                this.setState({ registrationDate: res.data.time_of_registration });
             })
     }
 
@@ -132,6 +170,7 @@ class UserInformation extends Component {
 
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
+        const { userId, username, firstName, lastName, email, phone, address1, address2, zipCode, city, state, country, registrationDate } = this.state;
 
         let titleMessage = formatMessage({ id: "user_information.user_information" });
         let editButtonMessage = formatMessage({ id: "user_information.edit_information" });
@@ -142,275 +181,133 @@ class UserInformation extends Component {
                     <Grid item xs={12} className={classes.titleCell}>
                         <span className={classes.title}>{titleMessage}</span>
                     </Grid>
-                    <Grid item xs={12} style={{ marginTop: 30 }} className={classes.leftRow}>
-                        <span className={classes.username}>{this.state.user_data.first_name}</span>
-                        <span className={classes.username}>{this.state.user_data.last_name}</span>
+                    <Grid item xs={12} className={classes.nameRow}>
+                        <span className={classes.username}>{firstName}</span>
+                        <span className={classes.username}>{lastName}</span>
                     </Grid>
-                    <Grid item xs={12} className={classes.leftRow}>
-                        <span className={classes.text}>ID:</span>
-                        <span className={classes.text}>{this.state.user_data.username}</span>
+                    <Grid item xs={12} className={classes.idRow}>
+                        <span className={classes.text}>ID: </span>
+                        <span className={classes.text}>{userId}</span>
                     </Grid>
                     <Grid item xs={6} className={classes.leftRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Username"
-                            margin="normal"
-                            fullWidth
-                            value={this.state.user_data.username || ''}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                        <Grid container>
+                            <Grid item xs={12} >
+                                <TextField
+                                    className={classes.text}
+                                    label="Username"
+                                    margin="normal"
+                                    fullWidth
+                                    value={username}
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        readOnly: true,
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    className={classes.text}
+                                    label="Email"
+                                    margin="normal"
+                                    fullWidth
+                                    value={email}
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        readOnly: true,
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} >
+                                <TextField
+                                    className={classes.text}
+                                    label="Phone"
+                                    margin="normal"
+                                    fullWidth
+                                    value={phone}
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        readOnly: true,
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} >
+                                <TextField
+                                    className={classes.text}
+                                    label="Member Since"
+                                    margin="normal"
+                                    fullWidth
+                                    value={new Date(registrationDate).toLocaleDateString()}
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        readOnly: true,
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+
                     </Grid>
                     <Grid item xs={6} className={classes.rightRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Password"
-                            margin="normal"
-                            fullWidth
-                            value="********"
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                        <Grid container>
+                            <Grid item xs={12} >
+                                <TextField
+                                    className={classes.text}
+                                    label="Password"
+                                    margin="normal"
+                                    fullWidth
+                                    value="********"
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        readOnly: true,
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} >
+                                <TextField
+                                    className={classes.text}
+                                    label="Address"
+                                    margin="normal"
+                                    multiline
+                                    fullWidth
+                                    value={address1 + ' ' +
+                                        address2 + ' \n' +
+                                        city + ' ' +
+                                        zipCode + ' ' +
+                                        state + ' ' +
+                                        country}
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        readOnly: true,
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6} className={classes.leftRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Email"
-                            margin="normal"
-                            fullWidth
-                            value={this.state.user_data.email || ''}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6} className={classes.rightRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Address"
-                            margin="normal"
-                            multiline
-                            fullWidth
-                            value={this.state.user_data.street_address_1 + ' ' +
-                                this.state.user_data.street_address_2 + ' \n' +
-                                this.state.user_data.city + ' ' +
-                                this.state.user_data.zipcode + ' ' +
-                                this.state.user_data.state + ' ' +
-                                this.state.user_data.country}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6} className={classes.leftRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Phone"
-                            margin="normal"
-                            fullWidth
-                            value={this.state.user_data.phone || ''}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6} className={classes.rightRow}></Grid>
-                    <Grid item xs={6} className={classes.leftRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Member Since"
-                            margin="normal"
-                            fullWidth
-                            value={this.state.user_data.time_of_registration || ''}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                        {/* <FormattedDate
-                            value={this.state.user_data.time_of_registration}
-                            day="numeric"
-                            month="numeric"
-                            year="numeric" /> */}
-                        <Grid item xs={6} className={classes.rightRow}></Grid>
-                    </Grid>
+                    <Grid item xs={12} style={{height: 30}}></Grid>
                     <Grid item xs={12} className={classes.updateRow}>
                         <Button className={classes.button} onClick={this.updateClicked}>
                             {editButtonMessage}
                         </Button>
                     </Grid>
                 </Grid>
-
-
-                {/* <div style={{ textAlign: 'center', marginTop: 5 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        disabled={true}
-                        value={this.state.user_data.username}
-                    />
-                </div>
-
-
-
-                <div style={{ marginLeft: 30, marginTop: 10 }}>
-                    <FormattedMessage id="signup.detail.dob" defaultMessage='DATE OF BIRTH' />
-                </div>
-
-                <div className='row'>
-
-                    <div style={{ borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 30 }}>
-                        {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[0] : ''}
-                    </div>
-
-                    <div style={{ borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10 }}>
-                        {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[1] : ''}
-                    </div>
-
-                    <div style={{ borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10 }}>
-                        {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[2] : ''}
-                    </div>
-
-                </div>
-
-                <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
-                    <FormattedMessage id="signup.contact.title" defaultMessage='Contact details' />
-                </div>
-
-                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
-                    _________________________________________
-                </div>
-
-                <div style={{ marginLeft: 30, marginTop: 5 }}>
-                    <FormattedMessage id="signup.detail.address" defaultMessage='Address' />
-                </div>
-
-                <div style={{ textAlign: 'center', marginTop: 5 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        value={this.state.user_data.street_address_1}
-                        disabled={true}
-                    />
-                </div>
-
-                <div className='row' style={{ marginLeft: 25, marginTop: 5 }}>
-
-                    <div>
-                        <div>
-                            <FormattedMessage id="profile.city" defaultMessage='City' />
-                        </div>
-
-                        <TextField
-                            className={classes.textField3}
-                            variant="outlined"
-                            type='text'
-                            value={this.state.user_data.city}
-                            disabled={true}
-                            style={{ marginTop: 5 }}
-                        />
-
-                    </div>
-
-                    <div style={{ marginLeft: 30 }}>
-                        <div>
-                            <FormattedMessage id="profile.zipcode" defaultMessage='Zipcode' />
-                        </div>
-
-                        <TextField
-                            className={classes.textField3}
-                            variant="outlined"
-                            type='text'
-                            value={this.state.user_data.zipcode}
-                            disabled={true}
-                            style={{ marginTop: 5 }}
-                        />
-                    </div>
-                </div>
-
-                <div style={{ marginLeft: 30, marginTop: 5 }}>
-                    <FormattedMessage id="profile.country" defaultMessage='Country' />
-                </div>
-
-                <div style={{ textAlign: 'center', marginTop: 5 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        value={this.state.user_data.country}
-                        disabled={true}
-                    />
-                </div>
-
-                <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
-                    <FormattedMessage id="new_profile.mobile" defaultMessage='Mobile Details' />
-                </div>
-
-                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
-                    _________________________________________
-                </div>
-
-                <div style={{ textAlign: 'center', marginTop: 10 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        value={this.state.user_data.phone}
-                        disabled={true}
-                    />
-                </div>
-
-                <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
-                    <FormattedMessage id="new_profile.email" defaultMessage='Email Details' />
-                </div>
-
-                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
-                    _________________________________________
-                </div>
-
-                <div style={{ textAlign: 'center', marginTop: 10 }}>
-                    <TextField
-                        className={classes.textField}
-                        variant="outlined"
-                        type='text'
-                        value={this.state.user_data.email}
-                        disabled={true}
-                    />
-                </div>
-
-                <Link to="/update_profile/" >
-                    <button style={{ border: 'none', height: 30, width: 70, backgroundColor: 'black', color: 'white', cursor: 'pointer', borderRadius: 100 }}>
-                        <FormattedMessage id="new_profile.edit" defaultMessage='Edit' />
-                    </button>
-                </Link> */}
-            </div>
+            </div >
         )
     }
 }
