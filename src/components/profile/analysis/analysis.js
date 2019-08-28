@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { authCheckState ,AUTH_RESULT_FAIL} from '../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -46,7 +46,7 @@ const styles = theme => ({
         },
     }
 });
- 
+
 export class Analysis extends Component {
 
     constructor(props) {
@@ -67,7 +67,7 @@ export class Analysis extends Component {
 
     async componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL){
+            if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             }
         })
@@ -76,10 +76,10 @@ export class Analysis extends Component {
 
         this.setContent();
     }
-    
+
     componentDidMount() {
         this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL){
+            if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             }
         })
@@ -93,11 +93,12 @@ export class Analysis extends Component {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
 
-        if (parts.length >= 3) {
+        if (parts.length > 3) {
             if (parts[1].length > 0) {
                 this.setState({ tabValue: parts[3] })
             }
-        }
+        } else
+            this.setState({ tabValue: 'bets' })
     }
 
     render() {

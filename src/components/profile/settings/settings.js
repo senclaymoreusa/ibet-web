@@ -67,11 +67,11 @@ export class Settings extends Component {
 
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL){
+            if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             }
         })
-        
+
         this.setState({ urlPath: this.props.history.location.pathname });
 
         this.setContent();
@@ -94,11 +94,12 @@ export class Settings extends Component {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
 
-        if (parts.length >= 3) {
+        if (parts.length > 3) {
             if (parts[1].length > 0) {
                 this.setState({ tabValue: parts[3] })
             }
-        }
+        } else
+            this.setState({ tabValue: 'marketing' })
     }
 
     render() {
@@ -109,8 +110,8 @@ export class Settings extends Component {
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={4} className={classes.leftPane}>
-                    <Button className={(tabValue === 'marketing') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'marketing')}>Marketing</Button>
-                    <Button className={(tabValue === 'privacy') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'privacy')}>Privacy</Button>
+                        <Button className={(tabValue === 'marketing') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'marketing')}>Marketing</Button>
+                        <Button className={(tabValue === 'privacy') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'privacy')}>Privacy</Button>
                     </Grid>
                     <Grid item xs={8} className={classes.leftPane}>
                         {tabValue === 'marketing' && <Marketing />}
