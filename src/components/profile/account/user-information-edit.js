@@ -6,8 +6,13 @@ import { hide_user_profile, show_update_profile, authCheckState } from '../../..
 import { connect } from 'react-redux';
 import { config } from '../../../util_config';
 import axios from 'axios'
+import { withRouter } from 'react-router-dom';
+import { fade } from '@material-ui/core/styles';
 
 import { Link } from 'react-router-dom';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputBase from '@material-ui/core/InputBase';
 
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
@@ -70,6 +75,15 @@ const styles = theme => ({
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
         },
     },
+    cancelButton: {
+        height: 52,
+        borderRadius: 10,
+        minWidth: 162,
+        display: 'inline-block',
+        marginBottom: 23,
+        marginRight: 20,
+        border: 'solid 0.8px #979797',
+    },
     leftRow: {
         paddingLeft: 128,
         paddingRight: 30,
@@ -86,8 +100,42 @@ const styles = theme => ({
         lineHeight: 2,
         letterSpacing: 0.7,
         color: '#000',
-    }
+    },
+    margin: {
+        margin: theme.spacing.unit,
+    },
 });
+
+const BootstrapInput = withStyles(theme => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing.unit,
+        },
+    },
+    input: {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.common.white,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        width: 'auto',
+        padding: '10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        // Use the system font instead of the default Roboto font.
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+    }
+}))(InputBase);
 
 class UserInformationEdit extends Component {
 
@@ -95,8 +143,24 @@ class UserInformationEdit extends Component {
         super(props);
 
         this.state = {
-            user_data: ''
+            user_data: '',
+            firstName: '',
+            lastName: '',
+            username: '',
+            email: '',
+            phone: '',
+            address1: '',
+            address2: '',
+            zipCode: '',
+            city: '',
+            state: '',
+            country: '',
+            registrationDate: ''
         }
+
+        this.cancelClicked = this.cancelClicked.bind(this);
+        this.updateClicked = this.updateClicked.bind(this);
+
     }
 
     componentDidMount() {
@@ -114,7 +178,19 @@ class UserInformationEdit extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ user_data: res.data });
+                this.setState({ username: res.data.username });
+                this.setState({ firstName: res.data.first_name });
+                this.setState({ lastName: res.data.last_name });
+                this.setState({ email: res.data.email });
+                this.setState({ phone: res.data.phone });
+                this.setState({ address1: res.data.street_address_1 });
+                this.setState({ address2: res.data.street_address_2 });
+                this.setState({ zipCode: res.data.zipcode });
+                this.setState({ city: res.data.city });
+                this.setState({ state: res.data.state });
+                this.setState({ country: res.data.country });
+                this.setState({ registrationDate: res.data.time_of_registration });
+
             })
     }
 
@@ -122,13 +198,23 @@ class UserInformationEdit extends Component {
         this.setState({ country: event.target.value });
     }
 
+    cancelClicked() {
+        this.props.callbackFromParent('user_information');
+    }
+
+    updateClicked() {
+        this.props.callbackFromParent('user_information');
+    }
+
     render() {
 
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
+        const { username, firstName, lastName, email, phone, address1, address2, zipCode, city, state, country, registrationDate } = this.state;
 
         let titleMessage = formatMessage({ id: "user_information.user_information" });
-        let editButtonMessage = formatMessage({ id: "user_information.edit_information" });
+        let saveButtonMessage = formatMessage({ id: "user_information.save_changes" });
+        let cancelButtonMessage = formatMessage({ id: "user_information.cancel" });
 
         return (
             <div className={classes.root}>
@@ -137,122 +223,120 @@ class UserInformationEdit extends Component {
                         <span className={classes.title}>{titleMessage}</span>
                     </Grid>
                     <Grid item xs={12} style={{ marginTop: 30 }} className={classes.leftRow}>
-                        <span className={classes.username}>{this.state.user_data.first_name}</span>
-                        <span className={classes.username}>{this.state.user_data.last_name}</span>
+                        <span className={classes.username}>{firstName}</span>
+                        <span className={classes.username}>{lastName}</span>
                     </Grid>
                     <Grid item xs={12} className={classes.leftRow}>
                         <span className={classes.text}>ID:</span>
-                        <span className={classes.text}>{this.state.user_data.username}</span>
+                        <span className={classes.text}>{username}</span>
                     </Grid>
                     <Grid item xs={6} className={classes.leftRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Username"
-                            margin="normal"
-                            fullWidth
-                            value={this.state.user_data.username}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                        <Grid container>
+                            <Grid item xs={12}>
+                                <FormControl className={classes.margin}>
+                                    <InputLabel shrink htmlFor="bootstrap-username">
+                                        Username
+                                    </InputLabel>
+                                    <BootstrapInput id="bootstrap-username" value={username} />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    className={classes.text}
+                                    label="Email"
+                                    margin="normal"
+                                    fullWidth
+                                    value={email}
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        readOnly: true,
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl className={classes.margin}>
+                                    <InputLabel shrink htmlFor="bootstrap-phone">
+                                        Phone
+                                    </InputLabel>
+                                    <BootstrapInput id="bootstrap-phone" value={phone} />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    className={classes.text}
+                                    label="Member Since"
+                                    margin="normal"
+                                    fullWidth
+                                    value={registrationDate}
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        readOnly: true,
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Grid item xs={6} className={classes.rightRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Password"
-                            margin="normal"
-                            fullWidth
-                            value="********"
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6} className={classes.leftRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Email"
-                            margin="normal"
-                            fullWidth
-                            value={this.state.user_data.email}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6} className={classes.rightRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Address"
-                            margin="normal"
-                            multiline
-                            fullWidth
-                            value={this.state.user_data.street_address_1 + ' ' +
-                                this.state.user_data.street_address_2 + ' \n' +
-                                this.state.user_data.city + ', ' +
-                                this.state.user_data.zipcode + ' ' +
-                                this.state.user_data.state + ' ' +
-                                this.state.user_data.country}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6} className={classes.leftRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Phone"
-                            margin="normal"
-                            fullWidth
-                            value={this.state.user_data.phone}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={6} className={classes.rightRow}></Grid>
-                    <Grid item xs={6} className={classes.leftRow}>
-                        <TextField
-                            className={classes.text}
-                            label="Member Since"
-                            // type="date"
-                            // format={'MM/DD/YYYY'}
-                            margin="normal"
-                            fullWidth
-                            value={this.state.user_data.time_of_registration}
-                            InputProps={{
-                                disableUnderline: true,
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                        <Grid item xs={6} className={classes.rightRow}></Grid>
+                        <Grid container>
+                            <Grid item xs={12}>
+                                <FormControl className={classes.margin}>
+                                    <InputLabel shrink htmlFor="bootstrap-password">
+                                        Current Password
+                                    </InputLabel>
+                                    <BootstrapInput id="bootstrap-password" />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl className={classes.margin}>
+                                    <BootstrapInput id="bootstrap-new-password" />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl className={classes.margin}>
+                                    <BootstrapInput id="bootstrap-confirm-new-password" />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl className={classes.margin}>
+                                <InputLabel shrink htmlFor="bootstrap-address1">
+                                        Address
+                                    </InputLabel> 
+                                    <BootstrapInput id="bootstrap-address1" />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl className={classes.margin}>
+                                    <BootstrapInput id="bootstrap-address2" />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl className={classes.margin}>
+                                    <BootstrapInput id="bootstrap-city" />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl className={classes.margin}>
+                                    <BootstrapInput id="bootstrap-zipcode" />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl className={classes.margin}>
+                                    <BootstrapInput id="bootstrap-country" />
+                                </FormControl>
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Grid item xs={12} className={classes.updateRow}>
-                        <Button className={classes.button}  >
-                            {editButtonMessage}
+                        <Button className={classes.cancelButton} onClick={this.cancelClicked} >
+                            {cancelButtonMessage}
+                        </Button><Button className={classes.button}  >
+                            {saveButtonMessage}
                         </Button>
                     </Grid>
                 </Grid>
@@ -406,4 +490,4 @@ class UserInformationEdit extends Component {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(null, { hide_user_profile, show_update_profile, authCheckState })(UserInformationEdit)));
+export default withStyles(styles)(withRouter(injectIntl(connect(null, { hide_user_profile, show_update_profile, authCheckState })(UserInformationEdit))));

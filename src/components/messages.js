@@ -355,6 +355,8 @@ export const messages = {
 
         'user_information.user_information': 'User Information',
         'user_information.edit_information': 'Edit Information',
+        'user_information.save_changes': 'Save Changes',
+        'user_information.cancel': 'Cancel',
 
         // handle change_email page message
         'change_email.enter_email': 'New Email address: ',

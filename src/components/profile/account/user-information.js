@@ -10,6 +10,7 @@ import axios from 'axios'
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import { withRouter } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -95,6 +96,9 @@ class UserInformation extends Component {
         this.state = {
             user_data: ''
         }
+
+        this.updateClicked = this.updateClicked.bind(this);
+
     }
 
     componentDidMount() {
@@ -118,6 +122,10 @@ class UserInformation extends Component {
 
     onInputChange_country(event) {
         this.setState({ country: event.target.value });
+    }
+
+    updateClicked() {
+        this.props.callbackFromParent('user_information_edit');
     }
 
     render() {
@@ -148,7 +156,7 @@ class UserInformation extends Component {
                             label="Username"
                             margin="normal"
                             fullWidth
-                            value={this.state.user_data.username}
+                            value={this.state.user_data.username || ''}
                             InputProps={{
                                 disableUnderline: true,
                                 readOnly: true,
@@ -180,7 +188,7 @@ class UserInformation extends Component {
                             label="Email"
                             margin="normal"
                             fullWidth
-                            value={this.state.user_data.email}
+                            value={this.state.user_data.email || ''}
                             InputProps={{
                                 disableUnderline: true,
                                 readOnly: true,
@@ -218,7 +226,7 @@ class UserInformation extends Component {
                             label="Phone"
                             margin="normal"
                             fullWidth
-                            value={this.state.user_data.phone}
+                            value={this.state.user_data.phone || ''}
                             InputProps={{
                                 disableUnderline: true,
                                 readOnly: true,
@@ -233,11 +241,9 @@ class UserInformation extends Component {
                         <TextField
                             className={classes.text}
                             label="Member Since"
-                            // type="date"
-                            // format={'MM/DD/YYYY'}
                             margin="normal"
                             fullWidth
-                            value={this.state.user_data.time_of_registration}
+                            value={this.state.user_data.time_of_registration || ''}
                             InputProps={{
                                 disableUnderline: true,
                                 readOnly: true,
@@ -246,15 +252,15 @@ class UserInformation extends Component {
                                 shrink: true,
                             }}
                         />
-                        <FormattedDate
+                        {/* <FormattedDate
                             value={this.state.user_data.time_of_registration}
                             day="numeric"
                             month="numeric"
-                            year="numeric" />
+                            year="numeric" /> */}
                         <Grid item xs={6} className={classes.rightRow}></Grid>
                     </Grid>
                     <Grid item xs={12} className={classes.updateRow}>
-                        <Button className={classes.button}  >
+                        <Button className={classes.button} onClick={this.updateClicked}>
                             {editButtonMessage}
                         </Button>
                     </Grid>
@@ -409,4 +415,4 @@ class UserInformation extends Component {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(null, { hide_user_profile, show_update_profile, authCheckState })(UserInformation)));
+export default withStyles(styles)(withRouter(injectIntl(connect(null, { hide_user_profile, show_update_profile, authCheckState })(UserInformation))));
