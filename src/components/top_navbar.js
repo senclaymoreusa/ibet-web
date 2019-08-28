@@ -12,7 +12,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
     AUTH_RESULT_SUCCESS,
@@ -1124,7 +1124,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="sports_type"
-                                label={<div><SoccerIcon className="soccer" />{sportsMessage}</div>}
+                                label={<div> <img src={images.src + 'soccer.svg'}  className="soccer" />{sportsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'sports_type' });
                                     this.props.history.push("/sports_type/sports");
@@ -1132,7 +1132,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="liveCasino_type"
-                                label={<div><BetIcon className="bet" />{liveCasinoMessage}</div>}
+                                label={<div><img src={images.src + 'bet.svg'} className="bet" />{liveCasinoMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'liveCasino_type' });
                                     this.props.history.push("/liveCasino_type/live-casino/all");
@@ -1140,7 +1140,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="slot_type"
-                                label={<div><SlotsIcon className="games-icon" />{slotsMessage}</div>}
+                                label={<div><img src={images.src + 'slots.svg'}  className="games-icon" />{slotsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'liveCasino_type' });
                                     this.props.history.push("/slot_type/slots/all");
@@ -1148,7 +1148,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value='lottery_type'
-                                label={<div><LotteryIcon className="lottery_type" />{lotteryMessage}</div>}
+                                label={<div><img src={images.src + 'lottery.svg'}  className="lottery_type" />{lotteryMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'lottery_type' });
                                     this.props.history.push("/lottery_type/lottery");
