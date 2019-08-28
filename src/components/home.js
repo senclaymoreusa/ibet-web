@@ -21,9 +21,6 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import placeholdimage from '../images/handsomecat.jpg';
 
-
-//const API_URL = process.env.REACT_APP_REST_API;
-//const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
@@ -64,13 +61,8 @@ export class Home extends Component {
     }
     
 
-    this.props.authCheckState()
-    // axios.get(API_URL + 'operation/api/notice-message', config)
-    //   .then(res => {
-    //     //   console.log(res);
-    //     this.setState({ notices: res.data });
-    //   })
-
+  this.props.authCheckState()
+  
     var URL = API_URL + 'users/api/games/?term=game';
 
     await axios.get(URL, config)
@@ -134,19 +126,13 @@ export class Home extends Component {
 
     return (
       <div >
-        <TopNavbar style={{ zIndex: '100' }} />
-        {/* {noticeStr && <div style={{ overflowX: 'hidden', zIndex: 0 }}>
-          <Marquee >{noticeStr}</Marquee>
-        </div>} */}
-
+        <TopNavbar/>
         {
           this.state.ready &&
           <div className='top-title'>
             <FormattedMessage id="home.new" defaultMessage='New Games' />
           </div>
         }
-
-        
 
         <div className="cont">    
 

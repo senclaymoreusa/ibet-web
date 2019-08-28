@@ -175,7 +175,7 @@ class Change_Email extends Component {
         return (
             <div>
 
-                <TopNavbar style={{zIndex: '100'}} />
+                <TopNavbar />
                 
                 <form onSubmit={this.onFormSubmit} className='update-email-form'>
 

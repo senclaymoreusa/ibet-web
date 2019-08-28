@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TopNavbar from "./top_navbar";
 
 
-class PersonalDetails extends Component {
+class PlayerInbox extends Component {
 
     state = {
         data: {},
@@ -35,4 +35,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { authCheckState })(PersonalDetails);
+export default connect(mapStateToProps, { authCheckState })(PlayerInbox);

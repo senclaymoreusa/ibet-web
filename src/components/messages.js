@@ -105,7 +105,7 @@ export const messages = {
         'nav.games': 'Games',
         'nav.search': 'Search',
         'nav.profile': 'Profile',
-        'nav.login': 'Login',
+        'nav.signin': 'Sign in',
         'nav.logout': 'Logout',
         'nav.referral': 'Refer new user',
         'nav.placeholder': 'Search game...',
@@ -115,7 +115,7 @@ export const messages = {
         'nav.live-casino': 'Live Casino',
         'nav.slots': 'Slots',
         'nav.lottery': 'Lottery',
-        'nav.open-account': 'Open Account',
+        'nav.register': 'Register',
         'nav.live': 'Live',
         'nav.football': 'Football',
         'nav.basketball': 'Basketball',
@@ -133,7 +133,7 @@ export const messages = {
         'nav.other-games': 'Other Games',
         'nav.username': 'Username',
         'nav.password': 'Password',
-
+        'nav.hello': 'Hello',
 
         // handle login page message
         'login.username': 'USERNAME',
@@ -548,7 +548,7 @@ export const messages = {
         'nav.games': '遊戲',
         'nav.search': '搜索',
         'nav.profile': '個人資料',
-        'nav.login': '登入',
+        'nav.signin': '登入',
         'nav.logout': '登出',
         'nav.referral': '推荐新用户',
         'nav.placeholder': '搜尋遊戲...',
@@ -558,7 +558,7 @@ export const messages = {
         'nav.live-casino': '真人娱乐场',
         'nav.slots': '老虎机',
         'nav.lottery': '抽奖',
-        'nav.open-account': '开户口',
+        'nav.register': '寄存器',
         'nav.live': '生活',
         'nav.football': '足球',
         'nav.basketball': '篮球',
@@ -576,6 +576,7 @@ export const messages = {
         'nav.other-games': '其他游戏',
         'nav.username': '用戶名',
         'nav.password': '密码',
+        'nav.hello': '你好',
 
         // handle login page message
         'login.username': '用戶名: ',
@@ -1033,7 +1034,7 @@ export const messages = {
         'nav.games': 'Tous les jeux',
         'nav.search': 'Chercher',
         'nav.profile': 'Profil',
-        'nav.login': 'S\'identifier',
+        'nav.signin': 'Se connecter',
         'nav.logout': 'Connectez - Out',
         'nav.referral': 'Recommander de nouveaux utilisateurs',
         'nav.placeholder': 'Jeu de recherche...',
@@ -1043,7 +1044,7 @@ export const messages = {
         'nav.live-casino': 'Live Casino',
         'nav.slots': 'Machines à sous',
         'nav.lottery': 'Loterie',
-        'nav.open-account': 'Compte ouvert',
+        'nav.register': 'Registre',
         'nav.live': 'Vivre',
         'nav.football': 'Football',
         'nav.basketball': 'Basketball',
@@ -1060,7 +1061,7 @@ export const messages = {
         'nav.table-games': 'Jeux de table',
         'nav.other-games': 'D autres jeux',
         'nav.username': 'Nom d\'utilisateur',
-        'nav.password': 'Mot de passe',
+        'nav.hello': 'Bonjour',
 
         // handle login page message
         'login.username': 'Nom d\'utilisateur: ',
