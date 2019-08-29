@@ -34,7 +34,7 @@ import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password'
 import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
-import DepositSuccess from "./components/deposit_success"
+
 import WithdrawSuccess from "./components/withdraw_success"
 import DepositQaicah from './components/profile/banking/deposit/deposit_types/deposit_qaicash'
 import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay'
@@ -55,7 +55,7 @@ import DepositCirclepay from "./components/profile/banking/deposit/deposit_types
 import DepositPayzod from "./components/profile/banking/deposit/deposit_types/deposit_payzod"
 import DepositHelp2pay from "./components/profile/banking/deposit/deposit_types/deposit_help2pay"
 import DepositFgo from "./components/profile/banking/deposit/deposit_types/deposit_fgo"
-import DepositScratchCard from "./components/deposit_scratchcard"
+
 import Profile from "./components/profile/profile"
 
 const divStyle = {
@@ -115,12 +115,12 @@ const BaseRouter = () => (
     <Route exact path="/deposit_linepay/" component={DepositLinePay} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayQucikpay} />
     <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />
-    <Route exact path="/deposit/success/" component={DepositSuccess} />
+    {/* <Route exact path="/deposit/success/" component={DepositSuccess} /> */}
     <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
     <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
     <Route exact path="/deposit/payzod/" component={DepositPayzod} />
-    <Route exact path="/deposit/scratch_card/" component={DepositScratchCard} />
+    {/* <Route exact path="/deposit/scratch_card/" component={DepositScratchCard} /> */}
     <Route exact path="/deposit_fgo/" component={DepositFgo} />
     <Route exact path="/p/:type?/:sub?" component={Profile} />
 
