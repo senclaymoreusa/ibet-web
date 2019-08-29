@@ -189,6 +189,9 @@ export class DepositMethod extends Component {
                                 <Button className={classes.addButton} onClick={() => { this.depositWith("fgo") }}>
                                     FGO
                                 </Button>
+                                <Button className={classes.addButton} onClick={() => { this.depositWith("scratchcard") }}>
+                                    ScratchCard
+                                </Button>
                             </Grid>
                             <Grid item xs={12} className={classes.addPaymentTitleRow}>
                                 {addPaymentMethodTitle}

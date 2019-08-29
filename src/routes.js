@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Home from "./components/home";
 import Slot_Type from "./components/slot_type";
 import Sports_Type from "./components/sports_type";
@@ -34,9 +34,8 @@ import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password'
 import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
-import DepositSuccess from "./components/deposit_success"
+
 import WithdrawSuccess from "./components/withdraw_success"
-// import Board from './components/orion'
 import DepositQaicah from './components/profile/banking/deposit/deposit_types/deposit_qaicash'
 import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay'
 import DepositAsiapayBankcard from './components/profile/banking/deposit/deposit_types/deposit_asiapay_bankcard'
@@ -117,13 +116,13 @@ const BaseRouter = () => (
     <Route exact path="/deposit_linepay/" component={DepositLinePay} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayQucikpay} />
     <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />
-    <Route exact path="/deposit/success/" component={DepositSuccess} />
+    {/* <Route exact path="/deposit/success/" component={DepositSuccess} /> */}
     <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
     <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
     <Route exact path="/deposit/payzod/" component={DepositPayzod} />
+    {/* <Route exact path="/deposit/scratch_card/" component={DepositScratchCard} /> */}
     <Route exact path="/deposit_fgo/" component={DepositFgo} />
-    {/* <Route exact path="/orion/test/" component={Board} /> */}
     <Route exact path="/p/:type?/:sub?" component={Profile} />
 
   </div>
