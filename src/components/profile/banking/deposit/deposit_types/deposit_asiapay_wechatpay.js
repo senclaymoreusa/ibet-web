@@ -372,7 +372,7 @@ class DepositAsiapayWechatpay extends Component {
                             return res.json();
                         }).then(function (data) {
                             console.log(data.status)
-                            if (data.status === "000") {
+                            if (data.status === "001") {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',

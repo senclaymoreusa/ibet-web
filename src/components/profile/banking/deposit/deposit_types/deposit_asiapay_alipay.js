@@ -316,7 +316,7 @@ class DepositAsiapayAlipay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-
+        let userid = this.state.data.pk;
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -357,7 +357,7 @@ class DepositAsiapayAlipay extends Component {
                         clearInterval(timer);
                         var postData = {
                             "order_id": data.oid,
-                            "userid": "n" + this.state.data.pk,
+                            "userid": "n" + userid,
                             "CmdType": "01",
                         }
                         var formBody = [];
@@ -378,7 +378,7 @@ class DepositAsiapayAlipay extends Component {
                             return res.json();
                         }).then(function (data) {
                             console.log(data.status)
-                            if (data.status === "000") {
+                            if (data.status === "001") {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
@@ -397,7 +397,7 @@ class DepositAsiapayAlipay extends Component {
                                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                         } });
                             } else {
-                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
+                                currentComponent.props.callbackFromParent("error", "Transaction is not success.");
                             }
                         });
                     }

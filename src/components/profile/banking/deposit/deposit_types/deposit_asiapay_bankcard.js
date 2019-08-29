@@ -345,6 +345,8 @@ class DepositAsiapayBankcard extends Component {
     }
 
     handleClick = () => {
+        let currentComponent = this;
+        currentComponent.setState({ showLinearProgressBar: true });
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -369,11 +371,63 @@ class DepositAsiapayBankcard extends Component {
             },
             body: formBody
         }).then(function (res) {
+            currentComponent.setState({ showLinearProgressBar: false });
             return res.json();
         }).then(function (data) {
             let url = data.url;
             let order_id = data.order_id;
-            window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
+            const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
+            var timer = setInterval(function () {
+                    console.log('checking..')
+                    if (mywin.closed) {
+                        clearInterval(timer);
+                        var postData = {
+                            "order_id": data.oid,
+                            "userid": "n" + this.state.data.pk,
+                            "CmdType": "01",
+                        }
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
+
+                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: formBody
+                        }).then(function (res) {
+                            return res.json();
+                        }).then(function (data) {
+                            console.log(data.status)
+                            if (data.status === "001") {
+                                //alert('Transaction is approved.');
+                                const body = JSON.stringify({
+                                    type: 'add',
+                                    username: currentComponent.state.data.username,
+                                    balance: currentComponent.state.amount,
+                                });
+                                console.log(body)
+                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                    .then(res => {
+                                        if (res.data === 'Failed') {
+                                            //currentComponent.setState({ error: true });
+                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        } else if (res.data === "The balance is not enough") {
+                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                        } else {
+                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                        } });
+                            } else {
+                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
+                            }
+                        });
+                    }
+                }, 1000);
         });
     }
 
