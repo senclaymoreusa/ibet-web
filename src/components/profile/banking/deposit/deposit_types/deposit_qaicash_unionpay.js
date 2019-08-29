@@ -322,8 +322,6 @@ class DepositQaicashUnionpay extends Component {
         }).then(function (data) {
             let redirectUrl = data.paymentPageSession.paymentPageUrl
             console.log(redirectUrl)
-
-           
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-unionpay');
                 var timer = setInterval(function () {
