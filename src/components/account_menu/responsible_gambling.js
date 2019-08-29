@@ -1,21 +1,15 @@
 import React from 'react'; import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, show_account_menu, hide_responsible_gambling } from '../../actions';
-
-
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
 import Button from '@material-ui/core/Button';
-import { ReactComponent as BackIcon } from '../../assets/img/svg/account-menu-back.svg';
-
+import { images } from '../../util_config';
 
 import '../../css/account_menu.scss';
-
 
 const styles = theme => ({
     root: {
@@ -128,7 +122,7 @@ export class ResponsibleGambling extends React.Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                            <img src={images.src + 'account-menu-back.svg'} />
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.responsible-gaming" defaultMessage="Responsible Gaming" />
@@ -196,4 +190,4 @@ ResponsibleGambling.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage,show_account_menu, hide_responsible_gambling })(ResponsibleGambling))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_account_menu, hide_responsible_gambling })(ResponsibleGambling))));

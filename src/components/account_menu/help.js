@@ -1,18 +1,13 @@
 import React from 'react'; import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, show_account_menu, hide_help } from '../../actions';
-
-
+import { images } from '../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
 import Button from '@material-ui/core/Button';
-import { ReactComponent as BackIcon } from '../../assets/img/svg/account-menu-back.svg';
-
 
 import '../../css/account_menu.scss';
 
@@ -91,10 +86,6 @@ const styles = theme => ({
 
 export class Help extends React.Component {
 
-    handleMenuClose = (ev) => {
-        // this.setState({ this.props.showProfilePopper: false });
-    };
-
     backClicked = (event) => {
         this.props.show_account_menu();
         this.props.hide_help();
@@ -103,13 +94,12 @@ export class Help extends React.Component {
     render() {
         const { classes } = this.props;
 
-
         return (
             <div className={classes.root}>
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                        <img src={images.src + 'account-menu-back.svg'}/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.help" defaultMessage="Help" />
@@ -144,7 +134,6 @@ export class Help extends React.Component {
                                 </Grid>
                                 <Grid item xs={3} className={classes.gridRow}></Grid>
                                 <Grid item xs={12} className={classes.row}>
-
                                     <div className={classes.text}>
                                         <FormattedMessage id="footer.contact_support_text" defaultMessage="Our friendly customer service team is on hand to answer any questions you may have 24 hours a day, 7 days a week." />
                                     </div></Grid>

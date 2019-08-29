@@ -121,7 +121,6 @@ const BaseRouter = () => (
     <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
     <Route exact path="/deposit/payzod/" component={DepositPayzod} />
     <Route exact path="/deposit/scratch_card/" component={DepositScratchCard} />
-
     <Route exact path="/deposit_fgo/" component={DepositFgo} />
     <Route exact path="/p/:type?/:sub?" component={Profile} />
 

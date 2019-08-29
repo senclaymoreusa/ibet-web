@@ -1,26 +1,13 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl, FormattedNumber } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as PrevStepIcon } from '../../../../assets/img/svg/prev_step.svg';
-import { ReactComponent as NextStepIcon } from '../../../../assets/img/svg/next_step.svg';
-
-import { ReactComponent as SportIcon } from '../../../../assets/img/svg/soccer_in_analysis.svg';
-import { ReactComponent as SlotsIcon } from '../../../../assets/img/svg/slots_in_analysis.svg';
-import { ReactComponent as LiveCasinoIcon } from '../../../../assets/img/svg/casino_in_analysis.svg';
-
 import { Line } from 'react-chartjs-2';
-import { Chart } from 'react-chartjs-2';
-
-
 import { withStyles } from '@material-ui/core/styles';
-
 import axios from 'axios';
-import { config } from '../../../../util_config';
+import { config,images } from '../../../../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -311,7 +298,7 @@ export class MainAnalysis extends Component {
         d.setFullYear(month.getFullYear());
 
         var newMonth = d.getMonth() + 1;
-        if (newMonth == 12) {
+        if (newMonth === 12) {
             newMonth -= 12;
             d.setYear(d.getFullYear() + 1);
         }
@@ -357,14 +344,14 @@ export class MainAnalysis extends Component {
 
         const prevButton = (
             <Button className={classes.prevButton} onClick={this.goToPreviousMonth}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
                 <span className={classes.prevLabel}>{prevLabel}</span>
             </Button>);
 
         const nextButton = (
             <Button className={classes.nextButton} onClick={this.goToNextMonth} disabled={this.state.currentMonth.getMonth() === (new Date()).getMonth()}>
                 <span className={classes.nextLabel}>{nextLabel}</span>
-                <NextStepIcon />
+                <img src={images.src + 'next_step.svg'} />
             </Button>);
 
         let titleMessage = formatMessage({ id: "analysis.win_loss" });
@@ -407,7 +394,7 @@ export class MainAnalysis extends Component {
                 }
             ]
         };
-        
+
         const options = {
             legend: {
                 display: false,
@@ -418,11 +405,11 @@ export class MainAnalysis extends Component {
                         return data['datasets'][0]['data'][tooltipItem['index']];
                     },
                 },
-                titleFontSize:0,
+                titleFontSize: 0,
                 bodyFontSize: 20,
                 xPadding: 5,
                 yPadding: 2,
-                cornerRadius:3,
+                cornerRadius: 3,
                 backgroundColor: '#fff',
                 borderColor: '#32c5ff',
                 borderWidth: 1,
@@ -464,7 +451,7 @@ export class MainAnalysis extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonsCell}>
                         <Button className={classes.button} onClick={this.goToSportsDailyAnalysis}>
-                            <SportIcon />
+                            <img src={images.src + 'soccer_in_analysis.svg'} />
                             <div className={classes.buttonText}>
                                 {sportBetsMessage}
                             </div>
@@ -478,7 +465,7 @@ export class MainAnalysis extends Component {
                             </div>
                         </Button>
                         <Button className={classes.button} onClick={this.goToSlotsDailyAnalysis}>
-                            <SlotsIcon />
+                            <img src={images.src + 'slots_in_analysis.svg'} />
                             <div className={classes.buttonText}>
                                 {slotSpinsMessage}
                             </div>
@@ -492,7 +479,7 @@ export class MainAnalysis extends Component {
                             </div>
                         </Button>
                         <Button className={classes.button} onClick={this.goToCasinoDailyAnalysis}>
-                            <LiveCasinoIcon />
+                            <img src={images.src + 'casino_in_analysis.svg'} />
                             <div className={classes.buttonText}>
                                 {liveCasinoBetsMessage}
                             </div>

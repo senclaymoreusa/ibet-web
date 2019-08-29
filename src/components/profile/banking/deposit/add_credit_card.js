@@ -1,23 +1,13 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
 import InputMask from 'react-input-mask';
 import InputAdornment from '@material-ui/core/InputAdornment';
-
-import { ReactComponent as BankIcon } from '../../../../assets/img/svg/bank-icon-black.svg';
-import { ReactComponent as PaypalIcon } from '../../../../assets/img/svg/paypal.svg';
-import { ReactComponent as VisaIcon } from '../../../../assets/img/svg/visa-blue.svg';
-import { ReactComponent as MastercardIcon } from '../../../../assets/img/svg/master-card.svg';
-
-import { ReactComponent as PrevStepIcon } from '../../../../assets/img/svg/prev_step.svg';
-import { ReactComponent as CvvIcon } from '../../../../assets/img/svg/card-cvv.svg';
-
+import { images } from '../../../../util_config';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
@@ -344,7 +334,7 @@ export class AddCreditCard extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+             <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (
@@ -364,10 +354,10 @@ export class AddCreditCard extends Component {
                         <Grid container>
                             <Grid item xs={3} className={classes.cardTypeCell}>
                                 <Button className={classes.cardTypeButton} disabled>
-                                    {cardType === 'visa' && <VisaIcon />}
-                                    {cardType === 'mastercard' && <MastercardIcon />}
-                                    {cardType === 'bankaccount' && <BankIcon />}
-                                    {cardType === 'paypal' && <PaypalIcon />}
+                                    {cardType === 'visa' &&  <img src={images.src + 'visa-blue.svg'} />}
+                                    {cardType === 'mastercard' && <img src={images.src + 'master-card.svg'} />}
+                                    {cardType === 'bankaccount' && <img src={images.src + 'bank-icon-black.svg'} />}
+                                    {cardType === 'paypal' && <img src={images.src + 'paypal.svg'} />}
 
                                 </Button>
                             </Grid>
@@ -447,7 +437,7 @@ export class AddCreditCard extends Component {
                                         helperText={(this.state.cvvInvalid && this.state.cvvFocused) ? 'Invalid code' : ' '}
                                         InputProps={{
                                             disableUnderline: true,
-                                            endAdornment: <InputAdornment position="end"><CvvIcon /></InputAdornment>,
+                                            endAdornment: <InputAdornment position="end"><img src={images.src + 'card-cvv.svg'} /></InputAdornment>,
                                         }}
                                     />}
                                 </InputMask>
