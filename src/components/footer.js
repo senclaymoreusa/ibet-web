@@ -10,7 +10,6 @@ import Paper from '@material-ui/core/Paper';
 import Flag from 'react-flagkit';
 import Grid from '@material-ui/core/Grid';
 import { FormattedMessage } from 'react-intl';
-
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Link from '@material-ui/core/Link';
@@ -18,12 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/MenuList';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-
-import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
-import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
-import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
-import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
-import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
+import { images } from '../util_config';
 
 const styles = theme => ({
   root: {
@@ -266,28 +260,28 @@ export class Footer extends React.Component {
       <div className={classes.footer_menu_container}>
         <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
           onClick={() => { this.props.history.push("/sports_type") }}>
-          <SoccerIcon className="soccer" />
+          <img src={images.src + 'soccer.svg'} className="soccer" />
           <span className="Sports">
             <FormattedMessage id="nav.sports" defaultMessage='Sports' />
           </span>
         </Button>
         <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
           onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
-          <BetIcon className="bet" />
+          <img src={images.src + 'bet.svg'} className="bet" />
           <span className="Live-Casino">
             <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
           </span>
         </Button>
         <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
           onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
-          <SlotsIcon className="games-icon" />
+          <img src={images.src + 'slots.svg'} className="games-icon" />
           <span className="Slots">
             <FormattedMessage id="nav.slots" defaultMessage='Slots' />
           </span>
         </Button>
         <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
           onClick={() => { this.props.history.push("/lottery_type") }}>
-          <LotteryIcon className="lottery" />
+          <img src={images.src + 'lottery.svg'} className="lottery" />
           <span className="Lottery">
             <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
           </span>
@@ -300,7 +294,7 @@ export class Footer extends React.Component {
         <Grid container>
           <Grid item xs={12} sm={9} md={9} lg={9}>
             <IconButton href='/'>
-              <IbetLogo />
+              <img src={images.src + 'ibet_logo.svg'} />
             </IconButton>
             <div>
               {FooterMenu}

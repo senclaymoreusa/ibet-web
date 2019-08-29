@@ -1,32 +1,25 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-
-
 import { connect } from 'react-redux';
-import { hide_deposit, show_deposit_confirm, show_deposit_paypal, show_withdraw, show_account_menu, show_deposit_success } from '../actions';
-import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
-import wechat from '../images/WeChat.png';
+import {
+    hide_deposit,
+    show_deposit_confirm,
+    show_deposit_paypal,
+    show_withdraw,
+    show_account_menu,
+    show_deposit_success
+} from '../actions';
 import Paper from '@material-ui/core/Paper';
-
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
-import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import { FormattedMessage } from 'react-intl';
 import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
 import InputBase from '@material-ui/core/InputBase';
-import TextField from '@material-ui/core/TextField';
 import NumberFormat from 'react-number-format';
-
-
-import Right from '@material-ui/icons/ChevronRight';
-import { ReactComponent as Paypal } from '../assets/img/svg/paypal.svg';
-import { ReactComponent as BackIcon } from '../assets/img/svg/account-menu-back.svg';
+import { images } from '../util_config';
 
 const styles = theme => ({
     root: {
@@ -250,9 +243,7 @@ class New_Deposit extends Component {
             amount: 0,
         }
 
-        
         this.continueClicked = this.continueClicked.bind(this);
-
     }
 
     backClicked = (event) => {
@@ -275,22 +266,13 @@ class New_Deposit extends Component {
 
     continueClicked = (event) => {
 
-        const depositInfo = { 
+        const depositInfo = {
             'depositAmount': this.state.amount,
             'depositAccount': this.state.account,
-     };
+        };
 
         this.setState(depositInfo);
         this.props.onChange(depositInfo);
-
-        // if (this.state.account === "PayPal") {
-        //     this.props.hide_deposit();
-        //     this.props.show_deposit_paypal();
-        // } else if (this.state.account === "WeChat") {
-        //     this.props.hide_deposit();
-        //     this.props.show_deposit_amount();
-        // }
-
         this.props.hide_deposit();
         this.props.show_deposit_confirm();
     }
@@ -304,7 +286,7 @@ class New_Deposit extends Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} md={6} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                            <img src={images.src + 'account-menu-back.svg'} />
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />
@@ -340,23 +322,6 @@ class New_Deposit extends Component {
                     <Grid item xs={12}>
                         <Paper className={classes.depositAmountPaper}>
                             <span className={classes.availableValue}>$392 Available</span>
-                            {/* <TextField
-                                id="amount"
-                                className={classes.amountText}
-                                type="number"
-                                value={this.state.amount}
-                                onChange={this.amountChanged}
-                                onFocus={this.amountFocused}
-                                // autoFocus
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                InputProps={{
-                                    classes: {
-                                        input: classes.amountInput,
-                                    },
-                                }}
-                            /> */}
                             <NumberFormat thousandSeparator={true}
                                 prefix={'$'}
                                 className={classes.amountInput}
@@ -371,42 +336,6 @@ class New_Deposit extends Component {
                             onClick={this.continueClicked}>Continue</Button>
                     </Grid>
                 </Grid>
-
-                {/* <Paper
-                    className="row" style={{ height: 80, width: 320, paddingTop: 10, paddingLeft: 20, marginLeft: 30, marginTop: 10, cursor: 'pointer' }}
-                    onClick={() => {
-                        this.props.hide_deposit();
-                        this.props.show_deposit_amount();
-                    }}
-                >
-                    <img style={{ marginTop: 5 }} src={wechat} height="50" width="50" alt='Not available' />
-                    <div style={{ marginTop: 20, marginLeft: 30 }}>
-                        WeChat
-                    </div>
-                    <div style={{ marginTop: 18, marginLeft: 100 }}>
-                        <Right />
-                    </div>
-                </Paper>
-
-
-                <Paper
-                    className="row" style={{ height: 80, width: 320, paddingTop: 10, paddingLeft: 20, marginLeft: 30, marginTop: 10, cursor: 'pointer' }}
-                    onClick={() => {
-                        this.props.hide_deposit();
-                        this.props.show_deposit_paypal();
-                    }}
-                >
-                    <div style={{ marginTop: 5 }}>
-                        <Paypal style={{ height: 50, width: 60 }} />
-                    </div>
-                    <div style={{ marginTop: 20, marginLeft: 20 }}>
-                        PayPal
-                    </div>
-                    <div style={{ marginTop: 18, marginLeft: 100 }}>
-                        <Right />
-                    </div>
-                </Paper> */}
-
             </div>
         )
     }

@@ -12,7 +12,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { errors } from './errors';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
     AUTH_RESULT_SUCCESS,
@@ -57,11 +57,7 @@ import Tab from '@material-ui/core/Tab';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
-import { ReactComponent as IbetLogo } from '../assets/img/svg/ibet_logo.svg';
-import { ReactComponent as BetIcon } from '../assets/img/svg/bet.svg';
-import { ReactComponent as SlotsIcon } from '../assets/img/svg/slots.svg';
-import { ReactComponent as LotteryIcon } from '../assets/img/svg/lottery.svg';
-import { ReactComponent as SoccerIcon } from '../assets/img/svg/soccer.svg';
+import Flag from 'react-flagkit';
 
 import Login from './login_2.js';
 import Signup from './signup_2.js';
@@ -87,7 +83,7 @@ import Forget_Password_Validation from './forget_password_validation';
 import Refer_User from './refer_user';
 
 import axios from 'axios';
-import { config } from '../util_config';
+import { config, images } from '../util_config';
 
 import '../css/top_navbar.scss';
 
@@ -465,6 +461,14 @@ const styles = theme => ({
         '&:hover': {
             fillRule: '#fe0000',
         }
+    },
+    separator: {
+        width: 1.6,
+        height: 25,
+        marginTop: 20,
+        opacity: 1,
+        marginLeft: 10,
+        backgroundColor: '#212121',
     },
     subMenu: {
         backgroundColor: '#dedede',
@@ -1030,7 +1034,7 @@ export class TopNavbar extends React.Component {
                                 </Drawer>
                             </div>
                             <IconButton href='/' className={classes.logoButton}>
-                                <IbetLogo />
+                                <img src={images.src + 'ibet_logo.svg'} />
                             </IconButton>
                             <div className={classes.grow} />
                             {
@@ -1120,7 +1124,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="sports_type"
-                                label={<div><SoccerIcon className="soccer" />{sportsMessage}</div>}
+                                label={<div> <img src={images.src + 'soccer.svg'}  className="soccer" />{sportsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'sports_type' });
                                     this.props.history.push("/sports_type/sports");
@@ -1128,7 +1132,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="liveCasino_type"
-                                label={<div><BetIcon className="bet" />{liveCasinoMessage}</div>}
+                                label={<div><img src={images.src + 'bet.svg'} className="bet" />{liveCasinoMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'liveCasino_type' });
                                     this.props.history.push("/liveCasino_type/live-casino/all");
@@ -1136,7 +1140,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="slot_type"
-                                label={<div><SlotsIcon className="games-icon" />{slotsMessage}</div>}
+                                label={<div><img src={images.src + 'slots.svg'}  className="games-icon" />{slotsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'liveCasino_type' });
                                     this.props.history.push("/slot_type/slots/all");
@@ -1144,7 +1148,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value='lottery_type'
-                                label={<div><LotteryIcon className="lottery_type" />{lotteryMessage}</div>}
+                                label={<div><img src={images.src + 'lottery.svg'}  className="lottery_type" />{lotteryMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'lottery_type' });
                                     this.props.history.push("/lottery_type/lottery");

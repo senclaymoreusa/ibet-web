@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -12,9 +10,6 @@ import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-
 
 var QRCode = require('qrcode.react');
 
@@ -288,7 +283,7 @@ class DepositAsiapayUnionpay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 4000 || parseInt(event.target.value) < 100) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 4000 || parseInt(event.target.value) < 100) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -331,13 +326,13 @@ class DepositAsiapayUnionpay extends Component {
             },
             body: formBody
         }).then(function (res) {
-           
+
             if (res.statuscode)
                 return res.json();
         }).then(function (data) {
             let myqr = data.qr;
 
-            if (data.code == 'ERROR') {
+            if (data.code === 'ERROR') {
                 currentComponent.props.callbackFromParent("error", data.message);
             } else {
                 currentComponent.setState({ value: myqr, show_qrcode: true })
@@ -361,7 +356,7 @@ class DepositAsiapayUnionpay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (

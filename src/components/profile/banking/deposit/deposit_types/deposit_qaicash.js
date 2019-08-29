@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -322,7 +318,7 @@ class DepositQaicah extends Component {
             let redirectUrl = data.paymentPageSession.paymentPageUrl
             console.log(redirectUrl)
 
-           
+
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Wechatpay', 'height=500,width=500');
                 var timer = setInterval(function () {
@@ -367,7 +363,8 @@ class DepositQaicah extends Component {
                                             currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                         } else {
                                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
+                                        }
+                                    });
                             } else {
                                 currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
                             }
@@ -393,7 +390,7 @@ class DepositQaicah extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (

@@ -5,9 +5,7 @@ import { authCheckState } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as CompleteIcon } from '../../../../assets/img/svg/complete-icon.svg';
-
+import { images } from '../../../../util_config';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -79,21 +77,21 @@ const styles = theme => ({
         alignItems: 'center',
         paddingTop: 64,
     },
-    completeCell:{
+    completeCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         paddingTop: 50,
-        paddingBottom:50,
+        paddingBottom: 50,
     },
-    successRow:{
+    successRow: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor:'#eaeaea',
-        height:170,
+        backgroundColor: '#eaeaea',
+        height: 170,
     },
-    successText:{
+    successText: {
         fontSize: 40,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -102,10 +100,10 @@ const styles = theme => ({
         letterSpacing: 'normal',
         textAlign: 'center',
         color: '#292929',
-        display:'inline-block',
-        marginTop:44,
+        display: 'inline-block',
+        marginTop: 44,
     },
-    successDesc:{
+    successDesc: {
         fontSize: 24,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -114,8 +112,8 @@ const styles = theme => ({
         letterSpacing: 'normal',
         textAlign: 'center',
         color: '#212121',
-        display:'inline-block',
-marginTop:19
+        display: 'inline-block',
+        marginTop: 19
     }
 });
 
@@ -152,13 +150,13 @@ export class DepositSuccess extends Component {
                         <span className={classes.title}>Deposit</span>
                     </Grid>
                     <Grid item xs={12} className={classes.completeCell}>
-                        <CompleteIcon/>
+                        <img src={images.src + 'complete-icon.svg'} />
                     </Grid>
                     <Grid item xs={12} className={classes.successRow}>
-                       <span className={classes.successText}>Successful!</span>
+                        <span className={classes.successText}>Successful!</span>
 
-                       <span className={classes.successDesc}>
-                        Deposit {successMessage} completed
+                        <span className={classes.successDesc}>
+                            Deposit {successMessage} completed
                        </span>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>

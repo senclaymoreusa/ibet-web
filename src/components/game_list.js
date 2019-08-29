@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
 import TopNavbar from "./top_navbar";
 import { game_detail } from '../actions';
 import { config } from '../util_config';
