@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
-import { connect,images } from 'react-redux';
+import { config, images} from '../../../../../util_config';
+import { connect } from 'react-redux';
 
 // Material-UI
 import TextField from '@material-ui/core/TextField';
