@@ -11,8 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { images } from '../../../../../util_config';
 
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -394,7 +394,7 @@ class DepositQaicashBTC extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (

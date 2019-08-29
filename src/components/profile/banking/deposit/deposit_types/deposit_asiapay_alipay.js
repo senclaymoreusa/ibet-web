@@ -12,8 +12,8 @@ import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
+import { images } from '../../../../../util_config';
+//import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
 
 
 var QRCode = require('qrcode.react');
@@ -382,7 +382,7 @@ class DepositAsiapayAlipay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (

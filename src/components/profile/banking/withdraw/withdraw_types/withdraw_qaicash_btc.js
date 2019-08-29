@@ -13,7 +13,7 @@ import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
+import { images } from '../../../../../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -383,7 +383,7 @@ class WithdrawQaicashBTC extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (
