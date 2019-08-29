@@ -317,6 +317,7 @@ class DepositAsiapayWechatpay extends Component {
             "PayWay": "30", //qrcode
             "method": "38", //wechat
         }
+        console.log(this.state.data.pk)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -331,33 +332,35 @@ class DepositAsiapayWechatpay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            if (res.ok) {
-                return res.text();
-            }
-            //alert("渠道维护中");
-            
+            console.log(res);
+
             currentComponent.setState({ showLinearProgressBar: false });
-            currentComponent.props.callbackFromParent("error", "渠道维护中");
 
             
-            throw new Error('Something went wrong.');
+            return res.json();
 
         }).then(function (data) {
             console.log(data)
-            let myqr = data.qr;
-
-            if (data.code == 'ERROR') {
-                // alert(data.message);
-                currentComponent.props.callbackFromParent("error", data.message);
-            } else {
-                currentComponent.setState({ value: myqr, show_qrcode: true })
+            let qrurl = data.qr;
+            console.log(qrurl)
+            if(qrurl != null){
+                window.open(qrurl, 'asiapay-alipay')
+                
             }
+            // console.log(data)
+            // let myqr = data.qr;
 
-            currentComponent.setState({ showLinearProgressBar: true });
+            // if (data.code == 'ERROR') {
+            //     // alert(data.message);
+            //     currentComponent.props.callbackFromParent("error", data.message);
+            // } else {
+            //     currentComponent.setState({ value: myqr, show_qrcode: true })
+            // }
+
+            // currentComponent.setState({ showLinearProgressBar: true });
 
         }).catch(function (error) {                        // catch
             console.log('Request failed', error);
-
             currentComponent.props.callbackFromParent("error", error.message);
         });
     }

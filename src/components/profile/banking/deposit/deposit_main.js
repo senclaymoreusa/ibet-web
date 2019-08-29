@@ -21,7 +21,7 @@ import DepositPaypal from './deposit_types/deposit_paypal';
 import DepositAsiapayQucikpay from './deposit_types/deposit_asiapay_kuaijie';
 import DepositAsiapayUnionpay from './deposit_types/deposit_asiapay_unionpay';
 import DepositAsiapayWechatpay from './deposit_types/deposit_asiapay_wechatpay';
-
+import DepositQaicashBTC from './deposit_types/deposit_qaicash_btc';
 import DepositCirclepay from './deposit_types/deposit_circlepay';
 import DepositPayzod from './deposit_types/deposit_payzod';
 import DepositHelp2pay from './deposit_types/deposit_help2pay';
@@ -76,6 +76,7 @@ export class DepositMain extends Component {
                 {contentValue === 'qaicash_alipay' && <DepositQaicashAlipay callbackFromParent={this.setPage} />}
                 {contentValue === 'qaicash_bankTrans' && <DepositQaicashBT callbackFromParent={this.setPage} />}
                 {contentValue === 'qaicash_unionpay' && <DepositQaicashUnionpay callbackFromParent={this.setPage} />}
+                {contentValue === 'qaicash_btc' && <DepositQaicashBTC callbackFromParent={this.setPage} />}
                 {contentValue === 'paypal' && <DepositPaypal callbackFromParent={this.setPage} />}
                 {contentValue === 'asia_quickpay' && <DepositAsiapayQucikpay callbackFromParent={this.setPage} />}
                 {contentValue === 'asia_wechatpay' && <DepositAsiapayWechatpay callbackFromParent={this.setPage} />}

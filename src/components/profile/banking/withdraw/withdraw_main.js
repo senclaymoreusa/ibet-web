@@ -12,7 +12,8 @@ import WithdrawMethod from './withdraw_method';
 import AddCreditCard from './add_credit_card';
 import WithdrawAmount from './withdraw_amount';
 import WithdrawQaicashLBT from './withdraw_types/withdraw_qaicash_lbt';
-
+import WithdrawQaicashBTC from './withdraw_types/withdraw_qaicash_btc';
+import WithdrawAsiapayBT from './withdraw_types/withdraw_asiapay_bt';
 const styles = theme => ({
     root: {
         width: '100%',
@@ -63,7 +64,8 @@ export class WithdrawMain extends Component {
                 {contentValue === 'add_credit_card' && <AddCreditCard callbackFromParent={this.setPage} cardType={this.state.creditCardType} />}
                 {contentValue === 'withdraw_amount' && <WithdrawAmount callbackFromParent={this.setPage} />}
                 {contentValue === 'qaicash_lbt' && <WithdrawQaicashLBT callbackFromParent={this.setPage} />}
-
+                {contentValue === 'qaicash_btc' && <WithdrawQaicashBTC callbackFromParent={this.setPage} />}
+                {contentValue === 'asiapay_bankTransfer' && <WithdrawAsiapayBT callbackFromParent={this.setPage} />}
                 {contentValue === 'success' && <WithdrawSuccess callbackFromParent={this.setPage} successMessage={this.state.withdrawMessage} />}
                 {contentValue === 'error' && <WithdrawError callbackFromParent={this.setPage} errorMessage={this.state.withdrawMessage} />}
             </div>

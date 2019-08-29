@@ -314,9 +314,9 @@ class DepositQaicashBT extends Component {
             amountInvalid: true,
 
             firstOption: 100,
-            secondOption: 200,
-            thirdOption: 500,
-            fourthOption: 900,
+            secondOption: 500,
+            thirdOption: 1000,
+            fourthOption: 10000,
             currencyValue: "USD",
             showLinearProgressBar: false,
         };
@@ -370,7 +370,7 @@ class DepositQaicashBT extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 900 || parseInt(event.target.value) < 100) {
+        if (event.target.value.length == 0 || parseInt(event.target.value) > 100000 || parseInt(event.target.value) < 100) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -558,7 +558,7 @@ class DepositQaicashBT extends Component {
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit 100 - 900"
+                                        placeholder="Deposit 100 - 100,000"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={this.state.amountInvalid && this.state.amountFocused}
@@ -571,7 +571,7 @@ class DepositQaicashBT extends Component {
                                         inputProps={{
                                             step: 10,
                                             min: 100,
-                                            max: 900
+                                            max: 100000,
                                         }}
                                         inputRef={this.amountInput}
                                     />

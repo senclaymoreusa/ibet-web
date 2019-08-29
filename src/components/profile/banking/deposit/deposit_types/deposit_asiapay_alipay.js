@@ -338,26 +338,31 @@ class DepositAsiapayAlipay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            if (res.ok) {
-                return res.text();
-            }
-            //alert("渠道维护中");
+            console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
-            currentComponent.props.callbackFromParent("error", "渠道维护中");
 
-            //throw new Error('Something went wrong.');
+            
+            return res.json();
+            
         }).then(function (data) {
+            console.log(data)
             let qrurl = data.qr;
-            if (data.code == 'ERROR') {
-                currentComponent.props.callbackFromParent("error", data.message);
-            } else {
-                currentComponent.setState({ value: qrurl, show_qrcode: true });
+            console.log(qrurl)
+            if(qrurl != null){
+                window.open(qrurl, 'asiapay-alipay')
+                
             }
+            // if (data.code == 'ERROR') {
+            //     currentComponent.props.callbackFromParent("error", data.message);
+            // } 
+            // // else if(data.code == 'SUCCESS'){
+            // //     currentComponent.setState({ value: qrurl, show_qrcode: true });
+            // // }
 
-            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+            // currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
 
-            currentComponent.setState({ showLinearProgressBar: false });
+            // currentComponent.setState({ showLinearProgressBar: false });
 
         }).catch(function (error) {                        // catch
             console.log('Request failed', error);

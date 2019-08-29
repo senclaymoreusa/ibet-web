@@ -331,19 +331,29 @@ class DepositAsiapayUnionpay extends Component {
             },
             body: formBody
         }).then(function (res) {
-           
-            if (res.statuscode)
-                return res.json();
-        }).then(function (data) {
-            let myqr = data.qr;
-
-            if (data.code == 'ERROR') {
-                currentComponent.props.callbackFromParent("error", data.message);
-            } else {
-                currentComponent.setState({ value: myqr, show_qrcode: true })
-            }
+           console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
+
+            
+            return res.json();
+        }).then(function (data) {
+            console.log(data)
+            let qrurl = data.qr;
+            console.log(qrurl)
+            if(qrurl != null){
+                window.open(qrurl, 'asiapay-alipay')
+                
+            }
+            // let myqr = data.qr;
+
+            // if (data.code == 'ERROR') {
+            //     currentComponent.props.callbackFromParent("error", data.message);
+            // } else {
+            //     currentComponent.setState({ value: myqr, show_qrcode: true })
+            // }
+
+            // currentComponent.setState({ showLinearProgressBar: false });
 
         }).catch(error => {
             currentComponent.props.callbackFromParent("error", error.returnMessage);

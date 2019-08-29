@@ -229,10 +229,10 @@ class DepositAsiapayJDPay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 100,
-            secondOption: 200,
-            thirdOption: 500,
-            fourthOption: 1000,
+            firstOption: 200,
+            secondOption: 400,
+            thirdOption: 600,
+            fourthOption: 900,
             currencyValue: "USD",
             showLinearProgressBar: false,
         };
@@ -287,7 +287,7 @@ class DepositAsiapayJDPay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 900 || parseInt(event.target.value) < 100) {
+        if (event.target.value.length == 0 || parseInt(event.target.value) > 900 || parseInt(event.target.value) < 200) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -332,25 +332,30 @@ class DepositAsiapayJDPay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            if (res.ok) {
-                return res.text();
-            }
+            console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
 
-            // alert("渠道维护中");
-            // throw new Error('Something went wrong.');
-            currentComponent.props.callbackFromParent("error", "渠道维护中");
+            
+            return res.json();
+
 
         }).then(function (data) {
-            currentComponent.setState({ qr: data.qr });
-            currentComponent.setState({ showLinearProgressBar: false });
-
-            if (data.code == 'ERROR') {
-                alert(data.message);
-            } else {
-                currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
+            console.log(data)
+            let qrurl = data.qr;
+            console.log(qrurl)
+            if(qrurl != null){
+                window.open(qrurl, 'asiapay-alipay')
+                
             }
+            // currentComponent.setState({ qr: data.qr });
+            // currentComponent.setState({ showLinearProgressBar: false });
+
+            // if (data.code == 'ERROR') {
+            //     alert(data.message);
+            // } else {
+            //     currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
+            // }
         }).catch(function (error) {
             currentComponent.setState({ showLinearProgressBar: false });
 
@@ -426,7 +431,7 @@ class DepositAsiapayJDPay extends Component {
                                         type="number"
                                         inputProps={{
                                             step: 10,
-                                            min: 100,
+                                            min: 200,
                                             max: 900
                                         }}
                                         inputRef={this.amountInput}
