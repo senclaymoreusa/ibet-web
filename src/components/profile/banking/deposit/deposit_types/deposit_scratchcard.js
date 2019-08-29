@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
 
 // Material-UI
 import { withStyles } from '@material-ui/core/styles';
 import { LinearProgress, Grid, Button, Select, MenuItem, TextField, InputBase } from '@material-ui/core';
 import InputMask from 'react-input-mask';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
 
 import { authCheckState } from '../../../../../actions';
 
@@ -552,7 +550,7 @@ class DepositScratchCard extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (

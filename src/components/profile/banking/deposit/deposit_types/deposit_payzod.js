@@ -324,7 +324,7 @@ class DepositPayzod extends Component {
         const { classes } = this.props;
 
         const { formatMessage } = this.props.intl;
-        const { showLinearProgressBar } = this.state;
+        const { showLinearProgressBar, qr_code } = this.state;
 
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
         let continueMessage = formatMessage({ id: 'deposit.continue' });
