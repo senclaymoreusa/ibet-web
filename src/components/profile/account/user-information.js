@@ -330,7 +330,7 @@ class UserInformation extends Component {
                         </Button>
                     </Grid>
                 </Grid>
-                {/* <Snackbar
+                <Snackbar
                         anchorOrigin={{
                             vertical: 'top',
                             horizontal: 'center',
@@ -362,7 +362,7 @@ class UserInformation extends Component {
                                     <CloseIcon />
                                 </IconButton>,
                             ]}
-                        /></Snackbar> */}
+                        /></Snackbar>
             </div >
         )
     }
