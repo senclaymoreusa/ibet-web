@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -12,10 +10,6 @@ import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InputMask from 'react-input-mask';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-import { ReactComponent as CvvIcon } from '../../../../../assets/img/svg/card-cvv.svg';
-
 import { authCheckState } from '../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -362,7 +356,7 @@ class DepositAstropay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 10) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 10) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -426,7 +420,7 @@ class DepositAstropay extends Component {
         this.setState({ cvv: event.target.value });
         this.setState({ cvvFocused: true });
 
-        this.setState({ cvvInvalid: (event.target.value.length < 4 || !event.target.value ) });
+        this.setState({ cvvInvalid: (event.target.value.length < 4 || !event.target.value) });
     }
 
     cvvFocused(event) {
@@ -435,7 +429,7 @@ class DepositAstropay extends Component {
 
     async handleClick(event) {
         event.preventDefault();
-       
+
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -483,7 +477,7 @@ class DepositAstropay extends Component {
 
     render() {
         const { classes } = this.props;
-       
+
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
 
@@ -493,7 +487,7 @@ class DepositAstropay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (
@@ -574,7 +568,7 @@ class DepositAstropay extends Component {
                                             helperText={(this.state.cvvInvalid && this.state.cvvFocused) ? 'Invalid code' : ' '}
                                             InputProps={{
                                                 disableUnderline: true,
-                                                endAdornment: <InputAdornment position="end"><CvvIcon /></InputAdornment>,
+                                                endAdornment: <InputAdornment position="end"><img src={images.src + 'card-cvv.svg'} /></InputAdornment>,
                                             }}
                                         />}
                                     </InputMask>

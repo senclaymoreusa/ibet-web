@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -12,8 +10,6 @@ import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -330,7 +326,7 @@ class WithdrawQaicashLBT extends Component {
                             return res.json();
                         }).then(function (data) {
                             let status = data.status;
-                            if (status == 'HELD') {
+                            if (status === 'HELD') {
                                 alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'withdraw',
@@ -354,7 +350,7 @@ class WithdrawQaicashLBT extends Component {
                                             // window.location.reload()
                                         }
                                     });
-                            } else if (status == 'PENDING') {
+                            } else if (status === 'PENDING') {
                                 currentComponent.props.callbackFromParent("error", 'Please complete your withdraw payment!');
                                 //alert('Please complete your withdraw payment!');
                             }
@@ -382,7 +378,7 @@ class WithdrawQaicashLBT extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (
@@ -461,8 +457,6 @@ class WithdrawQaicashLBT extends Component {
             </div>
         )
     }
-
-
 }
 
 const mapStateToProps = (state) => {

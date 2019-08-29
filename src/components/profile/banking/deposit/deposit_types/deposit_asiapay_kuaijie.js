@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -266,7 +261,7 @@ class DepositAsiapayQucikpay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 3000 || parseInt(event.target.value) < 100) {
+        if (event.target.value.length===0 || parseInt(event.target.value) > 3000 || parseInt(event.target.value) < 100) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -320,7 +315,7 @@ class DepositAsiapayQucikpay extends Component {
 
             currentComponent.setState({ showLinearProgressBar: false });
 
-            
+
             return res.json();
         }).then(function (data) {
             currentComponent.setState({ showLinearProgressBar: false });
@@ -344,7 +339,7 @@ class DepositAsiapayQucikpay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (

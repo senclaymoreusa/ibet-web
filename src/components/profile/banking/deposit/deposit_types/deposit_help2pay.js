@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
-import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
+import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-
 import { authCheckState } from '../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
 
 const bank_options = [
     //tailand
@@ -418,7 +413,7 @@ class DepositHelp2pay extends Component {
             if (res.ok) {
                 return res.text();
             }
-            
+
             currentComponent.setState({ showLinearProgressBar: false });
             currentComponent.props.callbackFromParent("error", "渠道维护中");
 
@@ -459,7 +454,7 @@ class DepositHelp2pay extends Component {
 
                         currentComponent.setState({ showLinearProgressBar: false });
 
-                        if (data == '0') {
+                        if (data === '0') {
                             currentComponent.setState({ showLinearProgressBar: true });
 
                             const body = JSON.stringify({
@@ -509,7 +504,7 @@ class DepositHelp2pay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (
@@ -619,7 +614,7 @@ class DepositHelp2pay extends Component {
                                 <Grid item xs={12} className={classes.buttonCell}>
                                     <Button className={classes.continueButton}
                                         onClick={this.handleClick}
-                                        disabled={this.state.amountInvalid || this.state.selectedBankOption == 'none' || this.state.selectedCurrencyOption == 'none'}
+                                        disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.selectedCurrencyOption == 'none'}
                                     >{continueMessage}</Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.backButtonCell}>

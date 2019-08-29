@@ -2,20 +2,14 @@ import React, { Component } from 'react';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-import TopNavbar from "../../../../top_navbar";
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 console.log("Process.env is");
@@ -389,7 +383,7 @@ class DepositLinePay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
@@ -481,64 +475,6 @@ class DepositLinePay extends Component {
                     </Grid>
                 </form>
             </div>
-            // <div>
-            //     <form className="deposit-form" id="deposit_form">
-            //         <p>How much do you want to deposit? {depositAmount}</p>
-            //         <input
-            //             type="text"
-            //             value={depositAmount || ''}
-            //             placeholder="Enter Amount"
-            //             name="deposit_amount"
-            //             onChange={this.handleChange}
-            //             className="input-deposit-amount"
-            //         />
-            //         <br />
-            //         <FormattedMessage className="min-max" id="deposit_prompt" defaultMessage={"Min: " + MIN_DEPOSIT + " " + CURRENCY} />
-            //         <FormattedMessage className="min-max" id="deposit_prompt" defaultMessage={"Max: " + MAX_DEPOSIT + " " + CURRENCY} />
-            //         {
-            //             live_check_amount ?
-            //                 <div style={{ color: 'red' }}>
-            //                     <FormattedMessage id="amount.error" defaultMessage={"Invalid deposit amount!"} />
-            //                 </div>
-            //                 :
-            //                 <div></div>
-            //         }
-            //         {
-            //             showError ?
-            //                 <div style={{ color: 'red' }}>
-            //                     <FormattedMessage id="amount.error" defaultMessage={"Error: " + errorMsg} />
-            //                 </div>
-            //                 :
-            //                 <div></div>
-            //         }
-            //     </form>
-            //     <div id="quick-deposit" className="deposit-form">
-            //         {this.renderAmtButton(200)}
-            //         {this.renderAmtButton(500, "primary")}
-            //         {this.renderAmtButton(1000, "primary")}
-            //         {this.renderAmtButton(2500, "secondary")}
-            //         {this.renderAmtButton(5000, "secondary")}
-            //     </div>
-            //     <div className="deposit-form" id="submit-amount">
-            //         {/* <p>Select payment method:</p> */}
-            //         <Button
-            //             variant="contained"
-            //             value="Deposit"
-            //             onClick={button_disable ? () => { } : this.handleClick}
-            //             style={button_disable ? {} : { cursor: "pointer" }}
-            //         >
-            //             {"Deposit " + depositAmount + " to my account"}
-            //         </Button>
-            //         {/* <img 
-            //             id="LINElogo" 
-            //             type="image" 
-            //             onClick={button_disable ? () => {} : this.handleClick}
-            //             style={button_disable ? {} : {cursor: "pointer"}}  
-            //             src={LINEPAY_LOGO_URL} 
-            //             alt="LINEpay logo"
-            //         /> */}
-            //     </div>
-            // </div>
         )
     }
 }
