@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../util_config';
+import { config,images } from '../../../../../util_config';
 import { connect } from 'react-redux';
+
+// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -225,10 +227,10 @@ class DepositAsiapayJDPay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 100,
-            secondOption: 200,
-            thirdOption: 500,
-            fourthOption: 1000,
+            firstOption: 200,
+            secondOption: 400,
+            thirdOption: 600,
+            fourthOption: 900,
             currencyValue: "USD",
             showLinearProgressBar: false,
         };
@@ -283,7 +285,7 @@ class DepositAsiapayJDPay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 900 || parseInt(event.target.value) < 100) {
+        if (event.target.value.length == 0 || parseInt(event.target.value) > 900 || parseInt(event.target.value) < 200) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -304,7 +306,7 @@ class DepositAsiapayJDPay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-
+        let userid = this.state.data.pk;
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -328,25 +330,81 @@ class DepositAsiapayJDPay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            if (res.ok) {
-                return res.text();
-            }
+            console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
 
-            // alert("渠道维护中");
-            // throw new Error('Something went wrong.');
-            currentComponent.props.callbackFromParent("error", "渠道维护中");
+            
+            return res.json();
+
 
         }).then(function (data) {
-            currentComponent.setState({ qr: data.qr });
-            currentComponent.setState({ showLinearProgressBar: false });
+            console.log(data)
+            let qrurl = data.qr;
+            console.log(qrurl)
+            if(qrurl != null){
+                const mywin = window.open(qrurl, 'asiapay-alipay')
+                var timer = setInterval(function () {
+                    console.log('checking..')
+                    if (mywin.closed) {
+                        clearInterval(timer);
+                        var postData = {
+                            "order_id": data.oid,
+                            "userid": "n" + userid,
+                            "CmdType": "01",
+                        }
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
 
-            if (data.code = 'ERROR') {
-                alert(data.message);
-            } else {
-                currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
+                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: formBody
+                        }).then(function (res) {
+                            return res.json();
+                        }).then(function (data) {
+                            console.log(data.status)
+                            if (data.status === "001") {
+                                //alert('Transaction is approved.');
+                                const body = JSON.stringify({
+                                    type: 'add',
+                                    username: currentComponent.state.data.username,
+                                    balance: currentComponent.state.amount,
+                                });
+                                console.log(body)
+                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                    .then(res => {
+                                        if (res.data === 'Failed') {
+                                            //currentComponent.setState({ error: true });
+                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        } else if (res.data === "The balance is not enough") {
+                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                        } else {
+                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                        } });
+                            } else {
+                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                            }
+                        });
+                    }
+                }, 1000);
+                
             }
+            // currentComponent.setState({ qr: data.qr });
+            // currentComponent.setState({ showLinearProgressBar: false });
+
+            // if (data.code == 'ERROR') {
+            //     alert(data.message);
+            // } else {
+            //     currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
+            // }
         }).catch(function (error) {
             currentComponent.setState({ showLinearProgressBar: false });
 
@@ -365,7 +423,7 @@ class DepositAsiapayJDPay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-               <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (
@@ -422,7 +480,7 @@ class DepositAsiapayJDPay extends Component {
                                         type="number"
                                         inputProps={{
                                             step: 10,
-                                            min: 100,
+                                            min: 200,
                                             max: 900
                                         }}
                                         inputRef={this.amountInput}

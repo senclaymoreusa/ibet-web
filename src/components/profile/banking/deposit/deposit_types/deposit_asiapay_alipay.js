@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config,images } from '../../../../../util_config';
 import { connect } from 'react-redux';
+
+// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { images } from '../../../../../util_config';
+
 
 var QRCode = require('qrcode.react');
 
@@ -312,7 +314,7 @@ class DepositAsiapayAlipay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-
+        let userid = this.state.data.pk;
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -334,26 +336,83 @@ class DepositAsiapayAlipay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            if (res.ok) {
-                return res.text();
-            }
-            //alert("渠道维护中");
+            console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
-            currentComponent.props.callbackFromParent("error", "渠道维护中");
 
-            //throw new Error('Something went wrong.');
+            
+            return res.json();
+            
         }).then(function (data) {
+            console.log(data)
             let qrurl = data.qr;
-            if (data.code === 'ERROR') {
-                currentComponent.props.callbackFromParent("error", data.message);
-            } else {
-                currentComponent.setState({ value: qrurl, show_qrcode: true });
+            console.log(qrurl)
+            if(qrurl != null){
+                const mywin = window.open(qrurl, 'asiapay-alipay')
+                var timer = setInterval(function () {
+                    console.log('checking..')
+                    if (mywin.closed) {
+                        clearInterval(timer);
+                        var postData = {
+                            "order_id": data.oid,
+                            "userid": "n" + userid,
+                            "CmdType": "01",
+                        }
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
+
+                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: formBody
+                        }).then(function (res) {
+                            return res.json();
+                        }).then(function (data) {
+                            console.log(data.status)
+                            if (data.status === "001") {
+                                //alert('Transaction is approved.');
+                                const body = JSON.stringify({
+                                    type: 'add',
+                                    username: currentComponent.state.data.username,
+                                    balance: currentComponent.state.amount,
+                                });
+                                console.log(body)
+                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                    .then(res => {
+                                        if (res.data === 'Failed') {
+                                            //currentComponent.setState({ error: true });
+                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        } else if (res.data === "The balance is not enough") {
+                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                        } else {
+                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                        } });
+                            } else {
+                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                            }
+                        });
+                    }
+                }, 1000);
+                
+                
             }
+            // if (data.code == 'ERROR') {
+            //     currentComponent.props.callbackFromParent("error", data.message);
+            // } 
+            // // else if(data.code == 'SUCCESS'){
+            // //     currentComponent.setState({ value: qrurl, show_qrcode: true });
+            // // }
 
-            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+            // currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
 
-            currentComponent.setState({ showLinearProgressBar: false });
+            // currentComponent.setState({ showLinearProgressBar: false });
 
         }).catch(function (error) {                        // catch
             console.log('Request failed', error);

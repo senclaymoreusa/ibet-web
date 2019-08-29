@@ -56,6 +56,7 @@ import DepositPayzod from "./components/profile/banking/deposit/deposit_types/de
 import DepositHelp2pay from "./components/profile/banking/deposit/deposit_types/deposit_help2pay"
 import DepositFgo from "./components/profile/banking/deposit/deposit_types/deposit_fgo"
 
+
 import Profile from "./components/profile/profile"
 
 const divStyle = {

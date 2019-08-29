@@ -302,13 +302,13 @@ class WithdrawQaicashLBT extends Component {
         }).then(function (data) {
             let redirectUrl = data.paymentPageSession.paymentPageUrl;
             if (redirectUrl != null && main_wallet - amount >= 0) {
-                const mywin = window.open(redirectUrl, 'qaicash-checkout', 'height=500,width=500');
+                const mywin = window.open(redirectUrl, 'qaicash-checkout');
                 var timer = setInterval(function () {
                     console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
-                            "order_id": data.payoutTransaction.orderId,
+                            "trans_id": data.payoutTransaction.orderId,
                         }
                         var formBody = [];
                         for (var pd in postData) {
@@ -317,7 +317,7 @@ class WithdrawQaicashLBT extends Component {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
-                        return fetch(API_URL + 'accounting/api/qaicash/payout_transaction', {
+                        return fetch(API_URL + 'accounting/api/qaicash/confirm', {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -327,7 +327,9 @@ class WithdrawQaicashLBT extends Component {
                             return res.json();
                         }).then(function (data) {
                             let status = data.status;
-                            if (status === 'HELD') {
+
+                            if (status === 9) {
+
                                 alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'withdraw',
@@ -351,7 +353,9 @@ class WithdrawQaicashLBT extends Component {
                                             // window.location.reload()
                                         }
                                     });
-                            } else if (status === 'PENDING') {
+
+                            } else  {
+
                                 currentComponent.props.callbackFromParent("error", 'Please complete your withdraw payment!');
                                 //alert('Please complete your withdraw payment!');
                             }
