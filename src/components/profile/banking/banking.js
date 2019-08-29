@@ -18,6 +18,7 @@ const styles = theme => ({
     },
     leftPane: {
         paddingTop: 50,
+        minWidth:260,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

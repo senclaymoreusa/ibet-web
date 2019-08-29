@@ -6,7 +6,12 @@ import { hide_user_profile, show_update_profile, authCheckState } from '../../..
 import { connect } from 'react-redux';
 import { config } from '../../../util_config';
 import axios from 'axios'
-
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Fade from '@material-ui/core/Fade';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -98,6 +103,17 @@ const styles = theme => ({
     },
     text: {
         marginTop: 0,
+    },
+    notification: {
+        backgroundColor: '#3ce86a',
+    },
+    message: {
+        marginLeft: 10,
+        float: 'left',
+        lineHeight: 1.9
+    },
+    checkIcon: {
+        float: 'left',
     }
 });
 
@@ -119,11 +135,16 @@ class UserInformation extends Component {
             city: '',
             state: '',
             country: '',
-            registrationDate: ''
+            registrationDate: '',
         }
 
         this.updateClicked = this.updateClicked.bind(this);
+        this.closeNotificationClicked = this.closeNotificationClicked.bind(this);
 
+    }
+
+    closeNotificationClicked() {
+        this.setState({ showMessage: false });
     }
 
     componentDidMount() {
@@ -173,6 +194,9 @@ class UserInformation extends Component {
 
         let titleMessage = formatMessage({ id: "user_information.user_information" });
         let editButtonMessage = formatMessage({ id: "user_information.edit_information" });
+
+        const { message } = this.props;
+
 
         return (
             <div className={classes.root}>
@@ -306,6 +330,39 @@ class UserInformation extends Component {
                         </Button>
                     </Grid>
                 </Grid>
+                {/* <Snackbar
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                        open={message && message.length > 0}
+                        onClose={this.closeNotificationClicked}
+                        autoHideDuration={3000}
+                        TransitionComponent={Fade}
+                    >
+                        <SnackbarContent
+                            className={classes.notification}
+                            aria-describedby="client-snackbar"
+                            message={
+                                <div>
+                                    <CheckCircleIcon className={classes.checkIcon} />
+                                    <span id="client-snackbar" className={classes.message}>
+                                        {message}
+                                    </span>
+                                </div>
+                            }
+                            action={[
+                                <IconButton
+                                    key="close"
+                                    aria-label="close"
+                                    color="inherit"
+                                    className={classes.close}
+                                    onClick={this.closeNotificationClicked}
+                                >
+                                    <CloseIcon />
+                                </IconButton>,
+                            ]}
+                        /></Snackbar> */}
             </div >
         )
     }

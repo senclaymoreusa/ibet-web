@@ -194,8 +194,15 @@ const styles = theme => ({
             border: 'solid 1px #717171',
         },
     },
-    showIcon:{
+    showIcon: {
         fontSize: 20
+    },
+    errorLabel: {
+        color: '#f44336',
+        fontSize: 12,
+        marginTop: 8,
+        lineHeight: 1.2,
+        paddingLeft: 10,
     },
 });
 
@@ -272,6 +279,20 @@ class UserInformationEdit extends Component {
             usernameFocused: false,
             usernameInvalid: false,
             usernameAlreadyExists: false,
+
+            phoneFocused: false,
+            phoneInvalid: false,
+
+            address1Focused: false,
+            address1Invalid: false,
+
+            zipCodeFocused: false,
+            zipCodeInvalid: false,
+
+            cityFocused: false,
+            cityInvalid: false,
+
+            stateInvalid: false,
         }
 
         this.cancelClicked = this.cancelClicked.bind(this);
@@ -287,6 +308,11 @@ class UserInformationEdit extends Component {
         this.onFormSubmit = this.onFormSubmit.bind(this);
 
         this.usernameFocused = this.usernameFocused.bind(this);
+        this.phoneFocused = this.phoneFocused.bind(this);
+        this.address1Focused = this.address1Focused.bind(this);
+        this.zipCodeFocused = this.zipCodeFocused.bind(this);
+        this.cityFocused = this.cityFocused.bind(this);
+
         this.passwordChanged = this.passwordChanged.bind(this);
         this.newPasswordChanged = this.newPasswordChanged.bind(this);
         this.confirmPasswordChanged = this.confirmPasswordChanged.bind(this);
@@ -359,15 +385,36 @@ class UserInformationEdit extends Component {
         this.setState({ usernameFocused: true });
     }
 
+    phoneFocused(event) {
+        this.setState({ phoneFocused: true });
+    }
+
+    address1Focused(event) {
+        this.setState({ address1Focused: true });
+    }
+
+    cityFocused(event) {
+        this.setState({ cityFocused: true });
+    }
+
+    zipCodeFocused(event) {
+        this.setState({ zipCodeFocused: true });
+    }
+
     phoneChanged(value) {
+        this.setState({ phoneInvalid: value === '+' });
         this.setState({ phone: value });
     }
+
     countryChanged(event) {
         this.setState({ country: event.target.value });
     }
 
     address1Changed(event) {
         this.setState({ address1: event.target.value });
+
+        this.setState({ address1Invalid: (event.target.value.length === 0) });
+
     }
 
     address2Changed(event) {
@@ -375,31 +422,49 @@ class UserInformationEdit extends Component {
     }
 
     zipCodeChanged(event) {
+        this.setState({ zipCodeInvalid: event.target.value.length === 0 });
+
         this.setState({ zipCode: event.target.value });
     }
 
     cityChanged(event) {
+        this.setState({ cityInvalid: event.target.value.length === 0 });
+
         this.setState({ city: event.target.value });
     }
 
     stateChanged(event) {
+        this.setState({ stateInvalid: event.target.value.length === 0 });
+
         this.setState({ state: event.target.value });
     }
 
     async passwordChanged(event) {
-        await this.setState({ password: event.target.value, passwordInvalid: false, passwordSame: false });
+        this.setState({ newPasswordInvalid: (event.target.value.length > 0 && event.target.value === this.state.newPassword) });
+        this.setState({ passwordSame: (event.target.value.length > 0 && event.target.value === this.state.newPassword) });
+
+        await this.setState({ password: event.target.value, passwordInvalid: false });
     }
 
     async newPasswordChanged(event) {
-        if (this.state.confirmPassword && event.target.value !== this.state.confirmPassword) {
-            this.setState({ newPasswordInvalid: true })
-        } else {
-            this.setState({ newPasswordInvalid: false })
+        this.setState({ passwordSame: (event.target.value.length > 0 && this.state.password === event.target.value) });
+
+        if (this.state.confirmPassword && (event.target.value !== this.state.confirmPassword)) {
+            this.setState({ confirmPasswordInvalid: true })
+        } else if (this.state.confirmPassword && (event.target.value === this.state.confirmPassword)) {
+            this.setState({ confirmPasswordInvalid: false })
         }
+
+        if ((event.target.value.length < 8))
+            this.setState({ newPasswordInvalid: true })
+        else if (event.target.value.length > 0 && this.state.password === event.target.value)
+            this.setState({ newPasswordInvalid: true })
+        else
+            this.setState({ newPasswordInvalid: false })
 
         this.setState({ passwordTooSimple: (event.target.value.length < 8) })
 
-        await this.setState({ newPassword: event.target.value, passwordSame: false });
+        await this.setState({ newPassword: event.target.value });
     }
 
     async confirmPasswordChanged(event) {
@@ -411,40 +476,60 @@ class UserInformationEdit extends Component {
         await this.setState({ confirmPassword: event.target.value, passwordSame: false });
     }
 
-    onFormSubmit(event) {
+    async onFormSubmit(event) {
         event.preventDefault();
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
+        let passwordChangeSuccess = false;
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
+        if (this.state.newPassword.length > 0) {
 
-        const body = JSON.stringify({
-            username: this.state.username,
-            phone: this.state.phone,
-            street_address_1: this.state.address1,
-            street_address_2: this.state.address2,
-            country: this.state.country,
-            city: this.state.city,
-            state: this.state.state,
-            zipcode: this.state.zipCode,
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
 
-            date_of_birth: this.state.fetchedUserData.date_of_birth,
-            email: this.state.fetchedUserData.email,
-            first_name: this.state.fetchedUserData.first_name,
-            last_name: this.state.fetchedUserData.last_name,
-        });
+            await axios.post(API_URL + 'users/api/validateandresetpassword/', { 'username': this.state.fetchedUserData.username, 'current_password': this.state.password, 'new_password': this.state.newPassword }, config)
+                .then(res => {
+                    passwordChangeSuccess = true;
 
-        axios.put(API_URL + 'users/api/user/', body, config)
-            .then(() => {
-                currentComponent.setState({ showLinearProgressBar: false });
+                }).catch(err => {
+                    alert('Password update failed')
+                })
+        }else
+            passwordChangeSuccess = true;
 
-                this.props.callbackFromParent('user_information');
-            })
-            .catch((err) => {
-                console.log(err.response);
-            })
+        if (passwordChangeSuccess) {
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            const body = JSON.stringify({
+                username: this.state.username,
+                phone: this.state.phone,
+                street_address_1: this.state.address1,
+                street_address_2: this.state.address2,
+                country: this.state.country,
+                city: this.state.city,
+                state: this.state.state,
+                zipcode: this.state.zipCode,
+
+                date_of_birth: this.state.fetchedUserData.date_of_birth,
+                email: this.state.fetchedUserData.email,
+                first_name: this.state.fetchedUserData.first_name,
+                last_name: this.state.fetchedUserData.last_name,
+            });
+
+            axios.put(API_URL + 'users/api/user/', body, config)
+                .then(() => {
+                    currentComponent.setState({ showLinearProgressBar: false });
+                     this.props.callbackFromParent('user_information', 'Your changes are successfull updated.');
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                    alert("Error occured while editting user information");
+                    currentComponent.setState({ showLinearProgressBar: false });
+
+                })
+        }
     }
 
     render() {
@@ -464,6 +549,17 @@ class UserInformationEdit extends Component {
 
         if (this.state.usernameAlreadyExists)
             usernameErrorMessage = 'This user name is taken. Please, try another one.';
+
+        let newPasswordErrorMessage = '';
+
+        if (this.state.newPasswordInvalid) {
+            if (this.state.passwordTooSimple)
+                newPasswordErrorMessage = 'Your password must include at least 8 characters.';
+            else if (this.state.passwordSame)
+                newPasswordErrorMessage = 'New password cannot be same as old password';
+        }
+
+        let confirmPasswordErrorMessage = 'Your password does not match.';
 
         return (
             <div className={classes.root}>
@@ -516,8 +612,12 @@ class UserInformationEdit extends Component {
                                         </Grid>
                                         <Grid item xs={12} style={{ paddingBottom: 20 }}>
                                             <span className={classes.label}>Phone</span>
-                                            <ReactPhoneInput defaultCountry={'us'} className={classes.mandatoryText}
-                                                value={phone} onChange={this.phoneChanged} />
+                                            <ReactPhoneInput defaultCountry={'us'}
+                                                className={classes.mandatoryText}
+                                                value={phone}
+                                                onChange={this.phoneChanged}
+                                                onFocus={this.phoneFocused} />
+                                            {(this.state.phoneInvalid && this.state.phoneFocused) ? <span className={classes.errorLabel}>Phone cannot be empty.</span> : null}
                                         </Grid>
                                         <Grid item xs={12}>
                                             <span className={classes.label}>Member Since</span>
@@ -542,7 +642,7 @@ class UserInformationEdit extends Component {
                                                 className={classes.mandatoryText}
                                                 value={password}
                                                 placeholder="Current password"
-                                                type={this.state.showPassword ? 'text' : 'password'}
+                                                type={this.state.showPassword ? '' : 'password'}
                                                 onChange={this.passwordChanged}
                                                 error={this.state.passwordInvalid && this.state.passwordFocused}
                                                 helperText={(this.state.passwordInvalid && this.state.passwordFocused) ? 'Incorrect password. Please, try again.' : ''}
@@ -550,105 +650,120 @@ class UserInformationEdit extends Component {
                                                     disableUnderline: true,
                                                     endAdornment: (
                                                         <InputAdornment position="end">
-                                                            <IconButton 
-                                                            aria-label="Toggle password visibility"
-                                                            onClick={this.showPasswordClicked}
+                                                            <IconButton
+                                                                disabled={password.length === 0}
+                                                                aria-label="Toggle password visibility"
+                                                                onClick={this.showPasswordClicked}
                                                             >
-                                                            {this.state.showPassword ? <VisibilityOff className={classes.showIcon}/> : <Visibility className={classes.showIcon}/>}
+                                                                {this.state.showPassword ? <VisibilityOff className={classes.showIcon} /> : <Visibility className={classes.showIcon} />}
                                                             </IconButton>
                                                         </InputAdornment>
-                                                        ),
+                                                    ),
                                                 }} />
                                             <TextField
                                                 className={classes.mandatoryText}
                                                 value={newPassword}
                                                 placeholder="New password"
-                                                type={this.state.showNewPassword ? 'text' : 'password'}
+                                                type={this.state.showNewPassword ? '' : 'password'}
                                                 onChange={this.newPasswordChanged}
-                                                onFocus={this.newPasswordFocused}
-                                                error={this.state.newPasswordInvalid && this.state.newPasswordFocused}
-                                                helperText={(this.state.showNewPasswordInvalid && this.state.newPasswordFocused) ? 'Incorrect password. Please, try again.' : ''}
+                                                error={this.state.newPasswordInvalid}
+                                                helperText={this.state.newPasswordInvalid ? newPasswordErrorMessage : ''}
                                                 InputProps={{
                                                     disableUnderline: true,
                                                     endAdornment: (
                                                         <InputAdornment position="end">
-                                                            <IconButton 
-                                                            aria-label="Toggle password visibility"
-                                                            onClick={this.showNewPasswordClicked}
+                                                            <IconButton
+                                                                disabled={newPassword.length === 0}
+                                                                aria-label="Toggle password visibility"
+                                                                onClick={this.showNewPasswordClicked}
                                                             >
-                                                            {this.state.showNewPassword ? <VisibilityOff className={classes.showIcon}/> : <Visibility className={classes.showIcon}/>}
+                                                                {this.state.showNewPassword ? <VisibilityOff className={classes.showIcon} /> : <Visibility className={classes.showIcon} />}
                                                             </IconButton>
                                                         </InputAdornment>
-                                                        ),
+                                                    ),
                                                 }} />
                                             <TextField
                                                 className={classes.mandatoryText}
                                                 value={confirmPassword}
                                                 placeholder="Confirm password"
-                                                type={this.state.showConfirmPassword ? 'text' : 'password'}
+                                                type={this.state.showConfirmPassword ? '' : 'password'}
                                                 onChange={this.confirmPasswordChanged}
-                                                onFocus={this.confirmPasswordFocused}
-                                                error={this.state.confirmPasswordInvalid && this.state.confirmPasswordFocused}
-                                                helperText={(this.state.confirmPasswordInvalid && this.state.confirmPasswordFocused) ? 'Your password does not match' : ''}
+                                                error={this.state.confirmPasswordInvalid}
+                                                helperText={this.state.confirmPasswordInvalid ? confirmPasswordErrorMessage : ''}
                                                 InputProps={{
                                                     disableUnderline: true,
                                                     endAdornment: (
                                                         <InputAdornment position="end">
-                                                            <IconButton 
-                                                            aria-label="Toggle password visibility"
-                                                            onClick={this.showConfirmPasswordClicked}
+                                                            <IconButton
+                                                                disabled={confirmPassword.length === 0}
+                                                                aria-label="Toggle password visibility"
+                                                                onClick={this.showConfirmPasswordClicked}
                                                             >
-                                                            {this.state.showConfirmPassword ? <VisibilityOff className={classes.showIcon}/> : <Visibility className={classes.showIcon}/>}
+                                                                {this.state.showConfirmPassword ? <VisibilityOff className={classes.showIcon} /> : <Visibility className={classes.showIcon} />}
                                                             </IconButton>
                                                         </InputAdornment>
-                                                        ),
+                                                    ),
                                                 }} />
                                         </Grid>
                                         <Grid item xs={12} style={{ marginTop: 20 }}>
                                             <span className={classes.label}>Address</span>
                                             <TextField
-                                                className={classes.optionalText}
+                                                className={classes.mandatoryText}
                                                 value={address1}
+                                                type={''}
                                                 placeholder="Address 1"
                                                 onChange={this.address1Changed}
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }} />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                className={classes.optionalText}
-                                                value={address2}
-                                                placeholder="Address 2"
-                                                onChange={this.address2Changed}
+                                                onFocus={this.address1Focused}
+                                                error={this.state.address1Invalid && this.state.address1Focused}
+                                                helperText={(this.state.address1Invalid && this.state.address1Focused) ? 'Address cannot be empty.' : ''}
                                                 InputProps={{
                                                     disableUnderline: true,
                                                 }} />
                                         </Grid>
                                         <Grid item xs={6} style={{ paddingRight: 4 }}>
                                             <TextField
-                                                className={classes.optionalText}
+                                                className={classes.mandatoryText}
+                                                value={address2}
+                                                type={''}
+                                                placeholder="Address 2"
+                                                onChange={this.address2Changed}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                }} />
+                                        </Grid>
+                                        <Grid item xs={6} style={{ paddingLeft: 4 }}>
+                                            <TextField
+                                                className={classes.mandatoryText}
                                                 value={city}
+                                                type={''}
                                                 placeholder="City"
                                                 onChange={this.cityChanged}
+                                                onFocus={this.cityFocused}
+                                                error={this.state.cityInvalid && this.state.cityFocused}
+                                                helperText={(this.state.cityInvalid && this.state.cityFocused) ? 'City  cannot be empty.' : ''}
                                                 InputProps={{
                                                     disableUnderline: true,
                                                 }} />
                                         </Grid>
-                                        <Grid item xs={3} style={{ paddingLeft: 4, paddingRight: 4 }}>
+                                        <Grid item xs={6} style={{ paddingRight: 4 }}>
                                             <TextField
-                                                className={classes.optionalText}
+                                                className={classes.mandatoryText}
                                                 value={zipCode}
+                                                type={''}
                                                 placeholder="Zipcode"
                                                 onChange={this.zipCodeChanged}
+                                                onFocus={this.zipCodeFocused}
+                                                error={this.state.zipCodeInvalid && this.state.zipCodeFocused}
+                                                helperText={(this.state.zipCodeInvalid && this.state.zipCodeFocused) ? 'Zipcode cannot be empty.' : ''}
                                                 InputProps={{
                                                     disableUnderline: true,
                                                 }} />
                                         </Grid>
-                                        <Grid item xs={3} style={{ paddingLeft: 4 }}>
+                                        <Grid item xs={6} style={{ paddingLeft: 4 }}>
                                             <TextField
-                                                className={classes.optionalText}
+                                                className={classes.mandatoryText}
                                                 value={state}
+                                                type={''}
                                                 placeholder="State"
                                                 onChange={this.stateChanged}
                                                 InputProps={{

@@ -18,6 +18,7 @@ const styles = theme => ({
     },
     leftPane: {
         paddingTop: 50,
+        minWidth:260,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -45,8 +46,8 @@ const styles = theme => ({
             backgroundColor: '#dfdfdf',
         },
     },
-    text:{
-        marginLeft:0,
+    text: {
+        marginLeft: 0,
     }
 });
 
@@ -57,7 +58,8 @@ export class Account extends Component {
 
         this.state = {
             urlPath: '',
-            contentValue: ''
+            contentValue: '',
+            userInformationEditMessage: ''
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -104,8 +106,11 @@ export class Account extends Component {
     }
 
 
-    setContent = (page) => {
+    setContent = (page, msg) => {
         this.setState({ contentValue: page });
+
+        if (msg)
+            this.setState({ userInformationEditMessage: msg });
     }
 
     render() {
@@ -119,8 +124,8 @@ export class Account extends Component {
                         <Button className={(contentValue === 'user_information' || contentValue === 'user_information_edit') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'user_information')}>User Information</Button>
                         <Button className={(contentValue === 'inbox') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'inbox')}>Inbox</Button>
                     </Grid>
-                    <Grid item xs={8} className={classes.leftPane}>
-                        {contentValue === 'user_information' && <UserInformation callbackFromParent={this.setContent} />}
+                    <Grid item xs={8} className={classes.rightPane}>
+                        {contentValue === 'user_information' && <UserInformation callbackFromParent={this.setContent} message={this.state.userInformationEditMessage} />}
                         {contentValue === 'user_information_edit' && <UserInformationEdit callbackFromParent={this.setContent} />}
                         {contentValue === 'inbox' && <InboxMain />}
                     </Grid>
