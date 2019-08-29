@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config,images } from '../../../../../util_config';
 import { connect } from 'react-redux';
 
 // Material-UI
@@ -11,8 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { images } from '../../../../../util_config';
-
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 

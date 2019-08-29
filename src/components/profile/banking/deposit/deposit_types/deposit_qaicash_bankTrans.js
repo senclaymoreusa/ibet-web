@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config,images } from '../../../../../util_config';
 import { connect } from 'react-redux';
 
 // Material-UI
@@ -14,7 +14,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
-import { images } from '../../../../../util_config';
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const bank_options = [
     //CN

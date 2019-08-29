@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config } from '../../../../../util_config';
-import { connect } from 'react-redux';
+import { connect,images } from 'react-redux';
 
 // Material-UI
 import TextField from '@material-ui/core/TextField';
@@ -12,7 +12,6 @@ import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { images } from '../../../../../util_config';
 
 
 
