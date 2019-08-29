@@ -4,13 +4,9 @@ import axios from 'axios'
 import TextField from '@material-ui/core/TextField';
 import { hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob } from '../actions';
 import { FormattedMessage } from 'react-intl';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
-import { ReactComponent as Back } from '../assets/img/svg/back.svg';
 import { withStyles } from '@material-ui/core/styles';
-
 import { getNames } from 'country-list';
-
-import { config } from "../util_config";
+import { config, images } from "../util_config";
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -232,7 +228,7 @@ class Signup_Detail extends React.Component {
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <div className='signup-title'>     
 
-                        <Back 
+                    <img src={images.src + 'back.svg'}
                             style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
                             onClick = { () => {
                                 this.props.hide_signup_detail();
@@ -244,7 +240,7 @@ class Signup_Detail extends React.Component {
                         <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
                     </div>
 
-                        <Close 
+                    <img src={images.src + 'close_page.svg'}
                             style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_detail();

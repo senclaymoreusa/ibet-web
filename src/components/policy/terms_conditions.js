@@ -8,10 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-
-import { ReactComponent as IbetLogo } from '../../assets/img/svg/ibet_logo.svg';
-import { ReactComponent as CloseIcon } from '../../assets/img/svg/close_page.svg';
-
+import { images } from '../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -65,7 +62,7 @@ const styles = theme => ({
   paragraph: {
     marginTop: 8,
   },
-  bold_text:{
+  bold_text: {
     fontWeight: 'bold'
   }
 });
@@ -91,14 +88,14 @@ export class TermsConditions extends React.Component {
           <Grid item xs={12} sm={6} md={6} lg={5}>
             <Paper className={classes.contentPaper}>
               <div className={classes.titleContainer}>
-                <IbetLogo className={classes.page_icon} />
+                <img src={images.src + 'ibet_logo.svg'} className={classes.page_icon} />
                 <div className={classes.page_title}>
                   <FormattedMessage id="privacy_policy.title" defaultMessage='Terms & Conditions' />
                 </div>
                 <div className={classes.grow}></div>
                 <div className={classes.closeButton}>
                   <IconButton href='/'>
-                    <CloseIcon />
+                    <img src={images.src + 'close_page.svg'} />
                   </IconButton>
                 </div>
               </div>
@@ -113,70 +110,70 @@ export class TermsConditions extends React.Component {
               <Typography component="p" paragraph={true}>
                 INDEX
               </Typography>
-              <Typography component="p" paragraph={true} className={classes.bold_text }>
+              <Typography component="p" paragraph={true} className={classes.bold_text}>
                 PART A – GENERAL
               </Typography>
-              <Typography component="p" paragraph={true} className={classes.bold_text }>
+              <Typography component="p" paragraph={true} className={classes.bold_text}>
                 PART B – GAME SPECIFIC RULES
               </Typography>
-              <Typography component="p" paragraph={true} className={classes.bold_text }>
+              <Typography component="p" paragraph={true} className={classes.bold_text}>
                 PART C – BONUS TERMS AND CONDITIONS
               </Typography>
-              <Typography component="p" paragraph={true} className={classes.bold_text }>
+              <Typography component="p" paragraph={true} className={classes.bold_text}>
                 PART D – LOYALTY PROGRAM
               </Typography>
-              <Typography component="p" paragraph={true} className={classes.bold_text }>
+              <Typography component="p" paragraph={true} className={classes.bold_text}>
                 PART A – GENERAL
               </Typography>
               <Typography component="p" paragraph={true}>
                 Please read these terms and conditions of use (“GTCs”) carefully before using this Site and/or any services provided by the Gaming Operator. These GTCs explain what you need to know when you use the products and services we make available, including who we are, how you or we may alter or end the contract, who to contact if there is a problem and other important information.
                 By using the Site and/or any services, you agree to be bound by these GTCs. If you do not wish to be bound by these GTCs you may not access or use the Site or any of the services provided by us.
               </Typography>
-              <Typography component="p" className={classes.bold_text }>
+              <Typography component="p" className={classes.bold_text}>
                 1. General
                 </Typography>
-              <Typography component="p" className={classes.bold_text }>2. Opening a Player Account
+              <Typography component="p" className={classes.bold_text}>2. Opening a Player Account
               </Typography>
-              <Typography component="p" className={classes.bold_text }>3. Deposits and Wagers
+              <Typography component="p" className={classes.bold_text}>3. Deposits and Wagers
               </Typography>
-              <Typography component="p" className={classes.bold_text }>4. Verification Checks
+              <Typography component="p" className={classes.bold_text}>4. Verification Checks
               </Typography>
-              <Typography component="p" className={classes.bold_text }>5. Errors and Cancellations
+              <Typography component="p" className={classes.bold_text}>5. Errors and Cancellations
               </Typography>
-              <Typography component="p" className={classes.bold_text }>6. Withdrawals
+              <Typography component="p" className={classes.bold_text}>6. Withdrawals
               </Typography>
-              <Typography component="p" className={classes.bold_text }>7. Improper use of your account
+              <Typography component="p" className={classes.bold_text}>7. Improper use of your account
               </Typography>
-              <Typography component="p" className={classes.bold_text }>8. Responsible Gaming, Social Responsibility and Self Protection
+              <Typography component="p" className={classes.bold_text}>8. Responsible Gaming, Social Responsibility and Self Protection
               </Typography>
-              <Typography component="p" className={classes.bold_text }>9. Winning and Prizes
+              <Typography component="p" className={classes.bold_text}>9. Winning and Prizes
               </Typography>
-              <Typography component="p" className={classes.bold_text }>10. Customer Service and Complaints
+              <Typography component="p" className={classes.bold_text}>10. Customer Service and Complaints
               </Typography>
-              <Typography component="p" className={classes.bold_text }>11. Termination, Blocking and Closing of Player Accounts
+              <Typography component="p" className={classes.bold_text}>11. Termination, Blocking and Closing of Player Accounts
               </Typography>
-              <Typography component="p" className={classes.bold_text }>12. Closure of the Account
+              <Typography component="p" className={classes.bold_text}>12. Closure of the Account
               </Typography>
-              <Typography component="p" className={classes.bold_text }>13. Personal Data and Publicity
+              <Typography component="p" className={classes.bold_text}>13. Personal Data and Publicity
               </Typography>
-              <Typography component="p" className={classes.bold_text }>14. Local Laws and Prohibitions
+              <Typography component="p" className={classes.bold_text}>14. Local Laws and Prohibitions
               </Typography>
-              <Typography component="p" className={classes.bold_text }>15. Links
+              <Typography component="p" className={classes.bold_text}>15. Links
               </Typography>
-              <Typography component="p" className={classes.bold_text }>16. Intellectual Property Rights
+              <Typography component="p" className={classes.bold_text}>16. Intellectual Property Rights
               </Typography>
-              <Typography component="p" className={classes.bold_text }>17. Limitation of Liability and Disclaimer
+              <Typography component="p" className={classes.bold_text}>17. Limitation of Liability and Disclaimer
               </Typography>
-              <Typography component="p" className={classes.bold_text }>18. Amendments and Changes
+              <Typography component="p" className={classes.bold_text}>18. Amendments and Changes
               </Typography>
-              <Typography component="p" className={classes.bold_text }>19. Force Majeure
+              <Typography component="p" className={classes.bold_text}>19. Force Majeure
               </Typography>
-              <Typography component="p" className={classes.bold_text }>20. Application of GTCs
+              <Typography component="p" className={classes.bold_text}>20. Application of GTCs
               </Typography>
-              <Typography component="p" paragraph={true} className={classes.bold_text }>21. Governing Laws and Disputes
+              <Typography component="p" paragraph={true} className={classes.bold_text}>21. Governing Laws and Disputes
               </Typography>
 
-              <Typography component="p" paragraph={true} className={classes.bold_text }>
+              <Typography component="p" paragraph={true} className={classes.bold_text}>
                 1. GENERAL
               </Typography>
               <Typography component="p" paragraph={true}>
@@ -248,7 +245,7 @@ export class TermsConditions extends React.Component {
               <Typography component="p" paragraph={true}>
                 1.9 If required, it is your responsibility to declare and pay for all taxes, duties or levies applicable to your deposits, winnings, bonuses, earnings, and in general any amount included at any point in time in your Player Account and you will not hold Mr Green responsible for any tax whatsoever.
               </Typography>
-              <Typography component="p" paragraph={true} className={classes.bold_text }>
+              <Typography component="p" paragraph={true} className={classes.bold_text}>
                 2. OPENING A PLAYER ACCOUNT
               </Typography>
               <Typography component="p" paragraph={true}>

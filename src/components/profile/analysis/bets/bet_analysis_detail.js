@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as PrevStepIcon } from '../../../../assets/img/svg/prev_step.svg';
-
-
+import { images } from '../../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -91,7 +87,7 @@ export class BetAnalysisDetail extends Component {
 
         const backButton = (
             <Button className={classes.prevButton} onClick={this.backClicked}>
-                <PrevStepIcon />
+                             <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (

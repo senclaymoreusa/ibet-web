@@ -12,10 +12,7 @@ import { FormattedMessage } from 'react-intl';
 import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
 import InputBase from '@material-ui/core/InputBase';
-
-import { ReactComponent as BackIcon } from '../assets/img/svg/account-menu-back.svg';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+import { images } from '../util_config';
 
 const styles = theme => ({
     root: {
@@ -286,49 +283,9 @@ class New_Withdraw extends Component {
     componentDidMount() {
         const accounts = ["Bank 0978", "Credit 7564", "Bank 8574", "Credit 9785"];
         this.setState({ userAvailableAccounts: accounts })
+   }
 
-        // const token = localStorage.getItem('token');
-        // config.headers["Authorization"] = `Token ${token}`;
-
-        // axios.get(API_URL + 'users/api/user/', config)
-        //   .then(res => {
-        //     this.setState({data: res.data});
-        //   })
-    }
-
-    // onInputChange_balance(event){
-    //     if (!event.target.value || event.target.value.match(/^[0-9.]+$/)){
-    //         this.setState({balance: event.target.value}); 
-
-    //         if (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/) || event.target.value === '0' || event.target.value.match(/^[0]+(\.[0]{0,2})?$/)){
-    //             this.setState({live_check_amount: true, button_disable: true})
-    //         }else{
-    //             this.setState({live_check_amount: false, button_disable: false})
-    //         }
-    //     }
-    // }
-
-    // onFormSubmit(event){
-    //     event.preventDefault();
-
-    //     const body = JSON.stringify({
-    //         type : 'withdraw',
-    //         username: this.state.data.username,
-    //         balance: this.state.balance
-    //     });
-    //     axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-    //     .then(res => {
-    //         if (res.data === 'Failed'){
-    //             this.setState({error: true});
-    //         } else if (res.data === 'The balance is not enough') {
-    //             alert("cannot withdraw this amount")
-    //         } else {
-    //             this.props.hide_withdraw();
-    //         }
-    //     });
-
-    // }
-
+   
     render() {
         const { classes } = this.props;
 
@@ -337,7 +294,7 @@ class New_Withdraw extends Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} md={6} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                        <img src={images.src + 'account-menu-back.svg'} />
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.withdraw" defaultMessage="Withdraw" />

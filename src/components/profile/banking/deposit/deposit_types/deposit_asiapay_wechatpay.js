@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-
 import { authCheckState } from '../../../../../actions';
 
 var QRCode = require('qrcode.react');
@@ -288,7 +283,7 @@ class DepositAsiapayWechatpay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 2000 || parseInt(event.target.value) < 500) {
+        if (event.target.value.length===0 || parseInt(event.target.value) > 2000 || parseInt(event.target.value) < 500) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -341,11 +336,21 @@ class DepositAsiapayWechatpay extends Component {
 
         }).then(function (data) {
             console.log(data)
+<<<<<<< HEAD
             let qrurl = data.qr;
             console.log(qrurl)
             if(qrurl != null){
                 window.open(qrurl, 'asiapay-alipay')
                 
+=======
+            let myqr = data.qr;
+
+            if (data.code === 'ERROR') {
+                // alert(data.message);
+                currentComponent.props.callbackFromParent("error", data.message);
+            } else {
+                currentComponent.setState({ value: myqr, show_qrcode: true })
+>>>>>>> 16c840b3e7dfd8c522d0fdaa44bec936dd1c2312
             }
             // console.log(data)
             // let myqr = data.qr;
@@ -378,7 +383,7 @@ class DepositAsiapayWechatpay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+               <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (

@@ -18,12 +18,9 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Banking from './banking/banking';
 import Analysis from './analysis/analysis';
+import Account from './account/account';
 
-import axios from 'axios';
-import { config } from '../../util_config';
 import { withStyles } from '@material-ui/core/styles';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -40,6 +37,9 @@ const styles = theme => ({
     indicator: {
         backgroundColor: 'white',
     },
+    appBar:{
+        zIndex:0,
+    }
 });
 
 const StyledTabs = withStyles({
@@ -49,7 +49,6 @@ const StyledTabs = withStyles({
         justifyContent: "center",
         backgroundColor: "red",
         "& > div": {
-            // maxWidth: 100,
             width: "100%",
             backgroundColor: "red"
         }
@@ -115,7 +114,7 @@ TabPanel.propTypes = {
 const muiSubMenuBarTheme = createMuiTheme({
     palette: {
         primary: {
-            main: '#d8d8d8'
+            main: '#d8d8d8',
         },
     },
     appBar: {
@@ -133,11 +132,10 @@ export class Profile extends Component {
 
         this.state = {
             urlPath: '',
-            tabValue: 'banking'
+            tabValue: ''
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
-
     }
 
     handleTabChange(event, newValue) {
@@ -157,6 +155,12 @@ export class Profile extends Component {
         this.props.history.push(url);
     }
 
+    componentWillReceiveProps(props) {
+        this.setState({ urlPath: this.props.history.location.pathname });
+    
+        this.setContent();
+    }
+
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -165,6 +169,19 @@ export class Profile extends Component {
         })
 
         this.setState({ urlPath: this.props.history.location.pathname });
+
+        this.setContent();
+    }
+
+    setContent() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+
+        if (parts.length >= 2) {
+            if (parts[1].length > 0) {
+                this.setState({ tabValue: parts[2] })
+            }
+        }
     }
 
     render() {
@@ -179,9 +196,9 @@ export class Profile extends Component {
 
         return (
             <div className={classes.root}>
-                <TopNavbar />
+                <TopNavbar currentMenu=''/>
                 <MuiThemeProvider theme={muiSubMenuBarTheme}>
-                    <AppBar position="static" >
+                    <AppBar position="static" className={classes.appBar}>
                         <StyledTabs centered
                             value={this.props.match.params.type}
                             onChange={this.handleTabChange}>
@@ -236,11 +253,11 @@ export class Profile extends Component {
                 <div className={classes.content}>
                     {this.state.tabValue === 'banking' && <Banking />}
                     {this.state.tabValue === 'analysis' && <Analysis />}
+                    {this.state.tabValue === 'account' && <Account />}
                 </div>
                 <Footer />
                 <ChatTool />
             </div>
-
         );
     }
 }

@@ -36,6 +36,7 @@ const INITIAL_STATE = {
   show_deposit_confirm: false,
   show_withdraw_confirm: false,
   show_withdraw_success: false,
+  show_profile_menu: false,
 
   onc_click_username: '',
   one_click_password: '',
@@ -221,7 +222,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, show_withdraw_success: true }
     case 'HIDE_WITHDRAW_SUCCESS':
       return { ...state, show_withdraw_success: false }
-      case 'SHOW_DEPOSIT_SUCCESS':
+    case 'SHOW_DEPOSIT_SUCCESS':
       return { ...state, show_deposit_success: true }
     case 'HIDE_DEPOSIT_SUCCESS':
       return { ...state, show_deposit_success: false }
@@ -229,6 +230,12 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, show_responsible_gambling: true }
     case 'HIDE_RESPONSIBLE_GAMBLING':
       return { ...state, show_responsible_gambling: false }
+    case 'SHOW_PROFILE_MENU':
+      return { ...state, show_profile_menu: true }
+    case 'HIDE_PROFILE_MENU':
+      return { ...state, show_profile_menu: false }
+
+
     case 'GET_REFER_ID':
       return { ...state, refer_id: action.payload }
     default:

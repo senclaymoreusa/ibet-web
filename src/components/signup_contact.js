@@ -4,8 +4,9 @@ import { show_signup_contact, hide_signup_contact, show_signup_detail, show_sign
 import axios from 'axios'
 import { getNames } from 'country-list';
 import { FormattedMessage } from 'react-intl';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
-import { ReactComponent as Back } from '../assets/img/svg/back.svg';
+import { images } from '../util_config';
+
+
 
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -181,7 +182,7 @@ class Signup_Contact extends React.Component {
 
                     <div className='signup-title'>     
 
-                        <Back 
+                    <img src={images.src + 'back.svg'}
                             style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
                             onClick = { () => {
                                 this.props.hide_signup_contact();
@@ -193,7 +194,7 @@ class Signup_Contact extends React.Component {
                         <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
                     </div>
 
-                        <Close 
+                    <img src={images.src + 'close_page.svg'}
                             style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_contact();

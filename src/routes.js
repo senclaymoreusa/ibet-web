@@ -124,7 +124,6 @@ const BaseRouter = () => (
     <Route exact path="/deposit/payzod/" component={DepositPayzod} />
     <Route exact path="/deposit_fgo/" component={DepositFgo} />
     {/* <Route exact path="/orion/test/" component={Board} /> */}
-
     <Route exact path="/p/:type?/:sub?" component={Profile} />
 
   </div>
