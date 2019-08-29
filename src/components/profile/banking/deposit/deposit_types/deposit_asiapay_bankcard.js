@@ -347,6 +347,7 @@ class DepositAsiapayBankcard extends Component {
     handleClick = () => {
         let currentComponent = this;
         currentComponent.setState({ showLinearProgressBar: true });
+        let userid = this.state.data.pk;
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -383,7 +384,7 @@ class DepositAsiapayBankcard extends Component {
                         clearInterval(timer);
                         var postData = {
                             "order_id": data.oid,
-                            "userid": "n" + this.state.data.pk,
+                            "userid": "n" + userid,
                             "CmdType": "01",
                         }
                         var formBody = [];

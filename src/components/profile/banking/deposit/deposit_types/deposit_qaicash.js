@@ -336,7 +336,7 @@ class DepositQaicah extends Component {
                         }
                         formBody = formBody.join("&");
 
-                        return fetch(API_URL + 'accounting/api/qaicash/confirm', {
+                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
                             method: "POST",
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'

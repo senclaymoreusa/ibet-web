@@ -309,7 +309,7 @@ class DepositAsiapayUnionpay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-
+        let userid = this.state.data.pk;
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -349,7 +349,7 @@ class DepositAsiapayUnionpay extends Component {
                         clearInterval(timer);
                         var postData = {
                             "order_id": data.oid,
-                            "userid": "n" + this.state.data.pk,
+                            "userid": "n" + userid,
                             "CmdType": "01",
                         }
                         var formBody = [];
@@ -389,7 +389,7 @@ class DepositAsiapayUnionpay extends Component {
                                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                         } });
                             } else {
-                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
+                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
                             }
                         });
                     }

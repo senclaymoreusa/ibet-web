@@ -285,7 +285,7 @@ class DepositAsiapayQucikpay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-
+        let userid = this.state.data.pk;
         let amount = this.state.amount;
         let user = this.state.data.pk;
 
@@ -330,7 +330,7 @@ class DepositAsiapayQucikpay extends Component {
                         clearInterval(timer);
                         var postData = {
                             "order_id": data.oid,
-                            "userid": "n" + this.state.data.pk,
+                            "userid": "n" + userid,
                             "CmdType": "01",
                         }
                         var formBody = [];
