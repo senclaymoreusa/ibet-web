@@ -397,7 +397,7 @@ class DepositAsiapayAlipay extends Component {
                                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                         } });
                             } else {
-                                currentComponent.props.callbackFromParent("error", "Transaction is not success.");
+                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
                             }
                         });
                     }

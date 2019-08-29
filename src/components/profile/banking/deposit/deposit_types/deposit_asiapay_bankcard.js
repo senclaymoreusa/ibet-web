@@ -424,7 +424,7 @@ class DepositAsiapayBankcard extends Component {
                                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                         } });
                             } else {
-                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
+                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
                             }
                         });
                     }
