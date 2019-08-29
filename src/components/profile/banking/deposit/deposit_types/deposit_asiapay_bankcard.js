@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
 
 // Material-UI
@@ -16,10 +16,6 @@ import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-
-
 
 import ImagePicker from 'react-image-picker'
 import img7 from '../../../../../images/boc.jpg'//中国银行
@@ -397,7 +393,7 @@ class DepositAsiapayBankcard extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+               <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
 

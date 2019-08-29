@@ -1,23 +1,13 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl, FormattedNumber } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as PrevStepIcon } from '../../../../assets/img/svg/prev_step.svg';
-import { ReactComponent as NextStepIcon } from '../../../../assets/img/svg/next_step.svg';
-
-import { ReactComponent as DepositIcon } from '../../../../assets/img/svg/deposit_in_analysis.svg';
-import { ReactComponent as WithdrawIcon } from '../../../../assets/img/svg/withdraw_in_analysis.svg';
-
 import { Line } from 'react-chartjs-2';
-
 import { withStyles } from '@material-ui/core/styles';
-
 import axios from 'axios';
-import { config } from '../../../../util_config';
+import { config, images } from '../../../../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -295,7 +285,7 @@ export class MainAnalysis extends Component {
         d.setFullYear(month.getFullYear());
 
         var newMonth = d.getMonth() + 1;
-        if (newMonth == 12) {
+        if (newMonth === 12) {
             newMonth -= 12;
             d.setYear(d.getFullYear() + 1);
         }
@@ -330,15 +320,15 @@ export class MainAnalysis extends Component {
 
         const prevButton = (
             <Button className={classes.prevButton} onClick={this.goToPreviousMonth}>
-                <PrevStepIcon />
+                             <img src={images.src + 'prev_step.svg'} />
                 <span className={classes.prevLabel}>{prevLabel}</span>
             </Button>);
 
         const nextButton = (
             <Button className={classes.nextButton} onClick={this.goToNextMonth} disabled={this.state.currentMonth.getMonth() === (new Date()).getMonth()}>
                 <span className={classes.nextLabel}>{nextLabel}</span>
-                <NextStepIcon />
-            </Button>);
+                <img src={images.src + 'next_step.svg'} />
+     </Button>);
 
 
         let totalNetMessage = formatMessage({ id: "analysis.total_net_position" });
@@ -437,8 +427,8 @@ export class MainAnalysis extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonsCell}>
                         <Button className={classes.button} onClick={this.goToDailyAnalysis}>
-                            <DepositIcon />
-                            <div className={classes.buttonText}>
+                        <img src={images.src + 'deposit_in_analysis.svg'} />
+  <div className={classes.buttonText}>
                                 {depositMessage}
                             </div>
                             <div className={classes.depositValue}>
@@ -451,8 +441,8 @@ export class MainAnalysis extends Component {
                             </div>
                         </Button>
                         <Button className={classes.button} onClick={this.goToDailyAnalysis}>
-                            <WithdrawIcon />
-                            <div className={classes.buttonText}>
+                        <img src={images.src + 'withdraw_in_analysis.svg'} />
+  <div className={classes.buttonText}>
                                 {withdrawMessage}
                             </div>
                             <div className={classes.withdrawValue}>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { hide_forget_password, show_forget_password_validation, forget_email } from '../actions';
 import { connect } from 'react-redux';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios'
+import { images } from '../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -86,7 +86,7 @@ class New_Forget_Password extends Component {
                         Forget Password
                     </div>
 
-                    <Close 
+                    <img src={images.src + 'close_page.svg'}
                         style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_forget_password();

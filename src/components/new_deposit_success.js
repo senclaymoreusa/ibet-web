@@ -5,14 +5,16 @@ import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, show_account_menu, hide_deposit_success, show_deposit } from '../actions';
-import { ReactComponent as DepositCompletedIcon } from '../assets/img/svg/complete-deposit-icon.svg';
-
+import {
+    logout, handle_search,
+    setLanguage,
+    show_account_menu,
+    hide_deposit_success,
+    show_deposit
+} from '../actions';
+import { images } from '../util_config';
 import Grid from '@material-ui/core/Grid';
-
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as BackIcon } from '../assets/img/svg/account-menu-back.svg';
 
 const styles = theme => ({
     root: {
@@ -175,7 +177,7 @@ export class DepositSuccess extends React.Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                            <img src={images.src + 'account-menu-back.svg'} />
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />
@@ -187,7 +189,7 @@ export class DepositSuccess extends React.Component {
                         </div>
                     </Grid>
                     <Grid item xs={12} className={classes.contentRow}>
-                        <DepositCompletedIcon className={classes.successIcon} />
+                        <img src={images.src + 'complete-deposit-icon.svg'} className={classes.successIcon} />
                         <div className={classes.successLabel}>
                             <FormattedMessage id="deposit.successful" defaultMessage="Successful!" />
                         </div>

@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-
+import { images } from '../../../../util_config';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as AlertIcon } from '../../../../assets/img/svg/alert.svg';
-
-
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -130,7 +126,7 @@ export class WithdrawError extends Component {
         super(props);
 
         this.againClicked = this.againClicked.bind(this);
-     }
+    }
 
     againClicked(ev) {
         this.props.callbackFromParent('withdraw_method');
@@ -151,7 +147,7 @@ export class WithdrawError extends Component {
                         <span className={classes.title}>Withdraw</span>
                     </Grid>
                     <Grid item xs={12} className={classes.completeCell}>
-                        <AlertIcon className={classes.alertIcon} />
+                        <img src={images.src + 'alert.svg'} className={classes.alertIcon} />
                     </Grid>
                     <Grid item xs={12} className={classes.errorRow}>
                         <span className={classes.errorText}>Transaction Failed</span>

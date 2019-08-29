@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-//import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import BaseRouter from './routes';
@@ -25,18 +24,14 @@ class App extends Component {
   render() {
     const { lang } = this.props;
     return (
-      // <Provider store={this.store}>
       <IntlProvider locale={lang} messages={messages[lang]} >
         <Router>
           <BaseRouter />
         </Router>
       </IntlProvider>
-      // </Provider>
     );
   }
 }
-
-// export default App;
 
 const mapStateToProps = (state) => {
   return {

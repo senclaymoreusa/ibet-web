@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../util_config';
+import { config, images } from '../util_config';
 import { connect } from 'react-redux';
-
 import '../css/deposit.css';
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
 import { PayPalButton } from 'react-paypal-button-v2';
-import Paper from '@material-ui/core/Paper';
-
-
 import { hide_deposit_paypal, show_deposit } from '../actions';
-import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
-import { ReactComponent as Paypal } from '../assets/img/svg/paypal.svg';
-
 import Left from '@material-ui/icons/ChevronLeft'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -117,7 +109,7 @@ class New_Deposit_Paypal extends Component {
                     />
 
                     <div style={{ position: 'absolute', top: 20, left: 300, }}>
-                        <Paypal style={{ height: 50, width: 60 }} />
+                    <img src={images.src + 'paypal.svg'}  style={{ height: 50, width: 60 }} />
                     </div>
 
                     <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, color: 'black', paddingLeft: 60, paddingTop: 12 }}>

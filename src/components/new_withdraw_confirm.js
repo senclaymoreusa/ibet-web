@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
+import { images } from '../util_config';
 import { hide_withdraw_confirm, show_withdraw_success, show_withdraw } from '../actions';
-import { ReactComponent as BackIcon } from '../assets/img/svg/account-menu-back.svg';
 
 const styles = theme => ({
     root: {
@@ -168,7 +166,7 @@ class New_Withdraw_Confirm extends Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                        <img src={images.src + 'account-menu-back.svg'} />
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.withdraw" defaultMessage="Withdraw" />

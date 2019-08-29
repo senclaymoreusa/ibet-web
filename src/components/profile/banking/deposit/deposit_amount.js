@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl, FormattedNumber } from 'react-intl';
@@ -7,14 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
-
-import { ReactComponent as VisaIcon } from '../../../../assets/img/svg/visa-blue.svg';
-import { ReactComponent as PrevStepIcon } from '../../../../assets/img/svg/prev_step.svg';
-
 import { withStyles } from '@material-ui/core/styles';
-
 import axios from 'axios';
-import { config } from '../../../../util_config';
+import { config, images } from '../../../../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -152,7 +146,7 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
         height: 44,
-        paddingTop:6,
+        paddingTop: 6,
         paddingLeft: 10,
         paddingRight: 10,
         width: 400,
@@ -199,9 +193,7 @@ export class DepositAmount extends Component {
             secondOption: 50,
             thirdOption: 100,
             fourthOption: 250,
-
             currency: "USD",
-
         }
 
         this.backClicked = this.backClicked.bind(this);
@@ -209,7 +201,6 @@ export class DepositAmount extends Component {
         this.secondOptionClicked = this.secondOptionClicked.bind(this);
         this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
         this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
-
         this.amountChanged = this.amountChanged.bind(this);
 
     }
@@ -221,29 +212,33 @@ export class DepositAmount extends Component {
     firstOptionClicked(event) {
         this.setState({ amount: this.state.firstOption });
         this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false }); }
+        this.setState({ amountFocused: false });
+    }
 
     secondOptionClicked(event) {
         this.setState({ amount: this.state.secondOption });
         this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false }); }
+        this.setState({ amountFocused: false });
+    }
 
     thirdOptionClicked(event) {
         this.setState({ amount: this.state.thirdOption });
         this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false }); }
+        this.setState({ amountFocused: false });
+    }
 
     fourthOptionClicked(event) {
         this.setState({ amount: this.state.fourthOption });
         this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false }); }
+        this.setState({ amountFocused: false });
+    }
 
     amountChanged(event) {
-        if (parseInt(event.target.value) > 2000){
-            let val = parseInt(event.target.value)/10;
-            this.setState({ amount:  val.toFixed(0)});
+        if (parseInt(event.target.value) > 2000) {
+            let val = parseInt(event.target.value) / 10;
+            this.setState({ amount: val.toFixed(0) });
             this.amountInput.current.value = val.toFixed(0);
-        }else
+        } else
             this.setState({ amount: event.target.value });
     }
 
@@ -259,7 +254,6 @@ export class DepositAmount extends Component {
         }
     }
 
-
     backClicked(ev) {
         this.props.callbackFromParent('deposit_method');
     }
@@ -268,12 +262,11 @@ export class DepositAmount extends Component {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
 
-
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (
@@ -293,7 +286,7 @@ export class DepositAmount extends Component {
                         <Grid container>
                             <Grid item xs={3} className={classes.cardTypeCell}>
                                 <Button className={classes.cardTypeButton} disabled>
-                                    <VisaIcon />
+                                    <img src={images.src + 'visa-blue.svg'} />
                                 </Button>
                             </Grid>
                             <Grid item xs={9} className={classes.cardTypeCell}>
@@ -350,7 +343,7 @@ export class DepositAmount extends Component {
                                         min: 10,
                                         max: 2000
                                     }}
-                                    inputRef={this.amountInput} 
+                                    inputRef={this.amountInput}
 
                                 />
                             </Grid>

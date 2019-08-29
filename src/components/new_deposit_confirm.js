@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import axios from 'axios';
-import { config } from '../util_config';
+import { images } from '../util_config';
 import { connect } from 'react-redux';
-
 import '../css/deposit.css';
-// Material-UI
-import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
-import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
-
 import { hide_deposit_confirm, show_deposit_success, show_deposit } from '../actions';
-import { ReactComponent as BackIcon } from '../assets/img/svg/account-menu-back.svg';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
@@ -180,7 +169,7 @@ class New_Deposit_Confirm extends Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                        <img src={images.src + 'account-menu-back.svg'} />
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />

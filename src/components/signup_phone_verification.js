@@ -1,15 +1,10 @@
 import React from 'react';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
-import { ReactComponent as Check } from '../assets/img/svg/check.svg';
-
 import { hide_phone_verification, show_complete_registration, show_signup_finish, authLogin } from '../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-
 import TextField from '@material-ui/core/TextField';
-
 import { FormattedMessage } from 'react-intl';
-
+import { images } from '../util_config';
 import axios from 'axios'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -147,7 +142,7 @@ class Phone_Verification extends React.Component {
                         VERIFICATION
                     </div>
 
-                    <Close 
+                    <img src={images.src + 'close_page.svg'}
                         style={{cursor: 'pointer', position: 'absolute', top: 8, left: 720, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_phone_verification();
@@ -256,7 +251,7 @@ class Phone_Verification extends React.Component {
                             {
                                 this.state.show_check && 
                                 <div style={{position: 'absolute', left: 658, top: 272}}> 
-                                    <Check />
+                                    <img src={images.src + 'check.svg'} />
                                 </div>
                             }
 

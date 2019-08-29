@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
-import { ReactComponent as BankIcon } from '../../../../assets/img/svg/bank-icon-black.svg';
-import { ReactComponent as PaypalIcon } from '../../../../assets/img/svg/paypal.svg';
-import { ReactComponent as VisaIcon } from '../../../../assets/img/svg/visa-blue.svg';
-import { ReactComponent as MastercardIcon } from '../../../../assets/img/svg/master-card.svg';
-
+import { images } from '../../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -151,16 +145,16 @@ export class WithdrawMethod extends Component {
                             </Grid>
                             <Grid item xs={12} className={classes.buttonsRow}>
                                 <Button className={classes.addButton} disabled={true} onClick={this.addVisaCard}>
-                                    <VisaIcon />
+                                    <img src={images.src + 'visa-blue.svg'} />
                                 </Button>
                                 <Button className={classes.addButton} disabled={true} onClick={this.addMasterCard}>
-                                    <MastercardIcon />
+                                    <img src={images.src + 'master-card.svg'} />
                                 </Button>
                                 <Button className={classes.addButton} disabled={true} onClick={this.addBankAccount}>
-                                    <BankIcon />
+                                    <img src={images.src + 'bank-icon-black.svg'} />
                                 </Button>
                                 <Button className={classes.addButton} disabled={true} onClick={this.addPaypal}>
-                                    <PaypalIcon />
+                                    <img src={images.src + 'paypal.svg'} />
                                 </Button>
                             </Grid>
                         </Grid>

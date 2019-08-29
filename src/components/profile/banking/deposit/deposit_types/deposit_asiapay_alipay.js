@@ -3,8 +3,6 @@ import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config } from '../../../../../util_config';
 import { connect } from 'react-redux';
-
-// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -12,9 +10,7 @@ import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-import { ReactComponent as PrevStepIcon } from '../../../../../assets/img/svg/prev_step.svg';
-
+import { images } from '../../../../../util_config';
 
 var QRCode = require('qrcode.react');
 
@@ -349,7 +345,7 @@ class DepositAsiapayAlipay extends Component {
             //throw new Error('Something went wrong.');
         }).then(function (data) {
             let qrurl = data.qr;
-            if (data.code == 'ERROR') {
+            if (data.code === 'ERROR') {
                 currentComponent.props.callbackFromParent("error", data.message);
             } else {
                 currentComponent.setState({ value: qrurl, show_qrcode: true });
@@ -377,7 +373,7 @@ class DepositAsiapayAlipay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <PrevStepIcon />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
 
         return (
