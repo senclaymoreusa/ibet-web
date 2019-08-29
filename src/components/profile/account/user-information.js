@@ -73,7 +73,6 @@ const styles = theme => ({
         paddingTop: 30,
         paddingLeft: 128,
         paddingRight: 30,
-        paddingBottom: 20,
     },
     idRow: {
         paddingLeft: 128,

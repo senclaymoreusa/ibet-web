@@ -11,11 +11,19 @@ import { getNames } from 'country-list';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import InputBase from '@material-ui/core/InputBase';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
+import ReactPhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/dist/style.css'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -87,7 +95,6 @@ const styles = theme => ({
         paddingTop: 30,
         paddingLeft: 128,
         paddingRight: 30,
-        paddingBottom: 20,
     },
     idRow: {
         paddingLeft: 128,
@@ -102,13 +109,23 @@ const styles = theme => ({
         paddingLeft: 0,
         paddingRight: 128,
     },
-    label: {
+    readonlyText: {
         fontSize: 20,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.2,
+        letterSpacing: 0.55,
+        marginTop: -4,
+        color: '#000',
+    },
+    label: {
+        fontSize: 14,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 2,
-        letterSpacing: 0.7,
+        letterSpacing: 0.35,
         color: '#000',
     },
     margin: {
@@ -130,7 +147,56 @@ const styles = theme => ({
         lineHeight: 1.17,
         letterSpacing: 0.3,
         color: '#000',
-    }
+    },
+    mandatoryText: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 44,
+        paddingTop: 6,
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginBottom: 20,
+        width: '100%',
+        borderRadius: 4,
+        border: 'solid 1px #e4e4e4',
+        "&:hover": {
+            border: 'solid 1px #717171',
+        },
+        "&:focus": {
+            border: 'solid 1px #717171',
+        },
+    },
+    optionalText: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 44,
+        paddingTop: 6,
+        paddingLeft: 10,
+        paddingRight: 10,
+        width: '100%',
+        borderRadius: 4,
+        marginBottom: 8,
+        border: 'solid 1px #e4e4e4',
+        "&:hover": {
+            border: 'solid 1px #717171',
+        },
+        "&:focus": {
+            border: 'solid 1px #717171',
+        },
+    },
+    showIcon:{
+        fontSize: 20
+    },
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -184,10 +250,27 @@ class UserInformationEdit extends Component {
             state: '',
             country: '',
             registrationDate: '',
+
+            password: '',
+            newPassword: '',
+            confirmPassword: '',
             countries: [],
 
+            showLinearProgressBar: false,
+
+            passwordInvalid: false,
+            newPasswordInvalid: false,
+            confirmPasswordInvalid: false,
+
+            passwordSame: false,
+            passwordTooSimple: false,
+
+            showPassword: false,
+            showNewPassword: false,
+            showConfirmPassword: false,
+
             usernameFocused: false,
-            usernameInvalid: true,
+            usernameInvalid: false,
             usernameAlreadyExists: false,
         }
 
@@ -204,8 +287,13 @@ class UserInformationEdit extends Component {
         this.onFormSubmit = this.onFormSubmit.bind(this);
 
         this.usernameFocused = this.usernameFocused.bind(this);
+        this.passwordChanged = this.passwordChanged.bind(this);
+        this.newPasswordChanged = this.newPasswordChanged.bind(this);
+        this.confirmPasswordChanged = this.confirmPasswordChanged.bind(this);
 
-
+        this.showPasswordClicked = this.showPasswordClicked.bind(this);
+        this.showNewPasswordClicked = this.showNewPasswordClicked.bind(this);
+        this.showConfirmPasswordClicked = this.showConfirmPasswordClicked.bind(this);
     }
 
     componentDidMount() {
@@ -241,6 +329,18 @@ class UserInformationEdit extends Component {
             })
     }
 
+    showPasswordClicked = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
+
+    showNewPasswordClicked = () => {
+        this.setState(state => ({ showNewPassword: !state.showNewPassword }));
+    };
+
+    showConfirmPasswordClicked = () => {
+        this.setState(state => ({ showConfirmPassword: !state.showConfirmPassword }));
+    };
+
     cancelClicked() {
         this.props.callbackFromParent('user_information');
     }
@@ -252,18 +352,16 @@ class UserInformationEdit extends Component {
     usernameChanged(event) {
         this.setState({ username: event.target.value });
 
-        if (event.target.value.length === 0)
-            this.setState({ usernameAlreadyExists: true });
+        this.setState({ usernameInvalid: (event.target.value.length === 0) });
     }
 
     usernameFocused(event) {
         this.setState({ usernameFocused: true });
     }
 
-    phoneChanged(event) {
-        this.setState({ phone: event.target.value });
+    phoneChanged(value) {
+        this.setState({ phone: value });
     }
-
     countryChanged(event) {
         this.setState({ country: event.target.value });
     }
@@ -288,21 +386,49 @@ class UserInformationEdit extends Component {
         this.setState({ state: event.target.value });
     }
 
+    async passwordChanged(event) {
+        await this.setState({ password: event.target.value, passwordInvalid: false, passwordSame: false });
+    }
+
+    async newPasswordChanged(event) {
+        if (this.state.confirmPassword && event.target.value !== this.state.confirmPassword) {
+            this.setState({ newPasswordInvalid: true })
+        } else {
+            this.setState({ newPasswordInvalid: false })
+        }
+
+        this.setState({ passwordTooSimple: (event.target.value.length < 8) })
+
+        await this.setState({ newPassword: event.target.value, passwordSame: false });
+    }
+
+    async confirmPasswordChanged(event) {
+        if (event.target.value !== this.state.newPassword) {
+            this.setState({ confirmPasswordInvalid: true })
+        } else {
+            this.setState({ confirmPasswordInvalid: false })
+        }
+        await this.setState({ confirmPassword: event.target.value, passwordSame: false });
+    }
+
     onFormSubmit(event) {
         event.preventDefault();
+        let currentComponent = this;
+
+        currentComponent.setState({ showLinearProgressBar: true });
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
         const body = JSON.stringify({
-            username: this.state.username ? this.state.username : this.state.fetchedUserData.username,
-            phone: this.state.phone ? this.state.phone : this.state.fetchedUserData.phone,
-            street_address_1: this.state.street_address_1,
-            street_address_2: this.state.street_address_2,
-            country: this.state.country ? this.state.country : this.state.fetchedUserData.country,
-            city: this.state.city ? this.state.city : this.state.fetchedUserData.city,
-            state: this.state.state ? this.state.state : this.state.fetchedUserData.state,
-            zipcode: this.state.zipcode ? this.state.zipCode : this.state.fetchedUserData.zipcode,
+            username: this.state.username,
+            phone: this.state.phone,
+            street_address_1: this.state.address1,
+            street_address_2: this.state.address2,
+            country: this.state.country,
+            city: this.state.city,
+            state: this.state.state,
+            zipcode: this.state.zipCode,
 
             date_of_birth: this.state.fetchedUserData.date_of_birth,
             email: this.state.fetchedUserData.email,
@@ -312,6 +438,8 @@ class UserInformationEdit extends Component {
 
         axios.put(API_URL + 'users/api/user/', body, config)
             .then(() => {
+                currentComponent.setState({ showLinearProgressBar: false });
+
                 this.props.callbackFromParent('user_information');
             })
             .catch((err) => {
@@ -323,7 +451,8 @@ class UserInformationEdit extends Component {
 
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
-        const { countries, username, userId, firstName, lastName, email, phone, address1, address2, zipCode, city, state, country, registrationDate } = this.state;
+        const { password, newPassword, confirmPassword, countries, username, userId, firstName, lastName, email, phone, address1, address2, zipCode, city, state, country, registrationDate } = this.state;
+        const { showLinearProgressBar } = this.state;
 
         let titleMessage = formatMessage({ id: "user_information.user_information" });
         let saveButtonMessage = formatMessage({ id: "user_information.save_changes" });
@@ -331,10 +460,10 @@ class UserInformationEdit extends Component {
         let supportMessage = formatMessage({ id: "user_information.support" });
 
 
-        let usernameErrorMessage = 'Username cannot be empty.';
+        let usernameErrorMessage = 'User name cannot be empty.';
 
         if (this.state.usernameAlreadyExists)
-            usernameErrorMessage = 'This username is taken. Please, try another one.';
+            usernameErrorMessage = 'This user name is taken. Please, try another one.';
 
         return (
             <div className={classes.root}>
@@ -343,148 +472,219 @@ class UserInformationEdit extends Component {
                         <Grid item xs={12} className={classes.titleCell}>
                             <span className={classes.title}>{titleMessage}</span>
                         </Grid>
-                        <Grid item xs={12} className={classes.nameRow}>
-                            <span className={classes.username}>{firstName}</span>
-                            <span className={classes.username}>{lastName}</span>
+                        <Grid item xs={12}>
+                            {showLinearProgressBar === true && <LinearProgress />}
                         </Grid>
-                        <Grid item xs={12} className={classes.idRow}>
-                            <span className={classes.text}>ID: </span>
-                            <span className={classes.text}>{userId}</span>
-                        </Grid>
-                        <Grid item xs={6} className={classes.leftRow}>
+                        <Grid item xs={12} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }} >
                             <Grid container>
-                                <Grid item xs={12}>
-                                    <FormControl className={classes.margin}>
-                                        <InputLabel shrink htmlFor="bootstrap-username">
-                                            Username
-                                    </InputLabel>
-                                        <BootstrapInput id="bootstrap-username"
-                                            value={username} placeholder="Username"
-                                            onChange={this.usernameChanged}
-                                            onFocus={this.usernameFocused}
-                                            error={this.state.usernameInvalid && this.state.usernameFocused}
-                                            // helperText={(this.state.usernameInvalid && this.state.usernameFocused) ? usernameErrorMessage : ''}
-                                        />
-                                    </FormControl>
+                                <Grid item xs={12} className={classes.nameRow}>
+                                    <span className={classes.username}>{firstName}</span>
+                                    <span className={classes.username}>{lastName}</span>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        className={classes.text}
-                                        label="Email"
-                                        margin="normal"
-                                        fullWidth
-                                        value={email}
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            readOnly: true,
-                                        }}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                <Grid item xs={12} className={classes.idRow}>
+                                    <span className={classes.text}>ID: </span>
+                                    <span className={classes.text}>{userId}</span>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <FormControl className={classes.margin}>
-                                        <InputLabel shrink htmlFor="bootstrap-phone">
-                                            Phone
-                                    </InputLabel>
-                                        <BootstrapInput id="bootstrap-phone" value={phone} placeholder="Phone" onChange={this.phoneChanged} />
-                                    </FormControl>
+                                <Grid item xs={6} className={classes.leftRow}>
+                                    <Grid container>
+                                        <Grid item xs={12}>
+                                            <span className={classes.label}>User name</span>
+                                            <TextField
+                                                className={classes.mandatoryText}
+                                                value={username}
+                                                placeholder="Username"
+                                                onChange={this.usernameChanged}
+                                                onFocus={this.usernameFocused}
+                                                error={this.state.usernameInvalid && this.state.usernameFocused}
+                                                helperText={(this.state.usernameInvalid && this.state.usernameFocused) ? usernameErrorMessage : ''}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                }} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <span className={classes.label}>Email</span>
+                                            <TextField
+                                                className={classes.readonlyText}
+                                                margin="normal"
+                                                fullWidth
+                                                value={email}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                    readOnly: true,
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} style={{ paddingBottom: 20 }}>
+                                            <span className={classes.label}>Phone</span>
+                                            <ReactPhoneInput defaultCountry={'us'} className={classes.mandatoryText}
+                                                value={phone} onChange={this.phoneChanged} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <span className={classes.label}>Member Since</span>
+                                            <TextField
+                                                className={classes.readonlyText}
+                                                margin="normal"
+                                                fullWidth
+                                                value={new Date(registrationDate).toLocaleDateString()}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                    readOnly: true,
+                                                }}
+                                            />
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        className={classes.text}
-                                        label="Member Since"
-                                        margin="normal"
-                                        fullWidth
-                                        value={new Date(registrationDate).toLocaleDateString()}
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            readOnly: true,
-                                        }}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                <Grid item xs={6} className={classes.rightRow}>
+                                    <Grid container>
+                                        <Grid item xs={12}>
+                                            <span className={classes.label}>Password</span>
+                                            <TextField
+                                                className={classes.mandatoryText}
+                                                value={password}
+                                                placeholder="Current password"
+                                                type={this.state.showPassword ? 'text' : 'password'}
+                                                onChange={this.passwordChanged}
+                                                error={this.state.passwordInvalid && this.state.passwordFocused}
+                                                helperText={(this.state.passwordInvalid && this.state.passwordFocused) ? 'Incorrect password. Please, try again.' : ''}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton 
+                                                            aria-label="Toggle password visibility"
+                                                            onClick={this.showPasswordClicked}
+                                                            >
+                                                            {this.state.showPassword ? <VisibilityOff className={classes.showIcon}/> : <Visibility className={classes.showIcon}/>}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                        ),
+                                                }} />
+                                            <TextField
+                                                className={classes.mandatoryText}
+                                                value={newPassword}
+                                                placeholder="New password"
+                                                type={this.state.showNewPassword ? 'text' : 'password'}
+                                                onChange={this.newPasswordChanged}
+                                                onFocus={this.newPasswordFocused}
+                                                error={this.state.newPasswordInvalid && this.state.newPasswordFocused}
+                                                helperText={(this.state.showNewPasswordInvalid && this.state.newPasswordFocused) ? 'Incorrect password. Please, try again.' : ''}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton 
+                                                            aria-label="Toggle password visibility"
+                                                            onClick={this.showNewPasswordClicked}
+                                                            >
+                                                            {this.state.showNewPassword ? <VisibilityOff className={classes.showIcon}/> : <Visibility className={classes.showIcon}/>}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                        ),
+                                                }} />
+                                            <TextField
+                                                className={classes.mandatoryText}
+                                                value={confirmPassword}
+                                                placeholder="Confirm password"
+                                                type={this.state.showConfirmPassword ? 'text' : 'password'}
+                                                onChange={this.confirmPasswordChanged}
+                                                onFocus={this.confirmPasswordFocused}
+                                                error={this.state.confirmPasswordInvalid && this.state.confirmPasswordFocused}
+                                                helperText={(this.state.confirmPasswordInvalid && this.state.confirmPasswordFocused) ? 'Your password does not match' : ''}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton 
+                                                            aria-label="Toggle password visibility"
+                                                            onClick={this.showConfirmPasswordClicked}
+                                                            >
+                                                            {this.state.showConfirmPassword ? <VisibilityOff className={classes.showIcon}/> : <Visibility className={classes.showIcon}/>}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                        ),
+                                                }} />
+                                        </Grid>
+                                        <Grid item xs={12} style={{ marginTop: 20 }}>
+                                            <span className={classes.label}>Address</span>
+                                            <TextField
+                                                className={classes.optionalText}
+                                                value={address1}
+                                                placeholder="Address 1"
+                                                onChange={this.address1Changed}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                }} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                className={classes.optionalText}
+                                                value={address2}
+                                                placeholder="Address 2"
+                                                onChange={this.address2Changed}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                }} />
+                                        </Grid>
+                                        <Grid item xs={6} style={{ paddingRight: 4 }}>
+                                            <TextField
+                                                className={classes.optionalText}
+                                                value={city}
+                                                placeholder="City"
+                                                onChange={this.cityChanged}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                }} />
+                                        </Grid>
+                                        <Grid item xs={3} style={{ paddingLeft: 4, paddingRight: 4 }}>
+                                            <TextField
+                                                className={classes.optionalText}
+                                                value={zipCode}
+                                                placeholder="Zipcode"
+                                                onChange={this.zipCodeChanged}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                }} />
+                                        </Grid>
+                                        <Grid item xs={3} style={{ paddingLeft: 4 }}>
+                                            <TextField
+                                                className={classes.optionalText}
+                                                value={state}
+                                                placeholder="State"
+                                                onChange={this.stateChanged}
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                }} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormControl className={classes.margin}>
+                                                <Select
+                                                    className={classes.textField}
+                                                    value={country}
+                                                    onChange={this.countryChanged}
+                                                    input={<BootstrapInput name="country" id="country-customized-select" value={country} />}
+                                                >
+                                                    {countries.map(name => (
+                                                        <MenuItem key={name} value={name} >
+                                                            {name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12} className={classes.supportRow}>
+                                    <span className={classes.supportText}>{supportMessage}</span>
+                                </Grid>
+                                <Grid item xs={12} className={classes.updateRow}>
+                                    <Button className={classes.cancelButton} onClick={this.cancelClicked} >
+                                        {cancelButtonMessage}
+                                    </Button>
+                                    <Button className={classes.button} type="submit" >
+                                        {saveButtonMessage}
+                                    </Button>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid item xs={6} className={classes.rightRow}>
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <FormControl className={classes.margin}>
-                                        <InputLabel shrink htmlFor="bootstrap-password">
-                                            Current Password
-                                    </InputLabel>
-                                        <BootstrapInput id="bootstrap-password" placeholder="Current password" type="password"/>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <FormControl className={classes.margin}>
-                                        <BootstrapInput id="bootstrap-new-password" placeholder="New password" type="password"/>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <FormControl className={classes.margin}>
-                                        <BootstrapInput id="bootstrap-confirm-new-password" placeholder="Confirm password" type="password"/>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12} style={{ marginTop: 20 }}>
-                                    <FormControl className={classes.margin}>
-                                        <InputLabel shrink htmlFor="bootstrap-address1">
-                                            Address
-                                    </InputLabel>
-                                        <BootstrapInput id="bootstrap-address1" placeholder="Street Address 1" value={address1} onChange={this.address1Changed} />
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <FormControl className={classes.margin}>
-                                        <BootstrapInput id="bootstrap-address2" placeholder="Street Address 2" value={address2} onChange={this.address2Changed} />
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={6} style={{ paddingRight: 4 }}>
-                                    <FormControl className={classes.margin}>
-                                        <BootstrapInput id="bootstrap-city" placeholder="City" value={city} onChange={this.cityChanged} />
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={3} style={{ paddingLeft: 4, paddingRight: 4 }}>
-                                    <FormControl className={classes.margin}>
-                                        <BootstrapInput id="bootstrap-zipcode" placeholder="Zip code" value={zipCode} onChange={this.zipCodeChanged} />
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={3} style={{ paddingLeft: 4 }}>
-                                    <FormControl className={classes.margin}>
-                                        <BootstrapInput id="bootstrap-state" placeholder="State" value={state} onChange={this.stateChanged} />
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <FormControl className={classes.margin}>
-                                        <Select
-                                            className={classes.textField}
-                                            value={country}
-                                            onChange={this.countryChanged}
-                                            input={<BootstrapInput name="country" id="country-customized-select" value={country} />}
-                                        >
-                                            {countries.map(name => (
-                                                <MenuItem key={name} value={name} >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12} className={classes.supportRow}>
-                            <span className={classes.supportText}>{supportMessage}</span>
-                        </Grid>
-                        <Grid item xs={12} className={classes.updateRow}>
-                            <Button className={classes.cancelButton} onClick={this.cancelClicked} >
-                                {cancelButtonMessage}
-                            </Button>
-                            <Button className={classes.button} type="submit" >
-                                {saveButtonMessage}
-                            </Button>
                         </Grid>
                     </Grid>
                 </form>
