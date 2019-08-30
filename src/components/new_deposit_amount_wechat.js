@@ -137,7 +137,7 @@ const styles = theme => ({
     }
 });
 
-class New_Deposit_Wechat extends Component {
+class NewDepositWechat extends Component {
     constructor(props) {
         super(props);
 
@@ -379,4 +379,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_amount, show_deposit })(New_Deposit_Wechat)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_amount, show_deposit })(NewDepositWechat)));

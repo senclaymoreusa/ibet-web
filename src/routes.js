@@ -48,7 +48,7 @@ import DepositAsiapayWechatpay from './components/profile/banking/deposit/deposi
 import DepositAsiapayAlipay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_alipay'
 import DepositQaicashAlipay from './components/profile/banking/deposit/deposit_types/deposit_qaicash_alipay'
 import WithdrawQaicashLBT from './components/profile/banking/withdraw/withdraw_types/withdraw_qaicash_lbt'
-import New_Profile from './components/new_profile2'
+import NewProfile from './components/new_profile2'
 import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/profile/banking/deposit/deposit_types/deposit_astropay"
 import DepositCirclepay from "./components/profile/banking/deposit/deposit_types/deposit_circlepay"
@@ -77,7 +77,7 @@ const BaseRouter = () => (
     <Route exact path="/game_detail/:id?" component={Game_Detail} />
     <Route exact path="/game_search/:term?" component={Game_Search} />
     {/* <Route exact path="/profile" component={Profile} /> */}
-    <Route exact path="/profile" component={New_Profile} />
+    <Route exact path="/profile" component={NewProfile} />
     {/* <Route exact path="/update_profile" component={Update} /> */}
     <Route exact path="/update_profile" component={New_Update_Profile} />
     <Route exact path="/change_email" component={Change_Email} />

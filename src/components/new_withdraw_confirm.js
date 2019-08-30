@@ -131,7 +131,7 @@ const styles = theme => ({
     }
 });
 
-class New_Withdraw_Confirm extends Component {
+class NewWithdrawConfirm extends Component {
     constructor(props) {
         super(props);
 
@@ -210,4 +210,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_withdraw_confirm, show_withdraw_success, show_withdraw })(New_Withdraw_Confirm)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_withdraw_confirm, show_withdraw_success, show_withdraw })(NewWithdrawConfirm)));

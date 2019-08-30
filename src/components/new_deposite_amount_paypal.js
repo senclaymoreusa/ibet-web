@@ -50,7 +50,7 @@ const styles = theme => ({
     },
 });
 
-class New_Deposit_Paypal extends Component {
+class NewDepositPaypal extends Component {
     constructor(props) {
         super(props);
 
@@ -249,4 +249,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_paypal, show_deposit })(New_Deposit_Paypal)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_paypal, show_deposit })(NewDepositPaypal)));

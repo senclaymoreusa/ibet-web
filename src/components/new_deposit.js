@@ -234,7 +234,7 @@ const BootstrapInput = withStyles(theme => ({
 }))(InputBase);
 
 
-class New_Deposit extends Component {
+class NewDeposit extends Component {
     constructor(props) {
         super(props);
 
@@ -341,8 +341,8 @@ class New_Deposit extends Component {
     }
 }
 
-New_Deposit.propTypes = {
+NewDeposit.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(connect(null, { hide_deposit, show_deposit_confirm, show_deposit_paypal, show_withdraw, show_account_menu, show_deposit_success })(New_Deposit));
+export default withStyles(styles)(connect(null, { hide_deposit, show_deposit_confirm, show_deposit_paypal, show_withdraw, show_account_menu, show_deposit_success })(NewDeposit));

@@ -42,7 +42,7 @@ const styles = theme => ({
     notchedOutline: {},
 });
 
-class New_Profile extends Component {
+class NewProfile extends Component {
 
     constructor(props) {
         super(props);
@@ -274,4 +274,4 @@ class New_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_user_profile, show_update_profile })(New_Profile));
+export default withStyles(styles)(connect(null, { hide_user_profile, show_update_profile })(NewProfile));
