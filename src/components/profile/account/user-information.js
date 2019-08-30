@@ -136,7 +136,6 @@ class UserInformation extends Component {
             state: '',
             country: '',
             registrationDate: '',
-            showMessage : false
         }
 
         this.updateClicked = this.updateClicked.bind(this);
@@ -145,7 +144,7 @@ class UserInformation extends Component {
     }
 
     closeNotificationClicked() {
-        this.setState({ showMessage: false });
+        // this.props.message = '';
     }
 
     componentDidMount() {
@@ -195,9 +194,6 @@ class UserInformation extends Component {
 
         let titleMessage = formatMessage({ id: "user_information.user_information" });
         let editButtonMessage = formatMessage({ id: "user_information.edit_information" });
-
-        const { message } = this.props;
-
 
         return (
             <div className={classes.root}>
@@ -336,7 +332,7 @@ class UserInformation extends Component {
                             vertical: 'top',
                             horizontal: 'center',
                         }}
-                        open={this.state.showMessage && this.props.message !== undefined && this.props.message.length > 0}
+                        open={this.props.message !== undefined && this.props.message.length > 0}
                         onClose={this.closeNotificationClicked}
                         autoHideDuration={3000}
                         TransitionComponent={Fade}

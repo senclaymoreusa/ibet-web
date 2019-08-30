@@ -482,7 +482,7 @@ class UserInformationEdit extends Component {
 
         currentComponent.setState({ showLinearProgressBar: true });
         let passwordChangeSuccess = false;
-
+let successMessage = 'Your changes are successfull updated.';
         if (this.state.newPassword.length > 0) {
 
             const token = localStorage.getItem('token');
@@ -493,7 +493,10 @@ class UserInformationEdit extends Component {
                     passwordChangeSuccess = true;
 
                 }).catch(err => {
-                    alert('Password update failed')
+                    if (err.response.status === 400)
+                        alert('You entered a wrong password.')
+                    else
+                        alert('Password update failed')
                     currentComponent.setState({ showLinearProgressBar: false });
 
                 })
@@ -523,7 +526,7 @@ class UserInformationEdit extends Component {
             axios.put(API_URL + 'users/api/user/', body, config)
                 .then(() => {
                     currentComponent.setState({ showLinearProgressBar: false });
-                    this.props.callbackFromParent('user_information', 'Your changes are successfull updated.');
+                    this.props.callbackFromParent('user_information', successMessage);
                 })
                 .catch((err) => {
                     console.log(err.response);
@@ -800,13 +803,13 @@ class UserInformationEdit extends Component {
                                         type="submit"
                                         disabled={this.state.usernameInvalid ||
                                             this.state.phoneInvalid ||
-                                            this.state.passwordInvalid || 
+                                            this.state.passwordInvalid ||
                                             this.state.newPasswordInvalid ||
                                             this.state.confirmPasswordInvalid ||
                                             this.state.address1Invalid ||
                                             this.state.cityInvalid ||
                                             this.state.zipCodeInvalid
-                                    } >
+                                        } >
                                         {saveButtonMessage}
                                     </Button>
                                 </Grid>
