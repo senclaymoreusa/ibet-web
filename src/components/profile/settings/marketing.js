@@ -197,12 +197,10 @@ export class Marketing extends Component {
     communicationClicked(ev) {
         this.setState({ communication: !this.state.communication });
 
-        if (this.state.communication) {
-            this.setState({ phone: false });
-            this.setState({ email: false });
-            this.setState({ sms: false });
-            this.setState({ postalMail: false });
-        }
+            this.setState({ phone: ev.target.checked });
+            this.setState({ email: ev.target.checked });
+            this.setState({ sms: ev.target.checked });
+            this.setState({ postalMail: ev.target.checked });
     }
 
     phoneClicked(ev) {
