@@ -346,11 +346,15 @@ class UserInformationEdit extends Component {
                 this.setState({ email: res.data.email });
                 this.setState({ phone: res.data.phone });
                 this.setState({ address1: res.data.street_address_1 });
+                this.setState({address1Invalid : (res.data.street_address_1.length ===  0)})
                 this.setState({ address2: res.data.street_address_2 });
                 this.setState({ zipCode: res.data.zipcode });
+                this.setState({zipCodeInvalid : (res.data.zipcode.length ===  0)})
                 this.setState({ city: res.data.city });
+                this.setState({cityInvalid : (res.data.city.length ===  0)})
                 this.setState({ state: res.data.state });
                 this.setState({ country: res.data.country });
+                this.setState({countryInvalid : (res.data.country.length ===  0)})
                 this.setState({ registrationDate: res.data.time_of_registration });
             })
     }
@@ -482,7 +486,7 @@ class UserInformationEdit extends Component {
 
         currentComponent.setState({ showLinearProgressBar: true });
         let passwordChangeSuccess = false;
-let successMessage = 'Your changes are successfull updated.';
+        let successMessage = 'Your changes are successfull updated.';
         if (this.state.newPassword.length > 0) {
 
             const token = localStorage.getItem('token');
@@ -808,7 +812,8 @@ let successMessage = 'Your changes are successfull updated.';
                                             this.state.confirmPasswordInvalid ||
                                             this.state.address1Invalid ||
                                             this.state.cityInvalid ||
-                                            this.state.zipCodeInvalid
+                                            this.state.zipCodeInvalid ||
+                                            this.state.countryInvalid
                                         } >
                                         {saveButtonMessage}
                                     </Button>
