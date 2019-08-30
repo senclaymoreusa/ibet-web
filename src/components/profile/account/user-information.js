@@ -335,7 +335,7 @@ class UserInformation extends Component {
                             vertical: 'top',
                             horizontal: 'center',
                         }}
-                        open={message && message.length > 0}
+                        open={this.props.message !== undefined && this.props.message.length > 0}
                         onClose={this.closeNotificationClicked}
                         autoHideDuration={3000}
                         TransitionComponent={Fade}
@@ -347,7 +347,7 @@ class UserInformation extends Component {
                                 <div>
                                     <CheckCircleIcon className={classes.checkIcon} />
                                     <span id="client-snackbar" className={classes.message}>
-                                        {message}
+                                        {this.props.message}
                                     </span>
                                 </div>
                             }
