@@ -32,7 +32,7 @@ const styles = theme => ({
     notchedOutline: {  },
   });
 
-class Phone_Verification extends React.Component {
+class PhoneVerification extends React.Component {
     constructor(props){
         super(props);
 
@@ -304,4 +304,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, { hide_phone_verification, show_complete_registration, show_signup_finish, authLogin })(Phone_Verification));
+export default withStyles(styles)(connect(mapStateToProps, { hide_phone_verification, show_complete_registration, show_signup_finish, authLogin })(PhoneVerification));

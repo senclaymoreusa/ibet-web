@@ -82,7 +82,7 @@ class New_Profile extends Component {
                     <FormattedMessage id="new_profile.edit" defaultMessage='Edit' />
                 </button>
 
-                <img src={images.src + 'red-close.svg'}
+                <img src={images.src + 'red-close.svg'} alt=""
                     style={{ cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 20, width: 20, color: 'red' }}
                     onClick={() => {
                         this.props.hide_user_profile()

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { hide_oneclick_finish, show_login } from '../actions';
 import { FormattedMessage } from 'react-intl';
 
-class One_Click_Finish extends React.Component {
+class OneClickFinish extends React.Component {
     render(){
         return (
             <div style={{backgroundColor: 'white', height: 730, width: 770}}> 
@@ -86,4 +86,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { hide_oneclick_finish, show_login })(One_Click_Finish);
+export default connect(mapStateToProps, { hide_oneclick_finish, show_login })(OneClickFinish);

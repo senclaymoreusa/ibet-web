@@ -57,19 +57,18 @@ import Tab from '@material-ui/core/Tab';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
-import Flag from 'react-flagkit';
 
 import Login from './login_2.js';
 import Signup from './signup_2.js';
-import Signup_Email from './signup_email';
-import Signup_Detail from './signup_detail';
-import Signup_Contact from './signup_contact';
-import Signup_Phone from './signup_phone';
-import Complete_Registration from './complete_registration';
-import Phone_Verification from './signup_phone_verification';
-import One_Click_Finish from './one_click_finish';
-import Register_Finish from './register_finish';
-import Change_Password from './change_password_new';
+import SignupEmail from './signup_email';
+import SignupDetail from './signup_detail';
+import SignupContact from './signup_contact';
+import SignupPhone from './signup_phone';
+import CompleteRegistration from './complete_registration';
+import PhoneVerification from './signup_phone_verification';
+import OneClickFinish from './one_click_finish';
+import RegisterFinish from './register_finish';
+import ChangePassword from './change_password_new';
 import New_Profile from './new_profile';
 import New_Deposit from './new_deposit';
 import New_Deposit_Confirm from './new_deposit_confirm';
@@ -1034,7 +1033,7 @@ export class TopNavbar extends React.Component {
                                 </Drawer>
                             </div>
                             <IconButton href='/' className={classes.logoButton}>
-                                <img src={images.src + 'ibet_logo.svg'} />
+                                <img src={images.src + 'ibet_logo.svg'}  alt=""/>
                             </IconButton>
                             <div className={classes.grow} />
                             {
@@ -1051,7 +1050,7 @@ export class TopNavbar extends React.Component {
                                             <FormattedNumber
                                                 maximumFractionDigits={2}
                                                 value={balance}
-                                                style='currency'
+                                                style={'currency'}
                                                 currency={balanceCurrency}
                                             />
                                             <div className={classes.balanceDepositText} >
@@ -1188,7 +1187,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Signup_Email />
+                        <SignupEmail />
                     </Paper>
                 </Popper>
 
@@ -1197,7 +1196,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Signup_Detail />
+                        <SignupDetail />
                     </Paper>
                 </Popper>
 
@@ -1206,7 +1205,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Signup_Contact />
+                        <SignupContact />
                     </Paper>
                 </Popper>
 
@@ -1215,7 +1214,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Signup_Phone />
+                        <SignupPhone />
                     </Paper>
                 </Popper>
 
@@ -1224,7 +1223,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
                 >
                     <Paper>
-                        <Complete_Registration />
+                        <CompleteRegistration />
                     </Paper>
                 </Popper>
 
@@ -1233,7 +1232,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
                 >
                     <Paper>
-                        <Phone_Verification />
+                        <PhoneVerification />
                     </Paper>
                 </Popper>
 
@@ -1242,7 +1241,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
                 >
                     <Paper>
-                        <One_Click_Finish />
+                        <OneClickFinish />
                     </Paper>
                 </Popper>
 
@@ -1251,7 +1250,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
                 >
                     <Paper>
-                        <Register_Finish />
+                        <RegisterFinish />
                     </Paper>
                 </Popper>
 
@@ -1260,7 +1259,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
-                        <Change_Password />
+                        <ChangePassword />
                     </Paper>
                 </Popper>
 

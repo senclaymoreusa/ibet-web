@@ -40,7 +40,7 @@ const styles = theme => ({
 });
   
 
-class Signup_Detail extends React.Component {
+class SignupDetail extends React.Component {
     constructor(props){
         super(props);
 
@@ -402,4 +402,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(connect(mapStateToProps,{ hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob })(Signup_Detail));
+export default withStyles(styles)(connect(mapStateToProps,{ hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob })(SignupDetail));

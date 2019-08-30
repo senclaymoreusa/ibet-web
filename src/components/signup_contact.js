@@ -86,7 +86,7 @@ const BootstrapInput = withStyles(theme => ({
     },
   }))(InputBase);
 
-class Signup_Contact extends React.Component {
+class SignupContact extends React.Component {
     constructor(props){
         super(props);
 
@@ -326,4 +326,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(connect(mapStateToProps,{ show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone, handle_signup_address, handle_signup_city, handle_signup_zipcode, handle_signup_country })(Signup_Contact));
+export default withStyles(styles)(connect(mapStateToProps,{ show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone, handle_signup_address, handle_signup_city, handle_signup_zipcode, handle_signup_country })(SignupContact));

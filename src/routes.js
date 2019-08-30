@@ -32,7 +32,7 @@ import DepositPaypal from './components/profile/banking/deposit/deposit_types/de
 import TermsConditions from './components/policy/terms_conditions'
 import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
-import Change_Password from './components/change_password'
+import ChangePassword from './components/change_password'
 import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
 
 import WithdrawSuccess from "./components/withdraw_success"
@@ -112,7 +112,7 @@ const BaseRouter = () => (
     <Route exact path="/terms_conditions/" component={TermsConditions} />
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
-    <Route exact path="/change_password/" component={Change_Password} />
+    <Route exact path="/change_password/" component={ChangePassword} />
     <Route exact path="/deposit_linepay/" component={DepositLinePay} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayQucikpay} />
     <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />

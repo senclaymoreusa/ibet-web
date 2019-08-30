@@ -31,7 +31,6 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
   titleContainer: {
-    display: 'inline-block',
     display: 'flex',
   },
   page_icon: {

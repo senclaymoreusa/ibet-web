@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { sports_type } from '../actions';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import { authCheckState } from '../actions';

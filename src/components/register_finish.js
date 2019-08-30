@@ -4,7 +4,7 @@ import { hide_signup_finish, show_login, show_deposit } from '../actions';
 import { FormattedMessage } from 'react-intl';
 import { images } from '../util_config';
 
-class Register_Finish extends React.Component {
+class RegisterFinish extends React.Component {
    
     render() {
         return (
@@ -47,4 +47,4 @@ class Register_Finish extends React.Component {
     }
 }
 
-export default connect(null, { hide_signup_finish, show_login, show_deposit })(Register_Finish);
+export default connect(null, { hide_signup_finish, show_login, show_deposit })(RegisterFinish);

@@ -35,7 +35,7 @@ const styles = theme => ({
     notchedOutline: {},
 });
 
-class Change_Password extends Component {
+class ChangePassword extends Component {
     constructor(props) {
         super(props);
 
@@ -280,4 +280,4 @@ class Change_Password extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_change_password })(Change_Password));
+export default withStyles(styles)(connect(null, { hide_change_password })(ChangePassword));

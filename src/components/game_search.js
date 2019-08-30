@@ -66,18 +66,7 @@ const Menu = (list, language) =>
 });
  
  
-const Arrow = ({ text, className }) => {
-  return (
-    <div
-      className={className}
-    >{text}</div>
-  );
-};
- 
- 
-const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
-const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
- 
+
 
 
 //const API_URL = process.env.REACT_APP_REST_API;
