@@ -265,31 +265,29 @@ export class Promotions extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const btn = (
-            <Button>Moreee</Button>
-        );
+      
         return (
             <div className={classes.root}>
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <img src={images.src + 'account-menu-back.svg'} />
+                            <img src={images.src + 'account-menu-back.svg'} alt=""/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.promotions" defaultMessage="Promotions" />
                         </div>
                         <div className={classes.grow} />
                         <Button variant="contained" className={classes.balanceButton}>
-                            <img src={images.src + 'deposit.svg'} className={classes.depositIcon} />
+                            <img src={images.src + 'deposit.svg'} className={classes.depositIcon}  alt=""/>
                             <FormattedNumber
                                 maximumFractionDigits={2}
                                 value={this.state.balance}
-                                style='currency'
+                                style={"currency"}
                                 currency={this.state.balanceCurrency}
                             />
                         </Button>
                         <Button variant="outlined" className={classes.userButton}>
-                            <img src={images.src + 'red-user.svg'} />
+                            <img src={images.src + 'red-user.svg'}  alt=""/>
                         </Button>
                     </Grid>
                     <Grid item xs={12} className={classes.spaceRow}>
@@ -303,9 +301,7 @@ export class Promotions extends React.Component {
                                 <Grid item xs={12} className={classes.getStartedRow}>
                                     <Button
                                         variant="outlined"
-                                        className={classes.getStartedButton}
-
-                                    >
+                                        className={classes.getStartedButton}>
                                         <FormattedMessage id="promotions.get-started" defaultMessage="Get Started" />
                                     </Button>
                                 </Grid>
@@ -313,7 +309,7 @@ export class Promotions extends React.Component {
                                     <span className={classes.desc}>24-hours, €1,000 Cash and NO leaderboard – this June we are mixing things up. Every Monday we will be hosting a 24-hour Cash Race on Blaze Roulette in which you’ll have to solely rely on your instincts to secure a share of the €1,000 prize pool.</span>
                                     <Button className={classes.readMoreButton}>
                                         <FormattedMessage id="promotions.read-more" defaultMessage="Read more" />
-                                        <img src={images.src + 'down.svg'} className={classes.downIcon} />
+                                        <img src={images.src + 'down.svg'} className={classes.downIcon}  alt=""/>
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.row}>
@@ -321,7 +317,7 @@ export class Promotions extends React.Component {
                                 </Grid>
                                 <Grid item xs={12} className={classes.termsRow}>
                                     <Link href='/' className={classes.termslink}>
-                                    <img src={images.src + 'oval-info.svg'} className={classes.infoIcon} />
+                                    <img src={images.src + 'oval-info.svg'} className={classes.infoIcon}  alt=""/>
                                         <FormattedMessage id="footer.terms_conditions" defaultMessage='Terms & Conditions' />
                                     </Link>
                                 </Grid>

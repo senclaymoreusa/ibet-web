@@ -152,7 +152,7 @@ class ChangePassword extends Component {
                         this.props.hide_change_password()
                     }}
                 /> */}
-                <img src={images.src + 'red-close.svg'}
+                <img src={images.src + 'red-close.svg'} alt=""
                     style={{ cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 20, width: 20, color: 'red' }}
                     onClick={() => {
                         this.props.hide_change_password()

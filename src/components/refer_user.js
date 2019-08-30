@@ -31,7 +31,7 @@ const styles = theme => ({
 
 
 
-export class Refer_User extends React.Component {
+export class ReferUser extends React.Component {
     constructor(props) {
         super(props);
 
@@ -155,4 +155,4 @@ export class Refer_User extends React.Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_refer_user })(Refer_User));
+export default withStyles(styles)(connect(null, { hide_refer_user })(ReferUser));

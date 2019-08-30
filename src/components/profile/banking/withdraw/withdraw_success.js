@@ -148,7 +148,7 @@ export class WithdrawSuccess extends Component {
                         <span className={classes.title}>Withdraw</span>
                     </Grid>
                     <Grid item xs={12} className={classes.completeCell}>
-                        <img src={images.src + 'complete-icon.svg'} />
+                        <img src={images.src + 'complete-icon.svg'}  alt=""/>
                     </Grid>
                     <Grid item xs={12} className={classes.successRow}>
                         <span className={classes.successText}>Successful!</span>

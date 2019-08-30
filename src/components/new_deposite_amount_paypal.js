@@ -109,7 +109,7 @@ class NewDepositPaypal extends Component {
                     />
 
                     <div style={{ position: 'absolute', top: 20, left: 300, }}>
-                    <img src={images.src + 'paypal.svg'}  style={{ height: 50, width: 60 }} />
+                    <img src={images.src + 'paypal.svg'}  style={{ height: 50, width: 60 }} alt=""/>
                     </div>
 
                     <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, color: 'black', paddingLeft: 60, paddingTop: 12 }}>

@@ -18,7 +18,7 @@ const styles = theme => ({
     },
     backCell: {
         paddingTop: 20,
-        paddingLeft:10,
+        paddingLeft: 10,
         alignItems: 'left',
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
         height: 80,
@@ -48,7 +48,7 @@ const styles = theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         height: 80,
-        paddingTop:28,
+        paddingTop: 28,
     },
     title: {
         fontSize: 18,
@@ -120,8 +120,8 @@ export class SportsBetsAnalysis extends Component {
 
         const backButton = (
             <Button className={classes.prevButton} onClick={this.backClicked}>
-                             <img src={images.src + 'prev_step.svg'} />
-<span className={classes.backLabel}>Back</span>
+                <img src={images.src + 'prev_step.svg'} alt="" />
+                <span className={classes.backLabel}>Back</span>
             </Button>);
 
         return (

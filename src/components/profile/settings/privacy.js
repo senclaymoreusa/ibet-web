@@ -212,7 +212,6 @@ export class Privacy extends Component {
         let noMessage = formatMessage({ id: "settings.no" });
         let yesMessage = formatMessage({ id: "settings.yes" });
         let bonusTextMessage = formatMessage({ id: "settings.bonus_text" });
-        let readMoreMessage = formatMessage({ id: "settings.read_more" });
         let vipMessage = formatMessage({ id: "settings.vip" });
         let vipTextMessage = formatMessage({ id: "settings.vip_text" });
         let updateMessage = formatMessage({ id: "settings.update" });

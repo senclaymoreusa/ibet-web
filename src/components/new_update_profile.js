@@ -86,7 +86,7 @@ const BootstrapInput = withStyles(theme => ({
     },
 }))(InputBase);
 
-class New_Update_Profile extends Component {
+class NewUpdateProfile extends Component {
 
     constructor(props) {
         super(props);
@@ -586,4 +586,4 @@ class New_Update_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile })(New_Update_Profile));
+export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile })(NewUpdateProfile));

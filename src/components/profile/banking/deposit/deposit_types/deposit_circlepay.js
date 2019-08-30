@@ -268,7 +268,7 @@ class DepositCirclepay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 20) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 20) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -378,7 +378,7 @@ class DepositCirclepay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -431,21 +431,21 @@ class DepositCirclepay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                        }}
+                                            inputProps:{
+                                                step: 10,
+                                                min: 20,
+                                                max: 50000
+                                            }
+                                            }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 20,
-                                            max: 50000
-                                        }}
-                                        inputRef={this.amountInput}
+                                      inputRef={this.amountInput}
                                     />
                                 </Grid>
                                 <Grid item xs={6} className={classes.amountRow}>
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={"currency"}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

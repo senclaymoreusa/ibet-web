@@ -16,24 +16,9 @@ import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
-
-import ImagePicker from 'react-image-picker'
-import img7 from '../../../../../images/boc.jpg'//中国银行
-import img6 from '../../../../../images/cgb.png'//广发银行
-import img4 from '../../../../../images/cmb.jpg'//招商银行
-import img3 from '../../../../../images/aboc.jpg'//农业银行
-import img2 from '../../../../../images/ccb.png' //建设银行
-import img1 from '../../../../../images/icbc.jpeg'//工商银行
 import 'react-image-picker/dist/index.css'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
-
-const imageList = [{ img: img1, value: "1" },
-{ img: img2, value: "2" },
-{ img: img3, value: "3" },
-{ img: img4, value: "4" },
-{ img: img6, value: "6" },
-{ img: img7, value: "7" }];
 
 const bankList = [{ label: 'icbc', value: "1" },
 { label: 'ccb', value: "2" },
@@ -319,7 +304,7 @@ class DepositAsiapayBankcard extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 100) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 100) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -447,7 +432,7 @@ class DepositAsiapayBankcard extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-               <img src={images.src + 'prev_step.svg'} />
+               <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
 
@@ -494,14 +479,7 @@ class DepositAsiapayBankcard extends Component {
                                         }
                                     </Select>
                                     <div>
-                                        {/* <ImagePicker
-                            images={imageList.map((image, i) => ({ src: image.img, value: image.value }))}
-                            onPick={this.onPick}
-
-                        /> */}
-
-
-                                    </div>
+                                            </div>
                                 </Grid>
                                 <Grid item xs={12} >
                                     <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
@@ -528,13 +506,13 @@ class DepositAsiapayBankcard extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                            inputProps:{
+                                                step: 10,
+                                                min: 100,
+                                                max: 50000
+                                            }
                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 100,
-                                            max: 50000
-                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -542,7 +520,7 @@ class DepositAsiapayBankcard extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={"currency"}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

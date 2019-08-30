@@ -589,13 +589,13 @@ class DepositHelp2pay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                            inputProps:{
+                                                step: 10,
+                                                min: 500,
+                                                max: 500000
+                                            }
                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 500,
-                                            max: 500000
-                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -603,7 +603,7 @@ class DepositHelp2pay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style={'currency'}
+                                            style={"currency"}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

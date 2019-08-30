@@ -132,8 +132,6 @@ class Sports_Type extends Component {
         let iceHockeyMessage = formatMessage({ id: "nav.ice-hockey" });
         let tennisMessage = formatMessage({ id: "nav.tennis" });
 
-        var recent_sports = JSON.parse(localStorage.getItem("recent-sports"));
-
         return (
             <div className={classes.root}>
                 <TopNavbar activeMenu={'sports'} />

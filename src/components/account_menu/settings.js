@@ -289,23 +289,23 @@ export class Settings extends React.Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <img src={images.src + 'account-menu-back.svg'} />
+                            <img src={images.src + 'account-menu-back.svg'}  alt=""/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.Settings" defaultMessage="Settings" />
                         </div>
                         <div className={classes.grow} />
                         <Button variant="contained" className={classes.balanceButton}>
-                            <img src={images.src + 'deposit.svg'} className={classes.depositIcon} />
+                            <img src={images.src + 'deposit.svg'} className={classes.depositIcon}  alt=""/>
                             <FormattedNumber
                                 maximumFractionDigits={2}
                                 value={this.state.balance}
-                                style='currency'
+                                style={"currency"}
                                 currency={this.state.balanceCurrency}
                             />
                         </Button>
                         <Button variant="outlined" className={classes.userButton}>
-                            <img src={images.src + 'red-user.svg'} />
+                            <img src={images.src + 'red-user.svg'}  alt=""/>
                         </Button>
                     </Grid>
                     <Grid item xs={12} className={classes.spaceRow}>

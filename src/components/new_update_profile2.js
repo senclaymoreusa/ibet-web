@@ -7,13 +7,8 @@ import { connect } from 'react-redux';
 import { config } from '../util_config';
 import axios from 'axios'
 import { getNames } from 'country-list';
-
-import InputBase from '@material-ui/core/InputBase';
-
 import TopNavbar from "./top_navbar";
-
 import { Link } from 'react-router-dom';
-
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -50,7 +45,7 @@ const styles = theme => ({
     notchedOutline: {  },
 });
 
-class New_Update_Profile extends Component {
+class NewUpdateProfile extends Component {
 
     constructor(props){
         super(props);
@@ -424,4 +419,4 @@ class New_Update_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile, authCheckState })(New_Update_Profile));
+export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile, authCheckState })(NewUpdateProfile));

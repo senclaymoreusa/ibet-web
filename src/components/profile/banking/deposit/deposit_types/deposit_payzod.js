@@ -264,7 +264,7 @@ class DepositPayzod extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 500000 || parseInt(event.target.value) < 500) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 500000 || parseInt(event.target.value) < 500) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -314,9 +314,6 @@ class DepositPayzod extends Component {
         if (res.data) {
             this.setState({ qr_code: res.data });
         }
-
-        // currentComponent.props.callbackFromParent('success', amount);
-
     }
 
     render() {
@@ -331,7 +328,7 @@ class DepositPayzod extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -384,13 +381,13 @@ class DepositPayzod extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                        }}
+                                            inputProps:{
+                                                step: 10,
+                                                min: 500,
+                                                max: 500000
+                                            }
+                                           }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 500,
-                                            max: 500000
-                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -398,7 +395,7 @@ class DepositPayzod extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={"currency"}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

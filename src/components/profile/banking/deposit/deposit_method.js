@@ -198,16 +198,16 @@ export class DepositMethod extends Component {
                             </Grid>
                             <Grid item xs={12} className={classes.buttonsRow}>
                                 <Button className={classes.addButton} onClick={this.addVisaCard}>
-                                <img src={images.src + 'visa-blue.svg'} />
+                                <img src={images.src + 'visa-blue.svg'}  alt=""/>
                                 </Button>
                                 <Button className={classes.addButton} onClick={this.addMasterCard}>
-                                <img src={images.src + 'master-card.svg'} />
+                                <img src={images.src + 'master-card.svg'}  alt=""/>
                                 </Button>
                                 <Button className={classes.addButton} onClick={this.addBankAccount}>
-                                <img src={images.src + 'bank-icon-black.svg'} />
+                                <img src={images.src + 'bank-icon-black.svg'}  alt=""/>
                                 </Button>
                                 <Button className={classes.addButton} onClick={this.addPaypal}>
-                                <img src={images.src + 'paypal.svg'} />
+                                <img src={images.src + 'paypal.svg'}  alt=""/>
                                 </Button>
                             </Grid>
                         </Grid>

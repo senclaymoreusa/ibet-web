@@ -286,7 +286,7 @@ class DepositAsiapayWechatpay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 2000 || parseInt(event.target.value) < 500) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 2000 || parseInt(event.target.value) < 500) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -397,19 +397,7 @@ class DepositAsiapayWechatpay extends Component {
                 
             }
             
-            // console.log(data)
-            // let myqr = data.qr;
-
-            // if (data.code == 'ERROR') {
-            //     // alert(data.message);
-            //     currentComponent.props.callbackFromParent("error", data.message);
-            // } else {
-            //     currentComponent.setState({ value: myqr, show_qrcode: true })
-            // }
-
-            // currentComponent.setState({ showLinearProgressBar: true });
-
-        }).catch(function (error) {                        // catch
+               }).catch(function (error) {                        // catch
             console.log('Request failed', error);
             currentComponent.props.callbackFromParent("error", error.message);
         });
@@ -428,7 +416,7 @@ class DepositAsiapayWechatpay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -481,13 +469,13 @@ class DepositAsiapayWechatpay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                        }}
+                                            inputProps:{
+                                                step: 10,
+                                                min: 500,
+                                                max: 2000
+                                            }
+                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 500,
-                                            max: 2000
-                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -495,7 +483,7 @@ class DepositAsiapayWechatpay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={"currency"}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

@@ -266,7 +266,7 @@ export class DepositAmount extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -286,7 +286,7 @@ export class DepositAmount extends Component {
                         <Grid container>
                             <Grid item xs={3} className={classes.cardTypeCell}>
                                 <Button className={classes.cardTypeButton} disabled>
-                                    <img src={images.src + 'visa-blue.svg'} />
+                                    <img src={images.src + 'visa-blue.svg'}  alt=""/>
                                 </Button>
                             </Grid>
                             <Grid item xs={9} className={classes.cardTypeCell}>
@@ -336,13 +336,13 @@ export class DepositAmount extends Component {
                                     InputProps={{
                                         disableUnderline: true,
                                         endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                        inputProps:{
+                                            step: 10,
+                                            min: 10,
+                                            max: 2000
+                                        }
                                     }}
-                                    type="number"
-                                    inputProps={{
-                                        step: 10,
-                                        min: 10,
-                                        max: 2000
-                                    }}
+                                    type="number" 
                                     inputRef={this.amountInput}
 
                                 />
@@ -351,7 +351,7 @@ export class DepositAmount extends Component {
                                 <div className={classes.amountText}>
                                     <FormattedNumber
                                         value={this.state.amount}
-                                        style='currency'
+                                        style={"currency"}
                                         currency={this.state.currency}
                                     />
                                 </div>

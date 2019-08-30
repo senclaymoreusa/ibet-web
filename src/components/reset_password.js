@@ -5,12 +5,8 @@ import { withRouter } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { config } from '../util_config';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
-
 import TopNavbar from "./top_navbar";
 import { NavLink } from 'react-router-dom';
-
-
-// Material design
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -23,9 +19,6 @@ import classNames from 'classnames';
 
 import '../css/reset_password.css';
 
-
-//const API_URL = process.env.REACT_APP_REST_API;
-//const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
@@ -80,23 +73,6 @@ class Reset_Password extends Component {
         this.check_valid   = this.check_valid.bind(this);
     }
 
-    
-    // Do not delete this, I saved it for future use
-
-    // componentDidMount() {
-
-    //     const body = {
-    //         token: this.props.location.pathname.slice(16)
-    //     }
-
-    //     axios.post(API_URL + 'users/api/reset-password/verify-token/', body, config)
-    //     .then(res => {
-    //       // does nothing
-    //     }).catch(err => {
-    //       this.setState({show_page: false})
-    //     })
-    // }
-
     componentDidMount() {
         const check = localStorage.getItem('forget-password-inprogress')
         if (!check){
@@ -104,7 +80,6 @@ class Reset_Password extends Component {
         }
     }
     
-
     async onInputChange_password1(event){
         this.setState({password1: event.target.value});
         
@@ -194,21 +169,21 @@ class Reset_Password extends Component {
 
         const { classes } = this.props;
 
-        const showErrors = () => {
-            if (this.state.errorCode === errors.PASSWORD_NOT_MATCH) {
-                return (
-                    <div style={{color: 'red'}}> 
-                        <FormattedMessage id="reset_password.password_not_match" defaultMessage='Password not match' /> 
-                    </div>
-                );
-            } else if (this.state.errorCode === errors.PASSWORD_NOT_VALID) {
-                return (
-                    <div style={{color: 'red'}}> 
-                        <FormattedMessage id="reset_password.password_not_valid" defaultMessage='Password not valid' /> 
-                    </div>
-                );
-            } 
-        }
+        // const showErrors = () => {
+        //     if (this.state.errorCode === errors.PASSWORD_NOT_MATCH) {
+        //         return (
+        //             <div style={{color: 'red'}}> 
+        //                 <FormattedMessage id="reset_password.password_not_match" defaultMessage='Password not match' /> 
+        //             </div>
+        //         );
+        //     } else if (this.state.errorCode === errors.PASSWORD_NOT_VALID) {
+        //         return (
+        //             <div style={{color: 'red'}}> 
+        //                 <FormattedMessage id="reset_password.password_not_valid" defaultMessage='Password not valid' /> 
+        //             </div>
+        //         );
+        //     } 
+        // }
 
         return (
             <div> 

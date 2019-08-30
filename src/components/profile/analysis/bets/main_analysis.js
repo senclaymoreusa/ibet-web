@@ -344,14 +344,14 @@ export class MainAnalysis extends Component {
 
         const prevButton = (
             <Button className={classes.prevButton} onClick={this.goToPreviousMonth}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
                 <span className={classes.prevLabel}>{prevLabel}</span>
             </Button>);
 
         const nextButton = (
             <Button className={classes.nextButton} onClick={this.goToNextMonth} disabled={this.state.currentMonth.getMonth() === (new Date()).getMonth()}>
                 <span className={classes.nextLabel}>{nextLabel}</span>
-                <img src={images.src + 'next_step.svg'} />
+                <img src={images.src + 'next_step.svg'}  alt=""/>
             </Button>);
 
         let titleMessage = formatMessage({ id: "analysis.win_loss" });
@@ -438,7 +438,7 @@ export class MainAnalysis extends Component {
                                 <FormattedNumber
                                     maximumFractionDigits={2}
                                     value={395}
-                                    style='currency'
+                                    style={"currency"}
                                     currency={this.state.currency}
                                 />
                             </div>
@@ -451,7 +451,7 @@ export class MainAnalysis extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonsCell}>
                         <Button className={classes.button} onClick={this.goToSportsDailyAnalysis}>
-                            <img src={images.src + 'soccer_in_analysis.svg'} />
+                            <img src={images.src + 'soccer_in_analysis.svg'}  alt=""/>
                             <div className={classes.buttonText}>
                                 {sportBetsMessage}
                             </div>
@@ -459,13 +459,13 @@ export class MainAnalysis extends Component {
                                 <FormattedNumber
                                     maximumFractionDigits={2}
                                     value={400}
-                                    style='currency'
+                                    style={"currency"}
                                     currency={this.state.currency}
                                 />
                             </div>
                         </Button>
                         <Button className={classes.button} onClick={this.goToSlotsDailyAnalysis}>
-                            <img src={images.src + 'slots_in_analysis.svg'} />
+                            <img src={images.src + 'slots_in_analysis.svg'}  alt=""/>
                             <div className={classes.buttonText}>
                                 {slotSpinsMessage}
                             </div>
@@ -473,13 +473,13 @@ export class MainAnalysis extends Component {
                                 <FormattedNumber
                                     maximumFractionDigits={2}
                                     value={-5}
-                                    style='currency'
+                                    style={"currency"}
                                     currency={this.state.currency}
                                 />
                             </div>
                         </Button>
                         <Button className={classes.button} onClick={this.goToCasinoDailyAnalysis}>
-                            <img src={images.src + 'casino_in_analysis.svg'} />
+                            <img src={images.src + 'casino_in_analysis.svg'}  alt=""/>
                             <div className={classes.buttonText}>
                                 {liveCasinoBetsMessage}
                             </div>
@@ -487,7 +487,7 @@ export class MainAnalysis extends Component {
                                 <FormattedNumber
                                     maximumFractionDigits={2}
                                     value={0}
-                                    style='currency'
+                                    style={"currency"}
                                     currency={this.state.currency}
                                 />
                             </div>

@@ -74,12 +74,12 @@ import NewDeposit from './new_deposit';
 import NewDepositConfirm from './new_deposit_confirm';
 import NewDepositWechat from './new_deposit_amount_wechat';
 import NewDepositPaypal from './new_deposite_amount_paypal';
-import New_Withdraw from './new_withdraw';
+import NewWithdraw from './new_withdraw';
 import NewWithdrawConfirm from './new_withdraw_confirm';
 import Help from './account_menu/help';
-import New_Forget_Password from './forget_password_new';
-import Forget_Password_Validation from './forget_password_validation';
-import Refer_User from './refer_user';
+import NewForgetPassword from './forget_password_new';
+import ForgetPasswordValidation from './forget_password_validation';
+import ReferUser from './refer_user';
 
 import axios from 'axios';
 import { config, images } from '../util_config';
@@ -1050,7 +1050,7 @@ export class TopNavbar extends React.Component {
                                             <FormattedNumber
                                                 maximumFractionDigits={2}
                                                 value={balance}
-                                                style={'currency'}
+                                                style={"currency"}
                                                 currency={balanceCurrency}
                                             />
                                             <div className={classes.balanceDepositText} >
@@ -1346,7 +1346,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }} />
+                                <NewWithdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }} />
                             </Paper>
                         </Fade>
                     )}
@@ -1405,7 +1405,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <New_Forget_Password />
+                        <NewForgetPassword />
                     </Paper>
                 </Popper>
 
@@ -1414,7 +1414,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Forget_Password_Validation />
+                        <ForgetPasswordValidation />
                     </Paper>
                 </Popper>
 
@@ -1424,7 +1424,7 @@ export class TopNavbar extends React.Component {
 
                 >
                     <Paper>
-                        <Refer_User />
+                        <ReferUser />
                     </Paper>
                 </Popper>
 

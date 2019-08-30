@@ -271,7 +271,7 @@ class DepositQaicashAlipay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 1500 || parseInt(event.target.value) < 300) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 1500 || parseInt(event.target.value) < 300) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -393,7 +393,7 @@ class DepositQaicashAlipay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -446,13 +446,13 @@ class DepositQaicashAlipay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                            inputProps:{
+                                                step: 10,
+                                                min: 300,
+                                                max: 1500
+                                            }
                                         }}
-                                        type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 300,
-                                            max: 1500
-                                        }}
+                                        type="number" 
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -460,7 +460,7 @@ class DepositQaicashAlipay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={"currency"}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

@@ -11,29 +11,9 @@ import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import { withRouter } from 'react-router-dom';
 
-
-
-
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+
 class SelectFieldExampleMultiSelect extends Component {
-
-    // state = {
-    //     values: [],
-    // };
-
     constructor(props) {
         super(props);
         this.state = {
@@ -275,22 +255,22 @@ class SelectFieldExampleMultiSelect extends Component {
                 var filterName = filterList[i].slice(0, index);
                 var filterValue = filterList[i].slice(index+1, index+length+1);
                 var filterValueList = filterValue.split('%2B');
-                if (filterName == 'category') {
+                if (filterName === 'category') {
                     this.setState({ categoryFilter: filterValueList});
                 }
-                if (filterName == 'jackpot') {
+                if (filterName === 'jackpot') {
                     this.setState({ jackpotFilter: filterValueList});
                 }
-                if (filterName == 'provider') {
+                if (filterName === 'provider') {
                     this.setState({ providerFilter: filterValueList});
                 }
-                if (filterName == 'feature') {
+                if (filterName === 'feature') {
                     this.setState({ featuresFilter: filterValueList});
                 }
-                if (filterName == 'theme') {
+                if (filterName === 'theme') {
                     this.setState({ themeFilter: filterValueList});
                 }
-                if (filterName == 'Sort by') {
+                if (filterName === 'Sort by') {
                     this.setState({ sortFilter: filterValueList});
                 }
             }
@@ -322,22 +302,22 @@ class SelectFieldExampleMultiSelect extends Component {
                 var filterName = filterList[i].slice(0, index);
                 var filterValue = filterList[i].slice(index+1, index+length+1);
                 var filterValueList = filterValue.split('%2B');
-                if (filterName == 'category') {
+                if (filterName === 'category') {
                     this.setState({ categoryFilter: filterValueList});
                 }
-                if (filterName == 'jackpot') {
+                if (filterName === 'jackpot') {
                     this.setState({ jackpotFilter: filterValueList});
                 }
-                if (filterName == 'provider') {
+                if (filterName === 'provider') {
                     this.setState({ providerFilter: filterValueList});
                 }
-                if (filterName == 'feature') {
+                if (filterName === 'feature') {
                     this.setState({ featuresFilter: filterValueList});
                 }
-                if (filterName == 'theme') {
+                if (filterName === 'theme') {
                     this.setState({ themeFilter: filterValueList});
                 }
-                if (filterName == 'Sort by') {
+                if (filterName === 'Sort by') {
                     this.setState({ sortFilter: filterValueList});
                 }
             }

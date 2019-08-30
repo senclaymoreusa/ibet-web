@@ -15,10 +15,10 @@ import WeChatIcon from '../images/WeChat.png';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-const CLIENT = {
-    sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
-    production: 'xxxXXX',
-};
+// const CLIENT = {
+//     sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
+//     production: 'xxxXXX',
+// };
 
 
 const styles = theme => ({
@@ -286,7 +286,7 @@ class NewDepositWechat extends Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                        <img src={images.src + 'account-menu-back.svg'} />
+                            <img src={images.src + 'account-menu-back.svg'}  alt=""/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />
@@ -312,65 +312,9 @@ class NewDepositWechat extends Component {
                         </Paper>
                     </Grid>
                 </Grid>
-
-                {/* <Left
-                    style={{ cursor: 'pointer', position: 'absolute', top: 8, left: 25, fontSize: 30, color: 'red' }}
-                    onClick={() => {
-                        this.props.hide_deposit_amount();
-                        this.props.show_deposit();
-                    }}
-                />
-
-                <img style={{ position: 'absolute', top: 20, left: 300 }} src={wechat} height="50" width="50" alt='Not available' />
-
-                <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, color: 'black', paddingLeft: 60, paddingTop: 12 }}>
-                    Deposit
-                </div>
-
-                <div style={{ color: 'red', fontSize: 30, fontWeight: 600, marginLeft: 30 }}>
-                    Amount
-                </div>
-
-                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
-                    _________________________________________
-                </div>
-
-
-                <div style={{ textAlign: 'center', marginTop: 20 }}>
-                    <TextField
-                        className={classNames(classes.margin, classes.textField)}
-                        variant="outlined"
-                        type={'text'}
-                        value={this.state.balance || ''}
-                        onChange={this.onInputChange_balance}
-                    />
-                </div>
-                <br />
-                {
-                    this.state.live_check_amount && this.state.live_check_amount ?
-                        <div style={{ color: 'red' }}>
-                            <FormattedMessage id="balance.error" defaultMessage='The balance you entered is not valid' />
-                        </div> :
-                        <div>
-                            <br />
-                        </div>
-                }
-                <div className='qaicash-button'  >
-                    <button
-                        style={{ border: 'none', backgroundColor: 'black', color: 'white', width: 330, height: 50, marginLeft: 25 }}
-                        onClick={this.onformsubmit.bind(this)}
-                    >
-                        Deposit
-                        </button>
-
-                </div> */}
-
-
-
             </div>
         )
     }
-
 }
 
 const mapStateToProps = (state) => {
