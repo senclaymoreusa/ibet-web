@@ -71,7 +71,7 @@ import RegisterFinish from './register_finish';
 import ChangePassword from './change_password_new';
 import New_Profile from './new_profile';
 import New_Deposit from './new_deposit';
-import New_Deposit_Confirm from './new_deposit_confirm';
+import NewDepositConfirm from './new_deposit_confirm';
 import New_Deposit_Wechat from './new_deposit_amount_wechat';
 import New_Deposit_paypal from './new_deposite_amount_paypal';
 import New_Withdraw from './new_withdraw';
@@ -1033,7 +1033,7 @@ export class TopNavbar extends React.Component {
                                 </Drawer>
                             </div>
                             <IconButton href='/' className={classes.logoButton}>
-                                <img src={images.src + 'ibet_logo.svg'}  alt=""/>
+                                <img src={images.src + 'ibet_logo.svg'} alt="" />
                             </IconButton>
                             <div className={classes.grow} />
                             {
@@ -1123,7 +1123,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="sports_type"
-                                label={<div> <img src={images.src + 'soccer.svg'}  className="soccer" />{sportsMessage}</div>}
+                                label={<div> <img src={images.src + 'soccer.svg'} className="soccer" />{sportsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'sports_type' });
                                     this.props.history.push("/sports_type/sports");
@@ -1139,7 +1139,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="slot_type"
-                                label={<div><img src={images.src + 'slots.svg'}  className="games-icon" />{slotsMessage}</div>}
+                                label={<div><img src={images.src + 'slots.svg'} className="games-icon" />{slotsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'liveCasino_type' });
                                     this.props.history.push("/slot_type/slots/all");
@@ -1147,7 +1147,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value='lottery_type'
-                                label={<div><img src={images.src + 'lottery.svg'}  className="lottery_type" />{lotteryMessage}</div>}
+                                label={<div><img src={images.src + 'lottery.svg'} className="lottery_type" />{lotteryMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'lottery_type' });
                                     this.props.history.push("/lottery_type/lottery");
@@ -1272,15 +1272,6 @@ export class TopNavbar extends React.Component {
                     </Paper>
                 </Popper>
 
-                {/* <Popper
-                    open={this.props.showUpdateProfile}
-                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
-                >
-                    <Paper>
-                        <New_Update_Profile />
-                    </Paper>
-                </Popper> */}
-
                 <Popper
                     open={this.props.showDeposit}
                     anchorEl={anchorEl}
@@ -1307,7 +1298,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Deposit_Confirm depositInfo={this.state.depositInfo} />
+                                <NewDepositConfirm depositInfo={this.state.depositInfo} />
                             </Paper>
                         </Fade>
                     )}
@@ -1624,17 +1615,17 @@ export class TopNavbar extends React.Component {
                                     <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
                                         <List component="div" disablePadding>
                                             <ListItem button className={classes.nested}
-                                            onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/settings/marketing')
-                                            }}>
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/settings/marketing')
+                                                }}>
                                                 <ListItemText primary="Marketing" />
                                             </ListItem>
-                                            <ListItem button className={classes.nested} 
-                                            onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/settings/privacy')
-                                            }}>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/settings/privacy')
+                                                }}>
                                                 <ListItemText primary="Privacy" />
                                             </ListItem>
                                         </List>

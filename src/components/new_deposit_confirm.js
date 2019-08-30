@@ -132,7 +132,7 @@ const styles = theme => ({
     }
 });
 
-class New_Deposit_Confirm extends Component {
+class NewDepositConfirm extends Component {
     constructor(props) {
         super(props);
 
@@ -213,4 +213,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_confirm, show_deposit_success, show_deposit })(New_Deposit_Confirm)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_confirm, show_deposit_success, show_deposit })(NewDepositConfirm)));
