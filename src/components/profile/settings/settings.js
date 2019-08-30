@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
 import { injectIntl } from 'react-intl';
-import { withRouter } from 'react-router-dom';
-
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import DepositMain from './deposit/deposit_main';
-import WithdrawMain from './withdraw/withdraw_main';
+import { withRouter } from 'react-router-dom';
+
+import Marketing from './marketing';
+import Privacy from './privacy';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -47,14 +47,15 @@ const styles = theme => ({
     }
 });
 
-export class Banking extends Component {
+export class Settings extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
+            tabValue: '',
             urlPath: '',
-            tabValue: ''
+
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -98,7 +99,7 @@ export class Banking extends Component {
                 this.setState({ tabValue: parts[3] })
             }
         } else
-            this.setState({ tabValue: 'deposit' })
+            this.setState({ tabValue: 'marketing' })
     }
 
     render() {
@@ -106,15 +107,15 @@ export class Banking extends Component {
         const { tabValue } = this.state;
 
         return (
-            <div className={classes.root} >
+            <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={4} className={classes.leftPane}>
-                        <Button className={(tabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'deposit')}>Deposit</Button>
-                        <Button className={(tabValue === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'withdraw')}>Withdraw</Button>
+                        <Button className={(tabValue === 'marketing') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'marketing')}>Marketing</Button>
+                        <Button className={(tabValue === 'privacy') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'privacy')}>Privacy</Button>
                     </Grid>
                     <Grid item xs={8} className={classes.leftPane}>
-                        {tabValue === 'deposit' && <DepositMain />}
-                        {tabValue === 'withdraw' && <WithdrawMain />}
+                        {tabValue === 'marketing' && <Marketing />}
+                        {tabValue === 'privacy' && <Privacy />}
                     </Grid>
                 </Grid>
             </div>
@@ -128,4 +129,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Banking))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Settings))));

@@ -164,7 +164,6 @@ const styles = theme => ({
         marginTop: 20,
         width: 180,
         height: 48,
-        textAlign: 'center',
         borderTop: '0',
         borderLeft: '0',
         borderRight: '0',

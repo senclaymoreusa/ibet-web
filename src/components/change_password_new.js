@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { hide_change_password } from '../actions';
-
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios'
 import { config, images } from '../util_config';
