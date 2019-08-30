@@ -136,6 +136,7 @@ class UserInformation extends Component {
             state: '',
             country: '',
             registrationDate: '',
+            showMessage : false
         }
 
         this.updateClicked = this.updateClicked.bind(this);
@@ -335,7 +336,7 @@ class UserInformation extends Component {
                             vertical: 'top',
                             horizontal: 'center',
                         }}
-                        open={this.props.message !== undefined && this.props.message.length > 0}
+                        open={this.state.showMessage && this.props.message !== undefined && this.props.message.length > 0}
                         onClose={this.closeNotificationClicked}
                         autoHideDuration={3000}
                         TransitionComponent={Fade}
