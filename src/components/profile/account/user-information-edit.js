@@ -494,6 +494,8 @@ class UserInformationEdit extends Component {
 
                 }).catch(err => {
                     alert('Password update failed')
+                    currentComponent.setState({ showLinearProgressBar: false });
+
                 })
         } else
             passwordChangeSuccess = true;
