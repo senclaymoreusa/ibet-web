@@ -32,7 +32,7 @@ import DepositPaypal from './components/profile/banking/deposit/deposit_types/de
 import TermsConditions from './components/policy/terms_conditions'
 import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
-import Change_Password from './components/change_password'
+import Change_Password from './components/change_password_new'
 import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
 
 import WithdrawSuccess from "./components/withdraw_success"
@@ -48,7 +48,7 @@ import DepositAsiapayWechatpay from './components/profile/banking/deposit/deposi
 import DepositAsiapayAlipay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_alipay'
 import DepositQaicashAlipay from './components/profile/banking/deposit/deposit_types/deposit_qaicash_alipay'
 import WithdrawQaicashLBT from './components/profile/banking/withdraw/withdraw_types/withdraw_qaicash_lbt'
-import New_Profile from './components/new_profile2'
+import New_Profile from './components/profile/account/user-information'
 import New_Update_Profile from './components/new_update_profile2'
 import DepositAstropay from "./components/profile/banking/deposit/deposit_types/deposit_astropay"
 import DepositCirclepay from "./components/profile/banking/deposit/deposit_types/deposit_circlepay"
