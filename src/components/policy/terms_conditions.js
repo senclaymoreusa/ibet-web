@@ -28,7 +28,7 @@ const styles = theme => ({
     marginTop: 20,
     marginBottom: 20,
     width: '100%',
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
   },
   titleContainer: {
     display: 'inline-block',

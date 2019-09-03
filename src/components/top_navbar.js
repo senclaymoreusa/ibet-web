@@ -188,20 +188,20 @@ const styles = theme => ({
         },
     },
     button: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         color: 'white'
     },
     subbutton: {
-        margin: theme.spacing.unit
+        margin: theme.spacing()
     },
     nested: {
-        paddingLeft: theme.spacing.unit * 4
+        paddingLeft: theme.spacing() * 4
     },
     signupButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         fontSize: 17,
         height: 40,
         color: '#ffffff',
@@ -217,8 +217,8 @@ const styles = theme => ({
     loginButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingLeft: 6,
         fontSize: 17,
         height: 40,
@@ -236,8 +236,8 @@ const styles = theme => ({
     textField: {
         marginTop: 13,
         marginBottom: 15,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingLeft: 25,
         paddingRight: 25,
         paddingTop: 13,
@@ -254,8 +254,8 @@ const styles = theme => ({
     balanceButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingTop: 4,
         fontSize: 17,
         height: 40,
@@ -282,8 +282,8 @@ const styles = theme => ({
     profileButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingTop: 4,
         fontSize: 17,
         height: 40,
@@ -306,7 +306,7 @@ const styles = theme => ({
         color: '#6a6a6a',
     },
     extendedIcon: {
-        marginRight: theme.spacing.unit,
+        marginRight: theme.spacing(),
     },
     searchResult: {
         width: 400,
@@ -370,7 +370,7 @@ const styles = theme => ({
     },
     imageTitle: {
         position: 'relative',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px ${theme.spacing.unit + 6}px`,
+        padding: `${theme.spacing(2)}px ${theme.spacing() * 4}px ${theme.spacing() + 6}px`,
     },
     imageMarked: {
         height: 3,
@@ -398,7 +398,7 @@ const styles = theme => ({
     },
     langContainer: {
         display: 'inline',
-        marginLeft: theme.spacing.unit,
+        marginLeft: theme.spacing(),
         marginTop: 16,
         marginBottom: 16,
     },
@@ -439,8 +439,8 @@ const styles = theme => ({
     footer: {
         paddingLeft: 24,
         paddingRight: 24,
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
         marginTop: 20,
         backgroundColor: '#212121',
     },
@@ -1124,7 +1124,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="sports_type"
-                                label={<div> <img src={images.src + 'soccer.svg'}  className="soccer" />{sportsMessage}</div>}
+                                label={<div> <img src={images.src + 'soccer.svg'} className="soccer" />{sportsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'sports_type' });
                                     this.props.history.push("/sports_type/sports");
@@ -1140,7 +1140,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="slot_type"
-                                label={<div><img src={images.src + 'slots.svg'}  className="games-icon" />{slotsMessage}</div>}
+                                label={<div><img src={images.src + 'slots.svg'} className="games-icon" />{slotsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'liveCasino_type' });
                                     this.props.history.push("/slot_type/slots/all");
@@ -1148,7 +1148,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value='lottery_type'
-                                label={<div><img src={images.src + 'lottery.svg'}  className="lottery_type" />{lotteryMessage}</div>}
+                                label={<div><img src={images.src + 'lottery.svg'} className="lottery_type" />{lotteryMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'lottery_type' });
                                     this.props.history.push("/lottery_type/lottery");
@@ -1608,22 +1608,26 @@ export class TopNavbar extends React.Component {
                                     <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
                                         <List component="div" disablePadding>
                                             <ListItem button className={classes.nested}
-                                            onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/account/user_information')
-                                            }}>
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/account/user_information')
+                                                }}>
                                                 <ListItemText primary="User Information" />
                                             </ListItem>
                                             <ListItem button className={classes.nested}
-                                            onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/account/inbox')
-                                            }}>
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/account/inbox')
+                                                }}>
                                                 <ListItemText primary="Inbox" />
                                             </ListItem>
                                         </List>
                                     </Collapse>
-                                    <ListItem button onClick={this.responsibleGamingMenuItemClick} className={classes.mainMenuItem}>
+                                    <ListItem button className={classes.mainMenuItem}
+                                        onClick={() => {
+                                            this.setState({ mainTabValue: 'none' });
+                                            this.props.history.push('/p/responsible_gaming')
+                                        }}>
                                         <ListItemText primary="Responsible Gaming" />
                                     </ListItem>
                                     <ListItem button onClick={this.settingsProfileMenuItemClick} className={classes.mainMenuItem}>
@@ -1633,17 +1637,17 @@ export class TopNavbar extends React.Component {
                                     <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
                                         <List component="div" disablePadding>
                                             <ListItem button className={classes.nested}
-                                            onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/settings/marketing')
-                                            }}>
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/settings/marketing')
+                                                }}>
                                                 <ListItemText primary="Marketing" />
                                             </ListItem>
-                                            <ListItem button className={classes.nested} 
-                                            onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/settings/privacy')
-                                            }}>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/settings/privacy')
+                                                }}>
                                                 <ListItemText primary="Privacy" />
                                             </ListItem>
                                         </List>

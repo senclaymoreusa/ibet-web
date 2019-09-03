@@ -166,8 +166,8 @@ const styles = theme => ({
     getStartedButton: {
         marginTop: 13,
         marginBottom: 15,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
 
         fontSize: 14,
         height: 32,

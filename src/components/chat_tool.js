@@ -23,7 +23,7 @@ const styles = theme => ({
         right: 1,
     },
     fab: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         backgroundColor: '#fe0000',
         color: '#ffffff',
         "&:hover": {

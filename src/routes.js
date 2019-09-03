@@ -10,8 +10,6 @@ import Login from './components/login';
 import Signup from './components/signup';
 import Game_Detail from './components/game_detail';
 import Game_Search from './components/game_search';
-// import Profile from './components/profile';
-// import Update from './components/update_profile';
 import Change_Email from './components/change_email'
 import Forget_Password from './components/forget_password'
 import Reset_Password from './components/reset_password'
@@ -34,7 +32,6 @@ import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
 import Change_Password from './components/change_password_new'
 import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
-
 import WithdrawSuccess from "./components/withdraw_success"
 import DepositQaicah from './components/profile/banking/deposit/deposit_types/deposit_qaicash'
 import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay'

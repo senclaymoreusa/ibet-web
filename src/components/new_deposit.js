@@ -134,7 +134,7 @@ const styles = theme => ({
         borderBottom: '1px solid #e3e3e3',
     },
     formControl: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         minWidth: 120,
         width: 320,
     },
@@ -201,7 +201,7 @@ const styles = theme => ({
 const BootstrapInput = withStyles(theme => ({
     root: {
         'label + &': {
-            marginTop: theme.spacing.unit * 3,
+            marginTop: theme.spacing(3),
         },
     },
     input: {
