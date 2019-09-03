@@ -172,7 +172,7 @@ class Game_Search extends Component {
 
       const { classes } = this.props;
 
-      const menu = this.state.game_to_render;
+      // const menu = this.state.game_to_render;
 
       return (
         <div>

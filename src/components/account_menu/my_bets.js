@@ -698,7 +698,7 @@ export class MyBets extends React.Component {
                             <FormattedNumber
                                 maximumFractionDigits={2}
                                 value={this.state.balance}
-                                style={"currency"}
+                                style={`currency`}
                                 currency={this.state.balanceCurrency}
                             />
                         </Button>

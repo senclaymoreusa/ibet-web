@@ -231,6 +231,7 @@ class Signup extends React.Component {
   }
 
   async onInputChange_email(event){
+    // eslint-disable-next-line
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!event.target.value.match(re)){
       this.setState({live_check_email: true, button_disable: true,})
@@ -393,8 +394,8 @@ class Signup extends React.Component {
       await this.setState({date_of_birth: result})
       this.setState({live_check_dob: true, button_disable: true})
     }else{
-      var result = month + '/' + day + '/' + year
-      await this.setState({date_of_birth: result})
+      var r = month + '/' + day + '/' + year
+      await this.setState({date_of_birth: r})
       this.setState({live_check_dob: false})
       this.check_button_disable()
     }

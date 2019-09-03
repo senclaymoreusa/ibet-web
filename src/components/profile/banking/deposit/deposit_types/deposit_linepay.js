@@ -421,13 +421,14 @@ class DepositLinePay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                            inputProps:{
+                                                step: 10,
+                                                min: 200,
+                                                max: 30000
+                                            }
                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 200,
-                                            max: 30000
-                                        }}
+                                        
                                         inputRef={this.amountInput}
 
                                     />
@@ -436,7 +437,7 @@ class DepositLinePay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style={"currency"}
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

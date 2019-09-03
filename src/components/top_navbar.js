@@ -1050,7 +1050,7 @@ export class TopNavbar extends React.Component {
                                             <FormattedNumber
                                                 maximumFractionDigits={2}
                                                 value={balance}
-                                                style={"currency"}
+                                                style={`currency`}
                                                 currency={balanceCurrency}
                                             />
                                             <div className={classes.balanceDepositText} >

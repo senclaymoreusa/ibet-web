@@ -485,7 +485,7 @@ class DepositAsiapayUnionpay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style={"currency"}
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

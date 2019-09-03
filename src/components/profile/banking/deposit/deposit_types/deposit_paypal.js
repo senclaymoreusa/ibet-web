@@ -360,13 +360,14 @@ class DepositPaypal extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                            inputProps:{
+                                                step: 10,
+                                                min: 10,
+                                                max: 2000
+                                            }
                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 10,
-                                            max: 2000
-                                        }}
+                                       
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -374,7 +375,7 @@ class DepositPaypal extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style={"currency"}
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

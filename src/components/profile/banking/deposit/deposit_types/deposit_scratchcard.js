@@ -657,7 +657,7 @@ class DepositScratchCard extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount === "none" ? 0 : this.state.amount}
-                                            style={"currency"}
+                                            style={`currency`}
                                             currency={"VND"}
                                         />
                                     </div>

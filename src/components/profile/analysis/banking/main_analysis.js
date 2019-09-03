@@ -414,7 +414,7 @@ export class MainAnalysis extends Component {
                                 <FormattedNumber
                                     maximumFractionDigits={2}
                                     value={395}
-                                    style={"currency"}
+                                    style={`currency`}
                                     currency={this.state.currency}
                                 />
                             </div>
@@ -435,7 +435,7 @@ export class MainAnalysis extends Component {
                                 <FormattedNumber
                                     maximumFractionDigits={2}
                                     value={400}
-                                    style={"currency"}
+                                    style={`currency`}
                                     currency={this.state.currency}
                                 />
                             </div>
@@ -449,7 +449,7 @@ export class MainAnalysis extends Component {
                                 <FormattedNumber
                                     maximumFractionDigits={2}
                                     value={-5}
-                                    style={"currency"}
+                                    style={`currency`}
                                     currency={this.state.currency}
                                 />
                             </div>
