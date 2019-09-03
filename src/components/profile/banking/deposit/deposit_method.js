@@ -93,7 +93,7 @@ export class DepositMethod extends Component {
         this.depositWith = this.depositWith.bind(this);
     }
 
-    addVisaCard(ev) {
+    addVisaCard= (ev)=> {
         this.props.callbackForAddPayment('add_credit_card', 'visa');
     }
 
@@ -120,7 +120,7 @@ export class DepositMethod extends Component {
         let addPaymentMethodTitle = formatMessage({ id: 'deposit.add_payment_method' });
         let depositMethodTitle = formatMessage({ id: 'deposit.deposit_method' });
         let choosePaymentMethodTitle = formatMessage({ id: 'deposit.choose_payment_method' });
-
+        // const thing = `${depositMethodTitle}`
         return (
             <div className={classes.root}>
                 <Grid container>

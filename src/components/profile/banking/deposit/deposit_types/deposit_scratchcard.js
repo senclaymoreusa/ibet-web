@@ -13,8 +13,8 @@ import { authCheckState } from '../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-const amountChoices = [10000,20000,30000,50000,100000,200000,300000,500000,1000000];
-const operators = [
+const amountChoices = Object.freeze([10000,20000,30000,50000,100000,200000,300000,500000,1000000]);
+const operators = Object.freeze([
     {
         value: "vtt",
         label: "Viettel"
@@ -27,7 +27,7 @@ const operators = [
         value: "vms",
         label: "Mobifone"
     }
-];
+]);
 
 const BootstrapInput = withStyles(theme => ({
     root: {
@@ -400,6 +400,7 @@ class DepositScratchCard extends Component {
 
 
     amountChanged(event) {
+        const value = parseInt(event.target.value);
         if (event.target.value.length == 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 10) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
@@ -604,7 +605,8 @@ class DepositScratchCard extends Component {
                                         onFocus={this.pinNumberFocused}
                                         value={this.state.pinNumber}
 
-                                        className={classes.expireText}>
+                                        className={classes.expireText}
+                                    >
                                         {() => <TextField
                                             className={classes.expireText}
                                             placeholder="PIN"
@@ -613,7 +615,8 @@ class DepositScratchCard extends Component {
                                             error={(this.state.pinNumberInvalid && this.state.pinNumberFocused)}
                                             helperText={(this.state.pinNumberInvalid && this.state.pinNumberFocused) ? 'Please enter PIN number between 9 and 15 digits' : ' '}
                                             InputProps={{ disableUnderline: true }}
-                                        />}
+                                        />
+                                        }
                                     </InputMask>
                                 </Grid>
                                 <Grid item xs={6} className={classes.dropDowns} style={{alignContent: 'center', textAlign: 'center'}}>
@@ -711,3 +714,7 @@ const mapStateToProps = (state) => {
 }
 
 export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositScratchCard)));
+// const Tester = React.memo(function(({classnames, ...props})) {
+//     <InputMask {...props}/>
+// </InputMask>
+// }
