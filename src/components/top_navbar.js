@@ -58,6 +58,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Flag from 'react-flagkit';
+import Modal from '@material-ui/core/Modal';
 
 import Login from './login_2.js';
 import Signup from './signup_2.js';
@@ -174,6 +175,9 @@ const styles = theme => ({
             backgroundColor: "#ffffff",
         }
     },
+    firstNavLayer: {
+        backgroundColor: '#ffffff',
+    },
     sectionDesktop: {
         display: 'none',
         height: '100%',
@@ -187,12 +191,23 @@ const styles = theme => ({
             display: 'none',
         },
     },
+    modal: {
+        display: 'flex',
+        padding: theme.spacing(1),
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    paper: {
+        position: 'absolute',
+        width: 662,
+        padding: 0,
+        "&:focus": {
+            outline: 'none'
+        }
+    },
     button: {
         margin: theme.spacing(),
         color: 'white'
-    },
-    subbutton: {
-        margin: theme.spacing()
     },
     nested: {
         paddingLeft: theme.spacing() * 4
@@ -232,24 +247,6 @@ const styles = theme => ({
             backgroundColor: "#ffffff",
             color: 'rgba(0, 0, 0, 0.5)',
         }
-    },
-    textField: {
-        marginTop: 13,
-        marginBottom: 15,
-        marginLeft: theme.spacing(),
-        marginRight: theme.spacing(),
-        paddingLeft: 25,
-        paddingRight: 25,
-        paddingTop: 13,
-        paddingBottom: 13,
-        fontSize: 18,
-        outline: 'none',
-        width: 180,
-        height: 44,
-        objectFit: 'contain',
-        borderRadius: 22,
-        border: 'solid 1px #e8e8e8',
-        backgroundColor: '#f1f1f1',
     },
     balanceButton: {
         marginTop: 16,
@@ -305,16 +302,12 @@ const styles = theme => ({
         letterSpacing: 0.66,
         color: '#6a6a6a',
     },
-    extendedIcon: {
-        marginRight: theme.spacing(),
-    },
     searchResult: {
         width: 400,
         height: 100,
         marginTop: 42,
         marginLeft: 0,
         marginRight: 0
-
     },
     image: {
         position: 'relative',
@@ -336,27 +329,6 @@ const styles = theme => ({
         },
     },
     focusVisible: {
-
-    },
-    imageButton: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: theme.palette.common.white,
-    },
-    imageSrc: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 40%',
     },
     imageBackdrop: {
         position: 'absolute',
@@ -385,47 +357,6 @@ const styles = theme => ({
         display: 'inline-block',
         flexGrow: 1,
     },
-    langButton: {
-        height: '100%',
-        borderRadius: 6,
-        padding: 0,
-    },
-
-    flag: {
-        width: 64,
-        height: 38,
-        borderRadius: 6,
-    },
-    langContainer: {
-        display: 'inline',
-        marginLeft: theme.spacing(),
-        marginTop: 16,
-        marginBottom: 16,
-    },
-    lang_menu_list: {
-        backgroundColor: '#ffffff',
-        color: 'black',
-        paddingLeft: 10,
-        paddingRight: 10,
-    },
-    lang_menu_list_item: {
-        border: '1px solid #ffffff',
-        "&:hover": {
-            borderRadius: 4,
-            border: '1px solid #868686',
-            backgroundColor: '#ffffff',
-        },
-    },
-    lang_menu_list_item_selected: {
-        borderRadius: 4,
-        border: '1px solid #000000',
-        backgroundColor: '#ffffff',
-
-    },
-    lang_menu_list_item_text: {
-        marginLeft: 10,
-        color: 'black',
-    },
     accountMenuPaper: {
         padding: 0,
         width: 360,
@@ -434,7 +365,6 @@ const styles = theme => ({
         padding: 0,
         width: 210,
         backgroundColor: '#ffffff',
-
     },
     footer: {
         paddingLeft: 24,
@@ -443,10 +373,6 @@ const styles = theme => ({
         paddingBottom: theme.spacing(2),
         marginTop: 20,
         backgroundColor: '#212121',
-    },
-    footer_menu_container: {
-        display: 'inline',
-        marginTop: 20
     },
     profilePopper: {
         width: 360,
@@ -488,7 +414,8 @@ const styles = theme => ({
 const muiLogoBarTheme = createMuiTheme({
     palette: {
         primary: {
-            main: '#ffffff'
+            main: '#ffffff',
+            primary1Color: '#ffffff'
         },
     },
     appBar: {
@@ -503,12 +430,12 @@ const muiMenuBarTheme = createMuiTheme({
     appBar: {
         height: 62,
         paddingBottom: 2,
-
     },
     typography: {
         useNextVariants: true,
     },
 });
+
 
 const SVG = ({
     style = {},
@@ -676,7 +603,7 @@ export class TopNavbar extends React.Component {
         this.props.show_login()
     };
 
-    handleSignupMenuOpen = () => {
+    handleSignupMenuOpen = event => {
         this.setState({ username: '', password: '' })
 
         this.props.show_signup()
@@ -932,7 +859,7 @@ export class TopNavbar extends React.Component {
     }
 
     render() {
-        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency, anchorElLogin } = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
@@ -1012,7 +939,7 @@ export class TopNavbar extends React.Component {
         return (
             <div className={classes.root}>
                 <MuiThemeProvider theme={muiLogoBarTheme} >
-                    <AppBar position="static" >
+                    <AppBar position="static" className={classes.firstNavLayer}>
                         <Toolbar className={classes.appBar}>
                             <div className={classes.sectionMobile}>
                                 <IconButton
@@ -1154,7 +1081,7 @@ export class TopNavbar extends React.Component {
                                     this.props.history.push("/lottery_type/lottery");
                                 }} />
                             <StyledTab
-                                style={{ width: 0, minWidth: 0, }}
+                                style={{ width: 0, minWidth: 0, maxWidth: 0, padding: 0 }}
                                 value='none'
                             />
                         </StyledTabs>
@@ -1166,6 +1093,7 @@ export class TopNavbar extends React.Component {
                 <Popper
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                     open={this.props.showLogin}
+                    anchorEl={anchorElLogin}
                 >
                     <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
                         <Paper>
@@ -1173,87 +1101,94 @@ export class TopNavbar extends React.Component {
                         </Paper>
                     </ClickAwayListener>
                 </Popper>
-
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignup}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <Signup />
                     </Paper>
-                </Popper>
-
-                <Popper
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupEmail}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <Signup_Email />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupDetail}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <Signup_Detail />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupContact}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <Signup_Contact />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupPhone}
-                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <Signup_Phone />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showCompleteRegistration}
-                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <Complete_Registration />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showPhoneVerification}
-                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <Phone_Verification />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showOneclickFinish}
-                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <One_Click_Finish />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupFinish}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <Register_Finish />
                     </Paper>
-                </Popper>
+                </Modal>
 
                 <Popper
                     open={this.props.showChangePassword}
@@ -1272,15 +1207,6 @@ export class TopNavbar extends React.Component {
                         <New_Profile />
                     </Paper>
                 </Popper>
-
-                {/* <Popper
-                    open={this.props.showUpdateProfile}
-                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
-                >
-                    <Paper>
-                        <New_Update_Profile />
-                    </Paper>
-                </Popper> */}
 
                 <Popper
                     open={this.props.showDeposit}
