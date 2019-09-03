@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import { withRouter } from 'react-router-dom';
 
 
@@ -12,7 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
-        width: '100%',
+        flexGrow: 1,
     },
     leftPane: {
         paddingTop: 50,
@@ -45,10 +45,13 @@ const styles = theme => ({
     },
     cell: {
         height: 415,
-        margin: 10,
         borderRadius: 4,
         border: 'solid 1px #979797'
-    }
+    },
+    paper: {
+        height: 140,
+        width: 100,
+      },
 });
 
 export class ResponsibleGaming extends Component {
@@ -56,14 +59,7 @@ export class ResponsibleGaming extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-        }
-
     }
-
-    // handleTabChange(event, newValue) {
-    //     this.setState({ tabValue: newValue })
-    // }
 
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
@@ -85,18 +81,17 @@ export class ResponsibleGaming extends Component {
         const { classes } = this.props;
 
         return (
-            <div className={classes.root}>
-                <Grid container spacing={2}>
-                    <Grid item xs={4} className={classes.cell}>
-                    </Grid>
-                    <Grid item xs={4} className={classes.cell}>
-                    </Grid>
-                    <Grid item xs={4} className={classes.cell}>
-                    </Grid>
-                    <Grid item xs={12} className={classes.cell}>
+            <Grid container justify="center" className={classes.root} spacing={2}>
+                <Grid item xs={12}>
+                    <Grid container justify="center" spacing={10}>
+                        {[0, 1, 2].map(value => (
+                            <Grid key={value} item>
+                                <Paper className={classes.paper} />
+                            </Grid>
+                        ))}
                     </Grid>
                 </Grid>
-            </div>
+            </Grid>
         );
     }
 }

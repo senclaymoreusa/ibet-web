@@ -864,21 +864,19 @@ export class TopNavbar extends React.Component {
 
         const ProfileMenu = (
             <div >
-                <ClickAwayListener onClickAway={this.profileMenuClickAway}>
-                    <Button
-                        className={classes.profileButton}
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={this.profileIconClicked}>
-                        <SVG className="profileIcon" />
-                        <div className={classes.profileLabel} >
-                            <FormattedMessage id="nav.hello" defaultMessage='Hello' />
-                        </div>
-                        <span>, </span>
-                        {this.state.username}
-                        {this.props.showProfileMenu ? <ExpandLess /> : <ExpandMore />}
-                    </Button>
-                </ClickAwayListener>
+                <Button
+                    className={classes.profileButton}
+                    color="inherit"
+                    aria-label="Open drawer"
+                    onClick={this.profileIconClicked}>
+                    <SVG className="profileIcon" />
+                    <div className={classes.profileLabel} >
+                        <FormattedMessage id="nav.hello" defaultMessage='Hello' />
+                    </div>
+                    <span>, </span>
+                    {this.state.username}
+                    {this.props.showProfileMenu ? <ExpandLess /> : <ExpandMore />}
+                </Button>
             </div>
         );
 
@@ -1357,7 +1355,6 @@ export class TopNavbar extends React.Component {
                 <Popper
                     open={this.props.showReferUser}
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-
                 >
                     <Paper>
                         <Refer_User />
@@ -1469,6 +1466,7 @@ export class TopNavbar extends React.Component {
                     )}
                 </Popper>
 
+
                 <Popper open={this.props.showProfileMenu}
                     anchorEl={anchorEl}
                     className={classes.profileMenuPopper}
@@ -1476,120 +1474,125 @@ export class TopNavbar extends React.Component {
                     transition
                 >
                     {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.profileMenuPaper}>
-                                <List
-                                    component="nav"
-                                    aria-labelledby="nested-list-subheader"
-                                >
-                                    <ListItem button onClick={this.bankingProfileMenuItemClick} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Banking" />
-                                        {this.state.showBankingProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItem>
-                                    <Collapse in={this.state.showBankingProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
-                                        <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/banking/deposit')
-                                                }}
-                                            >
-                                                <ListItemText primary="Deposit" />
-                                            </ListItem>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/banking/withdraw')
-                                                }}>
-                                                <ListItemText primary="Withdraw" />
-                                            </ListItem>
-                                        </List>
-                                    </Collapse>
-                                    <ListItem button onClick={this.analysisProfileMenuItemClick} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Analysis" />
-                                        {this.state.showAnalysisProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItem>
-                                    <Collapse in={this.state.showAnalysisProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
-                                        <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/analysis/bets')
-                                                }}>
-                                                <ListItemText primary="Bets" />
-                                            </ListItem>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/analysis/banking')
-                                                }}>
-                                                <ListItemText primary="Banking" />
-                                            </ListItem>
-                                        </List>
-                                    </Collapse>
-                                    <ListItem button onClick={this.userAccountProfileMenuItemClick} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Account" />
-                                        {this.state.showUserAccountProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItem>
-                                    <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
-                                        <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/account/user_information')
-                                                }}>
-                                                <ListItemText primary="User Information" />
-                                            </ListItem>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/account/inbox')
-                                                }}>
-                                                <ListItemText primary="Inbox" />
-                                            </ListItem>
-                                        </List>
-                                    </Collapse>
-                                    <ListItem button className={classes.mainMenuItem}
-                                        onClick={() => {
-                                            this.setState({ mainTabValue: 'none' });
-                                            this.props.history.push('/p/responsible_gaming')
-                                        }}>
-                                        <ListItemText primary="Responsible Gaming" />
-                                    </ListItem>
-                                    <ListItem button onClick={this.settingsProfileMenuItemClick} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Settings" />
-                                        {this.state.showSettingsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItem>
-                                    <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
-                                        <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/settings/marketing')
-                                                }}>
-                                                <ListItemText primary="Marketing" />
-                                            </ListItem>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/settings/privacy')
-                                                }}>
-                                                <ListItemText primary="Privacy" />
-                                            </ListItem>
-                                        </List>
-                                    </Collapse>
-                                    <ListItem button
-                                        onClick={() => {
-                                            this.props.logout()
-                                            postLogout();
-                                        }} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Logout" />
-                                    </ListItem>
-                                </List>
-                            </Paper>
-                        </Fade>
+                        <ClickAwayListener onClickAway={this.profileMenuClickAway}>
+                            <Fade {...TransitionProps} timeout={350}>
+                                <Paper className={classes.profileMenuPaper}>
+                                    <List
+                                        component="nav"
+                                        aria-labelledby="nested-list-subheader"
+                                    >
+                                        <ListItem button onClick={this.bankingProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Banking" />
+                                            {this.state.showBankingProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showBankingProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/banking/deposit')
+                                                    }}
+                                                >
+                                                    <ListItemText primary="Deposit" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/banking/withdraw')
+                                                    }}>
+                                                    <ListItemText primary="Withdraw" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
+                                        <ListItem button onClick={this.analysisProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Analysis" />
+                                            {this.state.showAnalysisProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showAnalysisProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/analysis/bets')
+                                                    }}>
+                                                    <ListItemText primary="Bets" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/analysis/banking')
+                                                    }}>
+                                                    <ListItemText primary="Banking" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
+                                        <ListItem button onClick={this.userAccountProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Account" />
+                                            {this.state.showUserAccountProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/account/user_information')
+                                                    }}>
+                                                    <ListItemText primary="User Information" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/account/inbox')
+                                                    }}>
+                                                    <ListItemText primary="Inbox" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
+                                        <ListItem button className={classes.mainMenuItem}
+                                            onClick={() => {
+                                                this.setState({ mainTabValue: 'none' });
+                                                this.props.history.push('/p/responsible_gaming')
+                                            }}>
+                                            <ListItemText primary="Responsible Gaming" />
+                                        </ListItem>
+                                        <ListItem button onClick={this.settingsProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Settings" />
+                                            {this.state.showSettingsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/settings/marketing')
+                                                    }}>
+                                                    <ListItemText primary="Marketing" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        //this.setState({ anchorEl: null });
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/settings/privacy')
+                                                    }}>
+                                                    <ListItemText primary="Privacy" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
+                                        <ListItem button
+                                            onClick={() => {
+                                                this.props.logout()
+                                                postLogout();
+                                            }} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Logout" />
+                                        </ListItem>
+                                    </List>
+                                </Paper>
+                            </Fade>
+
+                        </ClickAwayListener>
                     )}
                 </Popper>
+
             </div >
         );
     }
