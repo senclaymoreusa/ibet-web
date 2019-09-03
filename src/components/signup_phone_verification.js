@@ -159,23 +159,17 @@ class Phone_Verification extends React.Component {
                 </div>
 
                 <div className='row'> 
-   
                    <div style={{marginLeft: 65, marginTop: 24}}> 
                        Sent to: 
-
                        <div style={{backgroundColor: '#f9f9f9', width: 218, height: 48, marginTop: 24, fontSize: 20, fontWeight: 600, fontFamily: 'Gilroy', textAlign: 'center'}}>
                            <div style={{paddingTop: 12}}> {this.props.signup_phone.split('/')[0] + this.props.signup_phone.split('/')[1]} </div>
                        </div>
                     </div>
-
                    <div style={{marginTop: 24, marginLeft: 82}}>  
-
                        <div style={{fontSize: 15, fontWeight: 600}}> 
                            VERIFICATION CODE
                        </div>
-
-                       <div className='row' style={{marginTop: 24}}>  
-                       
+                       <div className='row' style={{marginTop: 24}}>       
                             <div> 
                                 <TextField
                                     className={classes.textField}
