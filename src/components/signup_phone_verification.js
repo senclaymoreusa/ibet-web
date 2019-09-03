@@ -1,15 +1,10 @@
 import React from 'react';
-import { ReactComponent as Close } from '../assets/img/svg/close.svg';
-import { ReactComponent as Check } from '../assets/img/svg/check.svg';
-
 import { hide_phone_verification, show_complete_registration, show_signup_finish, authLogin } from '../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-
 import TextField from '@material-ui/core/TextField';
-
 import { FormattedMessage } from 'react-intl';
-
+import { images } from '../util_config';
 import axios from 'axios'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -114,25 +109,23 @@ class Phone_Verification extends React.Component {
         if (this.state.code_1 && this.state.code_2 && this.state.code_3 && this.state.code_4){
             axios.post(API_URL + 'users/api/verifyactivationcode/', {'username': this.props.signup_username, 'code': this.state.code_1.toString() + this.state.code_2.toString() + this.state.code_3.toString() + this.state.code_4.toString()})
             .then(res => {
-                if(res.data.status === 'Failed'){
-                    this.setState({error: true})
-                }else{
-                    this.setState({error: false, show_check: true})
-                    this.props.authLogin(this.props.signup_username, this.props.signup_password)
-                    if (this.props.refer_id){
-                        axios.get(API_URL + `users/api/referral/?referral_id=${this.props.refer_id}&referred=${this.props.signup_username}`)
-                    }
-                    
-
-                    setTimeout(
-                        function() {
-                            this.props.hide_phone_verification();
-                            this.props.show_signup_finish();
-                        }
-                        .bind(this),
-                        2000
-                    );
+                this.setState({error: false, show_check: true})
+                this.props.authLogin(this.props.signup_username, this.props.signup_password)
+                if (this.props.refer_id){
+                    axios.get(API_URL + `users/api/referral/?referral_id=${this.props.refer_id}&referred=${this.props.signup_username}`)
                 }
+                
+                setTimeout(
+                    function() {
+                        this.props.hide_phone_verification();
+                        this.props.show_signup_finish();
+                    }
+                    .bind(this),
+                    2000
+                );
+            })
+            .catch(err => {
+                this.setState({error: true})
             })
         }
     }
@@ -149,7 +142,7 @@ class Phone_Verification extends React.Component {
                         VERIFICATION
                     </div>
 
-                    <Close 
+                    <img src={images.src + 'close_page.svg'}
                         style={{cursor: 'pointer', position: 'absolute', top: 8, left: 720, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_phone_verification();
@@ -258,7 +251,7 @@ class Phone_Verification extends React.Component {
                             {
                                 this.state.show_check && 
                                 <div style={{position: 'absolute', left: 658, top: 272}}> 
-                                    <Check />
+                                    <img src={images.src + 'check.svg'} />
                                 </div>
                             }
 

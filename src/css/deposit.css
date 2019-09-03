@@ -9,6 +9,14 @@
     margin-top: 15px;
     align-content: center
 }
+.fgo-form{
+    margin-left: 40%;
+    margin-top: 15px;
+    align-content: center
+}
+.fgo-button{
+    padding-top: 15px;
+}
 .withdraw-form {
     margin-left: 40%;
     margin-right: 30%;
@@ -35,4 +43,14 @@
 .paypal-button {
     padding-top: 12px;
 }
-
+.select-currency{
+    width: 20%;
+    align-content: center
+}
+.select-bank{
+    width: 45%;
+    align-content: center
+}
+#api-response {
+    margin: 20px 0px 20px 0px;
+}

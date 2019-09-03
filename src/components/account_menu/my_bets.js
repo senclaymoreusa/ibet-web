@@ -3,24 +3,17 @@ import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage } from '../../actions';
+import { logout, handle_search, setLanguage, show_account_menu, hide_open_bets, hide_settled_bets } from '../../actions';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import { ReactComponent as BackIcon } from '../../assets/img/svg/account-menu-back.svg';
-import { ReactComponent as RedLogoIcon } from '../../assets/img/svg/logo-red.svg';
-import { ReactComponent as RedUserIcon } from '../../assets/img/svg/red-user.svg';
-import { ReactComponent as BackArrowIcon } from '../../assets/img/svg/curved-arrow.svg';
-import { ReactComponent as DepositIcon } from '../../assets/img/svg/deposit.svg';
-import { ReactComponent as ShapeIcon } from '../../assets/img/svg/shape.svg';
-
 import '../../css/account_menu.scss';
 
 import axios from 'axios';
-import { config } from '../../util_config';
+import { config, images } from '../../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -441,7 +434,10 @@ export class MyBets extends React.Component {
     }
 
     backClicked = (event) => {
-        this.props.onMenuItemClicked('');
+        this.props.show_account_menu();
+
+        this.props.hide_open_bets();
+        this.props.hide_settled_bets();
     }
 
     handleTabChange(event, newValue) {
@@ -504,7 +500,7 @@ export class MyBets extends React.Component {
                         </Grid>
                         <Grid item xs={4} className={classes.gridRow}>
                             <Button className={classes.confButton}>
-                                <ShapeIcon />
+                                <img src={images.src + 'shape.svg'} />
                             </Button>
                         </Grid>
                         <Grid item xs={8} className={classes.gridRow}>
@@ -543,7 +539,7 @@ export class MyBets extends React.Component {
                         </Grid>
                         <Grid item xs={4} className={classes.gridRow}>
                             <Button className={classes.confButton}>
-                                <ShapeIcon />
+                                <img src={images.src + 'shape.svg'} />
                             </Button>
                         </Grid>
                         <Grid item xs={8} className={classes.gridRow}>
@@ -577,7 +573,7 @@ export class MyBets extends React.Component {
                         </Grid>
                         <Grid item xs={12} className={classes.gridRow}>
                             <span className={classes.betDate}>Bet ID: O658530/38344000</span>
-                            <BackArrowIcon className={classes.curvedArrow} />
+                            <img src={images.src + 'curved-arrow.svg'} className={classes.curvedArrow} />
                         </Grid>
                         <Grid item xs={12} className={classes.auxiliaryRow}>
                             <span className={classes.betName}>Tottenham vs Liverpool</span>
@@ -601,7 +597,7 @@ export class MyBets extends React.Component {
                         </Grid>
                         <Grid item xs={4} className={classes.gridRow}>
                             <Button className={classes.confButton}>
-                                <ShapeIcon />
+                                <img src={images.src + 'shape.svg'} />
                             </Button>
                         </Grid>
                         <Grid item xs={8} className={classes.gridRow}>
@@ -694,12 +690,12 @@ export class MyBets extends React.Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <BackIcon />
+                            <img src={images.src + 'account-menu-back.svg'} />
                         </Button>
-                        <RedLogoIcon className={classes.logo} />
+                        <img src={images.src + 'logo-red.svg'} className={classes.logo} />
                         <div className={classes.grow} />
                         <Button variant="contained" className={classes.balanceButton}>
-                            <DepositIcon className={classes.depositIcon} />
+                            <img src={images.src + 'deposit.svg'} className={classes.depositIcon} />
                             <FormattedNumber
                                 maximumFractionDigits={2}
                                 value={this.state.balance}
@@ -708,7 +704,8 @@ export class MyBets extends React.Component {
                             />
                         </Button>
                         <Button variant="outlined" className={classes.userButton}>
-                            <RedUserIcon />
+                            <img src={images.src + 'red-user.svg'} />
+
                         </Button>
                     </Grid>
                     <Grid item xs={12} className={classes.myBetsRow}>
@@ -745,4 +742,4 @@ MyBets.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage })(MyBets))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { logout, handle_search, setLanguage, show_account_menu, hide_open_bets, hide_settled_bets })(MyBets))));

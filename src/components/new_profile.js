@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ReactComponent as Back } from '../assets/img/svg/back.svg';
-import { ReactComponent as CloseIcon } from '../assets/img/svg/red-close.svg';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { hide_user_profile, show_update_profile } from '../actions';
 import { connect } from 'react-redux';
-import { config } from '../util_config';
+import { config, images } from '../util_config';
 import axios from 'axios'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     textField: {
-      width: 330,
-      backgroundColor: 'white'
+        width: 330,
+        backgroundColor: 'white'
     },
 
     textField2: {
@@ -29,24 +27,24 @@ const styles = theme => ({
         textAlign: 'center'
     },
 
-    cssOutlinedInput:{
+    cssOutlinedInput: {
         "& $notchedOutline": {
             //add this nested selector
             borderColor: "'#e4e4e4'",
-          },
-      
-          "&$cssFocused $notchedOutline": {
-            borderColor: "blue",
-          }
-    },
-    cssFocused: {  },
+        },
 
-    notchedOutline: {  },
+        "&$cssFocused $notchedOutline": {
+            borderColor: "blue",
+        }
+    },
+    cssFocused: {},
+
+    notchedOutline: {},
 });
 
 class New_Profile extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -59,23 +57,23 @@ class New_Profile extends Component {
         config.headers["Authorization"] = `Token ${token}`;
 
         return axios.get(API_URL + 'users/api/user/', config)
-        .then(res => {
-            this.setState({user_data: res.data});
-        })
+            .then(res => {
+                this.setState({ user_data: res.data });
+            })
     }
 
-    onInputChange_country(event){
-        this.setState({country: event.target.value});
+    onInputChange_country(event) {
+        this.setState({ country: event.target.value });
     }
 
-    render(){
+    render() {
 
         const { classes } = this.props;
 
         return (
-            <div style={{backgroundColor: '#f1f1f1',  height: 1150, width: 380}}>
-                <button 
-                    style={{position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 300, backgroundColor: 'black', color: 'white', cursor: 'pointer', borderRadius: 100}}
+            <div style={{ backgroundColor: '#f1f1f1', height: 1150, width: 380 }}>
+                <button
+                    style={{ position: 'absolute', border: 'none', height: 30, width: 70, top: 8, left: 300, backgroundColor: 'black', color: 'white', cursor: 'pointer', borderRadius: 100 }}
                     onClick={() => {
                         this.props.hide_user_profile();
                         this.props.show_update_profile();
@@ -84,22 +82,22 @@ class New_Profile extends Component {
                     <FormattedMessage id="new_profile.edit" defaultMessage='Edit' />
                 </button>
 
-                <CloseIcon 
-                    style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 20, width: 20, color: 'red'}}
-                    onClick = { () => {
+                <img src={images.src + 'red-close.svg'}
+                    style={{ cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 20, width: 20, color: 'red' }}
+                    onClick={() => {
                         this.props.hide_user_profile()
                     }}
                 />
 
-                <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, paddingTop: 12, paddingLeft: 60 }}> 
+                <div style={{ backgroundColor: 'white', height: 44, fontSize: 15.8, paddingTop: 12, paddingLeft: 60 }}>
                     <FormattedMessage id="new_profile.profile" defaultMessage='Profile' />
                 </div>
 
-                <div style={{ color: 'red', fontSize: 25, paddingTop: 15, fontWeight: 600, marginLeft: 30 }}> 
+                <div style={{ color: 'red', fontSize: 25, paddingTop: 15, fontWeight: 600, marginLeft: 30 }}>
                     <FormattedMessage id="new_profile.profile" defaultMessage='Profile' />
                 </div>
 
-                <div style={{textAlign: 'center', color: '#e4e4e4'}}>
+                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
                     _________________________________________
                 </div>
 
@@ -107,7 +105,7 @@ class New_Profile extends Component {
                     <FormattedMessage id="nav.username" defaultMessage='Username' />
                 </div>
 
-                <div style={{textAlign: 'center', marginTop: 5}}> 
+                <div style={{ textAlign: 'center', marginTop: 5 }}>
                     <TextField
                         className={classes.textField}
                         variant="outlined"
@@ -121,7 +119,7 @@ class New_Profile extends Component {
                     <FormattedMessage id="profile.firstName" defaultMessage='First Name' />
                 </div>
 
-                <div style={{textAlign: 'center', marginTop: 5}}> 
+                <div style={{ textAlign: 'center', marginTop: 5 }}>
                     <TextField
                         className={classes.textField}
                         variant="outlined"
@@ -135,7 +133,7 @@ class New_Profile extends Component {
                     <FormattedMessage id="profile.lastName" defaultMessage='Last Name' />
                 </div>
 
-                <div style={{textAlign: 'center', marginTop: 5}}> 
+                <div style={{ textAlign: 'center', marginTop: 5 }}>
                     <TextField
                         className={classes.textField}
                         variant="outlined"
@@ -145,40 +143,40 @@ class New_Profile extends Component {
                     />
                 </div>
 
-                
-                <div style={{marginLeft: 30, marginTop: 10}}>
+
+                <div style={{ marginLeft: 30, marginTop: 10 }}>
                     <FormattedMessage id="signup.detail.dob" defaultMessage='DATE OF BIRTH' />
                 </div>
 
                 <div className='row'>
 
-                    <div style={{borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 30}}>  
+                    <div style={{ borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 30 }}>
                         {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[0] : ''}
                     </div>
 
-                    <div style={{borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10}}>  
+                    <div style={{ borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10 }}>
                         {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[1] : ''}
                     </div>
 
-                    <div style={{borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10}}>  
+                    <div style={{ borderBottom: '1px solid black', width: 80, height: 30, textAlign: 'center', marginTop: 10, marginLeft: 10 }}>
                         {this.state.user_data ? this.state.user_data.date_of_birth.split('/')[2] : ''}
                     </div>
 
                 </div>
 
-                <div style={{color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30}}> 
-                    <FormattedMessage  id="signup.contact.title" defaultMessage='Contact details' />
+                <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
+                    <FormattedMessage id="signup.contact.title" defaultMessage='Contact details' />
                 </div>
 
-                <div style={{textAlign: 'center', color: '#e4e4e4'}}>
+                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
                     _________________________________________
                 </div>
 
                 <div style={{ marginLeft: 30, marginTop: 5 }}>
-                    <FormattedMessage  id="signup.detail.address" defaultMessage='Address' />
+                    <FormattedMessage id="signup.detail.address" defaultMessage='Address' />
                 </div>
 
-                <div style={{textAlign: 'center', marginTop: 5}}> 
+                <div style={{ textAlign: 'center', marginTop: 5 }}>
                     <TextField
                         className={classes.textField}
                         variant="outlined"
@@ -188,11 +186,11 @@ class New_Profile extends Component {
                     />
                 </div>
 
-                <div className='row' style={{marginLeft: 25, marginTop: 5}}> 
-                   
+                <div className='row' style={{ marginLeft: 25, marginTop: 5 }}>
+
                     <div>
-                        <div>                        
-                            <FormattedMessage  id="profile.city" defaultMessage='City' />
+                        <div>
+                            <FormattedMessage id="profile.city" defaultMessage='City' />
                         </div>
 
                         <TextField
@@ -201,32 +199,32 @@ class New_Profile extends Component {
                             type='text'
                             value={this.state.user_data.city}
                             disabled={true}
-                            style={{marginTop: 5}}
+                            style={{ marginTop: 5 }}
                         />
 
                     </div>
 
-                    <div style={{marginLeft: 30}}>
+                    <div style={{ marginLeft: 30 }}>
                         <div>
-                            <FormattedMessage  id="profile.zipcode" defaultMessage='Zipcode' />
+                            <FormattedMessage id="profile.zipcode" defaultMessage='Zipcode' />
                         </div>
-                    
+
                         <TextField
                             className={classes.textField3}
                             variant="outlined"
                             type='text'
                             value={this.state.user_data.zipcode}
                             disabled={true}
-                            style={{marginTop: 5}}
+                            style={{ marginTop: 5 }}
                         />
                     </div>
                 </div>
 
                 <div style={{ marginLeft: 30, marginTop: 5 }}>
-                    <FormattedMessage  id="profile.country" defaultMessage='Country' />
+                    <FormattedMessage id="profile.country" defaultMessage='Country' />
                 </div>
 
-                <div style={{textAlign: 'center', marginTop: 5}}> 
+                <div style={{ textAlign: 'center', marginTop: 5 }}>
                     <TextField
                         className={classes.textField}
                         variant="outlined"
@@ -240,11 +238,11 @@ class New_Profile extends Component {
                     <FormattedMessage id="new_profile.mobile" defaultMessage='Mobile Details' />
                 </div>
 
-                <div style={{textAlign: 'center', color: '#e4e4e4'}}>
+                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
                     _________________________________________
                 </div>
 
-                <div style={{textAlign: 'center', marginTop: 10}}> 
+                <div style={{ textAlign: 'center', marginTop: 10 }}>
                     <TextField
                         className={classes.textField}
                         variant="outlined"
@@ -253,16 +251,16 @@ class New_Profile extends Component {
                         disabled={true}
                     />
                 </div>
-                    
+
                 <div style={{ color: 'red', fontSize: 25, fontWeight: 600, marginTop: 20, marginLeft: 30 }}>
                     <FormattedMessage id="new_profile.email" defaultMessage='Email Details' />
                 </div>
 
-                <div style={{textAlign: 'center', color: '#e4e4e4'}}>
+                <div style={{ textAlign: 'center', color: '#e4e4e4' }}>
                     _________________________________________
                 </div>
 
-                <div style={{textAlign: 'center', marginTop: 10}}> 
+                <div style={{ textAlign: 'center', marginTop: 10 }}>
                     <TextField
                         className={classes.textField}
                         variant="outlined"

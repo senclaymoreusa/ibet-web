@@ -4,24 +4,16 @@ import Downshift from 'downshift';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
-
 import { logout, handle_search, setLanguage, authCheckState } from '../actions';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-
-import { ReactComponent as SearchIcon } from '../assets/img/svg/search.svg';
-
 import axios from 'axios';
-import { config } from '../util_config';
-
+import { config, images } from '../util_config';
 import Typography from '@material-ui/core/Typography';
-
 import Fade from '@material-ui/core/Fade';
-
 import '../css/search_bar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -30,7 +22,6 @@ function renderInput(inputProps) {
     const { InputProps, classes, ref, ...other } = inputProps;
 
     return (
-
         <TextField
             InputProps={{
                 inputRef: ref,
@@ -185,18 +176,19 @@ class SearchResults extends React.Component {
                     this.props.results.length > 0 ?
                         <div>
                             <div className={this.props.classes.resultMenuTitle}>
-                                <FormattedMessage id="search.slots" defaultMessage='Slots' />
+                                {/* <FormattedMessage id="search.slots" defaultMessage='Slots' /> */}
+                                {this.props.activeMenu ? this.props.activeMenu : 'Games'}
                             </div>
                             {
-                                this.props.results.slice(0, 3).map(r => (
+                                this.props.results.slice(0, 4).map(r => (
                                     <MenuItem component={Link} to={`/game_detail/${r.pk}`} className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                                        {r.name}
+                                        {r.fields.name}
                                         <SVG className="playIcon" width={24} />
                                         <Typography className="play-text">Play game</Typography>
                                     </MenuItem>
                                 ))
                             }
-                            <div className={this.props.classes.resultMenuTitle}>
+                            {/* <div className={this.props.classes.resultMenuTitle}>
                                 <FormattedMessage id="search.entire_site" defaultMessage='Entire Site' />
                             </div>
                             {
@@ -207,8 +199,8 @@ class SearchResults extends React.Component {
                                         <Typography className="play-text">Play game</Typography>
                                     </MenuItem>
                                 ))
-                            }
-                            <div className={this.props.classes.resultMenuTitle}>
+                            } */}
+                            {/* <div className={this.props.classes.resultMenuTitle}>
                                 <FormattedMessage id="search.providers" defaultMessage='Providers' />
                             </div>
                             <MenuItem className={this.props.classes.resultMenuItem} key={1} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
@@ -222,9 +214,48 @@ class SearchResults extends React.Component {
                             <MenuItem className={this.props.classes.resultMenuItem} key={3} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
                                 Game Provider 3
                                 <Typography className="play-text">See other games</Typography>
-                            </MenuItem>
+                            </MenuItem> */}
                         </div>
                         : null
+                        
+                }
+                {
+                    this.props.providers.length > 0 ?
+                    <div>
+                        <div className={this.props.classes.resultMenuTitle}>
+                            <FormattedMessage id="search.providers" defaultMessage='Providers' />
+                        </div>
+                        {
+                            this.props.providers.slice(0, 4).map(r => (
+                                <MenuItem className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                                    {r}
+                                    <SVG className="playIcon" width={24} />
+                                    <Typography className="play-text">See other game</Typography>
+                                </MenuItem>
+                            ))
+                        }
+                    </div>
+                    : null
+
+                }
+                {
+                    this.props.entireSite.length > 0 ?
+                    <div>
+                        <div className={this.props.classes.resultMenuTitle}>
+                            <FormattedMessage id="search.entire_site" defaultMessage='Entire Site' />
+                        </div>
+                        {
+                            this.props.entireSite.slice(0, 4).map(r => (
+                                <MenuItem component={Link} to={`/game_detail/${r.pk}`} className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                                    {r.fields.name}
+                                    <SVG className="playIcon" width={24} />
+                                    <Typography className="play-text">Play game</Typography>
+                                </MenuItem>
+                            ))
+                        }
+                    </div>
+                    : null
+
                 }
                 <div className={this.props.classes.resultMenuTitle}>
                     <FormattedMessage id="search.quick_link" defaultMessage='Quick Links' />
@@ -256,13 +287,16 @@ export class SearchBar extends React.Component {
         this.state = {
             query: '',
             results: [],
+            providerResults: [],
+            entireSiteResults: [],
+            hasResult: false,
         };
 
         this.textInput = React.createRef();
 
-        this.blurInput = this.blurInput.bind(this)
-        this.focusInput = this.focusInput.bind(this)
-
+        this.blurInput = this.blurInput.bind(this);
+        this.focusInput = this.focusInput.bind(this);
+        this.getInfo = this.getInfo.bind(this);
     }
 
     componentDidMount() {
@@ -281,13 +315,21 @@ export class SearchBar extends React.Component {
 
     getInfo = () => {
         let url = this.getApiUrlWithParam(this.state.query);
-
-        axios.get(url, config)
-            .then(({ data }) => {
-                this.setState({
-                    results: data
-                })
-            })
+        let providerUrl = API_URL + 'games/api/providers/?q=' + this.state.query;
+        let entireSiteUrl = API_URL + 'games/api/games/?q=' + this.state.query;
+        var that = this;
+        axios.all([
+            axios.get(url, config),
+            axios.get(providerUrl, config),
+            axios.get(entireSiteUrl, config)
+          ])
+          .then(axios.spread(function (games, providers, entire) {
+            var gameResults = games.data || [];
+            var providerResults = providers.data || [];
+            var entireSiteResults = entire.data || [];
+            that.setState({ results: gameResults, providerResults: providerResults });
+            that.setState({ entireSiteResults: entireSiteResults });   
+          }))
     }
 
     handleInputChange = (event) => {
@@ -301,24 +343,12 @@ export class SearchBar extends React.Component {
     }
 
     getApiUrlWithParam(term) {
-        let URL = '';
-
-        switch (this.props.activeMenu) {
-            case 'slots':
-                URL = API_URL + 'users/api/games/?term=' + term;
-                break;
-            case 'sports':
-                URL = API_URL + 'users/api/sports/?term=' + term;
-                break;
-            case 'live_casino':
-                URL = API_URL + 'users/api/live_casino/?term=' + term;
-                break;
-            case 'lottery':
-                URL = API_URL + 'users/api/lottery/?term=' + term;
-                break;
-            default:
-                URL = API_URL + 'users/api/games/?term=' + term;
-                break;
+        let URL = API_URL + 'games/api/games/';
+        if (term) {
+            URL = URL + '?q=' + term;
+        }
+        if (this.props.activeMenu) {
+            URL = URL +'&type=' + this.props.activeMenu;
         }
 
         return URL;
@@ -329,7 +359,7 @@ export class SearchBar extends React.Component {
 
         return (
             <div className={classes.root}>
-                <SearchIcon className={classes.searchIcon} />
+                <img src={images.src + 'search.svg'} className={classes.searchIcon} />
                 <div className={classes.searchInput}>
                     <Downshift id="downshift-options" >
                         {({
@@ -373,7 +403,7 @@ export class SearchBar extends React.Component {
                                         {isOpen ? (
                                             <Fade in={this.props.loaded} timeout={1700}>
                                                 <Paper className={classes.paper} square>
-                                                    <SearchResults {...this.props} results={this.state.results} />
+                                                    <SearchResults {...this.props} results={this.state.results} providers={this.state.providerResults} entireSite={this.state.entireSiteResults} />
                                                 </Paper>
                                             </Fade>
 

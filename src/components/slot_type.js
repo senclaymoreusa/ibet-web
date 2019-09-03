@@ -8,6 +8,8 @@ import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../util_config';
 import { authCheckState } from '../actions';
+import SelectFieldExampleMultiSelect from "./filter_bar";
+
 
 import Footer from "./footer";
 
@@ -20,6 +22,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 import placeholdimage from '../images/handsomecat.jpg';
 
@@ -101,20 +105,76 @@ class Slot_Type extends Component {
 
     }
 
-    async componentDidMount() {
+    // async componentDidMount() {
 
-        this.props.authCheckState()
+    //     this.props.authCheckState()
         
-        var URL = API_URL + 'users/api/games/?term=Sports';
+    //     var URL = API_URL + 'users/api/games/?term=Sports';
 
+    //     await axios.get(URL, config)
+    //     .then(res => {
+
+    //         this.setState({ slots: res.data.slice(0, 8) });
+    //         this.setState({ all_slots: res.data})
+    //     })
+
+    //     this.setState({ ready: true })
+    // }
+
+    async componentWillReceiveProps(props) {
+        // console.log('componentWillReceiveProps');
+        const { type } = this.props.match.params;
+        const { sub } = props.match.params;
+        const { filter } = props.match.params;
+        // console.log("live page filter:" + filter);
+        var URL =  API_URL + 'games/api/games/?type=' + type;
+        if (sub) {
+            URL = URL + '&category=' + sub;
+        }
+        if (filter) {
+            URL = URL + '&' + filter;
+        }
         await axios.get(URL, config)
         .then(res => {
-
-            this.setState({ slots: res.data.slice(0, 8) });
-            this.setState({ all_slots: res.data})
+            // console.log(res);
+            var gameArray = []
+            var chunk = 6;
+            for (var i = 0, j = res.data.length; i < j; i += chunk) {
+                var tempArr = res.data.slice(i, i + chunk);
+                gameArray.push(tempArr);
+            }
+            this.setState({ all_slots: gameArray });
+            // this.setState({ all_live_casino: res.data})
         })
+    }
 
-        this.setState({ ready: true })
+
+    async componentDidMount() {
+
+        this.props.authCheckState();
+        const { type } = this.props.match.params;
+        const { sub } = this.props.match.params;
+        const { filter } = this.props.match.params;
+        this.setState({ urlPath: this.props.history.location.pathname });
+        var URL =  API_URL + 'games/api/games/?type=' + type;
+        if (sub) {
+            URL = URL + '&category=' + sub;
+        }
+        if (filter) {
+            URL = URL + '&' + filter;
+        }
+        await axios.get(URL, config)
+        .then(res => {
+            // console.log(res);
+            var gameArray = []
+            var chunk = 6;
+            for (var i = 0, j = res.data.length; i < j; i += chunk) {
+                var tempArr = res.data.slice(i, i + chunk);
+                gameArray.push(tempArr);
+            }
+            this.setState({ all_slots: gameArray });
+        })
+        // console.log(this.state.live_casino);
     }
 
     type_change(text){
@@ -125,16 +185,34 @@ class Slot_Type extends Component {
         this.setState({slots: this.state.all_slots,  expand: true})
     }
 
-    async handle_category_change(category, subnav){
-        var URL = API_URL + 'users/api/games/?term=' + category
+    // async handle_category_change(category, subnav){
+    //     var URL = API_URL + 'users/api/games/?term=' + category
 
-        await axios.get(URL, config)
-        .then(res => {
-            this.setState({ slots: res.data.slice(0, 8) });
-            this.setState({ all_slots: res.data})
-        })
+    //     await axios.get(URL, config)
+    //     .then(res => {
+    //         this.setState({ slots: res.data.slice(0, 8) });
+    //         this.setState({ all_slots: res.data})
+    //     })
 
-        this.setState({ value: subnav});
+    //     this.setState({ value: subnav});
+    // }
+
+    async handle_category_change(category, sub) {
+        // const { sub } = this.props.match.params;
+        var url = this.state.urlPath;
+        var parts = url.split('/');
+        // console.log("domainUrl: "  + domainUrl);
+        if (parts.length >= 3) {
+            url = '/';
+            var path = parts.slice(1, 3).join('/');
+            url = url + path;
+        }
+        // console.log("sub: " + sub);
+        // console.log("category: " + category);
+        url = url + '/' + category;
+        // this.setState({ api: url });
+        // console.log("URL: " + url);
+        this.props.history.push(url);
     }
 
     handlechange(event, newValue){
@@ -147,7 +225,7 @@ class Slot_Type extends Component {
 
         const { formatMessage } = this.props.intl;
         let topRatedMessage = formatMessage({ id: "nav.top-rated" });
-        let newMessage = formatMessage({ id: "nav.new" });
+        let allMessage = formatMessage({ id: "nav.all" });
         let slotsMessage = formatMessage({ id: "nav.slots" });
         let jackpotsMessage = formatMessage({ id: "nav.jackpots" });
         let tableGamesMessage = formatMessage({ id: "nav.table-games" });
@@ -163,21 +241,27 @@ class Slot_Type extends Component {
 
             
                     <AppBar position="static" >
-                        <StyledTabs centered value={this.state.value} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
-                            <StyledTab 
+                        <StyledTabs centered value={this.props.match.params.sub} onChange={this.handlechange} style={{backgroundColor: '#2d2d2d'}}>
+                            {/* <StyledTab 
                                 style={{outline: 'none'}} 
                                 value="top-rated"
                                 label={topRatedMessage} 
                                 onClick={() => {
-                                    this.handle_category_change('bet', 'top-rated');
+                                    // this.handle_category_change('bet', 'top-rated');
+                                    if (this.props.match.params.sub !== 'top-rated') {
+                                        this.handle_category_change('top-rated', this.props.match.params.sub);
+                                    }
                                 }}
-                            />
+                            /> */}
                             <StyledTab 
                                 style={{outline: 'none'}} 
-                                value="new"
-                                label={newMessage}
+                                value="all"
+                                label={allMessage}
                                 onClick={() => {
-                                    this.handle_category_change('ball', 'new');
+                                    // this.handle_category_change('ball', 'new');
+                                    if (this.props.match.params.sub !== 'all') {
+                                        this.handle_category_change('all', this.props.match.params.sub);
+                                    }
                                 }}
                             />
                             <StyledTab 
@@ -185,7 +269,10 @@ class Slot_Type extends Component {
                                 value="slots"
                                 label={slotsMessage} 
                                 onClick={() => {
-                                    this.handle_category_change('poker', 'slots');
+                                    // this.handle_category_change('poker', 'slots');
+                                    if (this.props.match.params.sub !== 'slots') {
+                                        this.handle_category_change('slots', this.props.match.params.sub);
+                                    }
                                 }}
                             />
                             <StyledTab 
@@ -193,7 +280,10 @@ class Slot_Type extends Component {
                                 value="jackpots"
                                 label={jackpotsMessage}
                                 onClick={() => {
-                                    this.handle_category_change('bet', 'jackpots');
+                                    // this.handle_category_change('bet', 'jackpots');
+                                    if (this.props.match.params.sub !== 'jackpots') {
+                                        this.handle_category_change('jackpots', this.props.match.params.sub);
+                                    }
                                 }}
                             />
                             <StyledTab 
@@ -201,7 +291,10 @@ class Slot_Type extends Component {
                                 value="table-slots"
                                 label={tableGamesMessage} 
                                 onClick={() => {
-                                    this.handle_category_change('poker', 'table-games');
+                                    // this.handle_category_change('poker', 'table-games');
+                                    if (this.props.match.params.sub !== 'table-games') {
+                                        this.handle_category_change('table-games', this.props.match.params.sub);
+                                    }
                                 }}
                             />
                             <StyledTab 
@@ -209,163 +302,55 @@ class Slot_Type extends Component {
                                 value="other-games"
                                 label={otherGamesMessage} 
                                 onClick={() => {
-                                    this.handle_category_change('poker', 'other-games');
+                                    // this.handle_category_change('poker', 'other-games');
+                                    if (this.props.match.params.sub !== 'other-games') {
+                                        this.handle_category_change('other-games', this.props.match.params.sub);
+                                    }
                                 }}
                             />
                         </StyledTabs>
                     </AppBar>
-                </div>
-
-                {/* <div className='game-category-dropdown'>
-
-                    <div className={this.state.top_rated ? 'each-game-category-selected' : 'each-game-category'}
-                    onClick={() => {
-                        this.setState({top_rated: true, new: false, slots: false, jackpots: false, table_game: false, vitrual_sport: false, other_game: false})
-                        this.handle_category_change('bet');
-                    }}>
-                        TOP RATED
-                    </div>
-
-                    <div className={this.state.new ? 'each-game-category-selected' : 'each-game-category'}
-                    onClick={() => {
-                        this.setState({top_rated: false, new: true, slots: false, jackpots: false, table_game: false, vitrual_sport: false, other_game: false})
-                        this.handle_category_change('ball');
-                    }}>
-                        NEW
-                    </div>
-
-                    <div className={this.state.slots ? 'each-game-category-selected' : 'each-game-category'}
-                    onClick={() => {
-                        this.setState({top_rated: false, new: false, slots: true, jackpots: false, table_game: false, vitrual_sport: false, other_game: false})
-                        this.handle_category_change('poker');
-                    }}>
-                        SLOTS
-                    </div>
-
-                    <div className={this.state.jackpots ? 'each-game-category-selected' : 'each-game-category'} 
-                    onClick={() => {
-                        this.setState({top_rated: false, new: false, slots: false, jackpots: true, table_game: false, vitrual_sport: false, other_game: false})
-                        this.handle_category_change('bet');
-                    }}>
-                        JACKPOTS
-                    </div>
-
-                    <div className={this.state.table_game ? 'each-game-category-selected' : 'each-game-category'}
-                    onClick={() => {
-                        this.setState({top_rated: false, new: false, slots: false, jackpots: false, table_game: true, vitrual_sport: false, other_game: false})
-                        this.handle_category_change('poker');
-                    }}>
-                        TABLE GAMES
-                    </div>
-
-                    <div className={this.state.vitrual_sport ? 'each-game-category-selected' : 'each-game-category'}
-                    onClick={() => {
-                        this.setState({top_rated: false, new: false, slots: false, jackpots: false, table_game: false, vitrual_sport: true, other_game: false})
-                        this.handle_category_change('basketball');
-                    }}>
-                        VITURAL SPORTS
-                    </div>
-
-                    <div className={this.state.other_game ? 'each-game-category-selected' : 'each-game-category'}
-                    onClick={() => {
-                        this.setState({top_rated: false, new: false, slots: false, jackpots: false, table_game: false, vitrual_sport: false, other_game: true})
-                        this.handle_category_change('football');
-                    }}>
-                        OTHER GAMES
-                    </div>
-
-                </div> */}
-
-                {/* <div className='category-section'>
-
-                    <div className="wrapper" onClick={() => {
-                        this.setState({jackpot: true, table_game: false, poker: false})
-                        this.handle_category_change('ball');
-                    }}>
-                    {
-                        !this.state.jackpot ?
-                        <div>
-                            <Grey />
-                            <Jack className="logo"/>
-                            <br/>
-                            <div className='category-title'> 
-                                Jackpots
-                            </div>
-                        </div>  
-                        :
-                        <div>
-                            <Black className='selected-bottom'/>
-                            <Jack className="logo "/>
-                            <br/>
-                            <div className='category-title'> 
-                                Jackpots
-                            </div>
-                        </div>
-
-                    }
-
-                </div>
-
-                <div className="wrapper" onClick={() => {
-                    this.setState({table_game: true, jackpot: false, poker: false});
-                    this.handle_category_change('bet');
-                }}>
-                    {
-                        !this.state.table_game ?
-                        <div> 
-                            <Grey />
-                            <Table className="logo"/>
-                            <br/>
-                            <div className='category-title'> 
-                                Table Games
-                            </div>
-                        </div>
-
-                        :
-                        <div> 
-                            <Black className='selected-bottom' />
-                            <Table className="logo"/>
-                            <br/>
-                            <div className='category-title'> 
-                                Table Games
-                            </div>
-                        </div>
-                    }
-                    
-                </div>
-
+                    <SelectFieldExampleMultiSelect/>
+                    <Grid container item xs={12} sm={12} key="455">
+                        {/* <Grid item xs={11} sm={11} key="234"> */}
+                        {  
+                            this.state.all_slots.map((games, index) => {
+                                return (
+                                    <Grid container item xs={12} sm={12} key={index}>
+                                    {
+                                        games.map(game => {
+                                            var gameFields = game['fields'];
+                                            var gameName = '';
+                                            if (gameFields.name) {
+                                                gameName = gameFields.name.replace(/\s+/g, '-').toLowerCase();
+                                            }
+                                            return (
+                                                <Grid item xs={2} sm={2} key={game.pk}>
+                                                    <Paper style={{ margin: 15 }}>
+                                                        <NavLink to = {`/game_detail/${game.pk}`} style={{ textDecoration: 'none' }}> 
+                                                            <div>
+                                                                <img src={placeholdimage} height = "200" width="100%" alt = 'Not available'/>
+                                                                
+                                                                <br/>
             
-                <div className="wrapper" onClick={() => {
-                    this.setState({poker: true, jackpot: false, table_game: false})
-                    this.handle_category_change('poker');
-                }}>
-                    {
-                        !this.state.poker ?
-                        <div>
-                            <Grey />
-                            <Poker className="logo-poker"/>
-                            <br/>
-                            <div className='category-title'> 
-                                Poker
-                            </div>
-                        </div> 
-                        :
-                        <div> 
-                            <Black className='selected-bottom' />
-                            <Poker className="logo-poker"/>
-                            <br/>
-                            <div className='category-title'> 
-                                Poker
-                            </div>
-                        </div>
-                    }
-                
-                </div>
+                                                                <div className='game-title'> 
+                                                                    {gameFields.name} 
+                                                                </div>
+                                                            </div>
+                                                        </NavLink>
+                                                    </Paper>
+                                                </Grid>
+                                            )
+                                        })
+                                    }
+                                    </Grid>
+                                )
+                            })
+                        }
+                    </Grid>
+            </div>
 
-
-            </div> */}
-
-            {
+            {/* {
                 this.state.ready &&
                 <div className='top-title'>
                     <FormattedMessage id="home.new" defaultMessage='New Games' />
@@ -498,7 +483,7 @@ class Slot_Type extends Component {
             }
             </div>
           
-          <div className='row'>
+          <div className='row'> */}
 
            
 
@@ -546,7 +531,7 @@ class Slot_Type extends Component {
                 
             </div> */}
 
-          </div>
+          {/* </div> */}
 
           <Footer activeMenu={'slots'}/>
         </div>

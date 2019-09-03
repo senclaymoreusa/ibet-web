@@ -398,3 +398,147 @@ export const handle_referid = (id) => {
     payload: id
   }
 }
+
+export const show_account_menu = () => {
+  return {
+    type: 'SHOW_ACCOUNT_MENU'
+  }
+}
+
+export const hide_account_menu = () => {
+  return {
+    type: 'HIDE_ACCOUNT_MENU'
+  }
+}
+
+export const show_open_bets = () => {
+  return {
+    type: 'SHOW_OPEN_BETS'
+  }
+}
+
+export const hide_open_bets = () => {
+  return {
+    type: 'HIDE_OPEN_BETS'
+  }
+}
+
+export const show_settled_bets = () => {
+  return {
+    type: 'SHOW_SETTLED_BETS'
+  }
+}
+
+export const hide_settled_bets = () => {
+  return {
+    type: 'HIDE_SETTLED_BETS'
+  }
+}
+
+export const show_promotions = () => {
+  return {
+    type: 'SHOW_PROMOTIONS'
+  }
+}
+
+export const hide_promotions = () => {
+  return {
+    type: 'HIDE_PROMOTIONS'
+  }
+}
+
+export const show_settings = () => {
+  return {
+    type: 'SHOW_SETTINGS'
+  }
+}
+
+export const hide_settings = () => {
+  return {
+    type: 'HIDE_SETTINGS'
+  }
+}
+
+export const show_help = () => {
+  return {
+    type: 'SHOW_HELP'
+  }
+}
+
+export const hide_help = () => {
+  return {
+    type: 'HIDE_HELP'
+  }
+}
+
+export const show_responsible_gambling = () => {
+  return {
+    type: 'SHOW_RESPONSIBLE_GAMBLING'
+  }
+}
+
+export const hide_responsible_gambling = () => {
+  return {
+    type: 'HIDE_RESPONSIBLE_GAMBLING'
+  }
+}
+
+export const show_deposit_success = () => {
+  return {
+    type: 'SHOW_DEPOSIT_SUCCESS'
+  }
+}
+
+export const hide_deposit_success = () => {
+  return {
+    type: 'HIDE_DEPOSIT_SUCCESS'
+  }
+}
+
+export const show_deposit_confirm = () => {
+  return {
+    type: 'SHOW_DEPOSIT_CONFIRM'
+  }
+}
+
+export const hide_deposit_confirm = () => {
+  return {
+    type: 'HIDE_DEPOSIT_CONFIRM'
+  }
+}
+
+export const show_withdraw_confirm = () => {
+  return {
+    type: 'SHOW_WITHDRAW_CONFIRM'
+  }
+}
+
+export const hide_withdraw_confirm = () => {
+  return {
+    type: 'HIDE_WITHDRAW_CONFIRM'
+  }
+}
+
+export const show_withdraw_success = () => {
+  return {
+    type: 'SHOW_WITHDRAW_SUCCESS'
+  }
+}
+
+export const hide_withdraw_success = () => {
+  return {
+    type: 'HIDE_WITHDRAW_SUCCESS'
+  }
+}
+
+export const show_profile_menu = () => {
+  return {
+    type: 'SHOW_PROFILE_MENU'
+  }
+}
+
+export const hide_profile_menu = () => {
+  return {
+    type: 'HIDE_PROFILE_MENU'
+  }
+}

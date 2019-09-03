@@ -18,6 +18,53 @@ export const messages = {
         'accountmenu.referral': 'Refer new user',
         'accountmenu.languages': 'Languages',
 
+        'analysis.january': 'January',
+        'analysis.february': 'February',
+        'analysis.march': 'March',
+        'analysis.april': 'April',
+        'analysis.may': 'May',
+        'analysis.june': 'June',
+        'analysis.july': 'July',
+        'analysis.august': 'August',
+        'analysis.september': 'September',
+        'analysis.october': 'October',
+        'analysis.november': 'November',
+        'analysis.december': 'December',
+        'analysis.lifetime': 'Lifetime',
+        'analysis.win_loss': 'Total Win/Loss',
+        'analysis.total_net_position': 'Total Net Position',
+        'analysis.sport_bets': 'Sports Bets',
+        'analysis.slot_spins': 'Slots Spins',
+        'analysis.live_casino_bets': 'Live Casino Bets',
+
+        'analysis.placed': 'Placed',
+        'analysis.category': 'Category',
+        'analysis.winloss': 'Win/Loss',
+        'analysis.balance': 'Balance',
+
+        'analysis.date': 'Date',
+        'analysis.time': 'Time',
+        'analysis.amount': 'Amount',
+
+        'deposit.add_payment_method': 'Add Payment Method',
+        'deposit.deposit_method': 'Deposit Method',
+        'deposit.credit_card': 'Credit Card',
+        'deposit.remember_this_card': 'Remember card details for quicker deposit',
+        'deposit.deposit_amount': 'Deposit Amount',
+        'deposit.choose_payment_method': 'Choose Payment Method',
+        'deposit.continue': 'Continue',
+        'deposit.back_to_banking': 'Back to Banking',
+
+        'withdraw.add_payment_method': 'Add Payment Method',
+        'withdraw.withdraw_method': 'Withdraw Method',
+        'withdraw.choose_payment_method': 'Choose Withdraw Method',
+        'withdraw.continue': 'Continue',
+        'withdraw.back_to_banking': 'Back to Banking',
+        'withdraw.credit_card': 'Credit Card',
+        'withdraw.remember_this_card': 'Remember card details for quicker withdraw',
+        'withdraw.withdraw_amount': 'Withdraw Amount',
+        
+
         // footer message
         'footer.terms_conditions': 'Terms and Conditions',
         'footer.cookie_policy': 'Cookie Policy',
@@ -58,7 +105,7 @@ export const messages = {
         'nav.games': 'Games',
         'nav.search': 'Search',
         'nav.profile': 'Profile',
-        'nav.login': 'Login',
+        'nav.signin': 'Sign in',
         'nav.logout': 'Logout',
         'nav.referral': 'Refer new user',
         'nav.placeholder': 'Search game...',
@@ -68,14 +115,14 @@ export const messages = {
         'nav.live-casino': 'Live Casino',
         'nav.slots': 'Slots',
         'nav.lottery': 'Lottery',
-        'nav.open-account': 'Open Account',
+        'nav.register': 'Register',
         'nav.live': 'Live',
         'nav.football': 'Football',
         'nav.basketball': 'Basketball',
         'nav.ice-hockey': 'Ice Hockey',
         'nav.tennis': 'Tennis',
         'nav.top-rated': 'Top Rated',
-        'nav.new': 'New',
+        'nav.all': 'All',
         'nav.roulette': 'Roulette',
         'nav.blackjack': 'Blackjack',
         'nav.baccarat': 'Baccarat',
@@ -86,7 +133,7 @@ export const messages = {
         'nav.other-games': 'Other Games',
         'nav.username': 'Username',
         'nav.password': 'Password',
-
+        'nav.hello': 'Hello',
 
         // handle login page message
         'login.username': 'USERNAME',
@@ -142,6 +189,31 @@ export const messages = {
         'reset_password.simple': "Password is too simple",
         'reset_password.done': 'You have successfully reset you password',
 
+        'settings.marketing_title':'Marketing Settings',
+        'settings.privacy_title':'Privacy Settings',
+        'settings.marketing_text': 'We only want to send you information that you will find interesting and you have full control to ensure you are only contacted when and how you prefer. Update your preferences below as often as you like and don\'t forget to press \'Update\' when done.',
+        'settings.communication': 'Communication',
+        'settings.communication_text': 'If you choose this option we will contact you with information about promotions, latest offers and other information that you will find interesting.',
+        'settings.phone': 'Phone',
+        'settings.email': 'Email',
+        'settings.sms': 'SMS',
+        'settings.postal_mail': 'Postal mail',
+        'settings.social_media': 'Social media',
+        'settings.social_media_text': 'If you choose this option, we may use our social media channels such as Facebook to contact you. This will only apply if you already use these channels and we decide to display marketing material to you. We will not provide any information about you via our social media channels.',
+        'settings.update': 'Update',
+
+        'settings.privacy_text': 'We only want to send you information that you will find interesting and you have full control to ensure you are only contacted when and how you prefer. Update your preferences below as often as you like and don\'t forget to press \'Update\' when done.',
+        'settings.bonuses': 'Bonuses',
+        'settings.no': 'No',
+        'settings.yes': 'Yes',
+        'settings.bonus_text': 'I would like to be informed about relevant promotions such as Deposit Bonuses and new products available in my account.',
+        'settings.read_more': 'Read More',
+        'settings.vip': 'VIP Program',
+        'settings.vip_text': 'I would like to be informed about VIP Programe of my account.',
+
+
+
+
 
         // handle profile page message
         'profile.username': 'Username: ',
@@ -162,6 +234,12 @@ export const messages = {
         'profile.balance': 'Current balance: ',
         'profile.add': 'Add Balance',
         'profile.referral': 'Referral link: ',
+
+        'profile-nav.banking': 'Banking',
+        'profile-nav.analysis': 'Analysis',
+        'profile-nav.account': 'Account',
+        'profile-nav.responsible': 'Responsible Gaming',
+        'profile-nav.settings': 'Settings',
 
         // handle forget_password page message
         'forget_password.enter_email': 'Enter your email address: ',
@@ -300,6 +378,12 @@ export const messages = {
         // handle update email
         'update_email.success': 'You have successfully updated you email account',
 
+        'user_information.user_information': 'User Information',
+        'user_information.edit_information': 'Edit Information',
+        'user_information.save_changes': 'Save Changes',
+        'user_information.cancel': 'Cancel',
+        'user_information.support': 'To change your name or email, please contact our customer service.',
+
         // handle change_email page message
         'change_email.enter_email': 'New Email address: ',
         'change_email.confirm_email': 'Confirm Email address: ',
@@ -382,7 +466,55 @@ export const messages = {
         'accountmenu.referral': '推荐新用户',
         'accountmenu.languages': '语言',
 
+        'analysis.january': '一月',
+        'analysis.february': '二月',
+        'analysis.march': '游行',
+        'analysis.april': '四月',
+        'analysis.may': '可以',
+        'analysis.june': '六月',
+        'analysis.july': '七月',
+        'analysis.august': '八月',
+        'analysis.september': '九月',
+        'analysis.october': '十月',
+        'analysis.november': '十一月',
+        'analysis.december': '十二月',
+        'analysis.lifetime': '一生',
+        'analysis.win_loss': '总赢/输',
+        'analysis.total_net_position': '总净头寸',
+        'analysis.sport_bets': '运动投注',
+        'analysis.slot_spins': '老虎机旋转',
+        'analysis.live_casino_bets': '真人娱乐场投注',
+        'analysis.placed': '放置',
+        'analysis.category': '类别',
+        'analysis.winloss': '赢/输',
+        'analysis.balance': '平衡',
+        'analysis.date': '日期',
+        'analysis.time': '时间',
+        'analysis.amount': '量',
+
+        'deposit.add_payment_method': '添加付款方式',
+        'deposit.deposit_method': '存款方式',
+        'deposit.credit_card': '信用卡',
+        'deposit.remember_this_card': '记住卡片详细信息，以便快速存款',
+        'deposit.deposit_amount': '存款金额',
+        'deposit.choose_payment_method': '选择付款方式', 
+        'deposit.continue': '继续',
+        'deposit.back_to_banking': '回到银行业',
+
         // footer message
+
+    
+        'withdraw.add_payment_method': '添加付款方式',
+        'withdraw.withdraw_method': '退出方法',
+        'withdraw.choose_payment_method': '选择退出方法',
+        'withdraw.continue': '继续',
+        'withdraw.back_to_banking': '回到银行业',
+        'withdraw.credit_card': '信用卡',
+        'withdraw.remember_this_card': '记住卡片详细信息，以便更快退出',
+        'withdraw.withdraw_amount': '取款数量',
+
+
+         // footer message
         'footer.terms_conditions': '条款和条件',
         'footer.cookie_policy': 'Cookie政策',
         'footer.privacy_policy': '隐私政策',
@@ -422,7 +554,7 @@ export const messages = {
         'nav.games': '遊戲',
         'nav.search': '搜索',
         'nav.profile': '個人資料',
-        'nav.login': '登入',
+        'nav.signin': '登入',
         'nav.logout': '登出',
         'nav.referral': '推荐新用户',
         'nav.placeholder': '搜尋遊戲...',
@@ -432,14 +564,14 @@ export const messages = {
         'nav.live-casino': '真人娱乐场',
         'nav.slots': '老虎机',
         'nav.lottery': '抽奖',
-        'nav.open-account': '开户口',
+        'nav.register': '寄存器',
         'nav.live': '生活',
         'nav.football': '足球',
         'nav.basketball': '篮球',
         'nav.ice-hockey': '冰球',
         'nav.tennis': '网球',
         'nav.top-rated': '评分最高',
-        'nav.new': '新',
+        'nav.all': '所有遊戲',
         'nav.roulette': '轮盘赌',
         'nav.blackjack': '酒杯',
         'nav.baccarat': '百家乐',
@@ -450,6 +582,7 @@ export const messages = {
         'nav.other-games': '其他游戏',
         'nav.username': '用戶名',
         'nav.password': '密码',
+        'nav.hello': '你好',
 
         // handle login page message
         'login.username': '用戶名: ',
@@ -505,6 +638,28 @@ export const messages = {
         'reset_password.simple': "密码过于简单",
         'reset_password.done': '您已成功修改密码',
 
+        'settings.marketing_title':'营销设置',
+        'settings.privacy_title':'隐私设置',
+        'settings.marketing_text': '我们只希望向您发送您会感兴趣的信息，并且您可以完全控制，以确保只在您喜欢的时间和方式联系您。 您可以根据需要随时更新您的偏好设置，并在完成后不要忘记按“更新”',
+        'settings.communication': '通讯',
+        'settings.communication_text': '如果您选择此选项，我们将与您联系，提供有关促销活动，最新优惠和其他您感兴趣的信息',
+        'settings.phone': '电话',
+        'settings.email': '电子邮件',
+        'settings.sms': '短信',
+        'settings.postal_mail': '邮政邮件',
+        'settings.social_media': '社交媒体',
+        'settings.social_media_text': '如果您选择此选项，我们可能会使用Facebook等社交媒体渠道与您联系。 这仅适用于您已经使用这些渠道并且我们决定向您展示营销材料的情况。 我们不会通过社交媒体渠道提供有关您的任何信息',
+        'settings.update': '更新',
+
+        'settings.privacy_text': '我们只希望向您发送您会感兴趣的信息，并且您可以完全控制，以确保只在您喜欢的时间和方式联系您。 您可以根据需要随时更新您的偏好设置，并在完成后不要忘记按“更新”。',
+        'settings.bonuses': '奖金',
+        'settings.no': '没有',
+        'settings.yes': '是',
+        'settings.bonus_text': '我希望了解相关促销信息，例如存款奖金和我帐户中提供的新产品。',
+        'settings.read_more': '阅读更多',
+        'settings.vip': 'VIP计划',
+        'settings.vip_text': '我想知道我的帐户的VIP计划。',
+
 
         // handle profile page message
         'profile.username': '用戶名: ',
@@ -526,6 +681,12 @@ export const messages = {
         'profile.add': '添加资金',
         'profile.referral': '推荐链接: ',
         'signup.detail.sms': "我们会发您短信验证",
+
+        'profile-nav.banking': '银行业',
+        'profile-nav.analysis': '分析',
+        'profile-nav.account': '帐户',
+        'profile-nav.responsible': '负责任的游戏',
+        'profile-nav.settings': '设置',
 
         // handle forget_password page message
         'forget_password.enter_email': '請輸入郵箱: ',
@@ -765,6 +926,55 @@ export const messages = {
         'accountmenu.change-password': 'Change Password >',
         'accountmenu.open-bets': 'Open Bets',
 
+
+        'analysis.january': 'Janvier',
+        'analysis.february': 'Février',
+        'analysis.march': 'Mars',
+        'analysis.april': 'Avril',
+        'analysis.may': 'Mai',
+        'analysis.june': 'Juin',
+        'analysis.july': 'Juillet',
+        'analysis.august': 'Août',
+        'analysis.september': 'Septembre',
+        'analysis.october': 'Octobre',
+        'analysis.november': 'Novembre',
+        'analysis.december': 'Décembre',
+        'analysis.lifetime': 'Durée de vie',
+        'analysis.win_loss': 'Total victoire / perte',
+        'analysis.total_net_position': 'Position nette totale',
+        'analysis.sport_bets': 'Paris sportifs',
+        'analysis.slot_spins': 'Tours de machines à sous',
+        'analysis.live_casino_bets': 'Live Casino Paris',
+        'analysis.placed': 'Mis',
+        'analysis.category': 'Catégorie',
+        'analysis.winloss': 'Victoire/Perte',
+        'analysis.balance': 'Équilibre',
+        'analysis.date': 'Rendez-vous amoureux',
+        'analysis.time': 'Temps',
+        'analysis.amount': 'Montant',
+        
+
+        'deposit.add_payment_method': 'Ajouter un mode de paiement',
+        'deposit.deposit_method': 'Méthode de dépôt',
+        'deposit.credit_card': 'Carte de crédit',
+        'deposit.remember_this_card': 'Rappelez-vous les détails de la carte pour un dépôt plus rapide',
+        'deposit.deposit_amount': 'Montant du dépôt',
+        'deposit.choose_payment_method': 'Choisissez le mode de paiement',
+        'deposit.continue': 'Continuer',
+        'deposit.back_to_banking': 'Retour à la banque',
+      
+
+
+        'withdraw.add_payment_method': 'Ajouter un mode de paiement',
+        'withdraw.withdraw_method': 'Méthode de retrait',
+        'withdraw.choose_payment_method': 'Choisir la méthode de retrait',
+        'withdraw.continue': 'Continuer',
+        'withdraw.back_to_banking': 'Retour à la banque',
+        'withdraw.credit_card': 'Carte de crédit',
+        'withdraw.remember_this_card': 'Mémoriser les détails de la carte pour un retrait plus rapide',
+        'withdraw.withdraw_amount': 'Retrait du montant',
+
+
         'open-bets.my-bets': 'My Bets',
         'open-bets.open-bets': 'Open Bets',
 
@@ -830,7 +1040,7 @@ export const messages = {
         'nav.games': 'Tous les jeux',
         'nav.search': 'Chercher',
         'nav.profile': 'Profil',
-        'nav.login': 'S\'identifier',
+        'nav.signin': 'Se connecter',
         'nav.logout': 'Connectez - Out',
         'nav.referral': 'Recommander de nouveaux utilisateurs',
         'nav.placeholder': 'Jeu de recherche...',
@@ -840,14 +1050,14 @@ export const messages = {
         'nav.live-casino': 'Live Casino',
         'nav.slots': 'Machines à sous',
         'nav.lottery': 'Loterie',
-        'nav.open-account': 'Compte ouvert',
+        'nav.register': 'Registre',
         'nav.live': 'Vivre',
         'nav.football': 'Football',
         'nav.basketball': 'Basketball',
         'nav.ice-hockey': 'Hockey sur glace',
         'nav.tennis': 'Tennis',
         'nav.top-rated': 'Les mieux notés',
-        'nav.new': 'Nouvelle',
+        'nav.new': 'Tous les jeux',
         'nav.roulette': 'Roulette',
         'nav.blackjack': 'Blackjack',
         'nav.baccarat': 'Baccarat',
@@ -857,7 +1067,7 @@ export const messages = {
         'nav.table-games': 'Jeux de table',
         'nav.other-games': 'D autres jeux',
         'nav.username': 'Nom d\'utilisateur',
-        'nav.password': 'Mot de passe',
+        'nav.hello': 'Bonjour',
 
         // handle login page message
         'login.username': 'Nom d\'utilisateur: ',
@@ -912,6 +1122,26 @@ export const messages = {
         'reset_password.simple': "Le mot de passe est trop simple",
         'reset_password.done': 'Vous avez réinitialisé votre mot de passe avec succès',
 
+        'settings.marketing_title':'Paramètres de marketing',
+        'settings.privacy_title':'Paramètres de confidentialité',
+        'settings.marketing_text': 'Nous voulons seulement vous envoyer des informations que vous trouverez intéressantes et vous avez le contrôle total pour vous assurer que vous ne serez contacté que quand et comme vous préférez. Mettez à jour vos préférences ci-dessous aussi souvent que vous le souhaitez et n\'oubliez pas d\'appuyer sur \'Mettre à jour\' lorsque vous avez terminé.',
+        'settings.communication': 'la communication',
+        'settings.communication_text': 'Si vous choisissez cette option, nous vous contacterons avec des informations sur les promotions, les dernières offres et d\'autres informations que vous trouverez intéressantes.',
+        'settings.phone': 'Téléphone',
+        'settings.email': 'Email',
+        'settings.sms': 'SMS',
+        'settings.postal_mail': 'Courrier postal',
+        'settings.social_media': 'Des médias sociaux',
+        'settings.social_media_text': 'Si vous choisissez cette option, nous pouvons utiliser nos canaux de médias sociaux tels que Facebook pour vous contacter. Cela ne s\'appliquera que si vous utilisez déjà ces canaux et que nous décidons de vous présenter des supports marketing. Nous ne fournirons aucune information à votre sujet via nos canaux de médias sociaux.',
+        'settings.update': 'Mettre à jour',
+        'settings.privacy_text': 'Nous voulons seulement vous envoyer des informations que vous trouverez intéressantes et vous avez le contrôle total pour vous assurer que vous ne serez contacté que quand et comme vous préférez. Mettez à jour vos préférences ci-dessous aussi souvent que vous le souhaitez et n\'oubliez pas d\'appuyer sur \'Mettre à jour\' lorsque vous avez terminé.',
+        'settings.bonuses': 'Bonus',
+        'settings.no': 'Non',
+        'settings.yes': 'Oui',
+        'settings.bonus_text': 'Je souhaite être informé des promotions pertinentes telles que les bonus de dépôt et les nouveaux produits disponibles sur mon compte.',
+        'settings.read_more': 'Lire la suite',
+        'settings.vip': 'Programme VIP',
+        'settings.vip_text': 'Je souhaite être informé sur le programme VIP de mon compte.',
 
         // handle profile page message
         'profile.username': 'Nom d\'utilisateur: ',
@@ -932,6 +1162,12 @@ export const messages = {
         'profile.balance': 'Solde du compte courant: ',
         'profile.add': 'Ajouter des fonds',
         "profile.referral": "Lien recommandé': ",
+
+        'profile-nav.banking': 'Bancaire',
+        'profile-nav.analysis': 'Une analyse',
+        'profile-nav.account': 'Compte',
+        'profile-nav.responsible': 'Jeu responsable',
+        'profile-nav.settings': 'Réglages',
 
         // handle forget_password page message
         'forget_password.enter_email': 'Entrez votre adresse email: ',
@@ -1046,7 +1282,7 @@ export const messages = {
         // handle new update profile
         'new_update_profile.title': 'Editer le profil',
         'new_update_profile.save': 'sauvegarder',
-        
+
 
         // handle update_profile page message
         'update_profile.username': 'Nom d\'utilisateur: ',
