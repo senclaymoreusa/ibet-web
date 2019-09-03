@@ -29,7 +29,7 @@ import DepositPaypal from './components/profile/banking/deposit/deposit_types/de
 import TermsConditions from './components/policy/terms_conditions'
 import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
-import ChangePassword from './components/change_password'
+import Change_Password from './components/change_password_new'
 import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
 import DepositQaicah from './components/profile/banking/deposit/deposit_types/deposit_qaicash'
 import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay'
