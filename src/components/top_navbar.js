@@ -257,7 +257,22 @@ const styles = theme => ({
         borderRadius: 12,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        paddingTop: .25,
+        fontSize: 17,
+        height: 40,
         border: 'solid 2px #ff0000',
+        backgroundColor: '#ffffff',
+    },
+    greyInboxButton: {
+        marginTop: 16,
+        marginBottom: 16,
+        borderRadius: 12,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        paddingTop: .25,
+        fontSize: 17,
+        height: 40,
+        border: 'solid 2px #868686',
         backgroundColor: '#ffffff',
     },
     envelope: {
@@ -266,13 +281,24 @@ const styles = theme => ({
         color: '#ff0000',
     },
     unreadMessageCount: {
+        marginLeft: 2,
         fontSize: 20,
-        fontWeight: 600,
+        fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 0.78,
         color: '#ff0000',
+    },
+    allreadMessageCount: {
+        marginLeft: 2,
+        fontSize: 20,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.78,
+        color: '#868686',
     },
     balanceButton: {
         marginTop: 16,
@@ -1041,6 +1067,50 @@ export class TopNavbar extends React.Component {
         let slotsMessage = formatMessage({ id: "nav.slots" });
         let lotteryMessage = formatMessage({ id: "nav.lottery" });
 
+        let messageBtn;
+        if(unreadMessage > 0) {
+            messageBtn = (
+                <Button
+                    className={classes.inboxButton}
+                    onClick={ () => {
+                        this.setState({ mainTabValue: 'none' });
+                        this.props.history.push('/p/account/inbox')
+                    }}
+                >
+                    <div className={classes.envelope}>
+                        <img src={images.src + 'envelope.svg'} />
+                    </div>
+                    <div className={classes.unreadMessageCount}>
+                        <FormattedNumber
+                            variant="outlined"
+                            maximumFractionDigits={2}
+                            value={unreadMessage}
+                        />
+                    </div>
+                </Button>);
+        } else {
+            messageBtn = (
+                <Button
+                    className={classes.greyInboxButton}
+                    onClick={ () => {
+                        this.setState({ mainTabValue: 'none' });
+                        this.props.history.push('/p/account/inbox')
+                    }}
+                >
+                    <div className={classes.envelope}>
+                        <img src={images.src + 'grey_envelope.svg'} />
+                    </div>
+                    <div className={classes.allreadMessageCount}>
+                        <FormattedNumber
+                            variant="outlined"
+                            maximumFractionDigits={2}
+                            value={unreadMessage}
+                        />
+                    </div>
+                </Button>);
+        }
+        
+
         return (
             <div className={classes.root}>
                 <MuiThemeProvider theme={muiLogoBarTheme} >
@@ -1072,22 +1142,7 @@ export class TopNavbar extends React.Component {
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Button
-                                            // variant="outlined"
-                                            className={classes.inboxButton}
-                                            onClick={ () => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/account/inbox')
-                                            }}
-                                        >
-                                            <div className={classes.unreadMessageCount}>
-                                                <FormattedNumber
-                                                    variant="outlined"
-                                                    maximumFractionDigits={2}
-                                                    value={unreadMessage}
-                                                />
-                                            </div>
-                                        </Button>
+                                        {messageBtn}    
                                         <Button
                                             variant="outlined"
                                             className={classes.balanceButton}

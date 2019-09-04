@@ -23,8 +23,9 @@ const styles = theme => ({
     content: {
         paddingLeft: 163,
         paddingRight: 162,
-        paddingTop: 52,
-        minHeight: 100,
+        marginTop: 52,
+        minHeight: 485,
+        overflowY: 'scroll',
     },
     titleCell: {
         display: 'flex',
@@ -113,6 +114,7 @@ const styles = theme => ({
         textAlign: 'right',
         color: '#787878',
         marginTop: 23,
+        marginRight: 23,
     },
 });
 
@@ -144,10 +146,26 @@ export class InboxMain extends Component {
                 axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
                 .then(res => {  
                     this.setState({userMessages: res.data});
-                    console.log(res.data);
                 })
             })
     }
+
+    // function UnreadMessageItem (props) {
+    //     return (
+    //         <Grid container>
+    //             <Grid item xs={12} className={classes.notification} key={item.pk}>
+    //                 <div className={classes.unreadMark}></div>
+    //                 <div className={classes.messageContainer}>
+    //                     <span className={classes.subject}>{item.pk}</span>
+    //                     <br/>
+    //                     <span className={classes.message}>Message Body</span>
+    //                 </div>
+    //                 <Button className={classes.delete}>delete</Button>
+    //                 <span className={classes.date}>8/24</span>
+    //             </Grid>
+    //         </Grid>
+    //     )
+    // }
 
     render() {
         const { classes } = this.props;
@@ -162,8 +180,8 @@ export class InboxMain extends Component {
                             <Grid item xs={12} className={classes.content}>
                                 {this.state.userMessages.map(item => {
                                     return(
-                                        <Grid container>
-                                            <Grid item xs={12} className={classes.notification} key={item.pk}>
+                                        <Grid container key={item.pk}>
+                                            <Grid item xs={12} className={classes.notification}>
                                                 <div className={classes.unreadMark}></div>
                                                 <div className={classes.messageContainer}>
                                                     <span className={classes.subject}>{item.pk}</span>
