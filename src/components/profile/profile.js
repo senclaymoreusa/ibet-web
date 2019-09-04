@@ -18,6 +18,7 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Banking from './banking/banking';
 import Analysis from './analysis/analysis';
+import Settings from './settings/settings';
 import Account from './account/account';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -253,6 +254,7 @@ export class Profile extends Component {
                 <div className={classes.content}>
                     {this.state.tabValue === 'banking' && <Banking />}
                     {this.state.tabValue === 'analysis' && <Analysis />}
+                    {this.state.tabValue === 'settings' && <Settings />}
                     {this.state.tabValue === 'account' && <Account />}
                 </div>
                 <Footer />

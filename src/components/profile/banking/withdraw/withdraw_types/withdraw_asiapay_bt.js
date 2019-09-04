@@ -1,46 +1,21 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../util_config';
+import { config } from '../../../../../util_config';
 import { connect } from 'react-redux';
 
 // Material-UI
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Radio from '@material-ui/core/Radio';
+import InputMask from 'react-input-mask';
+import { images } from '../../../../../util_config';
 
-import ImagePicker from 'react-image-picker'
-import img7 from '../../../../../images/boc.jpg'//中国银行
-import img6 from '../../../../../images/cgb.png'//广发银行
-import img4 from '../../../../../images/cmb.jpg'//招商银行
-import img3 from '../../../../../images/aboc.jpg'//农业银行
-import img2 from '../../../../../images/ccb.png' //建设银行
-import img1 from '../../../../../images/icbc.jpeg'//工商银行
-import 'react-image-picker/dist/index.css'
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
-
-const imageList = [{ img: img1, value: "1" },
-{ img: img2, value: "2" },
-{ img: img3, value: "3" },
-{ img: img4, value: "4" },
-{ img: img6, value: "6" },
-{ img: img7, value: "7" }];
-
-const bankList = [{ label: 'icbc', value: "1" },
-{ label: 'ccb', value: "2" },
-{ label: 'aboc', value: "3" },
-{ label: 'cmb', value: "4" },
-{ label: 'cgb', value: "6" },
-{ label: 'boc', value: "7" }];
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
@@ -68,10 +43,11 @@ const styles = theme => ({
         paddingTop: 50,
         paddingBottom: 50,
     },
-    bankRow: {
+    cardTypeCell: {
         borderTop: '1px solid #d8d8d8',
         borderBottom: '1px solid #d8d8d8',
         height: 77,
+        paddingTop: 15,
         textAlign: 'center',
     },
     title: {
@@ -162,6 +138,7 @@ const styles = theme => ({
     },
     middleButton: {
         marginRight: 10,
+        marginRight: 10,
         borderRadius: 4,
         backgroundColor: '#efefef',
         marginTop: 15,
@@ -181,6 +158,7 @@ const styles = theme => ({
     },
     otherText: {
         fontSize: 14,
+        marginTop: 10,
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -218,32 +196,27 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#292929',
-    },
-    bankList: {
-        width: '100%',
-        height: 77,
-
     }
 });
 
-
-class DepositAsiapayBankcard extends Component {
+class WithdrawAsiapayBT extends Component {
     constructor(props) {
         super(props);
 
         this.amountInput = React.createRef();
 
-
         this.state = {
             amount: '',
             currency: '',
             error: false,
+            bank: '',
+            pin:'',
             data: '',
             type: '',
-            qaicash_error: false,
-            qaicash_error_msg: "",
+            
             live_check_amount: false,
-            button_disable: true,
+
+            button_disable: false,
             value: "",
             size: 128,
             fgColor: '#000000',
@@ -251,75 +224,43 @@ class DepositAsiapayBankcard extends Component {
             level: 'L',
             renderAs: 'svg',
             includeMargin: false,
-            show_qrcode: false,
-            bankid: '',
-            image: null,
 
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 100,
-            secondOption: 200,
-            thirdOption: 500,
-            fourthOption: 1000,
-            currencyValue: "USD",
+            pinFocused: false,
+            pinInvalid: true,
+
             showLinearProgressBar: false,
+            currencyValue: "USD",
         };
 
-        this.onPick = this.onPick.bind(this);
-
         this.backClicked = this.backClicked.bind(this);
-        this.firstOptionClicked = this.firstOptionClicked.bind(this);
-        this.secondOptionClicked = this.secondOptionClicked.bind(this);
-        this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
-        this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
         this.amountChanged = this.amountChanged.bind(this);
         this.amountFocused = this.amountFocused.bind(this);
-        this.bankChanged = this.bankChanged.bind(this);
-
+        this.pinChanged = this.pinChanged.bind(this);
+        this.pinFocused = this.pinFocused.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === 1) {
+                this.props.history.push('/')
+            }
+        })
+
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currencyValue: res.data.currency });
-            });
-    }
-
-    firstOptionClicked(event) {
-        this.setState({ amount: this.state.firstOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    secondOptionClicked(event) {
-        this.setState({ amount: this.state.secondOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    thirdOptionClicked(event) {
-        this.setState({ amount: this.state.thirdOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    fourthOptionClicked(event) {
-        this.setState({ amount: this.state.fourthOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
+            })
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 100) {
+        if (parseInt(event.target.value) < 100) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -333,30 +274,37 @@ class DepositAsiapayBankcard extends Component {
     }
 
     backClicked(ev) {
-        this.props.callbackFromParent('deposit_method');
+        this.props.callbackFromParent('withdraw_method');
+    }
+    pinChanged(event) {
+        this.setState({ pin: event.target.value });
+        this.setState({ pinFocused: true });
+        this.setState({ pinInvalid: (!event.target.value.match(/^[0-9]+(\.[0-9]{0,2})?$/)) });
     }
 
-    onPick(image) {
-
-        this.setState({ image })
-        this.setState({ bankid: image.value })
-
+    pinFocused(event) {
+        this.setState({ pinFocused: true });
     }
 
+    
     handleClick = () => {
         let currentComponent = this;
+
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+
+        let amount = this.state.amount;
+        let user = this.state.data.username;
+        let main_wallet = this.state.data.main_wallet;
+
         var postData = {
-            "amount": this.state.amount,
-            "userid": this.state.data.pk,
-            "currency": "0",
-            "PayWay": "30", //online bank
-            "method": this.state.bankid, //银行卡
+            "amount": amount,
+            "user_id": user,
+            "currency": "CNY",
+            "method": "BTC",
+            "language": "zh-Hans",
         }
-        console.log(this.state.amount)
-        console.log(this.state.data.pk)
-        console.log(this.state.bankid)
+        console.log(amount)
+        console.log(user)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -364,27 +312,24 @@ class DepositAsiapayBankcard extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+        return fetch(API_URL + 'accounting/api/qaicash/submit_payout', {
             method: 'POST',
             headers: {
                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: formBody
         }).then(function (res) {
-            currentComponent.setState({ showLinearProgressBar: false });
             return res.json();
         }).then(function (data) {
-            let url = data.url;
-            let order_id = data.order_id;
-            const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
-            var timer = setInterval(function () {
+            let redirectUrl = data.paymentPageSession.paymentPageUrl;
+            if (redirectUrl != null && main_wallet - amount >= 0) {
+                const mywin = window.open(redirectUrl, 'qaicash-checkout');
+                var timer = setInterval(function () {
                     console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
-                            "order_id": data.oid,
-                            "userid": "n" + userid,
-                            "CmdType": "01",
+                            "trans_id": data.payoutTransaction.orderId,
                         }
                         var formBody = [];
                         for (var pd in postData) {
@@ -393,9 +338,8 @@ class DepositAsiapayBankcard extends Component {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
-
-                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
-                            method: "POST",
+                        return fetch(API_URL + 'accounting/api/qaicash/confirm', {
+                            method: 'POST',
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             },
@@ -403,36 +347,46 @@ class DepositAsiapayBankcard extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            console.log(data.status)
-                            if (data.status === "001") {
-                                //alert('Transaction is approved.');
+                            let status = data.status;
+                            if (status === 9) {
+                                alert('Transaction is approved.');
                                 const body = JSON.stringify({
-                                    type: 'add',
-                                    username: currentComponent.state.data.username,
-                                    balance: currentComponent.state.amount,
+                                    type: 'withdraw',
+                                    username: user,
+                                    balance: amount,
                                 });
                                 console.log(body)
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                            //this.setState({ error: true });
+                                            currentComponent.props.callbackFromParent("error", 'Transaction failed!');
+                                        } else if (res.data === 'The balance is not enough') {
+                                        //    // alert("cannot withdraw this amount")
+                                            currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
+
                                         } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
-                            } else {
-                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                                            currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
+                                
+                                            // alert("your balance is updated")
+                                            // window.location.reload()
+                                        }
+                                    });
+                            } else  {
+                                currentComponent.props.callbackFromParent("error", 'Please complete your withdraw payment!');
+                                //alert('Please complete your withdraw payment!');
                             }
-                        });
+                        })
                     }
                 }, 1000);
-        });
-    }
 
-    bankChanged = (event) => {
-        this.setState({ bankid: event.target.value });
+            } else if (main_wallet - amount < 0) {
+                alert('Your account balance is not enough!')
+            } else {
+                currentComponent.props.callbackFromParent("error", data.returnMessage);
+                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+            }
+        });
     }
 
     render() {
@@ -440,16 +394,14 @@ class DepositAsiapayBankcard extends Component {
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
 
-        let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
-        let continueMessage = formatMessage({ id: 'deposit.continue' });
-        let backMessage = formatMessage({ id: 'deposit.back_to_banking' });
-
+        let depositAmountMessage = formatMessage({ id: 'withdraw.withdraw_amount' });
+        let continueMessage = formatMessage({ id: 'withdraw.continue' });
+        let backMessage = formatMessage({ id: 'withdraw.back_to_banking' });
 
         const backButton = (
             <Button onClick={this.backClicked}>
-               <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>);
-
 
         return (
             <div className={classes.root}>
@@ -468,59 +420,35 @@ class DepositAsiapayBankcard extends Component {
                         <Grid item xs={12}>
                             {showLinearProgressBar === true && <LinearProgress />}
                         </Grid>
-                        <Grid item xs={12} className={classes.contentRow}
-                            style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }} >
+                        <Grid item xs={12} className={classes.contentRow} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }} >
                             <Grid container>
-                                <Grid item xs={12} className={classes.bankRow}>
-                                    <Select
-                                        className={classes.bankList}
-                                        value={this.state.bankid}
-                                        onChange={this.bankChanged}
-                                        inputProps={{
-                                            name: 'bank',
-                                            id: 'bank-simple',
-                                            height: 77,
-                                        }}>
-                                        {bankList.map(bank => (
-                                            <MenuItem key={bank.label} value={bank.value} >
-                                                {bank.label}
-                                                <Radio
-                                                    checked={this.state.bankid === bank.value}
-                                                    name="radio-button-demo"
-                                                    inputProps={{ 'aria-label': 'B' }}
-                                                />
-                                            </MenuItem>
-                                        ))
-                                        }
-                                    </Select>
-                                    <div>
-                                        {/* <ImagePicker
-                            images={imageList.map((image, i) => ({ src: image.img, value: image.value }))}
-                            onPick={this.onPick}
-
-                        /> */}
-
-
-                                    </div>
+                                <Grid item xs={12} className={classes.cardTypeCell}>
+                                    <Button className={classes.cardTypeButton} disabled>
+                                        Qaicash BTC
+                                    </Button>
                                 </Grid>
-                                <Grid item xs={12} >
-                                    <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
-                                        {this.state.firstOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.secondOptionClicked}>
-                                        {this.state.secondOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.thirdOptionClicked}>
-                                        {this.state.thirdOption}
-                                    </Button>
-                                    <Button className={classes.rightButton} onClick={this.fourthOptionClicked}>
-                                        {this.state.fourthOption}
-                                    </Button>
+                                
+                                <Grid item xs={12} className={classes.detailRow}>
+                                    <InputMask
+                                        mask="9999999999999999" maskChar={null}
+                                        onFocus={this.pinFocused}
+                                        onChange={this.pinChanged}
+                                        value={this.state.pin}
+                                        className={classes.otherText}>
+                                        {() => <TextField
+                                            className={classes.otherText}
+                                            placeholder="Card Number"
+                                            type="text"
+                                            error={(this.state.pinInvalid && this.state.pinFocused)}
+                                            helperText={(this.state.pinInvalid && this.state.pinFocused) ? 'Please enter a valid 16-digit card number.' : ' '}
+                                            InputProps={{ disableUnderline: true }}
+                                        />}
+                                    </InputMask>
                                 </Grid>
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit 100 - 50000"
+                                        placeholder="Minimum 100"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={this.state.amountInvalid && this.state.amountFocused}
@@ -532,10 +460,10 @@ class DepositAsiapayBankcard extends Component {
                                         type="number"
                                         inputProps={{
                                             step: 10,
-                                            min: 100,
-                                            max: 50000
+                                            min: 100
                                         }}
                                         inputRef={this.amountInput}
+
                                     />
                                 </Grid>
                                 <Grid item xs={6} className={classes.amountRow}>
@@ -553,8 +481,9 @@ class DepositAsiapayBankcard extends Component {
                                 <Grid item xs={12} className={classes.buttonCell}>
                                     <Button className={classes.continueButton}
                                         onClick={this.handleClick}
-                                        disabled={this.state.amountInvalid || this.state.bankid === ''}
-                                    >{continueMessage}</Button>
+                                        disabled={this.state.amountInvalid}
+                                    >
+                                        {continueMessage}</Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.backButtonCell}>
                                     <Button className={classes.backBankingButton}
@@ -568,6 +497,8 @@ class DepositAsiapayBankcard extends Component {
             </div>
         )
     }
+
+
 }
 
 const mapStateToProps = (state) => {
@@ -576,4 +507,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositAsiapayBankcard)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(WithdrawAsiapayBT)));

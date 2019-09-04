@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../util_config';
+import { config, images} from '../../../../../util_config';
 import { connect } from 'react-redux';
+
+// Material-UI
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -10,6 +12,8 @@ import Button from '@material-ui/core/Button';
 import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
+
+
 
 var QRCode = require('qrcode.react');
 
@@ -135,7 +139,6 @@ const styles = theme => ({
         height: 44,
     },
     middleButton: {
-        marginRight: 10,
         marginRight: 10,
         borderRadius: 4,
         backgroundColor: '#efefef',
@@ -283,7 +286,7 @@ class DepositAsiapayUnionpay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length === 0 || parseInt(event.target.value) > 4000 || parseInt(event.target.value) < 100) {
+        if (event.target.value.length == 0 || parseInt(event.target.value) > 4000 || parseInt(event.target.value) < 100) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -304,7 +307,7 @@ class DepositAsiapayUnionpay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-
+        let userid = this.state.data.pk;
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -326,19 +329,80 @@ class DepositAsiapayUnionpay extends Component {
             },
             body: formBody
         }).then(function (res) {
-
-            if (res.statuscode)
-                return res.json();
-        }).then(function (data) {
-            let myqr = data.qr;
-
-            if (data.code === 'ERROR') {
-                currentComponent.props.callbackFromParent("error", data.message);
-            } else {
-                currentComponent.setState({ value: myqr, show_qrcode: true })
-            }
+           console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
+
+            
+            return res.json();
+        }).then(function (data) {
+            console.log(data)
+            let qrurl = data.qr;
+            console.log(qrurl)
+            if(qrurl != null){
+                const mywin = window.open(qrurl, 'asiapay-alipay')
+                var timer = setInterval(function () {
+                    console.log('checking..')
+                    if (mywin.closed) {
+                        clearInterval(timer);
+                        var postData = {
+                            "order_id": data.oid,
+                            "userid": "n" + userid,
+                            "CmdType": "01",
+                        }
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
+
+                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: formBody
+                        }).then(function (res) {
+                            return res.json();
+                        }).then(function (data) {
+                            console.log(data.status)
+                            if (data.status === "001") {
+                                //alert('Transaction is approved.');
+                                const body = JSON.stringify({
+                                    type: 'add',
+                                    username: currentComponent.state.data.username,
+                                    balance: currentComponent.state.amount,
+                                });
+                                console.log(body)
+                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                    .then(res => {
+                                        if (res.data === 'Failed') {
+                                            //currentComponent.setState({ error: true });
+                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        } else if (res.data === "The balance is not enough") {
+                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                        } else {
+                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                        } });
+                            } else {
+                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                            }
+                        });
+                    }
+                }, 1000);
+                
+            }
+            // let myqr = data.qr;
+
+            // if (data.code == 'ERROR') {
+            //     currentComponent.props.callbackFromParent("error", data.message);
+            // } else {
+            //     currentComponent.setState({ value: myqr, show_qrcode: true })
+            // }
+
+            // currentComponent.setState({ showLinearProgressBar: false });
 
         }).catch(error => {
             currentComponent.props.callbackFromParent("error", error.returnMessage);

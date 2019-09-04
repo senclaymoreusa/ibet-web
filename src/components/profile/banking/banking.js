@@ -18,6 +18,7 @@ const styles = theme => ({
     },
     leftPane: {
         paddingTop: 50,
+        minWidth:260,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -55,7 +56,7 @@ export class Banking extends Component {
         this.state = {
             urlPath: '',
             tabValue: ''
-         }
+        }
 
         this.handleTabChange = this.handleTabChange.bind(this);
     }
@@ -66,11 +67,11 @@ export class Banking extends Component {
 
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL){
+            if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             }
         })
-        
+
         this.setState({ urlPath: this.props.history.location.pathname });
 
         this.setContent();
@@ -93,11 +94,12 @@ export class Banking extends Component {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
 
-        if (parts.length >= 3) {
+        if (parts.length > 3) {
             if (parts[1].length > 0) {
                 this.setState({ tabValue: parts[3] })
             }
-        }
+        } else
+            this.setState({ tabValue: 'deposit' })
     }
 
     render() {

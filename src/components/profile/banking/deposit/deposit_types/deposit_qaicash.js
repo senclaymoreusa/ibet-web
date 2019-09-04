@@ -320,13 +320,13 @@ class DepositQaicah extends Component {
 
 
             if (redirectUrl != null) {
-                const mywin = window.open(redirectUrl, 'qaicash-Wechatpay', 'height=500,width=500');
+                const mywin = window.open(redirectUrl, 'qaicash-Wechatpay');
                 var timer = setInterval(function () {
                     console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
-                            "order_id": data.paymentPageSession.orderId
+                            "trans_id": data.paymentPageSession.orderId
                         }
                         var formBody = [];
                         for (var pd in postData) {
@@ -336,7 +336,7 @@ class DepositQaicah extends Component {
                         }
                         formBody = formBody.join("&");
 
-                        return fetch(API_URL + 'accounting/api/qaicash/deposit_transaction', {
+                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
                             method: "POST",
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -346,7 +346,7 @@ class DepositQaicah extends Component {
                             return res.json();
                         }).then(function (data) {
                             console.log(data.status)
-                            if (data.status === 'SUCCESS') {
+                            if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
