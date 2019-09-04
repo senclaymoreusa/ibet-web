@@ -251,6 +251,29 @@ const styles = theme => ({
         border: 'solid 1px #e8e8e8',
         backgroundColor: '#f1f1f1',
     },
+    inboxButton: {
+        marginTop: 16,
+        marginBottom: 16,
+        borderRadius: 12,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        border: 'solid 2px #ff0000',
+        backgroundColor: '#ffffff',
+    },
+    envelope: {
+        width: 48,
+        height: 36,
+        color: '#ff0000',
+    },
+    unreadMessageCount: {
+        fontSize: 20,
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.78,
+        color: '#ff0000',
+    },
     balanceButton: {
         marginTop: 16,
         marginBottom: 16,
@@ -567,6 +590,7 @@ export class TopNavbar extends React.Component {
             picture: "",
             show_loggedin_status: false,
             balance: 0.00,
+            unreadMessage: 0,
             balanceCurrency: "USD",
             username: '',
             password: '',
@@ -580,6 +604,7 @@ export class TopNavbar extends React.Component {
             showAnalysisProfileSubMenu: false,
             showUserAccountProfileSubMenu: false,
             showSettingsProfileSubMenu: false,
+            pk: '',
 
             mainTabValue: 'none',
         };
@@ -822,6 +847,13 @@ export class TopNavbar extends React.Component {
                                 this.setState({ username: res.data.username });
                                 this.setState({ balance: res.data.main_wallet });
                                 this.setState({ balanceCurrency: res.data.currency });
+
+                                axios.get(API_URL + 'operation/api/notification-count/' + res.data.pk, config)
+                                .then(res => {
+                                    if (this._isMounted) {
+                                        this.setState({ unreadMessage: res.data})
+                                    }
+                                })
                             }
                         })
                 }
@@ -932,7 +964,7 @@ export class TopNavbar extends React.Component {
     }
 
     render() {
-        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency, unreadMessage } = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
@@ -1040,6 +1072,22 @@ export class TopNavbar extends React.Component {
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
+                                        <Button
+                                            // variant="outlined"
+                                            className={classes.inboxButton}
+                                            onClick={ () => {
+                                                this.setState({ mainTabValue: 'none' });
+                                                this.props.history.push('/p/account/inbox')
+                                            }}
+                                        >
+                                            <div className={classes.unreadMessageCount}>
+                                                <FormattedNumber
+                                                    variant="outlined"
+                                                    maximumFractionDigits={2}
+                                                    value={unreadMessage}
+                                                />
+                                            </div>
+                                        </Button>
                                         <Button
                                             variant="outlined"
                                             className={classes.balanceButton}

@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
+import { config } from '../../../../util_config';
+import axios from 'axios';
+
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
@@ -69,18 +74,29 @@ const styles = theme => ({
         borderTopLeftRadius: 5,
         borderBottomLeftRadius:5,
     },
+    messageContainer: {
+        width: 310,
+        paddingLeft: 14,
+        flexDirection: "column",
+        justify: "center",
+        alignItems: "center",
+    },
+    subject: {
+        fontSize: 12,
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.5,
+        letterSpacing: 'normal',
+    },
     message: {
         width: 310,
-        height: 58,
-        fontFamily: 'Gilroy',
         fontSize: 12,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 1.5,
         letterSpacing: 'normal',
-        color: '#212121',
-        paddingLeft: 14,
     },
     delete: {
         width: 60,
@@ -93,7 +109,6 @@ const styles = theme => ({
     date: {
         width: 50,
         height: 12,
-        fontFamily: 'Gilroy',
         fontSize: 12,
         textAlign: 'right',
         color: '#787878',
@@ -108,53 +123,61 @@ export class InboxMain extends Component {
         super(props);
 
         this.state = {
-            stepValue: '1'
+            userMessages: [],
         }
+    }
+
+    componentDidMount() {
+        this.props.authCheckState()
+            .then(res => {
+                if (res === 1) {
+                    this.props.history.push('/');
+                    window.location.reload();
+                }
+            })
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+        
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
+                .then(res => {  
+                    this.setState({userMessages: res.data});
+                    console.log(res.data);
+                })
+            })
     }
 
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
+        const { userMessages } = this.state;
 
         return (
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={12} className={classes.titleCell}>
                         <span className={classes.title}>Inbox</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.content}>
-                        <Grid container>
-                            <Grid item xs={12} className={classes.notification}>
-                                <div className={classes.unreadMark}></div>
-                                <span className={classes.message}>Message Inbox</span>
-                                <Button className={classes.delete}>delete</Button>
-                                <span className={classes.date}>8/24</span>
+                            <Grid item xs={12} className={classes.content}>
+                                {this.state.userMessages.map(item => {
+                                    return(
+                                        <Grid container>
+                                            <Grid item xs={12} className={classes.notification} key={item.pk}>
+                                                <div className={classes.unreadMark}></div>
+                                                <div className={classes.messageContainer}>
+                                                    <span className={classes.subject}>{item.pk}</span>
+                                                    <br/>
+                                                    <span className={classes.message}>Message Body</span>
+                                                </div>
+                                                <Button className={classes.delete}>delete</Button>
+                                                <span className={classes.date}>8/24</span>
+                                            </Grid>
+                                        </Grid>
+                                    )
+                                })
+                                }
                             </Grid>
-                            <Grid item xs={12} className={classes.notification}>
-                                <div className={classes.unreadMark}></div>
-                                <span className={classes.message}>Message Inbox</span>
-                                <Button className={classes.delete}>delete</Button>
-                                <span className={classes.date}>7/24</span>
-                            </Grid>
-                            <Grid item xs={12} className={classes.notification}>
-                                <div className={classes.readMark}></div>
-                                <span className={classes.message}>Read Message</span>
-                                <Button className={classes.delete}>delete</Button>
-                                <span className={classes.date}>7/24</span>
-                            </Grid>
-                            <Grid item xs={12} className={classes.notification}>
-                                <div className={classes.readMark}></div>
-                                <span className={classes.message}>Read Message</span>
-                                <Button className={classes.delete}>delete</Button>
-                                <span className={classes.date}>7/23</span>
-                            </Grid>
-                            <Grid item xs={12} className={classes.notification}>
-                                <div className={classes.readMark}></div>
-                                <span className={classes.message}>Read Message</span>
-                                <Button className={classes.delete}>delete</Button>
-                                <span className={classes.date}>7/22</span>
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </Grid>
             </div>
