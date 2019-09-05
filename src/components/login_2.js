@@ -63,7 +63,8 @@ export class Login extends React.Component {
             showPassword: false,
 
             button_disable: true,
-            wrong_password_error: false
+            wrong_password_error: false,
+            user_blocked: false
         };
 
         this.onInputChange_username = this.onInputChange_username.bind(this);
@@ -200,7 +201,12 @@ export class Login extends React.Component {
                 this.props.hide_login()
             })
             .catch(err => {
-                this.setState({ wrong_password_error: true })
+                if (typeof err === "string"){
+                    this.setState({user_blocked: true,  wrong_password_error: false})
+                }else{
+                    this.setState({ wrong_password_error: true, user_blocked: false })
+                }
+                
             });
     }
 
