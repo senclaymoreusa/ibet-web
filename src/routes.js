@@ -29,7 +29,7 @@ import DepositPaypal from './components/profile/banking/deposit/deposit_types/de
 import TermsConditions from './components/policy/terms_conditions'
 import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
-import Change_Password from './components/change_password_new'
+import ChangePassword from './components/change_password_new'
 import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
 import DepositQaicah from './components/profile/banking/deposit/deposit_types/deposit_qaicash'
 import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay'
@@ -69,13 +69,10 @@ const BaseRouter = () => (
     <Route exact path="/signup/:filter?" component={Signup} />
     <Route exact path="/game_detail/:id?" component={Game_Detail} />
     <Route exact path="/game_search/:term?" component={Game_Search} />
-    {/* <Route exact path="/profile" component={Profile} /> */}
     <Route exact path="/profile" component={NewProfile} />
-    {/* <Route exact path="/update_profile" component={Update} /> */}
     <Route exact path="/update_profile" component={NewUpdateProfile} />
     <Route exact path="/change_email" component={Change_Email} />
     <Route exact path="/forget_password" component={Forget_Password} />
-    {/*<Route exact path="/reset_password/:filter?" component={Reset_Password} /> */}
     <Route exact path="/reset_password/:email?" component={Reset_Password} />
     <Route exact path="/email_sent/:email?" component={Email_Sent} />
     <Route exact path="/reset_password_done" component={ResetPasswordDone} />
