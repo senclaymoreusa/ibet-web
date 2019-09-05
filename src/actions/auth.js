@@ -49,6 +49,12 @@ export const authStart = () => {
             if (!token || token === undefined) {
                 dispatch(logout());
             }
+            axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                if (res.data.block) {
+                    dispatch(logout());
+                    return Promise.resolve(AUTH_RESULT_FAIL);
+                }})
             const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
             localStorage.setItem('token', token);
             localStorage.setItem('expirationDate', expirationDate);
