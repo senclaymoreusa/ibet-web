@@ -131,14 +131,6 @@ export class InboxDetail extends Component {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
-        
-        // axios.get(API_URL + 'users/api/user/', config)
-        //     .then(res => {
-        //         axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
-        //         .then(res => {  
-        //             this.setState({userMessages: res.data});
-        //         })
-        //     })
     }
 
     // function UnreadMessageItem (props) {
@@ -165,7 +157,7 @@ export class InboxDetail extends Component {
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
-        const { userMessages } = this.state;
+
 
         return (
             <div className={classes.root}>
@@ -180,17 +172,13 @@ export class InboxDetail extends Component {
                         </span>
                     </Grid>
                     <Grid item xs={12} className={classes.content}>
-                        <span className={classes.subject}>Message Subject</span>
+                        <span className={classes.subject}>{this.props.message.subject}</span>
                         <div className={classes.divideLine}/>
                         <div className={classes.messageInfo}>
-                            <span className={classes.date}>Time</span>
+                            <span className={classes.date}>{this.props.message.publish_on}</span>
                             <Button className={classes.delete}>delete</Button>
                         </div>
-                        <p className={classes.messageBody}>Hello Jess,
-                        Welcome to ibet! Lorem ipsum dolor sit amet, et suas senserit sit. Sed ludus dolor possim ut. 
-                        Et mea vide invidunt argumentum, vim iisque explicari percipitur ad. Te case zril qui. No ludus oblique inciderint pro, 
-                        mel lorem saepe dissentiet in. ibet
-                        </p>
+                        <p className={classes.messageBody}>{this.props.message.content}</p>
                     </Grid>
                 </Grid>
             </div>

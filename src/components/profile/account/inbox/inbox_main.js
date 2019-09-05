@@ -5,6 +5,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { config } from '../../../../util_config';
 import axios from 'axios';
+import moment from 'moment';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -135,7 +136,6 @@ export class InboxMain extends Component {
         this.props.authCheckState()
             .then(res => {
                 if (res === 1) {
-                    this.props.history.push('/');
                     window.location.reload();
                 }
             })
@@ -147,9 +147,6 @@ export class InboxMain extends Component {
             .then(res => {
                 axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
                 .then(res => {
-                    console.log(res.data.unread_list);
-                    let messages = [];
-                    this.userMessages = messages;
                     this.setState({userMessages: res.data.unread_list});
                 })
             })
@@ -172,14 +169,20 @@ export class InboxMain extends Component {
     //     )
     // }
 
-    detailClicked() {
-        this.props.callbackFromParent('inbox_detail');
+    detailClicked(msg) {
+        this.props.callbackFromParent('inbox_detail', msg);
     }
 
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
         const { userMessages } = this.state;
+
+        userMessages.forEach(message => {
+            let publish_on = moment(message.publish_on);
+            publish_on = publish_on.format('MM/DD');
+            message.publish_on = publish_on;
+        });
 
         return (
             <div className={classes.root}>
@@ -189,7 +192,7 @@ export class InboxMain extends Component {
                             <Grid item xs={12} className={classes.content}>
                                 {this.state.userMessages.map(item => {
                                     return(
-                                        <Grid container key={item.pk} onClick={this.detailClicked}>
+                                        <Grid container key={item.pk} onClick={() => this.detailClicked(item)}>
                                             <Grid item xs={12} className={classes.notification}>
                                                 <div className={classes.unreadMark}></div>
                                                 <div className={classes.messageContainer}>

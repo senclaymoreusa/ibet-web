@@ -60,7 +60,8 @@ export class Account extends Component {
         this.state = {
             urlPath: '',
             contentValue: '',
-            userInformationEditMessage: ''
+            userInformationEditMessage: '',
+            message: '',
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -114,6 +115,14 @@ export class Account extends Component {
             this.setState({ userInformationEditMessage: msg });
     }
 
+    setMessageContent = (page, msg) => {
+        this.setState({ contentValue: page });
+
+        if (msg) {
+            this.setState({ message: msg });
+        }
+    }
+
     render() {
         const { classes } = this.props;
         const { contentValue } = this.state;
@@ -128,8 +137,8 @@ export class Account extends Component {
                     <Grid item xs={8} className={classes.rightPane}>
                         {contentValue === 'user_information' && <UserInformation callbackFromParent={this.setContent} message={this.state.userInformationEditMessage} />}
                         {contentValue === 'user_information_edit' && <UserInformationEdit callbackFromParent={this.setContent} />}
-                        {contentValue === 'inbox' && <InboxMain callbackFromParent={this.setContent} />}
-                        {contentValue === 'inbox_detail' && <InboxDetail callbackFromParent={this.setContent}/>}
+                        {contentValue === 'inbox' && <InboxMain callbackFromParent={this.setMessageContent} />}
+                        {contentValue === 'inbox_detail' && <InboxDetail callbackFromParent={this.setMessageContent} message={this.state.message} />}
                     </Grid>
                 </Grid>
             </div>
