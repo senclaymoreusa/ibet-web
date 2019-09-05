@@ -283,6 +283,13 @@ export class Login extends React.Component {
                         </div>
                     }
 
+                    {
+                        this.state.user_blocked &&
+                        <div style={{ color: 'red', marginTop: 20, marginLeft: 40 }}>
+                            The Current User is Blocked
+                        </div>
+                    }
+
 
                     <div style={{ color: '#747175', marginTop: 20, marginLeft: 40 }}>
 
