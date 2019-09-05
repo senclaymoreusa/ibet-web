@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
 
 import InboxMain from './inbox/inbox_main';
+import InboxDetail from './inbox/inbox_detail';
 import UserInformation from './user-information';
 import UserInformationEdit from './user-information-edit';
 import { withStyles } from '@material-ui/core/styles';
@@ -122,12 +123,13 @@ export class Account extends Component {
                 <Grid container>
                     <Grid item xs={4} className={classes.leftPane}>
                         <Button className={(contentValue === 'user_information' || contentValue === 'user_information_edit') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'user_information')}>User Information</Button>
-                        <Button className={(contentValue === 'inbox') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'inbox')}>Inbox</Button>
+                        <Button className={(contentValue === 'inbox' || contentValue === 'inbox_detail') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'inbox')}>Inbox</Button>
                     </Grid>
                     <Grid item xs={8} className={classes.rightPane}>
                         {contentValue === 'user_information' && <UserInformation callbackFromParent={this.setContent} message={this.state.userInformationEditMessage} />}
                         {contentValue === 'user_information_edit' && <UserInformationEdit callbackFromParent={this.setContent} />}
-                        {contentValue === 'inbox' && <InboxMain />}
+                        {contentValue === 'inbox' && <InboxMain callbackFromParent={this.setContent} />}
+                        {contentValue === 'inbox_detail' && <InboxDetail />}
                     </Grid>
                 </Grid>
             </div>
