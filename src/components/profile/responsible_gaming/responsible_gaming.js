@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
+import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 
 import { connect } from 'react-redux';
 import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
-import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
+import InputMask from 'react-input-mask';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 import { withRouter } from 'react-router-dom';
-
+import axios from 'axios';
+import { config } from '../../../util_config';
 
 import { withStyles } from '@material-ui/core/styles';
+import getSymbolFromCurrency from 'currency-symbol-map'
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
@@ -263,7 +269,7 @@ const styles = theme => ({
         //  padding: 0,
         textTransform: 'capitalize',
     },
-    understandText:{
+    understandText: {
         fontSize: 16,
         float: 'left',
         fontWeight: 'normal',
@@ -281,15 +287,33 @@ export class ResponsibleGaming extends Component {
         super(props);
 
         this.state = {
-            depositLimitDuration: 'daily',
-            lossLimitDuration: 'daily',
+            depositLimitDuration: 0,
+            depositLimit: 0,
+
+            lossLimitDuration: 0,
+            lossLimit: 0,
+
+            balanceCurrency: "USD",
         }
+
+        this.depositLimitChanged = this.depositLimitChanged.bind(this);
+        this.increaseDepositLimitClicked = this.increaseDepositLimitClicked.bind(this);
+        this.decreaseDepositLimitClicked = this.decreaseDepositLimitClicked.bind(this);
+
     }
 
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ balanceCurrency: getSymbolFromCurrency(res.data.currency) });
+                    })
             }
         })
     }
@@ -298,8 +322,24 @@ export class ResponsibleGaming extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ balanceCurrency: getSymbolFromCurrency(res.data.currency) });
+                    })
             }
         })
+    }
+
+    depositLimitChanged(ev) {
+        this.setState({ depositLimit: ev.target.value });
+    }
+
+    lossLimitChanged(ev) {
+        this.setState({ lossLimit: ev.target.value });
     }
 
     dailyDepositLimitClicked() {
@@ -307,11 +347,12 @@ export class ResponsibleGaming extends Component {
     }
 
     decreaseDepositLimitClicked() {
-
+        if (this.state.depositLimit > 0)
+            this.setState({ depositLimit: this.state.depositLimit - 1 });
     }
 
     increaseDepositLimitClicked() {
-
+        this.setState({ depositLimit: this.state.depositLimit + 1 });
     }
 
     render() {
@@ -329,16 +370,16 @@ export class ResponsibleGaming extends Component {
                                 </Grid>
                                 <Grid item xs={12} className={classes.timeCell}>
                                     <Button onClick={this.dailyDepositLimitClicked}
-                                        className={(depositLimitDuration === 'daily') ? classes.activeLimitButton : classes.limitButton} >
+                                        className={(depositLimitDuration === 0) ? classes.activeLimitButton : classes.limitButton} >
                                         Daily
                                     </Button>
                                     <Button onClick={this.weeklyDepositLimitClicked}
-                                        className={(depositLimitDuration === 'weekly') ? classes.activeLimitButton : classes.limitButton}>
+                                        className={(depositLimitDuration === 1) ? classes.activeLimitButton : classes.limitButton}>
                                         Weekly
                                     </Button>
                                     <Button onClick={this.monthDepositLimitClicked}
-                                        className={(depositLimitDuration === 'monthly') ? classes.activeLimitButton : classes.limitButton} >
-                                        Daily
+                                        className={(depositLimitDuration === 2) ? classes.activeLimitButton : classes.limitButton} >
+                                        Monthly
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.labelRow}>
@@ -350,8 +391,13 @@ export class ResponsibleGaming extends Component {
                                     <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseDepositLimitClicked}>-</Button>
                                     <TextField
                                         className={classes.textField}
+                                        value={this.state.depositLimit}
+                                        onChange={this.depositLimitChanged}
+                                        type="number"
+                                        fullWidth
                                         InputProps={{
                                             disableUnderline: true,
+                                            startAdornment: <InputAdornment position="start">{this.state.balanceCurrency}</InputAdornment>,
                                             inputProps: {
                                                 style: {
                                                     textAlign: 'center',
@@ -364,7 +410,10 @@ export class ResponsibleGaming extends Component {
                                                     letterSpacing: 'normal',
                                                     textAlign: 'center',
                                                     color: '#2e2f2e'
-                                                }
+                                                },
+                                                step: 1,
+                                                min: 0,
+                                                max: 50000
                                             }
                                         }}
                                     />
@@ -385,17 +434,17 @@ export class ResponsibleGaming extends Component {
                                     <span className={classes.title}>Loss Limit</span>
                                 </Grid>
                                 <Grid item xs={12} className={classes.timeCell}>
-                                    <Button onClick={this.dailyDepositLimitClicked}
-                                        className={(depositLimitDuration === 'daily') ? classes.activeLimitButton : classes.limitButton} >
+                                    <Button onClick={() => { this.depositLimitClicked(0) }}
+                                        className={(depositLimitDuration === 0) ? classes.activeLimitButton : classes.limitButton} >
                                         Daily
                                     </Button>
-                                    <Button onClick={this.weeklyDepositLimitClicked}
-                                        className={(depositLimitDuration === 'weekly') ? classes.activeLimitButton : classes.limitButton}>
+                                    <Button onClick={() => { this.depositLimitClicked(1) }}
+                                        className={(depositLimitDuration === 1) ? classes.activeLimitButton : classes.limitButton}>
                                         Weekly
                                     </Button>
-                                    <Button onClick={this.monthDepositLimitClicked}
-                                        className={(depositLimitDuration === 'monthly') ? classes.activeLimitButton : classes.limitButton} >
-                                        Daily
+                                    <Button onClick={() => { this.depositLimitClicked(2) }}
+                                        className={(depositLimitDuration === 2) ? classes.activeLimitButton : classes.limitButton} >
+                                        Monthly
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.labelRow}>
@@ -406,8 +455,10 @@ export class ResponsibleGaming extends Component {
                                     <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseDepositLimitClicked}>-</Button>
                                     <TextField
                                         className={classes.textField}
+                                        value={this.state.lossLimit}
                                         InputProps={{
                                             disableUnderline: true,
+                                            startAdornment: <InputAdornment position="start">{this.state.balanceCurrency}</InputAdornment>,
                                             inputProps: {
                                                 style: {
                                                     textAlign: 'center',
@@ -491,7 +542,7 @@ export class ResponsibleGaming extends Component {
                                         <Button variant="contained" className={classes.lockButton} >Indefinite (Min. 1 Year)</Button>
                                     </div>
                                 </Grid>
-                                <Grid item xs={12} className={classes.lockRow} style={{paddingTop: 20}}>
+                                <Grid item xs={12} className={classes.lockRow} style={{ paddingTop: 20, paddingBottom: 20 }}>
                                     <FormControlLabel value="understand" control={<Radio />} className={classes.understandText} label="By checking this box I understand that I'm locking my account for the selected period of time. " />
                                 </Grid>
                                 <Grid item xs={12} className={classes.lockRow}>
@@ -508,9 +559,13 @@ export class ResponsibleGaming extends Component {
     }
 }
 
+
 const mapStateToProps = (state) => {
+    const { token } = state.auth;
     return {
-        lang: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        error: state.auth.error,
+        lang: state.language.lang,
     }
 }
 
