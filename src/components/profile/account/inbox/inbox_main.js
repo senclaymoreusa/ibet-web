@@ -147,13 +147,10 @@ export class InboxMain extends Component {
             .then(res => {
                 axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
                 .then(res => {
+                    console.log(res.data.unread_list);
                     let messages = [];
-                    res.data.forEach(item => {
-                        messages.push(item["notification_id"]);
-                        axios.get(API_URL + 'operation/api/notification/det')
-                    })
                     this.userMessages = messages;
-                    this.setState({userMessages: res.data});
+                    this.setState({userMessages: res.data.unread_list});
                 })
             })
     }
@@ -196,12 +193,12 @@ export class InboxMain extends Component {
                                             <Grid item xs={12} className={classes.notification}>
                                                 <div className={classes.unreadMark}></div>
                                                 <div className={classes.messageContainer}>
-                                                    <span className={classes.subject}>{item.pk}</span>
+                                                    <span className={classes.subject}>{item.subject}</span>
                                                     <br/>
-                                                    <span className={classes.message}>Message Body</span>
+                                                    <span className={classes.message}>{item.content}</span>
                                                 </div>
                                                 <Button className={classes.delete}>delete</Button>
-                                                <span className={classes.date}>8/24</span>
+                                                <span className={classes.date}>{item.publish_on}</span>
                                             </Grid>
                                         </Grid>
                                     )

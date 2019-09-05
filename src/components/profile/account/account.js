@@ -129,7 +129,7 @@ export class Account extends Component {
                         {contentValue === 'user_information' && <UserInformation callbackFromParent={this.setContent} message={this.state.userInformationEditMessage} />}
                         {contentValue === 'user_information_edit' && <UserInformationEdit callbackFromParent={this.setContent} />}
                         {contentValue === 'inbox' && <InboxMain callbackFromParent={this.setContent} />}
-                        {contentValue === 'inbox_detail' && <InboxDetail />}
+                        {contentValue === 'inbox_detail' && <InboxDetail callbackFromParent={this.setContent}/>}
                     </Grid>
                 </Grid>
             </div>

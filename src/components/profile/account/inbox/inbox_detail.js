@@ -117,6 +117,8 @@ export class InboxDetail extends Component {
         this.state = {
             userMessages: [],
         }
+
+        this.backClicked = this.backClicked.bind(this);
     }
 
     componentDidMount() {
@@ -156,8 +158,8 @@ export class InboxDetail extends Component {
     //     )
     // }
 
-    updateClicked() {
-        this.props.callbackFromParent('user_information_edit');
+    backClicked() {
+        this.props.callbackFromParent('inbox');
     }
 
     render() {
@@ -169,11 +171,11 @@ export class InboxDetail extends Component {
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={12} className={classes.titleCell}>
-                        <span className={classes.goBackIcon}>
+                        <span className={classes.goBackIcon} onClick={this.backClicked}>
                             <img src={images.src + 'back.svg'} />
                         </span>
                         <span className={classes.title}>Inbox</span> 
-                        <span className={classes.closeIcon}>
+                        <span className={classes.closeIcon} onClick={this.backClicked}>
                             <img src={images.src + 'close.svg'} className={classes.closeIcon} />
                         </span>
                     </Grid>
