@@ -279,7 +279,7 @@ export class Login extends React.Component {
                     {
                         this.state.wrong_password_error &&
                         <div style={{ color: 'red', marginTop: 20, marginLeft: 40 }}>
-                            Incorrect Username / Password
+                            <FormattedMessage id="login.fail" defaultMessage='Incorrect Username / Password' />
                         </div>
                     }
 
