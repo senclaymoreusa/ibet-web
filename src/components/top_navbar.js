@@ -1471,8 +1471,7 @@ export class TopNavbar extends React.Component {
                     anchorEl={anchorEl}
                     className={classes.profileMenuPopper}
                     placement="top-start"
-                    transition
-                >
+                    transition>
                     {({ TransitionProps }) => (
                         <ClickAwayListener onClickAway={this.profileMenuClickAway}>
                             <Fade {...TransitionProps} timeout={350}>
@@ -1489,6 +1488,7 @@ export class TopNavbar extends React.Component {
                                             <List component="div" disablePadding>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.setState({ anchorEl: null });
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/banking/deposit')
                                                     }}
@@ -1497,6 +1497,7 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.setState({ anchorEl: null });
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/banking/withdraw')
                                                     }}>
@@ -1512,6 +1513,7 @@ export class TopNavbar extends React.Component {
                                             <List component="div" disablePadding>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.setState({ anchorEl: null });
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/analysis/bets')
                                                     }}>
@@ -1519,6 +1521,7 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.setState({ anchorEl: null });
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/analysis/banking')
                                                     }}>
@@ -1534,6 +1537,7 @@ export class TopNavbar extends React.Component {
                                             <List component="div" disablePadding>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.setState({ anchorEl: null });
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/account/user_information')
                                                     }}>
@@ -1541,6 +1545,7 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.setState({ anchorEl: null });
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/account/inbox')
                                                     }}>
@@ -1550,6 +1555,7 @@ export class TopNavbar extends React.Component {
                                         </Collapse>
                                         <ListItem button className={classes.mainMenuItem}
                                             onClick={() => {
+                                                this.setState({ anchorEl: null });
                                                 this.setState({ mainTabValue: 'none' });
                                                 this.props.history.push('/p/responsible_gaming')
                                             }}>
@@ -1563,6 +1569,7 @@ export class TopNavbar extends React.Component {
                                             <List component="div" disablePadding>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.setState({ anchorEl: null });
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/settings/marketing')
                                                     }}>
@@ -1570,7 +1577,7 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
-                                                        //this.setState({ anchorEl: null });
+                                                        this.setState({ anchorEl: null });
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/settings/privacy')
                                                     }}>
