@@ -73,13 +73,10 @@ const BaseRouter = () => (
     <Route exact path="/signup" component={Signup} />
     <Route exact path="/game_detail/:id?" component={Game_Detail} />
     <Route exact path="/game_search/:term?" component={Game_Search} />
-    {/* <Route exact path="/profile" component={Profile} /> */}
     <Route exact path="/profile" component={New_Profile} />
-    {/* <Route exact path="/update_profile" component={Update} /> */}
     <Route exact path="/update_profile" component={New_Update_Profile} />
     <Route exact path="/change_email" component={Change_Email} />
     <Route exact path="/forget_password" component={Forget_Password} />
-    {/*<Route exact path="/reset_password/:filter?" component={Reset_Password} /> */}  
     <Route exact path="/reset_password/:email?" component={Reset_Password} />
     <Route exact path="/email_sent/:email?" component={Email_Sent} />
     <Route exact path="/reset_password_done" component={Reset_Password_Done} />
@@ -113,12 +110,10 @@ const BaseRouter = () => (
     <Route exact path="/deposit_linepay/" component={DepositLinePay} />
     <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayQucikpay} />
     <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />
-    {/* <Route exact path="/deposit/success/" component={DepositSuccess} /> */}
     <Route exact path="/withdraw/success/" component={WithdrawSuccess} />
     <Route exact path="/deposit/astropay/" component={DepositAstropay} />
     <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
     <Route exact path="/deposit/payzod/" component={DepositPayzod} />
-    {/* <Route exact path="/deposit/scratch_card/" component={DepositScratchCard} /> */}
     <Route exact path="/deposit_fgo/" component={DepositFgo} />
     <Route exact path="/p/:type?/:sub?" component={Profile} />
 

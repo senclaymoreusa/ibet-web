@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
@@ -20,6 +19,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Fade from '@material-ui/core/Fade';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -92,9 +92,9 @@ const styles = theme => ({
         },
     },
     timeCell: {
-        paddingTop: 60,
         paddingLeft: 72,
-        paddingRight: 72
+        paddingRight: 72,
+        paddingTop: 5,
     },
     decrementButton: {
         height: 44,
@@ -222,11 +222,21 @@ const styles = theme => ({
         textTransform: 'capitalize',
 
     },
+    selectedTimeButton: {
+        height: 44,
+        width: 72,
+        padding: 0,
+        textTransform: 'capitalize',
+        backgroundColor: '#bebebe',
+        "&:hover": {
+            backgroundColor: '#bebebe',
+        },
+    },
     lockRow: {
         paddingLeft: 150,
         paddingRight: 150
     },
-    lockText: {
+    lockDescText: {
         marginTop: 40,
         display: 'block',
         fontSize: 12,
@@ -340,9 +350,20 @@ const styles = theme => ({
         marginTop: 19
     },
     lockButtonRow: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+        textAlign: 'right',
+        paddingRight: 72,
+        height: 60,
+    },
+    removeLimitButton: {
+        fontSize: 12,
+        textTransform: 'capitalize',
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#ff0000',
+        marginTop: 36
     }
 });
 
@@ -360,7 +381,7 @@ export class ResponsibleGaming extends Component {
             currentLossLimit: 0,
             lossLimit: [0, 0, 0],
 
-            activityReminder: null,
+            activityReminderDuration: null,
 
             lockDuration: null,
             agree: false,
@@ -369,6 +390,8 @@ export class ResponsibleGaming extends Component {
 
             messageText: '',
             showMessage: false,
+
+            isLocked: false,
         }
 
         this.depositLimitChanged = this.depositLimitChanged.bind(this);
@@ -386,6 +409,13 @@ export class ResponsibleGaming extends Component {
         this.lockClicked = this.lockClicked.bind(this);
         this.lockDurationClicked = this.lockDurationClicked.bind(this);
         this.agreeClicked = this.agreeClicked.bind(this);
+        this.revertClicked = this.revertClicked.bind(this);
+        this.doneClicked = this.doneClicked.bind(this);
+        this.removeDepositLimitClicked = this.removeDepositLimitClicked.bind(this);
+        this.removeLossLimitClicked = this.removeLossLimitClicked.bind(this);
+        this.saveActivityReminderClicked = this.saveActivityReminderClicked.bind(this);
+        this.reminderDurationClicked = this.reminderDurationClicked.bind(this);
+
     }
 
     componentWillReceiveProps(props) {
@@ -462,8 +492,14 @@ export class ResponsibleGaming extends Component {
 
     depositLimitDurationClicked(val) {
         this.setState({ depositLimitDuration: val });
-
         this.setState({ currentDepositLimit: this.state.depositLimit[val] });
+
+        // limits.deposit.forEach(item => {
+        //     let clone = this.state.depositLimit.slice();
+        //     clone[item.intervalValue] = (Number(item.amount)).toFixed(0);
+
+        //     this.setState({ depositLimit: clone });
+        // });
     }
 
     lossLimitDurationClicked(val) {
@@ -474,41 +510,41 @@ export class ResponsibleGaming extends Component {
     }
 
     decreaseDepositLimitClicked() {
-        if (this.state.depositLimit > 0) {
-            this.setState({ depositLimit: this.state.depositLimit - 1 });
+        if (parseInt(this.state.currentDepositLimit) > 0) {
+            this.setState({ currentDepositLimit: parseInt(this.state.currentDepositLimit) - 1 });
 
             let clone = this.state.depositLimit.slice();
-            clone[this.state.depositLimitDuration] = this.state.currentDepositLimit - 1;
+            clone[this.state.depositLimitDuration] = parseInt(this.state.currentDepositLimit) - 1;
 
             this.setState({ depositLimit: clone });
         }
     }
 
     increaseDepositLimitClicked() {
-        this.setState({ currentDepositLimit: this.state.currentDepositLimit + 1 });
+        this.setState({ currentDepositLimit: parseInt(this.state.currentDepositLimit) + 1 });
 
         let clone = this.state.depositLimit.slice();
-        clone[this.state.depositLimitDuration] = this.state.currentDepositLimit + 1;
+        clone[this.state.depositLimitDuration] = parseInt(this.state.currentDepositLimit) + 1;
 
         this.setState({ depositLimit: clone });
     }
 
     decreaseLossLimitClicked() {
-        if (this.state.lossLimit > 0) {
-            this.setState({ lossLimit: this.state.lossLimit - 1 });
+        if (parseInt(this.state.currentLossLimit) > 0) {
+            this.setState({ currentLossLimit: parseInt(this.state.currentLossLimit) - 1 });
 
             let clone = this.state.lossLimit.slice();
-            clone[this.state.lossLimitDuration] = this.state.currentLossLimit - 1;
+            clone[this.state.lossLimitDuration] = parseInt(this.state.currentLossLimit) - 1;
 
             this.setState({ lossLimit: clone });
         }
     }
 
     increaseLossLimitClicked() {
-        this.setState({ currentLossLimit: this.state.currentLossLimit + 1 });
+        this.setState({ currentLossLimit: parseInt(this.state.currentLossLimit) + 1 });
 
         let clone = this.state.lossLimit.slice();
-        clone[this.state.lossLimitDuration] = this.state.currentLossLimit + 1;
+        clone[this.state.lossLimitDuration] = parseInt(this.state.currentLossLimit) + 1;
 
         this.setState({ lossLimit: clone });
     }
@@ -582,26 +618,52 @@ export class ResponsibleGaming extends Component {
     }
 
     lockClicked() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
+        // const token = localStorage.getItem('token');
+        // config.headers["Authorization"] = `Token ${token}`;
 
-        axios.post(API_URL + 'users/api/set-block-time/', {
-            "timespan": this.state.lockDuration,
-            "userId": this.state.userId,
-        }, config)
-            .then(res => {
-                if (res.status === 200) {
-                    this.setState({ messageText: res.data });
-                    this.setState({ showMessage: true });
-                }
-            })
+        // axios.post(API_URL + 'users/api/set-block-time/', {
+        //     "timespan": this.state.lockDuration,
+        //     "userId": this.state.userId,
+        // }, config)
+        //     .then(res => {
+        //         if (res.status === 200) {
+        //             this.setState({ messageText: res.data });
+        //             this.setState({ showMessage: true });
+        //         }
+        //     })
+
+        this.setState({ isLocked: true });
+
     }
 
-
     doneClicked(ev) {
+        this.props.history.push('/')
     }
 
     revertClicked(ev) {
+        window.location.reload();
+
+        //this is gonna be updated when the backend is done
+    }
+
+    removeDepositLimitClicked() {
+
+    }
+
+    removeLossLimitClicked() {
+
+    }
+
+    saveActivityReminderClicked() {
+        localStorage.setItem("activityReminderStartTime", new Date());
+        localStorage.setItem("activityReminderDuration", this.state.activityReminderDuration);
+
+        this.setState({ messageText: "You have set your reminder." });
+        this.setState({ showMessage: true });
+    }
+
+    reminderDurationClicked(val) {
+        this.setState({ activityReminderDuration: val });
     }
 
     render() {
@@ -610,246 +672,269 @@ export class ResponsibleGaming extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container spacing={2} className={classes.container}>
-                    <Grid item xs={4}>
-                        <div className={classes.paper}>
-                            <Grid container>
-                                <Grid item xs={12} className={classes.titleCell}>
-                                    <span className={classes.title}>Deposit Limit</span>
-                                </Grid>
-                                <Grid item xs={12} className={classes.timeCell}>
-                                    <Button onClick={() => { this.depositLimitDurationClicked(0) }}
-                                        className={(depositLimitDuration === 0) ? classes.activeLimitButton : classes.limitButton} >
-                                        Daily
-                                    </Button>
-                                    <Button onClick={() => { this.depositLimitDurationClicked(1) }}
-                                        className={(depositLimitDuration === 1) ? classes.activeLimitButton : classes.limitButton}>
-                                        Weekly
-                                    </Button>
-                                    <Button onClick={() => { this.depositLimitDurationClicked(2) }}
-                                        className={(depositLimitDuration === 2) ? classes.activeLimitButton : classes.limitButton} >
-                                        Monthly
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={12} className={classes.labelRow}>
-                                    <span className={classes.limitLabel}>Current Limit</span>
-                                    <span className={classes.limitValueLabel}>$0 out of $0</span>
-                                </Grid>
-                                <Grid item xs={12} className={classes.inputRow}>
-                                    <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseDepositLimitClicked}>-</Button>
-                                    <TextField
-                                        className={classes.textField}
-                                        value={this.state.currentDepositLimit}
-                                        onChange={this.depositLimitChanged}
-                                        type="number"
-                                        fullWidth
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            startAdornment: <InputAdornment position="start">{this.state.balanceCurrency}</InputAdornment>,
-                                            inputProps: {
-                                                style: {
-                                                    textAlign: 'center',
-                                                    paddingTop: 0,
-                                                    fontSize: 22,
-                                                    fontWeight: 500,
-                                                    fontStyle: 'normal',
-                                                    fontStretch: 'normal',
-                                                    lineHeight: 'normal',
-                                                    letterSpacing: 'normal',
-                                                    textAlign: 'center',
-                                                    color: '#2e2f2e'
-                                                },
-                                                step: 1,
-                                                min: 0,
-                                                max: 50000
-                                            }
-                                        }}
-                                    />
-                                    <Button variant="contained" className={classes.incrementButton} onClick={this.increaseDepositLimitClicked}>+</Button>
-                                </Grid>
-                                <Grid item xs={12} className={classes.buttonCell}>
-                                    <Button className={classes.button}
-                                        onClick={this.saveDepositLimits}
-                                    >Save My Deposit Limit</Button>
-                                </Grid>
-                            </Grid>
-                        </div>
+                {this.state.isLocked ?
+                    <Grid container style={{ width: 270 }}>
+                        <Grid item xs={12} className={classes.iconRow}>
+                            <img src={images.src + 'lock-icon.svg'} />
+                        </Grid>
+                        <Grid item xs={12} className={classes.lockTextRow}>
+                            <span className={classes.lockText}>Your Account is Locked</span>
+                            <span className={classes.lockDesc}>
+                                If this was a mistake,  click on “Revert” below to unlock your account or contact customer service at  <a className={classes.contact_email} href="mailto:help@ibet.com?subject = Feedback&body = Message">help@ibet.com</a>
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.lockButtonRow}>
+                            <Button className={classes.button} onClick={this.doneClicked}>
+                                Done
+                    </Button>
+                            <Button className={classes.button} style={{ marginTop: 20 }} onClick={this.revertClicked}>
+                                Revert
+                    </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={4}>
-                        <div className={classes.paper}>
-                            <Grid container>
-                                <Grid item xs={12} className={classes.titleCell}>
-                                    <span className={classes.title}>Loss Limit</span>
-                                </Grid>
-                                <Grid item xs={12} className={classes.timeCell}>
-                                    <Button onClick={() => { this.lossLimitDurationClicked(0) }}
-                                        className={(lossLimitDuration === 0) ? classes.activeLimitButton : classes.limitButton} >
-                                        Daily
-                                    </Button>
-                                    <Button onClick={() => { this.lossLimitDurationClicked(1) }}
-                                        className={(lossLimitDuration === 1) ? classes.activeLimitButton : classes.limitButton}>
-                                        Weekly
-                                    </Button>
-                                    <Button onClick={() => { this.lossLimitDurationClicked(2) }}
-                                        className={(lossLimitDuration === 2) ? classes.activeLimitButton : classes.limitButton} >
-                                        Monthly
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={12} className={classes.labelRow}>
-                                    <span className={classes.limitLabel}>Current Limit</span>
-                                    <span className={classes.limitValueLabel}>$0 out of $0</span>
-                                </Grid>
-                                <Grid item xs={12} className={classes.inputRow}>
-                                    <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseLossLimitClicked}>-</Button>
-                                    <TextField
-                                        className={classes.textField}
-                                        value={this.state.currentLossLimit}
-                                        type="number"
-                                        onChange={this.lossLimitChanged}
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            startAdornment: <InputAdornment position="start">{this.state.balanceCurrency}</InputAdornment>,
-                                            inputProps: {
-                                                style: {
-                                                    textAlign: 'center',
-                                                    paddingTop: 0,
-                                                    fontSize: 22,
-                                                    fontWeight: 500,
-                                                    fontStyle: 'normal',
-                                                    fontStretch: 'normal',
-                                                    lineHeight: 'normal',
-                                                    letterSpacing: 'normal',
-                                                    textAlign: 'center',
-                                                    color: '#2e2f2e'
+                    :
+                    <Grid container spacing={2} className={classes.container}>
+                        <Grid item xs={4}>
+                            <div className={classes.paper}>
+                                <Grid container>
+                                    <Grid item xs={12} className={classes.titleCell}>
+                                        <span className={classes.title}>Deposit Limit</span>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.lockButtonRow}>
+                                        {this.state.currentDepositLimit !== 0 && <Button onClick={this.removeDepositLimitClicked}
+                                            className={classes.removeLimitButton} >
+                                            <img src={images.src + 'remove-limit.svg'} height="18" width="18" />
+                                            Remove The Limit
+                                        </Button>}
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.timeCell}>
+                                        <Button onClick={() => { this.depositLimitDurationClicked(0) }}
+                                            className={(depositLimitDuration === 0) ? classes.activeLimitButton : classes.limitButton} >
+                                            Daily
+                                        </Button>
+                                        <Button onClick={() => { this.depositLimitDurationClicked(1) }}
+                                            className={(depositLimitDuration === 1) ? classes.activeLimitButton : classes.limitButton}>
+                                            Weekly
+                                        </Button>
+                                        <Button onClick={() => { this.depositLimitDurationClicked(2) }}
+                                            className={(depositLimitDuration === 2) ? classes.activeLimitButton : classes.limitButton} >
+                                            Monthly
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.labelRow}>
+                                        <span className={classes.limitLabel}>Current Limit</span>
+                                        <span className={classes.limitValueLabel}>$0 out of $0</span>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.inputRow}>
+                                        <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseDepositLimitClicked}>-</Button>
+                                        <TextField
+                                            className={classes.textField}
+                                            value={this.state.currentDepositLimit}
+                                            onChange={this.depositLimitChanged}
+                                            type="number"
+                                            fullWidth
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                startAdornment: <InputAdornment position="start">{this.state.balanceCurrency}</InputAdornment>,
+                                                inputProps: {
+                                                    style: {
+                                                        textAlign: 'center',
+                                                        paddingTop: 0,
+                                                        fontSize: 22,
+                                                        fontWeight: 500,
+                                                        fontStyle: 'normal',
+                                                        fontStretch: 'normal',
+                                                        lineHeight: 'normal',
+                                                        letterSpacing: 'normal',
+                                                        textAlign: 'center',
+                                                        color: '#2e2f2e'
+                                                    },
+                                                    step: 1,
+                                                    min: 0,
+                                                    max: 50000
                                                 }
-                                            }
-                                        }}
-                                    />
-                                    <Button variant="contained" className={classes.incrementButton} onClick={this.increaseLossLimitClicked}>+</Button>
+                                            }}
+                                        />
+                                        <Button variant="contained" className={classes.incrementButton} onClick={this.increaseDepositLimitClicked}>+</Button>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.buttonCell}>
+                                        <Button className={classes.button}
+                                            onClick={this.saveDepositLimits}
+                                        >Save My Deposit Limit</Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={12} className={classes.buttonCell}>
-                                    <Button className={classes.button}
-                                        onClick={this.saveLossLimits}
-                                    >Save My Loss Limit</Button>
+                            </div>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <div className={classes.paper}>
+                                <Grid container>
+                                    <Grid item xs={12} className={classes.titleCell}>
+                                        <span className={classes.title}>Loss Limit</span>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.lockButtonRow}>
+                                        {this.state.currentLossLimit !== 0 && <Button onClick={this.removeLossLimitClicked}
+                                            className={classes.removeLimitButton} >
+                                            <img src={images.src + 'remove-limit.svg'} height="18" width="18" />
+                                            Remove The Limit
+                                        </Button>}
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.timeCell}>
+                                        <Button onClick={() => { this.lossLimitDurationClicked(0) }}
+                                            className={(lossLimitDuration === 0) ? classes.activeLimitButton : classes.limitButton} >
+                                            Daily
+                                    </Button>
+                                        <Button onClick={() => { this.lossLimitDurationClicked(1) }}
+                                            className={(lossLimitDuration === 1) ? classes.activeLimitButton : classes.limitButton}>
+                                            Weekly
+                                    </Button>
+                                        <Button onClick={() => { this.lossLimitDurationClicked(2) }}
+                                            className={(lossLimitDuration === 2) ? classes.activeLimitButton : classes.limitButton} >
+                                            Monthly
+                                    </Button>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.labelRow}>
+                                        <span className={classes.limitLabel}>Current Limit</span>
+                                        <span className={classes.limitValueLabel}>$0 out of $0</span>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.inputRow}>
+                                        <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseLossLimitClicked}>-</Button>
+                                        <TextField
+                                            className={classes.textField}
+                                            value={this.state.currentLossLimit}
+                                            type="number"
+                                            onChange={this.lossLimitChanged}
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                startAdornment: <InputAdornment position="start">{this.state.balanceCurrency}</InputAdornment>,
+                                                inputProps: {
+                                                    style: {
+                                                        textAlign: 'center',
+                                                        paddingTop: 0,
+                                                        fontSize: 22,
+                                                        fontWeight: 500,
+                                                        fontStyle: 'normal',
+                                                        fontStretch: 'normal',
+                                                        lineHeight: 'normal',
+                                                        letterSpacing: 'normal',
+                                                        textAlign: 'center',
+                                                        color: '#2e2f2e'
+                                                    }
+                                                }
+                                            }}
+                                        />
+                                        <Button variant="contained" className={classes.incrementButton} onClick={this.increaseLossLimitClicked}>+</Button>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.buttonCell}>
+                                        <Button className={classes.button}
+                                            onClick={this.saveLossLimits}
+                                        >Save My Loss Limit</Button>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </div>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <div className={classes.paper}>
-                            <Grid container>
-                                <Grid item xs={12} className={classes.titleCell}>
-                                    <span className={classes.title}>Activity Check</span>
-                                </Grid>
-                                <Grid item xs={12} className={classes.activityTitleRow} >
-                                    <span className={classes.activitySubTitle} >Activity Check</span>
-                                    <Divider light />
-                                </Grid>
-                                <Grid item xs={12} className={classes.activityRow}>
-                                    <span className={classes.activityText}>Time can fly when you are having fun! make sure it doesn’t get away from you with our Activity Check. Adjustable notification alerts informing you of the time spent on both Casino & Sportsbook from the moment you log in, your very own player alarm clock.</span>
-                                </Grid>
-                                <Grid item xs={12} className={classes.activityRow}>
-                                    <span className={classes.activityRemindText}>Remind me every...</span>
-                                </Grid>
-                                <Grid item xs={12} className={classes.activityButtonRow}>
-                                    <Button variant="contained" className={classes.timeButton}>5 Min</Button>
-                                    <Button variant="contained" className={classes.timeButton} style={{ marginLeft: 12, marginRight: 12 }}>30 Min</Button>
-                                    <Button variant="contained" className={classes.timeButton} style={{ marginRight: 12 }}>60 Min</Button>
-                                    <Button variant="contained" className={classes.timeButton}> 120 Min</Button>
-                                </Grid>
-                                <Grid item xs={12} className={classes.buttonCell}>
-                                    <Button className={classes.button}
-                                    // onClick={this.backClicked}
-                                    >Save My Activity Reminder</Button>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <div className={classes.paper}>
-                            <Grid container>
-                                <Grid item xs={12} className={classes.titleCell}>
-                                    <span className={classes.title}>Lock My Account</span>
-                                </Grid>
-                                <Grid item xs={12} className={classes.lockRow}>
-                                    <span className={classes.lockText}>It’s important for us that you have fun playing online. So should you ever be in doubt that you are playing more than you can really afford; lock your account a period of time. You will be able to reopen your account by contacting Customer Support. </span>
-                                </Grid>
-                                <Grid item xs={5} className={classes.leftLock}>
-                                    <span className={classes.lockSubTitle}>Lock my account for a short time</span>
-                                    <div className={classes.lockButtonContainer}>
+                            </div>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <div className={classes.paper}>
+                                <Grid container>
+                                    <Grid item xs={12} className={classes.titleCell}>
+                                        <span className={classes.title}>Activity Check</span>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.activityTitleRow} >
+                                        <span className={classes.activitySubTitle} >Activity Check</span>
+                                        <Divider light />
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.activityRow}>
+                                        <span className={classes.activityText}>Time can fly when you are having fun! make sure it doesn’t get away from you with our Activity Check. Adjustable notification alerts informing you of the time spent on both Casino & Sportsbook from the moment you log in, your very own player alarm clock.</span>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.activityRow}>
+                                        <span className={classes.activityRemindText}>Remind me every...</span>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.activityButtonRow}>
                                         <Button variant="contained"
-                                            className={(lockDuration === 0) ? classes.selectedLockButton : classes.lockButton}
-                                            onClick={() => { this.lockDurationClicked(0) }}>1 day</Button>
+                                            className={(this.state.activityReminderDuration === 5) ? classes.selectedTimeButton : classes.timeButton}
+                                            onClick={() => { this.reminderDurationClicked(5) }}>5 Min</Button>
                                         <Button variant="contained"
-                                            className={(lockDuration === 1) ? classes.selectedLockButton : classes.lockButton}
+                                            className={(this.state.activityReminderDuration === 30) ? classes.selectedTimeButton : classes.timeButton}
                                             style={{ marginLeft: 12, marginRight: 12 }}
-                                            onClick={() => { this.lockDurationClicked(1) }}>7 days</Button>
+                                            onClick={() => { this.reminderDurationClicked(30) }}>30 Min</Button>
                                         <Button variant="contained"
-                                            className={(lockDuration === 2) ? classes.selectedLockButton : classes.lockButton}
-                                            onClick={() => { this.lockDurationClicked(2) }}>30 days</Button>
-                                    </div>
-                                </Grid>
-                                <Grid item xs={7} className={classes.rightLock}>
-                                    <span className={classes.lockSubTitle}>Or for a long period of time</span>
-                                    <div className={classes.lockButtonContainer}>
-                                        <Button variant="contained"
-                                            className={(lockDuration === 3) ? classes.selectedLockButton : classes.lockButton}
-                                            onClick={() => { this.lockDurationClicked(3) }}>6 Months</Button>
-                                        <Button variant="contained"
-                                            className={(lockDuration === 4) ? classes.selectedLockButton : classes.lockButton}
-                                            style={{ marginLeft: 12, marginRight: 12 }}
-                                            onClick={() => { this.lockDurationClicked(4) }}>1 Year</Button>
-                                        <Button variant="contained"
-                                            className={(lockDuration === 5) ? classes.selectedLockButton : classes.lockButton}
+                                            className={(this.state.activityReminderDuration === 60) ? classes.selectedTimeButton : classes.timeButton}
                                             style={{ marginRight: 12 }}
-                                            onClick={() => { this.lockDurationClicked(5) }}>3 Years</Button>
+                                            onClick={() => { this.reminderDurationClicked(60) }}>60 Min</Button>
                                         <Button variant="contained"
-                                            className={(lockDuration === 6) ? classes.selectedLockButton : classes.lockButton}
-                                            style={{ marginRight: 12 }}
-                                            onClick={() => { this.lockDurationClicked(6) }}>5 Years</Button>
-                                        <Button variant="contained" className={classes.lockButton} disabled={true}>Indefinite (Min. 1 Year)</Button>
-                                    </div>
+                                            className={(this.state.activityReminderDuration === 120) ? classes.selectedTimeButton : classes.timeButton}
+                                            onClick={() => { this.reminderDurationClicked(120) }}> 120 Min</Button>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.buttonCell}>
+                                        <Button className={classes.button}
+                                            disabled={this.state.activityReminderDuration === null}
+                                            onClick={this.saveActivityReminderClicked}
+                                        >Save My Activity Reminder</Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={12} className={classes.lockRow} style={{ paddingTop: 20, paddingBottom: 20 }}>
-                                    <FormControlLabel
-                                        control={<Radio onChange={this.agreeClicked} checked={this.state.agree} />}
-                                        className={classes.understandText}
-                                        label="By checking this box I understand that I'm locking my account for the selected period of time. " />
+                            </div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div className={classes.paper}>
+                                <Grid container>
+                                    <Grid item xs={12} className={classes.titleCell}>
+                                        <span className={classes.title}>Lock My Account</span>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.lockRow}>
+                                        <span className={classes.lockDescText}>It’s important for us that you have fun playing online. So should you ever be in doubt that you are playing more than you can really afford; lock your account a period of time. You will be able to reopen your account by contacting Customer Support. </span>
+                                    </Grid>
+                                    <Grid item xs={5} className={classes.leftLock}>
+                                        <span className={classes.lockSubTitle}>Lock my account for a short time</span>
+                                        <div className={classes.lockButtonContainer}>
+                                            <Button variant="contained"
+                                                className={(lockDuration === 0) ? classes.selectedLockButton : classes.lockButton}
+                                                onClick={() => { this.lockDurationClicked(0) }}>1 day</Button>
+                                            <Button variant="contained"
+                                                className={(lockDuration === 1) ? classes.selectedLockButton : classes.lockButton}
+                                                style={{ marginLeft: 12, marginRight: 12 }}
+                                                onClick={() => { this.lockDurationClicked(1) }}>7 days</Button>
+                                            <Button variant="contained"
+                                                className={(lockDuration === 2) ? classes.selectedLockButton : classes.lockButton}
+                                                onClick={() => { this.lockDurationClicked(2) }}>30 days</Button>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={7} className={classes.rightLock}>
+                                        <span className={classes.lockSubTitle}>Or for a long period of time</span>
+                                        <div className={classes.lockButtonContainer}>
+                                            <Button variant="contained"
+                                                className={(lockDuration === 3) ? classes.selectedLockButton : classes.lockButton}
+                                                onClick={() => { this.lockDurationClicked(3) }}>6 Months</Button>
+                                            <Button variant="contained"
+                                                className={(lockDuration === 4) ? classes.selectedLockButton : classes.lockButton}
+                                                style={{ marginLeft: 12, marginRight: 12 }}
+                                                onClick={() => { this.lockDurationClicked(4) }}>1 Year</Button>
+                                            <Button variant="contained"
+                                                className={(lockDuration === 5) ? classes.selectedLockButton : classes.lockButton}
+                                                style={{ marginRight: 12 }}
+                                                onClick={() => { this.lockDurationClicked(5) }}>3 Years</Button>
+                                            <Button variant="contained"
+                                                className={(lockDuration === 6) ? classes.selectedLockButton : classes.lockButton}
+                                                style={{ marginRight: 12 }}
+                                                onClick={() => { this.lockDurationClicked(6) }}>5 Years</Button>
+                                            <Button variant="contained" className={classes.lockButton} disabled={true}>Indefinite (Min. 1 Year)</Button>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.lockRow} style={{ paddingTop: 20, paddingBottom: 20 }}>
+                                        <FormControlLabel
+                                            control={<Checkbox onChange={this.agreeClicked} checked={this.state.agree} color="default" />}
+                                            className={classes.understandText}
+                                            label="By checking this box I understand that I'm locking my account for the selected period of time. " />
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.lockRow}>
+                                        <Button className={classes.button}
+                                            disabled={!this.state.agree || (this.state.lockDuration === null)}
+                                            onClick={this.lockClicked}
+                                        >Lock My Account</Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={12} className={classes.lockRow}>
-                                    <Button className={classes.button}
-                                        disabled={!this.state.agree || (this.state.lockDuration === null)}
-                                        onClick={this.lockClicked}
-                                    >Lock My Account</Button>
-                                </Grid>
-                            </Grid>
-                        </div>
+                            </div>
+                        </Grid>
                     </Grid>
-                </Grid>
-
-                <Grid container style={{width:270}}>
-                    <Grid item xs={12} className={classes.iconRow}>
-                        <img src={images.src + 'lock-icon.svg'} />
-                    </Grid>
-                    <Grid item xs={12} className={classes.lockTextRow}>
-                        <span className={classes.lockText}>Your Account is Locked</span>
-
-                        <span className={classes.lockDesc}>
-                        If this was a mistake,  click on “Revert” below to unlock your account or contact customer service at  <a className={classes.contact_email} href="mailto:help@ibet.com?subject = Feedback&body = Message">help@ibet.com</a>
-                       </span>
-                       
-                    </Grid>
-                    <Grid item xs={12} className={classes.lockButtonRow}>
-                        <Button className={classes.button} onClick={this.doneClicked}>
-                            Done
-                        </Button>
-                        <Button className={classes.button} style={{marginTop:20}} onClick={this.revertClicked}>
-                            Revert
-                        </Button>
-                    </Grid>
-                </Grid>
-
-
+                }
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',
