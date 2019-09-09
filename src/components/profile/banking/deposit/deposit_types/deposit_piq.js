@@ -11,6 +11,7 @@ import uuidv1 from 'uuid/v1';
 import { withStyles } from '@material-ui/core/styles';
 import {
     LinearProgress,
+    InputAdornment,
     Grid,
     Button,
     Select,
@@ -23,7 +24,9 @@ import InputMask from 'react-input-mask';
 import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../actions';
 import { checkPropTypes } from 'prop-types';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
+    PIQ_API = process.env.REACT_APP_PIQ_API_URL,
+    PIQ_MID = process.env.REACT_APP_PIQ_MID;
 
 const BootstrapInput = withStyles(theme => ({
     root: {
@@ -64,7 +67,7 @@ const styles = function(theme) {
     return {
         root: {
             width: 925,
-            height: 500,
+            // height: 500,
             backgroundColor: '#ffffff',
             border: 'solid 1px #979797'
         },
@@ -271,7 +274,7 @@ const styles = function(theme) {
             marginTop: 10,
             marginRight: 10,
             paddingLeft: 10,
-            width: 400,
+            width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
             '&:hover': {
@@ -358,20 +361,82 @@ class DepositPIQ extends Component {
             operator: 'none',
             operatorInvalid: true,
 
-            amount: 'none',
+            amount: 0,
             amountFocused: false,
             amountInvalid: true,
 
+            firstOption: 25,
+            secondOption: 50,
+            thirdOption: 100,
+            fourthOption: 500,
+            currencyValue: 'USD',
             showLinearProgressBar: false
         };
 
         this.backClicked = this.backClicked.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
-    // static propTypes = {
-    //     history: PropTypes.array.isRequired
-    // };
-    componentDidMount() {
+
+    firstOptionClicked = () => {
+        this.setState({
+            amount: this.state.firstOption,
+            amountInvalid: false,
+            amountFocused: false
+        });
+        this.amountInput.current.value = '';
+    };
+
+    secondOptionClicked = () => {
+        this.setState({
+            amount: this.state.secondOption,
+            amountInvalid: false,
+            amountFocused: false
+        });
+        this.amountInput.current.value = '';
+    };
+
+    thirdOptionClicked = () => {
+        this.setState({
+            amount: this.state.thirdOption,
+            amountInvalid: false,
+            amountFocused: false
+        });
+        this.amountInput.current.value = '';
+    };
+
+    fourthOptionClicked = () => {
+        this.setState({
+            amount: this.state.fourthOption,
+            amountInvalid: false,
+            amountFocused: false
+        });
+        this.amountInput.current.value = '';
+    };
+
+    userCheck = () => {
+        return axios.get(API_URL + 'users/api/user/', config).then(res => {
+            console.log(res);
+            this.setState({ data: res.data, currencyValue: res.data.currency });
+            return res.data.username;
+        });
+    };
+
+    getDepositMethods = (username, sessionId) => {
+        console.log('gettign deposit methods for: ' + username);
+        console.log(sessionId);
+        console.log(PIQ_API);
+        return axios.get(
+            PIQ_API +
+                'api/user/payment/method/' +
+                PIQ_MID +
+                '/' +
+                username +
+                '?sessionId=' +
+                sessionId +
+                '&method=deposit'
+        );
+    };
+    async componentDidMount() {
         console.log('component mounted');
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -379,76 +444,72 @@ class DepositPIQ extends Component {
                 return;
             }
         });
+        this.setState({ sessionId: uuidv1() });
 
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            console.log('componentDidMount');
-            console.log(res);
-            this.setState({ data: res.data });
-            this.setState({ currencyValue: res.data.currency });
-            new _PaymentIQCashier(
-                '#cashier',
-                {
-                    merchantId: '100185999',
-                    userId: res.data.username,
-                    sessionId: '66',
-                    containerHeight: '550px',
-                    containerWidth: '60%',
-                    environment: 'test' // if not set, defaults to production
-                },
-                api => {
-                    api.on({
-                        doneLoading: function(data) {
-                            console.log(
-                                'Cashier intialized and ready to take down the empire1'
-                            );
-                        },
-                        update: function(data) {
-                            console.log(
-                                'Cashier intialized and ready to take down the empire2'
-                            );
-                        }
-                    });
-                }
-            );
-        });
+
+        let username = await this.userCheck();
+        let depositMethods = await this.getDepositMethods(
+            username,
+            this.state.sessionId
+        );
+        console.log(depositMethods);
     }
 
-    backClicked(ev) {
+    backClicked = () => {
         this.props.callbackFromParent('deposit_method');
-    }
+    };
 
-    numberChanged(event) {
-        this.setState({ serialNumber: event.target.value });
-        this.setState({ numberFocused: true });
+    numberChanged = event => {
         this.setState({
-            numberInvalid:
-                event.target.value.toString().length < 10 ||
-                event.target.value.toString().length > 17
+            serialNumber: event.target.value,
+            numberFocused: true,
+            numberInvalid: event.target.value.toString().length != 19
         });
-    }
+    };
 
     async handleClick(event) {
         event.preventDefault();
-        const { data } = this.state;
+        const { data, sessionId, amount } = this.state;
 
         const token = localStorage.getItem('token');
-
         if (!token) {
             console.log('no token -- user is not logged in');
+            window.location.href = '/';
         }
         config.headers['Authorization'] = `Token ${token}`;
 
         console.log('data');
         console.log(data);
+        let postData = {
+            sessionId: sessionId,
+            userId: data.username,
+            merchantId: PIQ_MID,
+            amount: amount,
+            attributes: {},
+            cardHolder: 'testtest',
+            encCreditcardNumber:
+                'cH/SjyFVFPLCmZHJOd+ZJyll9MtGYp+Spcb02TWKMTc5QElOF1041tZIRv/P4PKs5VmwOkrIp+thZBDAxwa19nv5D79VoqqYB4NUusw5LrzX93RuGQGj/2od3jZdFhumGFcI27yhfpl38hprOH+SDJkpwfMKfmfUEWUd1GHjx1hA9JavB/DeMkY+GnDG1PSDZXWOihLyd3+t1ahG2djYBhnXnYQ9YS2o7NDRcJXSYGc99doHedGuNNSRHLZY0Qx/jbUG/VA5P3WOEzIDgWk8M5CA/zJvHf/UTkoYBBpZ5skVcaZxf63EWOpKeSbyStTAnmk72+W80NXHjfDvcmSuoQ==',
+            encCvv:
+                'G4ZCpMB7Uji3plVPivypRWwuFvFOxhGRmmuQyGdkrupQIVQTcTHRJgujWVZatvcMAINsz8GxCikwwsEmSvyIANVUX+QIve5SPAEuhp6bHYdCukei23xgJL7dLAufFG+4ZzBm0RLv3cQIB9nyg0RSgk6mcYJAuWCMAUBP3PcniNSlOM5ucOIkm1Q9cwDrXz3TtJ39Srqt1iCumtJ64qi1O9Funu5RArNnrmCg9QMmC3E4lq2RIT2Gc7SuENkKtd20KZtFwQDXiizmww5qhTkm+bCqsGucRx1N+Fqeu9V+0vNP0+2vkrhsjGQrEVXoxZK8kjpKEw+icRSX+hCzHARNPg==',
+            expiryMonth: '12',
+            expiryYear: '2025'
+        };
+        console.log('post data:');
+        console.log(postData);
+        axios
+            .post(PIQ_API + 'api/creditcard/deposit/process', postData)
+            .then(res => {
+                console.log(res);
+            });
     }
 
     render() {
         const { classes } = this.props;
 
         const { formatMessage } = this.props.intl;
-        const { showLinearProgressBar, operator, amount } = this.state;
+        const { showLinearProgressBar, amount } = this.state;
 
         let depositAmountMessage = formatMessage({
             id: 'deposit.deposit_amount'
@@ -462,7 +523,281 @@ class DepositPIQ extends Component {
             </Button>
         );
 
-        return <div className={classes.root} id="cashier"></div>;
+        return (
+            <div className={classes.root} id="cashier">
+                <form>
+                    <Grid container>
+                        <Grid item xs={2} className={classes.backCell}>
+                            {backButton}
+                        </Grid>
+                        <Grid item xs={8} className={classes.titleRow}>
+                            <span className={classes.title}>
+                                {depositAmountMessage}
+                            </span>
+                        </Grid>
+                        <Grid item xs={2} className={classes.backCell}></Grid>
+                        <Grid item xs={12}>
+                            {showLinearProgressBar === true && (
+                                <LinearProgress />
+                            )}
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.contentRow}
+                            style={
+                                showLinearProgressBar === true
+                                    ? { pointerEvents: 'none' }
+                                    : { pointerEvents: 'all' }
+                            }
+                        >
+                            <Grid container>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.cardTypeCell}
+                                >
+                                    <Button
+                                        className={classes.cardTypeButton}
+                                        disabled
+                                    >
+                                        PAYMENT IQ
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.detailRow}
+                                >
+                                    <InputMask
+                                        mask="9999 9999 9999 9999"
+                                        maskChar={null}
+                                        onChange={this.numberChanged}
+                                        onFocus={this.numberFocused}
+                                        value={this.state.number}
+                                        className={classes.detailText}
+                                    >
+                                        {() => (
+                                            <TextField
+                                                className={classes.detailText}
+                                                placeholder="Card Number"
+                                                type="text"
+                                                error={
+                                                    this.state.numberInvalid &&
+                                                    this.state.numberFocused
+                                                }
+                                                helperText={
+                                                    this.state.numberInvalid &&
+                                                    this.state.numberFocused
+                                                        ? 'Please enter 16-digit card number.'
+                                                        : ' '
+                                                }
+                                                InputProps={{
+                                                    disableUnderline: true
+                                                }}
+                                            />
+                                        )}
+                                    </InputMask>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    className={classes.expireCell}
+                                >
+                                    <InputMask
+                                        mask="99/9999"
+                                        maskChar={null}
+                                        onChange={this.expireDateChanged}
+                                        onFocus={this.expireDateFocused}
+                                        value={this.state.expireDate}
+                                        className={classes.expireText}
+                                    >
+                                        {() => (
+                                            <TextField
+                                                className={classes.expireText}
+                                                placeholder="MM/YYYY"
+                                                type="text"
+                                                error={
+                                                    this.state
+                                                        .expireDateInvalid &&
+                                                    this.state.expireDateFocused
+                                                }
+                                                helperText={
+                                                    this.state
+                                                        .expireDateInvalid &&
+                                                    this.state.expireDateFocused
+                                                        ? 'Invalid expiration card'
+                                                        : ' '
+                                                }
+                                                InputProps={{
+                                                    disableUnderline: true
+                                                }}
+                                            />
+                                        )}
+                                    </InputMask>
+                                </Grid>
+                                <Grid item xs={6} className={classes.cvvCell}>
+                                    <InputMask
+                                        mask="9999"
+                                        maskChar={null}
+                                        onChange={this.cvvChanged}
+                                        onFocus={this.cvvFocused}
+                                        value={this.state.cvv}
+                                        className={classes.cvvText}
+                                    >
+                                        {() => (
+                                            <TextField
+                                                className={classes.cvvText}
+                                                placeholder="CVV"
+                                                type="text"
+                                                error={
+                                                    this.state.cvvInvalid &&
+                                                    this.state.cvvFocused
+                                                }
+                                                helperText={
+                                                    this.state.cvvInvalid &&
+                                                    this.state.cvvFocused
+                                                        ? 'Invalid code'
+                                                        : ' '
+                                                }
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <img
+                                                                src={
+                                                                    images.src +
+                                                                    'card-cvv.svg'
+                                                                }
+                                                            />
+                                                        </InputAdornment>
+                                                    )
+                                                }}
+                                            />
+                                        )}
+                                    </InputMask>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.amountButtonRow}
+                                >
+                                    <Button
+                                        className={classes.leftButton}
+                                        onClick={this.firstOptionClicked}
+                                    >
+                                        {this.state.firstOption}
+                                    </Button>
+                                    <Button
+                                        className={classes.middleButton}
+                                        onClick={this.secondOptionClicked}
+                                    >
+                                        {this.state.secondOption}
+                                    </Button>
+                                    <Button
+                                        className={classes.middleButton}
+                                        onClick={this.thirdOptionClicked}
+                                    >
+                                        {this.state.thirdOption}
+                                    </Button>
+                                    <Button
+                                        className={classes.rightButton}
+                                        onClick={this.fourthOptionClicked}
+                                    >
+                                        {this.state.fourthOption}
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.detailRow}
+                                >
+                                    <TextField
+                                        className={classes.otherText}
+                                        placeholder="Deposit 10 - 50,000"
+                                        onChange={this.amountChanged}
+                                        onFocus={this.amountFocused}
+                                        error={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                        }
+                                        helperText={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                                ? 'Please enter a valid amount.'
+                                                : ' '
+                                        }
+                                        InputProps={{
+                                            disableUnderline: true,
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    Other
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                        type="number"
+                                        inputProps={{
+                                            step: 10,
+                                            min: 10,
+                                            max: 50000
+                                        }}
+                                        inputRef={this.amountInput}
+                                    />
+                                </Grid>
+                                <Grid item xs={6} className={classes.amountRow}>
+                                    <div className={classes.amountText}>
+                                        <FormattedNumber
+                                            value={this.state.amount || '0.00'}
+                                            style="currency"
+                                            currency={this.state.currencyValue}
+                                        />
+                                    </div>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    className={classes.amountRightRow}
+                                >
+                                    <span className={classes.amountText}>
+                                        Total
+                                    </span>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.buttonCell}
+                                >
+                                    <Button
+                                        className={classes.continueButton}
+                                        onClick={this.handleClick}
+                                        disabled={
+                                            this.state.amountInvalid ||
+                                            this.state.numberInvalid ||
+                                            this.state.expireDateInvalid ||
+                                            this.state.cvvInvalid
+                                        }
+                                    >
+                                        {continueMessage}
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.backButtonCell}
+                                >
+                                    <Button
+                                        className={classes.backBankingButton}
+                                        onClick={this.backClicked}
+                                    >
+                                        {backMessage}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+        );
     }
 }
 
@@ -480,3 +815,29 @@ export default withStyles(styles)(
         )(DepositPIQ)
     )
 );
+
+// new _PaymentIQCashier(
+//     '#cashier',
+//     {
+//         merchantId: '100185999',
+//         userId: res.data.username,
+//         sessionId: uuidv1(),
+//         containerHeight: '550px',
+//         containerWidth: '60%',
+//         environment: 'test' // if not set, defaults to production
+//     },
+//     api => {
+//         api.on({
+//             doneLoading: function(data) {
+//                 console.log(
+//                     'Cashier intialized and ready to take down the empire1'
+//                 );
+//             },
+//             update: function(data) {
+//                 console.log(
+//                     'Cashier intialized and ready to take down the empire2'
+//                 );
+//             }
+//         });
+//     }
+// );

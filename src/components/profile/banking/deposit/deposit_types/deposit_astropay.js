@@ -313,18 +313,14 @@ class DepositAstropay extends Component {
         this.amountFocused = this.amountFocused.bind(this);
 
         this.handleClick = this.handleClick.bind(this);
-
-
     }
 
     componentDidMount() {
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currencyValue: res.data.currency });
-            });
+        config.headers['Authorization'] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config).then(res => {
+            this.setState({ data: res.data, currencyValue: res.data.currency });
+        });
     }
 
     firstOptionClicked(event) {
@@ -374,9 +370,11 @@ class DepositAstropay extends Component {
     }
 
     numberChanged(event) {
-        this.setState({ number: event.target.value });
-        this.setState({ numberFocused: true });
-        this.setState({ numberInvalid: (event.target.value.toString().length < 19) });
+        this.setState({
+            number: event.target.value,
+            numberFocused: true,
+            numberInvalid: event.target.value.toString().length < 19
+        });
     }
 
     numberFocused(event) {
