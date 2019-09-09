@@ -149,6 +149,8 @@ export const messages = {
         'login.one-click': 'Or try one-click signup',
         'login.remember': 'Keep me logged in on this device',
         'login.notauser': 'NOT A MEMBER? SIGNUP FOR FREE',
+        'login.block': 'The Current User is Blocked',
+        'login.fail': 'Incorrect Username / Password',
 
         // handle books page message
         'books.title': 'Book List',
@@ -598,6 +600,8 @@ export const messages = {
         'login.one-click': '或尝试一键注册',
         'login.remember': '记住密码',
         'login.notauser': '还不是用户? 尝试免费注册',
+        'login.block': '该用户被屏蔽',
+        'login.fail': '用户名/密码错误',
 
 
         // handle books page message
@@ -1083,6 +1087,8 @@ export const messages = {
         'login.one-click': "Ou essayez l'inscription en un clic",
         'login.remember': 'Me garder connecté sur cet appareil',
         'login.notauser': 'Pas un membre? Inscription gratuite',
+        'login.block': "L'utilisateur actuel est bloqué",
+        'login.fail': "Nom d'utilisateur / Mot de passe incorrect",
 
         // handle books page message
         'books.title': 'Liste de livres',
