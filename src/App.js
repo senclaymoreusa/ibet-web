@@ -49,20 +49,24 @@ class App extends Component {
     const reminderStartTime = localStorage.getItem('activityReminderStartTime');
     const duration = localStorage.getItem('activityReminderDuration');
 
-    if (reminderStartTime !== null || duration !== null) {
-      let now = new Date();
-      let milliseconds = Date.parse(reminderStartTime)
-      let threshold = new Date(milliseconds);
-      let mins = threshold.getMinutes();
-      threshold.setMinutes(mins+parseInt(duration));
+    let now = new Date();
 
-      if (threshold < now) {
-        this.setState({ showReminder:  true});
-        localStorage.setItem("activityReminderStartTime", now);
-      }
+    if (reminderStartTime === null)
+      localStorage.setItem("activityReminderStartTime", now);
+
+    if (duration === null)
+      localStorage.setItem("activityReminderDuration", 60);
+
+    let milliseconds = Date.parse(reminderStartTime)
+    let threshold = new Date(milliseconds);
+    let mins = threshold.getMinutes();
+    threshold.setMinutes(mins + parseInt(duration));
+
+    if (threshold < now) {
+      this.setState({ showReminder: true });
+      localStorage.setItem("activityReminderStartTime", now);
     }
   }
-
 
   closeReminderClicked() {
     this.setState({ showReminder: false });
