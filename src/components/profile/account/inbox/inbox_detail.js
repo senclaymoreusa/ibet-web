@@ -131,6 +131,12 @@ export class InboxDetail extends Component {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
+
+        axios.post(API_URL + 'operation/api/read_message/' + this.props.message.pk, config)
+            .then(res => {
+                console.log(res.data);
+                //this.setState({userMessages: res.data.unread_list});
+            })
     }
 
     // function UnreadMessageItem (props) {
@@ -152,6 +158,15 @@ export class InboxDetail extends Component {
 
     backClicked() {
         this.props.callbackFromParent('inbox');
+    }
+
+    deleteClicked(id) {
+        axios.post(API_URL + 'operation/api/delete_message/' + id, config)
+            .then(res => {
+                if(res.status==200) {
+                    this.props.callbackFromParent('inbox');
+                }
+            })
     }
 
     render() {
@@ -176,7 +191,7 @@ export class InboxDetail extends Component {
                         <div className={classes.divideLine}/>
                         <div className={classes.messageInfo}>
                             <span className={classes.date}>{this.props.message.publish_on}</span>
-                            <Button className={classes.delete}>delete</Button>
+                            <Button className={classes.delete} onClick={()=> this.deleteClicked(this.props.message.pk)}>delete</Button>
                         </div>
                         <p className={classes.messageBody}>{this.props.message.content}</p>
                     </Grid>

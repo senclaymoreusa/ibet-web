@@ -257,7 +257,7 @@ const styles = theme => ({
         borderRadius: 12,
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        paddingTop: .25,
+        paddingTop: 3,
         fontSize: 17,
         height: 40,
         border: 'solid 2px #ff0000',
@@ -277,7 +277,7 @@ const styles = theme => ({
     },
     envelope: {
         width: 48,
-        height: 36,
+        height: 30,
         color: '#ff0000',
     },
     unreadMessageCount: {
@@ -1078,7 +1078,7 @@ export class TopNavbar extends React.Component {
                     }}
                 >
                     <div className={classes.envelope}>
-                        <img src={images.src + 'envelope.svg'} />
+                        <img src={images.src + 'envelope.svg'} className={classes.envelope} />
                     </div>
                     <div className={classes.unreadMessageCount}>
                         <FormattedNumber
