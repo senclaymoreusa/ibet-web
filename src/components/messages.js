@@ -326,7 +326,6 @@ export const messages = {
         'signup.onclickregister': 'REGISTER WITH ONE CLICK',
         'signup.preferredlanguage': 'Preferred Language',
         'signup.continue': 'CONTINUE',
-        'signup.confirm': 'CONFIRM',
         'signup.completeregister': 'Complete Registration.',
         'signup.realperson': "We need to know you're a real person.",
         'signup.confirmphone': 'Please confirm either your phone number or your email to complete your registration.',
@@ -774,7 +773,6 @@ export const messages = {
         'signup.onclickregister': '一键注册',
         'signup.preferredlanguage': '语言偏好',
         'signup.continue': '继续',
-        'signup.confirm': '确认',
         'signup.completeregister': '完成注册.',
         'signup.realperson': "我们需要知道您是个真实的人.",
         'signup.confirmphone': '请确认你的手机或邮箱来完成你的注册',
@@ -928,7 +926,6 @@ export const messages = {
         'accountmenu.refer-friend': 'Refer Friend',
         'accountmenu.edit-profile': 'Edit Profile',
         'accountmenu.change-password': 'Change Password >',
-        'accountmenu.open-bets': 'Open Bets',
 
 
         'analysis.january': 'Janvier',
@@ -1258,7 +1255,6 @@ export const messages = {
         'signup.onclickregister': 'INSCRIVEZ-VOUS EN UN CLIC',
         'signup.preferredlanguage': 'langue préférée',
         'signup.continue': 'CONTINUER',
-        'signup.confirm': 'CONFIRMER',
         'signup.completeregister': 'Enregistrement complet.',
         'signup.realperson': "Nous devons savoir que vous êtes une personne réelle.",
         'signup.confirmphone': 'Veuillez confirmer votre numéro de téléphone ou votre adresse électronique pour compléter votre inscription.',

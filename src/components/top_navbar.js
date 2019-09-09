@@ -57,30 +57,29 @@ import Tab from '@material-ui/core/Tab';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
-import Flag from 'react-flagkit';
 
 import Login from './login_2.js';
 import Signup from './signup_2.js';
-import Signup_Email from './signup_email';
-import Signup_Detail from './signup_detail';
-import Signup_Contact from './signup_contact';
-import Signup_Phone from './signup_phone';
-import Complete_Registration from './complete_registration';
-import Phone_Verification from './signup_phone_verification';
-import One_Click_Finish from './one_click_finish';
-import Register_Finish from './register_finish';
-import Change_Password from './change_password_new';
-import New_Profile from './new_profile';
-import New_Deposit from './new_deposit';
-import New_Deposit_Confirm from './new_deposit_confirm';
-import New_Deposit_Wechat from './new_deposit_amount_wechat';
-import New_Deposit_paypal from './new_deposite_amount_paypal';
-import New_Withdraw from './new_withdraw';
-import New_Withdraw_Confirm from './new_withdraw_confirm';
+import SignupEmail from './signup_email';
+import SignupDetail from './signup_detail';
+import SignupContact from './signup_contact';
+import SignupPhone from './signup_phone';
+import CompleteRegistration from './complete_registration';
+import PhoneVerification from './signup_phone_verification';
+import OneClickFinish from './one_click_finish';
+import RegisterFinish from './register_finish';
+import ChangePassword from './change_password_new';
+import NewProfile from './new_profile';
+import NewDeposit from './new_deposit';
+import NewDepositConfirm from './new_deposit_confirm';
+import NewDepositWechat from './new_deposit_amount_wechat';
+import NewDepositPaypal from './new_deposite_amount_paypal';
+import NewWithdraw from './new_withdraw';
+import NewWithdrawConfirm from './new_withdraw_confirm';
 import Help from './account_menu/help';
-import New_Forget_Password from './forget_password_new';
-import Forget_Password_Validation from './forget_password_validation';
-import Refer_User from './refer_user';
+import NewForgetPassword from './forget_password_new';
+import ForgetPasswordValidation from './forget_password_validation';
+import ReferUser from './refer_user';
 
 import axios from 'axios';
 import { config, images } from '../util_config';
@@ -1034,7 +1033,7 @@ export class TopNavbar extends React.Component {
                                 </Drawer>
                             </div>
                             <IconButton href='/' className={classes.logoButton}>
-                                <img src={images.src + 'ibet_logo.svg'} />
+                                <img src={images.src + 'ibet_logo.svg'} alt="" />
                             </IconButton>
                             <div className={classes.grow} />
                             {
@@ -1051,7 +1050,7 @@ export class TopNavbar extends React.Component {
                                             <FormattedNumber
                                                 maximumFractionDigits={2}
                                                 value={balance}
-                                                style='currency'
+                                                style={`currency`}
                                                 currency={balanceCurrency}
                                             />
                                             <div className={classes.balanceDepositText} >
@@ -1124,7 +1123,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="sports_type"
-                                label={<div> <img src={images.src + 'soccer.svg'}  className="soccer" />{sportsMessage}</div>}
+                                label={<div> <img src={images.src + 'soccer.svg'} className="soccer" alt="" />{sportsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'sports_type' });
                                     this.props.history.push("/sports_type/sports");
@@ -1132,7 +1131,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="liveCasino_type"
-                                label={<div><img src={images.src + 'bet.svg'} className="bet" />{liveCasinoMessage}</div>}
+                                label={<div><img src={images.src + 'bet.svg'} className="bet" alt="" />{liveCasinoMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'liveCasino_type' });
                                     this.props.history.push("/liveCasino_type/live-casino/all");
@@ -1140,7 +1139,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value="slot_type"
-                                label={<div><img src={images.src + 'slots.svg'}  className="games-icon" />{slotsMessage}</div>}
+                                label={<div><img src={images.src + 'slots.svg'} className="games-icon" alt="" />{slotsMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'liveCasino_type' });
                                     this.props.history.push("/slot_type/slots/all");
@@ -1148,7 +1147,7 @@ export class TopNavbar extends React.Component {
                             <StyledTab
                                 style={{ outline: 'none' }}
                                 value='lottery_type'
-                                label={<div><img src={images.src + 'lottery.svg'}  className="lottery_type" />{lotteryMessage}</div>}
+                                label={<div><img src={images.src + 'lottery.svg'} className="lottery_type" alt="" />{lotteryMessage}</div>}
                                 onClick={() => {
                                     this.setState({ mainTabValue: 'lottery_type' });
                                     this.props.history.push("/lottery_type/lottery");
@@ -1188,7 +1187,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Signup_Email />
+                        <SignupEmail />
                     </Paper>
                 </Popper>
 
@@ -1197,7 +1196,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Signup_Detail />
+                        <SignupDetail />
                     </Paper>
                 </Popper>
 
@@ -1206,7 +1205,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Signup_Contact />
+                        <SignupContact />
                     </Paper>
                 </Popper>
 
@@ -1215,7 +1214,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Signup_Phone />
+                        <SignupPhone />
                     </Paper>
                 </Popper>
 
@@ -1224,7 +1223,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
                 >
                     <Paper>
-                        <Complete_Registration />
+                        <CompleteRegistration />
                     </Paper>
                 </Popper>
 
@@ -1233,7 +1232,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
                 >
                     <Paper>
-                        <Phone_Verification />
+                        <PhoneVerification />
                     </Paper>
                 </Popper>
 
@@ -1242,7 +1241,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
                 >
                     <Paper>
-                        <One_Click_Finish />
+                        <OneClickFinish />
                     </Paper>
                 </Popper>
 
@@ -1251,7 +1250,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
                 >
                     <Paper>
-                        <Register_Finish />
+                        <RegisterFinish />
                     </Paper>
                 </Popper>
 
@@ -1260,7 +1259,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
-                        <Change_Password />
+                        <ChangePassword />
                     </Paper>
                 </Popper>
 
@@ -1269,18 +1268,9 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
-                        <New_Profile />
+                        <NewProfile />
                     </Paper>
                 </Popper>
-
-                {/* <Popper
-                    open={this.props.showUpdateProfile}
-                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
-                >
-                    <Paper>
-                        <New_Update_Profile />
-                    </Paper>
-                </Popper> */}
 
                 <Popper
                     open={this.props.showDeposit}
@@ -1292,7 +1282,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Deposit onChange={depositInfo => { this.setState({ depositInfo }) }} />
+                                <NewDeposit onChange={depositInfo => { this.setState({ depositInfo }) }} />
                             </Paper>
                         </Fade>
                     )}
@@ -1308,7 +1298,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Deposit_Confirm depositInfo={this.state.depositInfo} />
+                                <NewDepositConfirm depositInfo={this.state.depositInfo} />
                             </Paper>
                         </Fade>
                     )}
@@ -1324,7 +1314,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Deposit_Wechat />
+                                <NewDepositWechat />
                             </Paper>
                         </Fade>
                     )}
@@ -1340,7 +1330,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Deposit_paypal />
+                                <NewDepositPaypal />
                             </Paper>
                         </Fade>
                     )}
@@ -1356,7 +1346,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }} />
+                                <NewWithdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }} />
                             </Paper>
                         </Fade>
                     )}
@@ -1372,7 +1362,7 @@ export class TopNavbar extends React.Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <New_Withdraw_Confirm withdrawInfo={this.state.withdrawInfo} />
+                                <NewWithdrawConfirm withdrawInfo={this.state.withdrawInfo} />
                             </Paper>
                         </Fade>
                     )}
@@ -1415,7 +1405,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <New_Forget_Password />
+                        <NewForgetPassword />
                     </Paper>
                 </Popper>
 
@@ -1424,7 +1414,7 @@ export class TopNavbar extends React.Component {
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
                     <Paper>
-                        <Forget_Password_Validation />
+                        <ForgetPasswordValidation />
                     </Paper>
                 </Popper>
 
@@ -1434,7 +1424,7 @@ export class TopNavbar extends React.Component {
 
                 >
                     <Paper>
-                        <Refer_User />
+                        <ReferUser />
                     </Paper>
                 </Popper>
 
@@ -1633,17 +1623,17 @@ export class TopNavbar extends React.Component {
                                     <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
                                         <List component="div" disablePadding>
                                             <ListItem button className={classes.nested}
-                                            onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/settings/marketing')
-                                            }}>
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/settings/marketing')
+                                                }}>
                                                 <ListItemText primary="Marketing" />
                                             </ListItem>
-                                            <ListItem button className={classes.nested} 
-                                            onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/settings/privacy')
-                                            }}>
+                                            <ListItem button className={classes.nested}
+                                                onClick={() => {
+                                                    this.setState({ mainTabValue: 'none' });
+                                                    this.props.history.push('/p/settings/privacy')
+                                                }}>
                                                 <ListItemText primary="Privacy" />
                                             </ListItem>
                                         </List>

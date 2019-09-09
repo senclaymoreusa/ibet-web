@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import {injectIntl } from 'react-intl';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -114,7 +114,7 @@ export class InboxMain extends Component {
 
     render() {
         const { classes } = this.props;
-        const { formatMessage } = this.props.intl;
+        // const { formatMessage } = this.props.intl;
 
         return (
             <div className={classes.root}>

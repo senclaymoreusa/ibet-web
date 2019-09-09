@@ -363,7 +363,6 @@ const styles = theme => ({
         border: '1px solid #000000',
         color: '#ffffff',
         borderRadius: 2,
-        width: '100%',
         textTransform: 'capitalize',
         "&:hover": {
             backgroundColor: '#000000',
@@ -500,7 +499,7 @@ export class MyBets extends React.Component {
                         </Grid>
                         <Grid item xs={4} className={classes.gridRow}>
                             <Button className={classes.confButton}>
-                                <img src={images.src + 'shape.svg'} />
+                                <img src={images.src + 'shape.svg'}  alt=""/>
                             </Button>
                         </Grid>
                         <Grid item xs={8} className={classes.gridRow}>
@@ -539,7 +538,7 @@ export class MyBets extends React.Component {
                         </Grid>
                         <Grid item xs={4} className={classes.gridRow}>
                             <Button className={classes.confButton}>
-                                <img src={images.src + 'shape.svg'} />
+                                <img src={images.src + 'shape.svg'}  alt=""/>
                             </Button>
                         </Grid>
                         <Grid item xs={8} className={classes.gridRow}>
@@ -573,7 +572,7 @@ export class MyBets extends React.Component {
                         </Grid>
                         <Grid item xs={12} className={classes.gridRow}>
                             <span className={classes.betDate}>Bet ID: O658530/38344000</span>
-                            <img src={images.src + 'curved-arrow.svg'} className={classes.curvedArrow} />
+                            <img src={images.src + 'curved-arrow.svg'} className={classes.curvedArrow}  alt=""/>
                         </Grid>
                         <Grid item xs={12} className={classes.auxiliaryRow}>
                             <span className={classes.betName}>Tottenham vs Liverpool</span>
@@ -597,7 +596,7 @@ export class MyBets extends React.Component {
                         </Grid>
                         <Grid item xs={4} className={classes.gridRow}>
                             <Button className={classes.confButton}>
-                                <img src={images.src + 'shape.svg'} />
+                                <img src={images.src + 'shape.svg'}  alt=""/>
                             </Button>
                         </Grid>
                         <Grid item xs={8} className={classes.gridRow}>
@@ -690,21 +689,21 @@ export class MyBets extends React.Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <img src={images.src + 'account-menu-back.svg'} />
+                            <img src={images.src + 'account-menu-back.svg'}  alt=""/>
                         </Button>
-                        <img src={images.src + 'logo-red.svg'} className={classes.logo} />
+                        <img src={images.src + 'logo-red.svg'} className={classes.logo}  alt=""/>
                         <div className={classes.grow} />
                         <Button variant="contained" className={classes.balanceButton}>
-                            <img src={images.src + 'deposit.svg'} className={classes.depositIcon} />
+                            <img src={images.src + 'deposit.svg'} className={classes.depositIcon}  alt=""/>
                             <FormattedNumber
                                 maximumFractionDigits={2}
                                 value={this.state.balance}
-                                style='currency'
+                                style={`currency`}
                                 currency={this.state.balanceCurrency}
                             />
                         </Button>
                         <Button variant="outlined" className={classes.userButton}>
-                            <img src={images.src + 'red-user.svg'} />
+                            <img src={images.src + 'red-user.svg'}  alt=""/>
 
                         </Button>
                     </Grid>

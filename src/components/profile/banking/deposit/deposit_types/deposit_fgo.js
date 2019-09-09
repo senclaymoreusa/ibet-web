@@ -15,7 +15,6 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
         width: 925,
-        //height: 688,
         backgroundColor: '#ffffff',
         border: 'solid 1px #979797',
     },
@@ -224,9 +223,7 @@ class DepositFgo extends Component {
         this.serialFocused = this.serialFocused.bind(this);
         this.handleClick = this.handleClick.bind(this);
 
-        // this.onInputChange_pin = this.onInputChange_pin.bind(this);
-        // this.onInputChange_serial = this.onInputChange_serial.bind(this);
-    }
+     }
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -238,34 +235,6 @@ class DepositFgo extends Component {
             });
     }
 
-    // async onInputChange_pin(event) {
-    //     if (!event.target.value.match(/^[0-9.]+$/) || event.target.value.length != 14) {
-    //         this.setState({ live_check_pin: true, button_disable: true });
-    //     } else {
-    //         this.setState({ live_check_pin: false })
-    //     }
-    //     await this.setState({ pin: event.target.value })
-    //     this.check_button_disable()
-    // }
-
-    // async onInputChange_serial(event) {
-    //     if (event.target.value.length != 15) {
-    //         this.setState({ live_check_serial: true, button_disable: true });
-    //     } else {
-    //         this.setState({ live_check_serial: false })
-    //     }
-    //     await this.setState({ serial: event.target.value })
-    //     this.check_button_disable()
-    // }
-
-    // check_button_disable() {
-    //     if (this.state.pin && !this.state.live_check_pin && this.state.serial && !this.state.live_check_serial) {
-    //         this.setState({ button_disable: false })
-    //     }
-    // }
-
-
-
     backClicked(ev) {
         this.props.callbackFromParent('deposit_method');
     }
@@ -273,7 +242,7 @@ class DepositFgo extends Component {
     pinChanged(event) {
         this.setState({ pin: event.target.value });
         this.setState({ pinFocused: true });
-        this.setState({ pinInvalid: (event.target.value.toString().length != 14) });
+        this.setState({ pinInvalid: (event.target.value.toString().length !== 14) });
     }
 
     pinFocused(event) {
@@ -283,7 +252,7 @@ class DepositFgo extends Component {
     serialChanged(event) {
         this.setState({ serial: event.target.value });
         this.setState({ serialFocused: true });
-        this.setState({ serialInvalid: (event.target.value.toString().length != 15) });
+        this.setState({ serialInvalid: (event.target.value.toString().length !== 15) });
     }
 
     serialFocused(event) {
@@ -365,7 +334,7 @@ class DepositFgo extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (

@@ -31,7 +31,7 @@ const styles = theme => ({
 });
 
 
-class New_Forget_Password extends Component {
+class NewForgetPassword extends Component {
 
     constructor(props){
         super(props);
@@ -45,6 +45,7 @@ class New_Forget_Password extends Component {
     }
 
     async onInputChange_email(event){
+        // eslint-disable-next-line
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)){
           this.setState({live_check_email: true, button_disable: true,})
@@ -86,7 +87,7 @@ class New_Forget_Password extends Component {
                         Forget Password
                     </div>
 
-                    <img src={images.src + 'close_page.svg'}
+                    <img src={images.src + 'close_page.svg'} alt=""
                         style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_forget_password();
@@ -143,4 +144,4 @@ class New_Forget_Password extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_forget_password, show_forget_password_validation, forget_email })(New_Forget_Password));
+export default withStyles(styles)(connect(null, { hide_forget_password, show_forget_password_validation, forget_email })(NewForgetPassword));

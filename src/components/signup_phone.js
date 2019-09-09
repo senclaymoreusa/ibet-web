@@ -83,7 +83,7 @@ const BootstrapInput = withStyles(theme => ({
 }))(InputBase);
 
 
-class Signup_Phone extends React.Component {
+class SignupPhone extends React.Component {
     constructor(props) {
         super(props);
 
@@ -147,7 +147,7 @@ class Signup_Phone extends React.Component {
             <div style={{ backgroundColor: 'white', minHeight: 650, width: 662 }}>
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <div className='signup-title'>
-                        <img src={images.src + 'back.svg'}
+                        <img src={images.src + 'back.svg'} alt=""
                             style={{ cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15 }}
                             onClick={() => {
                                 this.props.hide_signup_phone();
@@ -159,7 +159,7 @@ class Signup_Phone extends React.Component {
                             OPEN ACCOUNT
                         </div>
 
-                        <img src={images.src + 'close_page.svg'}
+                        <img src={images.src + 'close_page.svg'} alt=""
                             style={{ cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20 }}
                             onClick={() => {
                                 this.props.hide_signup_phone()
@@ -257,4 +257,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_signup_phone, show_signup_contact, show_complete_registration, handle_signup_phone })(Signup_Phone)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_signup_phone, show_signup_contact, show_complete_registration, handle_signup_phone })(SignupPhone)));

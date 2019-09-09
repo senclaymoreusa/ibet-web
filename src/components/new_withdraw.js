@@ -226,7 +226,7 @@ const BootstrapInput = withStyles(theme => ({
 }))(InputBase);
 
 
-class New_Withdraw extends Component {
+class NewWithdraw extends Component {
 
     constructor(props) {
         super(props);
@@ -293,7 +293,7 @@ class New_Withdraw extends Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} md={6} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                        <img src={images.src + 'account-menu-back.svg'} />
+                        <img src={images.src + 'account-menu-back.svg'}  alt=""/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.withdraw" defaultMessage="Withdraw" />
@@ -348,8 +348,8 @@ class New_Withdraw extends Component {
     }
 }
 
-New_Withdraw.propTypes = {
+NewWithdraw.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(connect(null, { hide_withdraw, show_withdraw_confirm, show_account_menu  })(New_Withdraw));
+export default withStyles(styles)(connect(null, { hide_withdraw, show_withdraw_confirm, show_account_menu  })(NewWithdraw));

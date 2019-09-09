@@ -275,7 +275,7 @@ class DepositPaypal extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 2000 || parseInt(event.target.value) < 10) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 2000 || parseInt(event.target.value) < 10) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -302,7 +302,7 @@ class DepositPaypal extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
 
@@ -360,13 +360,14 @@ class DepositPaypal extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                            inputProps:{
+                                                step: 10,
+                                                min: 10,
+                                                max: 2000
+                                            }
                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 10,
-                                            max: 2000
-                                        }}
+                                       
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -374,7 +375,7 @@ class DepositPaypal extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

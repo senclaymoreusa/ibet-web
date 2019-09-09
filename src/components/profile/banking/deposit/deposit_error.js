@@ -147,7 +147,7 @@ export class DepositError extends Component {
                         <span className={classes.title}>Deposit</span>
                     </Grid>
                     <Grid item xs={12} className={classes.completeCell}>
-                        <img src={images.src + 'alert.svg'} className={classes.alertIcon} />
+                        <img src={images.src + 'alert.svg'} className={classes.alertIcon}  alt=""/>
                     </Grid>
                     <Grid item xs={12} className={classes.errorRow}>
                         <span className={classes.errorText}>Transaction Failed</span>

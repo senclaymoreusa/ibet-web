@@ -334,7 +334,7 @@ export class AddCreditCard extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-             <img src={images.src + 'prev_step.svg'} />
+             <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -354,10 +354,10 @@ export class AddCreditCard extends Component {
                         <Grid container>
                             <Grid item xs={3} className={classes.cardTypeCell}>
                                 <Button className={classes.cardTypeButton} disabled>
-                                    {cardType === 'visa' &&  <img src={images.src + 'visa-blue.svg'} />}
-                                    {cardType === 'mastercard' && <img src={images.src + 'master-card.svg'} />}
-                                    {cardType === 'bankaccount' && <img src={images.src + 'bank-icon-black.svg'} />}
-                                    {cardType === 'paypal' && <img src={images.src + 'paypal.svg'} />}
+                                    {cardType === 'visa' &&  <img src={images.src + 'visa-blue.svg'}  alt=""/>}
+                                    {cardType === 'mastercard' && <img src={images.src + 'master-card.svg'}  alt=""/>}
+                                    {cardType === 'bankaccount' && <img src={images.src + 'bank-icon-black.svg'}  alt=""/>}
+                                    {cardType === 'paypal' && <img src={images.src + 'paypal.svg'}  alt=""/>}
 
                                 </Button>
                             </Grid>
@@ -437,7 +437,7 @@ export class AddCreditCard extends Component {
                                         helperText={(this.state.cvvInvalid && this.state.cvvFocused) ? 'Invalid code' : ' '}
                                         InputProps={{
                                             disableUnderline: true,
-                                            endAdornment: <InputAdornment position="end"><img src={images.src + 'card-cvv.svg'} /></InputAdornment>,
+                                            endAdornment: <InputAdornment position="end"><img src={images.src + 'card-cvv.svg'}  alt=""/></InputAdornment>,
                                         }}
                                     />}
                                 </InputMask>

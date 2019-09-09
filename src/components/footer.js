@@ -260,28 +260,28 @@ export class Footer extends React.Component {
       <div className={classes.footer_menu_container}>
         <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
           onClick={() => { this.props.history.push("/sports_type") }}>
-          <img src={images.src + 'soccer.svg'} className="soccer" />
+          <img src={images.src + 'soccer.svg'} className="soccer"  alt=""/>
           <span className="Sports">
             <FormattedMessage id="nav.sports" defaultMessage='Sports' />
           </span>
         </Button>
         <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
           onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
-          <img src={images.src + 'bet.svg'} className="bet" />
+          <img src={images.src + 'bet.svg'} className="bet"  alt=""/>
           <span className="Live-Casino">
             <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
           </span>
         </Button>
         <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
           onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
-          <img src={images.src + 'slots.svg'} className="games-icon" />
+          <img src={images.src + 'slots.svg'} className="games-icon"  alt=""/>
           <span className="Slots">
             <FormattedMessage id="nav.slots" defaultMessage='Slots' />
           </span>
         </Button>
         <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
           onClick={() => { this.props.history.push("/lottery_type") }}>
-          <img src={images.src + 'lottery.svg'} className="lottery" />
+          <img src={images.src + 'lottery.svg'} className="lottery"  alt=""/>
           <span className="Lottery">
             <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
           </span>
@@ -294,7 +294,7 @@ export class Footer extends React.Component {
         <Grid container>
           <Grid item xs={12} sm={9} md={9} lg={9}>
             <IconButton href='/'>
-              <img src={images.src + 'ibet_logo.svg'} />
+              <img src={images.src + 'ibet_logo.svg'}  alt=""/>
             </IconButton>
             <div>
               {FooterMenu}

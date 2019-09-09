@@ -40,7 +40,7 @@ const currency_options = [
     { value: '2', label: 'THB' },
     { value: '8', label: 'VND' },
 ];
-var QRCode = require('qrcode.react');
+// var QRCode = require('qrcode.react');
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -316,7 +316,7 @@ class DepositHelp2pay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 500000 || parseInt(event.target.value) < 500) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 500000 || parseInt(event.target.value) < 500) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -504,7 +504,7 @@ class DepositHelp2pay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -589,13 +589,13 @@ class DepositHelp2pay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                            inputProps:{
+                                                step: 10,
+                                                min: 500,
+                                                max: 500000
+                                            }
                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 500,
-                                            max: 500000
-                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -603,7 +603,7 @@ class DepositHelp2pay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>
@@ -614,7 +614,7 @@ class DepositHelp2pay extends Component {
                                 <Grid item xs={12} className={classes.buttonCell}>
                                     <Button className={classes.continueButton}
                                         onClick={this.handleClick}
-                                        disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.selectedCurrencyOption == 'none'}
+                                        disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.selectedCurrencyOption === 'none'}
                                     >{continueMessage}</Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.backButtonCell}>
