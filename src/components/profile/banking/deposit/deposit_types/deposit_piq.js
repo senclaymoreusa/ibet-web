@@ -385,6 +385,56 @@ class DepositPIQ extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    userCheck = () => {
+        return axios.get(API_URL + 'users/api/user/', config).then(res => {
+            console.log(res);
+            this.setState({ data: res.data, currencyValue: res.data.currency });
+            return res.data.username;
+        });
+    };
+
+    getDepositMethods = (username, sessionId) => {
+        console.log('gettign deposit methods for: ' + username);
+        console.log(sessionId);
+        console.log(PIQ_API);
+        return axios.get(
+            PIQ_API +
+                'api/user/payment/method/' +
+                PIQ_MID +
+                '/' +
+                username +
+                '?sessionId=' +
+                sessionId +
+                '&method=deposit'
+        );
+    };
+    async componentDidMount() {
+        console.log('component mounted');
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                window.location.href = '/';
+                return;
+            }
+        });
+        this.setState({ sessionId: uuidv1() });
+
+        let encrypt = new jsencrypt.JSEncrypt();
+
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        let username = await this.userCheck();
+        // let depositMethods = await this.getDepositMethods(
+        //     username,
+        //     this.state.sessionId
+        // );
+        // console.log(depositMethods);
+    }
+
+    backClicked = () => {
+        this.props.callbackFromParent('deposit_method');
+    };
+
     firstOptionClicked = () => {
         this.setState({
             amount: this.state.firstOption,
@@ -421,54 +471,12 @@ class DepositPIQ extends Component {
         this.amountInput.current.value = '';
     };
 
-    userCheck = () => {
-        return axios.get(API_URL + 'users/api/user/', config).then(res => {
-            console.log(res);
-            this.setState({ data: res.data, currencyValue: res.data.currency });
-            return res.data.username;
+    amountChanged = event => {
+        this.setState({
+            amount: event.target.value,
+            amountFocused: true,
+            amountInvalid: false
         });
-    };
-
-    getDepositMethods = (username, sessionId) => {
-        console.log('gettign deposit methods for: ' + username);
-        console.log(sessionId);
-        console.log(PIQ_API);
-        return axios.get(
-            PIQ_API +
-                'api/user/payment/method/' +
-                PIQ_MID +
-                '/' +
-                username +
-                '?sessionId=' +
-                sessionId +
-                '&method=deposit'
-        );
-    };
-    async componentDidMount() {
-        console.log('component mounted');
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                window.location.href('/');
-                return;
-            }
-        });
-        this.setState({ sessionId: uuidv1() });
-
-        let encrypt = new jsencrypt.JSEncrypt();
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        let username = await this.userCheck();
-        // let depositMethods = await this.getDepositMethods(
-        //     username,
-        //     this.state.sessionId
-        // );
-        // console.log(depositMethods);
-    }
-
-    backClicked = () => {
-        this.props.callbackFromParent('deposit_method');
     };
 
     nameChanged = event => {
