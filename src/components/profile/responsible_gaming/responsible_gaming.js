@@ -452,7 +452,7 @@ export class ResponsibleGaming extends Component {
         this.lossLimitDurationClicked = this.lossLimitDurationClicked.bind(this);
         this.reminderDurationClicked = this.reminderDurationClicked.bind(this);
         this.lockDurationClicked = this.lockDurationClicked.bind(this);
-        
+
     }
 
     async componentWillReceiveProps(props) {
@@ -820,8 +820,13 @@ export class ResponsibleGaming extends Component {
     }
 
     saveActivityReminderClicked() {
-        localStorage.setItem("activityReminderStartTime", new Date());
-        localStorage.setItem("activityReminderDuration", this.state.activityReminderDuration);
+        var reminderData = {
+            "userId": this.state.userId,
+            "startTime": new Date(),
+            "duration": this.state.activityReminderDuration
+        }
+
+        localStorage.setItem(JSON.stringify(reminderData));
 
         this.setState({ messageText: "You have set your reminder." });
         this.setState({ showMessage: true });
@@ -975,11 +980,11 @@ export class ResponsibleGaming extends Component {
                                             className={(depositLimitDuration === 0) ? classes.activeLimitButton : classes.limitButton} >
                                             Daily
                                         </Button>
-                                        <Button onClick={() => { this.depositLimitDurationClicked(1)}}
+                                        <Button onClick={() => { this.depositLimitDurationClicked(1) }}
                                             className={(depositLimitDuration === 1) ? classes.activeLimitButton : classes.limitButton}>
                                             Weekly
                                         </Button>
-                                        <Button onClick={() => { this.depositLimitDurationClicked(2)}}
+                                        <Button onClick={() => { this.depositLimitDurationClicked(2) }}
                                             className={(depositLimitDuration === 2) ? classes.activeLimitButton : classes.limitButton} >
                                             Monthly
                                         </Button>
@@ -1090,7 +1095,7 @@ export class ResponsibleGaming extends Component {
                                         {showLossProgressBar === true && <LinearProgress />}
                                     </Grid>
                                     <Grid item xs={12} className={classes.lockButtonRow}>
-                                    {(selectedLossItem.length > 0 && selectedLossItem[0].expiration_time === '' && selectedLossItem[0].amount) && <Button onClick={this.removeLossLimitClicked.bind(this)}
+                                        {(selectedLossItem.length > 0 && selectedLossItem[0].expiration_time === '' && selectedLossItem[0].amount) && <Button onClick={this.removeLossLimitClicked.bind(this)}
                                             className={classes.removeLimitButton} >
                                             <img src={images.src + 'remove-limit.svg'} alt="" height="18" width="18" />
                                             Remove The Limit
@@ -1133,7 +1138,7 @@ export class ResponsibleGaming extends Component {
                                         </div>
                                     </Grid>
                                     <Grid item xs={12}>
-                                    {selectedLossExpirationTime === '' ?
+                                        {selectedLossExpirationTime === '' ?
                                             <div className={classes.inputRow}>
                                                 <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseLossLimitClicked.bind(this)}>-</Button>
                                                 <TextField
@@ -1189,7 +1194,7 @@ export class ResponsibleGaming extends Component {
                                         }
                                     </Grid>
                                     <Grid item xs={12} className={classes.buttonCell}>
-                                    {selectedLossExpirationTime === '' ?
+                                        {selectedLossExpirationTime === '' ?
                                             <Button className={classes.button}
                                                 onClick={this.saveLossLimits.bind(this)}
                                             >Save My Loss Limit</Button>
@@ -1225,7 +1230,7 @@ export class ResponsibleGaming extends Component {
                                         <Button variant="contained"
                                             className={(this.state.activityReminderDuration === 30) ? classes.selectedTimeButton : classes.timeButton}
                                             style={{ marginLeft: 12, marginRight: 12 }}
-                                            onClick={() => { this.reminderDurationClicked(30)}}>30 Min</Button>
+                                            onClick={() => { this.reminderDurationClicked(30) }}>30 Min</Button>
                                         <Button variant="contained"
                                             className={(this.state.activityReminderDuration === 60) ? classes.selectedTimeButton : classes.timeButton}
                                             style={{ marginRight: 12 }}

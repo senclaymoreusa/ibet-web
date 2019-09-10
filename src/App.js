@@ -46,6 +46,15 @@ class App extends Component {
   }
 
   checkIfReminderTime() {
+    var reminderText = localStorage.getItem('reminderData');
+
+    if (!reminderText)
+      return;
+
+    var reminderObj = JSON.parse(reminderText);
+
+
+
     const reminderStartTime = localStorage.getItem('activityReminderStartTime');
     const duration = localStorage.getItem('activityReminderDuration');
 

@@ -5,9 +5,6 @@ import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, Faceboo
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { config } from '../util_config';
-
-
-// Material design
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -17,12 +14,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-
-
-//const API_URL = process.env.REACT_APP_REST_API;
-//const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
-
 
 const styles = theme => ({
     textField: {
@@ -185,6 +177,7 @@ export class Login extends React.Component {
 
         this.props.authLogin(this.state.username, this.state.password)
             .then(() => {
+
                 if (this.state.check) {
                     localStorage.setItem('remember_password', this.state.password);
                     localStorage.setItem('remember_check', 'checked')
