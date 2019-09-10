@@ -24,6 +24,7 @@ import InputMask from 'react-input-mask';
 import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../actions';
 import { checkPropTypes } from 'prop-types';
 
+const jsencrypt = require('jsencrypt');
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
     PIQ_API = process.env.REACT_APP_PIQ_API_URL,
     PIQ_MID = process.env.REACT_APP_PIQ_MID;
@@ -365,6 +366,9 @@ class DepositPIQ extends Component {
             amountFocused: false,
             amountInvalid: true,
 
+            expireDate: '',
+            cvv: '',
+
             firstOption: 25,
             secondOption: 50,
             thirdOption: 100,
@@ -440,21 +444,23 @@ class DepositPIQ extends Component {
         console.log('component mounted');
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
+                window.location.href('/');
                 return;
             }
         });
         this.setState({ sessionId: uuidv1() });
 
+        let encrypt = new jsencrypt.JSEncrypt();
+
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
 
         let username = await this.userCheck();
-        let depositMethods = await this.getDepositMethods(
-            username,
-            this.state.sessionId
-        );
-        console.log(depositMethods);
+        // let depositMethods = await this.getDepositMethods(
+        //     username,
+        //     this.state.sessionId
+        // );
+        // console.log(depositMethods);
     }
 
     backClicked = () => {
@@ -469,9 +475,34 @@ class DepositPIQ extends Component {
         });
     };
 
+    cvvChanged = event => {
+        this.setState({
+            cvv: event.target.value,
+            cvvFocused: true,
+            cvvInvalid: event.target.value.toString().length != 3
+        });
+    };
+
+    dateChanged = event => {
+        this.setState({
+            expireDate: event.target.value,
+            dateFocused: true,
+            dateInvalid:
+                event.target.value.toString().length != 7 ||
+                parseInt(event.target.value.toString().slice(0, 2)) > 12
+        });
+    };
+
     async handleClick(event) {
         event.preventDefault();
-        const { data, sessionId, amount } = this.state;
+        const {
+            data,
+            sessionId,
+            cvv,
+            serialNumber,
+            amount,
+            expireDate
+        } = this.state;
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -482,19 +513,26 @@ class DepositPIQ extends Component {
 
         console.log('data');
         console.log(data);
+        console.log('expire date: ' + expireDate);
+        let encrypt = new jsencrypt.JSEncrypt();
+        encrypt.setPublicKey(process.env.REACT_APP_PIQ_PEM);
+        let encCcNum = encrypt.encrypt(serialNumber);
+        let encCvv = encrypt.encrypt(cvv);
+
         let postData = {
             sessionId: sessionId,
             userId: data.username,
             merchantId: PIQ_MID,
             amount: amount,
             attributes: {},
-            cardHolder: 'testtest',
-            encCreditcardNumber:
-                'cH/SjyFVFPLCmZHJOd+ZJyll9MtGYp+Spcb02TWKMTc5QElOF1041tZIRv/P4PKs5VmwOkrIp+thZBDAxwa19nv5D79VoqqYB4NUusw5LrzX93RuGQGj/2od3jZdFhumGFcI27yhfpl38hprOH+SDJkpwfMKfmfUEWUd1GHjx1hA9JavB/DeMkY+GnDG1PSDZXWOihLyd3+t1ahG2djYBhnXnYQ9YS2o7NDRcJXSYGc99doHedGuNNSRHLZY0Qx/jbUG/VA5P3WOEzIDgWk8M5CA/zJvHf/UTkoYBBpZ5skVcaZxf63EWOpKeSbyStTAnmk72+W80NXHjfDvcmSuoQ==',
-            encCvv:
-                'G4ZCpMB7Uji3plVPivypRWwuFvFOxhGRmmuQyGdkrupQIVQTcTHRJgujWVZatvcMAINsz8GxCikwwsEmSvyIANVUX+QIve5SPAEuhp6bHYdCukei23xgJL7dLAufFG+4ZzBm0RLv3cQIB9nyg0RSgk6mcYJAuWCMAUBP3PcniNSlOM5ucOIkm1Q9cwDrXz3TtJ39Srqt1iCumtJ64qi1O9Funu5RArNnrmCg9QMmC3E4lq2RIT2Gc7SuENkKtd20KZtFwQDXiizmww5qhTkm+bCqsGucRx1N+Fqeu9V+0vNP0+2vkrhsjGQrEVXoxZK8kjpKEw+icRSX+hCzHARNPg==',
-            expiryMonth: '12',
-            expiryYear: '2025'
+            cardHolder: data.first_name + data.last_name || 'John Doe',
+            encCreditcardNumber: encCcNum,
+            encCvv: encCvv,
+            expiryMonth: expireDate.split('/')[0],
+            expiryYear: expireDate.split('/')[1],
+            attributes: {
+                transactionMethod: 'deposit'
+            }
         };
         console.log('post data:');
         console.log(postData);
@@ -564,6 +602,31 @@ class DepositPIQ extends Component {
                                         PAYMENT IQ
                                     </Button>
                                 </Grid>
+                                {/* <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.detailRow}
+                                >
+                                    <TextField
+                                        // label="Cardholder Name"
+                                        className={classes.detailText}
+                                        placeholder="John Doe"
+                                        type="text"
+                                        error={
+                                            this.state.nameInvalid &&
+                                            this.state.nameFocused
+                                        }
+                                        helperText={
+                                            this.state.nameInvalid &&
+                                            this.state.nameFocused
+                                                ? 'Invalid Name'
+                                                : ''
+                                        }
+                                        InputProps={{
+                                            disableUnderline: true
+                                        }}
+                                    />
+                                </Grid> */}
                                 <Grid
                                     item
                                     xs={12}
@@ -574,7 +637,7 @@ class DepositPIQ extends Component {
                                         maskChar={null}
                                         onChange={this.numberChanged}
                                         onFocus={this.numberFocused}
-                                        value={this.state.number}
+                                        value={this.state.serialNumber}
                                         className={classes.detailText}
                                     >
                                         {() => (
@@ -607,8 +670,8 @@ class DepositPIQ extends Component {
                                     <InputMask
                                         mask="99/9999"
                                         maskChar={null}
-                                        onChange={this.expireDateChanged}
-                                        onFocus={this.expireDateFocused}
+                                        onChange={this.dateChanged}
+                                        onFocus={this.dateFocused}
                                         value={this.state.expireDate}
                                         className={classes.expireText}
                                     >
@@ -618,15 +681,13 @@ class DepositPIQ extends Component {
                                                 placeholder="MM/YYYY"
                                                 type="text"
                                                 error={
-                                                    this.state
-                                                        .expireDateInvalid &&
-                                                    this.state.expireDateFocused
+                                                    this.state.dateInvalid &&
+                                                    this.state.dateFocused
                                                 }
                                                 helperText={
-                                                    this.state
-                                                        .expireDateInvalid &&
-                                                    this.state.expireDateFocused
-                                                        ? 'Invalid expiration card'
+                                                    this.state.dateInvalid &&
+                                                    this.state.dateFocused
+                                                        ? 'Invalid expiration date'
                                                         : ' '
                                                 }
                                                 InputProps={{
@@ -638,7 +699,7 @@ class DepositPIQ extends Component {
                                 </Grid>
                                 <Grid item xs={6} className={classes.cvvCell}>
                                     <InputMask
-                                        mask="9999"
+                                        mask="999"
                                         maskChar={null}
                                         onChange={this.cvvChanged}
                                         onFocus={this.cvvFocused}
