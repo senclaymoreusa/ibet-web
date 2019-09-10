@@ -351,6 +351,10 @@ class DepositPIQ extends Component {
         this.amountInput = React.createRef();
 
         this.state = {
+            name: '',
+            nameFocused: false,
+            nameInvalid: true,
+
             serialNumber: '',
             numberFocused: false,
             numberInvalid: true,
@@ -467,6 +471,13 @@ class DepositPIQ extends Component {
         this.props.callbackFromParent('deposit_method');
     };
 
+    nameChanged = event => {
+        this.setState({
+            name: event.target.value,
+            nameFocused: true,
+            nameInvalid: event.target.value.toString().split(' ').length < 2
+        });
+    };
     numberChanged = event => {
         this.setState({
             serialNumber: event.target.value,
@@ -498,6 +509,7 @@ class DepositPIQ extends Component {
         const {
             data,
             sessionId,
+            name,
             cvv,
             serialNumber,
             amount,
@@ -511,13 +523,12 @@ class DepositPIQ extends Component {
         }
         config.headers['Authorization'] = `Token ${token}`;
 
-        console.log('data');
-        console.log(data);
-        console.log('expire date: ' + expireDate);
         let encrypt = new jsencrypt.JSEncrypt();
         encrypt.setPublicKey(process.env.REACT_APP_PIQ_PEM);
+
         let encCcNum = encrypt.encrypt(serialNumber);
         let encCvv = encrypt.encrypt(cvv);
+        let expiry = expireDate.split('/');
 
         let postData = {
             sessionId: sessionId,
@@ -525,11 +536,11 @@ class DepositPIQ extends Component {
             merchantId: PIQ_MID,
             amount: amount,
             attributes: {},
-            cardHolder: data.first_name + data.last_name || 'John Doe',
+            cardHolder: name || 'John Doe',
             encCreditcardNumber: encCcNum,
             encCvv: encCvv,
-            expiryMonth: expireDate.split('/')[0],
-            expiryYear: expireDate.split('/')[1],
+            expiryMonth: expiry[0],
+            expiryYear: expiry[1],
             attributes: {
                 transactionMethod: 'deposit'
             }
@@ -602,7 +613,7 @@ class DepositPIQ extends Component {
                                         PAYMENT IQ
                                     </Button>
                                 </Grid>
-                                {/* <Grid
+                                <Grid
                                     item
                                     xs={12}
                                     className={classes.detailRow}
@@ -610,6 +621,8 @@ class DepositPIQ extends Component {
                                     <TextField
                                         // label="Cardholder Name"
                                         className={classes.detailText}
+                                        value={this.state.name}
+                                        onChange={this.nameChanged}
                                         placeholder="John Doe"
                                         type="text"
                                         error={
@@ -626,7 +639,7 @@ class DepositPIQ extends Component {
                                             disableUnderline: true
                                         }}
                                     />
-                                </Grid> */}
+                                </Grid>
                                 <Grid
                                     item
                                     xs={12}
