@@ -19,6 +19,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.getLanguage();
+    this.setState({inbox: 0});
   }
 
   render() {

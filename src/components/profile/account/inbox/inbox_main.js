@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { authCheckState, handle_inbox_value } from '../../../../actions';
+import { injectIntl } from 'react-intl';
 
-import { config } from '../../../../util_config';
+import { images, config } from '../../../../util_config';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -12,11 +12,10 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Fade from '@material-ui/core/Fade';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 
 import { withStyles } from '@material-ui/core/styles';
+
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -130,10 +129,23 @@ const styles = theme => ({
     },
     deleteInfo: {
         width: 454,
-        height: 44,
         boxShadow: '0 5px 10px -2px rgba(0, 0, 0, 0.27)',
         backgroundColor: '#d0d0d0',
-    }
+    },
+    deleteMessage: {
+        fontSize: 16,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#000000',
+    },
+    closeIcon: {
+        display: 'inline-block',
+        width: 16,
+        height: 16,
+    },
 });
 
 
@@ -143,14 +155,14 @@ export class InboxMain extends Component {
         super(props);
 
         this.state = {
-            unreadMessages: [],
-            readMessages: [],
+            Messages: [],
             showMessage: false,
             messageText: "Message deleted"
         }
 
         this.detailClicked = this.detailClicked.bind(this);
         this.deleteClicked = this.deleteClicked.bind(this);
+        this.closeNotificationClicked = this.closeNotificationClicked.bind(this);
     }
 
     componentDidMount() {
@@ -167,31 +179,19 @@ export class InboxMain extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
-                .then(res => {
-                    this.setState({unreadMessages: res.data.unread_list});
-                    this.setState({readMessages: res.data.read_list});
-                }).catch(err => {
-                    this.setState({ showMessage: true });
-                })
+                    .then(res => {
+                        // res.data.forEach(msg => {
+                        //     item = {};
+                        //     item["content"] = msg;
+                        //     item["is_deleted"] = false;
+                        //     Message.append
+                        // });
+                        this.setState({Messages: res.data});
+                    }).catch(err => {
+
+                    })
             })
     }
-
-    // function UnreadMessageItem (props) {
-    //     return (
-    //         <Grid container>
-    //             <Grid item xs={12} className={classes.notification} key={item.pk}>
-    //                 <div className={classes.unreadMark}></div>
-    //                 <div className={classes.messageContainer}>
-    //                     <span className={classes.subject}>{item.pk}</span>
-    //                     <br/>
-    //                     <span className={classes.message}>Message Body</span>
-    //                 </div>
-    //                 <Button className={classes.delete}>delete</Button>
-    //                 <span className={classes.date}>8/24</span>
-    //             </Grid>
-    //         </Grid>
-    //     )
-    // }
 
     detailClicked(msg) {
         this.props.callbackFromParent('inbox_detail', msg);
@@ -201,22 +201,23 @@ export class InboxMain extends Component {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
                 if(res.status === 200) {
-                    this.setState({showMessage: true});
+                    this.setState({ showMessage: true });
+                    // this.props.callbackFromParent('inbox');
+                    console.log(this.state.Messages.filter(item => item.pk == id));
+                    this.setState({ Message: this.state.Messages.filter(item => item.pk != id)});
                 }
             })
     }
 
+    closeNotificationClicked() {
+        this.setState({ showMessage: false });
+    }
+
     render() {
         const { classes } = this.props;
-        const { formatMessage } = this.props.intl;
-        const { unreadMessages, readMessages, showMessage, messageText } = this.state;
+        const { Messages, showMessage, messageText } = this.state;
 
-        unreadMessages.forEach(message => {
-            let publish_on = moment(message.publish_on);
-            publish_on = publish_on.format('MM/DD');
-            message.publish_on = publish_on;
-        });
-        readMessages.forEach(message => {
+        Messages.forEach(message => {
             let publish_on = moment(message.publish_on);
             publish_on = publish_on.format('MM/DD');
             message.publish_on = publish_on;
@@ -224,75 +225,76 @@ export class InboxMain extends Component {
 
         return (
             <div className={classes.root}>
-            <Snackbar
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                    }}
-                    open={showMessage}
-                    onClose={this.closeNotificationClicked}
-                    autoHideDuration={3000}
-                    TransitionComponent={Fade}
-                >
-                <SnackbarContent
-                    className={classes.notification}
-                    aria-describedby="client-snackbar"
-                    message={
-                        <div>
-                            <CheckCircleIcon className={classes.checkIcon} />
-                            <span id="client-snackbar" className={classes.message}>
-                                {messageText}
-                            </span>
-                        </div>
-                    }
-                    action={[
-                        <IconButton
-                            key="close"
-                            aria-label="close"
-                            color="inherit"
-                            className={classes.close}
-                            onClick={this.closeNotificationClicked}
-                        >
-                            <CloseIcon />
-                        </IconButton>,
-                    ]}
-                /></Snackbar>
                 <Grid container>
                     <Grid item xs={12} className={classes.titleCell}>
                         <span className={classes.title}>Inbox</span>
                             <Grid item xs={12} className={classes.content}>
-                                {this.state.unreadMessages.map(item => {
-                                    return(
-                                        <Grid container key={item.pk} onClick={() => this.detailClicked(item)}>
-                                            <Grid item xs={12} className={classes.notification}>
-                                                <div className={classes.unreadMark}></div>
-                                                <div className={classes.messageContainer}>
-                                                    <span className={classes.subject}>{item.subject}</span>
-                                                    <br/>
-                                                    <span className={classes.message}>{item.content}</span>
-                                                </div>
-                                                <Button className={classes.delete}>delete</Button>
-                                                <span className={classes.date}>{item.publish_on}</span>
-                                            </Grid>
-                                        </Grid>
-                                    )
-                                })
-                                }
-                                {this.state.readMessages.map(item => {
-                                    return(
-                                        <Grid container key={item.pk} onClick={() => this.detailClicked(item)}>
-                                            <Grid item xs={12} className={classes.notification}>
-                                                <div className={classes.readMark}></div>
-                                                <div className={classes.messageContainer}>
-                                                    <span className={classes.subject}>{item.subject}</span>
-                                                    <br/>
-                                                    <span className={classes.message}>{item.content}</span>
-                                                </div>
-                                                <Button className={classes.delete} onClick={() => this.deleteClicked(item.pk)}>delete</Button>
-                                                <span className={classes.date}>{item.publish_on}</span>
-                                            </Grid>
-                                        </Grid>
-                                    )
+                                <Snackbar
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                    open={showMessage}
+                                    onClose={this.closeNotificationClicked}
+                                    autoHideDuration={3000}
+                                    TransitionComponent={Fade}
+                                >
+                                <SnackbarContent
+                                    className={classes.deleteInfo}
+                                    aria-describedby="client-snackbar"
+                                    message={
+                                        <div>
+                                            <span id="client-snackbar" className={classes.deleteMessage}>
+                                                {messageText}
+                                            </span>
+                                        </div>
+                                    }
+                                    action={[
+                                        <IconButton
+                                            key="close"
+                                            aria-label="close"
+                                            color="inherit"
+                                            className={classes.close}
+                                            onClick={this.closeNotificationClicked}
+                                        >
+                                            <img src={images.src + 'close.svg'} className={classes.closeIcon} />
+                                        </IconButton>,
+                                    ]}
+                                /></Snackbar>
+                                {this.state.Messages.map(item => {
+                                    if(!item.is_deleted) {
+                                        if(!item.is_read) {
+                                            return(
+                                                <Grid container key={item.pk}>
+                                                    <Grid item xs={12} className={classes.notification}>
+                                                        <div className={classes.unreadMark}></div>
+                                                        <div className={classes.messageContainer} onClick={() => this.detailClicked(item)}>
+                                                            <span className={classes.subject}>{item.subject}</span>
+                                                            <br/>
+                                                            <span className={classes.message}>{item.content}</span>
+                                                        </div>
+                                                        <Button className={classes.delete} onClick={() => this.deleteClicked(item.pk)}>delete</Button>
+                                                        <span className={classes.date}>{item.publish_on}</span>
+                                                    </Grid>
+                                                </Grid>
+                                            )
+                                        } else {
+                                            return(
+                                                <Grid container key={item.pk}>
+                                                    <Grid item xs={12} className={classes.notification}>
+                                                        <div className={classes.readMark}></div>
+                                                        <div className={classes.messageContainer} onClick={() => this.detailClicked(item)}>
+                                                            <span className={classes.subject}>{item.subject}</span>
+                                                            <br/>
+                                                            <span className={classes.message}>{item.content}</span>
+                                                        </div>
+                                                        <Button className={classes.delete} onClick={() => this.deleteClicked(item.pk)}>delete</Button>
+                                                        <span className={classes.date}>{item.publish_on}</span>
+                                                    </Grid>
+                                                </Grid>
+                                            )
+                                        }
+                                    }
                                 })
                                 }
                             </Grid>
@@ -305,8 +307,9 @@ export class InboxMain extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        lang: state.language.lang
+        lang: state.language.lang,
+        inbox: state.general.inbox,
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(InboxMain)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, handle_inbox_value })(InboxMain)));

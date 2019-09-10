@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, handle_inbox_value } from '../../../../actions';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { images, config } from '../../../../util_config';
@@ -134,7 +134,15 @@ export class InboxDetail extends Component {
 
         axios.post(API_URL + 'operation/api/read_message/' + this.props.message.pk, config)
             .then(res => {
-                console.log(res.data);
+                if(res.status == 201) {
+                    this.props.handle_inbox_value(this.props.inbox - 1);
+                }
+                else if(res.status == 200) {
+
+                }
+                else {
+                    console.log("bad request");
+                }
                 //this.setState({userMessages: res.data.unread_list});
             })
     }
@@ -164,7 +172,7 @@ export class InboxDetail extends Component {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
                 if(res.status==200) {
-                    this.props.callbackFromParent('inbox');
+                    this.props.callbackFromParent('inbox', true);
                 }
             })
     }
@@ -203,8 +211,9 @@ export class InboxDetail extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        lang: state.language.lang
+        lang: state.language.lang,
+        inbox: state.general.inbox,
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(InboxDetail)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, handle_inbox_value })(InboxDetail)));

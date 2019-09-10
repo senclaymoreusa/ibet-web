@@ -542,3 +542,11 @@ export const hide_profile_menu = () => {
     type: 'HIDE_PROFILE_MENU'
   }
 }
+
+export const handle_inbox_value = (value) => {
+  return {
+    type: 'INBOX_CHANGE',
+    payload: value
+  }
+}
+

@@ -31,7 +31,8 @@ import {
     show_account_menu,
     hide_account_menu,
     show_profile_menu,
-    hide_profile_menu
+    hide_profile_menu,
+    handle_inbox_value,
 } from '../actions';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -616,7 +617,6 @@ export class TopNavbar extends React.Component {
             picture: "",
             show_loggedin_status: false,
             balance: 0.00,
-            unreadMessage: 0,
             balanceCurrency: "USD",
             username: '',
             password: '',
@@ -840,6 +840,8 @@ export class TopNavbar extends React.Component {
         this.checkFacebookLogin();
 
         this.checkOneClickLogin();
+
+        
     }
 
     componentWillUnmount() {
@@ -875,11 +877,11 @@ export class TopNavbar extends React.Component {
                                 this.setState({ balanceCurrency: res.data.currency });
 
                                 axios.get(API_URL + 'operation/api/notification-count/' + res.data.pk, config)
-                                .then(res => {
-                                    if (this._isMounted) {
-                                        this.setState({ unreadMessage: res.data})
-                                    }
-                                })
+                                    .then(res => {
+                                        if (this._isMounted) {
+                                            this.props.handle_inbox_value(res.data);
+                                        }
+                                    })
                             }
                         })
                 }
@@ -990,7 +992,7 @@ export class TopNavbar extends React.Component {
     }
 
     render() {
-        const { anchorEl, mainTabValue, balance, balanceCurrency, unreadMessage } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency} = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
@@ -1068,7 +1070,7 @@ export class TopNavbar extends React.Component {
         let lotteryMessage = formatMessage({ id: "nav.lottery" });
 
         let messageBtn;
-        if(unreadMessage > 0) {
+        if(this.props.inbox > 0) {
             messageBtn = (
                 <Button
                     className={classes.inboxButton}
@@ -1084,7 +1086,7 @@ export class TopNavbar extends React.Component {
                         <FormattedNumber
                             variant="outlined"
                             maximumFractionDigits={2}
-                            value={unreadMessage}
+                            value={this.props.inbox}
                         />
                     </div>
                 </Button>);
@@ -1104,7 +1106,7 @@ export class TopNavbar extends React.Component {
                         <FormattedNumber
                             variant="outlined"
                             maximumFractionDigits={2}
-                            value={unreadMessage}
+                            value={this.props.inbox}
                         />
                     </div>
                 </Button>);
@@ -1774,6 +1776,7 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
+        inbox: state.inbox,
         showLogin: state.general.show_login,
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,
@@ -1806,6 +1809,7 @@ const mapStateToProps = (state) => {
         showSettings: state.general.show_settings,
         showHelp: state.general.show_help,
         showResponsibleGambling: state.general.show_responsible_gambling,
+        inbox: state.general.inbox,
     }
 }
 
@@ -1829,5 +1833,6 @@ export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps,
     show_account_menu,
     hide_account_menu,
     show_profile_menu,
-    hide_profile_menu
+    hide_profile_menu,
+    handle_inbox_value,
 })(TopNavbar))));

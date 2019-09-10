@@ -56,7 +56,9 @@ const INITIAL_STATE = {
   signup_language: '',
   refer_id: '',
 
-  forget_email: ''
+  forget_email: '',
+
+  inbox: 0
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -234,10 +236,11 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, show_profile_menu: true }
     case 'HIDE_PROFILE_MENU':
       return { ...state, show_profile_menu: false }
-
-
     case 'GET_REFER_ID':
       return { ...state, refer_id: action.payload }
+    case 'INBOX_CHANGE':
+        return { ...state, inbox: action.payload }
+
     default:
       return state;
   }
