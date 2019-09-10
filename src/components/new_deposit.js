@@ -167,8 +167,7 @@ const styles = theme => ({
         letterSpacing: 1,
         color: '#212121',
         fontSize: 40,
-        textAlign: 'center',
-        marginTop: 20,
+         marginTop: 20,
         width: 180,
         height: 48,
         textAlign: 'center',
@@ -234,7 +233,7 @@ const BootstrapInput = withStyles(theme => ({
 }))(InputBase);
 
 
-class New_Deposit extends Component {
+class NewDeposit extends Component {
     constructor(props) {
         super(props);
 
@@ -280,13 +279,12 @@ class New_Deposit extends Component {
     render() {
         const { classes } = this.props;
 
-
         return (
             <div className={classes.root}>
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} md={6} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <img src={images.src + 'account-menu-back.svg'} />
+                            <img src={images.src + 'account-menu-back.svg'}  alt=""/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />
@@ -341,8 +339,8 @@ class New_Deposit extends Component {
     }
 }
 
-New_Deposit.propTypes = {
+NewDeposit.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(connect(null, { hide_deposit, show_deposit_confirm, show_deposit_paypal, show_withdraw, show_account_menu, show_deposit_success })(New_Deposit));
+export default withStyles(styles)(connect(null, { hide_deposit, show_deposit_confirm, show_deposit_paypal, show_withdraw, show_account_menu, show_deposit_success })(NewDeposit));

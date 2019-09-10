@@ -31,7 +31,6 @@ const styles = theme => ({
     padding: theme.spacing(3),
   },
   titleContainer: {
-    display: 'inline-block',
     display: 'flex',
   },
   page_icon: {
@@ -88,14 +87,14 @@ export class TermsConditions extends React.Component {
           <Grid item xs={12} sm={6} md={6} lg={5}>
             <Paper className={classes.contentPaper}>
               <div className={classes.titleContainer}>
-                <img src={images.src + 'ibet_logo.svg'} className={classes.page_icon} />
+                <img src={images.src + 'ibet_logo.svg'} className={classes.page_icon}  alt=""/>
                 <div className={classes.page_title}>
                   <FormattedMessage id="privacy_policy.title" defaultMessage='Terms & Conditions' />
                 </div>
                 <div className={classes.grow}></div>
                 <div className={classes.closeButton}>
                   <IconButton href='/'>
-                    <img src={images.src + 'close_page.svg'} />
+                    <img src={images.src + 'close_page.svg'}  alt=""/>
                   </IconButton>
                 </div>
               </div>

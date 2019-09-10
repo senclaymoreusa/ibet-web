@@ -148,7 +148,7 @@ export class CasinoBetsAnalysis extends Component {
 
         const backButton = (
             <Button className={classes.prevButton} onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
                 <span className={classes.backLabel}>Back</span>
             </Button>);
 

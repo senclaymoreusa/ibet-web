@@ -21,6 +21,9 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import Checkbox from '@material-ui/core/Checkbox';
 import { FormattedNumber } from 'react-intl';
+import moment from "moment";
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -420,11 +423,11 @@ export class ResponsibleGaming extends Component {
 
         this.state = {
             depositLimitDuration: 0,
-            currentDepositLimit: 0,
+            currentDepositLimit: '',
             depositLimits: [],
 
             lossLimitDuration: 0,
-            currentLossLimit: 0,
+            currentLossLimit: '',
             lossLimits: [],
 
             activityReminderDuration: null,
@@ -439,29 +442,17 @@ export class ResponsibleGaming extends Component {
             showMessage: false,
 
             isLocked: false,
+
+            showDepositProgressBar: false,
+            showLossProgressBar: false,
         }
 
-        this.depositLimitChanged = this.depositLimitChanged.bind(this);
-        this.lossLimitChanged = this.lossLimitChanged.bind(this);
-        this.increaseDepositLimitClicked = this.increaseDepositLimitClicked.bind(this);
-        this.decreaseDepositLimitClicked = this.decreaseDepositLimitClicked.bind(this);
-        this.increaseLossLimitClicked = this.increaseLossLimitClicked.bind(this);
-        this.decreaseLossLimitClicked = this.decreaseLossLimitClicked.bind(this);
+        this.getValues = this.getValues.bind(this);
         this.depositLimitDurationClicked = this.depositLimitDurationClicked.bind(this);
         this.lossLimitDurationClicked = this.lossLimitDurationClicked.bind(this);
-        this.getValues = this.getValues.bind(this);
-        this.saveDepositLimits = this.saveDepositLimits.bind(this);
-        this.saveLossLimits = this.saveLossLimits.bind(this);
-        this.closeNotificationClicked = this.closeNotificationClicked.bind(this);
-        this.lockClicked = this.lockClicked.bind(this);
-        this.lockDurationClicked = this.lockDurationClicked.bind(this);
-        this.agreeClicked = this.agreeClicked.bind(this);
-        this.revertClicked = this.revertClicked.bind(this);
-        this.doneClicked = this.doneClicked.bind(this);
-        this.removeDepositLimitClicked = this.removeDepositLimitClicked.bind(this);
-        this.removeLossLimitClicked = this.removeLossLimitClicked.bind(this);
-        this.saveActivityReminderClicked = this.saveActivityReminderClicked.bind(this);
         this.reminderDurationClicked = this.reminderDurationClicked.bind(this);
+        this.lockDurationClicked = this.lockDurationClicked.bind(this);
+        
     }
 
     async componentWillReceiveProps(props) {
@@ -474,6 +465,9 @@ export class ResponsibleGaming extends Component {
 
     async getValues() {
         let currentComponent = this;
+
+        let duration = localStorage.getItem('activityReminderDuration');
+        this.setState({ activityReminderDuration: parseInt(duration) })
 
         await this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -493,34 +487,19 @@ export class ResponsibleGaming extends Component {
                                 currentComponent.setState({ depositLimits: res.data.deposit });
                                 currentComponent.setState({ lossLimits: res.data.loss });
 
-                                // res.data.deposit.forEach(item => {
-                                //     let cloneDeposit = this.state.depositLimit.slice();
-                                //     cloneDeposit[item.intervalValue] = (Number(item.amount)).toFixed(0);
+                                let dailyDepositItem = res.data.deposit.filter(function (item) {
+                                    return item.intervalValue === 0;
+                                });
 
-                                //     this.setState({ depositLimit: cloneDeposit });
+                                if (dailyDepositItem)
+                                    this.setState({ currentDepositLimit: parseInt(dailyDepositItem[0].amount) });
 
-                                //     if (item.intervalValue === 0)
-                                //         this.setState({ currentDepositLimit: (Number(item.amount)).toFixed(0) })
+                                let dailyLossItem = res.data.loss.filter(function (item) {
+                                    return item.intervalValue === 0;
+                                });
 
-
-                                //     let cloneDate = this.state.depositLimitExpirationDates.slice();
-                                //     cloneDate[item.intervalValue] = item.expiration_time;
-
-                                //     this.setState({ depositLimitExpirationDates: cloneDate });
-
-                                //     if (item.intervalValue === 0)
-                                //         this.setState({ currentDepositLimitExpirationDate: item.expiration_time })
-                                // });
-
-                                // res.data.loss.forEach(item => {
-                                //     let clone = this.state.lossLimit.slice();
-                                //     clone[item.intervalValue] = (Number(item.amount)).toFixed(0);
-
-                                //     this.setState({ lossLimit: clone });
-
-                                //     if (item.intervalValue === 0)
-                                //         this.setState({ currentLossLimit: (Number(item.amount)).toFixed(0) })
-                                // });
+                                if (dailyLossItem)
+                                    this.setState({ currentLossLimit: parseInt(dailyLossItem[0].amount) });
                             }).catch(err => {
                                 console.log(err);
                             })
@@ -531,97 +510,158 @@ export class ResponsibleGaming extends Component {
 
     depositLimitChanged(ev) {
 
-        var limit = depositLimits.filter(function (item) {
-            return item.intervalValue === this.state.depositLimitDuration;
-        });
-
-
         this.setState({ currentDepositLimit: ev.target.value });
 
-        let clone = this.state.depositLimit.slice();
-        clone[this.depositLimitDuration] = ev.target.value;
-
-        this.setState({ depositLimit: clone });
+        this.setState(prevState => ({
+            depositLimits: prevState.depositLimits.map(
+                obj => (obj.intervalValue === this.state.depositLimitDuration ? Object.assign(obj, { amount: ev.target.value }) : obj)
+            )
+        }));
     }
 
     lossLimitChanged(ev) {
         this.setState({ currentLossLimit: ev.target.value });
 
-        let clone = this.state.lossLimit.slice();
-        clone[this.lossLimitDuration] = ev.target.value;
-
-        this.setState({ lossLimit: clone });
+        this.setState(prevState => ({
+            lossLimits: prevState.lossLimits.map(
+                obj => (obj.intervalValue === this.state.lossLimitDuration ? Object.assign(obj, { amount: ev.target.value }) : obj)
+            )
+        }));
     }
 
     depositLimitDurationClicked(val) {
         this.setState({ depositLimitDuration: val });
-        this.setState({ currentDepositLimit: this.state.depositLimit[val] });
 
-        // limits.deposit.forEach(item => {
-        //     let clone = this.state.depositLimit.slice();
-        //     clone[item.intervalValue] = (Number(item.amount)).toFixed(0);
+        var item = this.state.depositLimits.filter(function (item) {
+            return item.intervalValue === val;
+        });
 
-        //     this.setState({ depositLimit: clone });
-        // });
+        if (item.length > 0)
+            this.setState({ currentDepositLimit: parseInt(item[0].amount) });
+        else
+            this.setState({ currentDepositLimit: '' });
     }
 
     lossLimitDurationClicked(val) {
         this.setState({ lossLimitDuration: val });
 
-        this.setState({ currentLossLimit: this.state.lossLimit[val] });
+        var item = this.state.lossLimits.filter(function (item) {
+            return item.intervalValue === val;
+        });
 
+        if (item.length > 0)
+            this.setState({ currentLossLimit: parseInt(item[0].amount) });
+        else
+            this.setState({ currentLossLimit: null });
     }
 
     decreaseDepositLimitClicked() {
-        if (parseInt(this.state.currentDepositLimit) > 0) {
+        if (!this.state.currentDepositLimit) {
+            this.setState({ currentDepositLimit: 0 });
+
+            var newLimit = {
+                "amount": 0,
+                "intervalValue": this.state.depositLimitDuration,
+                "limitId": null,
+                "expiration_time": ""
+            }
+
+            this.setState({ depositLimits: this.state.depositLimits, newLimit });
+
+        } else if (parseInt(this.state.currentDepositLimit) >= 0) {
             this.setState({ currentDepositLimit: parseInt(this.state.currentDepositLimit) - 1 });
 
-            let clone = this.state.depositLimit.slice();
-            clone[this.state.depositLimitDuration] = parseInt(this.state.currentDepositLimit) - 1;
-
-            this.setState({ depositLimit: clone });
+            this.setState(prevState => ({
+                depositLimits: prevState.depositLimits.map(
+                    obj => (obj.intervalValue === this.state.depositLimitDuration ? Object.assign(obj, { amount: parseInt(this.state.currentDepositLimit) - 1 }) : obj)
+                )
+            }));
         }
     }
 
     increaseDepositLimitClicked() {
-        this.setState({ currentDepositLimit: parseInt(this.state.currentDepositLimit) + 1 });
+        if (this.state.currentDepositLimit >= 0) {
+            this.setState({ currentDepositLimit: parseInt(this.state.currentDepositLimit) + 1 });
 
-        let clone = this.state.depositLimit.slice();
-        clone[this.state.depositLimitDuration] = parseInt(this.state.currentDepositLimit) + 1;
+            this.setState(prevState => ({
+                depositLimits: prevState.depositLimits.map(
+                    obj => (obj.intervalValue === this.state.depositLimitDuration ? Object.assign(obj, { amount: parseInt(this.state.currentDepositLimit) + 1 }) : obj)
+                )
+            }));
+        } else {
+            this.setState({ currentDepositLimit: 0 });
 
-        this.setState({ depositLimit: clone });
+            var newLimit = {
+                "amount": 0,
+                "intervalValue": this.state.depositLimitDuration,
+                "limitId": null,
+                "expiration_time": ""
+            }
+
+            this.setState({ depositLimits: this.state.depositLimits, newLimit });
+        }
     }
 
     decreaseLossLimitClicked() {
-        if (parseInt(this.state.currentLossLimit) > 0) {
+        if (!this.state.currentLossLimit) {
+            this.setState({ currentLossLimit: 0 });
+
+            var newLimit = {
+                "amount": 0,
+                "intervalValue": this.state.lossLimitDuration,
+                "limitId": null,
+                "expiration_time": ""
+            }
+
+            this.setState({ lossLimits: this.state.lossLimits, newLimit });
+
+        } else if (parseInt(this.state.currentLossLimit) >= 0) {
             this.setState({ currentLossLimit: parseInt(this.state.currentLossLimit) - 1 });
 
-            let clone = this.state.lossLimit.slice();
-            clone[this.state.lossLimitDuration] = parseInt(this.state.currentLossLimit) - 1;
-
-            this.setState({ lossLimit: clone });
+            this.setState(prevState => ({
+                lossLimits: prevState.lossLimits.map(
+                    obj => (obj.intervalValue === this.state.lossLimitDuration ? Object.assign(obj, { amount: parseInt(this.state.currentLossLimit) - 1 }) : obj)
+                )
+            }));
         }
     }
 
     increaseLossLimitClicked() {
-        this.setState({ currentLossLimit: parseInt(this.state.currentLossLimit) + 1 });
+        if (this.state.currentLossLimit >= 0) {
+            this.setState({ currentLossLimit: parseInt(this.state.currentLossLimit) + 1 });
 
-        let clone = this.state.lossLimit.slice();
-        clone[this.state.lossLimitDuration] = parseInt(this.state.currentLossLimit) + 1;
+            this.setState(prevState => ({
+                lossLimits: prevState.lossLimits.map(
+                    obj => (obj.intervalValue === this.state.lossLimitDuration ? Object.assign(obj, { amount: parseInt(this.state.currentLossLimit) + 1 }) : obj)
+                )
+            }));
+        } else {
+            this.setState({ currentLossLimit: 0 });
 
-        this.setState({ lossLimit: clone });
+            var newLimit = {
+                "amount": 0,
+                "intervalValue": this.state.lossLimitDuration,
+                "limitId": null,
+                "expiration_time": ""
+            }
+
+            this.setState({ depositLimits: this.state.lossLimits, newLimit });
+        }
     }
 
     saveDepositLimits() {
+        let currentComponent = this;
+        currentComponent.setState({ showDepositProgressBar: true });
+
         let limitArr = [];
         let intervalArr = [];
 
-        for (const [index, value] of this.state.depositLimit.entries()) {
-            if (value !== 0) {
-                limitArr.push(value)
-                intervalArr.push(index)
+        this.state.depositLimits.forEach(limit => {
+            if (limit.amount !== null && limit.expiration_time === '') {
+                limitArr.push(limit.amount);
+                intervalArr.push(limit.intervalValue);
             }
-        }
+        });
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
@@ -633,23 +673,28 @@ export class ResponsibleGaming extends Component {
             "type": "deposit",
         }, config)
             .then(res => {
+                currentComponent.setState({ showDepositProgressBar: false });
+
                 if (res.status === 200) {
-                    this.setState({ messageText: res.data });
-                    this.setState({ showMessage: true });
+                    currentComponent.setState({ messageText: res.data });
+                    currentComponent.setState({ showMessage: true });
                 }
             })
     }
 
     saveLossLimits() {
+        let currentComponent = this;
+        currentComponent.setState({ showLossProgressBar: true });
+
         let limitArr = [];
         let intervalArr = [];
 
-        for (const [index, value] of this.state.lossLimit.entries()) {
-            if (value !== 0) {
-                limitArr.push(value)
-                intervalArr.push(index)
+        this.state.lossLimits.forEach(limit => {
+            if (limit.amount !== null && limit.expiration_time === '') {
+                limitArr.push(limit.amount);
+                intervalArr.push(limit.intervalValue);
             }
-        }
+        });
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
@@ -661,6 +706,8 @@ export class ResponsibleGaming extends Component {
             "type": "loss",
         }, config)
             .then(res => {
+                currentComponent.setState({ showLossProgressBar: false });
+
                 if (res.status === 200) {
                     this.setState({ messageText: res.data });
                     this.setState({ showMessage: true });
@@ -710,32 +757,66 @@ export class ResponsibleGaming extends Component {
     }
 
     async removeDepositLimitClicked() {
+        let currentComponent = this;
+
+        currentComponent.setState({ showDepositProgressBar: true });
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        let id = currentComponent.state.depositLimits.filter(function (item) {
+            return item.intervalValue === currentComponent.state.depositLimitDuration;
+        });
 
         axios.post(API_URL + 'users/api/delete-limitation/', {
-            "user_id": this.state.userId,
-            "interval": this.state.depositLimitDuration,
+            "user_id": currentComponent.state.userId,
+            "interval": currentComponent.state.depositLimitDuration,
             "type": "deposit",
-            "id": 0
+            "id": id
         }, config)
             .then(res => {
                 if (res.status === 200) {
-                    this.setState({ currentDepositLimit: 0 });
+                    currentComponent.setState(prevState => ({
+                        depositLimits: prevState.depositLimits.map(
+                            obj => (obj.limitId === id ? Object.assign(obj, { expiration_time: res.data.expiration_time }) : obj)
+                        )
+                    }));
 
-                    let clone = this.state.depositLimit.slice();
-                    clone[this.state.depositLimitDuration] = 0;
-
-                    this.setState({ depositLimit: clone });
+                    currentComponent.setState({ showDepositProgressBar: false });
                 }
+            }).catch(err => {
+
+                console.log(err);
             })
     }
 
-    removeLossLimitClicked() {
-        this.setState({ currentLossLimit: 0 });
+    async removeLossLimitClicked() {
+        let currentComponent = this;
 
-        let clone = this.state.lossLimit.slice();
-        clone[this.state.lossLimitDuration] = 0;
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
 
-        this.setState({ lossLimit: clone });
+        let id = currentComponent.state.lossLimits.filter(function (item) {
+            return item.intervalValue === currentComponent.state.lossLimitDuration;
+        });
+
+        axios.post(API_URL + 'users/api/delete-limitation/', {
+            "user_id": currentComponent.state.userId,
+            "interval": currentComponent.state.lossLimitDuration,
+            "type": "loss",
+            "id": id
+        }, config)
+            .then(res => {
+                if (res.status === 200) {
+                    currentComponent.setState(prevState => ({
+                        lossLimits: prevState.lossLimits.map(
+                            obj => (obj.limitId === id ? Object.assign(obj, { expiration_time: res.data.expiration_time }) : obj)
+                        )
+                    }));
+                }
+            }).catch(err => {
+                console.log(err);
+            })
     }
 
     saveActivityReminderClicked() {
@@ -750,16 +831,111 @@ export class ResponsibleGaming extends Component {
         this.setState({ activityReminderDuration: val });
     }
 
+    cancelDepositLimitDeletion(evt) {
+        let currentComponent = this;
+
+        currentComponent.setState({ showDepositProgressBar: true });
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        let id = currentComponent.state.depositLimits.filter(function (item) {
+            return item.intervalValue === currentComponent.state.depositLimitDuration;
+        });
+
+        axios.post(API_URL + 'users/api/cancel-delete-limitation/', {
+            "user_id": currentComponent.state.userId,
+            "interval": currentComponent.state.depositLimitDuration,
+            "type": "deposit",
+            "id": id
+        }, config)
+            .then(res => {
+                if (res.status === 200) {
+                    currentComponent.setState(prevState => ({
+                        depositLimits: prevState.depositLimits.map(
+                            obj => (obj.limitId === id ? Object.assign(obj, {
+                                expiration_time: '', amount: null
+                            }) : obj)
+                        )
+                    }));
+
+                    currentComponent.setState({ showDepositProgressBar: false });
+                }
+            }).catch(err => {
+
+                console.log(err);
+            })
+    }
+
+    cancelLossLimitDeletion(evt) {
+        let currentComponent = this;
+
+        currentComponent.setState({ showLossProgressBar: true });
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        let id = currentComponent.state.lossLimits.filter(function (item) {
+            return item.intervalValue === currentComponent.state.lossLimitDuration;
+        });
+
+        axios.post(API_URL + 'users/api/cancel-delete-limitation/', {
+            "user_id": currentComponent.state.userId,
+            "interval": currentComponent.state.lossLimitDuration,
+            "type": "loss",
+            "id": id
+        }, config)
+            .then(res => {
+                if (res.status === 200) {
+                    currentComponent.setState(prevState => ({
+                        lossLimits: prevState.lossLimits.map(
+                            obj => (obj.limitId === id ? Object.assign(obj, {
+                                expiration_time: '', amount: null
+                            }) : obj)
+                        )
+                    }));
+
+                    currentComponent.setState({ showLossProgressBar: false });
+                }
+            }).catch(err => {
+
+                console.log(err);
+            })
+    }
+
     render() {
         const { classes } = this.props;
-        const { depositLimitDuration, lossLimitDuration, lockDuration } = this.state;
+        const { depositLimitDuration, lossLimitDuration, lockDuration, currentDepositLimit, currentLossLimit } = this.state;
+
+        const { showDepositProgressBar, showLossProgressBar } = this.state;
+
+        var selectedDepositItem = this.state.depositLimits.filter(function (item) {
+            return item.intervalValue === depositLimitDuration;
+        });
+
+        var selectedDepositExpirationTime = '';
+        if (selectedDepositItem && selectedDepositItem.length > 0 && selectedDepositItem[0].expiration_time.length > 0) {
+            let milliseconds = Date.parse(selectedDepositItem[0].expiration_time)
+            selectedDepositExpirationTime = moment(new Date(milliseconds)).format("MM/DD hh:mmA");
+        }
+
+        var selectedLossItem = this.state.lossLimits.filter(function (item) {
+            return item.intervalValue === lossLimitDuration;
+        });
+
+        var selectedLossExpirationTime = '';
+        if (selectedLossItem && selectedLossItem.length > 0 && selectedLossItem[0].expiration_time.length > 0) {
+            let milliseconds = Date.parse(selectedLossItem[0].expiration_time)
+            selectedLossExpirationTime = moment(new Date(milliseconds)).format("MM/DD hh:mmA");
+        }
+
 
         return (
             <div className={classes.root}>
                 {this.state.isLocked ?
                     <Grid container style={{ width: 270 }}>
                         <Grid item xs={12} className={classes.iconRow}>
-                            <img src={images.src + 'lock-icon.svg'} />
+                            <img src={images.src + 'lock-icon.svg'} alt="" />
                         </Grid>
                         <Grid item xs={12} className={classes.lockTextRow}>
                             <span className={classes.lockText}>Your Account is Locked</span>
@@ -768,10 +944,10 @@ export class ResponsibleGaming extends Component {
                             </span>
                         </Grid>
                         <Grid item xs={12} className={classes.lockButtonRow}>
-                            <Button className={classes.button} onClick={this.doneClicked}>
+                            <Button className={classes.button} onClick={this.doneClicked.bind(this)}>
                                 Done
                     </Button>
-                            <Button className={classes.button} style={{ marginTop: 20 }} onClick={this.revertClicked}>
+                            <Button className={classes.button} style={{ marginTop: 20 }} onClick={this.revertClicked.bind(this)}>
                                 Revert
                     </Button>
                         </Grid>
@@ -784,10 +960,13 @@ export class ResponsibleGaming extends Component {
                                     <Grid item xs={12} className={classes.titleCell}>
                                         <span className={classes.title}>Deposit Limit</span>
                                     </Grid>
+                                    <Grid item xs={12}>
+                                        {showDepositProgressBar === true && <LinearProgress />}
+                                    </Grid>
                                     <Grid item xs={12} className={classes.lockButtonRow}>
-                                        {this.state.currentDepositLimit !== 0 && <Button onClick={this.removeDepositLimitClicked}
+                                        {(selectedDepositItem.length > 0 && selectedDepositItem[0].expiration_time === '' && selectedDepositItem[0].amount) && <Button onClick={this.removeDepositLimitClicked.bind(this)}
                                             className={classes.removeLimitButton} >
-                                            <img src={images.src + 'remove-limit.svg'} height="18" width="18" />
+                                            <img src={images.src + 'remove-limit.svg'} alt="" height="18" width="18" />
                                             Remove The Limit
                                         </Button>}
                                     </Grid>
@@ -796,11 +975,11 @@ export class ResponsibleGaming extends Component {
                                             className={(depositLimitDuration === 0) ? classes.activeLimitButton : classes.limitButton} >
                                             Daily
                                         </Button>
-                                        <Button onClick={() => { this.depositLimitDurationClicked(1) }}
+                                        <Button onClick={() => { this.depositLimitDurationClicked(1)}}
                                             className={(depositLimitDuration === 1) ? classes.activeLimitButton : classes.limitButton}>
                                             Weekly
                                         </Button>
-                                        <Button onClick={() => { this.depositLimitDurationClicked(2) }}
+                                        <Button onClick={() => { this.depositLimitDurationClicked(2)}}
                                             className={(depositLimitDuration === 2) ? classes.activeLimitButton : classes.limitButton} >
                                             Monthly
                                         </Button>
@@ -811,30 +990,30 @@ export class ResponsibleGaming extends Component {
                                             <FormattedNumber
                                                 maximumFractionDigits={0}
                                                 minimumFractionDigits={0}
-                                                value={this.state.currentDepositLimit}
+                                                value={currentDepositLimit >= 0 ? currentDepositLimit : 0}
                                                 className={classes.limitValueLabel}
-                                                style='currency'
+                                                style={`currency`}
                                                 currency={this.state.balanceCurreny}
                                             />
                                             <span className={classes.limitValueLabel}>&nbsp;out of&nbsp;</span>
                                             <FormattedNumber
                                                 maximumFractionDigits={0}
                                                 minimumFractionDigits={0}
-                                                value={this.state.currentDepositLimit}
+                                                value={currentDepositLimit >= 0 ? currentDepositLimit : 0}
                                                 className={classes.limitValueLabel}
-                                                style='currency'
+                                                style={`currency`}
                                                 currency={this.state.balanceCurreny}
                                             />
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} >
-                                        {(this.state.currentDepositLimitExpirationDate === null || this.state.currentDepositLimitExpirationDate === '') ?
+                                        {selectedDepositExpirationTime === '' ?
                                             <div className={classes.inputRow}>
-                                                <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseDepositLimitClicked}>-</Button>
+                                                <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseDepositLimitClicked.bind(this)}>-</Button>
                                                 <TextField
                                                     className={classes.textField}
-                                                    value={this.state.currentDepositLimit}
-                                                    onChange={this.depositLimitChanged}
+                                                    value={currentDepositLimit >= 0 ? currentDepositLimit : ''}
+                                                    onChange={this.depositLimitChanged.bind(this)}
                                                     type="number"
                                                     fullWidth
                                                     InputProps={{
@@ -842,7 +1021,6 @@ export class ResponsibleGaming extends Component {
                                                         startAdornment: <InputAdornment position="start">{this.state.balanceCurrenyCode}</InputAdornment>,
                                                         inputProps: {
                                                             style: {
-                                                                textAlign: 'center',
                                                                 paddingTop: 0,
                                                                 fontSize: 22,
                                                                 fontWeight: 500,
@@ -859,41 +1037,43 @@ export class ResponsibleGaming extends Component {
                                                         }
                                                     }}
                                                 />
-                                                <Button variant="contained" className={classes.incrementButton} onClick={this.increaseDepositLimitClicked}>+</Button>
-                                            </div> :
-                                            <TextField
-                                                className={classes.dateField}
-                                                value={'07/08 12:00AM'}
-                                                fullWidth
-                                                disabled={true}
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                    inputProps: {
-                                                        style: {
-                                                            textAlign: 'center',
-                                                            paddingTop: 0,
-                                                            fontSize: 22,
-                                                            fontWeight: 500,
-                                                            fontStyle: 'normal',
-                                                            fontStretch: 'normal',
-                                                            lineHeight: 'normal',
-                                                            letterSpacing: 'normal',
-                                                            textAlign: 'center',
-                                                            color: '#2e2f2e'
+                                                <Button variant="contained" className={classes.incrementButton} onClick={this.increaseDepositLimitClicked.bind(this)}>+</Button>
+                                            </div>
+                                            :
+                                            <div className={classes.inputRow}>
+                                                <TextField
+                                                    className={classes.dateField}
+                                                    value={selectedDepositExpirationTime}
+                                                    fullWidth
+                                                    disabled={true}
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                        inputProps: {
+                                                            style: {
+                                                                paddingTop: 0,
+                                                                fontSize: 22,
+                                                                fontWeight: 500,
+                                                                fontStyle: 'normal',
+                                                                fontStretch: 'normal',
+                                                                lineHeight: 'normal',
+                                                                letterSpacing: 'normal',
+                                                                textAlign: 'center',
+                                                                color: '#2e2f2e'
+                                                            }
                                                         }
-                                                    }
-                                                }}
-                                            />
+                                                    }}
+                                                />
+                                            </div>
                                         }
                                     </Grid>
                                     <Grid item xs={12} className={classes.buttonCell}>
-                                        {(this.state.currentDepositLimitExpirationDate === null || this.state.currentDepositLimitExpirationDate === '') ?
+                                        {selectedDepositExpirationTime === '' ?
                                             <Button className={classes.button}
-                                                onClick={this.saveDepositLimits}
+                                                onClick={this.saveDepositLimits.bind(this)}
                                             >Save My Deposit Limit</Button>
                                             :
                                             <Button className={classes.button}
-                                                onClick={this.cancelDepositLimitDeletion}
+                                                onClick={this.cancelDepositLimitDeletion.bind(this)}
                                             >Cancel</Button>
                                         }
                                     </Grid>
@@ -906,10 +1086,13 @@ export class ResponsibleGaming extends Component {
                                     <Grid item xs={12} className={classes.titleCell}>
                                         <span className={classes.title}>Loss Limit</span>
                                     </Grid>
+                                    <Grid item xs={12}>
+                                        {showLossProgressBar === true && <LinearProgress />}
+                                    </Grid>
                                     <Grid item xs={12} className={classes.lockButtonRow}>
-                                        {this.state.currentLossLimit !== 0 && <Button onClick={this.removeLossLimitClicked}
+                                    {(selectedLossItem.length > 0 && selectedLossItem[0].expiration_time === '' && selectedLossItem[0].amount) && <Button onClick={this.removeLossLimitClicked.bind(this)}
                                             className={classes.removeLimitButton} >
-                                            <img src={images.src + 'remove-limit.svg'} height="18" width="18" />
+                                            <img src={images.src + 'remove-limit.svg'} alt="" height="18" width="18" />
                                             Remove The Limit
                                         </Button>}
                                     </Grid>
@@ -933,54 +1116,88 @@ export class ResponsibleGaming extends Component {
                                             <FormattedNumber
                                                 maximumFractionDigits={0}
                                                 minimumFractionDigits={0}
-                                                value={this.state.currentLossLimit}
+                                                value={currentLossLimit >= 0 ? currentLossLimit : 0}
                                                 className={classes.limitValueLabel}
-                                                style='currency'
+                                                style={`currency`}
                                                 currency={this.state.balanceCurreny}
                                             />
                                             <span className={classes.limitValueLabel}>&nbsp;out of&nbsp;</span>
                                             <FormattedNumber
                                                 maximumFractionDigits={0}
                                                 minimumFractionDigits={0}
-                                                value={this.state.currentLossLimit}
+                                                value={currentLossLimit >= 0 ? currentLossLimit : 0}
                                                 className={classes.limitValueLabel}
-                                                style='currency'
+                                                style={`currency`}
                                                 currency={this.state.balanceCurreny}
                                             />
                                         </div>
                                     </Grid>
-                                    <Grid item xs={12} className={classes.inputRow}>
-                                        <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseLossLimitClicked}>-</Button>
-                                        <TextField
-                                            className={classes.textField}
-                                            value={this.state.currentLossLimit}
-                                            type="number"
-                                            onChange={this.lossLimitChanged}
-                                            InputProps={{
-                                                disableUnderline: true,
-                                                startAdornment: <InputAdornment position="start">{this.state.balanceCurrenyCode}</InputAdornment>,
-                                                inputProps: {
-                                                    style: {
-                                                        textAlign: 'center',
-                                                        paddingTop: 0,
-                                                        fontSize: 22,
-                                                        fontWeight: 500,
-                                                        fontStyle: 'normal',
-                                                        fontStretch: 'normal',
-                                                        lineHeight: 'normal',
-                                                        letterSpacing: 'normal',
-                                                        textAlign: 'center',
-                                                        color: '#2e2f2e'
-                                                    }
-                                                }
-                                            }}
-                                        />
-                                        <Button variant="contained" className={classes.incrementButton} onClick={this.increaseLossLimitClicked}>+</Button>
+                                    <Grid item xs={12}>
+                                    {selectedLossExpirationTime === '' ?
+                                            <div className={classes.inputRow}>
+                                                <Button variant="contained" className={classes.decrementButton} onClick={this.decreaseLossLimitClicked.bind(this)}>-</Button>
+                                                <TextField
+                                                    className={classes.textField}
+                                                    value={currentLossLimit >= 0 ? currentLossLimit : ''}
+                                                    type="number"
+                                                    onChange={this.lossLimitChanged.bind(this)}
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                        startAdornment: <InputAdornment position="start">{this.state.balanceCurrenyCode}</InputAdornment>,
+                                                        inputProps: {
+                                                            style: {
+                                                                paddingTop: 0,
+                                                                fontSize: 22,
+                                                                fontWeight: 500,
+                                                                fontStyle: 'normal',
+                                                                fontStretch: 'normal',
+                                                                lineHeight: 'normal',
+                                                                letterSpacing: 'normal',
+                                                                textAlign: 'center',
+                                                                color: '#2e2f2e'
+                                                            }
+                                                        }
+                                                    }}
+                                                />
+                                                <Button variant="contained" className={classes.incrementButton} onClick={this.increaseLossLimitClicked.bind(this)}>+</Button>
+                                            </div>
+                                            :
+                                            <div className={classes.inputRow}>
+                                                <TextField
+                                                    className={classes.dateField}
+                                                    value={selectedLossExpirationTime}
+                                                    fullWidth
+                                                    disabled={true}
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                        inputProps: {
+                                                            style: {
+                                                                paddingTop: 0,
+                                                                fontSize: 22,
+                                                                fontWeight: 500,
+                                                                fontStyle: 'normal',
+                                                                fontStretch: 'normal',
+                                                                lineHeight: 'normal',
+                                                                letterSpacing: 'normal',
+                                                                textAlign: 'center',
+                                                                color: '#2e2f2e'
+                                                            }
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        }
                                     </Grid>
                                     <Grid item xs={12} className={classes.buttonCell}>
-                                        <Button className={classes.button}
-                                            onClick={this.saveLossLimits}
-                                        >Save My Loss Limit</Button>
+                                    {selectedLossExpirationTime === '' ?
+                                            <Button className={classes.button}
+                                                onClick={this.saveLossLimits.bind(this)}
+                                            >Save My Loss Limit</Button>
+                                            :
+                                            <Button className={classes.button}
+                                                onClick={this.cancelLossLimitDeletion.bind(this)}
+                                            >Cancel</Button>
+                                        }
                                     </Grid>
                                 </Grid>
                             </div>
@@ -1008,7 +1225,7 @@ export class ResponsibleGaming extends Component {
                                         <Button variant="contained"
                                             className={(this.state.activityReminderDuration === 30) ? classes.selectedTimeButton : classes.timeButton}
                                             style={{ marginLeft: 12, marginRight: 12 }}
-                                            onClick={() => { this.reminderDurationClicked(30) }}>30 Min</Button>
+                                            onClick={() => { this.reminderDurationClicked(30)}}>30 Min</Button>
                                         <Button variant="contained"
                                             className={(this.state.activityReminderDuration === 60) ? classes.selectedTimeButton : classes.timeButton}
                                             style={{ marginRight: 12 }}
@@ -1020,7 +1237,7 @@ export class ResponsibleGaming extends Component {
                                     <Grid item xs={12} className={classes.buttonCell}>
                                         <Button className={classes.button}
                                             disabled={this.state.activityReminderDuration === null}
-                                            onClick={this.saveActivityReminderClicked}
+                                            onClick={this.saveActivityReminderClicked.bind(this)}
                                         >Save My Activity Reminder</Button>
                                     </Grid>
                                 </Grid>
@@ -1073,14 +1290,14 @@ export class ResponsibleGaming extends Component {
                                     </Grid>
                                     <Grid item xs={12} className={classes.lockRow} style={{ paddingTop: 20, paddingBottom: 20 }}>
                                         <FormControlLabel
-                                            control={<Checkbox onChange={this.agreeClicked} checked={this.state.agree} color="default" />}
+                                            control={<Checkbox onChange={this.agreeClicked.bind(this)} checked={this.state.agree} color="default" />}
                                             className={classes.understandText}
                                             label="By checking this box I understand that I'm locking my account for the selected period of time. " />
                                     </Grid>
                                     <Grid item xs={12} className={classes.lockRow}>
                                         <Button className={classes.button}
                                             disabled={!this.state.agree || (this.state.lockDuration === null)}
-                                            onClick={this.lockClicked}
+                                            onClick={this.lockClicked.bind(this)}
                                         >Lock My Account</Button>
                                     </Grid>
                                 </Grid>
@@ -1094,7 +1311,7 @@ export class ResponsibleGaming extends Component {
                         horizontal: 'center',
                     }}
                     open={this.state.showMessage}
-                    onClose={this.closeNotificationClicked}
+                    onClose={this.closeNotificationClicked.bind(this)}
                     autoHideDuration={3000}
                     TransitionComponent={Fade}
                 >
@@ -1115,7 +1332,7 @@ export class ResponsibleGaming extends Component {
                                 aria-label="close"
                                 color="inherit"
                                 className={classes.close}
-                                onClick={this.closeNotificationClicked}
+                                onClick={this.closeNotificationClicked.bind(this)}
                             >
                                 <CloseIcon />
                             </IconButton>,
@@ -1125,7 +1342,6 @@ export class ResponsibleGaming extends Component {
         );
     }
 }
-
 
 const mapStateToProps = (state) => {
     const { token } = state.auth;

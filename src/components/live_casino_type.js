@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { live_casino_type } from '../actions';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import axios from 'axios';
@@ -203,7 +203,6 @@ class LiveCasino_Type extends Component {
         const { classes } = this.props;
 
         const { formatMessage } = this.props.intl;
-        let topRatedMessage = formatMessage({ id: "nav.top-rated" });
         let allMessage = formatMessage({ id: "nav.all" });
         let rouletteMessage = formatMessage({ id: "nav.roulette" });
         let blackjackMessage = formatMessage({ id: "nav.blackjack" });
@@ -211,8 +210,7 @@ class LiveCasino_Type extends Component {
         let pokerMessage = formatMessage({ id: "nav.poker" });
         let torunamentsMessage = formatMessage({ id: "nav.tournaments" });
 
-        var recent_live_casino = JSON.parse(localStorage.getItem("recent-live-casino"));
-
+     
         return (
             
             <div className={classes.root}>
@@ -303,10 +301,10 @@ class LiveCasino_Type extends Component {
                                     {
                                         games.map(game => {
                                             var gameFields = game['fields'];
-                                            var gameName = '';
-                                            if (gameFields.name) {
-                                                gameName = gameFields.name.replace(/\s+/g, '-').toLowerCase();
-                                            }
+                                            // var gameName = '';
+                                            // if (gameFields.name) {
+                                            //     gameName = gameFields.name.replace(/\s+/g, '-').toLowerCase();
+                                            // }
                                             return (
                                                 <Grid item xs={2} sm={2} key={game.pk}>
                                                     <Paper style={{ margin: 15 }}>

@@ -487,7 +487,7 @@ class DepositAstropay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -568,7 +568,7 @@ class DepositAstropay extends Component {
                                             helperText={(this.state.cvvInvalid && this.state.cvvFocused) ? 'Invalid code' : ' '}
                                             InputProps={{
                                                 disableUnderline: true,
-                                                endAdornment: <InputAdornment position="end"><img src={images.src + 'card-cvv.svg'} /></InputAdornment>,
+                                                endAdornment: <InputAdornment position="end"><img src={images.src + 'card-cvv.svg'}  alt=""/></InputAdornment>,
                                             }}
                                         />}
                                     </InputMask>
@@ -598,13 +598,13 @@ class DepositAstropay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                            nputProps:{
+                                                step: 10,
+                                                min: 10,
+                                                max: 50000
+                                            }
                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 10,
-                                            max: 50000
-                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -612,7 +612,7 @@ class DepositAstropay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

@@ -85,6 +85,7 @@ class Change_Email extends Component {
     }
 
     async onInputChange_new_email(event){
+        // eslint-disable-next-line
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)){
             this.setState({live_check_email: true, button_disable: true})
@@ -103,7 +104,6 @@ class Change_Email extends Component {
     }
     
     async onInputChange_confirm_email(event){
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (this.state.new_email !== event.target.value.toString().toLowerCase()){
             this.setState({live_check_email_match: true, button_disable: true})
         }else{

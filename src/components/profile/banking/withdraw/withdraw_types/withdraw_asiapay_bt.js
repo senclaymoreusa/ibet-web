@@ -138,7 +138,6 @@ const styles = theme => ({
     },
     middleButton: {
         marginRight: 10,
-        marginRight: 10,
         borderRadius: 4,
         backgroundColor: '#efefef',
         marginTop: 15,
@@ -400,7 +399,7 @@ class WithdrawAsiapayBT extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -456,12 +455,12 @@ class WithdrawAsiapayBT extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                        }}
+                                            inputProps:{
+                                                step: 10,
+                                                min: 100
+                                            }
+                                          }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 100
-                                        }}
                                         inputRef={this.amountInput}
 
                                     />
@@ -470,7 +469,7 @@ class WithdrawAsiapayBT extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

@@ -74,6 +74,7 @@
   ],
   "devDependencies": {
     "@babel/core": "*",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@babel/preset-env": "*",
     "@babel/preset-react": "*",
     "babel-jest": "*",

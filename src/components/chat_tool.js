@@ -47,21 +47,21 @@ class ChatTool extends Component {
     }
 
     handleChatButtonclicked = event => {
-        const { userData } = this.state;
-        const { level } = this.state;
-        const time = new Date().getTime();
+        // const { userData } = this.state;
+        // const { level } = this.state;
+        // const time = new Date().getTime();
 
-        var md5 = require('md5');
+        // var md5 = require('md5');
 
-        let stitchText = userData.username + userData.username + level + userData.first_name + "memo" + time + "live800Key";
-        let encodedText = encodeURIComponent(stitchText);
-        let upperCaseEncodedText = encodedText.toUpperCase();
-        let encryptedText = md5(upperCaseEncodedText);
-        let hashCode = encryptedText.toUpperCase();
-        let stitchedInfo = "userId=" + userData.username + "&loginname=" + userData.username +
-            "&grade=" + level + "&name=" + userData.first_name + "&memo=" + "memo" +
-            "&timestamp=" + time + "&hashCode=" + hashCode;
-        let encodedInfo = encodeURIComponent(stitchedInfo);
+        // let stitchText = userData.username + userData.username + level + userData.first_name + "memo" + time + "live800Key";
+        // let encodedText = encodeURIComponent(stitchText);
+        // let upperCaseEncodedText = encodedText.toUpperCase();
+        // let encryptedText = md5(upperCaseEncodedText);
+        // let hashCode = encryptedText.toUpperCase();
+        // let stitchedInfo = "userId=" + userData.username + "&loginname=" + userData.username +
+        //     "&grade=" + level + "&name=" + userData.first_name + "&memo=" + "memo" +
+        //     "&timestamp=" + time + "&hashCode=" + hashCode;
+        // let encodedInfo = encodeURIComponent(stitchedInfo);
 
 
     }
@@ -129,7 +129,7 @@ class ChatTool extends Component {
         let encryptedText = md5(upperCaseEncodedText);
         let hashCode = encryptedText.toUpperCase();
         let stitchedInfo = "userId=" + userData.username + "&loginname=" + userData.username +
-            "&grade=" + level + "&name=" + userData.first_name + "&memo=" + "memo" +
+            "&grade=" + level + "&name=" + userData.first_name + "&memo=memo" +
             "&timestamp=" + time + "&hashCode=" + hashCode;
         let encodedInfo = encodeURIComponent(stitchedInfo);
 

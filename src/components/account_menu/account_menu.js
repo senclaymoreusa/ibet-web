@@ -114,14 +114,6 @@ const styles = theme => ({
         fontSize: 15.8,
         marginLeft: 5,
     },
-
-    closeButton: {
-        height: 20,
-        width: 20,
-        padding: 0,
-        display: 'inline',
-        float: 'right',
-    },
     cashLabel: {
         display: 'inline',
         fontSize: 15.8,
@@ -288,8 +280,8 @@ const styles = theme => ({
         position: 'relative',
     },
     menuIcon: {
-        display:'block',
-        width:'100%',
+        display: 'block',
+        width: '100%',
         height: 24
     },
     editProfileIcon: {
@@ -399,7 +391,6 @@ const styles = theme => ({
         paddingRight: 10,
     },
     myAccountText: {
-        color: '#04599a',
         fontSize: 15.8,
         textTransform: 'capitalize',
         fontWeight: 300,
@@ -515,44 +506,13 @@ export class AccountMenu extends React.Component {
         const { formatMessage } = this.props.intl;
         let languagesMessage = formatMessage({ id: "accountmenu.languages" });
 
-        const chartOptions = {
-            ///Boolean - Whether grid lines are shown across the chart
-            scaleShowGridLines: true,
-            //String - Colour of the grid lines
-            scaleGridLineColor: "rgba(0,0,0,.05)",
-            //Number - Width of the grid lines
-            scaleGridLineWidth: 1,
-            //Boolean - Whether to show horizontal lines (except X axis)
-            scaleShowHorizontalLines: true,
-            //Boolean - Whether to show vertical lines (except Y axis)
-            scaleShowVerticalLines: true,
-            //Boolean - Whether the line is curved between points
-            bezierCurve: true,
-            //Number - Tension of the bezier curve between points
-            bezierCurveTension: 0.4,
-            //Boolean - Whether to show a dot for each point
-            pointDot: true,
-            //Number - Radius of each point dot in pixels
-            pointDotRadius: 4,
-            //Number - Pixel width of point dot stroke
-            pointDotStrokeWidth: 1,
-            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-            pointHitDetectionRadius: 20,
-            //Boolean - Whether to show a stroke for datasets
-            datasetStroke: true,
-            //Number - Pixel width of dataset stroke
-            datasetStrokeWidth: 2,
-            //Boolean - Whether to fill the dataset with a colour
-            datasetFill: true,
-        };
-
         return (
             <div className={classes.root}>
                 <div className={classes.sectionDesktop}>
                     <Grid container className={classes.root} spacing={0}>
                         <Grid item xs={12} className={classes.titleRow}>
                             <Button onClick={this.closeClicked} className={classes.closeButton}>
-                                <img src={images.src + 'red-close.svg'} />
+                                <img src={images.src + 'red-close.svg'} alt=""/>
                             </Button>
                             <div className={classes.myAccountText}>
                                 <FormattedMessage id="accountmenu.my-account" defaultMessage="My Account" />
@@ -594,7 +554,7 @@ export class AccountMenu extends React.Component {
                             <div className={classes.bonusLabel}>
                                 <FormattedMessage id="accountmenu.next-bet-split" defaultMessage="Next Bet Split:" />
                             </div>
-                            <img src={images.src + 'oval-info.svg'} className={classes.infoIcon} />
+                            <img src={images.src + 'oval-info.svg'} className={classes.infoIcon}  alt=""/>
                             <span className={classes.cashBetValue}>$0.00</span>
                         </Grid>
                         <Grid item xs={12} className={classes.secondRow}>
@@ -609,7 +569,7 @@ export class AccountMenu extends React.Component {
                                 </div>
                                 <span className={classes.feeBetValue}> - </span>
                                 <span className={classes.feeBetValue}>$0.00</span>
-                                <img src={images.src + 'oval-info.svg'} className={classes.infoIcon} />
+                                <img src={images.src + 'oval-info.svg'} className={classes.infoIcon}  alt=""/>
 
                                 <Grid container className={classes.root} spacing={0}>
                                     <Grid item xs={3}>
@@ -625,10 +585,10 @@ export class AccountMenu extends React.Component {
                                     </Grid>
                                 </Grid>
                                 <div className={classes.achievedProgress}>
-                                    <img src={images.src + 'lock.svg'} className={classes.lock} />
+                                    <img src={images.src + 'lock.svg'} className={classes.lock}  alt=""/>
                                     <input className={classes.achievedProgressBar}>
                                     </input>
-                                    <img src={images.src + 'account-menu-check.svg'} className={classes.lock} />
+                                    <img src={images.src + 'account-menu-check.svg'} className={classes.lock}  alt=""/>
                                 </div>
                             </Paper>
                         </Grid>
@@ -636,7 +596,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={6} className={classes.leftGridButton}>
                             <Button className={classes.gridButton} onClick={this.depositClicked}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'account-menu-deposit.svg'} className={classes.menuIcon} />
+                                    <img src={images.src + 'account-menu-deposit.svg'} className={classes.menuIcon}  alt=""/>
                                     <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />
                                 </div>
                             </Button>
@@ -644,7 +604,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={6} className={classes.rightGridButton}>
                             <Button className={classes.gridButton} onClick={this.withdrawClicked}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'account-menu-withdraw.svg'} className={classes.menuIcon} />
+                                    <img src={images.src + 'account-menu-withdraw.svg'} className={classes.menuIcon}  alt=""/>
                                     <FormattedMessage id="accountmenu.withdraw" defaultMessage="Withdraw" />
                                 </div>
                             </Button>
@@ -652,7 +612,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={6} className={classes.leftGridButton}>
                             <Button className={classes.gridButton} onClick={this.openBetsClicked}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'account-menu-open-bets.svg'} className={classes.menuIcon} />
+                                    <img src={images.src + 'account-menu-open-bets.svg'} className={classes.menuIcon}  alt=""/>
                                     <FormattedMessage id="accountmenu.open-bets" defaultMessage="Open Bets" />
                                 </div>
                             </Button>
@@ -660,7 +620,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={6} className={classes.rightGridButton}>
                             <Button className={classes.gridButton} onClick={this.settledBetsClicked}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'account-menu-settled-bets.svg'} className={classes.menuIcon} />
+                                    <img src={images.src + 'account-menu-settled-bets.svg'} className={classes.menuIcon}  alt=""/>
                                     <FormattedMessage id="accountmenu.settled-bets" defaultMessage="Settled Bets" />
                                 </div>
                             </Button>
@@ -668,7 +628,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={6} className={classes.leftGridButton}>
                             <Button className={classes.gridButton} onClick={this.promotionsClicked}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'account-menu-promotions.svg'} className={classes.menuIcon} />
+                                    <img src={images.src + 'account-menu-promotions.svg'} className={classes.menuIcon}  alt=""/>
                                     <FormattedMessage id="accountmenu.promotions" defaultMessage="Promotions" />
                                 </div>
                             </Button>
@@ -676,7 +636,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={6} className={classes.rightGridButton}>
                             <Button className={classes.gridButton} onClick={this.settingsClicked}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'account-menu-settings.svg'} className={classes.menuIcon} />
+                                    <img src={images.src + 'account-menu-settings.svg'} className={classes.menuIcon}  alt=""/>
                                     <FormattedMessage id="accountmenu.settings" defaultMessage="Settings" />
                                 </div>
                             </Button>
@@ -684,7 +644,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={6} className={classes.leftGridButton}>
                             <Button className={classes.gridButton} onClick={this.helpClicked}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'account-menu-help.svg'} className={classes.menuIcon} />
+                                    <img src={images.src + 'account-menu-help.svg'} className={classes.menuIcon}  alt=""/>
                                     <FormattedMessage id="accountmenu.help" defaultMessage="Help" />
                                 </div>
                             </Button>
@@ -692,7 +652,7 @@ export class AccountMenu extends React.Component {
                         <Grid item xs={6} className={classes.rightGridButton}>
                             <Button className={classes.responsibleButton} onClick={this.responsibleGamblingClicked}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'account-menu-responsible.svg'} className={classes.menuIcon} />
+                                    <img src={images.src + 'account-menu-responsible.svg'} className={classes.menuIcon}  alt=""/>
                                     <FormattedMessage id="accountmenu.responsible-gaming" defaultMessage="Responsible Gaming" />
                                 </div>
                             </Button>
@@ -709,7 +669,7 @@ export class AccountMenu extends React.Component {
                             //href="/update_profile/"
                             >
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'user.svg'} className={classes.editProfileIcon} />
+                                    <img src={images.src + 'user.svg'} className={classes.editProfileIcon}  alt=""/>
                                     <FormattedMessage id="accountmenu.edit-profile" defaultMessage="Edit Profile" />
                                 </div>
                             </Button>
@@ -721,7 +681,7 @@ export class AccountMenu extends React.Component {
                                     this.props.show_refer_user()
                                 }}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'user-plus.svg'} className={classes.editProfileIcon} />
+                                    <img src={images.src + 'user-plus.svg'} className={classes.editProfileIcon}  alt=""/>
 
                                     <FormattedMessage id="accountmenu.refer-friend" defaultMessage="Refer Friend" />
                                 </div>
@@ -734,7 +694,7 @@ export class AccountMenu extends React.Component {
                                     postLogout();
                                 }}>
                                 <div className={classes.blockButtonLabel}>
-                                    <img src={images.src + 'account-menu-logout.svg'} className={classes.menuIcon} />
+                                    <img src={images.src + 'account-menu-logout.svg'} className={classes.menuIcon}  alt=""/>
 
                                     <FormattedMessage id="accountmenu.logout" defaultMessage="Logout" />
                                 </div>

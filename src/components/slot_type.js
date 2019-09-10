@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { slot_type } from '../actions';
 import { connect } from 'react-redux';
-import { FormattedMessage,injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import  TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import axios from 'axios';
@@ -15,10 +15,7 @@ import Footer from "./footer";
 
 
 // Material-UI
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Fab from '@material-ui/core/Fab';
-import classNames from 'classnames';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -86,7 +83,7 @@ class Slot_Type extends Component {
         this.state = {
             top_rated: false,
             new: false,
-            slots: false,
+            // slots: false,
             jackpots: false,
             table_game: false,
             vitrual_sport: false,
@@ -224,14 +221,11 @@ class Slot_Type extends Component {
         const { classes } = this.props;
 
         const { formatMessage } = this.props.intl;
-        let topRatedMessage = formatMessage({ id: "nav.top-rated" });
         let allMessage = formatMessage({ id: "nav.all" });
         let slotsMessage = formatMessage({ id: "nav.slots" });
         let jackpotsMessage = formatMessage({ id: "nav.jackpots" });
         let tableGamesMessage = formatMessage({ id: "nav.table-games" });
         let otherGamesMessage = formatMessage({ id: "nav.other-games" });
-
-        var recent_slots = JSON.parse(localStorage.getItem("recent-games"));
 
         return (
             <div>
@@ -320,10 +314,10 @@ class Slot_Type extends Component {
                                     {
                                         games.map(game => {
                                             var gameFields = game['fields'];
-                                            var gameName = '';
-                                            if (gameFields.name) {
-                                                gameName = gameFields.name.replace(/\s+/g, '-').toLowerCase();
-                                            }
+                                            // var gameName = '';
+                                            // if (gameFields.name) {
+                                            //     gameName = gameFields.name.replace(/\s+/g, '-').toLowerCase();
+                                            // }
                                             return (
                                                 <Grid item xs={2} sm={2} key={game.pk}>
                                                     <Paper style={{ margin: 15 }}>

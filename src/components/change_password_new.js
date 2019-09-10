@@ -35,7 +35,7 @@ const styles = theme => ({
     notchedOutline: {},
 });
 
-class Change_Password extends Component {
+class ChangePassword extends Component {
     constructor(props) {
         super(props);
 
@@ -152,7 +152,7 @@ class Change_Password extends Component {
                         this.props.hide_change_password()
                     }}
                 /> */}
-                <img src={images.src + 'red-close.svg'}
+                <img src={images.src + 'red-close.svg'} alt=""
                     style={{ cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 20, width: 20, color: 'red' }}
                     onClick={() => {
                         this.props.hide_change_password()
@@ -280,4 +280,4 @@ class Change_Password extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_change_password })(Change_Password));
+export default withStyles(styles)(connect(null, { hide_change_password })(ChangePassword));

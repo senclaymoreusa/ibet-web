@@ -132,7 +132,7 @@ const styles = theme => ({
     }
 });
 
-class New_Deposit_Confirm extends Component {
+class NewDepositConfirm extends Component {
     constructor(props) {
         super(props);
 
@@ -169,7 +169,7 @@ class New_Deposit_Confirm extends Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                        <img src={images.src + 'account-menu-back.svg'} />
+                        <img src={images.src + 'account-menu-back.svg'}  alt=""/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.deposit" defaultMessage="Deposit" />
@@ -213,4 +213,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_confirm, show_deposit_success, show_deposit })(New_Deposit_Confirm)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_deposit_confirm, show_deposit_success, show_deposit })(NewDepositConfirm)));
