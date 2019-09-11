@@ -4,9 +4,11 @@ import TopNavbar from "./top_navbar";
 import ChatTool from "./chat_tool";
 
 import { connect } from 'react-redux';
-import { authCheckState, handle_referid } from '../actions';
+import { authCheckState, handle_referid, hide_landing_page } from '../actions';
 import { FormattedMessage } from 'react-intl';
 import { config } from '../util_config';
+
+import Paper from '@material-ui/core/Paper';
 
 import axios from 'axios';
 // import moment from 'moment';
@@ -126,6 +128,15 @@ export class Home extends Component {
 
     return (
       <div >
+        {
+          this.props.show_landing_page && <Paper >
+              <div style={{position: 'absolute', zIndex: 1000000000000}} onClick = {() => {
+                this.props.hide_landing_page()
+              }}> 
+                  <img src='https://ibet-web.s3-us-west-1.amazonaws.com/Games/landing-page.jpg' height="100%" width="100%" alt='Not available' />
+              </div>
+          </Paper>
+        }
         <TopNavbar/>
         {
           this.state.ready &&
@@ -146,7 +157,7 @@ export class Home extends Component {
                     array.push(item)
                   } else {
                     var check = true;
-                    array.foreach(thing => {
+                    array.map(thing => {
                       if (thing.name === item.name) {
                         check = false
                       }
@@ -165,7 +176,7 @@ export class Home extends Component {
                   <span onClick={()=>{window.open(item.game_url)}}>
 
                     {
-                      <img src={placeholdimage} height="220" width="300" alt='Not available' />
+                      <img src={item.image_url} height="220" width="300" alt='Not available' />
                     }
 
 
@@ -236,7 +247,7 @@ export class Home extends Component {
                   <span onClick={()=>{window.open(item.game_url)}}>
 
                     {
-                      <img src={placeholdimage} height="220" width="300" alt='Not available' />
+                      <img src={item.image_url} height="220" width="300" alt='Not available' />
                     }
 
                     <br />
@@ -267,7 +278,7 @@ export class Home extends Component {
                   <span onClick={()=>{window.open(item.game_url)}}>
 
                     {
-                      <img src={placeholdimage} height="220" width="300" alt='Not available' />
+                      <img src={item.image_url} height="220" width="300" alt='Not available' />
                     }
 
                     <br />
@@ -345,8 +356,9 @@ export class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    lang: state.language.lang
+    lang: state.language.lang,
+    show_landing_page: state.general.show_landing_page
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, { authCheckState, handle_referid })(Home));
+export default withStyles(styles)(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(Home));
