@@ -4,7 +4,7 @@ import TopNavbar from "./top_navbar";
 import ChatTool from "./chat_tool";
 
 import { connect } from 'react-redux';
-import { authCheckState, handle_referid } from '../actions';
+import { authCheckState, handle_referid, hide_landing_page } from '../actions';
 import { FormattedMessage } from 'react-intl';
 import { config } from '../util_config';
 
@@ -129,7 +129,9 @@ export class Home extends Component {
     return (
       <div >
         <Paper >
-            <div style={{position: 'absolute', zIndex: 1000000000000}}> 
+            <div style={{position: 'absolute', zIndex: 1000000000000}} onClick = {() => {
+              this.props.hide_landing_page()
+            }}> 
                 <img src='https://ibet-web.s3-us-west-1.amazonaws.com/Games/landing-page.jpg' height="100%" width="100%" alt='Not available' />
             </div>
         </Paper>
@@ -356,4 +358,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, { authCheckState, handle_referid })(Home));
+export default withStyles(styles)(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(Home));
