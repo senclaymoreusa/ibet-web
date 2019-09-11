@@ -8,6 +8,8 @@ import { authCheckState, handle_referid } from '../actions';
 import { FormattedMessage } from 'react-intl';
 import { config } from '../util_config';
 
+import Paper from '@material-ui/core/Paper';
+
 import axios from 'axios';
 // import moment from 'moment';
 import classNames from 'classnames';
@@ -126,6 +128,11 @@ export class Home extends Component {
 
     return (
       <div >
+        <Paper >
+            <div style={{position: 'absolute', zIndex: 1000000000000}}> 
+                <img src='https://ibet-web.s3-us-west-1.amazonaws.com/Games/landing-page.jpg' height="100%" width="100%" alt='Not available' />
+            </div>
+        </Paper>
         <TopNavbar/>
         {
           this.state.ready &&
@@ -165,7 +172,7 @@ export class Home extends Component {
                   <span onClick={()=>{window.open(item.game_url)}}>
 
                     {
-                      <img src={placeholdimage} height="220" width="300" alt='Not available' />
+                      <img src={item.image_url} height="220" width="300" alt='Not available' />
                     }
 
 
