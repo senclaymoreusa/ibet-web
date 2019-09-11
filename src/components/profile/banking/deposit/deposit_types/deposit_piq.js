@@ -531,6 +531,9 @@ class DepositPIQ extends Component {
         }
         config.headers['Authorization'] = `Token ${token}`;
 
+        let currentComponent = this;
+        currentComponent.setState({ showLinearProgressBar: true });
+
         let encrypt = new jsencrypt.JSEncrypt();
         encrypt.setPublicKey(process.env.REACT_APP_PIQ_PEM);
 
@@ -543,22 +546,26 @@ class DepositPIQ extends Component {
             userId: data.username,
             merchantId: PIQ_MID,
             amount: amount,
-            attributes: {},
             cardHolder: name || 'John Doe',
             encCreditcardNumber: encCcNum,
             encCvv: encCvv,
             expiryMonth: expiry[0],
-            expiryYear: expiry[1],
-            attributes: {
-                transactionMethod: 'deposit'
-            }
+            expiryYear: expiry[1]
+            // attributes: {
+            //     transactionMethod: 'deposit'
+            // }
         };
         console.log('post data:');
         console.log(postData);
         axios
             .post(PIQ_API + 'api/creditcard/deposit/process', postData)
             .then(res => {
-                console.log(res);
+                console.log(res.data);
+                if (res.data.txState === 'SUCCESSFUL') {
+                    // show success page
+                } else {
+                    // show deposit page
+                }
             });
     }
 
