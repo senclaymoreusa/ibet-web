@@ -512,8 +512,10 @@ class DepositPIQ extends Component {
         });
     };
 
-    async handleClick(event) {
-        event.preventDefault();
+    handleClick = async () => {
+        let currentComponent = this;
+        currentComponent.setState({ showLinearProgressBar: true });
+
         const {
             data,
             sessionId,
@@ -530,9 +532,6 @@ class DepositPIQ extends Component {
             window.location.href = '/';
         }
         config.headers['Authorization'] = `Token ${token}`;
-
-        let currentComponent = this;
-        currentComponent.setState({ showLinearProgressBar: true });
 
         let encrypt = new jsencrypt.JSEncrypt();
         encrypt.setPublicKey(process.env.REACT_APP_PIQ_PEM);
@@ -563,11 +562,24 @@ class DepositPIQ extends Component {
                 console.log(res.data);
                 if (res.data.txState === 'SUCCESSFUL') {
                     // show success page
+                    currentComponent.setState({ showLinearProgressBar: false });
+                    currentComponent.props.callbackFromParent('success');
+                    // alert('Success'); // alert is placeholder until UX flow is implemented
                 } else {
                     // show deposit page
+                    currentComponent.setState({ showLinearProgressBar: false });
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        res.data.errors[0].msg
+                    );
+                    // alert(res.data.errors[0].msg); // alert is placeholder until UX flow is implemented
+                    // this.setState({
+                    //     error: true,
+                    //     error_msg: res.data.errors[0].msg
+                    // });
                 }
             });
-    }
+    };
 
     render() {
         const { classes } = this.props;
