@@ -114,10 +114,6 @@ export class InboxDetail extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            userMessages: [],
-        }
-
         this.backClicked = this.backClicked.bind(this);
     }
 
@@ -143,26 +139,9 @@ export class InboxDetail extends Component {
                 else {
                     console.log("bad request");
                 }
-                //this.setState({userMessages: res.data.unread_list});
+
             })
     }
-
-    // function UnreadMessageItem (props) {
-    //     return (
-    //         <Grid container>
-    //             <Grid item xs={12} className={classes.notification} key={item.pk}>
-    //                 <div className={classes.unreadMark}></div>
-    //                 <div className={classes.messageContainer}>
-    //                     <span className={classes.subject}>{item.pk}</span>
-    //                     <br/>
-    //                     <span className={classes.message}>Message Body</span>
-    //                 </div>
-    //                 <Button className={classes.delete}>delete</Button>
-    //                 <span className={classes.date}>8/24</span>
-    //             </Grid>
-    //         </Grid>
-    //     )
-    // }
 
     backClicked() {
         this.props.callbackFromParent('inbox');
@@ -179,8 +158,6 @@ export class InboxDetail extends Component {
 
     render() {
         const { classes } = this.props;
-        const { formatMessage } = this.props.intl;
-
 
         return (
             <div className={classes.root}>
