@@ -39,10 +39,20 @@ class App extends Component {
     }
   }
 
+  handleWindowBeforeUnload = (ev) => {
+    return "Unsaved changes. Are you sure?";
+  }
+
   componentDidMount() {
+    window.addEventListener("beforeunload", this.handleWindowBeforeUnload);
+
     this.props.getLanguage();
 
     setInterval(() => this.checkIfReminderTime(), 1000)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.handleWindowBeforeUnload);
   }
 
   checkIfReminderTime() {
@@ -52,7 +62,6 @@ class App extends Component {
       return;
 
     var reminderObj = JSON.parse(reminderText);
-
 
 
     const reminderStartTime = localStorage.getItem('activityReminderStartTime');

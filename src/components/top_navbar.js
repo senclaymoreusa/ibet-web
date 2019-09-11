@@ -688,11 +688,11 @@ export class TopNavbar extends React.Component {
         }
 
         this.checkFacebookLogin();
-
         this.checkOneClickLogin();
     }
 
     componentDidMount() {
+
         this._isMounted = true;
 
         this.setMainMenuIndicator();
@@ -713,11 +713,10 @@ export class TopNavbar extends React.Component {
         }
 
         this.checkFacebookLogin();
-
         this.checkOneClickLogin();
     }
 
-    componentWillUnmount() {
+    componentWillUnmount() {        
         this._isMounted = false;
     }
 
