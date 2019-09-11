@@ -128,13 +128,15 @@ export class Home extends Component {
 
     return (
       <div >
-        <Paper >
-            <div style={{position: 'absolute', zIndex: 1000000000000}} onClick = {() => {
-              this.props.hide_landing_page()
-            }}> 
-                <img src='https://ibet-web.s3-us-west-1.amazonaws.com/Games/landing-page.jpg' height="100%" width="100%" alt='Not available' />
-            </div>
-        </Paper>
+        {
+          this.props.show_landing_page && <Paper >
+              <div style={{position: 'absolute', zIndex: 1000000000000}} onClick = {() => {
+                this.props.hide_landing_page()
+              }}> 
+                  <img src='https://ibet-web.s3-us-west-1.amazonaws.com/Games/landing-page.jpg' height="100%" width="100%" alt='Not available' />
+              </div>
+          </Paper>
+        }
         <TopNavbar/>
         {
           this.state.ready &&
@@ -354,7 +356,8 @@ export class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    lang: state.language.lang
+    lang: state.language.lang,
+    show_landing_page: state.general.show_landing_page
   }
 }
 
