@@ -15,71 +15,121 @@ import Fade from '@material-ui/core/Fade';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/MenuList';
+import MenuList from '@material-ui/core/MenuList';
+import Select from '@material-ui/core/Select';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { images } from '../util_config';
+import InputBase from '@material-ui/core/InputBase';
+
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-  },
-  main: {
-    marginTop: theme.spacing.unit * 8,
-    marginBottom: theme.spacing.unit * 2,
-  },
-  lang_button: {
-    padding: 0,
-    minWidth: 0
-  },
-  lang_menu_list: {
-    backgroundColor: '#363636',
-    color: 'white',
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  lang_menu_list_item: {
-    border: '1px solid #363636',
-    "&:hover": {
-      borderRadius: 4,
-      border: '1px solid #868686',
+  sectionDesktop: {
+    display: 'none',
+    height: '100%',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
     },
   },
-  lang_menu_list_item_selected: {
-    borderRadius: 4,
-    border: '1px solid #ffffff',
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
   },
-  lang_menu_list_item_text: {
-    marginLeft: 10,
-    color: 'white',
-  },
-  footer: {
+  root: {
     paddingLeft: 24,
     paddingRight: 24,
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     backgroundColor: '#212121',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  mainGrid: {
+    maxWidth: 1400,
+  },
+  mainRow: {
+    paddingTop: 20,
+    paddingBottom: 30,
+  },
+  imageGridCell: {
+    direction: "column",
+    justify: "flex-start",
+    alignItems: "center",
+  },
+  imageContainer: {
+    direction: "row",
+    justify: "flex-start",
+    alignItems: "center",
+    minHeight: 44,
+  },
+  image: {
+    display: 'inline',
+    verticalAlign: 'middle',
+  },
+  policyLink: {
+    fontSize: 17,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    lineHeight: 1.29,
+    letterSpacing: -0.24,
+    color: '#cdcbcc',
+    cursor: 'pointer',
+    whiteSpace: 'nowrap',
   },
   footer_menu_container: {
     display: 'inline',
     marginTop: 20
   },
-  lang_container: {
-    display: 'inline',
-    marginLeft: 30,
+  lang_button: {
+    // padding: 0,
+    // minWidth: 0
+    border: '1px solid #363636',
+    height: 48,
+    borderRadius: 4,
+    "&:hover": {
+      borderRadius: 4,
+      border: '1px solid #868686',
+    },
   },
-  footer_link_container: {
-    marginTop: 20
-  },
-  footer_link: {
-    cursor: 'pointer',
-    marginRight: 20,
+  itemList: {
+    backgroundColor: '#363636',
     color: 'white',
-    fontSize: 14,
-    opacity: 0.5,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  listItem: {
+    border: '1px solid #363636',   
+    borderRadius: 4,
+    "&:hover": {
+      border: '1px solid #868686',
+    },
+  },
+  listItemSelected: {
+    borderRadius: 4,
+    border: '1px solid #ffffff',
+  },
+  listItemFlag:{
+    display: 'inline-block'
+  },
+  listItemText: {
+    marginLeft: 10,
+    color: 'white',
+    display: 'inline-block'
+  },
+  footerLink: {
+    cursor: 'pointer',
+    color: '#d3d1d2',
+    fontSize: 15,
+    fontWeight: 800,
+    fontStyle: 'normal',
+    whiteSpace: 'nowrap',
+    marginRight: 30,
     "&:hover": {
       opacity: 1,
       textDecoration: 'none'
@@ -97,11 +147,12 @@ const styles = theme => ({
     textAlign: "right",
 
   },
-  contact_text: {
+  contactText: {
     fontSize: 14,
-    color: 'white',
-    marginTop: 20,
-    textAlign: "right"
+    color: '#e5e4e5',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 1.57
   },
   contact_email: {
     fontSize: 14,
@@ -112,8 +163,55 @@ const styles = theme => ({
   },
   a: {
     color: 'white'
-  }
+  },
+  langLabel:{
+    color:  '#cdcbcc',
+    fontSize:14,
+  },
+  langControl: {
+    minWidth: 140,
+    marginTop: -20,
+  },
 });
+
+const BootstrapInput = withStyles(theme => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing.unit * 3,
+    },
+  },
+  input: {
+    borderRadius: 3,
+    position: 'relative',
+    backgroundColor: '#212121',
+    opacity:0.5,
+    alignItems:'center',
+    display: 'flex',
+    alignItems: 'center',
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '5px 16px 5px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 3,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}))(InputBase);
 
 export class Footer extends React.Component {
 
@@ -126,11 +224,6 @@ export class Footer extends React.Component {
     };
   }
 
-  handleLanguageMenuOpen = event => {
-    this.setState({ anchorEl: event.currentTarget });
-    this.setState({ showLangMenu: !this.state.showLangMenu });
-  };
-
   langMenuClicked = (event) => {
     this.setState({ anchorEl: null });
     this.setState({
@@ -139,6 +232,11 @@ export class Footer extends React.Component {
 
     this.changeLanguage(event.currentTarget.dataset.myValue);
     this.setState({ showLangMenu: false });
+  }
+
+  languageChanged(evt){
+    this.setState({ lang: evt.target.value  });
+    this.changeLanguage(evt.target.value);
   }
 
   handleLanguageMenuClose = (ev) => {
@@ -154,167 +252,193 @@ export class Footer extends React.Component {
 
 
   render() {
-    let { anchorEl, showLangMenu } = this.state;
     let { classes } = this.props;
 
-    let countryCode = '';
-    switch (this.props.lang) {
-      case 'en':
-        countryCode = 'US';
-        break;
-      case 'zh-hans':
-        countryCode = 'CN';
-        break;
-      case 'zh':
-        countryCode = 'CN';
-        break;
-      case 'fr':
-        countryCode = 'FR';
-        break;
-      default:
-        countryCode = 'US';
-    }
-    const langButtonIcon = (<Flag country={countryCode} />);
-
-    const FooterLinks = (
-      <div className={classes.footer_link_container}>
-        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/terms_conditions") }}>
-          <FormattedMessage id="footer.terms_conditions" defaultMessage='Terms and Conditions' />
-        </Link>
-        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/cookie_policy") }}>
-          <FormattedMessage id="footer.cookie_policy" defaultMessage='Cookie Policy' />
-        </Link>
-        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/privacy_policy") }}>
-          <FormattedMessage id="footer.privacy_policy" defaultMessage='Privacy Policy' />
-        </Link>
-        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/") }}>
-          <FormattedMessage id="footer.game_rules" defaultMessage='Game Rules' />
-        </Link>
-        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/") }}>
-          <FormattedMessage id="footer.investory_relations" defaultMessage='Investor Relations' />
-        </Link>
-        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/") }}>
-          <FormattedMessage id="footer.visit_gambler_anonymous" defaultMessage='Visit Gamblers Anonymous' />
-        </Link>
-        <Link className={classes.footer_link} onClick={() => { this.props.history.push("/") }}>
-          <FormattedMessage id="footer.visit_gamcare_newsroom" defaultMessage='Visit GamCare Newsroom' />
-        </Link>
-      </div>
-    );
-
     const LangDropdown = (
-      <div className={classes.lang_container}>
-        <Button className={classes.lang_button} onClick={this.handleLanguageMenuOpen}>{langButtonIcon}</Button>
-        <Popper open={showLangMenu} anchorEl={anchorEl} placement='top-start' transition>
-          {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={350}>
-              <Paper>
-                <Paper id="menu-list-grow" className={classes.lang_menu_list}>
-                  <ClickAwayListener onClickAway={this.handleLanguageMenuClose}>
-                    <Menu>
-                      <MenuItem data-my-value={'en'} onClick={this.langMenuClicked}
-                        selected={this.props.lang === 'en'}
-                        classes={{
-                          root: classes.lang_menu_list_item,
-                          selected: classes.lang_menu_list_item_selected
-                        }}>
-                        <Flag country="US" />
-                        <div className={classes.lang_menu_list_item_text}>
-                          <FormattedMessage id="lang.english" defaultMessage='English' />
-                        </div>
-                      </MenuItem>
-                      <MenuItem data-my-value={'zh-hans'} onClick={this.langMenuClicked}
-                        selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
-                        classes={{
-                          root: classes.lang_menu_list_item,
-                          selected: classes.lang_menu_list_item_selected
-                        }}>
-                        <Flag country="CN" />
-                        <div className={classes.lang_menu_list_item_text}>
-                          <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
-                        </div>
-                      </MenuItem>
-                      <MenuItem data-my-value={'fr'} onClick={this.langMenuClicked}
-                        selected={this.props.lang === 'fr'}
-                        classes={{
-                          root: classes.lang_menu_list_item,
-                          selected: classes.lang_menu_list_item_selected
-                        }}>
-                        <Flag country="FR" />
-                        <div className={classes.lang_menu_list_item_text}>
-                          <FormattedMessage id="lang.french" defaultMessage='French' />
-                        </div>
-                      </MenuItem>
-                    </Menu>
-                  </ClickAwayListener>
-                </Paper>
-              </Paper>
-            </Fade>
-          )}
-        </Popper>
-      </div>
-    );
-
-
-    const FooterMenu = (
-      <div className={classes.footer_menu_container}>
-        <Button className={this.props.activeMenu === 'sports' ? 'mainButtonActive' : 'mainButton'}
-          onClick={() => { this.props.history.push("/sports_type") }}>
-          <img src={images.src + 'soccer.svg'} className="soccer"  alt=""/>
-          <span className="Sports">
-            <FormattedMessage id="nav.sports" defaultMessage='Sports' />
-          </span>
-        </Button>
-        <Button className={this.props.activeMenu === 'live-casino' ? 'mainButtonActive' : 'mainButton'}
-          onClick={() => { this.props.history.push("/liveCasino_type/live-casino/all") }}>
-          <img src={images.src + 'bet.svg'} className="bet"  alt=""/>
-          <span className="Live-Casino">
-            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
-          </span>
-        </Button>
-        <Button className={this.props.activeMenu === 'slots' ? 'mainButtonActive' : 'mainButton'}
-          onClick={() => { this.props.history.push("/slot_type/slots/all") }}>
-          <img src={images.src + 'slots.svg'} className="games-icon"  alt=""/>
-          <span className="Slots">
-            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
-          </span>
-        </Button>
-        <Button className={this.props.activeMenu === 'lottery' ? 'mainButtonActive' : 'mainButton'}
-          onClick={() => { this.props.history.push("/lottery_type") }}>
-          <img src={images.src + 'lottery.svg'} className="lottery"  alt=""/>
-          <span className="Lottery">
-            <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
-          </span>
-        </Button>
+      <div className={classes.lang_container} style={{float: 'right'}}>
+        <FormControl className={classes.langControl}>
+          <InputLabel htmlFor="age-customized-select" className={classes.langLabel}>Language</InputLabel>
+          <Select    
+            value={this.props.lang}
+            onChange={this.languageChanged.bind(this)}
+            input={<BootstrapInput name="age" id="age-customized-select" />}
+            MenuProps={{ classes: { paper: classes.itemList } }}
+          >
+             <MenuItem value={'en'} onClick={this.langMenuClicked}
+              selected={this.props.lang === 'en'}
+              className={classes.listItem}>
+              <Flag country="US" className={classes.listItemFlag}/>
+              <div className={classes.listItemText}>
+                <FormattedMessage id="lang.english" defaultMessage='English' />
+              </div>
+            </MenuItem>
+            <MenuItem value={'zh'} onClick={this.langMenuClicked}
+              selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
+              className={classes.listItem}>
+              <Flag country="CN"  className={classes.listItemFlag}/>
+              <div className={classes.listItemText}>
+                <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
+              </div>
+            </MenuItem>
+            <MenuItem value={'fr'} onClick={this.langMenuClicked}
+              selected={this.props.lang === 'fr'}
+              className={classes.listItem}>
+              <Flag country="FR"  className={classes.listItemFlag}/>
+              <div className={classes.listItemText}>
+                <FormattedMessage id="lang.french" defaultMessage='French' />
+              </div>
+            </MenuItem>
+          </Select>
+        </FormControl>
       </div>
     );
 
     return (
-      <footer className={classes.footer}>
-        <Grid container>
-          <Grid item xs={12} sm={9} md={9} lg={9}>
-            <IconButton href='/'>
-              <img src={images.src + 'ibet_logo.svg'}  alt=""/>
-            </IconButton>
-            <div>
-              {FooterMenu}
-              {LangDropdown}
-              {FooterLinks}
-            </div>
+      <footer className={classes.root}>
+        <Grid container className={classes.mainGrid}>
+          <Grid item xs={12} className={classes.mainRow} style={{ borderBottom: '1px solid #cdcbcc' }}>
+            <Grid container style={{ height: 48 }} alignItems="center">
+              <Grid item xs={12} sm={2}>
+                <IconButton href='/' style={{ padding: 0 }}>
+                  <img src={images.src + 'ibet_logo.svg'} alt="" />
+                </IconButton>
+              </Grid>
+              <Grid item xs={12} sm={8}>
+                <div className={classes.sectionDesktop}>
+                  <Link className={classes.footerLink}>
+                    GX4
+                    </Link>
+                  <Link className={classes.footerLink}>
+                    Gamblers Anonymous
+                    </Link>
+                  <Link className={classes.footerLink}>
+                    GameCare
+                    </Link>
+                  <Link className={classes.footerLink}>
+                    Game Stop
+                    </Link>
+                  <Link className={classes.footerLink}>
+                    Support
+                    </Link>
+                  <Link className={classes.footerLink}>
+                    Affiliate
+                    </Link>
+                </div>
+                <Grid container className={classes.sectionMobile}
+                  direction="row"
+                  justify="flex-start"
+                  alignItems="center"
+                  style={{ height: 48, marginTop: 20 }}>
+                  <Grid item xs={12}>
+                    <Link className={classes.footerLink}>
+                      GX4
+                    </Link>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Link className={classes.footerLink}>
+                      Gamblers Anonymous
+                    </Link>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Link className={classes.footerLink}>
+                      GameCare
+                    </Link>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Link className={classes.footerLink}>
+                      Game Stop
+                    </Link>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Link className={classes.footerLink}>
+                      Support
+                    </Link>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Link className={classes.footerLink}>
+                      Affiliate
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12} sm={2} >
+                {LangDropdown}
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={3} md={3} lg={3}>
-            <Typography className={classes.contact_title}>
-              <FormattedMessage id="footer.contact_support_title" defaultMessage='Contact Support' />
-            </Typography>
-            <Typography className={classes.contact_text}>
-              <FormattedMessage id="footer.contact_support_text" defaultMessage='Our friendly customer service team is on hand to answer any questions you may have 24 hours a day, 7 days a week.' />
-            </Typography>
-            <Typography className={classes.contact_text}>
-              <FormattedMessage id="footer.contact_support_email" defaultMessage='Contact us today at' /> <a className={classes.contact_email} href="mailto:hello@ibet.com?subject = Feedback&body = Message">hello@ibet.com</a>
-            </Typography>
+          <Grid item xs={12} className={classes.mainRow} style={{ borderBottom: '1px solid #cdcbcc' }}>
+            <Grid container>
+              <Grid item xs={12} sm={4} clas={classes.imageGridCell}>
+                <div className={classes.imageContainer}>
+                  <img src={images.src + '18.svg'} alt="" height="34" width="34" className={classes.image} />
+                  <img src={images.src + 'mga-logo.png'} alt="" width="87" height="34" hspace="45" className={classes.image} />
+                  <img src={images.src + 'ecogra.png'} alt="" height="34" width="87" className={classes.image} />
+                </div>
+                <div className={classes.imageContainer}>
+                  <img src={images.src + 'visa-footer.svg'} alt="" className={classes.image} />
+                  <img src={images.src + 'master-footer.svg'} alt="" hspace="20" className={classes.image} />
+                  <img src={images.src + 'bank-footer.svg'} alt="" height="38" className={classes.image} />
+                  <img src={images.src + 'paypal-footer.svg'} alt="" hspace="20" className={classes.image} />
+                  <img src={images.src + 'neteller.svg'} alt="" className={classes.image} />
+                  <img src={images.src + 'skrill.svg'} alt="" hspace="20" className={classes.image} />
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={4}></Grid>
+              <Grid item xs={12} sm={4}>
+                <Typography className={classes.contactText} style={{ textAlign: "right" }}>
+                  <span>The main priority for us at ibet is to provide an enjoyable and entertaining gaming experience. We are committed to protecting our players and offer several different tools and resources to ensure that your gambling is conducted within safe limits. Please visit these at [RG Link] and if you are in any doubt contact our trained customer service at any time.</span>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} className={classes.mainRow}>
+            <Grid container>
+              <Grid item xs={12} sm={8}>
+                <Typography className={classes.contactText}>
+                  <span>The operator of this website is The Claymore Group Ltd, a Maltese company registration number C-90400, having its registered address at Level4, Ewropa Business Centre, Triq Dun Karm, Birkirkara BKR 9034, Malta. The Claymore Group Ltd is licensed and regulated by the Malta Gaming Authority under license XXXXXX issued on XXXXX (TBD). </span>
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={4}  >
+
+                <div className={classes.sectionDesktop} style={{ float: "right" }}
+                >
+                  <Link className={classes.policyLink}>
+                    Privacy Policy
+                </Link>
+                  <Link className={classes.policyLink} style={{ marginLeft: 30, marginRight: 30 }}>
+                    Cookie Policy
+                    </Link>
+                  <Link className={classes.policyLink}>
+                    Terms & Conditions
+                    </Link>
+                </div>
+
+                <Grid container className={classes.sectionMobile}
+                  direction="row"
+                  justify="flex-start"
+                  alignItems="center"
+                  style={{ height: 48, marginTop: 20 }}>
+                  <Grid item xs={12}>
+                    <Link className={classes.policyLink}>
+                      Privacy Policy
+                    </Link>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Link className={classes.policyLink}>
+                      Cookie Policy
+                    </Link>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Link className={classes.policyLink}>
+                      Terms & Conditions
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-      </footer>
+      </footer >
     );
   }
 }
