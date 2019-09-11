@@ -157,7 +157,7 @@ export class Home extends Component {
                     array.push(item)
                   } else {
                     var check = true;
-                    array.foreach(thing => {
+                    array.map(thing => {
                       if (thing.name === item.name) {
                         check = false
                       }
@@ -247,7 +247,7 @@ export class Home extends Component {
                   <span onClick={()=>{window.open(item.game_url)}}>
 
                     {
-                      <img src={placeholdimage} height="220" width="300" alt='Not available' />
+                      <img src={item.image_url} height="220" width="300" alt='Not available' />
                     }
 
                     <br />
@@ -278,7 +278,7 @@ export class Home extends Component {
                   <span onClick={()=>{window.open(item.game_url)}}>
 
                     {
-                      <img src={placeholdimage} height="220" width="300" alt='Not available' />
+                      <img src={item.image_url} height="220" width="300" alt='Not available' />
                     }
 
                     <br />
