@@ -79,7 +79,7 @@ const BootstrapInput = withStyles(theme => ({
   }))(InputBase);
 
 
-class Signup_Email extends React.Component {
+class SignupEmail extends React.Component {
     constructor(props){
         super(props);
 
@@ -98,6 +98,7 @@ class Signup_Email extends React.Component {
     }
 
     async onInputChange_email(event){
+        // eslint-disable-next-line
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)){
           this.setState({live_check_email: true, button_disable: true,})
@@ -170,7 +171,7 @@ class Signup_Email extends React.Component {
                 <form onSubmit={this.handlesubmit.bind(this)}>
                     
                     <div className='signup-title'> 
-                    <img src={images.src + 'back.svg'}
+                    <img src={images.src + 'back.svg'} alt=""
                             style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
                             onClick = { () => {
                                 this.props.hide_signup_email();
@@ -182,7 +183,7 @@ class Signup_Email extends React.Component {
                         <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
                     </div>
 
-                    <img src={images.src + 'close_page.svg'} 
+                    <img src={images.src + 'close_page.svg'} alt=""
                             style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_email();
@@ -381,4 +382,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default withStyles(styles)(connect(mapStateToProps, {hide_signup_email, show_signup_detail, show_signup, handle_signup_email, handle_signup_password, handle_signup_language})(Signup_Email));
+export default withStyles(styles)(connect(mapStateToProps, {hide_signup_email, show_signup_detail, show_signup, handle_signup_email, handle_signup_password, handle_signup_language})(SignupEmail));

@@ -563,14 +563,14 @@ class DepositAsiapayAlipay extends Component {
                                                 <InputAdornment position="end">
                                                     Other
                                                 </InputAdornment>
-                                            )
+                                            ),
+                                            inputProps: {
+                                                step: 10,
+                                                min: 300,
+                                                max: 1500
+                                            }
                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 300,
-                                            max: 1500
-                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>

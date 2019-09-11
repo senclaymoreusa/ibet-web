@@ -175,7 +175,7 @@ export class WithdrawSuccess extends React.Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                            <img src={images.src + 'account-menu-back.svg'} />
+                            <img src={images.src + 'account-menu-back.svg'}  alt=""/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.withdraw" defaultMessage="Withdraw" />
@@ -187,7 +187,7 @@ export class WithdrawSuccess extends React.Component {
                         </div>
                     </Grid>
                     <Grid item xs={12} className={classes.contentRow}>
-                        <img src={images.src + 'complete-deposit-icon.svg'} className={classes.successIcon} />
+                        <img src={images.src + 'complete-deposit-icon.svg'}  alt="" className={classes.successIcon} />
                         <div className={classes.successLabel}>
                             <FormattedMessage id="withdraw.successful" defaultMessage="Successful!" />
                         </div>

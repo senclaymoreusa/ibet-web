@@ -134,7 +134,6 @@ const styles = theme => ({
     },
     middleButton: {
         marginRight: 10,
-        marginRight: 10,
         borderRadius: 4,
         backgroundColor: '#efefef',
         marginTop: 15,
@@ -271,7 +270,7 @@ class DepositQaicashBTC extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 100000 || parseInt(event.target.value) < 100) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 100000 || parseInt(event.target.value) < 100) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -392,7 +391,7 @@ class DepositQaicashBTC extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -445,13 +444,13 @@ class DepositQaicashBTC extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                        }}
+                                            inputProps:{
+                                                step: 10,
+                                                min: 100,
+                                                max: 100000
+                                            }
+                                            }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 100,
-                                            max: 100000
-                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -459,7 +458,7 @@ class DepositQaicashBTC extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

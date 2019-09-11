@@ -400,8 +400,7 @@ class DepositScratchCard extends Component {
 
 
     amountChanged(event) {
-        const value = parseInt(event.target.value);
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 10) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 10) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -551,7 +550,7 @@ class DepositScratchCard extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'} alt="" />
             </Button>);
 
         return (
@@ -659,8 +658,8 @@ class DepositScratchCard extends Component {
                                 <Grid item xs={6} className={classes.amountRow}>
                                     <div className={classes.amountText}>
                                         <FormattedNumber
-                                            value={this.state.amount == "none" ? 0 : this.state.amount}
-                                            style='currency'
+                                            value={this.state.amount === "none" ? 0 : this.state.amount}
+                                            style={`currency`}
                                             currency={"VND"}
                                         />
                                     </div>

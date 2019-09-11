@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { NavLink} from 'react-router-dom';
 import axios from 'axios';
 import { config } from '../util_config';
 import { connect } from 'react-redux';

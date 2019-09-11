@@ -99,7 +99,7 @@ export class Help extends React.Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                        <img src={images.src + 'account-menu-back.svg'}/>
+                        <img src={images.src + 'account-menu-back.svg'} alt=""/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.help" defaultMessage="Help" />

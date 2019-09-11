@@ -390,7 +390,7 @@ class DepositAsiapayQucikpay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -443,21 +443,21 @@ class DepositAsiapayQucikpay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                        }}
+                                            inputProps:{
+                                                step: 10,
+                                                min: 100,
+                                                max: 3000
+                                            }
+                                           }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 100,
-                                            max: 3000
-                                        }}
-                                        inputRef={this.amountInput}
+                                       inputRef={this.amountInput}
                                     />
                                 </Grid>
                                 <Grid item xs={6} className={classes.amountRow}>
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { hide_oneclick_finish, show_login } from '../actions';
 import { FormattedMessage } from 'react-intl';
 
-class One_Click_Finish extends React.Component {
+class OneClickFinish extends React.Component {
     render(){
         return (
             <div style={{backgroundColor: 'white', height: 730, width: 770}}> 
@@ -14,7 +14,7 @@ class One_Click_Finish extends React.Component {
                         <FormattedMessage id="signup.oneclickregister" defaultMessage='ONE-CLICK-REGISTRATION' />
                     </div>
 
-                    <img src={images.src + 'close_page.svg'}
+                    <img src={images.src + 'close_page.svg'} alt=""
                         style={{cursor: 'pointer', position: 'absolute', top: 8, left: 720, height: 40, width: 20}}
                         onClick = { () => {
                             this.props.hide_oneclick_finish()
@@ -86,4 +86,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { hide_oneclick_finish, show_login })(One_Click_Finish);
+export default connect(mapStateToProps, { hide_oneclick_finish, show_login })(OneClickFinish);

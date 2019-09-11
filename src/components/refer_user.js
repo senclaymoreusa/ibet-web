@@ -31,7 +31,7 @@ const styles = theme => ({
 
 
 
-export class Refer_User extends React.Component {
+export class ReferUser extends React.Component {
     constructor(props) {
         super(props);
 
@@ -56,6 +56,7 @@ export class Refer_User extends React.Component {
     }
 
     async onInputChange_email(event) {
+        // eslint-disable-next-line
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)) {
             this.setState({ live_check_email: true, button_disable: true, })
@@ -98,7 +99,7 @@ export class Refer_User extends React.Component {
                         Refer User
                     </div>
 
-                    <img src={images.src + 'close_page.svg'}
+                    <img src={images.src + 'close_page.svg'}  alt="" 
                         style={{ cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20 }}
                         onClick={() => {
                             this.props.hide_refer_user();
@@ -155,4 +156,4 @@ export class Refer_User extends React.Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_refer_user })(Refer_User));
+export default withStyles(styles)(connect(null, { hide_refer_user })(ReferUser));

@@ -542,3 +542,9 @@ export const hide_profile_menu = () => {
     type: 'HIDE_PROFILE_MENU'
   }
 }
+
+export const hide_landing_page = () => {
+  return {
+    type: 'HIDE_LANDING_PAGE'
+  }
+}

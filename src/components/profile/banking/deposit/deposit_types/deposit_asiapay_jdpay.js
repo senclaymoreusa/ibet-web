@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
+import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config,images } from '../../../../../util_config';
 import { connect } from 'react-redux';
@@ -284,7 +284,7 @@ class DepositAsiapayJDPay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 900 || parseInt(event.target.value) < 200) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 900 || parseInt(event.target.value) < 200) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -422,7 +422,7 @@ class DepositAsiapayJDPay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -475,13 +475,13 @@ class DepositAsiapayJDPay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                        }}
+                                            inputProps:{
+                                                step: 10,
+                                                min: 200,
+                                                max: 900
+                                            }
+                                          }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 200,
-                                            max: 900
-                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -489,7 +489,7 @@ class DepositAsiapayJDPay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

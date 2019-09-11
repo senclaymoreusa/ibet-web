@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { sports_type } from '../actions';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import { authCheckState } from '../actions';
@@ -131,8 +131,6 @@ class Sports_Type extends Component {
         let basketballMessage = formatMessage({ id: "nav.basketball" });
         let iceHockeyMessage = formatMessage({ id: "nav.ice-hockey" });
         let tennisMessage = formatMessage({ id: "nav.tennis" });
-
-        var recent_sports = JSON.parse(localStorage.getItem("recent-sports"));
 
         return (
             <div className={classes.root}>
