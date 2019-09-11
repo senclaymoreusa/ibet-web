@@ -564,7 +564,6 @@ class DepositPIQ extends Component {
                     // show success page
                     currentComponent.setState({ showLinearProgressBar: false });
                     currentComponent.props.callbackFromParent('success');
-                    // alert('Success'); // alert is placeholder until UX flow is implemented
                 } else {
                     // show deposit page
                     currentComponent.setState({ showLinearProgressBar: false });
@@ -572,11 +571,6 @@ class DepositPIQ extends Component {
                         'error',
                         res.data.errors[0].msg
                     );
-                    // alert(res.data.errors[0].msg); // alert is placeholder until UX flow is implemented
-                    // this.setState({
-                    //     error: true,
-                    //     error_msg: res.data.errors[0].msg
-                    // });
                 }
             });
     };
