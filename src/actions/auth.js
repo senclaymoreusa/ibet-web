@@ -169,6 +169,8 @@ export const logout = () => {
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('facebook');
     localStorage.removeItem('facebookObj');
+    
+    localStorage.removeItem('activityCheckReminder');
     return {
         type: 'AUTH_LOGOUT'
     };

@@ -33,32 +33,22 @@ import {
     show_profile_menu,
     hide_profile_menu
 } from '../actions';
-
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu/account_menu';
-import Promotions from './account_menu/promotions';
-import Settings from './account_menu/settings';
-import MyBets from './account_menu/my_bets';
-import ResponsibleGambling from './account_menu/responsible_gambling';
-import DepositSuccess from './new_deposit_success';
-import WithdrawSuccess from './new_withdraw_success';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import Collapse from '@material-ui/core/Collapse';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-
 import Login from './login_2.js';
 import Signup from './signup_2.js';
 import SignupEmail from './signup_email';
@@ -70,18 +60,9 @@ import PhoneVerification from './signup_phone_verification';
 import OneClickFinish from './one_click_finish';
 import RegisterFinish from './register_finish';
 import ChangePassword from './change_password_new';
-import NewProfile from './new_profile';
-import NewDeposit from './new_deposit';
-import NewDepositConfirm from './new_deposit_confirm';
-import NewDepositWechat from './new_deposit_amount_wechat';
-import NewDepositPaypal from './new_deposite_amount_paypal';
-import NewWithdraw from './new_withdraw';
-import NewWithdrawConfirm from './new_withdraw_confirm';
-import Help from './account_menu/help';
 import NewForgetPassword from './forget_password_new';
 import ForgetPasswordValidation from './forget_password_validation';
 import ReferUser from './refer_user';
-
 import axios from 'axios';
 import { config, images } from '../util_config';
 
@@ -716,7 +697,7 @@ export class TopNavbar extends React.Component {
         this.checkOneClickLogin();
     }
 
-    componentWillUnmount() {        
+    componentWillUnmount() {
         this._isMounted = false;
     }
 
@@ -859,7 +840,6 @@ export class TopNavbar extends React.Component {
     render() {
         const { anchorEl, mainTabValue, balance, balanceCurrency, anchorElLogin } = this.state;
         const { classes } = this.props;
-        console.log("anchorEl: "+anchorEl);
 
         const ProfileMenu = (
             <div >
@@ -1197,143 +1177,6 @@ export class TopNavbar extends React.Component {
                 </Popper>
 
                 <Popper
-                    open={this.props.showUserProfile}
-                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
-                >
-                    <Paper>
-                        <NewProfile />
-                    </Paper>
-                </Popper>
-
-                <Popper
-                    open={this.props.showDeposit}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewDeposit onChange={depositInfo => { this.setState({ depositInfo }) }} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showDepositConfirm}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewDepositConfirm depositInfo={this.state.depositInfo} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showDepositAmount}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewDepositWechat />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showDepositPaypal}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewDepositPaypal />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showWithdraw}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewWithdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showWithdrawConfirm}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewWithdrawConfirm withdrawInfo={this.state.withdrawInfo} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showWithdrawSuccess}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <WithdrawSuccess />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showDepositSuccess}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <DepositSuccess />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
                     open={this.props.showForgetPassword}
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
                 >
@@ -1360,111 +1203,6 @@ export class TopNavbar extends React.Component {
                     </Paper>
                 </Popper>
 
-                <Popper open={this.props.showAccountMenu}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <AccountMenu />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showOpenBets}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <MyBets tabValue={0} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showSettledBets}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <MyBets tabValue={2} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showPromotions}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <Promotions />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showSettings}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <Settings />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showHelp}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <Help />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showResponsibleGambling}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <ResponsibleGambling />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
 
                 <Popper open={this.props.showProfileMenu}
                     anchorEl={anchorEl}
@@ -1487,6 +1225,7 @@ export class TopNavbar extends React.Component {
                                             <List component="div" disablePadding>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.props.hide_profile_menu();
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/banking/deposit')
                                                     }}
@@ -1495,6 +1234,7 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.props.hide_profile_menu();
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/banking/withdraw')
                                                     }}>
@@ -1510,6 +1250,7 @@ export class TopNavbar extends React.Component {
                                             <List component="div" disablePadding>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.props.hide_profile_menu();
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/analysis/bets')
                                                     }}>
@@ -1517,6 +1258,7 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.props.hide_profile_menu();
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/analysis/banking')
                                                     }}>
@@ -1532,6 +1274,7 @@ export class TopNavbar extends React.Component {
                                             <List component="div" disablePadding>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.props.hide_profile_menu();
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/account/user_information')
                                                     }}>
@@ -1539,6 +1282,7 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.props.hide_profile_menu();
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/account/inbox')
                                                     }}>
@@ -1548,6 +1292,7 @@ export class TopNavbar extends React.Component {
                                         </Collapse>
                                         <ListItem button className={classes.mainMenuItem}
                                             onClick={() => {
+                                                this.props.hide_profile_menu();
                                                 this.setState({ mainTabValue: 'none' });
                                                 this.props.history.push('/p/responsible_gaming')
                                             }}>
@@ -1561,6 +1306,7 @@ export class TopNavbar extends React.Component {
                                             <List component="div" disablePadding>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.props.hide_profile_menu();
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/settings/marketing')
                                                     }}>
@@ -1568,6 +1314,7 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                                 <ListItem button className={classes.nested}
                                                     onClick={() => {
+                                                        this.props.hide_profile_menu();
                                                         this.setState({ mainTabValue: 'none' });
                                                         this.props.history.push('/p/settings/privacy')
                                                     }}>
@@ -1577,6 +1324,7 @@ export class TopNavbar extends React.Component {
                                         </Collapse>
                                         <ListItem button
                                             onClick={() => {
+                                                this.props.hide_profile_menu();
                                                 this.props.logout()
                                                 postLogout();
                                             }} className={classes.mainMenuItem}>
@@ -1585,7 +1333,6 @@ export class TopNavbar extends React.Component {
                                     </List>
                                 </Paper>
                             </Fade>
-
                         </ClickAwayListener>
                     )}
                 </Popper>

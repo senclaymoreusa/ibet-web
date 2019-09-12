@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL, AUTH_RESULT_SUCCESS } from '../../../actions';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -23,7 +23,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { FormattedNumber } from 'react-intl';
 import moment from "moment";
 import LinearProgress from '@material-ui/core/LinearProgress';
-
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -397,7 +396,6 @@ const styles = theme => ({
         },
         "&:hover": {
             backgroundColor: '#fff'
-
         },
     },
     limitValueContainer: {
@@ -447,7 +445,9 @@ export class ResponsibleGaming extends Component {
             showLossProgressBar: false,
         }
 
-        this.getValues = this.getValues.bind(this);
+        this.getLimitValues = this.getLimitValues.bind(this);
+        this.getActivityCheckValue = this.getActivityCheckValue.bind(this);
+
         this.depositLimitDurationClicked = this.depositLimitDurationClicked.bind(this);
         this.lossLimitDurationClicked = this.lossLimitDurationClicked.bind(this);
         this.reminderDurationClicked = this.reminderDurationClicked.bind(this);
@@ -456,18 +456,17 @@ export class ResponsibleGaming extends Component {
     }
 
     async componentWillReceiveProps(props) {
-        await this.getValues();
+        await this.getLimitValues();
+        this.getActivityCheckValue();
     }
 
     async componentDidMount() {
-        await this.getValues();
+        await this.getLimitValues();
+        this.getActivityCheckValue();
     }
 
-    async getValues() {
+    async getLimitValues() {
         let currentComponent = this;
-
-        let duration = localStorage.getItem('activityReminderDuration');
-        this.setState({ activityReminderDuration: parseInt(duration) })
 
         await this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -506,6 +505,48 @@ export class ResponsibleGaming extends Component {
                     })
             }
         })
+    }
+
+    getActivityCheckValue() {
+        let reminderText = localStorage.getItem('activityCheckReminder');
+
+        if (reminderText) {
+            let reminderData = JSON.parse(reminderText);
+            this.setState({ activityReminderDuration: parseInt(reminderData.duration) })
+        } else {
+            this.props.authCheckState().then(res => {
+                if (res === AUTH_RESULT_SUCCESS) {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            let userId = res.data.pk;
+
+                            return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
+                        }).then(res => {
+                            switch (res.data) {
+                                case 0:
+                                    this.setState({ activityReminderDuration: 5 })
+                                    break;
+                                case 1:
+                                    this.setState({ activityReminderDuration: 30 })
+                                    break;
+                                case 2:
+                                    this.setState({ activityReminderDuration: 60 })
+                                    break;
+                                case 120:
+                                    this.setState({ activityReminderDuration: 120 })
+                                    break;
+                                default:
+                                    this.setState({ activityReminderDuration: 60 })
+                            }
+                        }).catch(err => {
+                            console.log(err);
+                        })
+                }
+            })
+        }
     }
 
     depositLimitChanged(ev) {
@@ -820,16 +861,44 @@ export class ResponsibleGaming extends Component {
     }
 
     saveActivityReminderClicked() {
-        var reminderData = {
-            "userId": this.state.userId,
-            "startTime": new Date(),
-            "duration": this.state.activityReminderDuration
+        let duration = 2;
+
+        switch (this.state.activityReminderDuration) {
+            case 5:
+                duration = 0;
+                break;
+            case 30:
+                duration = 1;
+                break;
+            case 60:
+                duration = 2;
+                break;
+            case 120:
+                duration = 3;
+                break;
+            default:
+                duration = 2;
         }
 
-        localStorage.setItem(JSON.stringify(reminderData));
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
 
-        this.setState({ messageText: "You have set your reminder." });
-        this.setState({ showMessage: true });
+        axios.post(API_URL + 'users/api/activity-check/', {
+            "userId": this.state.userId,
+            "activityOpt": duration,
+        }, config)
+            .then(res => {
+                var reminderData = {
+                    "userId": this.state.userId,
+                    "startTime": new Date(),
+                    "duration": duration
+                }
+
+                localStorage.setItem('activityCheckReminder', JSON.stringify(reminderData));
+
+                this.setState({ messageText: "You have set your reminder." });
+                this.setState({ showMessage: true });
+            })
     }
 
     reminderDurationClicked(val) {

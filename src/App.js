@@ -13,7 +13,10 @@ import Fade from '@material-ui/core/Fade';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import { withStyles } from '@material-ui/core/styles';
+import { config } from './util_config';
+import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 const styles = theme => ({
   notification: {
     backgroundColor: '#0095ff',
@@ -35,12 +38,8 @@ class App extends Component {
 
     this.state = {
       lang: 'zh',
-      showReminder: false,
+      showActivityCheckReminder: false,
     }
-  }
-
-  handleWindowBeforeUnload = (ev) => {
-    return "Unsaved changes. Are you sure?";
   }
 
   componentDidMount() {
@@ -55,39 +54,75 @@ class App extends Component {
     window.removeEventListener("beforeunload", this.handleWindowBeforeUnload);
   }
 
+  handleWindowBeforeUnload = (ev) => {
+    localStorage.removeItem('activityCheckReminder');
+
+    return "Unsaved changes. Are you sure?";
+  }
+
   checkIfReminderTime() {
-    var reminderText = localStorage.getItem('reminderData');
+    var reminderText = localStorage.getItem('activityCheckReminder');
 
-    if (!reminderText)
-      return;
+    if (reminderText) {
+      var reminderData = JSON.parse(reminderText);
 
-    var reminderObj = JSON.parse(reminderText);
+      let now = new Date();
 
+      let milliseconds = Date.parse(reminderData.startTime)
+      let threshold = new Date(milliseconds);
+      let mins = threshold.getMinutes();
+      threshold.setMinutes(mins + parseInt(reminderData.duration));
 
-    const reminderStartTime = localStorage.getItem('activityReminderStartTime');
-    const duration = localStorage.getItem('activityReminderDuration');
-
-    let now = new Date();
-
-    if (reminderStartTime === null)
-      localStorage.setItem("activityReminderStartTime", now);
-
-    if (duration === null)
-      localStorage.setItem("activityReminderDuration", 60);
-
-    let milliseconds = Date.parse(reminderStartTime)
-    let threshold = new Date(milliseconds);
-    let mins = threshold.getMinutes();
-    threshold.setMinutes(mins + parseInt(duration));
-
-    if (threshold < now) {
-      this.setState({ showReminder: true });
-      localStorage.setItem("activityReminderStartTime", now);
+      if (threshold < now) {
+        this.setState({ showActivityCheckReminder: true });
+        reminderData.startTime = now;
+        localStorage.setItem("activityCheckReminder", JSON.stringify(reminderData));
+      }
+    } else if (this.props.isAuthenticated) {
+      this.setActivityReminder();
     }
   }
 
-  closeReminderClicked() {
-    this.setState({ showReminder: false });
+  setActivityReminder() {
+    let currentComponent = this;
+
+    let reminderData = {
+      "userId": currentComponent.state.userId,
+      "startTime": new Date(),
+      "duration": 60
+    }
+
+    const token = localStorage.getItem('token');
+    config.headers["Authorization"] = `Token ${token}`;
+
+    axios.get(API_URL + 'users/api/user/', config)
+      .then(res => {
+        let userId = res.data.pk;
+        reminderData.userId = userId;
+
+        return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
+      }).then(res => {
+        switch (res.data) {
+            case 0:
+                reminderData.duration = 5;
+                break;
+            case 1:
+                reminderData.duration = 30;
+                break;
+            case 2:
+                reminderData.duration = 60;
+                break;
+            case 120:
+                reminderData.duration = 120;
+                break;
+            default:
+                reminderData.duration = 60;
+        }
+
+        localStorage.setItem('activityCheckReminder', JSON.stringify(reminderData));
+      }).catch(err => {
+        console.log(err);
+      })
   }
 
   render() {
@@ -106,8 +141,10 @@ class App extends Component {
               vertical: 'top',
               horizontal: 'center',
             }}
-            open={this.state.showReminder}
-            onClose={this.closeReminderClicked.bind(this)}
+            open={this.state.showActivityCheckReminder}
+            onClose={() => {
+              this.setState({ showActivityCheckReminder: false });
+            }}
             autoHideDuration={3000}
             TransitionComponent={Fade}
           >
@@ -128,8 +165,9 @@ class App extends Component {
                   aria-label="close"
                   color="inherit"
                   className={classes.close}
-                  onClick={this.closeReminderClicked.bind(this)}
-                >
+                  onClick={() => {
+                    this.setState({ showActivityCheckReminder: false });
+                  }}>
                   <CloseIcon />
                 </IconButton>,
               ]}
@@ -141,7 +179,10 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const { token } = state.auth;
+
   return {
+    isAuthenticated: token !== null && token !== undefined,
     lang: state.language.lang,
   }
 }

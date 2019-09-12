@@ -192,15 +192,63 @@ export class Login extends React.Component {
                     localStorage.removeItem('remember_check');
                 }
                 this.props.hide_login()
+
+                this.setActivityReminder();
             })
             .catch(err => {
-                if (typeof err === "string"){
-                    this.setState({user_blocked: true,  wrong_password_error: false})
-                }else{
+                if (typeof err === "string") {
+                    this.setState({ user_blocked: true, wrong_password_error: false })
+                } else {
                     this.setState({ wrong_password_error: true, user_blocked: false })
                 }
-                
+
             });
+    }
+
+    async setActivityReminder() {
+        let currentComponent = this;
+
+        let reminderData = {
+            "userId": currentComponent.state.userId,
+            "startTime": new Date(),
+            "duration": 60
+        }
+
+        await this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_SUCCESS) {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        let userId = res.data.pk;
+                        reminderData.userId = userId;
+
+                        return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
+                    }).then(res => {
+                        switch (res.data) {
+                            case 0:
+                                reminderData.duration = 5;
+                                break;
+                            case 1:
+                                reminderData.duration = 30;
+                                break;
+                            case 2:
+                                reminderData.duration = 60;
+                                break;
+                            case 120:
+                                reminderData.duration = 120;
+                                break;
+                            default:
+                                reminderData.duration = 60;
+                        }
+
+                        localStorage.setItem('activityCheckReminder', JSON.stringify(reminderData));
+                    }).catch(err => {
+                        console.log(err);
+                    })
+            }
+        })
     }
 
     render() {
