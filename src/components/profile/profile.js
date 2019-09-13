@@ -20,6 +20,7 @@ import Banking from './banking/banking';
 import Analysis from './analysis/analysis';
 import Settings from './settings/settings';
 import Account from './account/account';
+import Rewards from './rewards/rewards';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -65,9 +66,9 @@ const StyledTab = withStyles(theme => ({
         fontWeight: theme.typography.fontWeightRegular,
         fontSize: 20,
         outline: 'none',
-        width: '20%',
+        width: '16.6%',
         minWidth:280,
-        maxWidth: '20%',
+        maxWidth: '16.6%',
         height:'100%',
         borderBottom: '2px solid #d8d8d8',
         whiteSpace: 'nowrap',
@@ -194,6 +195,7 @@ export class Profile extends Component {
         let accountMessage = formatMessage({ id: "profile-nav.account" });
         let responsibleMessage = formatMessage({ id: "profile-nav.responsible" });
         let settingsMessage = formatMessage({ id: "profile-nav.settings" });
+        let rewardsMessage = formatMessage({ id: "profile-nav.rewards" });
 
         return (
             <div className={classes.root}>
@@ -248,6 +250,15 @@ export class Profile extends Component {
                                     }
                                 }}
                             />
+                             <StyledTab
+                                value="rewards"
+                                label={rewardsMessage}
+                                onClick={() => {
+                                    if (this.props.match.params.type !== 'rewards') {
+                                        this.handleCategoryChange('rewards');
+                                    }
+                                }}
+                            />
                         </StyledTabs>
                     </AppBar>
                 </MuiThemeProvider>
@@ -256,6 +267,7 @@ export class Profile extends Component {
                     {this.state.tabValue === 'analysis' && <Analysis />}
                     {this.state.tabValue === 'settings' && <Settings />}
                     {this.state.tabValue === 'account' && <Account />}
+                    {this.state.tabValue === 'rewards' && <Rewards />}
                 </div>
                 <Footer />
                 <ChatTool />
