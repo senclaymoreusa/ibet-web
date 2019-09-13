@@ -504,8 +504,8 @@ export class ResponsibleGaming extends Component {
                                     this.setState({ currentLossLimit: parseInt(dailyLossItem[0].amount) });
                             }).catch(err => {
                                 console.log(err);
-                                if(err.response.status === 403)
-                                this.setState({ isLocked:  true});
+                                if (err.response.status === 403)
+                                    this.setState({ isLocked: true });
 
                             })
                     })
@@ -555,26 +555,70 @@ export class ResponsibleGaming extends Component {
         }
     }
 
-
     depositLimitChanged(ev) {
+        let val = ev.target.value === "" ? this.state.currentDepositLimit : ev.target.value;
+        this.setState({ currentDepositLimit: val });
+        let currentComponent = this;
 
-        this.setState({ currentDepositLimit: ev.target.value });
+        var item = this.state.depositLimits.filter(function (item) {
+            return item.intervalValue === currentComponent.state.depositLimitDuration;
+        });
 
-        this.setState(prevState => ({
-            depositLimits: prevState.depositLimits.map(
-                obj => (obj.intervalValue === this.state.depositLimitDuration ? Object.assign(obj, { amount: ev.target.value }) : obj)
-            )
-        }));
+        if (item.length > 0) {
+            this.setState(prevState => ({
+                depositLimits: prevState.depositLimits.map(
+                    obj => (obj.intervalValue === this.state.depositLimitDuration ? Object.assign(obj, { amount: val }) : obj)
+                )
+            }));
+        } else {
+            var newLimit = {
+                "amount": val,
+                "intervalValue": this.state.depositLimitDuration,
+                "limitId": null,
+                "expiration_time": ""
+            }
+            this.setState(state => {
+                const list = state.depositLimits.concat(newLimit);
+                return {
+                    depositLimits: list,
+                    currentDepositLimit: val,
+                };
+            });
+        }
+
+
     }
 
     lossLimitChanged(ev) {
-        this.setState({ currentLossLimit: ev.target.value });
+        let val = ev.target.value === "" ? this.state.currentLossLimit : ev.target.value;
+        this.setState({ currentLossLimit: val });
+        let currentComponent = this;
 
-        this.setState(prevState => ({
-            lossLimits: prevState.lossLimits.map(
-                obj => (obj.intervalValue === this.state.lossLimitDuration ? Object.assign(obj, { amount: ev.target.value }) : obj)
-            )
-        }));
+        var item = this.state.lossLimits.filter(function (item) {
+            return item.intervalValue === currentComponent.state.lossLimitDuration;
+        });
+
+        if (item.length > 0) {
+            this.setState(prevState => ({
+                lossLimits: prevState.lossLimits.map(
+                    obj => (obj.intervalValue === this.state.lossLimitDuration ? Object.assign(obj, { amount: val }) : obj)
+                )
+            }));
+        } else {
+            var newLimit = {
+                "amount": val,
+                "intervalValue": this.state.lossLimitDuration,
+                "limitId": null,
+                "expiration_time": ""
+            }
+            this.setState(state => {
+                const list = state.lossLimits.concat(newLimit);
+                return {
+                    lossLimits: list,
+                    currentLossLimit: val,
+                };
+            });
+        }     
     }
 
     depositLimitDurationClicked(val) {
@@ -600,7 +644,7 @@ export class ResponsibleGaming extends Component {
         if (item.length > 0)
             this.setState({ currentLossLimit: parseInt(item[0].amount) });
         else
-            this.setState({ currentLossLimit: null });
+            this.setState({ currentLossLimit: '' });
     }
 
     decreaseDepositLimitClicked() {
