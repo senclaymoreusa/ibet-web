@@ -504,6 +504,9 @@ export class ResponsibleGaming extends Component {
                                     this.setState({ currentLossLimit: parseInt(dailyLossItem[0].amount) });
                             }).catch(err => {
                                 console.log(err);
+                                if(err.response.status === 403)
+                                this.setState({ isLocked:  true});
+
                             })
                     })
             }
@@ -551,6 +554,7 @@ export class ResponsibleGaming extends Component {
             })
         }
     }
+
 
     depositLimitChanged(ev) {
 
@@ -781,22 +785,21 @@ export class ResponsibleGaming extends Component {
     }
 
     lockClicked() {
-        // const token = localStorage.getItem('token');
-        // config.headers["Authorization"] = `Token ${token}`;
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
 
-        // axios.post(API_URL + 'users/api/set-block-time/', {
-        //     "timespan": this.state.lockDuration,
-        //     "userId": this.state.userId,
-        // }, config)
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             this.setState({ messageText: res.data });
-        //             this.setState({ showMessage: true });
-        //         }
-        //     })
+        axios.post(API_URL + 'users/api/set-block-time/', {
+            "timespan": this.state.lockDuration,
+            "userId": this.state.userId,
+        }, config)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({ isLocked: true });
 
-        this.setState({ isLocked: true });
-
+                    this.setState({ messageText: res.data });
+                    this.setState({ showMessage: true });
+                }
+            })
     }
 
     doneClicked(ev) {
@@ -992,7 +995,7 @@ export class ResponsibleGaming extends Component {
                     currentComponent.setState(prevState => ({
                         lossLimits: prevState.lossLimits.map(
                             obj => (obj.limitId === limit[0].limitId ? Object.assign(obj, {
-                                expiration_time: '', 
+                                expiration_time: '',
                             }) : obj)
                         )
                     }));
@@ -1052,9 +1055,9 @@ export class ResponsibleGaming extends Component {
                             <Button className={classes.button} onClick={this.doneClicked.bind(this)}>
                                 Done
                             </Button>
-                            <Button className={classes.button} style={{ marginTop: 20 }} onClick={this.revertClicked.bind(this)}>
+                            {/* <Button className={classes.button} style={{ marginTop: 20 }} onClick={this.revertClicked.bind(this)}>
                                 Revert
-                            </Button>
+                            </Button> */}
                         </Grid>
                     </Grid>
                     :
@@ -1124,7 +1127,6 @@ export class ResponsibleGaming extends Component {
                                                     InputProps={{
                                                         disableUnderline: true,
                                                         startAdornment: <InputAdornment position="start">{this.state.balanceCurrenyCode}</InputAdornment>,
-                                                        readOnly: true,
                                                         inputProps: {
                                                             style: {
                                                                 paddingTop: 3,
@@ -1249,7 +1251,6 @@ export class ResponsibleGaming extends Component {
                                                     onChange={this.lossLimitChanged.bind(this)}
                                                     InputProps={{
                                                         disableUnderline: true,
-                                                        readOnly: true,
                                                         startAdornment: <InputAdornment position="start">{this.state.balanceCurrenyCode}</InputAdornment>,
                                                         inputProps: {
                                                             style: {
