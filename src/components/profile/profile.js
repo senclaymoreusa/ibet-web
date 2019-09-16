@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import Banking from './banking/banking';
 import Analysis from './analysis/analysis';
 import Settings from './settings/settings';
+import ResponsibleGaming from './responsible_gaming/responsible_gaming';
 import Account from './account/account';
 import Rewards from './rewards/rewards';
 
@@ -233,11 +234,11 @@ export class Profile extends Component {
                                 }}
                             />
                             <StyledTab
-                                value="responsible"
+                                value="responsible_gaming"
                                 label={responsibleMessage}
                                 onClick={() => {
-                                    if (this.props.match.params.type !== 'responsible') {
-                                        this.handleCategoryChange('responsible');
+                                    if (this.props.match.params.type !== 'responsible_gaming') {
+                                        this.handleCategoryChange('responsible_gaming');
                                     }
                                 }}
                             />
@@ -266,6 +267,7 @@ export class Profile extends Component {
                     {this.state.tabValue === 'banking' && <Banking />}
                     {this.state.tabValue === 'analysis' && <Analysis />}
                     {this.state.tabValue === 'settings' && <Settings />}
+                    {this.state.tabValue === 'responsible_gaming' && <ResponsibleGaming />}
                     {this.state.tabValue === 'account' && <Account />}
                     {this.state.tabValue === 'rewards' && <Rewards />}
                 </div>

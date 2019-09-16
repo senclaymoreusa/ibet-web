@@ -26,8 +26,8 @@ const styles = theme => ({
     minHeight: '100vh',
   },
   main: {
-    marginTop: theme.spacing.unit * 8,
-    marginBottom: theme.spacing.unit * 2,
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(2),
   },
   lang_button: {
     padding: 0,
@@ -57,8 +57,8 @@ const styles = theme => ({
   footer: {
     paddingLeft: 24,
     paddingRight: 24,
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
     backgroundColor: '#212121',
     display: 'flex',
     flexDirection: 'column'
@@ -87,7 +87,7 @@ const styles = theme => ({
     },
   },
   paper: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },

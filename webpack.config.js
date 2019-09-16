@@ -15,7 +15,8 @@ var path = require('path');
                  //include: [Path.join(__dirname, "src/assets")],
                  query: {
                      presets: ['es2015', 'react']
-                 }
+                 },
+                 
              }
          ]
      },
