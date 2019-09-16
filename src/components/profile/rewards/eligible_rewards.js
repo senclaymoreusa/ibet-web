@@ -26,10 +26,10 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
         width: 925,
+        minHeight: 688,
         backgroundColor: '#ffffff',
         border: 'solid 1px #979797',
     },
-
     titleCell: {
         display: 'flex',
         flexDirection: 'column',
@@ -48,93 +48,44 @@ const styles = theme => ({
         color: 'black',
         marginTop: 28,
     },
-    contentPaper: {
-
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
-        margin: 20,
-    },
-    leftCell: {
-        display: 'flex',
-        alignItems: 'left',
-        paddingTop: 5,
-        paddingBottom: 5,
-        borderBottom: '1px solid #212121',
-
-    },
-    rightCell: {
-        textAlign: 'right',
-        paddingTop: 5,
-        paddingBottom: 5,
-        borderBottom: '1px solid #212121',
-    },
-    button: {
-        height: 52,
-        borderRadius: 10,
-        minWidth: 162,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        display: 'inline-block',
-        marginBottom: 23,
-        color: '#fff',
-        '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        },
-        '&:focus': {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        },
-    },
-    updateRow: {
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        height: 75,
-        textAlign: 'right',
-        paddingTop: 13,
-        paddingRight: 52,
-    },
-    text: {
-        fontSize: 15,
+    pleased:{
+        fontSize: 17,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 1.33,
-        letterSpacing: 'normal',
+        lineHeight: 0.53,
+        letterSpacing: 0.45,
+        color: 'black',
     },
-    subTitle: {
-        marginLeft: 10,
-        fontSize: 20,
-        fontWeight: 500,
+    steps:{
+        fontSize: 17,
+        fontWeight: 600,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 0.53,
+        letterSpacing: 0.55,
+        color: '#6d7278',
+    },
+    pleasedRow:{
+        paddingTop: 20,
+        paddingLeft: 28,
+        paddingRight:49,
+    },
+    noRow:{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: 50
+    },
+    noEligible:{
+        fontSize: 17,
+        fontWeight: 600,
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 'normal',
-        letterSpacing: 'normal',
+        letterSpacing: 0.55,
+        color: 'black',
     },
-    row: {
-        paddingLeft: 85,
-        paddingRight: 85,
-        paddingTop: 30,
-    },
-    subRow: {
-        paddingLeft: 140,
-        paddingRight: 85,
-        paddingTop: 10,
-    },
-    notification: {
-        backgroundColor: '#3ce86a',
-        // marginTop: 202,
-        //minWidth: 1330,
-    },
-    message: {
-        marginLeft: 10,
-        float: 'left',
-        lineHeight: 1.9
-    },
-    margin: {
-        margin: theme.spacing.unit,
-    },
-    checkIcon: {
-        float: 'left',
-    }
 });
 
 export class EligibleRewards extends Component {
@@ -143,20 +94,31 @@ export class EligibleRewards extends Component {
         super(props);
 
         this.state = {
-   
+
         }
 
-        
+
     }
 
-  
+
 
     render() {
         const { classes } = this.props;
-       
+
         return (
             <div className={classes.root}>
-            EligibleRewards
+                <Grid container>
+                    <Grid item xs={12} className={classes.titleCell}>
+                        <span className={classes.title}>Eligible Rewards</span>
+                    </Grid>
+                    <Grid item xs={12} className={classes.pleasedRow}>
+                        <span className={classes.pleased}>We are pleased you are interested in our rewards. Please note we change these on occasion to offer you the best options. Below is what is available to you today.</span>
+                        <span className={classes.steps}>Rewards steps: (1)  Accept Rewards (2) Place bets (3) Get rewards money if you lose  (4) Play to convert rewards to cash.</span>                 
+                    </Grid>    
+                    <Grid item xs={12} className={classes.noRow}>
+                        <span className={classes.noEligible}>Right now there are no Eligible Rewards  available. Please try later.</span>
+                    </Grid>         
+                </Grid>
             </div>
         );
     }
