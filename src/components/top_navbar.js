@@ -33,31 +33,22 @@ import {
     show_profile_menu,
     hide_profile_menu
 } from '../actions';
-
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
-
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu/account_menu';
-import Promotions from './account_menu/promotions';
-import Settings from './account_menu/settings';
-import MyBets from './account_menu/my_bets';
-import ResponsibleGambling from './account_menu/responsible_gambling';
-import DepositSuccess from './new_deposit_success';
-import WithdrawSuccess from './new_withdraw_success';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import Collapse from '@material-ui/core/Collapse';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
-
+import Modal from '@material-ui/core/Modal';
 import Login from './login_2.js';
 import Signup from './signup_2.js';
 import SignupEmail from './signup_email';
@@ -69,18 +60,9 @@ import PhoneVerification from './signup_phone_verification';
 import OneClickFinish from './one_click_finish';
 import RegisterFinish from './register_finish';
 import ChangePassword from './change_password_new';
-import NewProfile from './new_profile';
-import NewDeposit from './new_deposit';
-import NewDepositConfirm from './new_deposit_confirm';
-import NewDepositWechat from './new_deposit_amount_wechat';
-import NewDepositPaypal from './new_deposite_amount_paypal';
-import NewWithdraw from './new_withdraw';
-import NewWithdrawConfirm from './new_withdraw_confirm';
-import Help from './account_menu/help';
 import NewForgetPassword from './forget_password_new';
 import ForgetPasswordValidation from './forget_password_validation';
 import ReferUser from './refer_user';
-
 import axios from 'axios';
 import { config, images } from '../util_config';
 
@@ -173,6 +155,9 @@ const styles = theme => ({
             backgroundColor: "#ffffff",
         }
     },
+    firstNavLayer: {
+        backgroundColor: '#ffffff',
+    },
     sectionDesktop: {
         display: 'none',
         height: '100%',
@@ -186,21 +171,32 @@ const styles = theme => ({
             display: 'none',
         },
     },
+    modal: {
+        display: 'flex',
+        padding: theme.spacing(1),
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    paper: {
+        position: 'absolute',
+        width: 662,
+        padding: 0,
+        "&:focus": {
+            outline: 'none'
+        }
+    },
     button: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         color: 'white'
     },
-    subbutton: {
-        margin: theme.spacing.unit
-    },
     nested: {
-        paddingLeft: theme.spacing.unit * 4
+        paddingLeft: theme.spacing() * 4
     },
     signupButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         fontSize: 17,
         height: 40,
         color: '#ffffff',
@@ -216,8 +212,8 @@ const styles = theme => ({
     loginButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingLeft: 6,
         fontSize: 17,
         height: 40,
@@ -232,29 +228,11 @@ const styles = theme => ({
             color: 'rgba(0, 0, 0, 0.5)',
         }
     },
-    textField: {
-        marginTop: 13,
-        marginBottom: 15,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        paddingLeft: 25,
-        paddingRight: 25,
-        paddingTop: 13,
-        paddingBottom: 13,
-        fontSize: 18,
-        outline: 'none',
-        width: 180,
-        height: 44,
-        objectFit: 'contain',
-        borderRadius: 22,
-        border: 'solid 1px #e8e8e8',
-        backgroundColor: '#f1f1f1',
-    },
     balanceButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingTop: 4,
         fontSize: 17,
         height: 40,
@@ -281,8 +259,8 @@ const styles = theme => ({
     profileButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingTop: 4,
         fontSize: 17,
         height: 40,
@@ -304,16 +282,12 @@ const styles = theme => ({
         letterSpacing: 0.66,
         color: '#6a6a6a',
     },
-    extendedIcon: {
-        marginRight: theme.spacing.unit,
-    },
     searchResult: {
         width: 400,
         height: 100,
         marginTop: 42,
         marginLeft: 0,
         marginRight: 0
-
     },
     image: {
         position: 'relative',
@@ -335,27 +309,6 @@ const styles = theme => ({
         },
     },
     focusVisible: {
-
-    },
-    imageButton: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: theme.palette.common.white,
-    },
-    imageSrc: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 40%',
     },
     imageBackdrop: {
         position: 'absolute',
@@ -369,7 +322,7 @@ const styles = theme => ({
     },
     imageTitle: {
         position: 'relative',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px ${theme.spacing.unit + 6}px`,
+        padding: `${theme.spacing(2)}px ${theme.spacing() * 4}px ${theme.spacing() + 6}px`,
     },
     imageMarked: {
         height: 3,
@@ -384,47 +337,6 @@ const styles = theme => ({
         display: 'inline-block',
         flexGrow: 1,
     },
-    langButton: {
-        height: '100%',
-        borderRadius: 6,
-        padding: 0,
-    },
-
-    flag: {
-        width: 64,
-        height: 38,
-        borderRadius: 6,
-    },
-    langContainer: {
-        display: 'inline',
-        marginLeft: theme.spacing.unit,
-        marginTop: 16,
-        marginBottom: 16,
-    },
-    lang_menu_list: {
-        backgroundColor: '#ffffff',
-        color: 'black',
-        paddingLeft: 10,
-        paddingRight: 10,
-    },
-    lang_menu_list_item: {
-        border: '1px solid #ffffff',
-        "&:hover": {
-            borderRadius: 4,
-            border: '1px solid #868686',
-            backgroundColor: '#ffffff',
-        },
-    },
-    lang_menu_list_item_selected: {
-        borderRadius: 4,
-        border: '1px solid #000000',
-        backgroundColor: '#ffffff',
-
-    },
-    lang_menu_list_item_text: {
-        marginLeft: 10,
-        color: 'black',
-    },
     accountMenuPaper: {
         padding: 0,
         width: 360,
@@ -433,19 +345,14 @@ const styles = theme => ({
         padding: 0,
         width: 210,
         backgroundColor: '#ffffff',
-
     },
     footer: {
         paddingLeft: 24,
         paddingRight: 24,
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
         marginTop: 20,
         backgroundColor: '#212121',
-    },
-    footer_menu_container: {
-        display: 'inline',
-        marginTop: 20
     },
     profilePopper: {
         width: 360,
@@ -487,7 +394,8 @@ const styles = theme => ({
 const muiLogoBarTheme = createMuiTheme({
     palette: {
         primary: {
-            main: '#ffffff'
+            main: '#ffffff',
+            primary1Color: '#ffffff'
         },
     },
     appBar: {
@@ -502,12 +410,12 @@ const muiMenuBarTheme = createMuiTheme({
     appBar: {
         height: 62,
         paddingBottom: 2,
-
     },
     typography: {
         useNextVariants: true,
     },
 });
+
 
 const SVG = ({
     style = {},
@@ -579,6 +487,7 @@ export class TopNavbar extends React.Component {
             showAnalysisProfileSubMenu: false,
             showUserAccountProfileSubMenu: false,
             showSettingsProfileSubMenu: false,
+            showRewardsProfileSubMenu: false,
 
             mainTabValue: 'none',
         };
@@ -675,7 +584,7 @@ export class TopNavbar extends React.Component {
         this.props.show_login()
     };
 
-    handleSignupMenuOpen = () => {
+    handleSignupMenuOpen = event => {
         this.setState({ username: '', password: '' })
 
         this.props.show_signup()
@@ -761,11 +670,11 @@ export class TopNavbar extends React.Component {
         }
 
         this.checkFacebookLogin();
-
         this.checkOneClickLogin();
     }
 
     componentDidMount() {
+
         this._isMounted = true;
 
         this.setMainMenuIndicator();
@@ -786,7 +695,6 @@ export class TopNavbar extends React.Component {
         }
 
         this.checkFacebookLogin();
-
         this.checkOneClickLogin();
     }
 
@@ -884,6 +792,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showBankingProfileSubMenu: false }));
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
         this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
     }
 
     bankingProfileMenuItemClick = () => {
@@ -893,6 +802,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showAnalysisProfileSubMenu: false }));
         this.setState(() => ({ showUserAccountProfileSubMenu: false }));
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
     };
 
     analysisProfileMenuItemClick = () => {
@@ -902,6 +812,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showBankingProfileSubMenu: false }));
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
         this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
     };
 
     userAccountProfileMenuItemClick = () => {
@@ -911,6 +822,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showBankingProfileSubMenu: false }));
         this.setState(() => ({ showAnalysisProfileSubMenu: false }));
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
     };
 
     settingsProfileMenuItemClick = () => {
@@ -920,6 +832,17 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showBankingProfileSubMenu: false }));
         this.setState(() => ({ showAnalysisProfileSubMenu: false }));
         this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
+    };
+
+    rewardsProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
+        this.setState(state => ({ showRewardsProfileSubMenu: !state.showRewardsProfileSubMenu }));
+
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
     };
 
     handleProfileMenuClose = () => {
@@ -931,26 +854,24 @@ export class TopNavbar extends React.Component {
     }
 
     render() {
-        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency, anchorElLogin } = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
             <div >
-                <ClickAwayListener onClickAway={this.profileMenuClickAway}>
-                    <Button
-                        className={classes.profileButton}
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={this.profileIconClicked}>
-                        <SVG className="profileIcon" />
-                        <div className={classes.profileLabel} >
-                            <FormattedMessage id="nav.hello" defaultMessage='Hello' />
-                        </div>
-                        <span>, </span>
-                        {this.state.username}
-                        {this.props.showProfileMenu ? <ExpandLess /> : <ExpandMore />}
-                    </Button>
-                </ClickAwayListener>
+                <Button
+                    className={classes.profileButton}
+                    color="inherit"
+                    aria-label="Open drawer"
+                    onClick={this.profileIconClicked}>
+                    <SVG className="profileIcon" />
+                    <div className={classes.profileLabel} >
+                        <FormattedMessage id="nav.hello" defaultMessage='Hello' />
+                    </div>
+                    <span>, </span>
+                    {this.state.username}
+                    {this.props.showProfileMenu ? <ExpandLess /> : <ExpandMore />}
+                </Button>
             </div>
         );
 
@@ -1011,7 +932,7 @@ export class TopNavbar extends React.Component {
         return (
             <div className={classes.root}>
                 <MuiThemeProvider theme={muiLogoBarTheme} >
-                    <AppBar position="static" >
+                    <AppBar position="static" className={classes.firstNavLayer}>
                         <Toolbar className={classes.appBar}>
                             <div className={classes.sectionMobile}>
                                 <IconButton
@@ -1153,7 +1074,7 @@ export class TopNavbar extends React.Component {
                                     this.props.history.push("/lottery_type/lottery");
                                 }} />
                             <StyledTab
-                                style={{ width: 0, minWidth: 0, }}
+                                style={{ width: 0, minWidth: 0, maxWidth: 0, padding: 0 }}
                                 value='none'
                             />
                         </StyledTabs>
@@ -1165,6 +1086,7 @@ export class TopNavbar extends React.Component {
                 <Popper
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                     open={this.props.showLogin}
+                    anchorEl={anchorElLogin}
                 >
                     <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
                         <Paper>
@@ -1172,87 +1094,94 @@ export class TopNavbar extends React.Component {
                         </Paper>
                     </ClickAwayListener>
                 </Popper>
-
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignup}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <Signup />
                     </Paper>
-                </Popper>
-
-                <Popper
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupEmail}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <SignupEmail />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupDetail}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <SignupDetail />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupContact}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <SignupContact />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupPhone}
-                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <SignupPhone />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showCompleteRegistration}
-                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <CompleteRegistration />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showPhoneVerification}
-                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 770) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <PhoneVerification />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showOneclickFinish}
-                    style={{ position: 'absolute', top: this.state.height > 600 ? (this.state.height - 600) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <OneClickFinish />
                     </Paper>
-                </Popper>
+                </Modal>
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showSignupFinish}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 770 ? (this.state.width - 770) / 2 : 0 }}
-                >
-                    <Paper>
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
                         <RegisterFinish />
                     </Paper>
-                </Popper>
+                </Modal>
 
                 <Popper
                     open={this.props.showChangePassword}
@@ -1261,143 +1190,6 @@ export class TopNavbar extends React.Component {
                     <Paper>
                         <ChangePassword />
                     </Paper>
-                </Popper>
-
-                <Popper
-                    open={this.props.showUserProfile}
-                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
-                >
-                    <Paper>
-                        <NewProfile />
-                    </Paper>
-                </Popper>
-
-                <Popper
-                    open={this.props.showDeposit}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewDeposit onChange={depositInfo => { this.setState({ depositInfo }) }} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showDepositConfirm}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewDepositConfirm depositInfo={this.state.depositInfo} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showDepositAmount}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewDepositWechat />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showDepositPaypal}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewDepositPaypal />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showWithdraw}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewWithdraw onChange={withdrawInfo => { this.setState({ withdrawInfo }) }} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showWithdrawConfirm}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <NewWithdrawConfirm withdrawInfo={this.state.withdrawInfo} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showWithdrawSuccess}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <WithdrawSuccess />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper
-                    open={this.props.showDepositSuccess}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper>
-                                <DepositSuccess />
-                            </Paper>
-                        </Fade>
-                    )}
                 </Popper>
 
                 <Popper
@@ -1421,235 +1213,174 @@ export class TopNavbar extends React.Component {
                 <Popper
                     open={this.props.showReferUser}
                     style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-
                 >
                     <Paper>
                         <ReferUser />
                     </Paper>
                 </Popper>
 
-                <Popper open={this.props.showAccountMenu}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <AccountMenu />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showOpenBets}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <MyBets tabValue={0} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showSettledBets}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <MyBets tabValue={2} />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showPromotions}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <Promotions />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showSettings}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <Settings />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showHelp}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <Help />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
-
-                <Popper open={this.props.showResponsibleGambling}
-                    anchorEl={anchorEl}
-                    className={classes.profilePopper}
-                    placement="top-start"
-                    transition
-                >
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.accountMenuPaper}>
-                                <ResponsibleGambling />
-                            </Paper>
-                        </Fade>
-                    )}
-                </Popper>
 
                 <Popper open={this.props.showProfileMenu}
                     anchorEl={anchorEl}
                     className={classes.profileMenuPopper}
                     placement="top-start"
-                    transition
-                >
+                    transition>
                     {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={350}>
-                            <Paper className={classes.profileMenuPaper}>
-                                <List
-                                    component="nav"
-                                    aria-labelledby="nested-list-subheader"
-                                >
-                                    <ListItem button onClick={this.bankingProfileMenuItemClick} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Banking" />
-                                        {this.state.showBankingProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItem>
-                                    <Collapse in={this.state.showBankingProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
-                                        <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/banking/deposit')
-                                                }}
-                                            >
-                                                <ListItemText primary="Deposit" />
-                                            </ListItem>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/banking/withdraw')
-                                                }}>
-                                                <ListItemText primary="Withdraw" />
-                                            </ListItem>
-                                        </List>
-                                    </Collapse>
-                                    <ListItem button onClick={this.analysisProfileMenuItemClick} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Analysis" />
-                                        {this.state.showAnalysisProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItem>
-                                    <Collapse in={this.state.showAnalysisProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
-                                        <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/analysis/bets')
-                                                }}>
-                                                <ListItemText primary="Bets" />
-                                            </ListItem>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/analysis/banking')
-                                                }}>
-                                                <ListItemText primary="Banking" />
-                                            </ListItem>
-                                        </List>
-                                    </Collapse>
-                                    <ListItem button onClick={this.userAccountProfileMenuItemClick} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Account" />
-                                        {this.state.showUserAccountProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItem>
-                                    <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
-                                        <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}
+                        <ClickAwayListener onClickAway={this.profileMenuClickAway}>
+                            <Fade {...TransitionProps} timeout={350}>
+                                <Paper className={classes.profileMenuPaper}>
+                                    <List
+                                        component="nav"
+                                        aria-labelledby="nested-list-subheader"
+                                    >
+                                        <ListItem button onClick={this.bankingProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Banking" />
+                                            {this.state.showBankingProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showBankingProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/banking/deposit')
+                                                    }}
+                                                >
+                                                    <ListItemText primary="Deposit" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/banking/withdraw')
+                                                    }}>
+                                                    <ListItemText primary="Withdraw" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
+                                        <ListItem button onClick={this.analysisProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Analysis" />
+                                            {this.state.showAnalysisProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showAnalysisProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/analysis/bets')
+                                                    }}>
+                                                    <ListItemText primary="Bets" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/analysis/banking')
+                                                    }}>
+                                                    <ListItemText primary="Banking" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
+                                        <ListItem button onClick={this.userAccountProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Account" />
+                                            {this.state.showUserAccountProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showUserAccountProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/account/user_information')
+                                                    }}>
+                                                    <ListItemText primary="User Information" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/account/inbox')
+                                                    }}>
+                                                    <ListItemText primary="Inbox" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
+                                        <ListItem button className={classes.mainMenuItem}
                                             onClick={() => {
+                                                this.props.hide_profile_menu();
                                                 this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/account/user_information')
+                                                this.props.history.push('/p/responsible_gaming')
                                             }}>
-                                                <ListItemText primary="User Information" />
-                                            </ListItem>
-                                            <ListItem button className={classes.nested}
+                                            <ListItemText primary="Responsible Gaming" />
+                                        </ListItem>
+                                        <ListItem button onClick={this.settingsProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Settings" />
+                                            {this.state.showSettingsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/settings/marketing')
+                                                    }}>
+                                                    <ListItemText primary="Marketing" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/settings/privacy')
+                                                    }}>
+                                                    <ListItemText primary="Privacy" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
+
+
+
+                                        <ListItem button onClick={this.rewardsProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Rewards" />
+                                            {this.state.showRewardsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showRewardsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/rewards/eligible')
+                                                    }}>
+                                                    <ListItemText primary="Eligible Rewards" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/rewards/active')
+                                                    }}>
+                                                    <ListItemText primary="Active Rewards" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
+                                        <ListItem button
                                             onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/account/inbox')
-                                            }}>
-                                                <ListItemText primary="Inbox" />
-                                            </ListItem>
-                                        </List>
-                                    </Collapse>
-                                    <ListItem button onClick={this.responsibleGamingMenuItemClick} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Responsible Gaming" />
-                                    </ListItem>
-                                    <ListItem button onClick={this.settingsProfileMenuItemClick} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Settings" />
-                                        {this.state.showSettingsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItem>
-                                    <Collapse in={this.state.showSettingsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
-                                        <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/settings/marketing')
-                                                }}>
-                                                <ListItemText primary="Marketing" />
-                                            </ListItem>
-                                            <ListItem button className={classes.nested}
-                                                onClick={() => {
-                                                    this.setState({ mainTabValue: 'none' });
-                                                    this.props.history.push('/p/settings/privacy')
-                                                }}>
-                                                <ListItemText primary="Privacy" />
-                                            </ListItem>
-                                        </List>
-                                    </Collapse>
-                                    <ListItem button
-                                        onClick={() => {
-                                            this.props.logout()
-                                            postLogout();
-                                        }} className={classes.mainMenuItem}>
-                                        <ListItemText primary="Logout" />
-                                    </ListItem>
-                                </List>
-                            </Paper>
-                        </Fade>
+
+                                                this.props.hide_profile_menu();
+                                                this.props.logout()
+                                                postLogout();
+                                            }} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Logout" />
+                                        </ListItem>
+                                    </List>
+                                </Paper>
+                            </Fade>
+                        </ClickAwayListener>
                     )}
                 </Popper>
+
             </div >
         );
     }

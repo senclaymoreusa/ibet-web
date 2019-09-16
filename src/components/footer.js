@@ -5,19 +5,13 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, authCheckState } from '../actions';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import Flag from 'react-flagkit';
 import Grid from '@material-ui/core/Grid';
 import { FormattedMessage } from 'react-intl';
-import Popper from '@material-ui/core/Popper';
-import Fade from '@material-ui/core/Fade';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
 import Select from '@material-ui/core/Select';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { images } from '../util_config';
 import InputBase from '@material-ui/core/InputBase';
 
@@ -137,7 +131,7 @@ const styles = theme => ({
     },
   },
   paper: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },

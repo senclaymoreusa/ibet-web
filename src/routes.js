@@ -66,7 +66,7 @@ const BaseRouter = () => (
     <Route exact path="/liveCasino_type/:type?/:sub?/:filter?" component={LiveCasino_Type} />
     <Route exact path="/game_list/:term?" component={Game_List} />
     <Route exact path="/login" component={Login} />
-    <Route exact path="/signup/:filter?" component={Signup} />
+    <Route exact path="/signup" component={Signup} />
     <Route exact path="/game_detail/:id?" component={Game_Detail} />
     <Route exact path="/game_search/:term?" component={Game_Search} />
     <Route exact path="/profile" component={NewProfile} />

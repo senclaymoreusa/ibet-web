@@ -56,7 +56,9 @@ const INITIAL_STATE = {
   signup_language: '',
   refer_id: '',
 
-  forget_email: ''
+  forget_email: '',
+
+  show_landing_page:  true
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -234,8 +236,9 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, show_profile_menu: true }
     case 'HIDE_PROFILE_MENU':
       return { ...state, show_profile_menu: false }
-
-
+    case 'HIDE_LANDING_PAGE':
+        return { ...state, show_landing_page: false }
+      
     case 'GET_REFER_ID':
       return { ...state, refer_id: action.payload }
     default:
