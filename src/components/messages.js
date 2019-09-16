@@ -242,6 +242,7 @@ export const messages = {
         'profile-nav.account': 'Account',
         'profile-nav.responsible': 'Responsible Gaming',
         'profile-nav.settings': 'Settings',
+        'profile-nav.rewards': 'Rewards',
 
         // handle forget_password page message
         'forget_password.enter_email': 'Enter your email address: ',
@@ -690,6 +691,7 @@ export const messages = {
         'profile-nav.account': '帐户',
         'profile-nav.responsible': '负责任的游戏',
         'profile-nav.settings': '设置',
+        'profile-nav.rewards': '奖励',
 
         // handle forget_password page message
         'forget_password.enter_email': '請輸入郵箱: ',
@@ -1171,6 +1173,7 @@ export const messages = {
         'profile-nav.account': 'Compte',
         'profile-nav.responsible': 'Jeu responsable',
         'profile-nav.settings': 'Réglages',
+        'profile-nav.rewards': 'Récompenses',
 
         // handle forget_password page message
         'forget_password.enter_email': 'Entrez votre adresse email: ',

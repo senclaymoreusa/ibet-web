@@ -487,6 +487,7 @@ export class TopNavbar extends React.Component {
             showAnalysisProfileSubMenu: false,
             showUserAccountProfileSubMenu: false,
             showSettingsProfileSubMenu: false,
+            showRewardsProfileSubMenu: false,
 
             mainTabValue: 'none',
         };
@@ -791,6 +792,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showBankingProfileSubMenu: false }));
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
         this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
     }
 
     bankingProfileMenuItemClick = () => {
@@ -800,6 +802,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showAnalysisProfileSubMenu: false }));
         this.setState(() => ({ showUserAccountProfileSubMenu: false }));
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
     };
 
     analysisProfileMenuItemClick = () => {
@@ -809,6 +812,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showBankingProfileSubMenu: false }));
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
         this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
     };
 
     userAccountProfileMenuItemClick = () => {
@@ -818,6 +822,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showBankingProfileSubMenu: false }));
         this.setState(() => ({ showAnalysisProfileSubMenu: false }));
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
     };
 
     settingsProfileMenuItemClick = () => {
@@ -827,6 +832,17 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showBankingProfileSubMenu: false }));
         this.setState(() => ({ showAnalysisProfileSubMenu: false }));
         this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showRewardsProfileSubMenu: false }));
+    };
+
+    rewardsProfileMenuItemClick = () => {
+        this.props.show_profile_menu();
+        this.setState(state => ({ showRewardsProfileSubMenu: !state.showRewardsProfileSubMenu }));
+
+        this.setState(() => ({ showBankingProfileSubMenu: false }));
+        this.setState(() => ({ showAnalysisProfileSubMenu: false }));
+        this.setState(() => ({ showUserAccountProfileSubMenu: false }));
+        this.setState(() => ({ showSettingsProfileSubMenu: false }));
     };
 
     handleProfileMenuClose = () => {
@@ -1322,8 +1338,36 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                             </List>
                                         </Collapse>
+
+
+
+                                        <ListItem button onClick={this.rewardsProfileMenuItemClick} className={classes.mainMenuItem}>
+                                            <ListItemText primary="Rewards" />
+                                            {this.state.showRewardsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
+                                        </ListItem>
+                                        <Collapse in={this.state.showRewardsProfileSubMenu} timeout="auto" unmountOnExit className={classes.subMenu}>
+                                            <List component="div" disablePadding>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/rewards/eligible')
+                                                    }}>
+                                                    <ListItemText primary="Eligible Rewards" />
+                                                </ListItem>
+                                                <ListItem button className={classes.nested}
+                                                    onClick={() => {
+                                                        this.props.hide_profile_menu();
+                                                        this.setState({ mainTabValue: 'none' });
+                                                        this.props.history.push('/p/rewards/active')
+                                                    }}>
+                                                    <ListItemText primary="Active Rewards" />
+                                                </ListItem>
+                                            </List>
+                                        </Collapse>
                                         <ListItem button
                                             onClick={() => {
+
                                                 this.props.hide_profile_menu();
                                                 this.props.logout()
                                                 postLogout();
