@@ -14,55 +14,17 @@ import {
     InputAdornment,
     Grid,
     Button,
-    Select,
-    MenuItem,
     TextField,
-    InputBase
 } from '@material-ui/core';
 import InputMask from 'react-input-mask';
 
 import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../actions';
-import { checkPropTypes } from 'prop-types';
+
 
 const jsencrypt = require('jsencrypt');
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
     PIQ_API = process.env.REACT_APP_PIQ_API_URL,
     PIQ_MID = process.env.REACT_APP_PIQ_MID;
-
-const BootstrapInput = withStyles(theme => ({
-    root: {
-        'label + &': {
-            marginTop: theme.spacing.unit * 3
-        }
-    },
-    input: {
-        borderRadius: 4,
-        position: 'relative',
-        backgroundColor: theme.palette.background.paper,
-        border: '1px solid #ced4da',
-        fontSize: 16,
-        padding: '10px 2px 10px 12px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"'
-        ].join(','),
-        '&:focus': {
-            borderRadius: 4,
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
-        }
-    }
-}))(InputBase);
 
 const styles = function(theme) {
     return {
@@ -371,6 +333,7 @@ class DepositPIQ extends Component {
             amountInvalid: true,
 
             expireDate: '',
+            dateInvalid: true,
             cvv: '',
 
             firstOption: 25,
@@ -872,7 +835,7 @@ class DepositPIQ extends Component {
                                         disabled={
                                             this.state.amountInvalid ||
                                             this.state.numberInvalid ||
-                                            this.state.expireDateInvalid ||
+                                            this.state.dateInvalid ||
                                             this.state.cvvInvalid
                                         }
                                     >
