@@ -65,23 +65,6 @@ const Menu = (list, language) =>
     return <MenuItem name = {name} key = {name} image = {image} pk = {pk} name_zh = {name_zh} name_fr ={name_fr} language={language} />;
 });
  
- 
-const Arrow = ({ text, className }) => {
-  return (
-    <div
-      className={className}
-    >{text}</div>
-  );
-};
- 
- 
-const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
-const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
- 
-
-
-//const API_URL = process.env.REACT_APP_REST_API;
-//const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
@@ -189,7 +172,7 @@ class Game_Search extends Component {
 
       const { classes } = this.props;
 
-      const menu = this.state.game_to_render;
+      // const menu = this.state.game_to_render;
 
       return (
         <div>

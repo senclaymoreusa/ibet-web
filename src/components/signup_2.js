@@ -49,7 +49,7 @@ class Signup extends React.Component {
                         <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
                     </div>
 
-                    <img src={images.src + 'close_page.svg'}
+                    <img src={images.src + 'close_page.svg'} alt=""
                         style={{ cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20 }}
                         onClick={() => {
                             this.props.hide_signup()

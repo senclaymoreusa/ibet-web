@@ -138,7 +138,6 @@ const styles = theme => ({
     },
     middleButton: {
         marginRight: 10,
-        marginRight: 10,
         borderRadius: 4,
         backgroundColor: '#efefef',
         marginTop: 15,
@@ -345,17 +344,17 @@ class WithdrawQaicashBTC extends Component {
                                             //this.setState({ error: true });
                                             currentComponent.props.callbackFromParent("error", 'Transaction failed!');
                                         } else if (res.data === 'The balance is not enough') {
-                                        //    // alert("cannot withdraw this amount")
+                                            //    // alert("cannot withdraw this amount")
                                             currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
 
                                         } else {
                                             currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
-                                
+
                                             // alert("your balance is updated")
                                             // window.location.reload()
                                         }
                                     });
-                            } else  {
+                            } else {
                                 currentComponent.props.callbackFromParent("error", 'Please complete your withdraw payment!');
                                 //alert('Please complete your withdraw payment!');
                             }
@@ -383,7 +382,7 @@ class WithdrawQaicashBTC extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'} alt="" />
             </Button>);
 
         return (
@@ -421,13 +420,13 @@ class WithdrawQaicashBTC extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                        }}
+                                            inputProps:{
+                                                step: 10,
+                                                min: 100
+                                            }
+                                            }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 100
-                                        }}
-                                        inputRef={this.amountInput}
+                                       inputRef={this.amountInput}
 
                                     />
                                 </Grid>
@@ -435,7 +434,7 @@ class WithdrawQaicashBTC extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

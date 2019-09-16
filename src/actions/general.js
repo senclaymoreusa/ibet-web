@@ -543,6 +543,7 @@ export const hide_profile_menu = () => {
   }
 }
 
+<<<<<<< HEAD
 export const handle_inbox_value = (value) => {
   return {
     type: 'INBOX_CHANGE',
@@ -550,3 +551,10 @@ export const handle_inbox_value = (value) => {
   }
 }
 
+=======
+export const hide_landing_page = () => {
+  return {
+    type: 'HIDE_LANDING_PAGE'
+  }
+}
+>>>>>>> d52bc8cc9e677cda101f7a660d13d86c24f811f4

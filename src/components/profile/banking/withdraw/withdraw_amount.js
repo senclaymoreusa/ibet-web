@@ -271,7 +271,7 @@ export class WithdrawAmount extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'}  alt=""/>
             </Button>);
 
         return (
@@ -291,7 +291,7 @@ export class WithdrawAmount extends Component {
                         <Grid container>
                             <Grid item xs={3} className={classes.cardTypeCell}>
                                 <Button className={classes.cardTypeButton} disabled>
-                                    <img src={images.src + 'visa-blue.svg'} />
+                                    <img src={images.src + 'visa-blue.svg'}  alt=""/>
                                 </Button>
                             </Grid>
                             <Grid item xs={9} className={classes.cardTypeCell}>
@@ -341,14 +341,14 @@ export class WithdrawAmount extends Component {
                                     InputProps={{
                                         disableUnderline: true,
                                         endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                    }}
+                                        inputProps:{
+                                            step: 10,
+                                            min: 10,
+                                            max: 2000
+                                        }
+                                       }}
                                     type="number"
-                                    inputProps={{
-                                        step: 10,
-                                        min: 10,
-                                        max: 2000
-                                    }}
-                                    inputRef={this.amountInput}
+                                   inputRef={this.amountInput}
 
                                 />
                             </Grid>
@@ -356,7 +356,7 @@ export class WithdrawAmount extends Component {
                                 <div className={classes.amountText}>
                                     <FormattedNumber
                                         value={this.state.amount}
-                                        style='currency'
+                                        style={`currency`}
                                         currency={this.state.currency}
                                     />
                                 </div>

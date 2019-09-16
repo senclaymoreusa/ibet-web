@@ -40,7 +40,7 @@ const styles = theme => ({
 });
   
 
-class Signup_Detail extends React.Component {
+class SignupDetail extends React.Component {
     constructor(props){
         super(props);
 
@@ -228,7 +228,7 @@ class Signup_Detail extends React.Component {
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <div className='signup-title'>     
 
-                    <img src={images.src + 'back.svg'}
+                    <img src={images.src + 'back.svg'} alt=""
                             style={{cursor: 'pointer', position: 'absolute', top: 12, left: 30, height: 25, width: 15}}
                             onClick = { () => {
                                 this.props.hide_signup_detail();
@@ -240,7 +240,7 @@ class Signup_Detail extends React.Component {
                         <FormattedMessage id="signup.openaccount" defaultMessage='OPEN ACCOUNT' />
                     </div>
 
-                    <img src={images.src + 'close_page.svg'}
+                    <img src={images.src + 'close_page.svg'} alt=""
                             style={{cursor: 'pointer', position: 'absolute', top: 8, left: 620, height: 40, width: 20}}
                             onClick = { () => {
                                 this.props.hide_signup_detail();
@@ -402,4 +402,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(connect(mapStateToProps,{ hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob })(Signup_Detail));
+export default withStyles(styles)(connect(mapStateToProps,{ hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob })(SignupDetail));

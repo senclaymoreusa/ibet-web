@@ -94,8 +94,7 @@ class Game_List extends Component {
     }
 
     render() {
-      const games = this.state.games;
-
+    
       const menu = this.state.game_to_render;
 
       return (

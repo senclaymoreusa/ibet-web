@@ -7,13 +7,8 @@ import { connect } from 'react-redux';
 import { config } from '../util_config';
 import axios from 'axios'
 import { getNames } from 'country-list';
-
-import InputBase from '@material-ui/core/InputBase';
-
 import TopNavbar from "./top_navbar";
-
 import { Link } from 'react-router-dom';
-
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -50,43 +45,7 @@ const styles = theme => ({
     notchedOutline: {  },
 });
 
-const BootstrapInput = withStyles(theme => ({
-    root: {
-      'label + &': {
-        marginTop: theme.spacing.unit * 3,
-      },
-    },
-    input: {
-      borderRadius: 4,
-      position: 'relative',
-      backgroundColor: theme.palette.background.paper,
-      border: '1px solid #ced4da',
-      fontSize: 16,
-      width: 280,
-      padding: '10px 26px 10px 12px',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
-  
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-      '&:focus': {
-        borderRadius: 4,
-        borderColor: '#80bdff',
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-      },
-    },
-  }))(InputBase);
-
-class New_Update_Profile extends Component {
+class NewUpdateProfile extends Component {
 
     constructor(props){
         super(props);
@@ -288,6 +247,7 @@ class New_Update_Profile extends Component {
     }
 
     async onInputChange_email(event){
+        // eslint-disable-next-line
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)){
           this.setState({live_check_email: true, button_disable: true,})
@@ -460,4 +420,4 @@ class New_Update_Profile extends Component {
     }
 }
 
-export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile, authCheckState })(New_Update_Profile));
+export default withStyles(styles)(connect(null, { hide_update_profile, show_user_profile, authCheckState })(NewUpdateProfile));

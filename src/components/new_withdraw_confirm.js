@@ -131,7 +131,7 @@ const styles = theme => ({
     }
 });
 
-class New_Withdraw_Confirm extends Component {
+class NewWithdrawConfirm extends Component {
     constructor(props) {
         super(props);
 
@@ -166,7 +166,7 @@ class New_Withdraw_Confirm extends Component {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <Button onClick={this.backClicked} className={classes.backButton}>
-                        <img src={images.src + 'account-menu-back.svg'} />
+                        <img src={images.src + 'account-menu-back.svg'}  alt=""/>
                         </Button>
                         <div className={classes.title}>
                             <FormattedMessage id="accountmenu.withdraw" defaultMessage="Withdraw" />
@@ -210,4 +210,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_withdraw_confirm, show_withdraw_success, show_withdraw })(New_Withdraw_Confirm)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { hide_withdraw_confirm, show_withdraw_success, show_withdraw })(NewWithdrawConfirm)));

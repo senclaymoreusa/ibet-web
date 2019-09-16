@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
-import PropTypes from 'prop-types';
+import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
@@ -16,16 +15,16 @@ console.log("Process.env is");
 console.log(process.env);
 
 
-const CLIENT = {
-    sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
-    production: 'xxxXXX',
-};
+// const CLIENT = {
+//     sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
+//     production: 'xxxXXX',
+// };
 
-const
-    LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png",
-    MIN_DEPOSIT = 200,
-    MAX_DEPOSIT = 30000,
-    CURRENCY = "THB"
+// const
+//     LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png",
+//     MIN_DEPOSIT = 200,
+//     MAX_DEPOSIT = 30000,
+//     CURRENCY = "THB"
 
 const styles = (theme) => ({
     root: {
@@ -207,17 +206,6 @@ const styles = (theme) => ({
     }
 });
 
-function ContainedButtons(buttonProps) {
-    return (
-        <Button variant="contained"
-            color={buttonProps.color}
-            className={buttonProps.button}
-            onClick={buttonProps.onClick}>
-            {buttonProps.amount.toLocaleString(undefined, { style: "currency", currency: "THB" })}
-        </Button>
-    );
-}
-
 class DepositLinePay extends Component {
     constructor(props) {
         super(props);
@@ -292,7 +280,7 @@ class DepositLinePay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length == 0 || parseInt(event.target.value) > 30000 || parseInt(event.target.value) < 200) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 30000 || parseInt(event.target.value) < 200) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -375,15 +363,12 @@ class DepositLinePay extends Component {
     }
 
     render() {
-        const { deposit_amount: depositAmount, error: showError, error_msg: errorMsg } = this.state;
-        const { button_disable, live_check_amount } = this.state;
         const { formatMessage } = this.props.intl;
         const { classes } = this.props;
-        let user = this.state.data.username; // this.state.data is initialized to a string not a dictionary, is modified and set to be the result data from detecting what user is logged in from API call on line 118
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'} alt="" />
             </Button>);
 
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
@@ -436,13 +421,14 @@ class DepositLinePay extends Component {
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
+                                            inputProps:{
+                                                step: 10,
+                                                min: 200,
+                                                max: 30000
+                                            }
                                         }}
                                         type="number"
-                                        inputProps={{
-                                            step: 10,
-                                            min: 200,
-                                            max: 30000
-                                        }}
+                                        
                                         inputRef={this.amountInput}
 
                                     />
@@ -451,7 +437,7 @@ class DepositLinePay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style='currency'
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

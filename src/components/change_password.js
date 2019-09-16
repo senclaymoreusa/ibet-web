@@ -48,7 +48,7 @@ const styles = theme => ({
       },
   });
 
-class Change_Password extends Component {
+class ChangePassword extends Component {
     constructor(props){
         super(props);
 
@@ -220,4 +220,4 @@ class Change_Password extends Component {
     }
 }
 
-export default withStyles(styles)(injectIntl(Change_Password));
+export default withStyles(styles)(injectIntl(ChangePassword));
