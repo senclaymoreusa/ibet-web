@@ -17,6 +17,7 @@
     "country-list": "^2.1.0",
     "downshift": "^3.2.10",
     "enzyme-to-json": "^3.3.5",
+    "eslint": "^5.12.0",
     "jsencrypt": "^3.0.0-rc.1",
     "log-to-file": "^1.3.0",
     "md5": "^2.2.1",
