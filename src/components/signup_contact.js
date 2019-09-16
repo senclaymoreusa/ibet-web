@@ -52,9 +52,9 @@ const styles = theme => ({
 
 const BootstrapInput = withStyles(theme => ({
     root: {
-        'label + &': {
-            marginTop: theme.spacing(3),
-        },
+      'label + &': {
+        marginTop: theme.spacing(3),
+      },
     },
     input: {
         borderRadius: 4,

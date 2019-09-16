@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FormattedDate, FormattedTime } from 'react-intl';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { hide_user_profile, show_update_profile, authCheckState } from '../../../actions';
