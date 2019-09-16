@@ -137,6 +137,7 @@ const styles = theme => ({
     appBar: {
         height: 60,
         boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)',
+        backgroundColor: '#fff'
     },
     list: {
         width: 250,
@@ -187,20 +188,20 @@ const styles = theme => ({
         },
     },
     button: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         color: 'white'
     },
     subbutton: {
-        margin: theme.spacing.unit
+        margin: theme.spacing()
     },
     nested: {
-        paddingLeft: theme.spacing.unit * 4
+        paddingLeft: theme.spacing(4)
     },
     signupButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         fontSize: 17,
         height: 40,
         color: '#ffffff',
@@ -216,8 +217,8 @@ const styles = theme => ({
     loginButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingLeft: 6,
         fontSize: 17,
         height: 40,
@@ -235,8 +236,8 @@ const styles = theme => ({
     textField: {
         marginTop: 13,
         marginBottom: 15,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingLeft: 25,
         paddingRight: 25,
         paddingTop: 13,
@@ -253,8 +254,8 @@ const styles = theme => ({
     balanceButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingTop: 4,
         fontSize: 17,
         height: 40,
@@ -281,8 +282,8 @@ const styles = theme => ({
     profileButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingTop: 4,
         fontSize: 17,
         height: 40,
@@ -305,7 +306,7 @@ const styles = theme => ({
         color: '#6a6a6a',
     },
     extendedIcon: {
-        marginRight: theme.spacing.unit,
+        marginRight: theme.spacing(),
     },
     searchResult: {
         width: 400,
@@ -369,7 +370,7 @@ const styles = theme => ({
     },
     imageTitle: {
         position: 'relative',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px ${theme.spacing.unit + 6}px`,
+        padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing() + 6}px`,
     },
     imageMarked: {
         height: 3,
@@ -397,7 +398,7 @@ const styles = theme => ({
     },
     langContainer: {
         display: 'inline',
-        marginLeft: theme.spacing.unit,
+        marginLeft: theme.spacing(),
         marginTop: 16,
         marginBottom: 16,
     },
@@ -438,8 +439,8 @@ const styles = theme => ({
     footer: {
         paddingLeft: 24,
         paddingRight: 24,
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
         marginTop: 20,
         backgroundColor: '#212121',
     },
@@ -552,7 +553,6 @@ export class TopNavbar extends React.Component {
             expandSearchBar: false,
             anchorEl: null,
             currentAccountMenuItem: '',
-            anchorElLogin: null,
             anchorElChangePassowrd: null,
             showTopPanel: false,
             showLeftPanel: false,
@@ -666,12 +666,12 @@ export class TopNavbar extends React.Component {
     };
 
     handleLoginMenuOpen = event => {
-        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
+        this.setState({ username: '', password: '', anchorEl: event.currentTarget })
         this.props.show_login()
     };
 
     handleShowChangePasswordMenuOpen = event => {
-        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
+        this.setState({ username: '', password: '', anchorEl: event.currentTarget })
         this.props.show_login()
     };
 
@@ -1153,7 +1153,7 @@ export class TopNavbar extends React.Component {
                                     this.props.history.push("/lottery_type/lottery");
                                 }} />
                             <StyledTab
-                                style={{ width: 0, minWidth: 0, }}
+                                style={{ width: 0, minWidth: 0, padding:0}}
                                 value='none'
                             />
                         </StyledTabs>
@@ -1163,7 +1163,7 @@ export class TopNavbar extends React.Component {
                 <div className='overlay' style={searchBackgroundStyle}></div>
 
                 <Popper
-                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
+                    anchorEl={anchorEl}
                     open={this.props.showLogin}
                 >
                     <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>

@@ -209,7 +209,7 @@ const styles = theme => ({
 const BootstrapInput = withStyles(theme => ({
     root: {
         'label + &': {
-            marginTop: theme.spacing.unit,
+            marginTop: theme.spacing(),
         },
     },
     input: {

@@ -58,7 +58,7 @@ const styles = theme => ({
         padding: 15,
     },
     chip: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
     },
 
     inputRoot: {

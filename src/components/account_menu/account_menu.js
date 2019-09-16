@@ -338,14 +338,14 @@ const styles = theme => ({
     },
     button: {
         width: '90%',
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         textTransform: 'capitalize'
     },
     nested: {
-        paddingLeft: theme.spacing.unit * 4,
+        paddingLeft: theme.spacing(4),
     },
     formControl: {
-        margin: theme.spacing.unit * 3,
+        margin: theme.spacing(3),
     },
     grow: {
         flexGrow: 1,
