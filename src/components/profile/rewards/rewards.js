@@ -44,7 +44,7 @@ const styles = theme => ({
         "&:hover": {
             backgroundColor: '#dfdfdf',
         },
-    }
+    },
 });
 
 export class Rewards extends Component {
@@ -99,7 +99,7 @@ export class Rewards extends Component {
                 this.setState({ tabValue: parts[3] })
             }
         } else
-            this.setState({ tabValue: 'eligible' })
+            this.setState({ tabValue: 'active' })
     }
 
     render() {
