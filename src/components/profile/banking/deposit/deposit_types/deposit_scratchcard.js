@@ -32,7 +32,7 @@ const operators = [
 const BootstrapInput = withStyles(theme => ({
     root: {
         'label + &': {
-            marginTop: theme.spacing.unit * 3,
+            marginTop: theme.spacing(3),
         },
     },
     input: {

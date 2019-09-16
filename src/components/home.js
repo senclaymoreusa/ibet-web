@@ -39,7 +39,7 @@ const styles = theme => ({
     fontSize: '18px'
   },
   extendedIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
   },
 });
 
