@@ -503,12 +503,16 @@ class DepositPIQ extends Component {
     };
 
     dateChanged = event => {
+        let currDate = new Date();
+
         this.setState({
             expireDate: event.target.value,
             dateFocused: true,
             dateInvalid:
                 event.target.value.toString().length != 7 ||
-                parseInt(event.target.value.toString().slice(0, 2)) > 12
+                parseInt(event.target.value.toString().slice(0, 2)) > 12 ||
+                parseInt(event.target.value.toString().slice(3)) <
+                    currDate.getFullYear()
         });
     };
 
