@@ -347,14 +347,10 @@ class DepositPIQ extends Component {
             currencyValue: 'USD',
             showLinearProgressBar: false
         };
-
-        this.backClicked = this.backClicked.bind(this);
-        this.handleClick = this.handleClick.bind(this);
     }
 
     userCheck = () => {
         return axios.get(API_URL + 'users/api/user/', config).then(res => {
-            console.log(res);
             this.setState({
                 userData: res.data,
                 currencyValue: res.data.currency
@@ -777,7 +773,7 @@ class DepositPIQ extends Component {
                                 >
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit 10 - 50,000"
+                                        // placeholder="Amount: e.g. 100.00"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={
@@ -801,8 +797,7 @@ class DepositPIQ extends Component {
                                         type="number"
                                         inputProps={{
                                             step: 10,
-                                            min: 10,
-                                            max: 50000
+                                            min: 10
                                         }}
                                         inputRef={this.amountInput}
                                     />
