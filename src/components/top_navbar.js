@@ -119,6 +119,7 @@ const styles = theme => ({
     appBar: {
         height: 60,
         boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)',
+        backgroundColor: '#fff'
     },
     list: {
         width: 250,
@@ -189,8 +190,11 @@ const styles = theme => ({
         margin: theme.spacing(),
         color: 'white'
     },
+    subbutton: {
+        margin: theme.spacing()
+    },
     nested: {
-        paddingLeft: theme.spacing() * 4
+        paddingLeft: theme.spacing(4)
     },
     signupButton: {
         marginTop: 16,
@@ -227,6 +231,24 @@ const styles = theme => ({
             backgroundColor: "#ffffff",
             color: 'rgba(0, 0, 0, 0.5)',
         }
+    },
+    textField: {
+        marginTop: 13,
+        marginBottom: 15,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
+        paddingLeft: 25,
+        paddingRight: 25,
+        paddingTop: 13,
+        paddingBottom: 13,
+        fontSize: 18,
+        outline: 'none',
+        width: 180,
+        height: 44,
+        objectFit: 'contain',
+        borderRadius: 22,
+        border: 'solid 1px #e8e8e8',
+        backgroundColor: '#f1f1f1',
     },
     balanceButton: {
         marginTop: 16,
@@ -282,6 +304,9 @@ const styles = theme => ({
         letterSpacing: 0.66,
         color: '#6a6a6a',
     },
+    extendedIcon: {
+        marginRight: theme.spacing(),
+    },
     searchResult: {
         width: 400,
         height: 100,
@@ -322,7 +347,7 @@ const styles = theme => ({
     },
     imageTitle: {
         position: 'relative',
-        padding: `${theme.spacing(2)}px ${theme.spacing() * 4}px ${theme.spacing() + 6}px`,
+        padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing() + 6}px`,
     },
     imageMarked: {
         height: 3,
@@ -460,7 +485,6 @@ export class TopNavbar extends React.Component {
             expandSearchBar: false,
             anchorEl: null,
             currentAccountMenuItem: '',
-            anchorElLogin: null,
             anchorElChangePassowrd: null,
             showTopPanel: false,
             showLeftPanel: false,
@@ -575,12 +599,12 @@ export class TopNavbar extends React.Component {
     };
 
     handleLoginMenuOpen = event => {
-        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
+        this.setState({ username: '', password: '', anchorEl: event.currentTarget })
         this.props.show_login()
     };
 
     handleShowChangePasswordMenuOpen = event => {
-        this.setState({ username: '', password: '', anchorElLogin: event.currentTarget })
+        this.setState({ username: '', password: '', anchorEl: event.currentTarget })
         this.props.show_login()
     };
 
@@ -1084,9 +1108,8 @@ export class TopNavbar extends React.Component {
                 <div className='overlay' style={searchBackgroundStyle}></div>
 
                 <Popper
-                    style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
+                    anchorEl={anchorEl}
                     open={this.props.showLogin}
-                    anchorEl={anchorElLogin}
                 >
                     <ClickAwayListener onClickAway={this.handleLoginMenuClose.bind(this)}>
                         <Paper>

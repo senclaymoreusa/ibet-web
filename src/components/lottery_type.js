@@ -8,20 +8,21 @@ import Footer from "./footer";
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
-    fab: {
-      width: '240px',
-      marginTop: '48px',
-      backgroundColor: '#ffffff;',
-      fontSize: '18px'
-    },
-    extendedIcon: {
-      marginRight: theme.spacing(),
-    },
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: '100vh',
-      backgroundColor: theme.palette.background.paper,  
+  fab: {
+    width: '240px',
+    marginTop: '48px',
+    backgroundColor: '#ffffff;',
+    fontSize: '18px'
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(),
+  },
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    backgroundColor: theme.palette.background.paper,
+
   },
   grow: {
     flexGrow: 1,
