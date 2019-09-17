@@ -130,7 +130,7 @@ const styles = theme => ({
         lineHeight: 1.9
     },
     margin: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
     },
     checkIcon: {
         float: 'left',

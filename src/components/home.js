@@ -32,6 +32,13 @@ document.body.style = 'background: #f1f1f1;';
 
 
 const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    backgroundColor: theme.palette.background.paper,
+
+  },
   fab: {
     width: '240px',
     marginTop: '48px',
@@ -39,12 +46,15 @@ const styles = theme => ({
     fontSize: '18px'
   },
   extendedIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
+  },
+  grow: {
+    flexGrow: 1,
   },
 });
 
 export class Home extends Component {
-  
+
   state = {
     notices: [],
     sports: [],
@@ -58,13 +68,13 @@ export class Home extends Component {
 
   async componentDidMount() {
     const { referid } = this.props.match.params;
-    if (referid){
-        this.props.handle_referid(referid);
+    if (referid) {
+      this.props.handle_referid(referid);
     }
-    
 
-  this.props.authCheckState()
-  
+
+    this.props.authCheckState()
+
     var URL = API_URL + 'users/api/games/?term=game';
 
     await axios.get(URL, config)
@@ -127,71 +137,73 @@ export class Home extends Component {
     var recent_games = JSON.parse(localStorage.getItem("recent-games"));
 
     return (
-      <div >
-        {
+      <div className={classes.root}>
+        {/* {
           this.props.show_landing_page && <Paper >
-              <div style={{position: 'absolute', zIndex: 1000000000000}} onClick = {() => {
-                this.props.hide_landing_page()
-              }}> 
-                  <img src='https://ibet-web.s3-us-west-1.amazonaws.com/Games/landing-page.jpg' height="100%" width="100%" alt='Not available' />
-              </div>
+            <div style={{ position: 'absolute', zIndex: 1000000000000 }} onClick={() => {
+              this.props.hide_landing_page()
+            }}>
+              <img src='https://ibet-web.s3-us-west-1.amazonaws.com/Games/landing-page.jpg' height="100%" width="100%" alt='Not available' />
+            </div>
           </Paper>
-        }
-        <TopNavbar/>
-        {
-          this.state.ready &&
-          <div className='top-title'>
-            <FormattedMessage id="home.new" defaultMessage='New Games' />
-          </div>
-        }
-
-        <div className="cont">    
+        } */}
+        <TopNavbar />
+        <div className={classes.grow}>
 
           {
-            this.state.ready && this.state.sports.map(item => {
-              return (
-                <div key={item.pk} className='each-game' onClick={() => {
-                  var array = JSON.parse(localStorage.getItem("recent-games"));
-                  if (!array) {
-                    array = []
-                    array.push(item)
-                  } else {
-                    var check = true;
-                    array.map(thing => {
-                      if (thing.name === item.name) {
-                        check = false
-                      }
-                    })
-                    if (check) {
-                      array.push(item)
-                    }
-
-                  }
-                  if (array.length > 4) {
-                    array.shift()
-                  }
-                  localStorage.setItem("recent-games", JSON.stringify(array));
-
-                }}>
-                  <span onClick={()=>{window.open(item.game_url)}}>
-
-                    {
-                      <img src={item.image_url} height="220" width="300" alt='Not available' />
-                    }
-
-
-                    <br />
-                    <div className='game-title'>
-                      {item.name}
-                    </div>
-
-                  </span>
-                </div>
-              )
-            })
+            this.state.ready &&
+            <div className='top-title'>
+              <FormattedMessage id="home.new" defaultMessage='New Games' />
+            </div>
           }
 
-          {/* {
+          <div className="cont">
+
+            {
+              this.state.ready && this.state.sports.map(item => {
+                return (
+                  <div key={item.pk} className='each-game' onClick={() => {
+                    var array = JSON.parse(localStorage.getItem("recent-games"));
+                    if (!array) {
+                      array = []
+                      array.push(item)
+                    } else {
+                      var check = true;
+                      array.map(thing => {
+                        if (thing.name === item.name) {
+                          check = false
+                        }
+                      })
+                      if (check) {
+                        array.push(item)
+                      }
+
+                    }
+                    if (array.length > 4) {
+                      array.shift()
+                    }
+                    localStorage.setItem("recent-games", JSON.stringify(array));
+
+                  }}>
+                    <span onClick={() => { window.open(item.game_url) }}>
+
+                      {
+                        <img src={item.image_url} height="220" width="300" alt='Not available' />
+                      }
+
+
+                      <br />
+                      <div className='game-title'>
+                        {item.name}
+                      </div>
+
+                    </span>
+                  </div>
+                )
+              })
+            }
+
+            {/* {
             <div 
               className='each-game' 
               style={{cursor: 'pointer'}}
@@ -213,90 +225,90 @@ export class Home extends Component {
               </span>
             </div>
           } */}
-        </div>
-
-
-        {
-          this.state.ready && !this.state.expand && this.state.all_sports.length > 8 &&
-          <div className='expand-icon'>
-            <Fab
-              onClick={this.handle_expand.bind(this)}
-              className={classNames(classes.fab, 'text')}
-              variant="extended"
-            >
-              <FormattedMessage id="home.expand" defaultMessage='View All' />
-              {' (' + this.state.all_sports.length + ')'}
-              <ExpandMore />
-            </Fab>
           </div>
-        }
 
 
-        {
-          this.state.ready &&
-          <div className='top-title margin-title' >
-            <FormattedMessage id="home.recent" defaultMessage='Recently Played' />
-          </div>
-        }
-
-        <div className="cont">
           {
-            this.state.ready && recent_games && recent_games.map(item => {
-              return (
-                <div key={item.name} className='each-game' >
-                  <span onClick={()=>{window.open(item.game_url)}}>
+            this.state.ready && !this.state.expand && this.state.all_sports.length > 8 &&
+            <div className='expand-icon'>
+              <Fab
+                onClick={this.handle_expand.bind(this)}
+                className={classNames(classes.fab, 'text')}
+                variant="extended"
+              >
+                <FormattedMessage id="home.expand" defaultMessage='View All' />
+                {' (' + this.state.all_sports.length + ')'}
+                <ExpandMore />
+              </Fab>
+            </div>
+          }
 
-                    {
-                      <img src={item.image_url} height="220" width="300" alt='Not available' />
-                    }
 
-                    <br />
-                    
-                    <div className='game-title'>
-                      {item.name}
-                    </div>
+          {
+            this.state.ready &&
+            <div className='top-title margin-title' >
+              <FormattedMessage id="home.recent" defaultMessage='Recently Played' />
+            </div>
+          }
+
+          <div className="cont">
+            {
+              this.state.ready && recent_games && recent_games.map(item => {
+                return (
+                  <div key={item.name} className='each-game' >
+                    <span onClick={() => { window.open(item.game_url) }}>
+
+                      {
+                        <img src={item.image_url} height="220" width="300" alt='Not available' />
+                      }
+
+                      <br />
+
+                      <div className='game-title'>
+                        {item.name}
+                      </div>
 
                     </span>
-                </div>
-              )
-            })
-          }
-        </div>
-
-        {
-          this.state.ready &&
-          <div className='top-title margin-title' >
-            <FormattedMessage id="home.selected" defaultMessage='Selected for you' />
+                  </div>
+                )
+              })
+            }
           </div>
-        }
 
-        <div className="cont">
           {
-            this.state.ready && this.state.sports.slice(0, 4).map(item => {
-              return (
-                <div key={item.name} className='each-game' >
-                  <span onClick={()=>{window.open(item.game_url)}}>
-
-                    {
-                      <img src={item.image_url} height="220" width="300" alt='Not available' />
-                    }
-
-                    <br />
-
-                    <div className='game-title'>
-                      {item.name}
-                    </div>
-
-                  </span>
-                </div>
-              )
-            })
+            this.state.ready &&
+            <div className='top-title margin-title' >
+              <FormattedMessage id="home.selected" defaultMessage='Selected for you' />
+            </div>
           }
+
+          <div className="cont">
+            {
+              this.state.ready && this.state.sports.slice(0, 4).map(item => {
+                return (
+                  <div key={item.name} className='each-game' >
+                    <span onClick={() => { window.open(item.game_url) }}>
+
+                      {
+                        <img src={item.image_url} height="220" width="300" alt='Not available' />
+                      }
+
+                      <br />
+
+                      <div className='game-title'>
+                        {item.name}
+                      </div>
+
+                    </span>
+                  </div>
+                )
+              })
+            }
+          </div>
+
+
+
         </div>
-
-
-
-
 
         {/* {
           this.state.ready &&
@@ -346,7 +358,7 @@ export class Home extends Component {
 
         <Footer />
 
-        <ChatTool/>
+        <ChatTool />
 
       </div>
 

@@ -5,9 +5,6 @@ import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, Faceboo
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { config } from '../util_config';
-
-
-// Material design
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -17,12 +14,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-
-
-//const API_URL = process.env.REACT_APP_REST_API;
-//const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
-
 
 const styles = theme => ({
     textField: {
@@ -185,6 +177,7 @@ export class Login extends React.Component {
 
         this.props.authLogin(this.state.username, this.state.password)
             .then(() => {
+
                 if (this.state.check) {
                     localStorage.setItem('remember_password', this.state.password);
                     localStorage.setItem('remember_check', 'checked')
@@ -199,15 +192,63 @@ export class Login extends React.Component {
                     localStorage.removeItem('remember_check');
                 }
                 this.props.hide_login()
+
+                this.setActivityReminder();
             })
             .catch(err => {
-                if (typeof err === "string"){
-                    this.setState({user_blocked: true,  wrong_password_error: false})
-                }else{
+                if (typeof err === "string") {
+                    this.setState({ user_blocked: true, wrong_password_error: false })
+                } else {
                     this.setState({ wrong_password_error: true, user_blocked: false })
                 }
-                
+
             });
+    }
+
+    async setActivityReminder() {
+        let currentComponent = this;
+
+        let reminderData = {
+            "userId": currentComponent.state.userId,
+            "startTime": new Date(),
+            "duration": 60
+        }
+
+        await this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_SUCCESS) {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        let userId = res.data.pk;
+                        reminderData.userId = userId;
+
+                        return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
+                    }).then(res => {
+                        switch (res.data) {
+                            case 0:
+                                reminderData.duration = 5;
+                                break;
+                            case 1:
+                                reminderData.duration = 30;
+                                break;
+                            case 2:
+                                reminderData.duration = 60;
+                                break;
+                            case 120:
+                                reminderData.duration = 120;
+                                break;
+                            default:
+                                reminderData.duration = 60;
+                        }
+
+                        localStorage.setItem('activityCheckReminder', JSON.stringify(reminderData));
+                    }).catch(err => {
+                        console.log(err);
+                    })
+            }
+        })
     }
 
     render() {
