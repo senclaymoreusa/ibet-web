@@ -355,15 +355,16 @@ class DepositPIQ extends Component {
     userCheck = () => {
         return axios.get(API_URL + 'users/api/user/', config).then(res => {
             console.log(res);
-            this.setState({ data: res.data, currencyValue: res.data.currency });
+            this.setState({
+                userData: res.data,
+                currencyValue: res.data.currency
+            });
             return res.data.username;
         });
     };
 
     getDepositMethods = (username, sessionId) => {
         console.log('gettign deposit methods for: ' + username);
-        console.log(sessionId);
-        console.log(PIQ_API);
         return axios.get(
             PIQ_API +
                 'api/user/payment/method/' +
@@ -375,6 +376,7 @@ class DepositPIQ extends Component {
                 '&method=deposit'
         );
     };
+
     async componentDidMount() {
         console.log('component mounted');
         this.props.authCheckState().then(res => {
@@ -390,12 +392,7 @@ class DepositPIQ extends Component {
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
 
-        let username = await this.userCheck();
-        // let depositMethods = await this.getDepositMethods(
-        //     username,
-        //     this.state.sessionId
-        // );
-        // console.log(depositMethods);
+        this.userCheck();
     }
 
     backClicked = () => {
