@@ -4,7 +4,7 @@ import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
-import _PaymentIQCashier from 'paymentiq-cashier-bootstrapper';
+// import _PaymentIQCashier from 'paymentiq-cashier-bootstrapper';
 import uuidv1 from 'uuid/v1';
 
 // Material-UI
@@ -14,12 +14,11 @@ import {
     InputAdornment,
     Grid,
     Button,
-    TextField,
+    TextField
 } from '@material-ui/core';
 import InputMask from 'react-input-mask';
 
 import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../actions';
-
 
 const jsencrypt = require('jsencrypt');
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
@@ -133,11 +132,11 @@ const styles = function(theme) {
             marginLeft: 3
         },
         detailRow: {
-            paddingBottom: 15
+            paddingTop: 1
         },
         leftButton: {
             display: 'inline-block',
-            marginRight: 10,
+            marginRight: 6.666,
             borderRadius: 4,
             backgroundColor: '#efefef',
             marginTop: 15,
@@ -146,7 +145,8 @@ const styles = function(theme) {
             height: 44
         },
         middleButton: {
-            marginRight: 10,
+            marginLeft: 6.666,
+            marginRight: 6.666,
             borderRadius: 4,
             backgroundColor: '#efefef',
             marginTop: 15,
@@ -155,8 +155,8 @@ const styles = function(theme) {
             height: 44
         },
         rightButton: {
-            marginLeft: 10,
-            marginRight: 0,
+            marginLeft: 6.666,
+            // marginRight: 0,
             borderRadius: 4,
             backgroundColor: '#efefef',
             marginTop: 15,
@@ -187,10 +187,12 @@ const styles = function(theme) {
             }
         },
         amountRow: {
+            marginTop: 10,
             height: 40,
             borderBottom: '4px solid #5e5e5e'
         },
         amountRightRow: {
+            marginTop: 10,
             height: 40,
             textAlign: 'right',
             borderBottom: '4px solid #5e5e5e'
@@ -214,7 +216,7 @@ const styles = function(theme) {
             color: '#292929',
             height: 44,
             marginTop: 10,
-            paddingLeft: 10,
+            padding: '7px 0px 10px 10px',
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -236,7 +238,8 @@ const styles = function(theme) {
             height: 44,
             marginTop: 10,
             marginRight: 10,
-            paddingLeft: 10,
+            // paddingLeft: 10,
+            padding: '7px 0px 10px 10px',
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -258,8 +261,9 @@ const styles = function(theme) {
             height: 44,
             marginTop: 10,
             marginLeft: 10,
-            paddingLeft: 10,
-            paddingRight: 10,
+            padding: '7px 0px 10px 10px',
+            // paddingLeft: 10,
+            // paddingRight: 10,
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -286,7 +290,7 @@ const styles = function(theme) {
             }
         },
         amountButtonRow: {
-            paddingTop: 30
+            // paddingTop: 15
         },
         select: {
             fontSize: 14,
