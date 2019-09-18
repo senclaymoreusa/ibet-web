@@ -2,35 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../actions';
-import { config } from '../../../util_config';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import IconButton from '@material-ui/core/IconButton';
-import Fade from '@material-ui/core/Fade';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CloseIcon from '@material-ui/icons/Close';
-import axios from 'axios';
+
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Check from '@material-ui/icons/Check';
+import Button from '@material-ui/core/Button';
 
-
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepConnector from '@material-ui/core/StepConnector';
 
 import { withStyles } from '@material-ui/core/styles';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
@@ -57,14 +47,14 @@ const styles = theme => ({
         color: 'black',
         marginTop: 28,
     },
-    pleased: {
-        fontSize: 17,
-        fontWeight: 'normal',
+    activePoints: {
+        fontSize: 20,
+        fontWeight: 'bold',
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 0.53,
-        letterSpacing: 0.45,
-        color: 'black',
+        lineHeight: 'normal',
+        letterSpacing: 0.92,
+        color: '#6d7278',
     },
     steps: {
         fontSize: 17,
@@ -87,74 +77,187 @@ const styles = theme => ({
         letterSpacing: 0.55,
         color: 'black',
     },
+    betContainer: {
+        marginTop: 20,
+        objectFit: 'contain',
+        border: 'solid 1px rgba(172, 172, 172, 0.25)',
+        backgroundColor: '#f7f7f7',
+        padding: 20,
+
+    },
+    betTitleRow: {
+        display: 'flex',
+        borderBottom: 'solid 1px rgba(172, 172, 172, 0.25)',
+        height: 32,
+    },
+    betDetailRow: {
+        display: 'flex',
+        borderBottom: 'solid 1px rgba(172, 172, 172, 0.25)',
+        height: 32,
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingBottom: 10,
+    },
+    betDetailContainer: {
+        border: 'solid 1px rgba(172, 172, 172, 0.25)',
+    },
+    betName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.45,
+        color: '#6d7278',
+    },
+    grow: {
+        flexGrow: 1,
+    },
+    untilText: {
+        fontSize: 17,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.38,
+        color: '#6d7278',
+    },
+    detailText: {
+        fontSize: 15,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 2.87,
+        letterSpacing: 0.29,
+        color: '#000',
+    },
+    placeBetButton: {
+        width: '100%',
+        marginTop: 40,
+        backgroundColor: '#000',
+        color: '#fff',
+        textTransform:'capitalize',
+        "&:hover": {
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
+    },
+    placeLiveBetButton: {
+        width: '100%',
+        marginTop: 10,
+        color: '#fff',
+        textTransform:'capitalize',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        "&:hover": {
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        },
+    },
+    stepper: {
+        marginTop: 20,
+        marginBottom: 20,
+        padding: 0,
+        backgroundColor: '#f7f7f7',
+    },
+    stepperText: {
+        fontSize: 15,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.47,
+        color: '#6d7278',
+        display: 'block'
+    },
+    rewardHelp: {
+        fontSize: 15,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.47,
+        color: '#6d7278',
+        display: 'block',
+    },
+    activatedDetailText: {
+        fontSize: 18,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.47,
+        color: '#000',
+        display: 'block',
+        letterSpacing: 0.34,
+
+    },
+    activatedText: {
+        fontSize: 18,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.61,
+        color: '#000',
+        display: 'block',
+        letterSpacing: 0.34,
+
+    },
 });
 
-const iBetConnector = withStyles({
+const IbetConnector = withStyles({
     alternativeLabel: {
-        top: 22,
-      },
-      active: {
+        top: 15,
+    },
+    active: {
         '& $line': {
-          backgroundImage:
-            'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+            backgroundColor: '#21e496',
+
         },
-      },
-      completed: {
+    },
+    completed: {
         '& $line': {
-          backgroundImage:
-            'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+            backgroundColor: '#21e496',
+
         },
-      },
-      line: {
-        height: 3,
+    },
+    line: {
+        height: 9,
         border: 0,
-        backgroundColor: '#eaeaf0',
+        backgroundColor: '#d8d8d8',
         borderRadius: 1,
-      },
-  })(StepConnector);
+    },
+})(StepConnector);
 
-//   const iBetStepIconStyles = makeStyles({
-//     root: {
-//       backgroundColor: '#ccc',
-//       zIndex: 1,
-//       color: '#fff',
-//       width: 50,
-//       height: 50,
-//       display: 'flex',
-//       borderRadius: '50%',
-//       justifyContent: 'center',
-//       alignItems: 'center',
-//     },
-//     active: {
-//       backgroundImage:
-//         'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
-//       boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
-//     },
-//     completed: {
-//       backgroundImage:
-//         'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
-//     },
-//   });
+const IbetStepIconStyles = makeStyles({
+    root: {
+        backgroundColor: '#d8d8d8',
+        zIndex: 1,
+        color: '#fff',
+        width: 38,
+        height: 38,
+        display: 'flex',
+        borderRadius: '50%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    active: {
+        backgroundColor: '#dfdfdf',
+        //boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
+    },
+    completed: {
+        backgroundColor: '#21e496',
+    },
+});
 
-//   function IbetStepIcon(props) {
-//     const classes = iBetStepIconStyles();
-//     const { active, completed } = props;
-  
-//     return (
-//       <div
-//         className={clsx(classes.root, {
-//           [classes.active]: active,
-//         })}
-//       >
-//         {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
-//       </div>
-//     );
-//   }
+function IbetStepIcon(props) {
+    const classes = IbetStepIconStyles();
+    const { active, completed } = props;
 
-//   IbetStepIcon.propTypes = {
-//     active: PropTypes.bool,
-//     completed: PropTypes.bool,
-//   };
+    return (
+        <div className={clsx(classes.root, { [classes.active]: active, [classes.completed]: completed })}>
+        </div>
+    );
+}
+
+IbetStepIcon.propTypes = {
+    active: PropTypes.bool,
+    completed: PropTypes.bool,
+};
 
 export class ActiveRewards extends Component {
 
@@ -162,40 +265,115 @@ export class ActiveRewards extends Component {
         super(props);
 
         this.state = {
-            activeStep : 0,
+            activeStep: -1,
         }
-
-
     }
-
 
     render() {
         const { classes } = this.props;
-        const {activeStep} = this.state;
+        const { activeStep } = this.state;
 
         const stepLabels = ['Accept', 'Play', 'Progress']
 
         return (
             <div className={classes.root}>
-                <Grid container>
+                <Grid container >
                     <Grid item xs={12} className={classes.titleCell}>
                         <span className={classes.title}>Active Rewards</span>
                     </Grid>
                     <Grid item xs={12} className={classes.content}>
-                        <span className={classes.pleased}>We are pleased you are interested in our rewards. Please note we change these on occasion to offer you the best options. Below is what is available to you today.</span>
+                        <Grid container >
+                            <Grid item xs={12} >
+                                <span className={classes.activePoints}>Active Points</span>
+                            </Grid>
+                            <Grid item xs={4} style={{ height: 200, borderBottom: '1px solid #d8d8d8' }}>
+                            </Grid>
+                            <Grid item xs={4} style={{ height: 200, borderBottom: '1px solid #d8d8d8' }}>
 
-                        <Stepper alternativeLabel activeStep={activeStep} >
-                            {stepLabels.map((label, index) => {
-                                
-                                return (
-                                    <Step key={label}>
-                                        <StepLabel >{label}</StepLabel>
-                                    </Step>
-                                );
-                            })}
-                        </Stepper>
+                            </Grid>
+                            <Grid item xs={4} style={{ height: 200, borderBottom: '1px solid #d8d8d8', textAlign: 'right', display: 'flex', flexDirection: 'column' }} >
+                                <div className={classes.grow} />
+                                <span className={classes.rewardHelp}>Opt Out</span>
+                                <span className={classes.rewardHelp}>What are Reward Points?</span>
+                                <span className={classes.rewardHelp}>How to Redeem Reward Points?</span>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <span className={classes.rewardHelp}>You have the following rewards activated.</span>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Grid container className={classes.betContainer} >
+                                    <Grid item xs={12} className={classes.betTitleRow}>
+                                        <span className={classes.betName}>$5 Risk Free Bet</span>
+                                        <div className={classes.grow} />
+                                        <span className={classes.untilText}>Expires in:  22/12/2019</span>
+                                    </Grid>
+                                    <Grid item xs={8} style={{ paddingTop: 20, paddingRight: 10 }}>
+                                        <span className={classes.activatedText}>Reward activated</span>
+                                        <span className={classes.activatedDetailText} style={{ marginBottom: 20 }}>You have $5 Risk Fee Bet reward already</span>
 
+                                        <ExpansionPanel >
+                                            <ExpansionPanelSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-controls="panel1a-content"
+                                                id="panel1a-header"
+                                            >
+                                                <Typography className={classes.heading}>Terms Apply</Typography>
+                                            </ExpansionPanelSummary>
+                                            <ExpansionPanelDetails>
+                                                <Typography>
+                                                    This promotion is valid from 12 August 2019 00:00 UTC, until 01 September 2019 23:59 UTC. Any deposits and wagering completed outside of these dates will not be considered for the purpose of this promotion. The promotion ID for this offer is 181059.
+
+            This promotion is open for selected ibet customers only. NOTE: customers are required to opt in to this Promotion via the website.
+            There are Cash Prizes available for players who place 1st - 4th in the competition.
+
+            There are Bonus Credits available for players who place 5th – 8th in the competition.
+
+                                        </Typography>
+                                            </ExpansionPanelDetails>
+                                        </ExpansionPanel>
+                                        <Stepper className={classes.stepper} alternativeLabel activeStep={1} connector={<IbetConnector />}>
+                                            {stepLabels.map((label, index) => {
+                                                return (
+                                                    <Step key={label}>
+                                                        <StepLabel StepIconComponent={IbetStepIcon}>{label}</StepLabel>
+                                                    </Step>
+                                                );
+                                            })}
+                                        </Stepper>
+
+                                        <span className={classes.stepperText}>Rewards steps: </span>
+                                        <span className={classes.stepperText}>1. Accept Rewards</span>
+                                        <span className={classes.stepperText}>2. Place bets. </span>
+                                        <span className={classes.stepperText}>3. Get rewards money if you lose </span>
+                                        <span className={classes.stepperText}>4. Play to convert rewards to cash.  </span>
+                                    </Grid>
+                                    <Grid item xs={4} style={{ paddingTop: 20, paddingLeft: 10 }}>
+                                        <Grid container className={classes.betDetailContainer}>
+                                            <Grid item xs={12} className={classes.betDetailRow}>
+                                                <span className={classes.detailText}>Minimum Bet</span>
+                                                <div className={classes.grow} />
+                                                <span className={classes.detailText}>$10</span>
+                                            </Grid>
+                                            <Grid item xs={12} className={classes.betDetailRow}>
+                                                <span className={classes.detailText}>Potential rewards money</span>
+                                                <div className={classes.grow} />
+                                                <span className={classes.detailText}>$30</span>
+                                            </Grid>
+                                            <Grid item xs={12} className={classes.betDetailRow}>
+                                                <span className={classes.detailText}>Wagering required?</span>
+                                                <div className={classes.grow} />
+                                                <span className={classes.detailText}>Yes</span>
+                                            </Grid>
+                                        </Grid>
+                                        <Button variant="contained" className={classes.placeBetButton}>Place Bet</Button>
+
+                                        <Button variant="contained" className={classes.placeLiveBetButton}>Place Live Bet</Button>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </Grid>
+
                 </Grid>
             </div>
         );
