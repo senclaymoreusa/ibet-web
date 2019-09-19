@@ -205,7 +205,9 @@ export class InboxMain extends Component {
                     // this.props.callbackFromParent('inbox');
                     console.log(this.state.Messages.filter(item => item.pk == id));
                     this.setState({ Message: this.state.Messages.filter(item => item.pk != id)});
+                    window.location.reload();
                 }
+
             })
     }
 
