@@ -197,6 +197,9 @@ const styles = theme => ({
         letterSpacing: 0.34,
 
     },
+    heading:{
+        borderBottom:'1px solid #fdfdfd',
+    }
 });
 
 const IbetConnector = withStyles({
@@ -265,15 +268,15 @@ export class ActiveRewards extends Component {
         super(props);
 
         this.state = {
-            activeStep: -1,
+            activeStep: 1,
+            stepLabels: ['Accept', 'Play', 'Progress']
         }
     }
 
     render() {
         const { classes } = this.props;
-        const { activeStep } = this.state;
+        const { activeStep, stepLabels } = this.state;
 
-        const stepLabels = ['Accept', 'Play', 'Progress']
 
         return (
             <div className={classes.root}>
@@ -323,15 +326,14 @@ export class ActiveRewards extends Component {
                                                 <Typography>
                                                     This promotion is valid from 12 August 2019 00:00 UTC, until 01 September 2019 23:59 UTC. Any deposits and wagering completed outside of these dates will not be considered for the purpose of this promotion. The promotion ID for this offer is 181059.
 
-            This promotion is open for selected ibet customers only. NOTE: customers are required to opt in to this Promotion via the website.
-            There are Cash Prizes available for players who place 1st - 4th in the competition.
+                                                    This promotion is open for selected ibet customers only. NOTE: customers are required to opt in to this Promotion via the website.
+                                                    There are Cash Prizes available for players who place 1st - 4th in the competition.
 
-            There are Bonus Credits available for players who place 5th – 8th in the competition.
-
+                                                    There are Bonus Credits available for players who place 5th – 8th in the competition.
                                         </Typography>
                                             </ExpansionPanelDetails>
                                         </ExpansionPanel>
-                                        <Stepper className={classes.stepper} alternativeLabel activeStep={1} connector={<IbetConnector />}>
+                                        <Stepper className={classes.stepper} alternativeLabel activeStep={activeStep} connector={<IbetConnector />}>
                                             {stepLabels.map((label, index) => {
                                                 return (
                                                     <Step key={label}>
@@ -365,7 +367,16 @@ export class ActiveRewards extends Component {
                                                 <span className={classes.detailText}>Yes</span>
                                             </Grid>
                                         </Grid>
-                                        <Button variant="contained" className={classes.placeBetButton}>Place Bet</Button>
+                                        <Button variant="contained" className={classes.placeBetButton} 
+                                        onClick={() => {
+                                            this.setState({ activeStep: 2 });
+                                            this.setState(prevState => ({
+                                                stepLabels: prevState.stepLabels.map(
+                                                    obj => (obj === 'Progress' ? '60% Progress' : obj)
+                                                )
+                                            }));
+                                          }}
+                                          >Place Bet</Button>
 
                                         <Button variant="contained" className={classes.placeLiveBetButton}>Place Live Bet</Button>
                                     </Grid>
