@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { authCheckState } from '../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
+import { images } from '../../../util_config';
 
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import Check from '@material-ui/icons/Check';
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -100,6 +101,7 @@ const styles = theme => ({
     },
     betDetailContainer: {
         border: 'solid 1px rgba(172, 172, 172, 0.25)',
+        marginBottom: 30,
     },
     betName: {
         fontSize: 20,
@@ -131,12 +133,19 @@ const styles = theme => ({
         letterSpacing: 0.29,
         color: '#000',
     },
+    placeBetText: {
+        fontSize: 15,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        letterSpacing: 0.29,
+        color: '#000',
+    },
     placeBetButton: {
         width: '100%',
-        marginTop: 40,
         backgroundColor: '#000',
         color: '#fff',
-        textTransform:'capitalize',
+        textTransform: 'capitalize',
         "&:hover": {
             backgroundColor: 'rgba(0, 0, 0, 0.6)',
         },
@@ -145,7 +154,7 @@ const styles = theme => ({
         width: '100%',
         marginTop: 10,
         color: '#fff',
-        textTransform:'capitalize',
+        textTransform: 'capitalize',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         "&:hover": {
             backgroundColor: 'rgba(0, 0, 0, 0.3)',
@@ -186,7 +195,7 @@ const styles = theme => ({
         letterSpacing: 0.34,
 
     },
-    activatedText: {
+    boldText: {
         fontSize: 18,
         fontWeight: 500,
         fontStyle: 'normal',
@@ -197,9 +206,26 @@ const styles = theme => ({
         letterSpacing: 0.34,
 
     },
-    heading:{
-        borderBottom:'1px solid #fdfdfd',
-    }
+    heading: {
+        borderBottom: '1px solid #fdfdfd',
+    },
+    placedBetContainer: {
+
+    },
+    plainText: {
+        fontSize: 14,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.61,
+        color: '#000',
+        display: 'block',
+        letterSpacing: 0.34,
+    },
+    paper: {
+        padding: theme.spacing(3, 2),
+        textAlign: 'center',
+    },
 });
 
 const IbetConnector = withStyles({
@@ -251,8 +277,15 @@ function IbetStepIcon(props) {
     const classes = IbetStepIconStyles();
     const { active, completed } = props;
 
+    const icons = {
+        3: <img src={images.src + 'progress60.svg'} alt="" />,
+        4: <img src={images.src + 'progress100.svg'} alt="" />,
+    };
+
     return (
         <div className={clsx(classes.root, { [classes.active]: active, [classes.completed]: completed })}>
+            {active && icons[String(props.icon)]}
+            {props.icon === 3 && completed ? icons[4] : null}
         </div>
     );
 }
@@ -260,6 +293,7 @@ function IbetStepIcon(props) {
 IbetStepIcon.propTypes = {
     active: PropTypes.bool,
     completed: PropTypes.bool,
+    icon: PropTypes.node,
 };
 
 export class ActiveRewards extends Component {
@@ -269,14 +303,14 @@ export class ActiveRewards extends Component {
 
         this.state = {
             activeStep: 1,
-            stepLabels: ['Accept', 'Play', 'Progress']
+            stepLabels: ['Accept', 'Play', 'Progress'],
+            betPlaced: false,
         }
     }
 
     render() {
         const { classes } = this.props;
-        const { activeStep, stepLabels } = this.state;
-
+        const { activeStep, stepLabels, betPlaced } = this.state;
 
         return (
             <div className={classes.root}>
@@ -292,7 +326,6 @@ export class ActiveRewards extends Component {
                             <Grid item xs={4} style={{ height: 200, borderBottom: '1px solid #d8d8d8' }}>
                             </Grid>
                             <Grid item xs={4} style={{ height: 200, borderBottom: '1px solid #d8d8d8' }}>
-
                             </Grid>
                             <Grid item xs={4} style={{ height: 200, borderBottom: '1px solid #d8d8d8', textAlign: 'right', display: 'flex', flexDirection: 'column' }} >
                                 <div className={classes.grow} />
@@ -311,7 +344,7 @@ export class ActiveRewards extends Component {
                                         <span className={classes.untilText}>Expires in:  22/12/2019</span>
                                     </Grid>
                                     <Grid item xs={8} style={{ paddingTop: 20, paddingRight: 10 }}>
-                                        <span className={classes.activatedText}>Reward activated</span>
+                                        <span className={classes.boldText}>Reward activated</span>
                                         <span className={classes.activatedDetailText} style={{ marginBottom: 20 }}>You have $5 Risk Fee Bet reward already</span>
 
                                         <ExpansionPanel >
@@ -330,7 +363,7 @@ export class ActiveRewards extends Component {
                                                     There are Cash Prizes available for players who place 1st - 4th in the competition.
 
                                                     There are Bonus Credits available for players who place 5th – 8th in the competition.
-                                        </Typography>
+                                                </Typography>
                                             </ExpansionPanelDetails>
                                         </ExpansionPanel>
                                         <Stepper className={classes.stepper} alternativeLabel activeStep={activeStep} connector={<IbetConnector />}>
@@ -350,41 +383,91 @@ export class ActiveRewards extends Component {
                                         <span className={classes.stepperText}>4. Play to convert rewards to cash.  </span>
                                     </Grid>
                                     <Grid item xs={4} style={{ paddingTop: 20, paddingLeft: 10 }}>
-                                        <Grid container className={classes.betDetailContainer}>
-                                            <Grid item xs={12} className={classes.betDetailRow}>
-                                                <span className={classes.detailText}>Minimum Bet</span>
-                                                <div className={classes.grow} />
-                                                <span className={classes.detailText}>$10</span>
-                                            </Grid>
-                                            <Grid item xs={12} className={classes.betDetailRow}>
-                                                <span className={classes.detailText}>Potential rewards money</span>
-                                                <div className={classes.grow} />
-                                                <span className={classes.detailText}>$30</span>
-                                            </Grid>
-                                            <Grid item xs={12} className={classes.betDetailRow}>
-                                                <span className={classes.detailText}>Wagering required?</span>
-                                                <div className={classes.grow} />
-                                                <span className={classes.detailText}>Yes</span>
-                                            </Grid>
-                                        </Grid>
-                                        <Button variant="contained" className={classes.placeBetButton} 
-                                        onClick={() => {
-                                            this.setState({ activeStep: 2 });
-                                            this.setState(prevState => ({
-                                                stepLabels: prevState.stepLabels.map(
-                                                    obj => (obj === 'Progress' ? '60% Progress' : obj)
-                                                )
-                                            }));
-                                          }}
-                                          >Place Bet</Button>
+                                        {activeStep === 3 ?
+                                            <div>
+                                                <Paper className={classes.paper}>
+                                                    <span className={classes.boldText} >
+                                                        Congratulations!
+                                            </span>
+                                                    <span className={classes.plainText}>
+                                                        You have completed the wagering requirement.
+                                            </span>
+                                                </Paper>
 
-                                        <Button variant="contained" className={classes.placeLiveBetButton}>Place Live Bet</Button>
+                                                <span className={classes.boldText} style={{ marginTop: 20 }} >
+                                                    This reward process is done
+                                            </span>
+                                                <span className={classes.plainText}>
+                                                    Your reward has been converted to cash and has been added to your balance, it can now be withdrawn or played as real cash.</span>
+                                            </div>
+                                            :
+                                            <div>
+                                                <Grid container className={classes.betDetailContainer}>
+                                                    <Grid item xs={12} className={classes.betDetailRow}>
+                                                        <span className={classes.detailText}>Minimum Bet</span>
+                                                        <div className={classes.grow} />
+                                                        <span className={classes.detailText}>$10</span>
+                                                    </Grid>
+                                                    <Grid item xs={12} className={classes.betDetailRow}>
+                                                        <span className={classes.detailText}>Potential rewards money</span>
+                                                        <div className={classes.grow} />
+                                                        <span className={classes.detailText}>$30</span>
+                                                    </Grid>
+                                                    <Grid item xs={12} className={classes.betDetailRow}>
+                                                        <span className={classes.detailText}>Wagering required?</span>
+                                                        <div className={classes.grow} />
+                                                        <span className={classes.detailText}>Yes</span>
+                                                    </Grid>
+                                                </Grid>
+                                                {!betPlaced ? <div>
+                                                    <span className={classes.boldText}>Place a Bet</span>
+                                                    <span className={classes.placeBetText} >Place a Sports bet and get bonus money back if you lose.</span>
+                                                    <Button variant="contained" className={classes.placeBetButton}
+                                                        style={{ marginTop: 20 }}
+                                                        onClick={() => {
+                                                            this.setState({ activeStep: 2 });
+                                                            this.setState({ betPlaced: true });
+                                                            this.setState(prevState => ({
+                                                                stepLabels: prevState.stepLabels.map(
+                                                                    obj => (obj === 'Progress' ? '60% Progress' : obj)
+                                                                )
+                                                            }));
+                                                        }}
+                                                    >Place Bet</Button>
+                                                    <Button variant="contained" className={classes.placeLiveBetButton}>Place Live Bet</Button>
+                                                </div> :
+                                                    <Grid container className={classes.placedBetContainer}>
+                                                        <Grid item xs={12} className={classes.betDetailRow}>
+                                                            <span className={classes.detailText}>Qualifying Bets</span>
+                                                            <div className={classes.grow} />
+                                                            <span className={classes.detailText}>Amount ($)</span>
+                                                        </Grid>
+                                                        <Grid item xs={12} style={{ display: 'flex' }}>
+                                                            <span className={classes.plainText}>Live Betting - Open</span>
+                                                            <div className={classes.grow} />
+                                                            <span className={classes.plainText}>$50.00</span>
+                                                        </Grid>
+                                                        <Grid item xs={12} >
+                                                            <span className={classes.plainText}>12/23/2019 16:43</span>
+                                                            <div className={classes.grow} />
+                                                            <Button onClick={() => {
+                                                                this.setState({ activeStep: 3 });
+                                                                this.setState(prevState => ({
+                                                                    stepLabels: prevState.stepLabels.map(
+                                                                        obj => (obj === '60% Progress' ? '100% Progress' : obj)
+                                                                    )
+                                                                }));
+                                                            }}>finish</Button>
+                                                        </Grid>
+                                                    </Grid>
+                                                }
+                                            </div>
+                                        }
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-
                 </Grid>
             </div>
         );
