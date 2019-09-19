@@ -32,7 +32,7 @@ const styles = theme => ({
         paddingRight: 162,
         marginTop: 52,
         minHeight: 485,
-        overflowY: 'scroll',
+        overflowY: 'auto',
     },
     titleCell: {
         display: 'flex',
