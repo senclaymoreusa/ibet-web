@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState, handle_inbox_value } from '../../../../actions';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 import { images, config } from '../../../../util_config';
 import axios from 'axios';
@@ -130,10 +130,10 @@ export class InboxDetail extends Component {
 
         axios.post(API_URL + 'operation/api/read_message/' + this.props.message.pk, config)
             .then(res => {
-                if(res.status == 201) {
+                if(res.status === 201) {
                     this.props.handle_inbox_value(this.props.inbox - 1);
                 }
-                else if(res.status == 200) {
+                else if(res.status === 200) {
 
                 }
                 else {
@@ -150,7 +150,7 @@ export class InboxDetail extends Component {
     deleteClicked(id) {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
-                if(res.status==200) {
+                if(res.status === 200) {
                     this.props.callbackFromParent('inbox', true);
                 }
             })
@@ -164,11 +164,11 @@ export class InboxDetail extends Component {
                 <Grid container>
                     <Grid item xs={12} className={classes.titleCell}>
                         <span className={classes.goBackIcon} onClick={this.backClicked}>
-                            <img src={images.src + 'back.svg'} />
+                            <img src={images.src + 'back.svg'} alt='Not available'/>
                         </span>
                         <span className={classes.title}>Inbox</span> 
                         <span className={classes.closeIcon} onClick={this.backClicked}>
-                            <img src={images.src + 'close.svg'} className={classes.closeIcon} />
+                            <img src={images.src + 'close.svg'} className={classes.closeIcon} alt='Not available'/>
                         </span>
                     </Grid>
                     <Grid item xs={12} className={classes.content}>

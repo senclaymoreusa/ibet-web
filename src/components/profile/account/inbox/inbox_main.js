@@ -157,7 +157,8 @@ export class InboxMain extends Component {
         this.state = {
             Messages: [],
             showMessage: false,
-            messageText: "Message deleted"
+            messageText: "Message deleted",
+            changed: false
         }
 
         this.detailClicked = this.detailClicked.bind(this);
@@ -202,12 +203,13 @@ export class InboxMain extends Component {
             .then(res => {
                 if(res.status === 200) {
                     this.setState({ showMessage: true });
-                    // this.props.callbackFromParent('inbox');
-                    console.log(this.state.Messages.filter(item => item.pk == id));
-                    this.setState({ Message: this.state.Messages.filter(item => item.pk != id)});
-                    window.location.reload();
+                    let filteredList = this.state.Messages.filter(item => item.pk !== id);
+                    this.setState({ Messages: filteredList});
+                    this.setState({ changed : !this.state.changed});
                 }
 
+            }).catch(err => {
+                //console.log("err: ", err);
             })
     }
 
@@ -259,7 +261,7 @@ export class InboxMain extends Component {
                                             className={classes.close}
                                             onClick={this.closeNotificationClicked}
                                         >
-                                            <img src={images.src + 'close.svg'} className={classes.closeIcon} />
+                                            <img src={images.src + 'close.svg'} className={classes.closeIcon} alt='Not available'/>
                                         </IconButton>,
                                     ]}
                                 /></Snackbar>

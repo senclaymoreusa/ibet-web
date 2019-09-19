@@ -36,8 +36,8 @@ const styles = theme => ({
   root: {
     paddingLeft: 24,
     paddingRight: 24,
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing() * 2,
+    paddingBottom: theme.spacing() * 2,
     backgroundColor: '#212121',
     display: 'flex',
     flexDirection: 'column',
@@ -171,7 +171,7 @@ const styles = theme => ({
 const BootstrapInput = withStyles(theme => ({
   root: {
     'label + &': {
-      marginTop: theme.spacing.unit * 3,
+      marginTop: theme.spacing() * 3,
     },
   },
   input: {
