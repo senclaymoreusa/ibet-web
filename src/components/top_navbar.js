@@ -31,7 +31,8 @@ import {
     show_account_menu,
     hide_account_menu,
     show_profile_menu,
-    hide_profile_menu
+    hide_profile_menu,
+    handle_inbox_value,
 } from '../actions';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -249,6 +250,55 @@ const styles = theme => ({
         borderRadius: 22,
         border: 'solid 1px #e8e8e8',
         backgroundColor: '#f1f1f1',
+    },
+    inboxButton: {
+        marginTop: 16,
+        marginBottom: 16,
+        borderRadius: 12,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
+        paddingTop: 3,
+        fontSize: 17,
+        height: 40,
+        border: 'solid 2px #ff0000',
+        backgroundColor: '#ffffff',
+    },
+    greyInboxButton: {
+        marginTop: 16,
+        marginBottom: 16,
+        borderRadius: 12,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
+        paddingTop: .25,
+        fontSize: 17,
+        height: 40,
+        border: 'solid 2px #868686',
+        backgroundColor: '#ffffff',
+    },
+    envelope: {
+        width: 48,
+        height: 30,
+        color: '#ff0000',
+    },
+    unreadMessageCount: {
+        marginLeft: 2,
+        fontSize: 20,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.78,
+        color: '#ff0000',
+    },
+    allreadMessageCount: {
+        marginLeft: 2,
+        fontSize: 20,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.78,
+        color: '#868686',
     },
     balanceButton: {
         marginTop: 16,
@@ -720,6 +770,8 @@ export class TopNavbar extends React.Component {
 
         this.checkFacebookLogin();
         this.checkOneClickLogin();
+
+        
     }
 
     componentWillUnmount() {
@@ -753,6 +805,13 @@ export class TopNavbar extends React.Component {
                                 this.setState({ username: res.data.username });
                                 this.setState({ balance: res.data.main_wallet });
                                 this.setState({ balanceCurrency: res.data.currency });
+
+                                axios.get(API_URL + 'operation/api/notification-count/' + res.data.pk, config)
+                                    .then(res => {
+                                        if (this._isMounted) {
+                                            this.props.handle_inbox_value(res.data);
+                                        }
+                                    })
                             }
                         })
                 }
@@ -953,6 +1012,50 @@ export class TopNavbar extends React.Component {
         let slotsMessage = formatMessage({ id: "nav.slots" });
         let lotteryMessage = formatMessage({ id: "nav.lottery" });
 
+        let messageBtn;
+        if(this.props.inbox > 0) {
+            messageBtn = (
+                <Button
+                    className={classes.inboxButton}
+                    onClick={ () => {
+                        this.setState({ mainTabValue: 'none' });
+                        this.props.history.push('/p/account/inbox')
+                    }}
+                >
+                    <div className={classes.envelope}>
+                        <img src={images.src + 'envelope.svg'} className={classes.envelope} />
+                    </div>
+                    <div className={classes.unreadMessageCount}>
+                        <FormattedNumber
+                            variant="outlined"
+                            maximumFractionDigits={2}
+                            value={this.props.inbox}
+                        />
+                    </div>
+                </Button>);
+        } else {
+            messageBtn = (
+                <Button
+                    className={classes.greyInboxButton}
+                    onClick={ () => {
+                        this.setState({ mainTabValue: 'none' });
+                        this.props.history.push('/p/account/inbox')
+                    }}
+                >
+                    <div className={classes.envelope}>
+                        <img src={images.src + 'grey_envelope.svg'} />
+                    </div>
+                    <div className={classes.allreadMessageCount}>
+                        <FormattedNumber
+                            variant="outlined"
+                            maximumFractionDigits={2}
+                            value={this.props.inbox}
+                        />
+                    </div>
+                </Button>);
+        }
+        
+
         return (
             <div className={classes.root}>
                 <MuiThemeProvider theme={muiLogoBarTheme} >
@@ -984,6 +1087,7 @@ export class TopNavbar extends React.Component {
                             {
                                 this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
                                     this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
+                                        {messageBtn}    
                                         <Button
                                             variant="outlined"
                                             className={classes.balanceButton}
@@ -1415,6 +1519,7 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
+        inbox: state.inbox,
         showLogin: state.general.show_login,
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,
@@ -1447,6 +1552,7 @@ const mapStateToProps = (state) => {
         showSettings: state.general.show_settings,
         showHelp: state.general.show_help,
         showResponsibleGambling: state.general.show_responsible_gambling,
+        inbox: state.general.inbox,
     }
 }
 
@@ -1470,5 +1576,6 @@ export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps,
     show_account_menu,
     hide_account_menu,
     show_profile_menu,
-    hide_profile_menu
+    hide_profile_menu,
+    handle_inbox_value,
 })(TopNavbar))));
