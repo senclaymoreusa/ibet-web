@@ -474,7 +474,8 @@ class DepositHelp2pay extends Component {
                                     }
                                 });
                         } else {
-                            currentComponent.props.callbackFromParent("error", 'Your deposit failed!');
+                            currentComponent.props.callbackFromParent("error", '渠道维护中');
+                            // currentComponent.props.callbackFromParent("error", 'Your deposit failed!');
                         }
                     });
                 }

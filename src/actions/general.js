@@ -543,6 +543,13 @@ export const hide_profile_menu = () => {
   }
 }
 
+export const handle_inbox_value = (value) => {
+  return {
+    type: 'INBOX_CHANGE',
+    payload: value
+  }
+}
+
 export const hide_landing_page = () => {
   return {
     type: 'HIDE_LANDING_PAGE'
