@@ -188,20 +188,20 @@ const styles = theme => ({
         },
     },
     button: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         color: 'white'
     },
     subbutton: {
-        margin: theme.spacing.unit
+        margin: theme.spacing()
     },
     nested: {
-        paddingLeft: theme.spacing.unit * 4
+        paddingLeft: theme.spacing(4)
     },
     signupButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         fontSize: 17,
         height: 40,
         color: '#ffffff',
@@ -217,8 +217,8 @@ const styles = theme => ({
     loginButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingLeft: 6,
         fontSize: 17,
         height: 40,
@@ -236,8 +236,8 @@ const styles = theme => ({
     textField: {
         marginTop: 13,
         marginBottom: 15,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingLeft: 25,
         paddingRight: 25,
         paddingTop: 13,
@@ -254,8 +254,8 @@ const styles = theme => ({
     balanceButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingTop: 4,
         fontSize: 17,
         height: 40,
@@ -282,8 +282,8 @@ const styles = theme => ({
     profileButton: {
         marginTop: 16,
         marginBottom: 16,
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         paddingTop: 4,
         fontSize: 17,
         height: 40,
@@ -306,7 +306,7 @@ const styles = theme => ({
         color: '#6a6a6a',
     },
     extendedIcon: {
-        marginRight: theme.spacing.unit,
+        marginRight: theme.spacing(),
     },
     searchResult: {
         width: 400,
@@ -370,7 +370,7 @@ const styles = theme => ({
     },
     imageTitle: {
         position: 'relative',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px ${theme.spacing.unit + 6}px`,
+        padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing() + 6}px`,
     },
     imageMarked: {
         height: 3,
@@ -398,7 +398,7 @@ const styles = theme => ({
     },
     langContainer: {
         display: 'inline',
-        marginLeft: theme.spacing.unit,
+        marginLeft: theme.spacing(),
         marginTop: 16,
         marginBottom: 16,
     },
@@ -439,8 +439,8 @@ const styles = theme => ({
     footer: {
         paddingLeft: 24,
         paddingRight: 24,
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
         marginTop: 20,
         backgroundColor: '#212121',
     },
