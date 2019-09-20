@@ -20,6 +20,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepConnector from '@material-ui/core/StepConnector';
+import RadialProgress from 'react-radial-progress-motion'
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -312,6 +313,8 @@ export class ActiveRewards extends Component {
         const { classes } = this.props;
         const { activeStep, stepLabels, betPlaced } = this.state;
 
+
+
         return (
             <div className={classes.root}>
                 <Grid container >
@@ -326,6 +329,20 @@ export class ActiveRewards extends Component {
                             <Grid item xs={4} style={{ height: 200, borderBottom: '1px solid #d8d8d8' }}>
                             </Grid>
                             <Grid item xs={4} style={{ height: 200, borderBottom: '1px solid #d8d8d8' }}>
+                                <div height={150}>
+                                    <RadialProgress
+                                        strokeWidth={15}
+                                        value={33}
+                                        min={0}
+                                        max={100}
+                                        width={'200px'}
+                                        radialStyle={.7}
+                                        indColor={'#21e496'}
+                                        precision={0}
+                                        displayVal={true}
+                                        startingPoint={'top'}
+                                    />
+                                </div>
                             </Grid>
                             <Grid item xs={4} style={{ height: 200, borderBottom: '1px solid #d8d8d8', textAlign: 'right', display: 'flex', flexDirection: 'column' }} >
                                 <div className={classes.grow} />
