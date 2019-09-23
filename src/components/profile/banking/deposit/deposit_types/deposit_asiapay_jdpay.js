@@ -404,10 +404,12 @@ class DepositAsiapayJDPay extends Component {
             // } else {
             //     currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
             // }
-        }).catch(function (error) {
+        }).catch(function (err) {
             currentComponent.setState({ showLinearProgressBar: false });
 
-            console.log('Request failed', error);
+            console.log('Request failed', err);
+
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
     render() {

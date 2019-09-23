@@ -189,7 +189,7 @@ export class InboxMain extends Component {
                         // });
                         this.setState({Messages: res.data});
                     }).catch(err => {
-
+                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                     })
             })
     }
@@ -210,6 +210,7 @@ export class InboxMain extends Component {
 
             }).catch(err => {
                 //console.log("err: ", err);
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             })
     }
 

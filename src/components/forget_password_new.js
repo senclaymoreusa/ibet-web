@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios'
-import { images } from '../util_config';
+import { images, config } from '../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -64,7 +64,7 @@ class NewForgetPassword extends Component {
    
             this.setState({email_not_exist: true});
              
-        }).catch(err => {
+        }).catch(function (err) {
 
             this.props.hide_forget_password();
             this.props.show_forget_password_validation();
@@ -72,6 +72,7 @@ class NewForgetPassword extends Component {
             axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
             axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: this.state.email})
             
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         })
     }
 

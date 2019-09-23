@@ -163,10 +163,14 @@ export class Privacy extends Component {
                         this.setState({ bonus: res.data.bonus })
                         this.setState({ vip: res.data.vip })
                     }).catch(err => {
+                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                        
                         this.setState({ messageText: "An error occured while getting user privacy settings" });
                         this.setState({ showMessage: true });
                     });
             }).catch(err => {
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                
                 this.setState({ messageText: "An error occured while validating user credentials" });
                 this.setState({ showMessage: true });
             });
