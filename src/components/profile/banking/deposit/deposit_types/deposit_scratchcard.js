@@ -13,7 +13,7 @@ import { authCheckState } from '../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-const amountChoices = Object.freeze([10000,20000,30000,50000,100000,200000,300000,500000,1000000]);
+const amountChoices = Object.freeze([10000, 20000, 30000, 50000, 100000, 200000, 300000, 500000, 1000000]);
 const operators = Object.freeze([
     {
         value: "vtt",
@@ -251,6 +251,7 @@ const styles = function (theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
+            paddingTop: 6,
             marginTop: 10,
             paddingLeft: 10,
             width: 400,
@@ -263,7 +264,7 @@ const styles = function (theme) {
                 border: 'solid 1px #717171',
             },
         },
-        expireText: {
+        pinText: {
             fontSize: 14,
             fontWeight: 500,
             fontStyle: 'normal',
@@ -272,6 +273,7 @@ const styles = function (theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
+            paddingTop: 6,
             marginTop: 10,
             marginRight: 10,
             paddingLeft: 10,
@@ -336,7 +338,7 @@ const styles = function (theme) {
             color: '#292929',
             height: 44,
             marginTop: 10,
-            width: 200,
+            width: 190,
         },
         menuItem: {
             marginRight: 20
@@ -444,33 +446,33 @@ class DepositScratchCard extends Component {
         this.setState({ cvv: event.target.value });
         this.setState({ cvvFocused: true });
 
-        this.setState({ cvvInvalid: (event.target.value.length < 4 || !event.target.value ) });
+        this.setState({ cvvInvalid: (event.target.value.length < 4 || !event.target.value) });
     }
 
     cvvFocused(event) {
         this.setState({ cvvFocused: true });
     }
 
-    
+
     handleOperatorChange(event) {
         event.preventDefault();
 
-        this.setState({ operator: event.target.value }); 
+        this.setState({ operator: event.target.value });
         this.setState({ operatorInvalid: false });
     }
 
     handleAmountChange(event) {
         event.preventDefault();
 
-        this.setState({ amount: event.target.value }); 
+        this.setState({ amount: event.target.value });
         this.setState({ amountInvalid: false });
 
     }
 
     async handleClick(event) {
         event.preventDefault();
-        const {serialNumber, pinNumber, amount, operator, data} = this.state;
-       
+        const { serialNumber, pinNumber, amount, operator, data } = this.state;
+
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -498,7 +500,7 @@ class DepositScratchCard extends Component {
             console.log("nice!");
             if (res.data.status === 6) {
                 this.setState({
-                    receive_response: true, 
+                    receive_response: true,
                     response_msg: "Deposit request is processing. Please check your transaction history for updates to your balance once we finish processing",
                     error: false,
                     error_msg: ""
@@ -506,25 +508,25 @@ class DepositScratchCard extends Component {
             }
             else if (res.data.status === 1) {
                 const body = JSON.stringify({
-                    type : 'add',
+                    type: 'add',
                     username: data.username || "",
                     balance: amount,
                 });
                 axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
-                .then(res => {
-                    if (res.data === 'Failed'){
-                        this.setState({error: true});
-                    } else if (res.data === 'The balance is not enough') {
-                        alert("cannot withdraw this amount")
-                    } else {
-                        alert("your balance is updated")
-                        // window.location.reload();
-                    }
-                });
+                    .then(res => {
+                        if (res.data === 'Failed') {
+                            this.setState({ error: true });
+                        } else if (res.data === 'The balance is not enough') {
+                            alert("cannot withdraw this amount")
+                        } else {
+                            alert("your balance is updated")
+                            // window.location.reload();
+                        }
+                    });
             }
             else {
                 this.setState({
-                    error: true, 
+                    error: true,
                     error_msg: JSON.stringify(res.data.msg),
                     receive_response: false,
                     response_msg: ""
@@ -532,7 +534,7 @@ class DepositScratchCard extends Component {
             }
         }
         else {
-            this.setState({error: true, error_msg: "Could not communicate with iBet servers. Error code: " + res.status});
+            this.setState({ error: true, error_msg: "Could not communicate with iBet servers. Error code: " + res.status });
         }
     }
 
@@ -540,7 +542,7 @@ class DepositScratchCard extends Component {
 
     render() {
         const { classes } = this.props;
-       
+
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar, operator, amount } = this.state;
 
@@ -578,7 +580,7 @@ class DepositScratchCard extends Component {
                                         Scratch Card
                                     </Button>
                                 </Grid>
-                                <Grid item xs={12} className={classes.detailRow}>
+                                <Grid item xs={12} className={classes.detailRow} style={{paddingTop:10}}>
                                     <InputMask
                                         mask="99999 99999 99999" maskChar={null}
                                         onChange={this.numberChanged}
@@ -604,10 +606,10 @@ class DepositScratchCard extends Component {
                                         onFocus={this.pinNumberFocused}
                                         value={this.state.pinNumber}
 
-                                        className={classes.expireText}
+                                        className={classes.pinText}
                                     >
                                         {() => <TextField
-                                            className={classes.expireText}
+                                            className={classes.pinText}
                                             placeholder="PIN"
                                             // placeholder="Mã Nạp"
                                             type="text"
@@ -618,14 +620,14 @@ class DepositScratchCard extends Component {
                                         }
                                     </InputMask>
                                 </Grid>
-                                <Grid item xs={6} className={classes.dropDowns} style={{alignContent: 'center', textAlign: 'center'}}>
+                                <Grid item xs={6} className={classes.dropDowns} style={{ alignContent: 'center', textAlign: 'center' }}>
                                     <Select
                                         className={classes.select}
                                         value={operator}
-                                        style={{textAlign: 'left'}}
+                                        style={{ textAlign: 'left' }}
                                         onChange={this.handleOperatorChange}
                                         input={<BootstrapInput name="operator" id="select-operator" />}>
-                                    >
+                                        >
                                         <MenuItem key='none' value='none' disabled >Select Operator</MenuItem>
                                         {
                                             operators.map(currency => (
@@ -636,25 +638,25 @@ class DepositScratchCard extends Component {
                                         }
                                     </Select>
                                 </Grid>
-                                <Grid item xs={6} className={classes.dropDowns} style={{alignContent: 'center', textAlign: 'center'}}>
+                                <Grid item xs={6} className={classes.dropDowns} style={{ alignContent: 'center', textAlign: 'center' }}>
                                     <Select
                                         className={classes.select}
                                         value={amount}
-                                        style={{textAlign: 'left'}}
+                                        style={{ textAlign: 'left' }}
                                         onChange={this.handleAmountChange}
                                         input={<BootstrapInput name="amount" id="select-amount" />}>
-                                    >
+                                        >
                                         <MenuItem key='none' value='none' disabled>Select Amount</MenuItem>
                                         {
                                             amountChoices.map(option => (
                                                 <MenuItem key={option} value={option}>
-                                                    {Intl.NumberFormat('us-EN', {currency: 'VND'}).format(option) + " VND"}
+                                                    {Intl.NumberFormat('us-EN', { currency: 'VND' }).format(option) + " VND"}
                                                 </MenuItem>
                                             ))
                                         }
                                     </Select>
                                 </Grid>
-                                <br/>
+                                <br />
                                 <Grid item xs={6} className={classes.amountRow}>
                                     <div className={classes.amountText}>
                                         <FormattedNumber
@@ -684,19 +686,19 @@ class DepositScratchCard extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <div style={{textAlign: 'center', paddingLeft: 262, paddingRight: 262}}>
+                    <div style={{ textAlign: 'center', paddingLeft: 262, paddingRight: 262 }}>
                         <div id="response-msg">
                             {
-                                this.state.receive_response ? 
-                                <p>{this.state.response_msg}</p> :
-                                <br></br>
+                                this.state.receive_response ?
+                                    <p>{this.state.response_msg}</p> :
+                                    <br></br>
                             }
                         </div>
                         <div id="error-msg">
                             {
-                                this.state.error ? 
-                                <p style={{color: "red"}}>{this.state.error_msg}</p> :
-                                <br></br>
+                                this.state.error ?
+                                    <p style={{ color: "red" }}>{this.state.error_msg}</p> :
+                                    <br></br>
                             }
                         </div>
                     </div>
