@@ -21,7 +21,7 @@ import axios from 'axios';
 
 import { withStyles } from '@material-ui/core/styles';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
