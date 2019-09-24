@@ -46,6 +46,7 @@ class App extends Component {
     window.addEventListener("beforeunload", this.handleWindowBeforeUnload);
 
     this.props.getLanguage();
+    this.setState({inbox: 0});
 
     setInterval(() => this.checkIfReminderTime(), 1000)
   }

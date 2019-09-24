@@ -58,6 +58,7 @@ const INITIAL_STATE = {
 
   forget_email: '',
 
+  inbox: 0,
   show_landing_page:  true
 }
 
@@ -241,6 +242,9 @@ export default (state = INITIAL_STATE, action) => {
       
     case 'GET_REFER_ID':
       return { ...state, refer_id: action.payload }
+    case 'INBOX_CHANGE':
+        return { ...state, inbox: action.payload }
+
     default:
       return state;
   }
