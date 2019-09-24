@@ -181,7 +181,6 @@ const BootstrapInput = withStyles(theme => ({
     opacity:0.5,
     alignItems:'center',
     display: 'flex',
-    alignItems: 'center',
     border: '1px solid #ced4da',
     fontSize: 16,
     padding: '5px 16px 5px 12px',

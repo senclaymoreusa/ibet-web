@@ -19,37 +19,13 @@ import Referral from './components/referral'
 import Balance from './components/balance'
 import Activation from './components/activation'
 import Activate from './components/activate'
-import FundManagement from './components/fund_management'
-import OpenBets from './components/open_bets'
-import UserMessages from './components/user_messages'
-import PointsRewards from './components/points_rewards'
-import UsageAnalysis from './components/usage_analysis'
-import PersonalDetails from './components/personal_details'
-import DepositPaypal from './components/profile/banking/deposit/deposit_types/deposit_paypal'
 import TermsConditions from './components/policy/terms_conditions'
 import PrivacyPolicy from './components/policy/privacy_policy'
 import CookiePolicy from './components/policy/cookie_policy'
 import ChangePassword from './components/change_password_new'
-import DepositLinePay from "./components/profile/banking/deposit/deposit_types/deposit_linepay"
-import DepositQaicah from './components/profile/banking/deposit/deposit_types/deposit_qaicash'
-import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay'
-import DepositAsiapayBankcard from './components/profile/banking/deposit/deposit_types/deposit_asiapay_bankcard'
 import WithdrawAsiapay from './components/withdraw_asiapay'
-import DepositAsiapayQucikpay from "./components/profile/banking/deposit/deposit_types/deposit_asiapay_kuaijie"
-import DepositAsiapayUnionpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_unionpay'
-import DepositAsiapayWechatpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_wechatpay'
-import DepositAsiapayAlipay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_alipay'
-import DepositQaicashAlipay from './components/profile/banking/deposit/deposit_types/deposit_qaicash_alipay'
-import WithdrawQaicashLBT from './components/profile/banking/withdraw/withdraw_types/withdraw_qaicash_lbt'
 import NewProfile from './components/new_profile2'
 import NewUpdateProfile from './components/new_update_profile2'
-import DepositAstropay from "./components/profile/banking/deposit/deposit_types/deposit_astropay"
-import DepositCirclepay from "./components/profile/banking/deposit/deposit_types/deposit_circlepay"
-import DepositPayzod from "./components/profile/banking/deposit/deposit_types/deposit_payzod"
-import DepositHelp2pay from "./components/profile/banking/deposit/deposit_types/deposit_help2pay"
-import DepositFgo from "./components/profile/banking/deposit/deposit_types/deposit_fgo"
-
-
 import Profile from "./components/profile/profile"
 
 const divStyle = {
@@ -80,33 +56,11 @@ const BaseRouter = () => (
     <Route exact path="/balance/:type?" component={Balance} />
     <Route exact path="/activation" component={Activation} />
     <Route exact path="/activate/:token?" component={Activate} />
-    <Route exact path="/fund_management/" component={FundManagement} />
-    <Route exact path="/open_bets/" component={OpenBets} />
-    <Route exact path="/user_messages/" component={UserMessages} />
-    <Route exact path="/points_rewards/" component={PointsRewards} />
-    <Route exact path="/usage_analysis/" component={UsageAnalysis} />
-    <Route exact path="/personal_details/" component={PersonalDetails} />
-    <Route exact path="/deposit_paypal/" component={DepositPaypal} />
-    <Route exact path="/withdraw_qaicash_lbt/" component={WithdrawQaicashLBT} />
-    <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
-    <Route exact path="/deposit_qaicash_alipay/" component={DepositQaicashAlipay} />
-    <Route exact path="/deposit_asiapay_jdpay/" component={DepositAsiapayJDPay} />
-    <Route exact path="/deposit_asiapay_bankcard/" component={DepositAsiapayBankcard} />
-    <Route exact path="/deposit_asiapay_unionpay/" component={DepositAsiapayUnionpay} />
-    <Route exact path="/deposit_asiapay_wechatpay/" component={DepositAsiapayWechatpay} />
-    <Route exact path="/deposit_asiapay_alipay/" component={DepositAsiapayAlipay} />
     <Route exact path="/withdraw_asiapay/" component={WithdrawAsiapay} />
     <Route exact path="/terms_conditions/" component={TermsConditions} />
     <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
     <Route exact path="/cookie_policy/" component={CookiePolicy} />
     <Route exact path="/change_password/" component={ChangePassword} />
-    <Route exact path="/deposit_linepay/" component={DepositLinePay} />
-    <Route exact path="/deposit_asiapay_kuaijie/" component={DepositAsiapayQucikpay} />
-    <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />
-    <Route exact path="/deposit/astropay/" component={DepositAstropay} />
-    <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
-    <Route exact path="/deposit/payzod/" component={DepositPayzod} />
-    <Route exact path="/deposit_fgo/" component={DepositFgo} />
     <Route exact path="/p/:type?/:sub?" component={Profile} />
 
   </div>
