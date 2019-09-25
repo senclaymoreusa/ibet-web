@@ -232,11 +232,9 @@ class DepositQaicashAlipay extends Component {
             parseInt(event.target.value) > 1500 ||
             parseInt(event.target.value) < 300
         ) {
-            this.setState({ amount: 0 });
-            this.setState({ amountInvalid: true });
+            this.setState({ amount: 0, amountInvalid: true });
         } else {
-            this.setState({ amount: event.target.value });
-            this.setState({ amountInvalid: false });
+            this.setState({ amount: event.target.value, amountInvalid: false });
         }
     };
 
