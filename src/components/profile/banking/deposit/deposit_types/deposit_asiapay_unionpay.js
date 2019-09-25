@@ -468,7 +468,13 @@ class DepositAsiapayUnionpay extends Component {
                                     {amounts.map((x, i) => {
                                         return (
                                             <Button
-                                                className={classes.middleButton}
+                                                className={
+                                                    i == 0
+                                                        ? classes.leftButton
+                                                        : i == 3
+                                                        ? classes.rightButton
+                                                        : classes.middleButton
+                                                }
                                                 key={i}
                                                 onClick={() =>
                                                     this.setState({
