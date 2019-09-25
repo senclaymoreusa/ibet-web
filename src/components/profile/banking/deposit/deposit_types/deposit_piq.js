@@ -305,7 +305,7 @@ const styles = function(theme) {
     };
 };
 
-const amounts = [25, 50, 100, 500];
+const amounts = Object.freeze([25, 50, 100, 500]);
 
 class DepositPIQ extends Component {
     constructor(props) {
