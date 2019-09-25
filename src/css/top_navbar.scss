@@ -187,7 +187,7 @@ $out_transition: all 0.15s ease;
 .search {
   position: absolute;
   z-index: 2000;
-  bottom: 6px;
+  top: 82px;
   right: 0;
   width: 0px;
   height: 40px;
@@ -261,7 +261,7 @@ $out_transition: all 0.15s ease;
   width: 50px;
   height: 40px;
   //z-index: 2001;
-  margin-top: 16px;
+  margin-top: 8px;
   display: inline-block;
   // display: block;
   // position: fixed;
