@@ -272,8 +272,6 @@ const styles = function(theme) {
         dropDowns: {
             paddingTop: 12,
             paddingBottom: 20
-            // marginRight: 5,
-            // marginLeft: 10
         },
         textField: {
             border: 'solid 1px #e4e4e4',
@@ -284,9 +282,7 @@ const styles = function(theme) {
                 border: 'solid 1px #717171'
             }
         },
-        amountButtonRow: {
-            // paddingTop: 15
-        },
+        amountButtonRow: {},
         select: {
             fontSize: 14,
             fontWeight: 500,
@@ -723,7 +719,6 @@ class DepositPIQ extends Component {
                                 >
                                     <TextField
                                         className={classes.otherText}
-                                        // placeholder="Amount: e.g. 100.00"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={
@@ -823,29 +818,3 @@ export default withStyles(styles)(
         )(DepositPIQ)
     )
 );
-
-// new _PaymentIQCashier(
-//     '#cashier',
-//     {
-//         merchantId: '100185999',
-//         userId: res.data.username,
-//         sessionId: uuidv1(),
-//         containerHeight: '550px',
-//         containerWidth: '60%',
-//         environment: 'test' // if not set, defaults to production
-//     },
-//     api => {
-//         api.on({
-//             doneLoading: function(data) {
-//                 console.log(
-//                     'Cashier intialized and ready to take down the empire1'
-//                 );
-//             },
-//             update: function(data) {
-//                 console.log(
-//                     'Cashier intialized and ready to take down the empire2'
-//                 );
-//             }
-//         });
-//     }
-// );
