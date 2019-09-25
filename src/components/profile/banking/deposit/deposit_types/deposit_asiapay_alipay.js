@@ -443,13 +443,15 @@ class DepositAsiapayAlipay extends Component {
 
                 // currentComponent.setState({ showLinearProgressBar: false });
             })
-            .catch(function(error) {
+            .catch(function(err) {
                 // catch
-                console.log('Request failed', error);
+                console.log('Request failed', err);
                 currentComponent.props.callbackFromParent(
                     'error',
-                    error.message
+                    err.message
                 );
+
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             });
     };
 

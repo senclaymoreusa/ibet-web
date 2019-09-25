@@ -507,6 +507,7 @@ export class ResponsibleGaming extends Component {
                                 if (err.response.status === 403)
                                     this.setState({ isLocked: true });
 
+                                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                             })
                     })
             }
@@ -549,6 +550,7 @@ export class ResponsibleGaming extends Component {
                             }
                         }).catch(err => {
                             console.log(err);
+                            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                         })
                 }
             })
@@ -893,6 +895,7 @@ export class ResponsibleGaming extends Component {
                     currentComponent.setState({ showDepositProgressBar: false });
                 }
             }).catch(err => {
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
 
                 console.log(err);
             })
@@ -931,6 +934,7 @@ export class ResponsibleGaming extends Component {
                     }));
                 }
             }).catch(err => {
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                 console.log(err);
             })
     }
@@ -1011,6 +1015,7 @@ export class ResponsibleGaming extends Component {
                     currentComponent.setState({ showDepositProgressBar: false });
                 }
             }).catch(err => {
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
 
                 console.log(err);
             })
@@ -1047,6 +1052,7 @@ export class ResponsibleGaming extends Component {
                     currentComponent.setState({ showLossProgressBar: false });
                 }
             }).catch(err => {
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
 
                 console.log(err);
             })

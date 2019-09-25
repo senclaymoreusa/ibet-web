@@ -108,6 +108,8 @@ class Referral extends React.Component {
                     alert(message)
                     this.props.history.push('/');
                 }).catch(err => {
+                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+
                     console.log(err.response)
                 })
             }else{
