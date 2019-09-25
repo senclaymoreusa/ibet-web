@@ -120,7 +120,8 @@ const styles = function(theme) {
             marginLeft: 3
         },
         detailRow: {
-            paddingBottom: 15
+            paddingTop: 1
+            // paddingBottom: 15
         },
         leftButton: {
             display: 'inline-block',
@@ -161,9 +162,8 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingTop: 6,
+            margin: '10px 0px 10px 0px',
+            padding: '6px 10px 0px 10px',
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -175,10 +175,12 @@ const styles = function(theme) {
             }
         },
         amountRow: {
+            marginTop: 10,
             height: 40,
             borderBottom: '4px solid #5e5e5e'
         },
         amountRightRow: {
+            marginTop: 10,
             height: 40,
             textAlign: 'right',
             borderBottom: '4px solid #5e5e5e'
@@ -202,7 +204,8 @@ const styles = function(theme) {
             color: '#292929',
             height: 44,
             marginTop: 10,
-            paddingLeft: 10,
+            marginBottom: 10,
+            padding: '7px 0px 10px 15px',
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -222,9 +225,8 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            marginTop: 10,
-            marginRight: 10,
-            paddingLeft: 10,
+            margin: '10px 10px 10px 0px',
+            padding: '7px 0px 10px 15px',
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -244,10 +246,8 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            marginTop: 10,
-            marginLeft: 10,
-            paddingLeft: 10,
-            paddingRight: 10,
+            margin: '10px 0px 10px 10px',
+            padding: '7px 0px 10px 15px',
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -259,7 +259,7 @@ const styles = function(theme) {
             }
         },
         amountButtonRow: {
-            paddingTop: 30
+            // paddingTop: 30
         }
     };
 };
@@ -657,7 +657,7 @@ class DepositAstropay extends Component {
                                                     Other
                                                 </InputAdornment>
                                             ),
-                                            nputProps: {
+                                            inputProps: {
                                                 step: 10,
                                                 min: 10,
                                                 max: 50000
