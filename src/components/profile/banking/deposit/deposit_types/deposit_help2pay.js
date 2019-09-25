@@ -42,6 +42,8 @@ const currency_options = [
 ];
 // var QRCode = require('qrcode.react');
 
+const amounts = Object.freeze([500, 750, 1000, 5000]);
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
@@ -291,18 +293,9 @@ class DepositHelp2pay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 500,
-            secondOption: 750,
-            thirdOption: 1000,
-            fourthOption: 5000,
-            currencyValue: "USD",
+            currencyValue: "THB",
             showLinearProgressBar: false,
         };
-
-        this.firstOptionClicked = this.firstOptionClicked.bind(this);
-        this.secondOptionClicked = this.secondOptionClicked.bind(this);
-        this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
-        this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
 
         this.backClicked = this.backClicked.bind(this);
         this.amountChanged = this.amountChanged.bind(this);
@@ -333,34 +326,6 @@ class DepositHelp2pay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currencyValue: res.data.currency });
             });
-    }
-
-    firstOptionClicked(event) {
-        this.setState({ amount: this.state.firstOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    secondOptionClicked(event) {
-        this.setState({ amount: this.state.secondOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    thirdOptionClicked(event) {
-        this.setState({ amount: this.state.thirdOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    fourthOptionClicked(event) {
-        this.setState({ amount: this.state.fourthOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
     }
 
     handleCurrencyChange = event => {
@@ -566,18 +531,29 @@ class DepositHelp2pay extends Component {
                                     </Select>
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
-                                        {this.state.firstOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.secondOptionClicked}>
-                                        {this.state.secondOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.thirdOptionClicked}>
-                                        {this.state.thirdOption}
-                                    </Button>
-                                    <Button className={classes.rightButton} onClick={this.fourthOptionClicked}>
-                                        {this.state.fourthOption}
-                                    </Button>
+                                    {amounts.map((x, i) => {
+                                        return (
+                                            <Button
+                                                className={
+                                                    i == 0
+                                                        ? classes.leftButton
+                                                        : i == 3
+                                                        ? classes.rightButton
+                                                        : classes.middleButton
+                                                }
+                                                key={i}
+                                                onClick={() =>
+                                                    this.setState({
+                                                        amount: x,
+                                                        amountInvalid: false,
+                                                        amountFocused: false
+                                                    })
+                                                }
+                                            >
+                                                {x}
+                                            </Button>
+                                        );
+                                    })}
                                 </Grid>
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
