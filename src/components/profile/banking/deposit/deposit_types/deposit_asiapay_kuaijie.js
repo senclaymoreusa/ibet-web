@@ -316,16 +316,22 @@ class DepositAsiapayQucikpay extends Component {
             currentComponent.setState({ showLinearProgressBar: false });
 
 
-            return res.json();
+            // return res.json();
+            if (res.ok) {
+                return res.text();
+            }
+
         }).then(function (data) {
             currentComponent.setState({ showLinearProgressBar: false });
             console.log(data)
-            let url = data.url;
-            let order_id = data.order_id;
-            const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
+            // let url = data.url;
+            // let order_id = data.order_id;
+            // const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
+            let newwin = window.open('');
+            newwin.document.write(data);
             var timer = setInterval(function () {
                     console.log('checking..')
-                    if (mywin.closed) {
+                    if (newwin.closed) {
                         clearInterval(timer);
                         var postData = {
                             "order_id": data.oid,
