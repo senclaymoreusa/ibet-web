@@ -145,8 +145,8 @@ const styles = function(theme) {
             height: 44
         },
         middleButton: {
-            marginLeft: 6.666,
-            marginRight: 6.666,
+            marginLeft: 4.75,
+            marginRight: 4.75,
             borderRadius: 4,
             backgroundColor: '#efefef',
             marginTop: 15,
@@ -173,6 +173,8 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
+            marginTop: 10,
+            marginBottom: 10,
             paddingLeft: 10,
             paddingRight: 10,
             paddingTop: 6,
@@ -216,7 +218,8 @@ const styles = function(theme) {
             color: '#292929',
             height: 44,
             marginTop: 10,
-            padding: '7px 0px 10px 10px',
+            marginBottom: 10,
+            padding: '7px 0px 10px 15px',
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -236,10 +239,12 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            marginTop: 10,
-            marginRight: 10,
+            margin: '10px 10px 10px 0px',
+            // marginTop: 10,
+            // marginBottom: 10,
+            // marginRight: 10,
             // paddingLeft: 10,
-            padding: '7px 0px 10px 10px',
+            padding: '7px 0px 10px 15px',
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -259,9 +264,8 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            marginTop: 10,
-            marginLeft: 10,
-            padding: '7px 0px 10px 10px',
+            margin: '10px 0px 10px 10px',
+            padding: '7px 0px 10px 15px',
             // paddingLeft: 10,
             // paddingRight: 10,
             width: 190,
@@ -310,6 +314,8 @@ const styles = function(theme) {
     };
 };
 
+const amounts = [25, 50, 100, 500];
+
 class DepositPIQ extends Component {
     constructor(props) {
         super(props);
@@ -340,10 +346,6 @@ class DepositPIQ extends Component {
             dateInvalid: true,
             cvv: '',
 
-            firstOption: 25,
-            secondOption: 50,
-            thirdOption: 100,
-            fourthOption: 500,
             currencyValue: 'USD',
             showLinearProgressBar: false
         };
@@ -602,6 +604,7 @@ class DepositPIQ extends Component {
                                     item
                                     xs={12}
                                     className={classes.detailRow}
+                                    style={{ marginTop: '10px' }}
                                 >
                                     <TextField
                                         // label="Cardholder Name"
@@ -741,30 +744,23 @@ class DepositPIQ extends Component {
                                     xs={12}
                                     className={classes.amountButtonRow}
                                 >
-                                    <Button
-                                        className={classes.leftButton}
-                                        onClick={this.firstOptionClicked}
-                                    >
-                                        {this.state.firstOption}
-                                    </Button>
-                                    <Button
-                                        className={classes.middleButton}
-                                        onClick={this.secondOptionClicked}
-                                    >
-                                        {this.state.secondOption}
-                                    </Button>
-                                    <Button
-                                        className={classes.middleButton}
-                                        onClick={this.thirdOptionClicked}
-                                    >
-                                        {this.state.thirdOption}
-                                    </Button>
-                                    <Button
-                                        className={classes.rightButton}
-                                        onClick={this.fourthOptionClicked}
-                                    >
-                                        {this.state.fourthOption}
-                                    </Button>
+                                    {amounts.map((x, i) => {
+                                        return (
+                                            <Button
+                                                className={classes.middleButton}
+                                                key={i}
+                                                onClick={() =>
+                                                    this.setState({
+                                                        amount: x,
+                                                        amountInvalid: false,
+                                                        amountFocused: false
+                                                    })
+                                                }
+                                            >
+                                                {x}
+                                            </Button>
+                                        );
+                                    })}
                                 </Grid>
                                 <Grid
                                     item
