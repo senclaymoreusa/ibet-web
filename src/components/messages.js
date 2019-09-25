@@ -113,7 +113,7 @@ export const messages = {
 
         'nav.sports': 'Sports',
         'nav.live-casino': 'Live Casino',
-        'nav.slots': 'Slots',
+        'nav.casino': 'Casino',
         'nav.lottery': 'Lottery',
         'nav.register': 'Register',
         'nav.live': 'Live',
@@ -564,7 +564,7 @@ export const messages = {
 
         'nav.sports': '体育',
         'nav.live-casino': '真人娱乐场',
-        'nav.slots': '老虎机',
+        'nav.casino': '赌场',
         'nav.lottery': '抽奖',
         'nav.register': '寄存器',
         'nav.live': '生活',
@@ -1051,7 +1051,7 @@ export const messages = {
 
         'nav.sports': 'Des sports',
         'nav.live-casino': 'Live Casino',
-        'nav.slots': 'Machines à sous',
+        'nav.casino': 'Casino',
         'nav.lottery': 'Loterie',
         'nav.register': 'Registre',
         'nav.live': 'Vivre',
