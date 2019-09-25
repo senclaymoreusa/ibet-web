@@ -348,6 +348,8 @@ class DepositPIQ extends Component {
                 userData: res.data,
                 currencyValue: res.data.currency
             });
+            console.log('res data:');
+            console.log(res.data);
             return res.data.username;
         });
     };
@@ -367,7 +369,6 @@ class DepositPIQ extends Component {
     };
 
     async componentDidMount() {
-        console.log('component mounted');
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 window.location.href = '/';
@@ -381,7 +382,8 @@ class DepositPIQ extends Component {
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
 
-        this.userCheck();
+        await this.userCheck();
+        console.log('component mounted');
     }
 
     backClicked = () => {
@@ -439,7 +441,7 @@ class DepositPIQ extends Component {
         currentComponent.setState({ showLinearProgressBar: true });
 
         const {
-            data,
+            userData,
             sessionId,
             name,
             cvv,
@@ -464,7 +466,7 @@ class DepositPIQ extends Component {
 
         let postData = {
             sessionId: sessionId,
-            userId: data.username,
+            userId: userData.username,
             merchantId: PIQ_MID,
             amount: amount,
             cardHolder: name || 'John Doe',
