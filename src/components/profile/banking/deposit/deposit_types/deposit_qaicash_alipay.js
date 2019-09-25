@@ -190,7 +190,7 @@ const styles = theme => ({
     }
 });
 
-const amount = Object.freeze([300, 400, 500, 1000]);
+const amounts = Object.freeze([300, 400, 500, 1000]);
 
 class DepositQaicashAlipay extends Component {
     constructor(props) {
@@ -222,7 +222,6 @@ class DepositQaicashAlipay extends Component {
         config.headers['Authorization'] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config).then(res => {
             this.setState({ data: res.data });
-            this.setState({ currencyValue: res.data.currency });
         });
     }
 
