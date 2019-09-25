@@ -173,11 +173,8 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            marginTop: 10,
-            marginBottom: 10,
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingTop: 6,
+            margin: '10px 0px 10px 0px',
+            padding: '6px 10px 0px 10px',
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -240,10 +237,6 @@ const styles = function(theme) {
             color: '#292929',
             height: 44,
             margin: '10px 10px 10px 0px',
-            // marginTop: 10,
-            // marginBottom: 10,
-            // marginRight: 10,
-            // paddingLeft: 10,
             padding: '7px 0px 10px 15px',
             width: 190,
             borderRadius: 4,
@@ -266,8 +259,6 @@ const styles = function(theme) {
             height: 44,
             margin: '10px 0px 10px 10px',
             padding: '7px 0px 10px 15px',
-            // paddingLeft: 10,
-            // paddingRight: 10,
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -397,42 +388,6 @@ class DepositPIQ extends Component {
         this.props.callbackFromParent('deposit_method');
     };
 
-    firstOptionClicked = () => {
-        this.setState({
-            amount: this.state.firstOption,
-            amountInvalid: false,
-            amountFocused: false
-        });
-        this.amountInput.current.value = '';
-    };
-
-    secondOptionClicked = () => {
-        this.setState({
-            amount: this.state.secondOption,
-            amountInvalid: false,
-            amountFocused: false
-        });
-        this.amountInput.current.value = '';
-    };
-
-    thirdOptionClicked = () => {
-        this.setState({
-            amount: this.state.thirdOption,
-            amountInvalid: false,
-            amountFocused: false
-        });
-        this.amountInput.current.value = '';
-    };
-
-    fourthOptionClicked = () => {
-        this.setState({
-            amount: this.state.fourthOption,
-            amountInvalid: false,
-            amountFocused: false
-        });
-        this.amountInput.current.value = '';
-    };
-
     amountChanged = event => {
         this.setState({
             amount: event.target.value,
@@ -448,6 +403,7 @@ class DepositPIQ extends Component {
             nameInvalid: event.target.value.toString().split(' ').length < 2
         });
     };
+
     numberChanged = event => {
         this.setState({
             serialNumber: event.target.value,
@@ -607,7 +563,6 @@ class DepositPIQ extends Component {
                                     style={{ marginTop: '10px' }}
                                 >
                                     <TextField
-                                        // label="Cardholder Name"
                                         className={classes.detailText}
                                         value={this.state.name}
                                         onChange={this.nameChanged}
