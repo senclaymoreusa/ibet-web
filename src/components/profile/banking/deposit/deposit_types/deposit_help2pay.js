@@ -301,7 +301,6 @@ class DepositHelp2pay extends Component {
         this.amountChanged = this.amountChanged.bind(this);
         this.amountFocused = this.amountFocused.bind(this);
         this.handleClick = this.handleClick.bind(this);
-
     }
 
     backClicked(ev) {
