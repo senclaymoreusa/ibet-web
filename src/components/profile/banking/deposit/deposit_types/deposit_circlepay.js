@@ -216,7 +216,6 @@ class DepositCirclepay extends Component {
 
         this.backClicked = this.backClicked.bind(this);
 
-        this.amountChanged = this.amountChanged.bind(this);
         this.amountFocused = this.amountFocused.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
@@ -230,19 +229,17 @@ class DepositCirclepay extends Component {
         });
     }
 
-    amountChanged(event) {
+    amountChanged = event => {
         if (
             event.target.value.length === 0 ||
-            parseInt(event.target.value) > 50000 ||
-            parseInt(event.target.value) < 20
+            parseInt(event.target.value) > 50000000 ||
+            parseInt(event.target.value) < 20000
         ) {
-            this.setState({ amount: 0 });
-            this.setState({ amountInvalid: true });
+            this.setState({ amount: 0, amountInvalid: true });
         } else {
-            this.setState({ amount: event.target.value });
-            this.setState({ amountInvalid: false });
+            this.setState({ amount: event.target.value, amountInvalid: false });
         }
-    }
+    };
 
     amountFocused(event) {
         this.setState({ amountFocused: true });
