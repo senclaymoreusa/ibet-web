@@ -348,8 +348,6 @@ class DepositPIQ extends Component {
                 userData: res.data,
                 currencyValue: res.data.currency
             });
-            console.log('res data:');
-            console.log(res.data);
             return res.data.username;
         });
     };
@@ -383,7 +381,6 @@ class DepositPIQ extends Component {
         config.headers['Authorization'] = `Token ${token}`;
 
         await this.userCheck();
-        console.log('component mounted');
     }
 
     backClicked = () => {
