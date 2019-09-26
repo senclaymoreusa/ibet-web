@@ -132,7 +132,8 @@ const styles = function(theme) {
             marginLeft: 3
         },
         detailRow: {
-            paddingTop: 1
+            paddingTop: 1,
+            paddingBottom: 15
         },
         leftButton: {
             display: 'inline-block',
@@ -297,7 +298,13 @@ const styles = function(theme) {
         },
         menuItem: {
             marginRight: 20
-        }
+        },
+        expireCell:{
+            paddingBottom:15
+        },
+        cvvCell:{
+            paddingBottom:15
+        },
     };
 };
 

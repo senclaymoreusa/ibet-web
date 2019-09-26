@@ -370,6 +370,13 @@ class DepositAsiapayQucikpay extends Component {
             })
             .catch(err => {
                 console.log(err);
+                axios
+                    .post(
+                        API_URL + 'system/api/logstreamtos3/',
+                        { line: err, source: 'Ibetweb' },
+                        config
+                    )
+                    .then(res => {});
             });
     };
 

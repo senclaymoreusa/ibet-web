@@ -300,7 +300,9 @@ class DepositLinePay extends Component {
                 }
             })
             .catch(err => {
-                console.log("ERROR!!! " + err)
+                console.log("ERROR!!! " + err);
+
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             });
 
         console.log(this.props.history);
@@ -314,6 +316,7 @@ class DepositLinePay extends Component {
             })
             .catch(err => {
                 console.log("Error with authentication! Error: " + err);
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             })
     }
 
@@ -353,12 +356,13 @@ class DepositLinePay extends Component {
                 currentComponent.setState({ showLinearProgressBar: false });
 
             }
-        ).catch(function (error) {                        // catch
-            currentComponent.props.callbackFromParent("error", error.message);
-            console.log('Request failed', error);
+        ).catch(function (err) {
+            currentComponent.props.callbackFromParent("error", err.message);
+            console.log('Request failed', err);
 
             currentComponent.setState({ showLinearProgressBar: false });
 
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
