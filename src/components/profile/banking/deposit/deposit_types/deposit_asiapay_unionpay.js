@@ -13,7 +13,7 @@ import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-// var QRCode = require('qrcode.react');
+//var QRCode = require('qrcode.react');
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -338,58 +338,59 @@ class DepositAsiapayUnionpay extends Component {
             let qrurl = data.qr;
             console.log(qrurl)
             if(qrurl != null){
-                const mywin = window.open(qrurl, 'asiapay-alipay')
-                var timer = setInterval(function () {
-                    console.log('checking..')
-                    if (mywin.closed) {
-                        clearInterval(timer);
-                        var postData = {
-                            "order_id": data.oid,
-                            "userid": "n" + userid,
-                            "CmdType": "01",
-                        }
-                        var formBody = [];
-                        for (var pd in postData) {
-                            var encodedKey = encodeURIComponent(pd);
-                            var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + "=" + encodedValue);
-                        }
-                        formBody = formBody.join("&");
+                this.setState({ qr_code: qrurl });
+                // const mywin = window.open(qrurl, 'asiapay-alipay')
+                // var timer = setInterval(function () {
+                //     console.log('checking..')
+                //     if (mywin.closed) {
+                //         clearInterval(timer);
+                //         var postData = {
+                //             "order_id": data.oid,
+                //             "userid": "n" + userid,
+                //             "CmdType": "01",
+                //         }
+                //         var formBody = [];
+                //         for (var pd in postData) {
+                //             var encodedKey = encodeURIComponent(pd);
+                //             var encodedValue = encodeURIComponent(postData[pd]);
+                //             formBody.push(encodedKey + "=" + encodedValue);
+                //         }
+                //         formBody = formBody.join("&");
 
-                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
-                            method: "POST",
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: formBody
-                        }).then(function (res) {
-                            return res.json();
-                        }).then(function (data) {
-                            console.log(data.status)
-                            if (data.status === "001") {
-                                //alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'add',
-                                    username: currentComponent.state.data.username,
-                                    balance: currentComponent.state.amount,
-                                });
-                                console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
-                            } else {
-                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
-                            }
-                        });
-                    }
-                }, 1000);
+                //         return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
+                //             method: "POST",
+                //             headers: {
+                //                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                //             },
+                //             body: formBody
+                //         }).then(function (res) {
+                //             return res.json();
+                //         }).then(function (data) {
+                //             console.log(data.status)
+                //             if (data.status === "001") {
+                //                 //alert('Transaction is approved.');
+                //                 const body = JSON.stringify({
+                //                     type: 'add',
+                //                     username: currentComponent.state.data.username,
+                //                     balance: currentComponent.state.amount,
+                //                 });
+                //                 console.log(body)
+                //                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                //                     .then(res => {
+                //                         if (res.data === 'Failed') {
+                //                             //currentComponent.setState({ error: true });
+                //                             currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                //                         } else if (res.data === "The balance is not enough") {
+                //                             currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                //                         } else {
+                //                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                //                         } });
+                //             } else {
+                //                 currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                //             }
+                //         });
+                //     }
+                // }, 1000);
                 
             }
             // let myqr = data.qr;
@@ -411,8 +412,8 @@ class DepositAsiapayUnionpay extends Component {
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
-        const { showLinearProgressBar } = this.state;
-
+        //const { showLinearProgressBar } = this.state;
+        const { showLinearProgressBar, qr_code } = this.state;
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
         let continueMessage = formatMessage({ id: 'deposit.continue' });
         let backMessage = formatMessage({ id: 'deposit.back_to_banking' });
@@ -508,6 +509,17 @@ class DepositAsiapayUnionpay extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <div id="api-response" style={{textAlign: 'center', paddingLeft: 262, paddingRight: 262}}>
+                        {
+                            qr_code ? 
+                            <>
+                                <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/>
+                                <p>Once you have scanned the QR code, please check your e-mail and transaction history to confirm that the deposit was successful.</p>
+                            </>
+                            : 
+                            <br/>
+                        }
+                    </div>
                 </form>
             </div>
         )
