@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
+import {
+    authCheckState,
+    AUTH_RESULT_FAIL,
+    show_withdraw_main_menu,
+    show_deposit_main_menu
+} from '../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 
@@ -18,7 +23,7 @@ const styles = theme => ({
     },
     leftPane: {
         paddingTop: 50,
-        minWidth:260,
+        minWidth: 260,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -61,9 +66,23 @@ export class Banking extends Component {
         this.handleTabChange = this.handleTabChange.bind(this);
     }
 
-    handleTabChange(event, newValue) {
-        this.setState({ tabValue: newValue })
+    async handleTabChange(event, newValue) {
+        this.setState({ tabValue: newValue });
+
+        this.props.show_withdraw_main_menu();
+        this.props.show_deposit_main_menu();
+
+        var url = this.state.urlPath;
+        var parts = url.split('/');
+
+        url = '/';
+        var path = parts.slice(1, 3).join('/');
+        url = url + path;
+
+        url = url + '/' + newValue;
+        this.props.history.push(url);
     }
+
 
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
@@ -129,4 +148,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Banking))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, {
+    authCheckState,
+    show_withdraw_main_menu,
+    show_deposit_main_menu
+})(Banking))));

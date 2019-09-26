@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, forwardRef, useRef, useImperativeHandle } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import {
+    authCheckState,
+    hide_deposit_main_menu,
+    show_deposit_main_menu
+} from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import DepositSuccess from './deposit_success';
-
 import DepositError from './deposit_error';
 import DepositMethod from './deposit_method';
 import AddCreditCard from './add_credit_card';
 import DepositAmount from './deposit_amount';
-
 import DepositAsiapayAlipay from './deposit_types/deposit_asiapay_alipay';
 import DepositLinepay from './deposit_types/deposit_linepay';
 import DepositAsiapayJDPay from './deposit_types/deposit_asiapay_jdpay';
@@ -46,6 +48,8 @@ export class DepositMain extends Component {
             creditCardType: '',
             depositResultMessage: ''
         };
+
+        this.setPage = this.setPage.bind(this);
     }
 
     addCard = (page, type) => {
@@ -53,7 +57,9 @@ export class DepositMain extends Component {
         this.setState({ contentValue: page });
     };
 
+
     setPage = (page, msg) => {
+        this.props.hide_deposit_main_menu();
         this.setState({ contentValue: page });
 
         if (msg) this.setState({ depositMessage: msg });
@@ -65,13 +71,13 @@ export class DepositMain extends Component {
 
         return (
             <div className={classes.root}>
-                {contentValue === 'deposit_method' && (
+                {(contentValue === 'deposit_method' || this.props.showDepositMain) && (
                     <DepositMethod
                         callbackForPayment={this.setPage}
                         callbackForAddPayment={this.addCard}
                     />
                 )}
-                {contentValue === 'add_credit_card' && (
+                {contentValue === 'add_credit_card'&& (
                     <AddCreditCard
                         callbackFromParent={this.setPage}
                         cardType={this.state.creditCardType}
@@ -161,15 +167,15 @@ export class DepositMain extends Component {
 
 const mapStateToProps = state => {
     return {
-        lang: state.language.lang
+        lang: state.language.lang,
+        showDepositMain: state.general.show_deposit_main_menu,
     };
 };
 
 export default withStyles(styles)(
     injectIntl(
         connect(
-            mapStateToProps,
-            { authCheckState, withRef: true }
+            mapStateToProps, { authCheckState, hide_deposit_main_menu, forwardRef: true }
         )(DepositMain),
         { withRef: true }
     )

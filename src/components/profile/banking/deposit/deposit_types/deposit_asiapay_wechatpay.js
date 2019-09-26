@@ -312,7 +312,7 @@ class DepositAsiapayWechatpay extends Component {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
             "currency": "0",
-            "PayWay": "30", //qrcode
+            "PayWay": "30", //在线支付
             "method": "38", //wechat
         }
         console.log(this.state.data.pk)
@@ -397,9 +397,10 @@ class DepositAsiapayWechatpay extends Component {
                 
             }
             
-               }).catch(function (error) {                        // catch
-            console.log('Request failed', error);
-            currentComponent.props.callbackFromParent("error", error.message);
+               }).catch(function (err) {  
+            console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", err.message);
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 

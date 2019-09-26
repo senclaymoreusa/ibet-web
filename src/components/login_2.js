@@ -161,9 +161,11 @@ export class Login extends React.Component {
                                 this.props.history.push('/');
                             })
                             .catch(err => {
+                                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                             })
                     })
                     .catch(err => {
+                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                     })
             })
     }
@@ -201,6 +203,7 @@ export class Login extends React.Component {
                 } else {
                     this.setState({ wrong_password_error: true, user_blocked: false })
                 }
+                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
 
             });
     }
@@ -246,6 +249,8 @@ export class Login extends React.Component {
                         localStorage.setItem('activityCheckReminder', JSON.stringify(reminderData));
                     }).catch(err => {
                         console.log(err);
+                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+
                     })
             }
         })

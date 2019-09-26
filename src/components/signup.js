@@ -461,6 +461,8 @@ class Signup extends React.Component {
       axios.post(API_URL + `users/api/activate/`, {email: this.state.email })
       axios.get(API_URL + `users/api/sendemail/?case=signup&to_email_address=${this.state.email}&username=${this.state.username}&email=${this.state.email}`, config)
     }).catch(err => {
+      axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+
       if ('username' in err.response.data) {
         this.setState({username_error: err.response.data.username[0]})
       } else {
@@ -496,6 +498,8 @@ class Signup extends React.Component {
         axios.get(API_URL + `users/api/referral/?referral_id=${referrer_id}&referred=${this.state.username}`, config)
     
     }).catch(err => {
+      axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+
         if (err.response &&  'username' in err.response.data) {
           this.setState({username_error: err.response.data.username[0]})
         } else {

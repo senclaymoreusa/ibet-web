@@ -214,6 +214,8 @@ class SignupDetail extends React.Component {
             this.props.show_signup_contact();
             
         }).catch(err => {
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            
             this.setState({username_error: true})
         })
     }
