@@ -567,3 +567,27 @@ export const hide_landing_page = () => {
         type: 'HIDE_LANDING_PAGE'
     };
 };
+
+export const show_deposit_main_menu = () => {
+    return {
+        type: 'SHOW_DEPOSIT_MAIN_MENU'
+    };
+};
+
+export const hide_deposit_main_menu = () => {
+    return {
+        type: 'HIDE_DEPOSIT_MAIN_MENU'
+    };
+};
+
+export const show_withdraw_main_menu = () => {
+    return {
+        type: 'SHOW_WITHDRAW_MAIN_MENU'
+    };
+};
+
+export const hide_withdraw_main_menu = () => {
+    return {
+        type: 'HIDE_WITHDRAW_MAIN_MENU'
+    };
+};

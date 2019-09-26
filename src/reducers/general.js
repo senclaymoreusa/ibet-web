@@ -38,6 +38,8 @@ const INITIAL_STATE = {
     show_withdraw_success: false,
     show_profile_menu: false,
     show_mobile_main_menu: false,
+    show_deposit_main_menu: false,
+    show_withdraw_main_menu: false,
 
     onc_click_username: '',
     one_click_password: '',
@@ -244,6 +246,14 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, show_mobile_main_menu: false };
         case 'HIDE_LANDING_PAGE':
             return { ...state, show_landing_page: false };
+        case 'SHOW_DEPOSIT_MAIN_MENU':
+            return { ...state, show_deposit_main_menu: true };
+        case 'HIDE_DEPOSIT_MAIN_MENU':
+            return { ...state, show_deposit_main_menu: false };
+        case 'SHOW_WITHDRAW_MAIN_MENU':
+            return { ...state, show_withdraw_main_menu: true };
+        case 'HIDE_WITHDRAW_MAIN_MENU':
+            return { ...state, show_withdraw_main_menu: false };
 
         case 'GET_REFER_ID':
             return { ...state, refer_id: action.payload };

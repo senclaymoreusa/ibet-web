@@ -363,9 +363,9 @@ $out_transition: all 0.15s ease;
 }
 
 .overlay {
-  position: fixed; /* Positioning and size */
+  position: absolute; /* Positioning and size */
   top: 144;
-  z-index: 1999;
+  z-index: 1;
   left: 0;
   width: 100vw;
   height: 100vh;

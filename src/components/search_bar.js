@@ -401,7 +401,7 @@ export class SearchBar extends React.Component {
                                     />
                                     <div {...getMenuProps()}>
                                         {isOpen ? (
-                                            <Fade in={this.props.loaded} timeout={1700}>
+                                            <Fade in={this.props.loaded} timeout={1500}>
                                                 <Paper className={classes.paper} square>
                                                     <SearchResults {...this.props} results={this.state.results} providers={this.state.providerResults} entireSite={this.state.entireSiteResults} />
                                                 </Paper>
