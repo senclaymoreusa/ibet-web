@@ -125,7 +125,11 @@ const styles = theme => ({
     firstRowBar: {
         paddingLeft: 0,
         paddingRight: 0,
-        height: 72,
+        height: 45,
+        [theme.breakpoints.down('sm')]: {
+            height: 49,
+            minHeight:49,
+        },
         width: '100%',
         maxWidth: 1400
     },
@@ -160,6 +164,11 @@ const styles = theme => ({
         [theme.breakpoints.up('md')]: {
             display: 'flex',
         },
+    },
+    logo:{
+        [theme.breakpoints.down('sm')]: {
+            height: 20,
+        }
     },
     logoButton: {
         "&:hover": {
@@ -237,6 +246,10 @@ const styles = theme => ({
         height: 40,
         color: 'rgba(0, 0, 0, 0.5)',
         backgroundColor: '#ffffff',
+        // [theme.breakpoints.down('md')]: {
+        //     color: '#ffffff',
+        //     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        // },
         borderRadius: 6,
         border: 'solid 2px rgba(0, 0, 0, 0.5)',
         textTransform: 'capitalize',
@@ -979,10 +992,10 @@ export class TopNavbar extends React.Component {
             <div className={classes.list}>
                 <div className={classes.mobileSearchContainer}>
                     <TextField
-                        className={classes.mobileSearchText}
                         placeholder="Search..."
                         //onChange={this.amountChanged}
                         InputProps={{
+                            className: classes.mobileSearchText,
                             disableUnderline: true,
                             endAdornment: <InputAdornment position="end">
                                 <span className="mobile-search-icon"></span>
@@ -1004,7 +1017,8 @@ export class TopNavbar extends React.Component {
                         <List component="div" disablePadding>
                             <ListItem button className={classes.secondaryMobileMenuItem}
                                 onClick={() => {
-                                    this.props.history.push('/p/banking/deposit')
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/football')
                                 }}
                             >
                                 <img src={images.src + 'football.svg'} alt="" className={classes.mobileMenuIcon} />
@@ -1012,49 +1026,56 @@ export class TopNavbar extends React.Component {
                             </ListItem>
                             <ListItem button className={classes.secondaryMobileMenuItem}
                                 onClick={() => {
-                                    this.props.history.push('/p/banking/withdraw')
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/basketball')
                                 }}>
                                 <img src={images.src + 'basketball.svg'} alt="" className={classes.mobileMenuIcon} />
                                 <ListItemText primary="Basketball" />
                             </ListItem>
                             <ListItem button className={classes.secondaryMobileMenuItem}
                                 onClick={() => {
-                                    this.props.history.push('/p/banking/withdraw')
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/tennis')
                                 }}>
                                 <img src={images.src + 'tennis.svg'} alt="" className={classes.mobileMenuIcon} />
                                 <ListItemText primary="Tennis" />
                             </ListItem>
                             <ListItem button className={classes.secondaryMobileMenuItem}
                                 onClick={() => {
-                                    this.props.history.push('/p/banking/withdraw')
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/ice_hockey')
                                 }}>
                                 <img src={images.src + 'ice-hockey.svg'} alt="" className={classes.mobileMenuIcon} />
                                 <ListItemText primary="Ice Hockey" />
                             </ListItem>
                             <ListItem button className={classes.secondaryMobileMenuItem}
                                 onClick={() => {
-                                    this.props.history.push('/p/banking/withdraw')
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/golf')
                                 }}>
                                 <img src={images.src + 'golf.svg'} alt="" className={classes.mobileMenuIcon} />
                                 <ListItemText primary="Golf" />
                             </ListItem>
                             <ListItem button className={classes.secondaryMobileMenuItem}
                                 onClick={() => {
-                                    this.props.history.push('/p/banking/withdraw')
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/baseball')
                                 }}>
                                 <img src={images.src + 'baseball.svg'} alt="" className={classes.mobileMenuIcon} />
                                 <ListItemText primary="Baseball" />
                             </ListItem>
                             <ListItem button className={classes.secondaryMobileMenuItem}
                                 onClick={() => {
-                                    this.props.history.push('/p/banking/withdraw')
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/american_football')
                                 }}>
                                 <img src={images.src + 'american-football.svg'} alt="" className={classes.mobileMenuIcon} />
                                 <ListItemText primary="American Football" />
                             </ListItem>
                             <ListItem button className={classes.secondaryMobileMenuItem}
                                 onClick={() => {
-                                    this.props.history.push('/p/banking/withdraw')
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/badminton')
                                 }}>
                                 <img src={images.src + 'badminton.svg'} alt="" className={classes.mobileMenuIcon} />
                                 <ListItemText primary="Badminton" />
@@ -1064,14 +1085,17 @@ export class TopNavbar extends React.Component {
 
                     <ListItem button className={classes.mobileMenuItem}
                         onClick={() => {
-                            this.props.history.push('/p/responsible_gaming')
+                            this.props.hide_mobile_main_menu();
+                            this.props.history.push('/slot_type/slots/all')
                         }}>
                         <img src={images.src + 'mobile-casino.svg'} alt="" className={classes.mobileMenuIcon} />
                         <ListItemText primary="Casino" />
                     </ListItem>
                     <ListItem button className={classes.mobileMenuItem}
                         onClick={() => {
-                            this.props.history.push('/p/responsible_gaming')
+                            this.props.hide_mobile_main_menu();
+                            this.setState({showMobileSportsSubMenu: false});
+                            this.props.history.push('/liveCasino_type/live-casino/all')
                         }}>
                         <img src={images.src + 'mobile-live-casino.svg'} alt="" className={classes.mobileMenuIcon} />
                         <ListItemText primary="Live Casino" />
@@ -1079,7 +1103,8 @@ export class TopNavbar extends React.Component {
 
                     <ListItem button className={classes.mobileMenuItem}
                         onClick={() => {
-                            this.props.history.push('/p/responsible_gaming')
+                            this.props.hide_mobile_main_menu();
+                            this.props.history.push('/lottery_type/lottery')
                         }}>
                         <img src={images.src + 'mobile-lottery.svg'} alt="" className={classes.mobileMenuIcon} />
                         <ListItemText primary="Lottery" />
@@ -1160,12 +1185,11 @@ export class TopNavbar extends React.Component {
                                 <img src={images.src + 'menu.svg'} alt="" />
                             </IconButton>
                             <Drawer open={this.props.showMobileMainMenu} onClose={() => { this.props.hide_mobile_main_menu(); }}>
-
                                 {leftMobileSideList}
                             </Drawer>
                         </div>
                         <IconButton href='/' className={classes.logoButton}>
-                            <img src={images.src + 'ibet_logo.svg'} alt="" />
+                            <img src={images.src + 'ibet_logo.svg'} alt="" className={classes.logo}/>
                         </IconButton>
                         <div className={classes.grow} />
                         {

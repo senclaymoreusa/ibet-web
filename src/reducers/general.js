@@ -241,7 +241,7 @@ export default (state = INITIAL_STATE, action) => {
         case 'SHOW_MOBILE_MAIN_MENU':
             return { ...state, show_mobile_main_menu: true };
         case 'HIDE_MOBILE_MAIN_MENU':
-            return { ...state, hide_mobile_main_menu: false };
+            return { ...state, show_mobile_main_menu: false };
         case 'HIDE_LANDING_PAGE':
             return { ...state, show_landing_page: false };
 
