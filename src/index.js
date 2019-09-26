@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import IbetApp from './IbetApp';
-import LetouApp from './LetouApp';
+import IbetApp from './ibet/IbetApp';
+import LetouApp from './letou/LetouApp';
 import * as serviceWorker from './serviceWorker';
 import { addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
