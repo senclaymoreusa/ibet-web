@@ -748,6 +748,7 @@ export class TopNavbar extends React.Component {
                 })
                 .catch(err => {
                     this.setState({ errorCode: err });
+                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                 });
         }
     }

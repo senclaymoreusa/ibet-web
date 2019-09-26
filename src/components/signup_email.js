@@ -158,6 +158,8 @@ class SignupEmail extends React.Component {
             this.props.show_signup_detail();
             
         }).catch(err => {
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            
             this.setState({email_exist: true})
         })
     }

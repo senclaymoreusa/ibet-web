@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../../actions';
+import {
+    authCheckState, AUTH_RESULT_FAIL,
+    hide_withdraw_main_menu,
+    show_withdraw_main_menu
+} from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
@@ -33,7 +37,7 @@ export class WithdrawMain extends Component {
         }
     }
 
- componentDidMount() {
+    componentDidMount() {
         this.props.authCheckState()
             .then(res => {
                 if (res === AUTH_RESULT_FAIL) {
@@ -48,6 +52,7 @@ export class WithdrawMain extends Component {
     }
 
     setPage = (page, msg) => {
+        this.props.hide_withdraw_main_menu();
         this.setState({ contentValue: page });
 
         if (msg)
@@ -60,7 +65,7 @@ export class WithdrawMain extends Component {
 
         return (
             <div className={classes.root}>
-                {contentValue === 'withdraw_method' && <WithdrawMethod callbackForPayment={this.setPage} callbackForAddPayment={this.addCard} />}
+                {(contentValue === 'withdraw_method'|| this.props.showWithdrawMain) && <WithdrawMethod callbackForPayment={this.setPage} callbackForAddPayment={this.addCard} />}
                 {contentValue === 'add_credit_card' && <AddCreditCard callbackFromParent={this.setPage} cardType={this.state.creditCardType} />}
                 {contentValue === 'withdraw_amount' && <WithdrawAmount callbackFromParent={this.setPage} />}
                 {contentValue === 'qaicash_lbt' && <WithdrawQaicashLBT callbackFromParent={this.setPage} />}
@@ -75,8 +80,9 @@ export class WithdrawMain extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        lang: state.language.lang
+        lang: state.language.lang,
+        showWithdrawMain: state.general.show_withdraw_main_menu,
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, withRef: true })(WithdrawMain), { withRef: true })));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, hide_withdraw_main_menu, withRef: true })(WithdrawMain), { withRef: true })));

@@ -496,6 +496,8 @@ class UserInformationEdit extends Component {
                     passwordChangeSuccess = true;
 
                 }).catch(err => {
+                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+
                     if (err.response.status === 400)
                         alert('You entered a wrong password.')
                     else
@@ -535,6 +537,9 @@ class UserInformationEdit extends Component {
                     console.log(err.response);
                     alert("Error occured while editting user information");
                     currentComponent.setState({ showLinearProgressBar: false });
+
+                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+
                 })
         }
     }
