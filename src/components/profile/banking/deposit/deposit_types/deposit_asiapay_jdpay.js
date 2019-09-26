@@ -333,10 +333,10 @@ class DepositAsiapayJDPay extends Component {
 
             currentComponent.setState({ showLinearProgressBar: false });
             if(res.status == 200){
-                return res.text();
+                return res.json();
             }else{
                 currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                return res.text();
+                return res.json();
 
             }
             

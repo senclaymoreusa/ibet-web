@@ -312,7 +312,7 @@ class DepositAsiapayWechatpay extends Component {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
             "currency": "0",
-            "PayWay": "30", //qrcode
+            "PayWay": "30", //在线支付
             "method": "38", //wechat
         }
         console.log(this.state.data.pk)
