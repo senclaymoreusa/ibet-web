@@ -397,9 +397,10 @@ class DepositAsiapayWechatpay extends Component {
                 
             }
             
-               }).catch(function (error) {                        // catch
-            console.log('Request failed', error);
-            currentComponent.props.callbackFromParent("error", error.message);
+               }).catch(function (err) {  
+            console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", err.message);
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 

@@ -481,11 +481,12 @@ class DepositHelp2pay extends Component {
                 }
             }, 1000);
 
-        }).catch(function (error) {
-            console.log('Request failed', error);
+        }).catch(function (err) {
+            console.log('Request failed', err);
 
-            currentComponent.props.callbackFromParent("error", error.message);
+            currentComponent.props.callbackFromParent("error", err.message);
 
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
