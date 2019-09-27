@@ -1,20 +1,15 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import Home from './components/home';
 
-const divStyle = {
+const containerStyle = {
     minHeight: '100%'
 };
 
 const BaseRouter = () => (
-    <div style={divStyle}>
-        <Route exact path="/" component={TestHome} />
+    <div style={containerStyle}>
+        <Route exact path="/" component={Home} />
     </div>
 );
-function TestHome() {
-    return (
-        <div>
-            <h1>Hi</h1>
-        </div>
-    );
-}
+
 export default BaseRouter;

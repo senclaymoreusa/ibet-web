@@ -51,12 +51,12 @@ import DepositFgo from './components/profile/banking/deposit/deposit_types/depos
 
 import Profile from './components/profile/profile';
 
-const divStyle = {
+const containerStyle = {
     minHeight: '100%'
 };
 
 const BaseRouter = () => (
-    <div style={divStyle}>
+    <div style={containerStyle}>
         <Route exact path="/" component={Home} />
         <Route exact path="/home/:referid?" component={Home} />
         <Route
