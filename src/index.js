@@ -25,6 +25,7 @@ if (
         .toString()
         .toLowerCase()
         .indexOf('asia') != -1
+    //true
 ) {
     // console.log('using letou app');
     ReactDOM.render(
