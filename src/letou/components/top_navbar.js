@@ -977,7 +977,7 @@ export class TopNavbar extends React.Component {
     }
 
     render() {
-        const { anchorEl, mainTabValue, balance, balanceCurrency, anchorElLogin } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
@@ -1022,7 +1022,7 @@ export class TopNavbar extends React.Component {
                             <Person />
                         </ListItemIcon>
                         <ListItemText>
-                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
+                            <FormattedMessage id="nav.casino" defaultMessage='Casino' />
                         </ListItemText>
                     </ListItem>
                     <ListItem button component="a" href="/">
@@ -1049,7 +1049,7 @@ export class TopNavbar extends React.Component {
         const { formatMessage } = this.props.intl;
         let sportsMessage = formatMessage({ id: "nav.sports" });
         let liveCasinoMessage = formatMessage({ id: "nav.live-casino" });
-        let slotsMessage = formatMessage({ id: "nav.slots" });
+        let slotsMessage = formatMessage({ id: "nav.casino" });
         let lotteryMessage = formatMessage({ id: "nav.lottery" });
 
         let messageBtn;		
@@ -1063,7 +1063,7 @@ export class TopNavbar extends React.Component {
                     }}		
                 >		
                     <div className={classes.envelope}>		
-                        <img src={images.src + 'envelope.svg'} className={classes.envelope}/>		
+                        <img src={images.src + 'envelope.svg'} className={classes.envelope} alt=''/>		
                     </div>		
                     <div className={classes.unreadMessageCount}>		
                         <FormattedNumber		
@@ -1558,7 +1558,6 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
-        inbox: state.inbox,
         showLogin: state.general.show_login,
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,

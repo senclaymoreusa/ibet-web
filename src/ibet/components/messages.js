@@ -254,7 +254,7 @@ export const messages = {
         'search.quick_link': 'Quick Links',
         'search.entire_site': 'Entire Site',
         'search.providers': 'Providers',
-        'search.slots': 'Slots',
+        'search.casino': 'Casino',
 
         // handle signup page message
         'signup.username': 'Username: ',
@@ -703,7 +703,7 @@ export const messages = {
         'search.quick_link': '快速链接',
         'search.entire_site': '整个网站',
         'search.providers': '供应商',
-        'search.slots': '老虎机',
+        'search.casino': '赌场',
 
         // handle signup page message
         'signup.username': '用戶名: ',
@@ -1185,7 +1185,7 @@ export const messages = {
         'search.quick_link': 'Liens rapides',
         'search.entire_site': 'Site entier',
         'search.providers': 'Fournisseuses',
-        'search.slots': 'Machines à sous',
+        'search.casino': 'Casino',
 
         // handle signup page message
         'signup.username': 'Nom d\'utilisateur: ',
