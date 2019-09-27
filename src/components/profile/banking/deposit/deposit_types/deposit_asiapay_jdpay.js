@@ -195,8 +195,6 @@ const styles = theme => ({
     }
 });
 
-const amounts = Object.freeze([200, 400, 600, 900]);
-
 class DepositAsiapayJDPay extends Component {
     constructor(props) {
         super(props);
@@ -225,9 +223,23 @@ class DepositAsiapayJDPay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            currencyValue: 'RMB',
+            firstOption: 200,
+            secondOption: 400,
+            thirdOption: 600,
+            fourthOption: 900,
+            currencyValue: 'USD',
             showLinearProgressBar: false
         };
+
+        this.backClicked = this.backClicked.bind(this);
+        this.firstOptionClicked = this.firstOptionClicked.bind(this);
+        this.secondOptionClicked = this.secondOptionClicked.bind(this);
+        this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
+        this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
+        this.amountChanged = this.amountChanged.bind(this);
+        this.amountFocused = this.amountFocused.bind(this);
+
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -235,11 +247,39 @@ class DepositAsiapayJDPay extends Component {
         config.headers['Authorization'] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config).then(res => {
             this.setState({ data: res.data });
-            // this.setState({ currencyValue: res.data.currency });
+            this.setState({ currencyValue: res.data.currency });
         });
     }
 
-    amountChanged = event => {
+    firstOptionClicked(event) {
+        this.setState({ amount: this.state.firstOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
+    }
+
+    secondOptionClicked(event) {
+        this.setState({ amount: this.state.secondOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
+    }
+
+    thirdOptionClicked(event) {
+        this.setState({ amount: this.state.thirdOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
+    }
+
+    fourthOptionClicked(event) {
+        this.setState({ amount: this.state.fourthOption });
+        this.setState({ amountInvalid: false });
+        this.setState({ amountFocused: false });
+        this.amountInput.current.value = '';
+    }
+
+    amountChanged(event) {
         if (
             event.target.value.length === 0 ||
             parseInt(event.target.value) > 900 ||
@@ -251,15 +291,15 @@ class DepositAsiapayJDPay extends Component {
             this.setState({ amount: event.target.value });
             this.setState({ amountInvalid: false });
         }
-    };
+    }
 
-    amountFocused = () => {
+    amountFocused(event) {
         this.setState({ amountFocused: true });
-    };
+    }
 
-    backClicked = () => {
+    backClicked(ev) {
         this.props.callbackFromParent('deposit_method');
-    };
+    }
 
     handleClick = () => {
         let currentComponent = this;
@@ -273,7 +313,8 @@ class DepositAsiapayJDPay extends Component {
             PayWay: '42', //QRcode
             method: '49' //京东支付
         };
-
+        console.log(this.state.amount);
+        console.log(this.state.data.pk);
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -288,73 +329,36 @@ class DepositAsiapayJDPay extends Component {
                     'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: formBody
-        }).then(function (res) {
-            console.log(res);
+        })
+            .then(function(res) {
+                console.log(res);
 
-            currentComponent.setState({ showLinearProgressBar: false });
-            if(res.status == 200){
+                currentComponent.setState({ showLinearProgressBar: false });
+
                 return res.json();
-            }else{
-                currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                return res.json();
-
-            }
-            
-            
-
-        }).then(function (data) {
-            console.log(data)
-            let qrurl = data.qr;
-            console.log(qrurl)
-            if(qrurl != null){
-                const mywin = window.open(qrurl, 'asiapay-alipay')
-                var timer = setInterval(function () {
-                    console.log('checking..')
-                    if (mywin.closed) {
-                        clearInterval(timer);
-                        var postData = {
-                            "order_id": data.oid,
-                            "userid": "n" + userid,
-                            "CmdType": "01",
-                        }
-                        var formBody = [];
-                        for (var pd in postData) {
-                            var encodedKey = encodeURIComponent(pd);
-                            var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + "=" + encodedValue);
-                        }
-                        formBody = formBody.join("&");
-
-                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
-                            method: "POST",
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: formBody
-                        }).then(function (res) {
-                            return res.json();
-                        }).then(function (data) {
-                            console.log(data.status)
-                            if (data.status === "001") {
-                                //alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'add',
-                                    username: currentComponent.state.data.username,
-                                    balance: currentComponent.state.amount,
-                                });
-                                console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
-                            } else {
-                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+            })
+            .then(function(data) {
+                console.log(data);
+                let qrurl = data.qr;
+                console.log(qrurl);
+                if (qrurl != null) {
+                    const mywin = window.open(qrurl, 'asiapay-alipay');
+                    var timer = setInterval(function() {
+                        console.log('checking..');
+                        if (mywin.closed) {
+                            clearInterval(timer);
+                            var postData = {
+                                order_id: data.oid,
+                                userid: 'n' + userid,
+                                CmdType: '01'
+                            };
+                            var formBody = [];
+                            for (var pd in postData) {
+                                var encodedKey = encodeURIComponent(pd);
+                                var encodedValue = encodeURIComponent(
+                                    postData[pd]
+                                );
+                                formBody.push(encodedKey + '=' + encodedValue);
                             }
                             formBody = formBody.join('&');
 
@@ -507,29 +511,30 @@ class DepositAsiapayJDPay extends Component {
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    {amounts.map((x, i) => {
-                                        return (
-                                            <Button
-                                                className={
-                                                    i == 0
-                                                        ? classes.leftButton
-                                                        : i == 3
-                                                        ? classes.rightButton
-                                                        : classes.middleButton
-                                                }
-                                                key={i}
-                                                onClick={() =>
-                                                    this.setState({
-                                                        amount: x,
-                                                        amountInvalid: false,
-                                                        amountFocused: false
-                                                    })
-                                                }
-                                            >
-                                                {x}
-                                            </Button>
-                                        );
-                                    })}
+                                    <Button
+                                        className={classes.leftButton}
+                                        onClick={this.firstOptionClicked}
+                                    >
+                                        {this.state.firstOption}
+                                    </Button>
+                                    <Button
+                                        className={classes.middleButton}
+                                        onClick={this.secondOptionClicked}
+                                    >
+                                        {this.state.secondOption}
+                                    </Button>
+                                    <Button
+                                        className={classes.middleButton}
+                                        onClick={this.thirdOptionClicked}
+                                    >
+                                        {this.state.thirdOption}
+                                    </Button>
+                                    <Button
+                                        className={classes.rightButton}
+                                        onClick={this.fourthOptionClicked}
+                                    >
+                                        {this.state.fourthOption}
+                                    </Button>
                                 </Grid>
                                 <Grid
                                     item
