@@ -1,0 +1,410 @@
+button:focus {
+  outline: 0 !important;
+}
+
+.inline {
+  flex-direction: row;
+}
+
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #373a47;
+}
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #a90000;
+}
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+/*
+  Sidebar wrapper styles
+  Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+  */
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+/* General sidebar styles */
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+/* Individual item */
+.bm-item {
+  display: inline-block;
+}
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.Sports {
+  margin-left: 10px;
+  min-width: 87px;
+  height: 22px;
+  object-fit: contain;
+  font-size: 18px;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.Live-Casino {
+  margin-left: 10px;
+  min-width: 140px;
+  height: 22px;
+  object-fit: contain;
+  font-size: 18px;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.Slots {
+  margin-left: 10px;
+  min-width: 89px;
+  height: 22px;
+  object-fit: contain;
+  font-size: 18px;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.Lottery {
+  margin-left: 10px;
+  min-width: 96px;
+  height: 22px;
+  object-fit: contain;
+  font-size: 18px;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+.soccer {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+  margin-bottom: -3px;
+  object-fit: contain;
+}
+
+.bet {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+  margin-bottom: -3px;
+  object-fit: contain;
+}
+
+.games-icon {
+  width: 26px;
+  height: 24px;
+  margin-right: 10px;
+  margin-bottom: -3px;
+  object-fit: contain;
+}
+
+.lottery_type {
+  width: 20px;
+  height: 23px;
+  margin-right: 10px;
+  margin-bottom: -3px;
+  object-fit: contain;
+}
+
+.mainButtonActive {
+  opacity: 1;
+  border-radius: 0 !important;
+  border-bottom: 5px solid #ff0000 !important;
+}
+
+.mainButton {
+  opacity: 0.5 !important;
+}
+
+.mainButton:hover {
+  opacity: 1 !important;
+  background-color: #000000 !important;
+}
+
+$background-color: #212121;
+$search-bg-color: #212121;
+$icon-color: #fff;
+$transition: all 0.45s ease;
+$out_transition: all 0.15s ease;
+* {
+  box-sizing: border-box;
+}
+
+.fullscreen-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(90, 90, 90, 0.5);
+  z-index: 1999;
+  &.open {
+    display: block;
+  }
+}
+
+
+.search {
+  position: absolute;
+  z-index: 2000;
+  bottom: 6px;
+  right: 0;
+  width: 0px;
+  height: 40px;
+  background-color: $search-bg-color;
+  overflow: hidden;
+  transition: $transition;
+  &:before {
+    content: "";
+    display: block;
+    width: 0px;
+    height: 100%;
+    position: relative;
+    transition: $transition;
+  }
+  &.open {
+    width: 100%;
+    overflow: visible;
+    &:before {
+      height: 72px;
+      margin: 20px 0 20px 20px;
+      position: absolute;
+
+    }
+  }
+}
+.search-box {
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 22px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.search-container {
+  width: 480px;
+  height: 100%;
+  margin: 0 auto;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 22px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.search-input {
+  width: 400px;
+  height: 100%;
+  box-shadow: none;
+  border: 0px;
+  border-bottom: 1px solid #fff;
+  background: transparent;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  color: #fff;
+  font-size: 22px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.search-button {
+  width: 50px;
+  height: 40px;
+  //z-index: 2001;
+  margin-top: 16px;
+  display: inline-block;
+  // display: block;
+  // position: fixed;
+  // right: 0;
+  // margin: 1;
+  // padding: 0px;
+  cursor: pointer;
+}
+.search-icon {
+  width: 20px;
+  height: 20px;
+  top:8px;
+  right: -15px;
+  border-radius: 40px;
+  border: 2px solid $icon-color;
+  display: block;
+  position: relative;
+  transition: $out_transition;
+  &:before {
+    content: "";
+    width: 2px;
+    height: 10px;
+    position: absolute;
+    right: -2px;
+    top: 15px;
+    display: block;
+    background-color: $icon-color;
+    transform: rotate(-45deg);
+    transition: $out_transition;
+  }
+  &:after {
+    content: "";
+    width: 2px;
+    height: 6px;
+    position: absolute;
+    right: -7px;
+    top: 22px;
+    display: block;
+    background-color: $icon-color;
+    transform: rotate(-45deg);
+    transition: $out_transition;
+  }
+  .open & {
+    width: 20px;
+  height: 20px;
+  top:8px;
+  right: -40px;
+  border: 0;
+    &:before {
+      transform: rotate(40deg);
+      right: 32px;
+      top: 0px;
+      height: 32px;
+    }
+    &:after {
+      transform: rotate(-220deg);
+      right: 31px;
+      top: 0px;
+      height: 32px;
+    }
+  }
+}
+
+.overlay {
+  position: fixed; /* Positioning and size */
+  top: 144;
+  z-index: 1999;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0,0,0);
+  opacity: 0.5;
+
+   display: none; /* making it hidden by default */
+}
+
+.signup-title {
+  font-size: 16px;
+  margin: auto;
+  height: 52px;
+  background-color: #f5f5f5;
+  font-family: Gilroy;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.9px;
+  text-align: center;
+  color: #212121;
+}
+
+.signup-top-message{
+  font-family: Gilroy;
+  font-size: 44px;
+  color: #212121;
+  font-weight: bold;
+}
+
+.signup-text {
+  font-size: 16px;
+  font-family: Gilroy;
+  color: #747175;
+}
+
+.facebook-button {
+  border: 1px solid #e4e4e4;
+  height: 48px;
+  width: 272px;
+  margin-left: 40px;
+}
+
+.userIcon path {
+  stroke: rgba(0, 0, 0, 0.5);
+}
+
+.userIconHover path{
+  stroke: rgba(0, 0, 0, 0.5);
+}
+
+.profileIcon path {
+  stroke: #6a6a6a;
+}
+
+.profileIconHover path{
+  stroke: rgba(0, 0, 0, 0.5);
+}
+input[type="checkbox"] + span {
+  display: inline-block;
+  position: relative;
+  top: -1px;
+  width: 12px;
+  height: 12px;
+  margin: -1px 0px 0 0;
+  vertical-align: middle;
+  background: white left top no-repeat;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+input[type="checkbox"]:checked + span {
+  background: #D9534F -19px top no-repeat;
+}
+
+input[type="checkbox"] + span {
+  margin-right: 4px;
+}
