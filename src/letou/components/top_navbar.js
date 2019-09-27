@@ -1022,7 +1022,7 @@ export class TopNavbar extends React.Component {
                             <Person />
                         </ListItemIcon>
                         <ListItemText>
-                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
+                            <FormattedMessage id="nav.casino" defaultMessage='Casino' />
                         </ListItemText>
                     </ListItem>
                     <ListItem button component="a" href="/">
@@ -1049,7 +1049,7 @@ export class TopNavbar extends React.Component {
         const { formatMessage } = this.props.intl;
         let sportsMessage = formatMessage({ id: "nav.sports" });
         let liveCasinoMessage = formatMessage({ id: "nav.live-casino" });
-        let slotsMessage = formatMessage({ id: "nav.slots" });
+        let slotsMessage = formatMessage({ id: "nav.casino" });
         let lotteryMessage = formatMessage({ id: "nav.lottery" });
 
         let messageBtn;		
