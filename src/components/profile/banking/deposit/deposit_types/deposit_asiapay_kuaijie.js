@@ -10,13 +10,13 @@ import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
         width: 925,
         backgroundColor: '#ffffff',
-        border: 'solid 1px #979797',
+        border: 'solid 1px #979797'
     },
     titleRow: {
         display: 'flex',
@@ -36,14 +36,14 @@ const styles = theme => ({
         paddingLeft: 263,
         paddingRight: 262,
         paddingTop: 50,
-        paddingBottom: 50,
+        paddingBottom: 50
     },
     cardTypeCell: {
         borderTop: '1px solid #d8d8d8',
         borderBottom: '1px solid #d8d8d8',
         height: 77,
         paddingTop: 15,
-        textAlign: 'center',
+        textAlign: 'center'
     },
     title: {
         fontSize: 18,
@@ -54,47 +54,46 @@ const styles = theme => ({
         letterSpacing: 0.64,
         textAlign: 'center',
         color: 'black',
-        marginTop: 28,
+        marginTop: 28
     },
     continueButton: {
         width: 324,
         height: 44,
         borderRadius: 22,
-        backgroundColor: '#d8d8d8',
+        backgroundColor: '#d8d8d8'
     },
     backBankingButton: {
         width: 324,
         height: 44,
         borderRadius: 22,
-        backgroundColor: '#d8d8d8',
+        backgroundColor: '#d8d8d8'
     },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 40,
+        paddingTop: 40
     },
     backButtonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 20,
+        paddingTop: 20
     },
     rememberCell: {
-        paddingTop: 20,
+        paddingTop: 20
     },
     cardTypeButton: {
         width: 72,
         height: 48,
         borderRadius: 4.8,
-        backgroundColor: '#f1f1f1',
+        backgroundColor: '#f1f1f1'
     },
     infoCell: {
-        paddingTop: 15,
+        paddingTop: 15
     },
     infoRow: {
-        display: 'block',
-
+        display: 'block'
     },
     infoLabel: {
         display: 'inline-block',
@@ -104,8 +103,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#4a4a4a',
-
+        color: '#4a4a4a'
     },
     infoValue: {
         display: 'inline-block',
@@ -116,7 +114,7 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#4a4a4a',
-        marginLeft: 3,
+        marginLeft: 3
     },
     detailRow: {
         paddingBottom: 15
@@ -129,7 +127,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 90,
-        height: 44,
+        height: 44
     },
     middleButton: {
         marginRight: 10,
@@ -138,7 +136,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 90,
-        height: 44,
+        height: 44
     },
     rightButton: {
         marginLeft: 10,
@@ -148,7 +146,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 88,
-        height: 44,
+        height: 44
     },
     otherText: {
         fontSize: 14,
@@ -165,12 +163,12 @@ const styles = theme => ({
         width: 400,
         borderRadius: 4,
         border: 'solid 1px #e4e4e4',
-        "&:hover": {
-            border: 'solid 1px #717171',
+        '&:hover': {
+            border: 'solid 1px #717171'
         },
-        "&:focus": {
-            border: 'solid 1px #717171',
-        },
+        '&:focus': {
+            border: 'solid 1px #717171'
+        }
     },
     amountRow: {
         height: 40,
@@ -188,9 +186,11 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#292929',
-    },
+        color: '#292929'
+    }
 });
+
+const amounts = Object.freeze([100, 200, 500, 1000]);
 
 class DepositAsiapayQucikpay extends Component {
     constructor(props) {
@@ -203,82 +203,40 @@ class DepositAsiapayQucikpay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 100,
-            secondOption: 200,
-            thirdOption: 500,
-            fourthOption: 1000,
-            currencyValue: "USD",
-            showLinearProgressBar: false,
+            currencyValue: 'RMB',
+            showLinearProgressBar: false
         };
-
-        this.backClicked = this.backClicked.bind(this);
-        this.firstOptionClicked = this.firstOptionClicked.bind(this);
-        this.secondOptionClicked = this.secondOptionClicked.bind(this);
-        this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
-        this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
-        this.amountChanged = this.amountChanged.bind(this);
-        this.amountFocused = this.amountFocused.bind(this);
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currencyValue: res.data.currency });
-
-            });
+        config.headers['Authorization'] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config).then(res => {
+            this.setState({ data: res.data });
+        });
     }
 
-    firstOptionClicked(event) {
-        this.setState({ amount: this.state.firstOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    secondOptionClicked(event) {
-        this.setState({ amount: this.state.secondOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    thirdOptionClicked(event) {
-        this.setState({ amount: this.state.thirdOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    fourthOptionClicked(event) {
-        this.setState({ amount: this.state.fourthOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    amountChanged(event) {
-        if (event.target.value.length===0 || parseInt(event.target.value) > 3000 || parseInt(event.target.value) < 100) {
-            this.setState({ amount: 0 });
-            this.setState({ amountInvalid: true });
+    amountChanged = event => {
+        if (
+            event.target.value.length === 0 ||
+            parseInt(event.target.value) > 3000 ||
+            parseInt(event.target.value) < 100
+        ) {
+            this.setState({ amount: 0, amountInvalid: true });
         } else {
-            this.setState({ amount: event.target.value });
-            this.setState({ amountInvalid: false });
+            this.setState({ amount: event.target.value, amountInvalid: false });
         }
-    }
+    };
 
-    amountFocused(event) {
+    amountFocused = () => {
         this.setState({ amountFocused: true });
-    }
+    };
 
-    backClicked(ev) {
+    backClicked = () => {
         this.props.callbackFromParent('deposit_method');
-    }
+    };
 
-    handleClick = (event) => {
+    handleClick = event => {
         event.preventDefault();
 
         let currentComponent = this;
@@ -289,116 +247,158 @@ class DepositAsiapayQucikpay extends Component {
         let user = this.state.data.pk;
 
         let postData = {
-            "amount": amount,
-            "userid": user,
-            "currency": "0",
-            "PayWay": "30", // pop up window / new tab
-            "method": "39", // 快捷支付
+            amount: amount,
+            userid: user,
+            currency: '0',
+            PayWay: '30', // pop up window / new tab
+            method: '39' // 快捷支付
         };
 
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
             var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + "=" + encodedValue);
+            formBody.push(encodedKey + '=' + encodedValue);
         }
-        formBody = formBody.join("&");
+        formBody = formBody.join('&');
 
         return fetch(API_URL + 'accounting/api/asiapay/deposit', {
             method: 'POST',
             headers: {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'content-type':
+                    'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: formBody
-        }).then(function (res) {
-            console.log(res);
+        })
+            .then(function(res) {
+                console.log(res);
 
-            currentComponent.setState({ showLinearProgressBar: false });
+                currentComponent.setState({ showLinearProgressBar: false });
 
-
-            // return res.json();
-            if (res.ok) {
-                return res.text();
-            }
-
-        }).then(function (data) {
-            currentComponent.setState({ showLinearProgressBar: false });
-            console.log(data)
-            // let url = data.url;
-            // let order_id = data.order_id;
-            // const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
-            let newwin = window.open('');
-            newwin.document.write(data);
-            var timer = setInterval(function () {
-                    console.log('checking..')
+                // return res.json();
+                if (res.ok) {
+                    return res.text();
+                }
+            })
+            .then(function(data) {
+                currentComponent.setState({ showLinearProgressBar: false });
+                console.log(data);
+                // let url = data.url;
+                // let order_id = data.order_id;
+                // const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
+                let newwin = window.open('');
+                newwin.document.write(data);
+                var timer = setInterval(function() {
+                    console.log('checking..');
                     if (newwin.closed) {
                         clearInterval(timer);
                         var postData = {
-                            "order_id": data.oid,
-                            "userid": "n" + userid,
-                            "CmdType": "01",
-                        }
+                            order_id: data.oid,
+                            userid: 'n' + userid,
+                            CmdType: '01'
+                        };
                         var formBody = [];
                         for (var pd in postData) {
                             var encodedKey = encodeURIComponent(pd);
                             var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + "=" + encodedValue);
+                            formBody.push(encodedKey + '=' + encodedValue);
                         }
-                        formBody = formBody.join("&");
+                        formBody = formBody.join('&');
 
-                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
-                            method: "POST",
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: formBody
-                        }).then(function (res) {
-                            return res.json();
-                        }).then(function (data) {
-                            console.log(data.status)
-                            if (data.status === "001") {
-                                //alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'add',
-                                    username: currentComponent.state.data.username,
-                                    balance: currentComponent.state.amount,
-                                });
-                                console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
-                            } else {
-                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                        return fetch(
+                            API_URL + 'accounting/api/asiapay/orderStatus',
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'content-type':
+                                        'application/x-www-form-urlencoded; charset=UTF-8'
+                                },
+                                body: formBody
                             }
-                        });
+                        )
+                            .then(function(res) {
+                                return res.json();
+                            })
+                            .then(function(data) {
+                                console.log(data.status);
+                                if (data.status === '001') {
+                                    //alert('Transaction is approved.');
+                                    const body = JSON.stringify({
+                                        type: 'add',
+                                        username:
+                                            currentComponent.state.data
+                                                .username,
+                                        balance: currentComponent.state.amount
+                                    });
+                                    console.log(body);
+                                    axios
+                                        .post(
+                                            API_URL +
+                                                `users/api/addorwithdrawbalance/`,
+                                            body,
+                                            config
+                                        )
+                                        .then(res => {
+                                            if (res.data === 'Failed') {
+                                                //currentComponent.setState({ error: true });
+                                                currentComponent.props.callbackFromParent(
+                                                    'error',
+                                                    'Transaction failed.'
+                                                );
+                                            } else if (
+                                                res.data ===
+                                                'The balance is not enough'
+                                            ) {
+                                                currentComponent.props.callbackFromParent(
+                                                    'error',
+                                                    'Cannot deposit this amount.'
+                                                );
+                                            } else {
+                                                currentComponent.props.callbackFromParent(
+                                                    'success',
+                                                    currentComponent.state
+                                                        .amount
+                                                );
+                                            }
+                                        });
+                                } else {
+                                    currentComponent.props.callbackFromParent(
+                                        'error',
+                                        data.StatusMsg
+                                    );
+                                }
+                            });
                     }
                 }, 1000);
-        }).catch(err => {
-            console.log(err);
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-        });
-    }
+            })
+            .catch(err => {
+                console.log(err);
+                axios
+                    .post(
+                        API_URL + 'system/api/logstreamtos3/',
+                        { line: err, source: 'Ibetweb' },
+                        config
+                    )
+                    .then(res => {});
+            });
+    };
 
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
 
-        let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
+        let depositAmountMessage = formatMessage({
+            id: 'deposit.deposit_amount'
+        });
         let continueMessage = formatMessage({ id: 'deposit.continue' });
         let backMessage = formatMessage({ id: 'deposit.back_to_banking' });
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'}  alt=""/>
-            </Button>);
+                <img src={images.src + 'prev_step.svg'} alt="" />
+            </Button>
+        );
 
         return (
             <div className={classes.root}>
@@ -412,52 +412,95 @@ class DepositAsiapayQucikpay extends Component {
                                 {depositAmountMessage}
                             </span>
                         </Grid>
-                        <Grid item xs={2} className={classes.backCell}>
-                        </Grid>
+                        <Grid item xs={2} className={classes.backCell}></Grid>
                         <Grid item xs={12}>
-                            {showLinearProgressBar === true && <LinearProgress />}
+                            {showLinearProgressBar === true && (
+                                <LinearProgress />
+                            )}
                         </Grid>
-                        <Grid item xs={12} className={classes.contentRow}
-                            style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }} >
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.contentRow}
+                            style={
+                                showLinearProgressBar === true
+                                    ? { pointerEvents: 'none' }
+                                    : { pointerEvents: 'all' }
+                            }
+                        >
                             <Grid container>
-                                <Grid item xs={12} className={classes.cardTypeCell}>
-                                    <Button className={classes.cardTypeButton} disabled>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.cardTypeCell}
+                                >
+                                    <Button
+                                        className={classes.cardTypeButton}
+                                        disabled
+                                    >
                                         Quick Pay
                                     </Button>
                                 </Grid>
-                                <Grid item xs={12} >
-                                    <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
-                                        {this.state.firstOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.secondOptionClicked}>
-                                        {this.state.secondOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.thirdOptionClicked}>
-                                        {this.state.thirdOption}
-                                    </Button>
-                                    <Button className={classes.rightButton} onClick={this.fourthOptionClicked}>
-                                        {this.state.fourthOption}
-                                    </Button>
+                                <Grid item xs={12}>
+                                    {amounts.map((x, i) => {
+                                        return (
+                                            <Button
+                                                className={
+                                                    i == 0
+                                                        ? classes.leftButton
+                                                        : i == 3
+                                                        ? classes.rightButton
+                                                        : classes.middleButton
+                                                }
+                                                key={i}
+                                                onClick={() =>
+                                                    this.setState({
+                                                        amount: x,
+                                                        amountInvalid: false,
+                                                        amountFocused: false
+                                                    })
+                                                }
+                                            >
+                                                {x}
+                                            </Button>
+                                        );
+                                    })}
                                 </Grid>
-                                <Grid item xs={12} className={classes.detailRow}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.detailRow}
+                                >
                                     <TextField
                                         className={classes.otherText}
                                         placeholder="Deposit 100 - 3000"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
-                                        error={this.state.amountInvalid && this.state.amountFocused}
-                                        helperText={(this.state.amountInvalid && this.state.amountFocused) ? 'Please enter a valid amount.' : ' '}
+                                        error={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                        }
+                                        helperText={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                                ? 'Please enter a valid amount.'
+                                                : ' '
+                                        }
                                         InputProps={{
                                             disableUnderline: true,
-                                            endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                            inputProps:{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    Other
+                                                </InputAdornment>
+                                            ),
+                                            inputProps: {
                                                 step: 10,
                                                 min: 100,
                                                 max: 3000
                                             }
-                                           }}
+                                        }}
                                         type="number"
-                                       inputRef={this.amountInput}
+                                        inputRef={this.amountInput}
                                     />
                                 </Grid>
                                 <Grid item xs={6} className={classes.amountRow}>
@@ -469,19 +512,39 @@ class DepositAsiapayQucikpay extends Component {
                                         />
                                     </div>
                                 </Grid>
-                                <Grid item xs={6} className={classes.amountRightRow}>
-                                    <span className={classes.amountText}>Total</span>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    className={classes.amountRightRow}
+                                >
+                                    <span className={classes.amountText}>
+                                        Total
+                                    </span>
                                 </Grid>
-                                <Grid item xs={12} className={classes.buttonCell}>
-                                    <Button className={classes.continueButton}
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.buttonCell}
+                                >
+                                    <Button
+                                        className={classes.continueButton}
                                         onClick={this.handleClick}
                                         disabled={this.state.amountInvalid}
-                                    >{continueMessage}</Button>
+                                    >
+                                        {continueMessage}
+                                    </Button>
                                 </Grid>
-                                <Grid item xs={12} className={classes.backButtonCell}>
-                                    <Button className={classes.backBankingButton}
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.backButtonCell}
+                                >
+                                    <Button
+                                        className={classes.backBankingButton}
                                         onClick={this.backClicked}
-                                    >{backMessage}</Button>
+                                    >
+                                        {backMessage}
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -492,11 +555,12 @@ class DepositAsiapayQucikpay extends Component {
     }
 }
 
-
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        language: state.language.lang,
-    }
-}
+        language: state.language.lang
+    };
+};
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositAsiapayQucikpay)));
+export default withStyles(styles)(
+    injectIntl(connect(mapStateToProps)(DepositAsiapayQucikpay))
+);

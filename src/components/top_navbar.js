@@ -412,6 +412,47 @@ const styles = theme => ({
         display: 'inline-block',
         flexGrow: 1,
     },
+    langButton: {
+        height: '100%',
+        borderRadius: 6,
+        padding: 0,
+    },
+
+    flag: {
+        width: 64,
+        height: 38,
+        borderRadius: 6,
+    },
+    langContainer: {
+        display: 'inline',
+        marginLeft: theme.spacing(),
+        marginTop: 16,
+        marginBottom: 16,
+    },
+    lang_menu_list: {
+        backgroundColor: '#ffffff',
+        color: 'black',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    lang_menu_list_item: {
+        border: '1px solid #ffffff',
+        "&:hover": {
+            borderRadius: 4,
+            border: '1px solid #868686',
+            backgroundColor: '#ffffff',
+        },
+    },
+    lang_menu_list_item_selected: {
+        borderRadius: 4,
+        border: '1px solid #000000',
+        backgroundColor: '#ffffff',
+
+    },
+    lang_menu_list_item_text: {
+        marginLeft: 10,
+        color: 'black',
+    },
     accountMenuPaper: {
         padding: 0,
         width: 360,
