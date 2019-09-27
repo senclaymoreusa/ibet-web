@@ -28,113 +28,6 @@ import NewProfile from './components/new_profile2'
 import NewUpdateProfile from './components/new_update_profile2'
 import Profile from "./components/profile/profile"
 
-<<<<<<< HEAD
-const containerStyle = {
-    minHeight: '100%'
-};
-
-const BaseRouter = () => (
-    <div style={containerStyle}>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/home/:referid?" component={Home} />
-        <Route
-            exact
-            path="/slot_type/:type?/:sub?/:filter?"
-            component={Slot_Type}
-        />
-        <Route exact path="/sports_type/:type?" component={Sports_Type} />
-        <Route exact path="/lottery_type/:type?" component={Lottery_Type} />
-        <Route
-            exact
-            path="/liveCasino_type/:type?/:sub?/:filter?"
-            component={LiveCasino_Type}
-        />
-        <Route exact path="/game_list/:term?" component={Game_List} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/game_detail/:id?" component={Game_Detail} />
-        <Route exact path="/game_search/:term?" component={Game_Search} />
-        <Route exact path="/profile" component={NewProfile} />
-        <Route exact path="/update_profile" component={NewUpdateProfile} />
-        <Route exact path="/change_email" component={Change_Email} />
-        <Route exact path="/forget_password" component={Forget_Password} />
-        <Route
-            exact
-            path="/reset_password/:email?"
-            component={Reset_Password}
-        />
-        <Route exact path="/email_sent/:email?" component={Email_Sent} />
-        <Route
-            exact
-            path="/reset_password_done"
-            component={ResetPasswordDone}
-        />
-        <Route exact path="/referral" component={Referral} />
-        <Route exact path="/balance/:type?" component={Balance} />
-        <Route exact path="/activation" component={Activation} />
-        <Route exact path="/activate/:token?" component={Activate} />
-        <Route exact path="/fund_management/" component={FundManagement} />
-        <Route exact path="/open_bets/" component={OpenBets} />
-        <Route exact path="/user_messages/" component={UserMessages} />
-        {/* <Route exact path="/points_rewards/" component={PointsRewards} /> */}
-        <Route exact path="/usage_analysis/" component={UsageAnalysis} />
-        <Route exact path="/personal_details/" component={PersonalDetails} />
-        <Route exact path="/deposit_paypal/" component={DepositPaypal} />
-        <Route
-            exact
-            path="/withdraw_qaicash_lbt/"
-            component={WithdrawQaicashLBT}
-        />
-        <Route exact path="/deposit_qaicash/" component={DepositQaicah} />
-        <Route
-            exact
-            path="/deposit_qaicash_alipay/"
-            component={DepositQaicashAlipay}
-        />
-        <Route
-            exact
-            path="/deposit_asiapay_jdpay/"
-            component={DepositAsiapayJDPay}
-        />
-        <Route
-            exact
-            path="/deposit_asiapay_bankcard/"
-            component={DepositAsiapayBankcard}
-        />
-        <Route
-            exact
-            path="/deposit_asiapay_unionpay/"
-            component={DepositAsiapayUnionpay}
-        />
-        <Route
-            exact
-            path="/deposit_asiapay_wechatpay/"
-            component={DepositAsiapayWechatpay}
-        />
-        <Route
-            exact
-            path="/deposit_asiapay_alipay/"
-            component={DepositAsiapayAlipay}
-        />
-        <Route exact path="/withdraw_asiapay/" component={WithdrawAsiapay} />
-        <Route exact path="/terms_conditions/" component={TermsConditions} />
-        <Route exact path="/privacy_policy/" component={PrivacyPolicy} />
-        <Route exact path="/cookie_policy/" component={CookiePolicy} />
-        <Route exact path="/change_password/" component={ChangePassword} />
-        <Route exact path="/deposit_linepay/" component={DepositLinePay} />
-        <Route
-            exact
-            path="/deposit_asiapay_kuaijie/"
-            component={DepositAsiapayQucikpay}
-        />
-        <Route exact path="/deposit_help2pay/" component={DepositHelp2pay} />
-        <Route exact path="/deposit/astropay/" component={DepositAstropay} />
-        <Route exact path="/deposit/circlepay/" component={DepositCirclepay} />
-        <Route exact path="/deposit/payzod/" component={DepositPayzod} />
-        <Route exact path="/deposit_fgo/" component={DepositFgo} />
-        <Route exact path="/p/:type?/:sub?" component={Profile} />
-    </div>
-=======
 const divStyle = {
   minHeight: '100%',
 };
@@ -171,7 +64,6 @@ const BaseRouter = () => (
     <Route exact path="/p/:type?/:sub?" component={Profile} />
 
   </div>
->>>>>>> 852b03162aee7ca55c06b4dbb3236dd8381fc528
 );
 
 export default BaseRouter;
