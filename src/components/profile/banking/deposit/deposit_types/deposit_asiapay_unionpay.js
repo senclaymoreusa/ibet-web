@@ -226,10 +226,10 @@ class DepositAsiapayUnionpay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 100,
-            secondOption: 200,
-            thirdOption: 500,
-            fourthOption: 1000,
+            firstOption: 200,
+            secondOption: 400,
+            thirdOption: 600,
+            fourthOption: 800,
             currencyValue: "USD",
             showLinearProgressBar: false,
         };
@@ -320,6 +320,7 @@ class DepositAsiapayUnionpay extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
+        console.log(formBody)
         return fetch(API_URL + 'accounting/api/asiapay/deposit', {
             method: 'POST',
             headers: {
@@ -331,14 +332,20 @@ class DepositAsiapayUnionpay extends Component {
 
             currentComponent.setState({ showLinearProgressBar: false });
 
+            if(res.status == 200){
+                return res.json();
+            }else{
+                currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                return res.json();
+
+            }
             
-            return res.json();
         }).then(function (data) {
             console.log(data)
             let qrurl = data.qr;
             console.log(qrurl)
             if(qrurl != null){
-                this.setState({ qr_code: qrurl });
+                currentComponent.setState({ qr_code: qrurl });
                 // const mywin = window.open(qrurl, 'asiapay-alipay')
                 // var timer = setInterval(function () {
                 //     console.log('checking..')
@@ -405,7 +412,7 @@ class DepositAsiapayUnionpay extends Component {
 
         }).catch(err => {
             currentComponent.props.callbackFromParent("error", err.returnMessage);
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
@@ -465,7 +472,7 @@ class DepositAsiapayUnionpay extends Component {
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit 100 - 4000"
+                                        placeholder="Deposit 200 - 4000"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={this.state.amountInvalid && this.state.amountFocused}
@@ -475,7 +482,7 @@ class DepositAsiapayUnionpay extends Component {
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
                                             inputProps:{
                                                 step: 10,
-                                                min: 100,
+                                                min: 200,
                                                 max: 4000
                                             }
                                             }}

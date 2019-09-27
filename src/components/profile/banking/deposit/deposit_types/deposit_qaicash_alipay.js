@@ -213,10 +213,10 @@ class DepositQaicashAlipay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 300,
-            secondOption: 400,
-            thirdOption: 500,
-            fourthOption: 1000,
+            firstOption: 500,
+            secondOption: 800,
+            thirdOption: 1000,
+            fourthOption: 1500,
             currencyValue: "USD",
             showLinearProgressBar: false,
         };
@@ -271,7 +271,7 @@ class DepositQaicashAlipay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length === 0 || parseInt(event.target.value) > 1500 || parseInt(event.target.value) < 300) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 1500 || parseInt(event.target.value) < 500) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -438,7 +438,7 @@ class DepositQaicashAlipay extends Component {
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit 300 - 1500"
+                                        placeholder="Deposit 500 - 1500"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={this.state.amountInvalid && this.state.amountFocused}
@@ -448,7 +448,7 @@ class DepositQaicashAlipay extends Component {
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
                                             inputProps:{
                                                 step: 10,
-                                                min: 300,
+                                                min: 500,
                                                 max: 1500
                                             }
                                         }}

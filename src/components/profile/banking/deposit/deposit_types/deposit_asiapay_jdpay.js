@@ -347,58 +347,59 @@ class DepositAsiapayJDPay extends Component {
             let qrurl = data.qr;
             console.log(qrurl)
             if(qrurl != null){
-                const mywin = window.open(qrurl, 'asiapay-alipay')
-                var timer = setInterval(function () {
-                    console.log('checking..')
-                    if (mywin.closed) {
-                        clearInterval(timer);
-                        var postData = {
-                            "order_id": data.oid,
-                            "userid": "n" + userid,
-                            "CmdType": "01",
-                        }
-                        var formBody = [];
-                        for (var pd in postData) {
-                            var encodedKey = encodeURIComponent(pd);
-                            var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + "=" + encodedValue);
-                        }
-                        formBody = formBody.join("&");
+                currentComponent.setState({ qr_code: qrurl });
+                // const mywin = window.open(qrurl, 'asiapay-alipay')
+                // var timer = setInterval(function () {
+                //     console.log('checking..')
+                //     if (mywin.closed) {
+                //         clearInterval(timer);
+                //         var postData = {
+                //             "order_id": data.oid,
+                //             "userid": "n" + userid,
+                //             "CmdType": "01",
+                //         }
+                //         var formBody = [];
+                //         for (var pd in postData) {
+                //             var encodedKey = encodeURIComponent(pd);
+                //             var encodedValue = encodeURIComponent(postData[pd]);
+                //             formBody.push(encodedKey + "=" + encodedValue);
+                //         }
+                //         formBody = formBody.join("&");
 
-                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
-                            method: "POST",
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: formBody
-                        }).then(function (res) {
-                            return res.json();
-                        }).then(function (data) {
-                            console.log(data.status)
-                            if (data.status === "001") {
-                                //alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'add',
-                                    username: currentComponent.state.data.username,
-                                    balance: currentComponent.state.amount,
-                                });
-                                console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
-                            } else {
-                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
-                            }
-                        });
-                    }
-                }, 1000);
+                //         return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
+                //             method: "POST",
+                //             headers: {
+                //                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                //             },
+                //             body: formBody
+                //         }).then(function (res) {
+                //             return res.json();
+                //         }).then(function (data) {
+                //             console.log(data.status)
+                //             if (data.status === "001") {
+                //                 //alert('Transaction is approved.');
+                //                 const body = JSON.stringify({
+                //                     type: 'add',
+                //                     username: currentComponent.state.data.username,
+                //                     balance: currentComponent.state.amount,
+                //                 });
+                //                 console.log(body)
+                //                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                //                     .then(res => {
+                //                         if (res.data === 'Failed') {
+                //                             //currentComponent.setState({ error: true });
+                //                             currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                //                         } else if (res.data === "The balance is not enough") {
+                //                             currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                //                         } else {
+                //                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                //                         } });
+                //             } else {
+                //                 currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                //             }
+                //         });
+                //     }
+                // }, 1000);
                 
             }
             // currentComponent.setState({ qr: data.qr });
@@ -414,13 +415,13 @@ class DepositAsiapayJDPay extends Component {
 
             console.log('Request failed', err);
 
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
-        const { showLinearProgressBar } = this.state;
+        const { showLinearProgressBar , qr_code} = this.state;
 
         let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
         let continueMessage = formatMessage({ id: 'deposit.continue' });
@@ -474,7 +475,7 @@ class DepositAsiapayJDPay extends Component {
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit 100 - 900"
+                                        placeholder="Deposit 200 - 900"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={this.state.amountInvalid && this.state.amountFocused}
@@ -518,16 +519,16 @@ class DepositAsiapayJDPay extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <div className="asiapay-qr" style={{ display: this.state.show_qrcode ? "block" : "none" }}>
-                        <QRCode
-                            value={this.state.value}
-                            size={this.state.size}
-                            fgColor={this.state.fgColor}
-                            bgColor={this.state.bgColor}
-                            level={this.state.level}
-                            renderAs={this.state.renderAs}
-                            includeMargin={this.state.includeMargin}
-                        />
+                    <div id="api-response" style={{textAlign: 'center', paddingLeft: 262, paddingRight: 262}}>
+                        {
+                            qr_code ? 
+                            <>
+                                <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/>
+                                <p>Once you have scanned the QR code, please check your e-mail and transaction history to confirm that the deposit was successful.</p>
+                            </>
+                            : 
+                            <br/>
+                        }
                     </div>
                 </form>
             </div>
