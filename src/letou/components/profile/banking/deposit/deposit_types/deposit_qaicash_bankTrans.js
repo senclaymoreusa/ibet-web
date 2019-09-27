@@ -15,62 +15,61 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 const bank_options = [
     //CN
     { value: 'OOO6CN', label: 'China UnionPay' },
     { value: 'ABOCCN', label: 'Agricultural Bank of China' },
     { value: 'BEASCN', label: 'Bank of East Asia' },
-    { value: 'BJCNCN', label: 'Bank of Beijing'},
+    { value: 'BJCNCN', label: 'Bank of Beijing' },
     { value: 'BKCHCN', label: 'Bank of China' },
-    { value: 'BKNBCN', label: 'Bank of Ningbo'},
-    { value: 'BKSHCN', label: 'Bank Of Hebei'},
+    { value: 'BKNBCN', label: 'Bank of Ningbo' },
+    { value: 'BKSHCN', label: 'Bank Of Hebei' },
     { value: 'BOSHCN', label: 'Bank of Shanghai' },
-    { value: 'BRCBCN', label: 'Beijing Rural Commercial Bank'},
+    { value: 'BRCBCN', label: 'Beijing Rural Commercial Bank' },
     { value: 'CBOCCN', label: 'Bank of Chengdu' },
     { value: 'CHBHCN', label: 'China Bohai Bank' },
     { value: 'CIBKCN', label: 'China Citic Bank' },
     { value: 'CMBCCN', label: 'China Merchants Bank' },
     { value: 'CN01CN', label: 'Zhongshan Rural Credit Union' },
     { value: 'CN03CN', label: 'Yao Credit Cooperative Union' },
-    { value: 'COMMCN', label: 'Bank of Communication'},
-    { value: 'CZCBCN', label: 'Zhejiang Chouzhou commercial bank'},
-    { value: 'EVSOCN', label: 'China Everbright Bank'},
-    { value: 'FJIBCN', label: 'Industrial Bank Co Ltd'},
-    { value: 'GDBKCN', label: 'China Guangfa Bank'},
-    { value: 'GNXSCN', label: 'Guangzhou Rural Credit Cooperatives'},
-    { value: 'GZCBCN', label: 'Bank of Guangzhou'},
-    { value: 'GZRCCN', label: 'GuangZhou Commercial Bank'},
-    { value: 'HFCBCN', label: 'Huishang Bank'},
-    { value: 'HXBKCN', label: 'Huaxia Bank'},
-    { value: 'HZCBCN', label: 'Hangzhou Bank'},
-    { value: 'ICBKCN', label: 'Industrial and Commercial Bank of China'},
-    { value: 'JSHBCN', label: 'Jinshang Bank'},
-    { value: 'MSBCCN', label: 'China Minsheng Bank'},
-    { value: 'NJCBCN', label: 'Bank of Nanjing'},
-    { value: 'NYCBCN', label: 'Nanyang Commercial Bank'},
-    { value: 'PCBCCN', label: 'China Construction Bank'},
-    { value: 'PSBCCN', label: 'Postal Savings Bank of China'},
-    { value: 'RCCSCN', label: 'Shunde Rural Commercial Bank'},
-    { value: 'SHRCCN', label: 'Shanghai Rural Commercial Bank'},
-    { value: 'SPDBCN', label: 'Shanghai Pudong Development Bank'},
-    { value: 'SZCBCN', label: 'Ping An Bank'},
-    { value: 'SZDBCN', label: 'Shenzhen Development Bank'},
-    { value: 'TCCBCN', label: 'Bank of Tianjin'},
-    { value: 'WHCBCN', label: 'Hankou Bank'},
-    { value: 'WZCBCN', label: 'Bank of Wenzhou'},
-    { value: 'ZJCBCN', label: 'China Zheshang Bank'},
-    { value: 'ZJTLCN', label: 'Zhejiang Tailong Commercial Bank'},
-    { value: 'PBOCCN', label: 'People’s Bank of China'},
-    { value: 'HSBCCN', label: 'HSBC'},
-    { value: 'DGCBCN', label: 'Bank of Dongguang'},
-    
+    { value: 'COMMCN', label: 'Bank of Communication' },
+    { value: 'CZCBCN', label: 'Zhejiang Chouzhou commercial bank' },
+    { value: 'EVSOCN', label: 'China Everbright Bank' },
+    { value: 'FJIBCN', label: 'Industrial Bank Co Ltd' },
+    { value: 'GDBKCN', label: 'China Guangfa Bank' },
+    { value: 'GNXSCN', label: 'Guangzhou Rural Credit Cooperatives' },
+    { value: 'GZCBCN', label: 'Bank of Guangzhou' },
+    { value: 'GZRCCN', label: 'GuangZhou Commercial Bank' },
+    { value: 'HFCBCN', label: 'Huishang Bank' },
+    { value: 'HXBKCN', label: 'Huaxia Bank' },
+    { value: 'HZCBCN', label: 'Hangzhou Bank' },
+    { value: 'ICBKCN', label: 'Industrial and Commercial Bank of China' },
+    { value: 'JSHBCN', label: 'Jinshang Bank' },
+    { value: 'MSBCCN', label: 'China Minsheng Bank' },
+    { value: 'NJCBCN', label: 'Bank of Nanjing' },
+    { value: 'NYCBCN', label: 'Nanyang Commercial Bank' },
+    { value: 'PCBCCN', label: 'China Construction Bank' },
+    { value: 'PSBCCN', label: 'Postal Savings Bank of China' },
+    { value: 'RCCSCN', label: 'Shunde Rural Commercial Bank' },
+    { value: 'SHRCCN', label: 'Shanghai Rural Commercial Bank' },
+    { value: 'SPDBCN', label: 'Shanghai Pudong Development Bank' },
+    { value: 'SZCBCN', label: 'Ping An Bank' },
+    { value: 'SZDBCN', label: 'Shenzhen Development Bank' },
+    { value: 'TCCBCN', label: 'Bank of Tianjin' },
+    { value: 'WHCBCN', label: 'Hankou Bank' },
+    { value: 'WZCBCN', label: 'Bank of Wenzhou' },
+    { value: 'ZJCBCN', label: 'China Zheshang Bank' },
+    { value: 'ZJTLCN', label: 'Zhejiang Tailong Commercial Bank' },
+    { value: 'PBOCCN', label: 'People’s Bank of China' },
+    { value: 'HSBCCN', label: 'HSBC' },
+    { value: 'DGCBCN', label: 'Bank of Dongguang' }
 ];
 const styles = theme => ({
     root: {
         width: 925,
         backgroundColor: '#ffffff',
-        border: 'solid 1px #979797',
+        border: 'solid 1px #979797'
     },
     titleRow: {
         display: 'flex',
@@ -90,14 +89,14 @@ const styles = theme => ({
         paddingLeft: 263,
         paddingRight: 262,
         paddingTop: 50,
-        paddingBottom: 50,
+        paddingBottom: 50
     },
     cardTypeCell: {
         borderTop: '1px solid #d8d8d8',
         borderBottom: '1px solid #d8d8d8',
         height: 77,
         paddingTop: 15,
-        textAlign: 'center',
+        textAlign: 'center'
     },
     title: {
         fontSize: 18,
@@ -108,47 +107,46 @@ const styles = theme => ({
         letterSpacing: 0.64,
         textAlign: 'center',
         color: 'black',
-        marginTop: 28,
+        marginTop: 28
     },
     continueButton: {
         width: 324,
         height: 44,
         borderRadius: 22,
-        backgroundColor: '#d8d8d8',
+        backgroundColor: '#d8d8d8'
     },
     backBankingButton: {
         width: 324,
         height: 44,
         borderRadius: 22,
-        backgroundColor: '#d8d8d8',
+        backgroundColor: '#d8d8d8'
     },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 40,
+        paddingTop: 40
     },
     backButtonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 20,
+        paddingTop: 20
     },
     rememberCell: {
-        paddingTop: 20,
+        paddingTop: 20
     },
     cardTypeButton: {
         width: 72,
         height: 48,
         borderRadius: 4.8,
-        backgroundColor: '#f1f1f1',
+        backgroundColor: '#f1f1f1'
     },
     infoCell: {
-        paddingTop: 15,
+        paddingTop: 15
     },
     infoRow: {
-        display: 'block',
-
+        display: 'block'
     },
     infoLabel: {
         display: 'inline-block',
@@ -158,7 +156,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#4a4a4a',
+        color: '#4a4a4a'
     },
     infoValue: {
         display: 'inline-block',
@@ -169,7 +167,7 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#4a4a4a',
-        marginLeft: 3,
+        marginLeft: 3
     },
     detailRow: {
         paddingBottom: 15
@@ -182,7 +180,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 90,
-        height: 44,
+        height: 44
     },
     middleButton: {
         marginRight: 10,
@@ -191,7 +189,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 90,
-        height: 44,
+        height: 44
     },
     rightButton: {
         marginLeft: 10,
@@ -201,7 +199,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 88,
-        height: 44,
+        height: 44
     },
     otherText: {
         fontSize: 14,
@@ -218,12 +216,12 @@ const styles = theme => ({
         width: 400,
         borderRadius: 4,
         border: 'solid 1px #e4e4e4',
-        "&:hover": {
-            border: 'solid 1px #717171',
+        '&:hover': {
+            border: 'solid 1px #717171'
         },
-        "&:focus": {
-            border: 'solid 1px #717171',
-        },
+        '&:focus': {
+            border: 'solid 1px #717171'
+        }
     },
     amountRow: {
         height: 40,
@@ -241,7 +239,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#292929',
+        color: '#292929'
     },
     select: {
         fontSize: 14,
@@ -253,14 +251,14 @@ const styles = theme => ({
         color: '#292929',
         height: 44,
         marginTop: 10,
-        width: 400,
-    },
+        width: 400
+    }
 });
 const BootstrapInput = withStyles(theme => ({
     root: {
         'label + &': {
-            marginTop: theme.spacing(5),
-        },
+            marginTop: theme.spacing(5)
+        }
     },
     input: {
         borderRadius: 4,
@@ -281,15 +279,17 @@ const BootstrapInput = withStyles(theme => ({
             'sans-serif',
             '"Apple Color Emoji"',
             '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
+            '"Segoe UI Symbol"'
         ].join(','),
         '&:focus': {
             borderRadius: 4,
             borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        },
-    },
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
+        }
+    }
 }))(InputBase);
+
+const amounts = Object.freeze([100, 500, 1000, 10000]);
 
 class DepositQaicashBT extends Component {
     constructor(props) {
@@ -305,76 +305,40 @@ class DepositQaicashBT extends Component {
             type: '',
             selectedBankOption: 'none',
             qaicash_error: false,
-            qaicash_error_msg: "",
+            qaicash_error_msg: '',
             live_check_amount: false,
             button_disable: false,
 
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 100,
-            secondOption: 500,
-            thirdOption: 1000,
-            fourthOption: 10000,
-            currencyValue: "USD",
-            showLinearProgressBar: false,
+            currencyValue: 'RMB',
+            showLinearProgressBar: false
         };
 
         this.backClicked = this.backClicked.bind(this);
-        this.firstOptionClicked = this.firstOptionClicked.bind(this);
-        this.secondOptionClicked = this.secondOptionClicked.bind(this);
-        this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
-        this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
         this.amountChanged = this.amountChanged.bind(this);
         this.amountFocused = this.amountFocused.bind(this);
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currencyValue: res.data.currency });
-            });
-    }
-
-    firstOptionClicked(event) {
-        this.setState({ amount: this.state.firstOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    secondOptionClicked(event) {
-        this.setState({ amount: this.state.secondOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    thirdOptionClicked(event) {
-        this.setState({ amount: this.state.thirdOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    fourthOptionClicked(event) {
-        this.setState({ amount: this.state.fourthOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
+        config.headers['Authorization'] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config).then(res => {
+            this.setState({ data: res.data });
+            // this.setState({ currencyValue: res.data.currency });
+        });
     }
 
     amountChanged(event) {
-        if (event.target.value.length === 0 || parseInt(event.target.value) > 100000 || parseInt(event.target.value) < 100) {
-            this.setState({ amount: 0 });
-            this.setState({ amountInvalid: true });
+        if (
+            event.target.value.length === 0 ||
+            parseInt(event.target.value) > 100000 ||
+            parseInt(event.target.value) < 100
+        ) {
+            this.setState({ amount: 0, amountInvalid: true });
         } else {
-            this.setState({ amount: event.target.value });
-            this.setState({ amountInvalid: false });
+            this.setState({ amount: event.target.value, amountInvalid: false });
         }
     }
 
@@ -385,7 +349,7 @@ class DepositQaicashBT extends Component {
     backClicked(ev) {
         this.props.callbackFromParent('deposit_method');
     }
-    
+
     handleBankChange = event => {
         this.setState({ selectedBankOption: event.target.value });
     };
@@ -394,95 +358,132 @@ class DepositQaicashBT extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-        
+
         var postData = {
-            "amount": this.state.amount,
-            "user_id": this.state.data.pk,
-            "currency": "0",
-            "language": "zh-Hans",
-            "method": "BANK_TRANSFER",
-            "bank":this.state.selectedBankOption,
-        }
-        console.log(this.state.amount)
-        console.log(currentComponent.state.data.username)
+            amount: this.state.amount,
+            user_id: this.state.data.pk,
+            currency: '0',
+            language: 'zh-Hans',
+            method: 'BANK_TRANSFER',
+            bank: this.state.selectedBankOption
+        };
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
             var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + "=" + encodedValue);
+            formBody.push(encodedKey + '=' + encodedValue);
         }
-        formBody = formBody.join("&");
-        return  fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
+        formBody = formBody.join('&');
+        return fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
             method: 'POST',
             headers: {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'content-type':
+                    'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: formBody
-        }).then(function (res) {
-            return res.json();
-        }).then(function (data) {
-            let redirectUrl = data.paymentPageSession.paymentPageUrl
-            console.log(redirectUrl)
+        })
+            .then(function(res) {
+                return res.json();
+            })
+            .then(function(data) {
+                let redirectUrl = data.paymentPageSession.paymentPageUrl;
 
-           
-            if (redirectUrl != null) {
-                const mywin = window.open(redirectUrl, 'qaicash_BT');
-                var timer = setInterval(function () {
-                    console.log('checking..')
-                    if (mywin.closed) {
-                        clearInterval(timer);
-                        var postData = {
-                            "trans_id": data.paymentPageSession.orderId
-                        }
-                        var formBody = [];
-                        for (var pd in postData) {
-                            var encodedKey = encodeURIComponent(pd);
-                            var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + "=" + encodedValue);
-                        }
-                        formBody = formBody.join("&");
-
-                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
-                            method: "POST",
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: formBody
-                        }).then(function (res) {
-                            return res.json();
-                        }).then(function (data) {
-                            console.log(data.status)
-                            if (data.status === 0) {
-                                //alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'add',
-                                    username: currentComponent.state.data.username,
-                                    balance: currentComponent.state.amount,
-                                });
-                                console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
-                            } else {
-                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
+                if (redirectUrl != null) {
+                    const mywin = window.open(redirectUrl, 'qaicash_BT');
+                    var timer = setInterval(function() {
+                        console.log('checking..');
+                        if (mywin.closed) {
+                            clearInterval(timer);
+                            var postData = {
+                                trans_id: data.paymentPageSession.orderId
+                            };
+                            var formBody = [];
+                            for (var pd in postData) {
+                                var encodedKey = encodeURIComponent(pd);
+                                var encodedValue = encodeURIComponent(
+                                    postData[pd]
+                                );
+                                formBody.push(encodedKey + '=' + encodedValue);
                             }
-                        });
-                    }
-                }, 1000);
-            } else {
-                currentComponent.setState({ showLinearProgressBar: false });
-                currentComponent.props.callbackFromParent("error", data.returnMessage);
-                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
-            }
-        });
-    }
+                            formBody = formBody.join('&');
+
+                            return fetch(
+                                API_URL +
+                                    'accounting/api/qaicash/get_transaction_status',
+                                {
+                                    method: 'POST',
+                                    headers: {
+                                        'content-type':
+                                            'application/x-www-form-urlencoded; charset=UTF-8'
+                                    },
+                                    body: formBody
+                                }
+                            )
+                                .then(function(res) {
+                                    return res.json();
+                                })
+                                .then(function(data) {
+                                    console.log(data.status);
+                                    if (data.status === 0) {
+                                        //alert('Transaction is approved.');
+                                        const body = JSON.stringify({
+                                            type: 'add',
+                                            username:
+                                                currentComponent.state.data
+                                                    .username,
+                                            balance:
+                                                currentComponent.state.amount
+                                        });
+                                        console.log(body);
+                                        axios
+                                            .post(
+                                                API_URL +
+                                                    `users/api/addorwithdrawbalance/`,
+                                                body,
+                                                config
+                                            )
+                                            .then(res => {
+                                                if (res.data === 'Failed') {
+                                                    //currentComponent.setState({ error: true });
+                                                    currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Transaction failed.'
+                                                    );
+                                                } else if (
+                                                    res.data ===
+                                                    'The balance is not enough'
+                                                ) {
+                                                    currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Cannot deposit this amount.'
+                                                    );
+                                                } else {
+                                                    currentComponent.props.callbackFromParent(
+                                                        'success',
+                                                        currentComponent.state
+                                                            .amount
+                                                    );
+                                                }
+                                            });
+                                    } else {
+                                        currentComponent.props.callbackFromParent(
+                                            'error',
+                                            'Transaction is not approved.'
+                                        );
+                                    }
+                                });
+                        }
+                    }, 1000);
+                } else {
+                    currentComponent.setState({ showLinearProgressBar: false });
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        data.returnMessage
+                    );
+                    //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+                }
+            });
+    };
 
     render() {
         const { classes } = this.props;
@@ -490,14 +491,17 @@ class DepositQaicashBT extends Component {
         const { showLinearProgressBar } = this.state;
         const { selectedBankOption } = this.state;
 
-        let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
+        let depositAmountMessage = formatMessage({
+            id: 'deposit.deposit_amount'
+        });
         let continueMessage = formatMessage({ id: 'deposit.continue' });
         let backMessage = formatMessage({ id: 'deposit.back_to_banking' });
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'}  alt=""/>
-            </Button>);
+                <img src={images.src + 'prev_step.svg'} alt="" />
+            </Button>
+        );
 
         return (
             <div className={classes.root}>
@@ -511,16 +515,32 @@ class DepositQaicashBT extends Component {
                                 {depositAmountMessage}
                             </span>
                         </Grid>
-                        <Grid item xs={2} className={classes.backCell}>
-                        </Grid>
+                        <Grid item xs={2} className={classes.backCell}></Grid>
                         <Grid item xs={12}>
-                            {showLinearProgressBar === true && <LinearProgress />}
+                            {showLinearProgressBar === true && (
+                                <LinearProgress />
+                            )}
                         </Grid>
-                        <Grid item xs={12} className={classes.contentRow}
-                            style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }} >
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.contentRow}
+                            style={
+                                showLinearProgressBar === true
+                                    ? { pointerEvents: 'none' }
+                                    : { pointerEvents: 'all' }
+                            }
+                        >
                             <Grid container>
-                                <Grid item xs={12} className={classes.cardTypeCell}>
-                                    <Button className={classes.cardTypeButton} disabled>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.cardTypeCell}
+                                >
+                                    <Button
+                                        className={classes.cardTypeButton}
+                                        disabled
+                                    >
                                         Qaicash BT
                                     </Button>
                                 </Grid>
@@ -529,46 +549,86 @@ class DepositQaicashBT extends Component {
                                         className={classes.select}
                                         value={selectedBankOption}
                                         onChange={this.handleBankChange}
-                                        input={<BootstrapInput name="bank" id="bank-select" />}>
-                                        <MenuItem key='none' value='none' disabled>Select Bank</MenuItem>
-                                        {
-                                            bank_options.map(bank => (
-                                                <MenuItem key={bank.label} value={bank.value} >
-                                                    {bank.label}
-                                                </MenuItem>
-                                            ))
+                                        input={
+                                            <BootstrapInput
+                                                name="bank"
+                                                id="bank-select"
+                                            />
                                         }
+                                    >
+                                        <MenuItem
+                                            key="none"
+                                            value="none"
+                                            disabled
+                                        >
+                                            Select Bank
+                                        </MenuItem>
+                                        {bank_options.map(bank => (
+                                            <MenuItem
+                                                key={bank.label}
+                                                value={bank.value}
+                                            >
+                                                {bank.label}
+                                            </MenuItem>
+                                        ))}
                                     </Select>
                                 </Grid>
-                                <Grid item xs={12} >
-                                    <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
-                                        {this.state.firstOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.secondOptionClicked}>
-                                        {this.state.secondOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.thirdOptionClicked}>
-                                        {this.state.thirdOption}
-                                    </Button>
-                                    <Button className={classes.rightButton} onClick={this.fourthOptionClicked}>
-                                        {this.state.fourthOption}
-                                    </Button>
+                                <Grid item xs={12}>
+                                    {amounts.map((x, i) => {
+                                        return (
+                                            <Button
+                                                className={
+                                                    i == 0
+                                                        ? classes.leftButton
+                                                        : i == 3
+                                                        ? classes.rightButton
+                                                        : classes.middleButton
+                                                }
+                                                key={i}
+                                                onClick={() =>
+                                                    this.setState({
+                                                        amount: x,
+                                                        amountInvalid: false,
+                                                        amountFocused: false
+                                                    })
+                                                }
+                                            >
+                                                {x}
+                                            </Button>
+                                        );
+                                    })}
                                 </Grid>
-                                <Grid item xs={12} className={classes.detailRow}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.detailRow}
+                                >
                                     <TextField
                                         className={classes.otherText}
                                         placeholder="Deposit 100 - 100,000"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
-                                        error={this.state.amountInvalid && this.state.amountFocused}
-                                        helperText={(this.state.amountInvalid && this.state.amountFocused) ? 'Please enter a valid amount.' : ' '}
+                                        error={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                        }
+                                        helperText={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                                ? 'Please enter a valid amount.'
+                                                : ' '
+                                        }
                                         InputProps={{
                                             disableUnderline: true,
-                                            endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                            inputProps:{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    Other
+                                                </InputAdornment>
+                                            ),
+                                            inputProps: {
                                                 step: 10,
                                                 min: 100,
-                                                max: 100000,
+                                                max: 100000
                                             }
                                         }}
                                         type="number"
@@ -584,33 +644,55 @@ class DepositQaicashBT extends Component {
                                         />
                                     </div>
                                 </Grid>
-                                <Grid item xs={6} className={classes.amountRightRow}>
-                                    <span className={classes.amountText}>Total</span>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    className={classes.amountRightRow}
+                                >
+                                    <span className={classes.amountText}>
+                                        Total
+                                    </span>
                                 </Grid>
-                                <Grid item xs={12} className={classes.buttonCell}>
-                                    <Button className={classes.continueButton}
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.buttonCell}
+                                >
+                                    <Button
+                                        className={classes.continueButton}
                                         onClick={this.handleClick}
                                         disabled={this.state.amountInvalid}
-                                    >{continueMessage}</Button>
+                                    >
+                                        {continueMessage}
+                                    </Button>
                                 </Grid>
-                                <Grid item xs={12} className={classes.backButtonCell}>
-                                    <Button className={classes.backBankingButton}
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.backButtonCell}
+                                >
+                                    <Button
+                                        className={classes.backBankingButton}
                                         onClick={this.backClicked}
-                                    >{backMessage}</Button>
+                                    >
+                                        {backMessage}
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
                 </form>
             </div>
-        )
+        );
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        language: state.language.lang,
-    }
-}
+        language: state.language.lang
+    };
+};
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositQaicashBT)));
+export default withStyles(styles)(
+    injectIntl(connect(mapStateToProps)(DepositQaicashBT))
+);

@@ -12,14 +12,14 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import InputMask from 'react-input-mask';
 import { authCheckState } from '../../../../../actions';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
-const styles = function (theme) {
-    return ({
+const styles = function(theme) {
+    return {
         root: {
             width: 925,
             backgroundColor: '#ffffff',
-            border: 'solid 1px #979797',
+            border: 'solid 1px #979797'
         },
         titleRow: {
             display: 'flex',
@@ -39,14 +39,14 @@ const styles = function (theme) {
             paddingLeft: 263,
             paddingRight: 262,
             paddingTop: 50,
-            paddingBottom: 50,
+            paddingBottom: 50
         },
         cardTypeCell: {
             borderTop: '1px solid #d8d8d8',
             borderBottom: '1px solid #d8d8d8',
             height: 77,
             paddingTop: 15,
-            textAlign: 'center',
+            textAlign: 'center'
         },
         title: {
             fontSize: 18,
@@ -57,47 +57,46 @@ const styles = function (theme) {
             letterSpacing: 0.64,
             textAlign: 'center',
             color: 'black',
-            marginTop: 28,
+            marginTop: 28
         },
         continueButton: {
             width: 324,
             height: 44,
             borderRadius: 22,
-            backgroundColor: '#d8d8d8',
+            backgroundColor: '#d8d8d8'
         },
         backBankingButton: {
             width: 324,
             height: 44,
             borderRadius: 22,
-            backgroundColor: '#d8d8d8',
+            backgroundColor: '#d8d8d8'
         },
         buttonCell: {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            paddingTop: 40,
+            paddingTop: 40
         },
         backButtonCell: {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            paddingTop: 20,
+            paddingTop: 20
         },
         rememberCell: {
-            paddingTop: 20,
+            paddingTop: 20
         },
         cardTypeButton: {
             width: 72,
             height: 48,
             borderRadius: 4.8,
-            backgroundColor: '#f1f1f1',
+            backgroundColor: '#f1f1f1'
         },
         infoCell: {
-            paddingTop: 15,
+            paddingTop: 15
         },
         infoRow: {
-            display: 'block',
-
+            display: 'block'
         },
         infoLabel: {
             display: 'inline-block',
@@ -107,7 +106,7 @@ const styles = function (theme) {
             fontStretch: 'normal',
             lineHeight: 'normal',
             letterSpacing: 'normal',
-            color: '#4a4a4a',
+            color: '#4a4a4a'
         },
         infoValue: {
             display: 'inline-block',
@@ -118,10 +117,11 @@ const styles = function (theme) {
             lineHeight: 'normal',
             letterSpacing: 'normal',
             color: '#4a4a4a',
-            marginLeft: 3,
+            marginLeft: 3
         },
         detailRow: {
-            paddingBottom: 15
+            paddingTop: 1
+            // paddingBottom: 15
         },
         leftButton: {
             display: 'inline-block',
@@ -131,16 +131,17 @@ const styles = function (theme) {
             marginTop: 15,
             marginBottom: 15,
             width: 90,
-            height: 44,
+            height: 44
         },
         middleButton: {
-            marginRight: 10,
+            marginLeft: 4.75,
+            marginRight: 4.75,
             borderRadius: 4,
             backgroundColor: '#efefef',
             marginTop: 15,
             marginBottom: 15,
             width: 90,
-            height: 44,
+            height: 44
         },
         rightButton: {
             marginLeft: 10,
@@ -150,7 +151,7 @@ const styles = function (theme) {
             marginTop: 15,
             marginBottom: 15,
             width: 88,
-            height: 44,
+            height: 44
         },
         otherText: {
             fontSize: 14,
@@ -161,24 +162,25 @@ const styles = function (theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingTop: 6,
+            margin: '10px 0px 10px 0px',
+            padding: '6px 10px 0px 10px',
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
-            "&:hover": {
-                border: 'solid 1px #717171',
+            '&:hover': {
+                border: 'solid 1px #717171'
             },
-            "&:focus": {
-                border: 'solid 1px #717171',
-            },
+            '&:focus': {
+                border: 'solid 1px #717171'
+            }
         },
         amountRow: {
+            marginTop: 10,
             height: 40,
             borderBottom: '4px solid #5e5e5e'
         },
         amountRightRow: {
+            marginTop: 10,
             height: 40,
             textAlign: 'right',
             borderBottom: '4px solid #5e5e5e'
@@ -190,7 +192,7 @@ const styles = function (theme) {
             fontStretch: 'normal',
             lineHeight: 'normal',
             letterSpacing: 'normal',
-            color: '#292929',
+            color: '#292929'
         },
         detailText: {
             fontSize: 14,
@@ -202,16 +204,17 @@ const styles = function (theme) {
             color: '#292929',
             height: 44,
             marginTop: 10,
-            paddingLeft: 10,
+            marginBottom: 10,
+            padding: '7px 0px 10px 15px',
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
-            "&:hover": {
-                border: 'solid 1px #717171',
+            '&:hover': {
+                border: 'solid 1px #717171'
             },
-            "&:focus": {
-                border: 'solid 1px #717171',
-            },
+            '&:focus': {
+                border: 'solid 1px #717171'
+            }
         },
         expireText: {
             fontSize: 14,
@@ -222,18 +225,17 @@ const styles = function (theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            marginTop: 10,
-            marginRight: 10,
-            paddingLeft: 10,
+            margin: '10px 10px 10px 0px',
+            padding: '7px 0px 10px 15px',
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
-            "&:hover": {
-                border: 'solid 1px #717171',
+            '&:hover': {
+                border: 'solid 1px #717171'
             },
-            "&:focus": {
-                border: 'solid 1px #717171',
-            },
+            '&:focus': {
+                border: 'solid 1px #717171'
+            }
         },
         cvvText: {
             fontSize: 14,
@@ -244,25 +246,25 @@ const styles = function (theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            marginTop: 10,
-            marginLeft: 10,
-            paddingLeft: 10,
-            paddingRight: 10,
+            margin: '10px 0px 10px 10px',
+            padding: '7px 0px 10px 15px',
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
-            "&:hover": {
-                border: 'solid 1px #717171',
+            '&:hover': {
+                border: 'solid 1px #717171'
             },
-            "&:focus": {
-                border: 'solid 1px #717171',
-            },
+            '&:focus': {
+                border: 'solid 1px #717171'
+            }
         },
         amountButtonRow: {
-            paddingTop: 30,
+            // paddingTop: 30
         }
-    })
+    };
 };
+
+const amounts = Object.freeze([25, 50, 100, 500]);
 
 class DepositAstropay extends Component {
     constructor(props) {
@@ -287,32 +289,9 @@ class DepositAstropay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 10,
-            secondOption: 50,
-            thirdOption: 100,
-            fourthOption: 500,
-            currencyValue: "USD",
-            showLinearProgressBar: false,
+            currencyValue: 'USD',
+            showLinearProgressBar: false
         };
-
-        this.numberChanged = this.numberChanged.bind(this);
-        this.numberFocused = this.numberFocused.bind(this);
-
-        this.expireDateChanged = this.expireDateChanged.bind(this);
-        this.expireDateFocused = this.expireDateFocused.bind(this);
-
-        this.cvvChanged = this.cvvChanged.bind(this);
-        this.cvvFocused = this.cvvFocused.bind(this);
-
-        this.backClicked = this.backClicked.bind(this);
-        this.firstOptionClicked = this.firstOptionClicked.bind(this);
-        this.secondOptionClicked = this.secondOptionClicked.bind(this);
-        this.thirdOptionClicked = this.thirdOptionClicked.bind(this);
-        this.fourthOptionClicked = this.fourthOptionClicked.bind(this);
-        this.amountChanged = this.amountChanged.bind(this);
-        this.amountFocused = this.amountFocused.bind(this);
-
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -323,68 +302,43 @@ class DepositAstropay extends Component {
         });
     }
 
-    firstOptionClicked(event) {
-        this.setState({ amount: this.state.firstOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    secondOptionClicked(event) {
-        this.setState({ amount: this.state.secondOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    thirdOptionClicked(event) {
-        this.setState({ amount: this.state.thirdOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    fourthOptionClicked(event) {
-        this.setState({ amount: this.state.fourthOption });
-        this.setState({ amountInvalid: false });
-        this.setState({ amountFocused: false });
-        this.amountInput.current.value = '';
-    }
-
-    amountChanged(event) {
-        if (event.target.value.length === 0 || parseInt(event.target.value) > 50000 || parseInt(event.target.value) < 10) {
-            this.setState({ amount: 0 });
-            this.setState({ amountInvalid: true });
+    amountChanged = event => {
+        if (
+            event.target.value.length === 0 ||
+            parseInt(event.target.value) > 50000 ||
+            parseInt(event.target.value) < 10
+        ) {
+            this.setState({ amount: 0, amountInvalid: true });
         } else {
-            this.setState({ amount: event.target.value });
-            this.setState({ amountInvalid: false });
+            this.setState({ amount: event.target.value, amountInvalid: false });
         }
-    }
+    };
 
-    amountFocused(event) {
+    amountFocused = () => {
         this.setState({ amountFocused: true });
-    }
+    };
 
-    backClicked(ev) {
+    backClicked = () => {
         this.props.callbackFromParent('deposit_method');
-    }
+    };
 
-    numberChanged(event) {
+    numberChanged = event => {
         this.setState({
             number: event.target.value,
             numberFocused: true,
             numberInvalid: event.target.value.toString().length < 19
         });
-    }
+    };
 
-    numberFocused(event) {
+    numberFocused = () => {
         this.setState({ numberFocused: true });
-    }
+    };
 
-    expireDateChanged(event) {
-        this.setState({ expireDate: event.target.value });
-        this.setState({ expireDateFocused: true });
-
+    expireDateChanged = event => {
+        this.setState({
+            expireDate: event.target.value,
+            expireDateFocused: true
+        });
 
         if (event.target.value.toString().length < 5) {
             this.setState({ expireDateInvalid: true });
@@ -405,73 +359,80 @@ class DepositAstropay extends Component {
 
                 let today = new Date();
 
-                this.setState({ expireDateInvalid: (expireDate <= today) });
+                this.setState({ expireDateInvalid: expireDate <= today });
             }
         }
-    }
+    };
 
-    expireDateFocused(event) {
+    expireDateFocused = () => {
         this.setState({ expireDateFocused: true });
-    }
+    };
 
-    cvvChanged(event) {
-        this.setState({ cvv: event.target.value });
+    cvvChanged = event => {
+        this.setState({
+            cvv: event.target.value,
+            cvvFocused: true,
+            cvvInvalid: event.target.value.length < 4 || !event.target.value
+        });
+    };
+
+    cvvFocused = () => {
         this.setState({ cvvFocused: true });
+    };
 
-        this.setState({ cvvInvalid: (event.target.value.length < 4 || !event.target.value) });
-    }
-
-    cvvFocused(event) {
-        this.setState({ cvvFocused: true });
-    }
-
-    async handleClick(event) {
+    handleClick = async event => {
         event.preventDefault();
+        let currentComponent = this;
+        currentComponent.setState({ showLinearProgressBar: true });
 
         const token = localStorage.getItem('token');
 
         if (!token) {
-            console.log("no token -- user is not logged in");
+            console.log('no token -- user is not logged in');
         }
-        config.headers["Authorization"] = `Token ${token}`;
+        config.headers['Authorization'] = `Token ${token}`;
 
-        console.log("amount: " + this.state.amount);
-        console.log(this.state.data)
+        console.log('amount: ' + this.state.amount);
+        console.log(this.state.data);
         let postData = {
-            "card_num": this.state.number.replace(/\s+/g, ''),
-            "card_code": this.state.cvv,
-            "exp_date": this.state.expireDate,
-            "amount": this.state.amount
+            card_num: this.state.number.replace(/\s+/g, ''),
+            card_code: this.state.cvv,
+            exp_date: this.state.expireDate,
+            amount: this.state.amount
         };
 
-        var res = await axios.post(API_URL + 'accounting/api/astropay/capture_transaction',
+        var res = await axios.post(
+            API_URL + 'accounting/api/astropay/capture_transaction',
             postData,
-            config)
-        console.log("result of deposit: ");
+            config
+        );
+        console.log('result of deposit: ');
         console.log(res);
-        if (res.data.response_msg.slice(0, 5) === "1|1|1") {
+        if (res.data.response_msg.slice(0, 5) === '1|1|1') {
             const body = JSON.stringify({
                 type: 'add',
-                username: this.state.data.username || "",
-                balance: this.state.amount,
+                username: this.state.data.username || '',
+                balance: this.state.amount
             });
-            axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
+            axios
+                .post(API_URL + 'users/api/addorwithdrawbalance/', body, config)
                 .then(res => {
                     if (res.data === 'Failed') {
                         this.setState({ error: true });
                     } else if (res.data === 'The balance is not enough') {
-                        alert("cannot withdraw this amount")
+                        alert('cannot withdraw this amount');
                     } else {
-                        alert("your balance is updated")
+                        alert('your balance is updated');
                         // window.location.reload();
                     }
                 });
+        } else {
+            this.setState({
+                error: true,
+                error_msg: res.data.response_msg.split('|')[3]
+            });
         }
-        else {
-            // this.showError(res.data.response_msg.split("|")[3]);
-            this.setState({ error: true, error_msg: res.data.response_msg.split("|")[3] });
-        }
-    }
+    };
 
     render() {
         const { classes } = this.props;
@@ -479,14 +440,17 @@ class DepositAstropay extends Component {
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
 
-        let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
+        let depositAmountMessage = formatMessage({
+            id: 'deposit.deposit_amount'
+        });
         let continueMessage = formatMessage({ id: 'deposit.continue' });
         let backMessage = formatMessage({ id: 'deposit.back_to_banking' });
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'}  alt=""/>
-            </Button>);
+                <img src={images.src + 'prev_step.svg'} alt="" />
+            </Button>
+        );
 
         return (
             <div className={classes.root}>
@@ -500,103 +464,200 @@ class DepositAstropay extends Component {
                                 {depositAmountMessage}
                             </span>
                         </Grid>
-                        <Grid item xs={2} className={classes.backCell}>
-                        </Grid>
+                        <Grid item xs={2} className={classes.backCell}></Grid>
                         <Grid item xs={12}>
-                            {showLinearProgressBar === true && <LinearProgress />}
+                            {showLinearProgressBar === true && (
+                                <LinearProgress />
+                            )}
                         </Grid>
-                        <Grid item xs={12} className={classes.contentRow}
-                            style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }} >
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.contentRow}
+                            style={
+                                showLinearProgressBar === true
+                                    ? { pointerEvents: 'none' }
+                                    : { pointerEvents: 'all' }
+                            }
+                        >
                             <Grid container>
-                                <Grid item xs={12} className={classes.cardTypeCell}>
-                                    <Button className={classes.cardTypeButton} disabled>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.cardTypeCell}
+                                >
+                                    <Button
+                                        className={classes.cardTypeButton}
+                                        disabled
+                                    >
                                         Astropay
                                     </Button>
                                 </Grid>
-                                <Grid item xs={12} className={classes.detailRow}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.detailRow}
+                                >
                                     <InputMask
-                                        mask="9999 9999 9999 9999" maskChar={null}
+                                        mask="9999 9999 9999 9999"
+                                        maskChar={null}
                                         onChange={this.numberChanged}
                                         onFocus={this.numberFocused}
                                         value={this.state.number}
-
-                                        className={classes.detailText}>
-                                        {() => <TextField
-                                            className={classes.detailText}
-                                            placeholder="Card Number"
-                                            type="text"
-                                            error={(this.state.numberInvalid && this.state.numberFocused)}
-                                            helperText={(this.state.numberInvalid && this.state.numberFocused) ? 'Please enter 16-digit card number.' : ' '}
-                                            InputProps={{ disableUnderline: true }}
-                                        />}
+                                        className={classes.detailText}
+                                    >
+                                        {() => (
+                                            <TextField
+                                                className={classes.detailText}
+                                                placeholder="Card Number"
+                                                type="text"
+                                                error={
+                                                    this.state.numberInvalid &&
+                                                    this.state.numberFocused
+                                                }
+                                                helperText={
+                                                    this.state.numberInvalid &&
+                                                    this.state.numberFocused
+                                                        ? 'Please enter 16-digit card number.'
+                                                        : ' '
+                                                }
+                                                InputProps={{
+                                                    disableUnderline: true
+                                                }}
+                                            />
+                                        )}
                                     </InputMask>
                                 </Grid>
-                                <Grid item xs={6} className={classes.expireCell}>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    className={classes.expireCell}
+                                >
                                     <InputMask
-                                        mask="99/9999" maskChar={null}
+                                        mask="99/9999"
+                                        maskChar={null}
                                         onChange={this.expireDateChanged}
                                         onFocus={this.expireDateFocused}
                                         value={this.state.expireDate}
-
-                                        className={classes.expireText}>
-                                        {() => <TextField
-                                            className={classes.expireText}
-                                            placeholder="MM/YYYY"
-                                            type="text"
-                                            error={(this.state.expireDateInvalid && this.state.expireDateFocused)}
-                                            helperText={(this.state.expireDateInvalid && this.state.expireDateFocused) ? 'Invalid expiration card' : ' '}
-                                            InputProps={{ disableUnderline: true }}
-                                        />}
+                                        className={classes.expireText}
+                                    >
+                                        {() => (
+                                            <TextField
+                                                className={classes.expireText}
+                                                placeholder="MM/YYYY"
+                                                type="text"
+                                                error={
+                                                    this.state
+                                                        .expireDateInvalid &&
+                                                    this.state.expireDateFocused
+                                                }
+                                                helperText={
+                                                    this.state
+                                                        .expireDateInvalid &&
+                                                    this.state.expireDateFocused
+                                                        ? 'Invalid expiration card'
+                                                        : ' '
+                                                }
+                                                InputProps={{
+                                                    disableUnderline: true
+                                                }}
+                                            />
+                                        )}
                                     </InputMask>
-
                                 </Grid>
                                 <Grid item xs={6} className={classes.cvvCell}>
                                     <InputMask
-                                        mask="9999" maskChar={null}
+                                        mask="9999"
+                                        maskChar={null}
                                         onChange={this.cvvChanged}
                                         onFocus={this.cvvFocused}
                                         value={this.state.cvv}
-
-                                        className={classes.cvvText}>
-                                        {() => <TextField
-                                            className={classes.cvvText}
-                                            placeholder="CVV"
-                                            type="text"
-                                            error={(this.state.cvvInvalid && this.state.cvvFocused)}
-                                            helperText={(this.state.cvvInvalid && this.state.cvvFocused) ? 'Invalid code' : ' '}
-                                            InputProps={{
-                                                disableUnderline: true,
-                                                endAdornment: <InputAdornment position="end"><img src={images.src + 'card-cvv.svg'}  alt=""/></InputAdornment>,
-                                            }}
-                                        />}
+                                        className={classes.cvvText}
+                                    >
+                                        {() => (
+                                            <TextField
+                                                className={classes.cvvText}
+                                                placeholder="CVV"
+                                                type="text"
+                                                error={
+                                                    this.state.cvvInvalid &&
+                                                    this.state.cvvFocused
+                                                }
+                                                helperText={
+                                                    this.state.cvvInvalid &&
+                                                    this.state.cvvFocused
+                                                        ? 'Invalid code'
+                                                        : ' '
+                                                }
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <img
+                                                                src={
+                                                                    images.src +
+                                                                    'card-cvv.svg'
+                                                                }
+                                                                alt=""
+                                                            />
+                                                        </InputAdornment>
+                                                    )
+                                                }}
+                                            />
+                                        )}
                                     </InputMask>
                                 </Grid>
-                                <Grid item xs={12} className={classes.amountButtonRow}>
-                                    <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
-                                        {this.state.firstOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.secondOptionClicked}>
-                                        {this.state.secondOption}
-                                    </Button>
-                                    <Button className={classes.middleButton} onClick={this.thirdOptionClicked}>
-                                        {this.state.thirdOption}
-                                    </Button>
-                                    <Button className={classes.rightButton} onClick={this.fourthOptionClicked}>
-                                        {this.state.fourthOption}
-                                    </Button>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.amountButtonRow}
+                                >
+                                    {amounts.map((x, i) => {
+                                        return (
+                                            <Button
+                                                className={classes.middleButton}
+                                                key={i}
+                                                onClick={() =>
+                                                    this.setState({
+                                                        amount: x,
+                                                        amountInvalid: false,
+                                                        amountFocused: false
+                                                    })
+                                                }
+                                            >
+                                                {x}
+                                            </Button>
+                                        );
+                                    })}
                                 </Grid>
-                                <Grid item xs={12} className={classes.detailRow}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.detailRow}
+                                >
                                     <TextField
                                         className={classes.otherText}
                                         placeholder="Deposit 10 - 50,000"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
-                                        error={this.state.amountInvalid && this.state.amountFocused}
-                                        helperText={(this.state.amountInvalid && this.state.amountFocused) ? 'Please enter a valid amount.' : ' '}
+                                        error={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                        }
+                                        helperText={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                                ? 'Please enter a valid amount.'
+                                                : ' '
+                                        }
                                         InputProps={{
                                             disableUnderline: true,
-                                            endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                            nputProps:{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    Other
+                                                </InputAdornment>
+                                            ),
+                                            inputProps: {
                                                 step: 10,
                                                 min: 10,
                                                 max: 50000
@@ -615,22 +676,44 @@ class DepositAstropay extends Component {
                                         />
                                     </div>
                                 </Grid>
-                                <Grid item xs={6} className={classes.amountRightRow}>
-                                    <span className={classes.amountText}>Total</span>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    className={classes.amountRightRow}
+                                >
+                                    <span className={classes.amountText}>
+                                        Total
+                                    </span>
                                 </Grid>
-                                <Grid item xs={12} className={classes.buttonCell}>
-                                    <Button className={classes.continueButton}
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.buttonCell}
+                                >
+                                    <Button
+                                        className={classes.continueButton}
                                         onClick={this.handleClick}
-                                        disabled={this.state.amountInvalid ||
+                                        disabled={
+                                            this.state.amountInvalid ||
                                             this.state.numberInvalid ||
                                             this.state.expireDateInvalid ||
-                                            this.state.cvvInvalid}
-                                    >{continueMessage}</Button>
+                                            this.state.cvvInvalid
+                                        }
+                                    >
+                                        {continueMessage}
+                                    </Button>
                                 </Grid>
-                                <Grid item xs={12} className={classes.backButtonCell}>
-                                    <Button className={classes.backBankingButton}
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.backButtonCell}
+                                >
+                                    <Button
+                                        className={classes.backBankingButton}
                                         onClick={this.backClicked}
-                                    >{backMessage}</Button>
+                                    >
+                                        {backMessage}
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -641,10 +724,17 @@ class DepositAstropay extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        language: state.language.lang,
-    }
-}
+        language: state.language.lang
+    };
+};
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositAstropay)));
+export default withStyles(styles)(
+    injectIntl(
+        connect(
+            mapStateToProps,
+            { authCheckState }
+        )(DepositAstropay)
+    )
+);
