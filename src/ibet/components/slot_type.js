@@ -222,7 +222,7 @@ class Slot_Type extends Component {
 
         const { formatMessage } = this.props.intl;
         let allMessage = formatMessage({ id: "nav.all" });
-        let slotsMessage = formatMessage({ id: "nav.slots" });
+        let slotsMessage = formatMessage({ id: "nav.casino" });
         let jackpotsMessage = formatMessage({ id: "nav.jackpots" });
         let tableGamesMessage = formatMessage({ id: "nav.table-games" });
         let otherGamesMessage = formatMessage({ id: "nav.other-games" });

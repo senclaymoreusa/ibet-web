@@ -2,26 +2,18 @@ import React, { Component } from 'react';
 import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import ChatTool from "./chat_tool";
-
 import { connect } from 'react-redux';
 import { authCheckState, handle_referid, hide_landing_page } from '../actions';
 import { FormattedMessage } from 'react-intl';
 import { config } from '../../util_config';
 
-import Paper from '@material-ui/core/Paper';
-
 import axios from 'axios';
-// import moment from 'moment';
 import classNames from 'classnames';
-
-import '../css/home.css';
-
-// Material UI
 import { withStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-import placeholdimage from '../images/handsomecat.jpg';
+import '../css/home.css';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -169,7 +161,7 @@ export class Home extends Component {
                       array.push(item)
                     } else {
                       var check = true;
-                      array.map(thing => {
+                      array.forEach(thing => {
                         if (thing.name === item.name) {
                           check = false
                         }
