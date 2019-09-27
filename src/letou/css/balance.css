@@ -1,0 +1,11 @@
+.balance-form {
+    margin-left: 36%;
+    margin-top: 3%;
+}
+
+.balance-submit-button {
+    background-color: white;
+    border: 1px solid blue;
+    width: 10%;
+    color: blue;
+}

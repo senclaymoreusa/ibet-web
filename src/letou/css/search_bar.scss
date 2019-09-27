@@ -1,0 +1,29 @@
+.playIcon {
+  margin-top: 12px;
+  margin-left: 24px;
+  float:left;
+}
+
+.playIcon:hover path {
+  padding:2px;
+  fill: #fe0000;
+}
+
+.active path{
+  fill: #fe0000;
+}
+
+.play-text{
+  font-size: 10;
+  color:'black';
+  visibility: hidden;
+
+}
+
+.hide{
+  visibility: hidden;
+}
+
+.show{
+  visibility: visible;
+}
