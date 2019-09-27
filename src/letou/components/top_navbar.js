@@ -977,7 +977,7 @@ export class TopNavbar extends React.Component {
     }
 
     render() {
-        const { anchorEl, mainTabValue, balance, balanceCurrency, anchorElLogin } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
@@ -1063,7 +1063,7 @@ export class TopNavbar extends React.Component {
                     }}		
                 >		
                     <div className={classes.envelope}>		
-                        <img src={images.src + 'envelope.svg'} className={classes.envelope}/>		
+                        <img src={images.src + 'envelope.svg'} className={classes.envelope} alt=''/>		
                     </div>		
                     <div className={classes.unreadMessageCount}>		
                         <FormattedNumber		
@@ -1558,7 +1558,6 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
-        inbox: state.inbox,
         showLogin: state.general.show_login,
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,

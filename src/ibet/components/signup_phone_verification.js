@@ -189,6 +189,7 @@ class Phone_Verification extends React.Component {
                             height: 40,
                             width: 20
                         }}
+                        alt=''
                         onClick={() => {
                             this.props.hide_phone_verification();
                             axios.post(
@@ -329,7 +330,7 @@ class Phone_Verification extends React.Component {
                                         top: 272
                                     }}
                                 >
-                                    <img src={images.src + 'check.svg'} />
+                                    <img src={images.src + 'check.svg'} alt=''/>
                                 </div>
                             )}
 

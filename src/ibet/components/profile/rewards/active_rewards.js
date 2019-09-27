@@ -22,7 +22,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import {
     CircularProgressbar,
-    CircularProgressbarWithChildren,
     buildStyles
 } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -226,7 +225,6 @@ const styles = theme => ({
         textAlign: 'center'
     },
     progress: {
-        margin: theme.spacing(2),
         height: 168,
         margin: 0
     },
