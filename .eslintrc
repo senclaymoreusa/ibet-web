@@ -10,7 +10,7 @@
         // "react-hooks"
     ],
     "extends": [
-        // "eslint:recommended",
+        "eslint:recommended",
         "plugin:react/recommended",
         "plugin:prettier/recommended"
     ],

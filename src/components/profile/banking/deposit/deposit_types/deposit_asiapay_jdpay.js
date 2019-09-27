@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config,images } from '../../../../../util_config';
+import { config, images } from '../../../../../util_config';
 import { connect } from 'react-redux';
 
 // Material-UI
@@ -15,13 +15,13 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 var QRCode = require('qrcode.react');
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
         width: 925,
         backgroundColor: '#ffffff',
-        border: 'solid 1px #979797',
+        border: 'solid 1px #979797'
     },
     titleRow: {
         display: 'flex',
@@ -41,15 +41,14 @@ const styles = theme => ({
         paddingLeft: 263,
         paddingRight: 262,
         paddingTop: 50,
-        paddingBottom: 50,
+        paddingBottom: 50
     },
     cardTypeCell: {
         borderTop: '1px solid #d8d8d8',
         borderBottom: '1px solid #d8d8d8',
         height: 77,
         paddingTop: 15,
-        textAlign: 'center',
-
+        textAlign: 'center'
     },
     title: {
         fontSize: 18,
@@ -60,47 +59,46 @@ const styles = theme => ({
         letterSpacing: 0.64,
         textAlign: 'center',
         color: 'black',
-        marginTop: 28,
+        marginTop: 28
     },
     continueButton: {
         width: 324,
         height: 44,
         borderRadius: 22,
-        backgroundColor: '#d8d8d8',
+        backgroundColor: '#d8d8d8'
     },
     backBankingButton: {
         width: 324,
         height: 44,
         borderRadius: 22,
-        backgroundColor: '#d8d8d8',
+        backgroundColor: '#d8d8d8'
     },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 40,
+        paddingTop: 40
     },
     backButtonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 20,
+        paddingTop: 20
     },
     rememberCell: {
-        paddingTop: 20,
+        paddingTop: 20
     },
     cardTypeButton: {
         width: 72,
         height: 48,
         borderRadius: 4.8,
-        backgroundColor: '#f1f1f1',
+        backgroundColor: '#f1f1f1'
     },
     infoCell: {
-        paddingTop: 15,
+        paddingTop: 15
     },
     infoRow: {
-        display: 'block',
-
+        display: 'block'
     },
     infoLabel: {
         display: 'inline-block',
@@ -110,8 +108,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#4a4a4a',
-
+        color: '#4a4a4a'
     },
     infoValue: {
         display: 'inline-block',
@@ -122,7 +119,7 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#4a4a4a',
-        marginLeft: 3,
+        marginLeft: 3
     },
     detailRow: {
         paddingBottom: 15
@@ -135,7 +132,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 90,
-        height: 44,
+        height: 44
     },
     middleButton: {
         marginRight: 10,
@@ -144,7 +141,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 90,
-        height: 44,
+        height: 44
     },
     rightButton: {
         marginLeft: 10,
@@ -154,7 +151,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 88,
-        height: 44,
+        height: 44
     },
     otherText: {
         fontSize: 14,
@@ -171,12 +168,12 @@ const styles = theme => ({
         width: 400,
         borderRadius: 4,
         border: 'solid 1px #e4e4e4',
-        "&:hover": {
-            border: 'solid 1px #717171',
+        '&:hover': {
+            border: 'solid 1px #717171'
         },
-        "&:focus": {
-            border: 'solid 1px #717171',
-        },
+        '&:focus': {
+            border: 'solid 1px #717171'
+        }
     },
     amountRow: {
         height: 40,
@@ -194,8 +191,8 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#292929',
-    },
+        color: '#292929'
+    }
 });
 
 class DepositAsiapayJDPay extends Component {
@@ -211,10 +208,10 @@ class DepositAsiapayJDPay extends Component {
             data: '',
             type: '',
             qaicash_error: false,
-            qaicash_error_msg: "",
+            qaicash_error_msg: '',
             live_check_amount: false,
             button_disable: false,
-            value: "",
+            value: '',
             size: 128,
             fgColor: '#000000',
             bgColor: '#ffffff',
@@ -230,8 +227,8 @@ class DepositAsiapayJDPay extends Component {
             secondOption: 400,
             thirdOption: 600,
             fourthOption: 900,
-            currencyValue: "USD",
-            showLinearProgressBar: false,
+            currencyValue: 'USD',
+            showLinearProgressBar: false
         };
 
         this.backClicked = this.backClicked.bind(this);
@@ -247,12 +244,11 @@ class DepositAsiapayJDPay extends Component {
 
     componentDidMount() {
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currencyValue: res.data.currency });
-            });
+        config.headers['Authorization'] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config).then(res => {
+            this.setState({ data: res.data });
+            this.setState({ currencyValue: res.data.currency });
+        });
     }
 
     firstOptionClicked(event) {
@@ -284,7 +280,11 @@ class DepositAsiapayJDPay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length === 0 || parseInt(event.target.value) > 900 || parseInt(event.target.value) < 200) {
+        if (
+            event.target.value.length === 0 ||
+            parseInt(event.target.value) > 900 ||
+            parseInt(event.target.value) < 200
+        ) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -307,130 +307,167 @@ class DepositAsiapayJDPay extends Component {
         currentComponent.setState({ showLinearProgressBar: true });
         let userid = this.state.data.pk;
         var postData = {
-            "amount": this.state.amount,
-            "userid": this.state.data.pk,
-            "currency": "0",
-            "PayWay": "42", //QRcode
-            "method": "49", //京东支付
-        }
-        console.log(this.state.amount)
-        console.log(this.state.data.pk)
+            amount: this.state.amount,
+            userid: this.state.data.pk,
+            currency: '0',
+            PayWay: '42', //QRcode
+            method: '49' //京东支付
+        };
+        console.log(this.state.amount);
+        console.log(this.state.data.pk);
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
             var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + "=" + encodedValue);
+            formBody.push(encodedKey + '=' + encodedValue);
         }
-        formBody = formBody.join("&");
+        formBody = formBody.join('&');
         return fetch(API_URL + 'accounting/api/asiapay/deposit', {
             method: 'POST',
             headers: {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'content-type':
+                    'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: formBody
-        }).then(function (res) {
-            console.log(res);
+        })
+            .then(function(res) {
+                console.log(res);
 
-            currentComponent.setState({ showLinearProgressBar: false });
-            if(res.status == 200){
+                currentComponent.setState({ showLinearProgressBar: false });
+
                 return res.json();
-            }else{
-                currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                return res.json();
-
-            }
-            
-            
-
-        }).then(function (data) {
-            console.log(data)
-            let qrurl = data.qr;
-            console.log(qrurl)
-            if(qrurl != null){
-                const mywin = window.open(qrurl, 'asiapay-alipay')
-                var timer = setInterval(function () {
-                    console.log('checking..')
-                    if (mywin.closed) {
-                        clearInterval(timer);
-                        var postData = {
-                            "order_id": data.oid,
-                            "userid": "n" + userid,
-                            "CmdType": "01",
-                        }
-                        var formBody = [];
-                        for (var pd in postData) {
-                            var encodedKey = encodeURIComponent(pd);
-                            var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + "=" + encodedValue);
-                        }
-                        formBody = formBody.join("&");
-
-                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
-                            method: "POST",
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: formBody
-                        }).then(function (res) {
-                            return res.json();
-                        }).then(function (data) {
-                            console.log(data.status)
-                            if (data.status === "001") {
-                                //alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'add',
-                                    username: currentComponent.state.data.username,
-                                    balance: currentComponent.state.amount,
-                                });
-                                console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
-                            } else {
-                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+            })
+            .then(function(data) {
+                console.log(data);
+                let qrurl = data.qr;
+                console.log(qrurl);
+                if (qrurl != null) {
+                    const mywin = window.open(qrurl, 'asiapay-alipay');
+                    var timer = setInterval(function() {
+                        console.log('checking..');
+                        if (mywin.closed) {
+                            clearInterval(timer);
+                            var postData = {
+                                order_id: data.oid,
+                                userid: 'n' + userid,
+                                CmdType: '01'
+                            };
+                            var formBody = [];
+                            for (var pd in postData) {
+                                var encodedKey = encodeURIComponent(pd);
+                                var encodedValue = encodeURIComponent(
+                                    postData[pd]
+                                );
+                                formBody.push(encodedKey + '=' + encodedValue);
                             }
-                        });
-                    }
-                }, 1000);
-                
-            }
-            // currentComponent.setState({ qr: data.qr });
-            // currentComponent.setState({ showLinearProgressBar: false });
+                            formBody = formBody.join('&');
 
-            // if (data.code == 'ERROR') {
-            //     alert(data.message);
-            // } else {
-            //     currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
-            // }
-        }).catch(function (err) {
-            currentComponent.setState({ showLinearProgressBar: false });
+                            return fetch(
+                                API_URL + 'accounting/api/asiapay/orderStatus',
+                                {
+                                    method: 'POST',
+                                    headers: {
+                                        'content-type':
+                                            'application/x-www-form-urlencoded; charset=UTF-8'
+                                    },
+                                    body: formBody
+                                }
+                            )
+                                .then(function(res) {
+                                    return res.json();
+                                })
+                                .then(function(data) {
+                                    console.log(data.status);
+                                    if (data.status === '001') {
+                                        //alert('Transaction is approved.');
+                                        const body = JSON.stringify({
+                                            type: 'add',
+                                            username:
+                                                currentComponent.state.data
+                                                    .username,
+                                            balance:
+                                                currentComponent.state.amount
+                                        });
+                                        console.log(body);
+                                        axios
+                                            .post(
+                                                API_URL +
+                                                    `users/api/addorwithdrawbalance/`,
+                                                body,
+                                                config
+                                            )
+                                            .then(res => {
+                                                if (res.data === 'Failed') {
+                                                    //currentComponent.setState({ error: true });
+                                                    currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Transaction failed.'
+                                                    );
+                                                } else if (
+                                                    res.data ===
+                                                    'The balance is not enough'
+                                                ) {
+                                                    currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Cannot deposit this amount.'
+                                                    );
+                                                } else {
+                                                    currentComponent.props.callbackFromParent(
+                                                        'success',
+                                                        currentComponent.state
+                                                            .amount
+                                                    );
+                                                }
+                                            });
+                                    } else {
+                                        currentComponent.props.callbackFromParent(
+                                            'error',
+                                            data.StatusMsg
+                                        );
+                                    }
+                                });
+                        }
+                    }, 1000);
+                }
+                // currentComponent.setState({ qr: data.qr });
+                // currentComponent.setState({ showLinearProgressBar: false });
 
-            console.log('Request failed', err);
+                // if (data.code == 'ERROR') {
+                //     alert(data.message);
+                // } else {
+                //     currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
+                // }
+            })
+            .catch(function(err) {
+                currentComponent.setState({ showLinearProgressBar: false });
 
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-        });
-    }
+                console.log('Request failed', err);
+
+                axios
+                    .post(
+                        API_URL + 'system/api/logstreamtos3/',
+                        { line: err, source: 'Ibetweb' },
+                        config
+                    )
+                    .then(res => {});
+            });
+    };
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
         const { showLinearProgressBar } = this.state;
 
-        let depositAmountMessage = formatMessage({ id: 'deposit.deposit_amount' });
+        let depositAmountMessage = formatMessage({
+            id: 'deposit.deposit_amount'
+        });
         let continueMessage = formatMessage({ id: 'deposit.continue' });
         let backMessage = formatMessage({ id: 'deposit.back_to_banking' });
 
-
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'}  alt=""/>
-            </Button>);
+                <img src={images.src + 'prev_step.svg'} alt="" />
+            </Button>
+        );
 
         return (
             <div className={classes.root}>
@@ -444,50 +481,94 @@ class DepositAsiapayJDPay extends Component {
                                 {depositAmountMessage}
                             </span>
                         </Grid>
-                        <Grid item xs={2} className={classes.backCell}>
-                        </Grid>
+                        <Grid item xs={2} className={classes.backCell}></Grid>
                         <Grid item xs={12}>
-                            {showLinearProgressBar === true && <LinearProgress />}
+                            {showLinearProgressBar === true && (
+                                <LinearProgress />
+                            )}
                         </Grid>
-                        <Grid item xs={12} className={classes.contentRow}
-                            style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }} >
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.contentRow}
+                            style={
+                                showLinearProgressBar === true
+                                    ? { pointerEvents: 'none' }
+                                    : { pointerEvents: 'all' }
+                            }
+                        >
                             <Grid container>
-                                <Grid item xs={12} className={classes.cardTypeCell}>
-                                    <Button className={classes.cardTypeButton} disabled>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.cardTypeCell}
+                                >
+                                    <Button
+                                        className={classes.cardTypeButton}
+                                        disabled
+                                    >
                                         JD Pay
                                     </Button>
                                 </Grid>
-                               <Grid item xs={12} >
-                                    <Button className={classes.leftButton} onClick={this.firstOptionClicked}>
+                                <Grid item xs={12}>
+                                    <Button
+                                        className={classes.leftButton}
+                                        onClick={this.firstOptionClicked}
+                                    >
                                         {this.state.firstOption}
                                     </Button>
-                                    <Button className={classes.middleButton} onClick={this.secondOptionClicked}>
+                                    <Button
+                                        className={classes.middleButton}
+                                        onClick={this.secondOptionClicked}
+                                    >
                                         {this.state.secondOption}
                                     </Button>
-                                    <Button className={classes.middleButton} onClick={this.thirdOptionClicked}>
+                                    <Button
+                                        className={classes.middleButton}
+                                        onClick={this.thirdOptionClicked}
+                                    >
                                         {this.state.thirdOption}
                                     </Button>
-                                    <Button className={classes.rightButton} onClick={this.fourthOptionClicked}>
+                                    <Button
+                                        className={classes.rightButton}
+                                        onClick={this.fourthOptionClicked}
+                                    >
                                         {this.state.fourthOption}
                                     </Button>
                                 </Grid>
-                                <Grid item xs={12} className={classes.detailRow}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.detailRow}
+                                >
                                     <TextField
                                         className={classes.otherText}
                                         placeholder="Deposit 100 - 900"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
-                                        error={this.state.amountInvalid && this.state.amountFocused}
-                                        helperText={(this.state.amountInvalid && this.state.amountFocused) ? 'Please enter a valid amount.' : ' '}
+                                        error={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                        }
+                                        helperText={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                                ? 'Please enter a valid amount.'
+                                                : ' '
+                                        }
                                         InputProps={{
                                             disableUnderline: true,
-                                            endAdornment: <InputAdornment position="end">Other</InputAdornment>,
-                                            inputProps:{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    Other
+                                                </InputAdornment>
+                                            ),
+                                            inputProps: {
                                                 step: 10,
                                                 min: 200,
                                                 max: 900
                                             }
-                                          }}
+                                        }}
                                         type="number"
                                         inputRef={this.amountInput}
                                     />
@@ -501,24 +582,49 @@ class DepositAsiapayJDPay extends Component {
                                         />
                                     </div>
                                 </Grid>
-                                <Grid item xs={6} className={classes.amountRightRow}>
-                                    <span className={classes.amountText}>Total</span>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    className={classes.amountRightRow}
+                                >
+                                    <span className={classes.amountText}>
+                                        Total
+                                    </span>
                                 </Grid>
-                                <Grid item xs={12} className={classes.buttonCell}>
-                                    <Button className={classes.continueButton}
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.buttonCell}
+                                >
+                                    <Button
+                                        className={classes.continueButton}
                                         onClick={this.handleClick}
                                         disabled={this.state.amountInvalid}
-                                    >{continueMessage}</Button>
+                                    >
+                                        {continueMessage}
+                                    </Button>
                                 </Grid>
-                                <Grid item xs={12} className={classes.backButtonCell}>
-                                    <Button className={classes.backBankingButton}
+                                <Grid
+                                    item
+                                    xs={12}
+                                    className={classes.backButtonCell}
+                                >
+                                    <Button
+                                        className={classes.backBankingButton}
                                         onClick={this.backClicked}
-                                    >{backMessage}</Button>
+                                    >
+                                        {backMessage}
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <div className="asiapay-qr" style={{ display: this.state.show_qrcode ? "block" : "none" }}>
+                    <div
+                        className="asiapay-qr"
+                        style={{
+                            display: this.state.show_qrcode ? 'block' : 'none'
+                        }}
+                    >
                         <QRCode
                             value={this.state.value}
                             size={this.state.size}
@@ -531,14 +637,21 @@ class DepositAsiapayJDPay extends Component {
                     </div>
                 </form>
             </div>
-        )
+        );
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        language: state.language.lang,
-    }
-}
+        language: state.language.lang
+    };
+};
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositAsiapayJDPay)));
+export default withStyles(styles)(
+    injectIntl(
+        connect(
+            mapStateToProps,
+            { authCheckState }
+        )(DepositAsiapayJDPay)
+    )
+);

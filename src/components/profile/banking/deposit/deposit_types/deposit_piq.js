@@ -146,8 +146,8 @@ const styles = function(theme) {
             height: 44
         },
         middleButton: {
-            marginLeft: 6.666,
-            marginRight: 6.666,
+            marginLeft: 4.75,
+            marginRight: 4.75,
             borderRadius: 4,
             backgroundColor: '#efefef',
             marginTop: 15,
@@ -174,9 +174,8 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingTop: 6,
+            margin: '10px 0px 10px 0px',
+            padding: '6px 10px 0px 10px',
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -217,7 +216,8 @@ const styles = function(theme) {
             color: '#292929',
             height: 44,
             marginTop: 10,
-            padding: '7px 0px 10px 10px',
+            marginBottom: 10,
+            padding: '7px 0px 10px 15px',
             width: 400,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -237,10 +237,8 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            marginTop: 10,
-            marginRight: 10,
-            // paddingLeft: 10,
-            padding: '7px 0px 10px 10px',
+            margin: '10px 10px 10px 0px',
+            padding: '7px 0px 10px 15px',
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -260,11 +258,8 @@ const styles = function(theme) {
             letterSpacing: 'normal',
             color: '#292929',
             height: 44,
-            marginTop: 10,
-            marginLeft: 10,
-            padding: '7px 0px 10px 10px',
-            // paddingLeft: 10,
-            // paddingRight: 10,
+            margin: '10px 0px 10px 10px',
+            padding: '7px 0px 10px 15px',
             width: 190,
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
@@ -278,8 +273,6 @@ const styles = function(theme) {
         dropDowns: {
             paddingTop: 12,
             paddingBottom: 20
-            // marginRight: 5,
-            // marginLeft: 10
         },
         textField: {
             border: 'solid 1px #e4e4e4',
@@ -290,9 +283,7 @@ const styles = function(theme) {
                 border: 'solid 1px #717171'
             }
         },
-        amountButtonRow: {
-            // paddingTop: 15
-        },
+        amountButtonRow: {},
         select: {
             fontSize: 14,
             fontWeight: 500,
@@ -316,6 +307,8 @@ const styles = function(theme) {
         },
     };
 };
+
+const amounts = Object.freeze([25, 50, 100, 500]);
 
 class DepositPIQ extends Component {
     constructor(props) {
@@ -347,10 +340,6 @@ class DepositPIQ extends Component {
             dateInvalid: true,
             cvv: '',
 
-            firstOption: 25,
-            secondOption: 50,
-            thirdOption: 100,
-            fourthOption: 500,
             currencyValue: 'USD',
             showLinearProgressBar: false
         };
@@ -381,7 +370,6 @@ class DepositPIQ extends Component {
     };
 
     async componentDidMount() {
-        console.log('component mounted');
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 window.location.href = '/';
@@ -395,47 +383,11 @@ class DepositPIQ extends Component {
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
 
-        this.userCheck();
+        await this.userCheck();
     }
 
     backClicked = () => {
         this.props.callbackFromParent('deposit_method');
-    };
-
-    firstOptionClicked = () => {
-        this.setState({
-            amount: this.state.firstOption,
-            amountInvalid: false,
-            amountFocused: false
-        });
-        this.amountInput.current.value = '';
-    };
-
-    secondOptionClicked = () => {
-        this.setState({
-            amount: this.state.secondOption,
-            amountInvalid: false,
-            amountFocused: false
-        });
-        this.amountInput.current.value = '';
-    };
-
-    thirdOptionClicked = () => {
-        this.setState({
-            amount: this.state.thirdOption,
-            amountInvalid: false,
-            amountFocused: false
-        });
-        this.amountInput.current.value = '';
-    };
-
-    fourthOptionClicked = () => {
-        this.setState({
-            amount: this.state.fourthOption,
-            amountInvalid: false,
-            amountFocused: false
-        });
-        this.amountInput.current.value = '';
     };
 
     amountChanged = event => {
@@ -453,6 +405,7 @@ class DepositPIQ extends Component {
             nameInvalid: event.target.value.toString().split(' ').length < 2
         });
     };
+
     numberChanged = event => {
         this.setState({
             serialNumber: event.target.value,
@@ -488,7 +441,7 @@ class DepositPIQ extends Component {
         currentComponent.setState({ showLinearProgressBar: true });
 
         const {
-            data,
+            userData,
             sessionId,
             name,
             cvv,
@@ -513,7 +466,7 @@ class DepositPIQ extends Component {
 
         let postData = {
             sessionId: sessionId,
-            userId: data.username,
+            userId: userData.username,
             merchantId: PIQ_MID,
             amount: amount,
             cardHolder: name || 'John Doe',
@@ -609,9 +562,9 @@ class DepositPIQ extends Component {
                                     item
                                     xs={12}
                                     className={classes.detailRow}
+                                    style={{ marginTop: '10px' }}
                                 >
                                     <TextField
-                                        // label="Cardholder Name"
                                         className={classes.detailText}
                                         value={this.state.name}
                                         onChange={this.nameChanged}
@@ -748,30 +701,23 @@ class DepositPIQ extends Component {
                                     xs={12}
                                     className={classes.amountButtonRow}
                                 >
-                                    <Button
-                                        className={classes.leftButton}
-                                        onClick={this.firstOptionClicked}
-                                    >
-                                        {this.state.firstOption}
-                                    </Button>
-                                    <Button
-                                        className={classes.middleButton}
-                                        onClick={this.secondOptionClicked}
-                                    >
-                                        {this.state.secondOption}
-                                    </Button>
-                                    <Button
-                                        className={classes.middleButton}
-                                        onClick={this.thirdOptionClicked}
-                                    >
-                                        {this.state.thirdOption}
-                                    </Button>
-                                    <Button
-                                        className={classes.rightButton}
-                                        onClick={this.fourthOptionClicked}
-                                    >
-                                        {this.state.fourthOption}
-                                    </Button>
+                                    {amounts.map((x, i) => {
+                                        return (
+                                            <Button
+                                                className={classes.middleButton}
+                                                key={i}
+                                                onClick={() =>
+                                                    this.setState({
+                                                        amount: x,
+                                                        amountInvalid: false,
+                                                        amountFocused: false
+                                                    })
+                                                }
+                                            >
+                                                {x}
+                                            </Button>
+                                        );
+                                    })}
                                 </Grid>
                                 <Grid
                                     item
@@ -780,7 +726,6 @@ class DepositPIQ extends Component {
                                 >
                                     <TextField
                                         className={classes.otherText}
-                                        // placeholder="Amount: e.g. 100.00"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={
@@ -880,29 +825,3 @@ export default withStyles(styles)(
         )(DepositPIQ)
     )
 );
-
-// new _PaymentIQCashier(
-//     '#cashier',
-//     {
-//         merchantId: '100185999',
-//         userId: res.data.username,
-//         sessionId: uuidv1(),
-//         containerHeight: '550px',
-//         containerWidth: '60%',
-//         environment: 'test' // if not set, defaults to production
-//     },
-//     api => {
-//         api.on({
-//             doneLoading: function(data) {
-//                 console.log(
-//                     'Cashier intialized and ready to take down the empire1'
-//                 );
-//             },
-//             update: function(data) {
-//                 console.log(
-//                     'Cashier intialized and ready to take down the empire2'
-//                 );
-//             }
-//         });
-//     }
-// );
