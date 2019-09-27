@@ -1,5 +1,7 @@
 export const messages = {
-    en: {},
+    en: {
+        'about-letou': 'About Letou',
+    },
     zh: {},
     vi: {},
     th: {}

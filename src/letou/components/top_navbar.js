@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Link from '@material-ui/core/Link';
 
 import '../css/top_navbar.scss';
 
@@ -13,12 +14,12 @@ const styles = theme => ({
     root: {
         width: '100%',
     },
-   appBar: {
-        height: 60,
-        boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)',
-        backgroundColor: '#fff'
+    firstBar: {
+        height: 29,
+        minHeight: 29,
+        backgroundColor: '#f4f4f4',
     },
-     grow: {
+    grow: {
         flexGrow: 1,
     },
     sectionDesktop: {
@@ -34,16 +35,18 @@ const styles = theme => ({
             display: 'none',
         },
     },
-
+    firstRow: {
+        height: 29,
+    }
 });
 
 export class TopNavbar extends React.Component {
-  
+
     constructor(props) {
         super(props);
 
         this.state = {
-           
+
         };
     }
 
@@ -52,15 +55,29 @@ export class TopNavbar extends React.Component {
     render() {
         const { classes } = this.props;
 
+        const { formatMessage } = this.props.intl;
+        let aboutMessage = formatMessage({ id: 'about-letou' });
+        
         return (
             <div className={classes.root}>
-                <AppBar position="static" className={classes.firstNavLayer}>
-                    <Toolbar className={classes.appBar}>
-             
+                <AppBar position="static" className={classes.firstRow}>
+                    <Toolbar className={classes.firstBar}>
+                    <Link
+                        component="button"
+                        variant="body2"
+                        onClick={() => {
+                            
+                        }}
+                    >
+                        {aboutMessage}
+                    </Link>
+                    
                     </Toolbar>
                 </AppBar>
                 <AppBar position="static" >
-                   
+                    {/* <Toolbar className={classes.firstBar}>
+             
+                    </Toolbar> */}
                 </AppBar>
             </div >
         );
@@ -73,7 +90,7 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
-      
+
     }
 }
 
