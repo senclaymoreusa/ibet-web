@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import BaseRouter from './letou_routes';
 import { IntlProvider } from 'react-intl';
 import { messages } from './components/messages';
-import { getLanguage } from './actions/language';
+import { getLanguage } from '../actions/language';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';

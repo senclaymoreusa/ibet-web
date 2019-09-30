@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, show_account_menu, hide_promotions } from '../../actions';
+import { logout, handle_search, setLanguage, show_account_menu, hide_promotions } from '../../../actions';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';

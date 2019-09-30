@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
-import { authCheckState, AUTH_RESULT_FAIL } from '../actions'
+import { authCheckState, AUTH_RESULT_FAIL } from '../../actions'
 import axios from 'axios';
 import { connect } from 'react-redux';
 

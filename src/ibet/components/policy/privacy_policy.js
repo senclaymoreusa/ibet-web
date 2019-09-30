@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from "../footer";
 import TopNavbar from "../top_navbar";
 import { connect } from 'react-redux';
-import { authCheckState } from '../../actions';
+import { authCheckState } from '../../../actions';
 import { FormattedMessage } from 'react-intl';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';

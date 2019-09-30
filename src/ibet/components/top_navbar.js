@@ -33,7 +33,7 @@ import {
     show_profile_menu,
     hide_profile_menu,
     handle_inbox_value
-} from '../actions';
+} from '../../actions';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

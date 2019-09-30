@@ -4,7 +4,7 @@ import { hide_signup_email,
     show_signup, 
     handle_signup_email, 
     handle_signup_password, 
-    handle_signup_language } from '../actions';
+    handle_signup_language } from '../../actions';
 import { FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import axios from 'axios'

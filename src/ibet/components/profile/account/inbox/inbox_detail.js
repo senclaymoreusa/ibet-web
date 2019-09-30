@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, handle_inbox_value } from '../../../../actions';
+import { authCheckState, handle_inbox_value } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 
 import { images, config } from '../../../../../util_config';
