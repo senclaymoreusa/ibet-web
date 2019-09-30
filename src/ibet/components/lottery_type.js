@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { lottery_type } from '../actions';
 import { connect } from 'react-redux';
 import TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
-import { authCheckState } from '../../actions';
+import { authCheckState, lottery_type } from '../../actions';
 import Footer from "./footer";
 import { withStyles } from '@material-ui/core/styles';
 
