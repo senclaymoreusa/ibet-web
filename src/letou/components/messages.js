@@ -34,8 +34,16 @@ export const messages = {
         'fast-3': 'Fast 3',
         'latest-offer': 'Latest Offer',
         'daily-discount': 'Daily Discount',
-        // '':'',
 
+
+        'operation-license': 'Operation License',
+        'seriea-sponsorship': 'Serie A Sponsorship',
+        'esport-sponsorship': 'E-sport Sponsorship',
+        'title-responsibility': 'Responsibility',
+        'about-us': 'About Us',
+        'login-help': 'Login Help',
+        'using-help': 'Using Help',
+        'maximum-gaming-platform': 'Maximum Gaming Platform',
     },
     zh: {},
     vi: {},

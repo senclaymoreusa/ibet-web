@@ -37,7 +37,7 @@ export class Home extends Component {
       <div className={classes.root}>
         <TopNavbar />
         <div className={classes.grow} />
-        {/* <Footer /> */}
+        <Footer />
       </div>
     );
   }

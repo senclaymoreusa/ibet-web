@@ -7,7 +7,7 @@ import { logout, handle_search, setLanguage, authCheckState } from '../../action
 import Typography from '@material-ui/core/Typography';
 import Flag from 'react-flagkit';
 import Grid from '@material-ui/core/Grid';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -38,7 +38,7 @@ const styles = theme => ({
     paddingRight: 24,
     paddingTop: theme.spacing() * 2,
     paddingBottom: theme.spacing() * 2,
-    backgroundColor: '#212121',
+    backgroundColor: '#3c3c3c',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -49,6 +49,7 @@ const styles = theme => ({
   mainRow: {
     paddingTop: 20,
     paddingBottom: 30,
+    display: 'flex',
   },
   imageGridCell: {
     direction: "column",
@@ -98,7 +99,7 @@ const styles = theme => ({
     paddingRight: 10,
   },
   listItem: {
-    border: '1px solid #363636',   
+    border: '1px solid #363636',
     borderRadius: 4,
     "&:hover": {
       border: '1px solid #868686',
@@ -108,7 +109,7 @@ const styles = theme => ({
     borderRadius: 4,
     border: '1px solid #ffffff',
   },
-  listItemFlag:{
+  listItemFlag: {
     display: 'inline-block'
   },
   listItemText: {
@@ -158,53 +159,41 @@ const styles = theme => ({
   a: {
     color: 'white'
   },
-  langLabel:{
-    color:  '#cdcbcc',
-    fontSize:14,
+  langLabel: {
+    color: '#cdcbcc',
+    fontSize: 14,
   },
   langControl: {
     minWidth: 140,
     marginTop: -20,
   },
+  column: {
+    direction: "column",
+    justify: "flex-start",
+    alignItems: "center",
+  },
+  title: {
+    color: '#F1941A',
+    fontSize: 15,
+    lineHeight: 1.5,
+    letterSpacing: 0.08,
+    fontWeight: 'normal'
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  flexRowDiv: {
+    direction: "row",
+    justify: "flex-start",
+    alignItems: "center",
+  },
+  flexColumnDiv: {
+    direction: "column",
+    justify: "flex-start",
+    alignItems: "center",
+  },
 });
 
-const BootstrapInput = withStyles(theme => ({
-  root: {
-    'label + &': {
-      marginTop: theme.spacing() * 3,
-    },
-  },
-  input: {
-    borderRadius: 3,
-    position: 'relative',
-    backgroundColor: '#212121',
-    opacity:0.5,
-    alignItems:'center',
-    display: 'flex',
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '5px 16px 5px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderRadius: 3,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-}))(InputBase);
 
 export class Footer extends React.Component {
 
@@ -212,152 +201,36 @@ export class Footer extends React.Component {
     super(props);
 
     this.state = {
-      anchorEl: null,
-      showLangMenu: false,
+
     };
+
+    this.getLabel = this.getLabel.bind(this);
   }
-
-  langMenuClicked = (event) => {
-    this.setState({ anchorEl: null });
-    this.setState({
-      lang: event.currentTarget.dataset.myValue
-    })
-
-    this.changeLanguage(event.currentTarget.dataset.myValue);
-    this.setState({ showLangMenu: false });
+  getLabel(labelId) {
+    const { formatMessage } = this.props.intl;
+    return formatMessage({ id: labelId });
   }
-
-  languageChanged(evt){
-    this.setState({ lang: evt.target.value  });
-    this.changeLanguage(evt.target.value);
-  }
-
-  handleLanguageMenuClose = (ev) => {
-    this.setState({ showLangMenu: false });
-  };
-
-  changeLanguage = (lang) => {
-    this.props.setLanguage(lang)
-      .then((res) => {
-        // localStorage.setItem("lang", lang);
-      });
-  };
-
 
   render() {
     let { classes } = this.props;
-
-    const LangDropdown = (
-      <div className={classes.lang_container} style={{float: 'right'}}>
-        <FormControl className={classes.langControl}>
-          <InputLabel htmlFor="age-customized-select" className={classes.langLabel}>Language</InputLabel>
-          <Select    
-            value={this.props.lang}
-            onChange={this.languageChanged.bind(this)}
-            input={<BootstrapInput name="age" id="age-customized-select" />}
-            MenuProps={{ classes: { paper: classes.itemList } }}
-          >
-             <MenuItem value={'en'} onClick={this.langMenuClicked}
-              selected={this.props.lang === 'en'}
-              className={classes.listItem}>
-              <Flag country="US" className={classes.listItemFlag}/>
-              <div className={classes.listItemText}>
-                <FormattedMessage id="lang.english" defaultMessage='English' />
-              </div>
-            </MenuItem>
-            <MenuItem value={'zh'} onClick={this.langMenuClicked}
-              selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
-              className={classes.listItem}>
-              <Flag country="CN"  className={classes.listItemFlag}/>
-              <div className={classes.listItemText}>
-                <FormattedMessage id="lang.chinese" defaultMessage='Chinese' />
-              </div>
-            </MenuItem>
-            <MenuItem value={'fr'} onClick={this.langMenuClicked}
-              selected={this.props.lang === 'fr'}
-              className={classes.listItem}>
-              <Flag country="FR"  className={classes.listItemFlag}/>
-              <div className={classes.listItemText}>
-                <FormattedMessage id="lang.french" defaultMessage='French' />
-              </div>
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-    );
 
     return (
       <footer className={classes.root}>
         <Grid container className={classes.mainGrid}>
           <Grid item xs={12} className={classes.mainRow} style={{ borderBottom: '1px solid #cdcbcc' }}>
-            <Grid container style={{ height: 48 }} alignItems="center">
-              <Grid item xs={12} sm={2}>
-                <IconButton href='/' style={{ padding: 0 }}>
-                  <img src={images.src + 'ibet_logo.svg'} alt="" />
-                </IconButton>
-              </Grid>
-              <Grid item xs={12} sm={8}>
-                <div className={classes.sectionDesktop}>
-                  <Link className={classes.footerLink}>
-                    GX4
-                    </Link>
-                  <Link className={classes.footerLink}>
-                    Gamblers Anonymous
-                    </Link>
-                  <Link className={classes.footerLink}>
-                    GameCare
-                    </Link>
-                  <Link className={classes.footerLink}>
-                    Game Stop
-                    </Link>
-                  <Link className={classes.footerLink}>
-                    Support
-                    </Link>
-                  <Link className={classes.footerLink}>
-                    Affiliate
-                    </Link>
-                </div>
-                <Grid container className={classes.sectionMobile}
-                  direction="row"
-                  justify="flex-start"
-                  alignItems="center"
-                  style={{ height: 48, marginTop: 20 }}>
-                  <Grid item xs={12}>
-                    <Link className={classes.footerLink}>
-                      GX4
-                    </Link>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Link className={classes.footerLink}>
-                      Gamblers Anonymous
-                    </Link>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Link className={classes.footerLink}>
-                      GameCare
-                    </Link>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Link className={classes.footerLink}>
-                      Game Stop
-                    </Link>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Link className={classes.footerLink}>
-                      Support
-                    </Link>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Link className={classes.footerLink}>
-                      Affiliate
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12} sm={2} >
-                {LangDropdown}
-              </Grid>
-            </Grid>
+            <div className={classes.column}>
+              <span className={classes.title}>{this.getLabel('operation-license')}</span>
+            </div>
+            <div className={classes.column}>
+              <span className={classes.title}>{this.getLabel('seriea-sponsorship')}</span>
+            </div>
+            <div className={classes.column}>
+              <span className={classes.title}>{this.getLabel('esport-sponsorship')}</span>
+            </div>
+            <div className={classes.grow} />
+            <div className={classes.column}>
+              <span className={classes.title}>{this.getLabel('title-responsibility')}</span>
+            </div>
           </Grid>
           <Grid item xs={12} className={classes.mainRow} style={{ borderBottom: '1px solid #cdcbcc' }}>
             <Grid container>
@@ -449,4 +322,4 @@ Footer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState })(Footer)));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { logout, handle_search, setLanguage, authCheckState })(Footer))));
