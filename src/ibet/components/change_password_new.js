@@ -135,7 +135,6 @@ class ChangePassword extends Component {
 
                 }).catch(err => {
                     this.setState({ error: true })
-                    // log helper function
                     axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                 })
         }

@@ -90,7 +90,6 @@ export class Login extends React.Component {
     };
 
     async componentDidMount() {
-        console.log("!!!!!!!!! yohooooooooo");
         this.props.authCheckState()
             .then(res => {
                 if (res === AUTH_RESULT_SUCCESS) {
