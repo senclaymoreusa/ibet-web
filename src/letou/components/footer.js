@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, authCheckState } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState } from '../../actions';
 import Typography from '@material-ui/core/Typography';
 import Flag from 'react-flagkit';
 import Grid from '@material-ui/core/Grid';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import { connect } from 'react-redux';
-import { authCheckState, handle_referid, hide_landing_page } from '../actions';
+import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 
 
