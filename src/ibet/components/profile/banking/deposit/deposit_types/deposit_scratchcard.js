@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { LinearProgress, Grid, Button, Select, MenuItem, TextField, InputBase } from '@material-ui/core';
 import InputMask from 'react-input-mask';
 
-import { authCheckState } from '../../../../../actions';
+import { authCheckState } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 

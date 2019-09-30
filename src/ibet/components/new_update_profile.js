@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { hide_update_profile, show_user_profile } from '../actions';
+import { hide_update_profile, show_user_profile } from '../../actions';
 import { connect } from 'react-redux';
 import { config, images } from '../../util_config';
 import axios from 'axios'

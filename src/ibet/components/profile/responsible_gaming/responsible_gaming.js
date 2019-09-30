@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL, AUTH_RESULT_SUCCESS } from '../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL, AUTH_RESULT_SUCCESS } from '../../../../actions';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';

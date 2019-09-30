@@ -4,7 +4,7 @@ import {
     show_complete_registration,
     show_signup_finish,
     authLogin
-} from '../actions';
+} from '../../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';

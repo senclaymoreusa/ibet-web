@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../actions';
+import { authCheckState } from '../../../../actions';
 import { config } from '../../../../util_config';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';

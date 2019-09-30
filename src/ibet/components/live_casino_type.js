@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { live_casino_type } from '../actions';
+import { live_casino_type } from '../../actions';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import TopNavbar from "./top_navbar";

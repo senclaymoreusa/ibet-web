@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { slot_type } from '../actions';
+import { slot_type } from '../../actions';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import  TopNavbar from "./top_navbar";

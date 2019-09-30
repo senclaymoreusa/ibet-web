@@ -4,7 +4,7 @@ import {
     authCheckState, AUTH_RESULT_FAIL,
     hide_withdraw_main_menu,
     show_withdraw_main_menu
-} from '../../../../actions';
+} from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';

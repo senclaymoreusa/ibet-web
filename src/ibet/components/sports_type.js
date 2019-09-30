@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { sports_type } from '../actions';
+import { sports_type } from '../../actions';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import TopNavbar from "./top_navbar";

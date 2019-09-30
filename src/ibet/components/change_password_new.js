@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { hide_change_password } from '../actions';
+import { hide_change_password } from '../../actions';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios'
 import { config, images } from '../../util_config';
@@ -135,10 +135,11 @@ class ChangePassword extends Component {
 
                 }).catch(err => {
                     this.setState({ error: true })
-
+                    // log helper function
                     axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                 })
         }
+
     }
 
     render() {

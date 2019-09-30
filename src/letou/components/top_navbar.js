@@ -32,7 +32,7 @@ import {
     hide_account_menu,
     show_profile_menu,
     hide_profile_menu,
-    handle_inbox_value
+    handle_inbox_value,
 } from '../actions';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';

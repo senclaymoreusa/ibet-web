@@ -3,7 +3,7 @@ import { lottery_type } from '../actions';
 import { connect } from 'react-redux';
 import TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
-import { authCheckState } from '../actions';
+import { authCheckState } from '../../actions';
 import Footer from "./footer";
 import { withStyles } from '@material-ui/core/styles';
 

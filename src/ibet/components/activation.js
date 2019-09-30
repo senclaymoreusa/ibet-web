@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { authCheckState } from '../actions';
+import { authCheckState } from '../../actions';
 
 class Activation extends Component {
 

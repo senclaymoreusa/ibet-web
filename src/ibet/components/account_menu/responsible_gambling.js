@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, handle_search, setLanguage, show_account_menu, hide_responsible_gambling } from '../../actions';
+import { logout, handle_search, setLanguage, show_account_menu, hide_responsible_gambling } from '../../../actions';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { errors } from './errors';
-import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin } from '../actions';
+import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin } from '../../actions';
 //import IoEye from 'react-icons/lib/io/eye';
 import FacebookLogin from "react-facebook-login";
 import axios from 'axios';
@@ -90,6 +90,7 @@ export class Login extends React.Component {
     };
 
     async componentDidMount() {
+        console.log("!!!!!!!!! yohooooooooo");
         this.props.authCheckState()
             .then(res => {
                 if (res === AUTH_RESULT_SUCCESS) {
@@ -174,7 +175,6 @@ export class Login extends React.Component {
                 this.props.history.push('/');
             }).catch(err => {
                 axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-
                 this.props.FacebookSignup(username, email)
                     .then(res => {
                         this.props.FacebookauthLogin(username, email)
@@ -188,8 +188,7 @@ export class Login extends React.Component {
                     })
                     .catch(err => {
                         axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-
-                    })
+                  })
             })
     }
 
@@ -249,7 +248,6 @@ export class Login extends React.Component {
 
     onFormSubmit(event) {
         event.preventDefault();
-
         if (!this.state.username) {
             this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
         } else if (!this.state.password) {
