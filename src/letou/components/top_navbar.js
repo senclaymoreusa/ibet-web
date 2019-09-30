@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+<<<<<<< HEAD
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import { config, images } from '../../util_config';
@@ -13,6 +14,34 @@ import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
+=======
+import {
+    AUTH_RESULT_SUCCESS,
+    logout,
+    handle_search,
+    authLogin,
+    postLogout,
+    setLanguage,
+    authCheckState,
+    show_login,
+    show_signup,
+    hide_login,
+    show_signup_finish,
+    hide_user_profile,
+    hide_update_profile,
+    show_account_menu,
+    hide_account_menu,
+    show_profile_menu,
+    hide_profile_menu,
+    handle_inbox_value,
+} from '../actions';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AccountMenu from './account_menu/account_menu';
+>>>>>>> cd2b0197709969b4ff17f151dd3be07bbfa86046
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';

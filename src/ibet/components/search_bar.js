@@ -4,7 +4,7 @@ import Downshift from 'downshift';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
-import { logout, handle_search, setLanguage, authCheckState } from '../actions';
+import { logout, handle_search, setLanguage, authCheckState } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';

@@ -9,6 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { authCheckState } from '../../../../../../actions';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -491,4 +493,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositQaicah)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositQaicah)));

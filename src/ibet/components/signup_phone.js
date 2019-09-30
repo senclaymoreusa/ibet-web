@@ -5,7 +5,7 @@ import {
     show_signup_contact,
     show_complete_registration,
     handle_signup_phone
-} from '../actions';
+} from '../../actions';
 import { connect } from 'react-redux';
 import Country_Info from './country_info';
 import { withStyles } from '@material-ui/core/styles';

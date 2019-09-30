@@ -3,7 +3,7 @@ import axios from 'axios';
 import { config } from '../../util_config';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { authCheckState } from '../actions';
+import { authCheckState } from '../../actions';
 
 import TextField from '@material-ui/core/TextField';
 import blue from '@material-ui/core/colors/blue';

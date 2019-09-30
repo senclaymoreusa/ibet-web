@@ -4,7 +4,7 @@ import {
     authCheckState,
     hide_deposit_main_menu,
     show_deposit_main_menu
-} from '../../../../actions';
+} from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import DepositSuccess from './deposit_success';

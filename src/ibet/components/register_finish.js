@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { hide_signup_finish, show_login, show_deposit } from '../actions';
+import { hide_signup_finish, show_login, show_deposit } from '../../actions';
 import { FormattedMessage } from 'react-intl';
 import { images } from '../../util_config';
 
