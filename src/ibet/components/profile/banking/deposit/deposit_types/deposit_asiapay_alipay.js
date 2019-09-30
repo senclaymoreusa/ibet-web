@@ -340,7 +340,13 @@ class DepositAsiapayAlipay extends Component {
                                 }
                             )
                                 .then(function(res) {
-                                    return res.json();
+                                    if(res.status == 200){
+                                        return res.json();
+                                    }else{
+                                        currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        return res.json();
+
+                                    }
                                 })
                                 .then(function(data) {
                                     console.log(data.status);

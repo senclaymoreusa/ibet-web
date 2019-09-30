@@ -212,6 +212,8 @@ class WithdrawAsiapayBT extends Component {
             pin:'',
             data: '',
             type: '',
+            cardname: '',
+            bankname: '',
             
             live_check_amount: false,
 
@@ -230,6 +232,12 @@ class WithdrawAsiapayBT extends Component {
             pinFocused: false,
             pinInvalid: true,
 
+            cardnameFocused: false,
+            
+
+            banknameFocused: false,
+            
+
             showLinearProgressBar: false,
             currencyValue: "USD",
         };
@@ -239,6 +247,10 @@ class WithdrawAsiapayBT extends Component {
         this.amountFocused = this.amountFocused.bind(this);
         this.pinChanged = this.pinChanged.bind(this);
         this.pinFocused = this.pinFocused.bind(this);
+        this.cardnameChanged = this.cardnameChanged.bind(this);
+        this.cardnameFocused = this.cardnameFocused.bind(this);
+        this.banknameChanged = this.banknameChanged.bind(this);
+        this.banknameFocused = this.banknameFocused.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -285,6 +297,25 @@ class WithdrawAsiapayBT extends Component {
         this.setState({ pinFocused: true });
     }
 
+    cardnameChanged(event) {
+        this.setState({ cardname: event.target.value });
+        this.setState({ cardnameFocused: true });
+        this.setState({ pinInvalid: (event.target.value.length < 2) });
+    }
+
+    cardnameFocused(event){
+        this.setState({ cardnameFocused: true });
+    }
+
+    banknameChanged(event){
+        this.setState({ bankname: event.target.value });
+        this.setState({ banknameFocused: true });
+        this.setState({ pinInvalid: (event.target.value.length < 2) });
+    }
+    banknameFocused(event){
+        this.setState({ banknameFocused: true});
+    }
+
     
     handleClick = () => {
         let currentComponent = this;
@@ -292,15 +323,21 @@ class WithdrawAsiapayBT extends Component {
         currentComponent.setState({ showLinearProgressBar: true });
 
         let amount = this.state.amount;
-        let user = this.state.data.username;
+        let user = this.state.data.pk;
         let main_wallet = this.state.data.main_wallet;
+        let cardnumber = this.state.pin;
+        let cardname = this.state.cardname;
+        let bankname = this.state.bankname;
+
 
         var postData = {
             "amount": amount,
-            "user_id": user,
-            "currency": "CNY",
-            "method": "BTC",
-            "language": "zh-Hans",
+            "userid": user,
+            "currency": 0,
+            "cashoutMethod": "cashifacebatch",
+            "CashCardNumber": cardnumber,
+            "CashCardChName": cardname,
+            "CashBankDetailName": bankname,
         }
         console.log(amount)
         console.log(user)
@@ -311,78 +348,30 @@ class WithdrawAsiapayBT extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        return fetch(API_URL + 'accounting/api/qaicash/submit_payout', {
+        return fetch(API_URL + 'accounting/api/asiapay/cashout', {
             method: 'POST',
             headers: {
                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: formBody
         }).then(function (res) {
-            return res.json();
+            console.log(res.json())
+            if(res.ok){
+                return res.json();
+            }else{
+                currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                return res.json();
+            }
+            
         }).then(function (data) {
-            let redirectUrl = data.paymentPageSession.paymentPageUrl;
-            if (redirectUrl != null && main_wallet - amount >= 0) {
-                const mywin = window.open(redirectUrl, 'qaicash-checkout');
-                var timer = setInterval(function () {
-                    console.log('checking..')
-                    if (mywin.closed) {
-                        clearInterval(timer);
-                        var postData = {
-                            "trans_id": data.payoutTransaction.orderId,
-                        }
-                        var formBody = [];
-                        for (var pd in postData) {
-                            var encodedKey = encodeURIComponent(pd);
-                            var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + "=" + encodedValue);
-                        }
-                        formBody = formBody.join("&");
-                        return fetch(API_URL + 'accounting/api/qaicash/confirm', {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: formBody
-                        }).then(function (res) {
-                            return res.json();
-                        }).then(function (data) {
-                            let status = data.status;
-                            if (status === 9) {
-                                alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'withdraw',
-                                    username: user,
-                                    balance: amount,
-                                });
-                                console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //this.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", 'Transaction failed!');
-                                        } else if (res.data === 'The balance is not enough') {
-                                        //    // alert("cannot withdraw this amount")
-                                            currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
+            let status = data.StatusCode;
 
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
-                                
-                                            // alert("your balance is updated")
-                                            // window.location.reload()
-                                        }
-                                    });
-                            } else  {
-                                currentComponent.props.callbackFromParent("error", 'Please complete your withdraw payment!');
-                                //alert('Please complete your withdraw payment!');
-                            }
-                        })
-                    }
-                }, 1000);
-
+            if (status == '50001') {
+                currentComponent.props.callbackFromParent("Success", 'Your withdraw application is sent successfully.');
             } else if (main_wallet - amount < 0) {
                 alert('Your account balance is not enough!')
             } else {
-                currentComponent.props.callbackFromParent("error", data.returnMessage);
+                currentComponent.props.callbackFromParent("error", data.StatusMsg);
                 //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
         });
@@ -423,13 +412,13 @@ class WithdrawAsiapayBT extends Component {
                             <Grid container>
                                 <Grid item xs={12} className={classes.cardTypeCell}>
                                     <Button className={classes.cardTypeButton} disabled>
-                                        Qaicash BTC
+                                        Asiapay 代付
                                     </Button>
                                 </Grid>
                                 
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <InputMask
-                                        mask="9999999999999999" maskChar={null}
+                                        mask="9999999999999999999" maskChar={null}
                                         onFocus={this.pinFocused}
                                         onChange={this.pinChanged}
                                         value={this.state.pin}
@@ -439,7 +428,7 @@ class WithdrawAsiapayBT extends Component {
                                             placeholder="Card Number"
                                             type="text"
                                             error={(this.state.pinInvalid && this.state.pinFocused)}
-                                            helperText={(this.state.pinInvalid && this.state.pinFocused) ? 'Please enter a valid 16-digit card number.' : ' '}
+                                            helperText={(this.state.pinInvalid && this.state.pinFocused) ? 'Please enter a valid card number.' : ' '}
                                             InputProps={{ disableUnderline: true }}
                                         />}
                                     </InputMask>
@@ -465,6 +454,35 @@ class WithdrawAsiapayBT extends Component {
 
                                     />
                                 </Grid>
+                                <Grid item xs={12} className={classes.detailRow}>
+                                    <TextField
+                                        onFocus={this.cardnameFocused}
+                                        onChange={this.cardnameChanged}
+                                        value={this.state.cardname}
+                                        className={classes.otherText}
+                                        placeholder="Card Holder Name"
+                                        helperText={(this.state.cardnameInvalid && this.state.cardnameFocused) ? 'Please enter a valid card holder name.' : ' '}
+                                        InputProps={{ disableUnderline: true }}
+                                        type="text"
+                                        error={( this.state.cardnameFocused)}   
+                                    />
+                                </Grid>
+                                <Grid item xs={12} className={classes.detailRow}>
+                                    <TextField
+                                        onFocus={this.banknameFocused}
+                                        onChange={this.banknameChanged}
+                                        value={this.state.bankname}
+                                        className={classes.otherText}
+                                        
+                                        placeholder="Bank banch name"
+                                        type="text"
+                                        error={( this.state.banknameFocused)}
+                                        helperText={(this.state.banknameInvalid && this.state.banknameFocused) ? 'Please enter a valid bank branch name.' : ' '}
+                                        InputProps={{ disableUnderline: true }}
+                                        
+                                    />
+                                </Grid>
+                                
                                 <Grid item xs={6} className={classes.amountRow}>
                                     <div className={classes.amountText}>
                                         <FormattedNumber

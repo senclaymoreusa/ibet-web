@@ -17,16 +17,23 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
 import 'react-image-picker/dist/index.css';
-
+import InputBase from '@material-ui/core/InputBase';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const bankList = [
-    { label: 'icbc', value: '1' },
-    { label: 'ccb', value: '2' },
-    { label: 'aboc', value: '3' },
-    { label: 'cmb', value: '4' },
-    { label: 'cgb', value: '6' },
-    { label: 'boc', value: '7' }
+    { label: '工商银行', value: '1' },
+    { label: '建设银行', value: '2' },
+    { label: '农业银行', value: '3' },
+    { label: '招商银行', value: '4' },
+    { label: '广发银行', value: '6' },
+    { label: '中国银行', value: '7' },
+    { label: '中国邮政储蓄银行', value: '9' },
+    { label: '中信银行', value: '10' },
+    { label: '光大银行', value: '11' },
+    { label: '民生银行', value: '12' },
+    { label: '兴业银行', value: '16' },
+    { label: '华夏银行', value: '17' },
+    { label: '平安银行', value: '23' },
 ];
 
 const styles = theme => ({
@@ -221,6 +228,7 @@ class DepositAsiapayBankcard extends Component {
         this.state = {
             amount: '',
             currency: '',
+            realname: '',
             error: false,
             data: '',
             type: '',
@@ -242,6 +250,9 @@ class DepositAsiapayBankcard extends Component {
             amountFocused: false,
             amountInvalid: true,
 
+            realnameFocused: false,
+            realnameInvalid: true,
+
             currencyValue: 'RMB',
             showLinearProgressBar: false
         };
@@ -249,7 +260,8 @@ class DepositAsiapayBankcard extends Component {
         this.onPick = this.onPick.bind(this);
 
         this.bankChanged = this.bankChanged.bind(this);
-
+        this.realnameChanged = this.realnameChanged.bind(this);
+        this.realnameFocused = this.realnameFocused.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -272,6 +284,15 @@ class DepositAsiapayBankcard extends Component {
             this.setState({ amountInvalid: false, amount: event.target.value });
         }
     };
+    realnameChanged = event => {
+        this.setState({ realname: event.target.value });
+        this.setState({ realnameFocused: true });
+        this.setState({ realnameInvalid: (event.target.value.length < 2) });
+    }
+    realnameFocused(event){
+        this.setState({ realnameFocused: true });
+    }
+
 
     amountFocused = () => {
         this.setState({ amountFocused: true });
@@ -295,7 +316,8 @@ class DepositAsiapayBankcard extends Component {
             userid: this.state.data.pk,
             currency: '0',
             PayWay: '30', //online bank
-            method: this.state.bankid //银行卡
+            method: this.state.bankid, //银行卡
+            RealName : this.state.realname,
         };
 
         var formBody = [];
@@ -458,17 +480,20 @@ class DepositAsiapayBankcard extends Component {
                             }
                         >
                             <Grid container>
+                                
                                 <Grid item xs={12} className={classes.bankRow}>
                                     <Select
                                         className={classes.bankList}
                                         value={this.state.bankid}
                                         onChange={this.bankChanged}
+                                        
                                         inputProps={{
                                             name: 'bank',
                                             id: 'bank-simple',
                                             height: 77
                                         }}
                                     >
+        
                                         {bankList.map(bank => (
                                             <MenuItem
                                                 key={bank.label}
@@ -490,6 +515,7 @@ class DepositAsiapayBankcard extends Component {
                                     </Select>
                                     <div></div>
                                 </Grid>
+                                
                                 <Grid item xs={12}>
                                     {amounts.map((x, i) => {
                                         return (
@@ -552,6 +578,19 @@ class DepositAsiapayBankcard extends Component {
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
+                                <Grid item xs={12} className={classes.detailRow}>
+                                    <TextField
+                                        onFocus={this.realnameFocused}
+                                        onChange={this.realnameChanged}
+                                        value={this.state.cardname}
+                                        className={classes.otherText}
+                                        placeholder="Card Holder Name"
+                                        helperText={(this.state.realnameInvalid && this.state.realnameFocused) ? 'Please enter a valid card holder name.' : ' '}
+                                        InputProps={{ disableUnderline: true }}
+                                        type="text"
+                                        error={( this.state.realnameFocused)}   
+                                    />
+                                </Grid>
                                 <Grid item xs={6} className={classes.amountRow}>
                                     <div className={classes.amountText}>
                                         <FormattedNumber
@@ -561,6 +600,7 @@ class DepositAsiapayBankcard extends Component {
                                         />
                                     </div>
                                 </Grid>
+                                
                                 <Grid
                                     item
                                     xs={6}
@@ -570,6 +610,7 @@ class DepositAsiapayBankcard extends Component {
                                         Total
                                     </span>
                                 </Grid>
+                                
                                 <Grid
                                     item
                                     xs={12}
