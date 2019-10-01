@@ -3,7 +3,8 @@ import {
     hide_phone_verification,
     show_complete_registration,
     show_signup_finish,
-    authLogin
+    authLogin,
+    sendingLog
 } from '../../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -164,8 +165,8 @@ class Phone_Verification extends React.Component {
                     );
                 })
                 .catch(err => {
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                    
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
                     this.setState({ error: true });
                 });
         }

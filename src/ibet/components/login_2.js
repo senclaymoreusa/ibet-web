@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login, show_signup, show_forget_password } from '../../actions';
+import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login, show_signup, show_forget_password, sendingLog } from '../../actions';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { config } from '../../util_config';
@@ -161,11 +161,13 @@ export class Login extends React.Component {
                                 this.props.history.push('/');
                             })
                             .catch(err => {
-                                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                                sendingLog(err);
+                                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                             })
                     })
                     .catch(err => {
-                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                        sendingLog(err);
+                        // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                     })
             })
     }
@@ -203,7 +205,8 @@ export class Login extends React.Component {
                 } else {
                     this.setState({ wrong_password_error: true, user_blocked: false })
                 }
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                sendingLog(err);
 
             });
     }
@@ -248,9 +251,9 @@ export class Login extends React.Component {
 
                         localStorage.setItem('activityCheckReminder', JSON.stringify(reminderData));
                     }).catch(err => {
-                        console.log(err);
-                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-
+                        // console.log(err);
+                        // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                        sendingLog(err);
                     })
             }
         })

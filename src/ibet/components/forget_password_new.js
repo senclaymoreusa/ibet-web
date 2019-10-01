@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hide_forget_password, show_forget_password_validation, forget_email } from '../../actions';
+import { hide_forget_password, show_forget_password_validation, forget_email, sendingLog } from '../../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -72,7 +72,8 @@ class NewForgetPassword extends Component {
             axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
             axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: this.state.email})
             
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
         })
     }
 

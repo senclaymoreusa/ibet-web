@@ -32,7 +32,8 @@ import {
     hide_account_menu,
     show_profile_menu,
     hide_profile_menu,
-    handle_inbox_value
+    handle_inbox_value,
+    sendingLog
 } from '../../actions';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -681,7 +682,6 @@ export class TopNavbar extends React.Component {
 
     onloginFormSubmit(event) {
         event.preventDefault();
-
         if (!this.state.username) {
             this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
         } else if (!this.state.password) {
@@ -702,7 +702,8 @@ export class TopNavbar extends React.Component {
                 })
                 .catch(err => {
                     this.setState({ errorCode: err });
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
                 });
         }
     }

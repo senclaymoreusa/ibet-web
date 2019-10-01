@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { authSignup, authCheckState, AUTH_RESULT_SUCCESS } from '../../actions'
+import { authSignup, authCheckState, AUTH_RESULT_SUCCESS, sendingLog } from '../../actions'
 import axios from 'axios';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { config } from '../../util_config';
@@ -461,8 +461,8 @@ class Signup extends React.Component {
       axios.post(API_URL + `users/api/activate/`, {email: this.state.email })
       axios.get(API_URL + `users/api/sendemail/?case=signup&to_email_address=${this.state.email}&username=${this.state.username}&email=${this.state.email}`, config)
     }).catch(err => {
-      axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-
+    //   axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+      sendingLog(err);
       if ('username' in err.response.data) {
         this.setState({username_error: err.response.data.username[0]})
       } else {
@@ -498,7 +498,8 @@ class Signup extends React.Component {
         axios.get(API_URL + `users/api/referral/?referral_id=${referrer_id}&referred=${this.state.username}`, config)
     
     }).catch(err => {
-      axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+        sendingLog(err);
+    //   axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
 
         if (err.response &&  'username' in err.response.data) {
           this.setState({username_error: err.response.data.username[0]})

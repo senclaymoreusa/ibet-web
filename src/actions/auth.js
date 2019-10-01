@@ -198,11 +198,11 @@ export const postLogout = () => {
         .post(API_URL + 'users/api/logout/', body, config)
         .then(res => {
             window.location.reload();
-            console.log(res);
+            // console.log(res);
         })
         .catch(err => {
             window.location.reload();
-            console.log(err);
+            // console.log(err);
         });
 };
 
@@ -217,6 +217,12 @@ export const logout = () => {
         type: 'AUTH_LOGOUT'
     };
 };
+
+export const sendingLog = (err) => {
+    return axios
+    .post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config)
+    .then(res => { });
+}
 
 export const authCheckState = () => {
     return dispatch => {

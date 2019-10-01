@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -163,14 +163,14 @@ export class Privacy extends Component {
                         this.setState({ bonus: res.data.bonus })
                         this.setState({ vip: res.data.vip })
                     }).catch(err => {
-                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                        
+                        // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                        sendingLog(err);
                         this.setState({ messageText: "An error occured while getting user privacy settings" });
                         this.setState({ showMessage: true });
                     });
             }).catch(err => {
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                sendingLog(err);
                 this.setState({ messageText: "An error occured while validating user credentials" });
                 this.setState({ showMessage: true });
             });

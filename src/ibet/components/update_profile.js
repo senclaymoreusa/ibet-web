@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { config } from '../../util_config';
+import { sendingLog } from '../../actions';
 import { FormattedMessage } from 'react-intl';
 import Calendar from 'react-calendar';
 import TopNavbar from "./top_navbar";
@@ -296,8 +297,8 @@ class Update extends Component {
             })
             .catch((err) => {
                 console.log(err.response);
-
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                sendingLog(err);
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             })
     }
 
