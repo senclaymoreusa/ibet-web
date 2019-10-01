@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import IconHeader from "./icon_header";
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
@@ -20,6 +21,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {
     show_letou_announcements
 } from '../../actions';
+
 
 
 const styles = theme => ({
@@ -90,11 +92,7 @@ export class ForMember extends React.Component {
       return (
        
         <div className={classes.root}> 
-            {/* <iconHeader/> */}
-            <IconButton className={classes.logoHeader}>
-              <img src={images.src + 'letou/letou-logo.png'} alt="LETOU" height="20" />
-            </IconButton>
-            <h2 className={classes.header}> {this.getLabel('help-title')}</h2>
+            <IconHeader/>
             <Grid container className={classes.content}>
                 <Grid item xs={5} className={classes.infoSelect}>
                     <Link href="/for_member" className={classes.infoItem}>
@@ -115,7 +113,7 @@ export class ForMember extends React.Component {
                         <Link className={classes.list} href="/about_us">
                         <ListItemText classes={{primary:classes.listItemText}} >关于我们</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/contact_us">
                         <ListItemText classes={{primary:classes.listItemText}} >联络我们</ListItemText>
                         </Link>
                     </List>

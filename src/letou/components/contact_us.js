@@ -49,7 +49,7 @@ const styles = theme => ({
     }
 })
 
-export class AboutUs extends React.Component {
+export class ContactUs extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -76,21 +76,19 @@ export class AboutUs extends React.Component {
                 
                 <Grid item xs={7} className={classes.detail}>
                 <Typography component="p" variant="h6">
-                {this.getLabel('about-letou')}  
+                联络我们
                 </Typography>
-                {'\n'}{'\n'}
+                
                 <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                {this.getLabel('aboutUs-detail-text-one')}     
-                </Typography>
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                {this.getLabel('aboutUs-detail-text-two')}     
+                客户服务  cs@letou.me
                 </Typography>
                 <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                {this.getLabel('aboutUs-detail-text-three')}     
+                热线电话  4001208588   
                 </Typography>
                 <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                {this.getLabel('aboutUs-detail-text-four')}     
+                注册办公地址 Pareraweg 45, Curacao
                 </Typography>
+                
                 </Grid>
             </Grid>
             
@@ -113,11 +111,11 @@ export class AboutUs extends React.Component {
 }
 
 
-AboutUs.propTypes = {
+ContactUs.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(AboutUs))));
+})(ContactUs))));

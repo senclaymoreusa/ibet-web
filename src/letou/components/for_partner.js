@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
+import IconHeader from "./icon_header";
 
 import ListItemText from '@material-ui/core/ListItemText';
 
@@ -90,11 +91,8 @@ export class ForPartner extends React.Component {
       return (
        
         <div className={classes.root}> 
-        {/* <iconHeader/> */}
-        <IconButton className={classes.logoHeader}>
-          <img src={images.src + 'letou/letou-logo.png'} alt="LETOU" height="20" />
-        </IconButton>
-        <h2 className={classes.header}> {this.getLabel('help-title')}</h2>
+        <IconHeader/> 
+    
         <Grid container className={classes.content}>
             <Grid item xs={5} className={classes.infoSelect}>
                 <Link href="/for_member" className={classes.infoItem}>
