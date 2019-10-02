@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { authCheckState, AUTH_RESULT_FAIL } from '../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../actions';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';

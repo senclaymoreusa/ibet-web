@@ -35,7 +35,7 @@ import {
     handle_inbox_value,
     show_mobile_main_menu,
     hide_mobile_main_menu
-} from '../actions';
+} from '../../actions';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

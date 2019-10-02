@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { images } from '../../util_config';
-import { hide_withdraw_confirm, show_withdraw_success, show_withdraw } from '../actions';
+import { hide_withdraw_confirm, show_withdraw_success, show_withdraw } from '../../actions';
 
 const styles = theme => ({
     root: {

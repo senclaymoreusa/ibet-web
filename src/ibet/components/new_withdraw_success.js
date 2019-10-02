@@ -12,7 +12,7 @@ import {
     show_account_menu,
     hide_withdraw_success,
     show_withdraw
-} from '../actions';
+} from '../../actions';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 

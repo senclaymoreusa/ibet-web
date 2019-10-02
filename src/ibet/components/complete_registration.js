@@ -5,7 +5,7 @@ import {
     show_signup_phone,
     show_phone_verification,
     handle_signup_over18, authSignup
-} from '../actions';
+} from '../../actions';
 import { config, images } from '../../util_config';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -153,7 +153,7 @@ class CompleteRegistration extends React.Component {
                             this.props.hide_complete_registration();
                             this.props.show_phone_verification();
                         }).catch(err => {
-                            console.log(err.response)
+                            console.log(err.response);
                             axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                         })
                     }}

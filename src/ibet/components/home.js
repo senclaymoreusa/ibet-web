@@ -3,7 +3,7 @@ import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import ChatTool from "./chat_tool";
 import { connect } from 'react-redux';
-import { authCheckState, handle_referid, hide_landing_page } from '../actions';
+import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
 import { FormattedMessage } from 'react-intl';
 import { config } from '../../util_config';
 

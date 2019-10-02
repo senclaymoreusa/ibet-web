@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import '../../../../../css/deposit.css';
+import { authCheckState } from '../../../../../../actions';
 
 const LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png";
 
@@ -131,4 +132,4 @@ const mapStateToProps = (state) => {
         language: state.language.lang,
     }
 }
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps)(DepositNavBar))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState })(DepositNavBar))));

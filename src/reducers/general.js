@@ -41,6 +41,8 @@ const INITIAL_STATE = {
     show_deposit_main_menu: false,
     show_withdraw_main_menu: false,
 
+    show_letou_announcements: false,
+
     onc_click_username: '',
     one_click_password: '',
 
@@ -254,11 +256,15 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, show_withdraw_main_menu: true };
         case 'HIDE_WITHDRAW_MAIN_MENU':
             return { ...state, show_withdraw_main_menu: false };
-
         case 'GET_REFER_ID':
             return { ...state, refer_id: action.payload };
         case 'INBOX_CHANGE':
             return { ...state, inbox: action.payload };
+
+        case 'SHOW_LETOU_ANNOUNCEMENTS':
+            return { ...state, show_letou_announcements: true };
+        case 'HIDE_LETOU_ANNOUNCEMENTS':
+            return { ...state, show_letou_announcements: false };
 
         default:
             return state;

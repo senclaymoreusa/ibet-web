@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import InputMask from 'react-input-mask';
 
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../../actions';
 
 const jsencrypt = require('jsencrypt');
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,

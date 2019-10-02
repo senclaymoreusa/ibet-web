@@ -1,7 +1,7 @@
 import React from 'react';
 import { images } from '../../util_config';
 import { connect } from 'react-redux';
-import { hide_oneclick_finish, show_login } from '../actions';
+import { hide_oneclick_finish, show_login } from '../../actions';
 import { FormattedMessage } from 'react-intl';
 
 class OneClickFinish extends React.Component {

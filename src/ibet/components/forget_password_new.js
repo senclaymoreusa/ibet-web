@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hide_forget_password, show_forget_password_validation, forget_email } from '../actions';
+import { hide_forget_password, show_forget_password_validation, forget_email } from '../../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';

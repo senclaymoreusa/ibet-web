@@ -26,7 +26,7 @@ import {
     show_help,
     show_responsible_gambling,
     hide_account_menu
-} from '../../actions';
+} from '../../../actions';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/';

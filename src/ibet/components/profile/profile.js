@@ -6,7 +6,7 @@ import ChatTool from "../chat_tool";
 import Typography from '@material-ui/core/Typography';
 
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
