@@ -52,6 +52,7 @@ const styles = theme => ({
     helpCenterArticleColumn: {
         fontSize: '14px',
         listStyleType: 'none',
+        
     }
     
 })

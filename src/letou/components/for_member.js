@@ -123,13 +123,13 @@ export class ForMember extends React.Component {
                         <Link className={classes.list} href="/disclaimer">
                         <ListItemText classes={{primary:classes.listItemText}} >免责声明</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list}  href="/privacy">
                         <ListItemText classes={{primary:classes.listItemText}} >隐私权政策</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/safe_bet">
                         <ListItemText classes={{primary:classes.listItemText}} >理性博彩</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/identity">
                         <ListItemText classes={{primary:classes.listItemText}} >身份核实</ListItemText>
                         </Link>
                     </List>
@@ -139,7 +139,7 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/offer_terms">
                         <ListItemText classes={{primary:classes.listItemText}} >活动相关条款</ListItemText>
                         </Link>
                         
@@ -150,13 +150,13 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/rules">
                         <ListItemText classes={{primary:classes.listItemText}} primary="投注规则与规定" />
                         </Link>
                         <Link className={classes.list}>
                         <ListItemText classes={{primary:classes.listItemText}} >盘口介绍</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/football_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >足球赛事交易规则</ListItemText>
                         </Link>
                         <Link className={classes.list}>
