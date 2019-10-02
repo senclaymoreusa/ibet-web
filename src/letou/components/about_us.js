@@ -73,7 +73,7 @@ export class AboutUs extends React.Component {
                       供合作伙伴使用
                     </Link>
                 </Grid>
-                
+            
                 <Grid item xs={7} className={classes.detail}>
                 <Typography component="p" variant="h6">
                 {this.getLabel('about-letou')}  

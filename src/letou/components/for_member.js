@@ -123,10 +123,10 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/statement">
                         <ListItemText classes={{primary:classes.listItemText}} >法律声明与责任</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/disclaimer">
                         <ListItemText classes={{primary:classes.listItemText}} >免责声明</ListItemText>
                         </Link>
                         <Link className={classes.list}>
