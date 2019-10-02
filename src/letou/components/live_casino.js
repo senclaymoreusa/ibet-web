@@ -29,6 +29,7 @@ const styles = theme => ({
 });
 
 class live_casino extends Component {
+  
 
   render() {
 
@@ -105,7 +106,7 @@ class live_casino extends Component {
                 </div>
               </div>
               <div className="PgHall MarginLeft">
-                <div className="PgHallTitle">N2Live 新瑞宝阁</div>
+                <div className="PgHallTitle">N2Live New Ruibao Pavilion</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/n2live.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
                 <div className="PgHallArticle">
                   <p>Exclusive new mobile, smooth operating experience, high quality gaming platform.</p>
@@ -116,7 +117,7 @@ class live_casino extends Component {
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Roulette</font></font></a></li>
                   </ul>
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}>
-                    <a><span>Real money</span></a>
+                    <a onClick={()=> window.open("https://666.claymoreasia.com/", "n2live")}><span>Real money</span></a>
                   </div>
                 </div>
               </div>
