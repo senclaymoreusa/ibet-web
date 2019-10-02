@@ -4,18 +4,16 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import TopNavbar from "./top_navbar";
 import IconHeader from "./icon_header";
-import { config, images } from '../../util_config';
-import IconButton from '@material-ui/core/IconButton';
+
 
 import {
     show_letou_announcements
 } from '../../actions';
+import { InfoSelect } from './infoSelect';
 
 
 const styles = theme => ({
@@ -49,6 +47,7 @@ const styles = theme => ({
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
+        listStyleType: 'none',
     }
 })
 
@@ -69,15 +68,24 @@ export class Disclaimer extends React.Component {
             <IconHeader/>
             <Grid container className={classes.content}>
                 <Grid item xs={5} className={classes.infoSelect}>
-                    <Link href="/for_member">
-                      供会员使用
-                    </Link>
-                    <Link href="/for_partner">
-                      供合作伙伴使用
-                    </Link>
+                    <InfoSelect/>
                 </Grid>
                 
                 <Grid item xs={7} className={classes.detail}>
+                <div class="HelpCenterList">
+                        <ul>
+                            <li>
+                                <a href="/for_member">供会员使用  >
+                                    <i></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/for_member">维护账户安全  >
+                                    <i></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 <div id="HelperCenterDetail">
                         <h2>免责声明</h2>
 

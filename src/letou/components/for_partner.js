@@ -21,6 +21,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {
     show_letou_announcements
 } from '../../actions';
+import { InfoSelect } from './infoSelect';
 
 
 const styles = theme => ({
@@ -95,12 +96,7 @@ export class ForPartner extends React.Component {
     
         <Grid container className={classes.content}>
             <Grid item xs={5} className={classes.infoSelect}>
-                <Link href="/for_member" className={classes.infoItem}>
-                  供会员使用
-                </Link>
-                <Link href="/for_partner" className={classes.infoItem}>
-                  供合作伙伴使用
-                </Link>
+                <InfoSelect/>
             </Grid>
             <Grid item xs={7} className={classes.detail}>
             <div className={classes.all}>

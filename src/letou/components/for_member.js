@@ -1,26 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+
 import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconHeader from "./icon_header";
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
+import '../css/help.css'
 
 import ListItemText from '@material-ui/core/ListItemText';
 
-import { config, images } from '../../util_config';
-import IconButton from '@material-ui/core/IconButton';
 
 import {
     show_letou_announcements
 } from '../../actions';
+import { InfoSelect } from './infoSelect';
 
 
 
@@ -69,7 +67,10 @@ const styles = theme => ({
     listItemText:{
         fontSize:'14px',
         color:'#333333',
-      }
+    },
+    title: {
+        
+    }
     
 })
 
@@ -87,20 +88,13 @@ export class ForMember extends React.Component {
     render() {
   
       const { classes } = this.props;
-   
-
       return (
        
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
                 <Grid item xs={5} className={classes.infoSelect}>
-                    <Link href="/for_member" className={classes.infoItem}>
-                      供会员使用
-                    </Link>
-                    <Link href="/for_partner" className={classes.infoItem}>
-                      供合作伙伴使用
-                    </Link>
+                    <InfoSelect/>
                 </Grid>
                 <Grid item xs={7} className={classes.detail}>
                 <div className={classes.all}>

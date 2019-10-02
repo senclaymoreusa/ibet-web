@@ -7,11 +7,9 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import TopNavbar from "./top_navbar";
 import IconHeader from "./icon_header";
-import { config, images } from '../../util_config';
-import IconButton from '@material-ui/core/IconButton';
+import InfoSelect from "./infoSelect";
+
 
 import {
     show_letou_announcements
@@ -66,31 +64,40 @@ export class AboutUs extends React.Component {
             <IconHeader/>
             <Grid container className={classes.content}>
                 <Grid item xs={5} className={classes.infoSelect}>
-                    <Link href="/for_member">
-                      供会员使用
-                    </Link>
-                    <Link href="/for_partner">
-                      供合作伙伴使用
-                    </Link>
+                    <InfoSelect/>
                 </Grid>
             
                 <Grid item xs={7} className={classes.detail}>
-                <Typography component="p" variant="h6">
-                {this.getLabel('about-letou')}  
-                </Typography>
-                {'\n'}{'\n'}
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                {this.getLabel('aboutUs-detail-text-one')}     
-                </Typography>
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                {this.getLabel('aboutUs-detail-text-two')}     
-                </Typography>
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                {this.getLabel('aboutUs-detail-text-three')}     
-                </Typography>
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                {this.getLabel('aboutUs-detail-text-four')}     
-                </Typography>
+                    <div class="HelpCenterList">
+                        <ul>
+                            <li>
+                                <a href="/for_member">供会员使用  >
+                                    <i></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/for_member">乐投品牌故事  >
+                                    <i></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <Typography component="p" variant="h6">
+                    {this.getLabel('about-letou')}  
+                    </Typography>
+                    {'\n'}{'\n'}
+                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                    {this.getLabel('aboutUs-detail-text-one')}     
+                    </Typography>
+                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                    {this.getLabel('aboutUs-detail-text-two')}     
+                    </Typography>
+                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                    {this.getLabel('aboutUs-detail-text-three')}     
+                    </Typography>
+                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                    {this.getLabel('aboutUs-detail-text-four')}     
+                    </Typography>
                 </Grid>
             </Grid>
             

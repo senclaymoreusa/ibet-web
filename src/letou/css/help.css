@@ -1,0 +1,39 @@
+.HelpCenterLeftNav ul{
+    
+    line-height: 40px;
+    border-left: 2px solid #E4E4E4;
+    font-size: 14px;
+    text-indent: 20px;
+    list-style-type: none;
+}
+
+.HelpCenterLeftNav ul li a {
+    color: #666666;
+    text-decoration: none;
+    cursor: pointer;
+    
+}
+
+.helpCenterArticleColumn ul {
+    list-style-type: none;
+   
+}
+
+.HelpCenterList ul  {
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+}
+
+.HelpCenterList ul li {
+    float: left;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.HelpCenterList ul li a {
+    color: #FF9F00;
+    font-size: 14px;
+    text-decoration: none;
+    list-style-type: none;
+}

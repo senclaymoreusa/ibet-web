@@ -16,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {
     show_letou_announcements
 } from '../../actions';
+import { InfoSelect } from './infoSelect';
 
 
 const styles = theme => ({
@@ -66,15 +67,24 @@ export class ContactUs extends React.Component {
             <IconHeader/>
             <Grid container className={classes.content}>
                 <Grid item xs={5} className={classes.infoSelect}>
-                    <Link href="/for_member">
-                      供会员使用
-                    </Link>
-                    <Link href="/for_partner">
-                      供合作伙伴使用
-                    </Link>
+                    <InfoSelect/>
                 </Grid>
                 
                 <Grid item xs={7} className={classes.detail}>
+                <div class="HelpCenterList">
+                        <ul>
+                            <li>
+                                <a href="/for_member">供会员使用  >
+                                    <i></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/for_member">乐投品牌故事  >
+                                    <i></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 <Typography component="p" variant="h6">
                 联络我们
                 </Typography>
