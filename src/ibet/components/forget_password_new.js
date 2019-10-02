@@ -56,21 +56,21 @@ class NewForgetPassword extends Component {
     }
 
     handlesubmit(event){
-
+        let currentComponent = this;
         event.preventDefault();
 
         axios.get(API_URL + `users/api/checkemailexist/?email=${this.state.email}`)
         .then(res => {
    
-            this.setState({email_not_exist: true});
+            currentComponent.setState({email_not_exist: true});
              
         }).catch(function (err) {
 
-            this.props.hide_forget_password();
-            this.props.show_forget_password_validation();
-            this.props.forget_email(this.state.email);
-            axios.post(API_URL + `users/api/generatepasswordcode/`, {email: this.state.email})
-            axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: this.state.email})
+            currentComponent.props.hide_forget_password();
+            currentComponent.props.show_forget_password_validation();
+            currentComponent.props.forget_email(currentComponent.state.email);
+            axios.post(API_URL + `users/api/generatepasswordcode/`, {email: currentComponent.state.email})
+            axios.post(API_URL + `users/api/sendresetpasswordcode/`, {email: currentComponent.state.email})
             
             // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             sendingLog(err);

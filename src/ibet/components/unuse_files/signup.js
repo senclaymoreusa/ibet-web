@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { authSignup, authCheckState, AUTH_RESULT_SUCCESS, sendingLog } from '../../actions'
+import { authSignup, authCheckState, AUTH_RESULT_SUCCESS, sendingLog } from '../../../actions'
 import axios from 'axios';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { config } from '../../util_config';
-import { errors } from './errors';
+import { config } from '../../../util_config';
+import { errors } from '../errors';
 import Calendar from 'react-calendar';
-import PasswordStrengthMeter from './PasswordStrengthMeter';
+import PasswordStrengthMeter from '../PasswordStrengthMeter';
 //import IoEye from 'react-icons/lib/io/eye';
 //import Dropdown from 'react-dropdown'
 //import 'react-dropdown/style.css'
@@ -38,7 +38,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { getNames } from 'country-list';
 
 
-import TopNavbar from "./top_navbar";
+import TopNavbar from "../top_navbar";
 
 import '../css/signup.css';
 

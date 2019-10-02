@@ -5,11 +5,11 @@ import { hide_signup_email,
     handle_signup_email, 
     handle_signup_password, 
     handle_signup_language,
-    sendingLog } from '../../actions';
+    sendingLog } from '../../../actions';
 import { FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import axios from 'axios'
-import { config, images } from "../../util_config";
+import { config, images } from "../../../util_config";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';

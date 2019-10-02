@@ -41,6 +41,12 @@ export const authLogin = (username, password) => {
                 config
             )
             .then(res => {
+                if (res.data.errorCode) {
+                    // return Promise.resolve(AUTH_RESULT_FAIL);
+                    dispatch(authFail(res.data.errorMsg));
+                    return Promise.resolve(res.data);
+                }
+                
                 const token = res.data.key;
                 if (!token || token === undefined) {
                     dispatch(logout());
@@ -61,9 +67,10 @@ export const authLogin = (username, password) => {
                 localStorage.setItem('expirationDate', expirationDate);
                 dispatch(authSuccess(token));
                 dispatch(checkAuthTimeout(3600));
-                return Promise.resolve();
+                return Promise.resolve(AUTH_RESULT_SUCCESS);
             })
             .catch(err => {
+                console.log("catch...");
                 dispatch(authFail(err.response.data.detail));
                 return Promise.reject(err.response.data.detail);
             });

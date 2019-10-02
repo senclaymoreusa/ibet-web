@@ -5,12 +5,12 @@ import {
     show_signup_finish,
     authLogin,
     sendingLog
-} from '../../actions';
+} from '../../../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { FormattedMessage } from 'react-intl';
-import { config,images } from '../../util_config';
+import { config,images } from '../../../util_config';
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
