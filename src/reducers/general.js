@@ -37,7 +37,9 @@ const INITIAL_STATE = {
     show_withdraw_confirm: false,
     show_withdraw_success: false,
     show_profile_menu: false,
+    show_mobile_main_menu: false,
     show_deposit_main_menu: false,
+    show_withdraw_main_menu: false,
 
     show_letou_announcements: false,
 
@@ -240,6 +242,10 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, show_profile_menu: true };
         case 'HIDE_PROFILE_MENU':
             return { ...state, show_profile_menu: false };
+        case 'SHOW_MOBILE_MAIN_MENU':
+            return { ...state, show_mobile_main_menu: true };
+        case 'HIDE_MOBILE_MAIN_MENU':
+            return { ...state, show_mobile_main_menu: false };
         case 'HIDE_LANDING_PAGE':
             return { ...state, show_landing_page: false };
         case 'SHOW_DEPOSIT_MAIN_MENU':
