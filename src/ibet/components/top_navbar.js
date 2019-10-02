@@ -128,7 +128,7 @@ const styles = theme => ({
         height: 45,
         [theme.breakpoints.down('sm')]: {
             height: 49,
-            minHeight:49,
+            minHeight: 49,
         },
         width: '100%',
         maxWidth: 1400
@@ -165,7 +165,7 @@ const styles = theme => ({
             display: 'flex',
         },
     },
-    logo:{
+    logo: {
         [theme.breakpoints.down('sm')]: {
             height: 20,
         }
@@ -1095,7 +1095,7 @@ export class TopNavbar extends React.Component {
                     <ListItem button className={classes.mobileMenuItem}
                         onClick={() => {
                             this.props.hide_mobile_main_menu();
-                            this.setState({showMobileSportsSubMenu: false});
+                            this.setState({ showMobileSportsSubMenu: false });
                             this.props.history.push('/liveCasino_type/live-casino/all')
                         }}>
                         <img src={images.src + 'mobile-live-casino.svg'} alt="" className={classes.mobileMenuIcon} />
@@ -1190,7 +1190,7 @@ export class TopNavbar extends React.Component {
                             </Drawer>
                         </div>
                         <IconButton href='/' className={classes.logoButton}>
-                            <img src={images.src + 'ibet_logo.svg'} alt="" className={classes.logo}/>
+                            <img src={images.src + 'ibet_logo.svg'} alt="" className={classes.logo} />
                         </IconButton>
                         <div className={classes.grow} />
                         {

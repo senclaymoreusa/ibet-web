@@ -20,10 +20,12 @@ import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import Modal from '@material-ui/core/Modal';
 import Announcements from "./announcements";
+import Login from "./login";
 import NewReleases from '@material-ui/icons/NewReleases';
 
 import {
-    show_letou_announcements
+    show_letou_announcements, 
+    show_letou_login
 } from '../../actions';
 
 import '../css/top_navbar.scss';
@@ -125,6 +127,13 @@ const styles = theme => ({
         padding: theme.spacing(1),
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    paper: {
+        position: 'absolute',
+        padding: 0,
+        "&:focus": {
+            outline: 'none'
+        }
     },
 });
 
@@ -317,11 +326,23 @@ export class TopNavbar extends React.Component {
                         <Button variant="contained" className={classes.secondRowButton}>
                             {this.getLabel('sign-up')}
                         </Button>
-                        <Button variant="contained" className={classes.secondRowButton}>
-                            {this.getLabel('sign-in')}
+                        <Button variant="contained" className={classes.secondRowButton}
+                        onClick={() => {
+                            this.props.show_letou_login()
+                        }}>
+                            {this.getLabel('log-in')}
                         </Button>
                     </Toolbar>
                 </AppBar>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.props.showLogin}
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
+                        <Login />
+                    </Paper>
+                </Modal>
             </div >
         );
     }
@@ -334,6 +355,7 @@ const mapStateToProps = (state) => {
         error: state.auth.error,
         lang: state.language.lang,
         showAnnouncements: state.general.show_letou_announcements,
+        showLogin: state.general.show_letou_login,
     }
 }
 
@@ -343,5 +365,5 @@ TopNavbar.propTypes = {
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
-    show_letou_announcements
+    show_letou_announcements, show_letou_login
 })(TopNavbar))));

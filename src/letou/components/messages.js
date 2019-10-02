@@ -7,7 +7,7 @@ export const messages = {
         'latest-announcement': 'Latest Announcement',
         'online-service': 'Online Service',
         'sign-up': 'Sign up',
-        'sign-in': 'Sign in',
+        'log-in': 'Log in',
         'nav-sports': 'Sports',
         'nav-gaming': 'Gaming',
         'nav-live-casino': 'Live Casino',
