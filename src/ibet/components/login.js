@@ -181,7 +181,7 @@ export class Login extends React.Component {
         event.preventDefault();
         this.props.authLogin(this.state.username, this.state.password)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 if (response.errorCode) {
                     this.setState({ error: response.errorMsg.detail[0] });
                     // return;

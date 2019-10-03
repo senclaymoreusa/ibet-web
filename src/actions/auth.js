@@ -42,9 +42,9 @@ export const authLogin = (username, password) => {
                 config
             )
             .then(res => {
-                if (res.data.errorCode) {
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
                     // return Promise.resolve(AUTH_RESULT_FAIL);
-                    dispatch(authFail(res.data.errorMsg));
+                    // dispatch(authFail(res.data.errorMsg));
                     return Promise.resolve(res.data);
                 }
                 
@@ -52,15 +52,6 @@ export const authLogin = (username, password) => {
                 if (!token || token === undefined) {
                     dispatch(logout());
                 }
-                // axios.get(API_URL + 'users/api/user/', config)
-                //     .then(res => {
-                //         if (res.data.block) {
-                //             dispatch(logout());
-                //             return Promise.resolve(AUTH_RESULT_FAIL);
-                //         }
-                //     }).catch(err => {
-                //         alert(err);
-                //     });
                 const expirationDate = new Date(
                     new Date().getTime() + 3600 * 1000
                 );
