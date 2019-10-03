@@ -18,23 +18,17 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
 import 'react-image-picker/dist/index.css';
 import InputBase from '@material-ui/core/InputBase';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const bankList = [
     { label: '工商银行', value: '1' },
-    // { label: '建设银行', value: '2' },
-    // { label: '农业银行', value: '3' },
-    { label: '招商银行', value: '4' },
-    // { label: '广发银行', value: '6' },
+    { label: '农业银行', value: '3'},
     { label: '中国银行', value: '7' },
-    // { label: '中国邮政储蓄银行', value: '9' },
-    { label: '中信银行', value: '10' },
-    // { label: '光大银行', value: '11' },
-    { label: '民生银行', value: '12' },
-    // { label: '兴业银行', value: '16' },
-    // { label: '华夏银行', value: '17' },
-    // { label: '平安银行', value: '23' },
-    // { label: '上海银行', value: '21' },
 ];
 
 const styles = theme => ({
@@ -575,8 +569,29 @@ class DepositAsiapayBT extends Component {
                         {
                             order_id?
                             <>
-                                
-                                <p>Once you have scanned the QR code, please check your e-mail and transaction history to confirm that the deposit was successful.</p>
+                                <p>尊贵的客户您好，请记录以下官方帐号信息及存款金额，并在3小时内以任意方式存款进该账号。超过存款时间或者存款金额不一致可能会导致无法正常上分。存款完成后，请保留存款回执，以便确认转账资讯。
+重要提醒：您每次获取的银行账号都可能会不同，请切勿使用过往保存的账号进行存款，若存入账号与本次获取账号不一致时将无法上分。</p>
+                                <Table className={classes.table}>
+                                    
+                                    <TableRow>
+                                        <TableCell>订单编号</TableCell>
+                                        <TableCell align="right">{{order_id}}</TableCell>
+                                        <TableCell align="right">银行账号</TableCell>
+                                        <TableCell align="right">{{CardNumber}}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>银行</TableCell>
+                                        <TableCell align="right">{{BankName}}</TableCell>
+                                        <TableCell align="right">用户名</TableCell>
+                                        <TableCell align="right">{{CardChName}}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>分行名称</TableCell>
+                                        <TableCell align="right">{{CardBankName}}</TableCell>
+                                        <TableCell align="right">金额</TableCell>
+                                        <TableCell align="right">{this.state.amount}</TableCell>
+                                    </TableRow>
+                                </Table>
                             </>
                             : 
                             <br/>
