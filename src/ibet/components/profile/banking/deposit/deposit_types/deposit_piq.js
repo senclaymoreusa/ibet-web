@@ -18,14 +18,14 @@ import {
 } from '@material-ui/core';
 import InputMask from 'react-input-mask';
 
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../../actions';
 
 const jsencrypt = require('jsencrypt');
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
     PIQ_API = process.env.REACT_APP_PIQ_API_URL,
     PIQ_MID = process.env.REACT_APP_PIQ_MID;
 
-const styles = function (theme) {
+const styles = function(theme) {
     return {
         root: {
             width: 925,
@@ -370,13 +370,13 @@ class DepositPIQ extends Component {
         console.log('gettign deposit methods for: ' + username);
         return axios.get(
             PIQ_API +
-            'api/user/payment/method/' +
-            PIQ_MID +
-            '/' +
-            username +
-            '?sessionId=' +
-            sessionId +
-            '&method=deposit'
+                'api/user/payment/method/' +
+                PIQ_MID +
+                '/' +
+                username +
+                '?sessionId=' +
+                sessionId +
+                '&method=deposit'
         );
     };
 
@@ -389,6 +389,8 @@ class DepositPIQ extends Component {
             }
         });
         this.setState({ sessionId: uuidv1() });
+
+        let encrypt = new jsencrypt.JSEncrypt();
 
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
@@ -455,7 +457,7 @@ class DepositPIQ extends Component {
         this.setState({
             serialNumber: event.target.value,
             numberFocused: true,
-            numberInvalid: event.target.value.toString().length !== 19
+            numberInvalid: event.target.value.toString().length != 19
         });
     };
 
@@ -463,7 +465,7 @@ class DepositPIQ extends Component {
         this.setState({
             cvv: event.target.value,
             cvvFocused: true,
-            cvvInvalid: event.target.value.toString().length !== 3
+            cvvInvalid: event.target.value.toString().length != 3
         });
     };
 
@@ -474,10 +476,10 @@ class DepositPIQ extends Component {
             expireDate: event.target.value,
             dateFocused: true,
             dateInvalid:
-                event.target.value.toString().length !== 7 ||
+                event.target.value.toString().length != 7 ||
                 parseInt(event.target.value.toString().slice(0, 2)) > 12 ||
                 parseInt(event.target.value.toString().slice(3)) <
-                currDate.getFullYear()
+                    currDate.getFullYear()
         });
     };
 
@@ -548,7 +550,7 @@ class DepositPIQ extends Component {
         const { classes } = this.props;
 
         const { formatMessage } = this.props.intl;
-        const { showLinearProgressBar } = this.state;
+        const { showLinearProgressBar, amount } = this.state;
 
         let depositAmountMessage = formatMessage({
             id: 'deposit.deposit_amount'
@@ -558,7 +560,7 @@ class DepositPIQ extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} alt='' />
+                <img src={images.src + 'prev_step.svg'} />
             </Button>
         );
 
@@ -621,7 +623,7 @@ class DepositPIQ extends Component {
                                         }
                                         helperText={
                                             this.state.nameInvalid &&
-                                                this.state.nameFocused
+                                            this.state.nameFocused
                                                 ? 'Invalid Name'
                                                 : ''
                                         }
@@ -654,7 +656,7 @@ class DepositPIQ extends Component {
                                                 }
                                                 helperText={
                                                     this.state.numberInvalid &&
-                                                        this.state.numberFocused
+                                                    this.state.numberFocused
                                                         ? 'Please enter 16-digit card number.'
                                                         : ' '
                                                 }
@@ -689,7 +691,7 @@ class DepositPIQ extends Component {
                                                 }
                                                 helperText={
                                                     this.state.dateInvalid &&
-                                                        this.state.dateFocused
+                                                    this.state.dateFocused
                                                         ? 'Invalid expiration date'
                                                         : ' '
                                                 }
@@ -720,7 +722,7 @@ class DepositPIQ extends Component {
                                                 }
                                                 helperText={
                                                     this.state.cvvInvalid &&
-                                                        this.state.cvvFocused
+                                                    this.state.cvvFocused
                                                         ? 'Invalid code'
                                                         : ' '
                                                 }
@@ -733,7 +735,6 @@ class DepositPIQ extends Component {
                                                                     images.src +
                                                                     'card-cvv.svg'
                                                                 }
-                                                                alt=''
                                                             />
                                                         </InputAdornment>
                                                     )
@@ -788,7 +789,7 @@ class DepositPIQ extends Component {
                                         }
                                         helperText={
                                             this.state.amountInvalid &&
-                                                this.state.amountFocused
+                                            this.state.amountFocused
                                                 ? 'Please enter a valid amount.'
                                                 : ' '
                                         }
@@ -798,14 +799,13 @@ class DepositPIQ extends Component {
                                                 <InputAdornment position="end">
                                                     Other
                                                 </InputAdornment>
-                                            ),
-                                            inputProps: {
-                                                step: 10,
-                                                min: 10
-                                            }
+                                            )
                                         }}
                                         type="number"
-
+                                        inputProps={{
+                                            step: 10,
+                                            min: 10
+                                        }}
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
@@ -813,7 +813,7 @@ class DepositPIQ extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount || '0.00'}
-                                            style={`currency`}
+                                            style="currency"
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

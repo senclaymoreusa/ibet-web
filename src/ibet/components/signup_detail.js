@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import TextField from '@material-ui/core/TextField';
-import { hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob } from '../actions';
+import { hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob } from '../../actions';
 import { FormattedMessage } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import { getNames } from 'country-list';

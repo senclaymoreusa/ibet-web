@@ -6,7 +6,7 @@ import {
     AUTH_RESULT_FAIL,
     show_withdraw_main_menu,
     show_deposit_main_menu
-} from '../../../actions';
+} from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 

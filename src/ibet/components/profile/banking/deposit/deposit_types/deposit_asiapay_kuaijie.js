@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config, images } from '../../../../../../util_config';
+import { authCheckState } from '../../../../../../actions';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -567,5 +568,5 @@ const mapStateToProps = state => {
 };
 
 export default withStyles(styles)(
-    injectIntl(connect(mapStateToProps)(DepositAsiapayQucikpay))
+    injectIntl(connect(mapStateToProps, { authCheckState })(DepositAsiapayQucikpay))
 );

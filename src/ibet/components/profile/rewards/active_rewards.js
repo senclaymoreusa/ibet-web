@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../actions';
+import { authCheckState } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import { images } from '../../../../util_config';
@@ -22,7 +22,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import {
     CircularProgressbar,
-    CircularProgressbarWithChildren,
     buildStyles
 } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -226,7 +225,6 @@ const styles = theme => ({
         textAlign: 'center'
     },
     progress: {
-        margin: theme.spacing(2),
         height: 168,
         margin: 0
     },

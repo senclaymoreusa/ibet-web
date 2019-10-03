@@ -11,7 +11,7 @@ import {
     show_account_menu,
     hide_deposit_success,
     show_deposit
-} from '../actions';
+} from '../../actions';
 import { images } from '../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';

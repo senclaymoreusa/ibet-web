@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { authSignup, authCheckState, AUTH_RESULT_SUCCESS } from '../actions'
+import { authSignup, authCheckState, AUTH_RESULT_SUCCESS } from '../../actions'
 import axios from 'axios';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { config } from '../../util_config';

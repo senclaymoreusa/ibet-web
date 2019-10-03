@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login, show_signup, show_forget_password } from '../actions';
+import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login, show_signup, show_forget_password } from '../../actions';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { config } from '../../util_config';

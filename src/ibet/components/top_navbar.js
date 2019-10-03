@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { withStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import Person from '@material-ui/icons/Person';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -32,8 +32,10 @@ import {
     hide_account_menu,
     show_profile_menu,
     hide_profile_menu,
-    handle_inbox_value
-} from '../actions';
+    handle_inbox_value,
+    show_mobile_main_menu,
+    hide_mobile_main_menu
+} from '../../actions';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -47,7 +49,6 @@ import Collapse from '@material-ui/core/Collapse';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Login from './login_2.js';
@@ -65,6 +66,7 @@ import NewForgetPassword from './forget_password_new';
 import ForgetPasswordValidation from './forget_password_validation';
 import ReferUser from './refer_user';
 import axios from 'axios';
+import SearchBar from './search_bar';
 import { config, images } from '../../util_config';
 
 import '../css/top_navbar.scss';
@@ -72,13 +74,15 @@ import '../css/top_navbar.scss';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const StyledTabs = withStyles({
+    root: {
+        width: 'calc(100% - 50px)'
+    },
     indicator: {
         display: "flex",
         justifyContent: "center",
         height: 5,
         backgroundColor: "transparent",
         "& > div": {
-            width: "100%",
             backgroundColor: "#ff0000",
         }
     }
@@ -106,31 +110,43 @@ const StyledTab = withStyles(() => ({
     }
 }))(props => <Tab disableRipple {...props} />);
 
-
-
 const styles = theme => ({
     root: {
         width: '100%',
     },
-    soccer: {
-        width: 28,
-        height: 28,
-        backgroundColor: '#ffffff'
+    firstNavLayer: {
+        alignItems: 'center',
+        backgroundColor: '#ffffff',
     },
-    appBar: {
+    secondNavLayer: {
+        alignItems: 'center',
+        backgroundColor: '#212121',
+    },
+    firstRowBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        height: 45,
+        [theme.breakpoints.down('sm')]: {
+            height: 49,
+            minHeight:49,
+        },
+        width: '100%',
+        maxWidth: 1400
+    },
+    secondRowBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
         height: 60,
-        boxShadow: '0 8px 18px 0 rgba(0, 0, 0, 0.4)',
-        backgroundColor: '#fff'
+        width: '100%',
+        maxWidth: 1400,
+        display: 'flex',
+        flexDirection: 'row',
     },
     list: {
         width: 250,
     },
     grow: {
         flexGrow: 1,
-    },
-    mobileLeftMenuButton: {
-        marginLeft: -12,
-        marginRight: 2,
     },
     mobileMenuButton: {
         marginLeft: 0,
@@ -149,6 +165,11 @@ const styles = theme => ({
             display: 'flex',
         },
     },
+    logo:{
+        [theme.breakpoints.down('sm')]: {
+            height: 20,
+        }
+    },
     logoButton: {
         "&:hover": {
             backgroundColor: "#ffffff",
@@ -156,9 +177,6 @@ const styles = theme => ({
         "&:active": {
             backgroundColor: "#ffffff",
         }
-    },
-    firstNavLayer: {
-        backgroundColor: '#ffffff',
     },
     sectionDesktop: {
         display: 'none',
@@ -172,6 +190,10 @@ const styles = theme => ({
         [theme.breakpoints.up('md')]: {
             display: 'none',
         },
+    },
+    mainContainer: {
+        //display: 'inline',
+        //width:'100%'
     },
     modal: {
         display: 'flex',
@@ -224,6 +246,10 @@ const styles = theme => ({
         height: 40,
         color: 'rgba(0, 0, 0, 0.5)',
         backgroundColor: '#ffffff',
+        // [theme.breakpoints.down('md')]: {
+        //     color: '#ffffff',
+        //     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        // },
         borderRadius: 6,
         border: 'solid 2px rgba(0, 0, 0, 0.5)',
         textTransform: 'capitalize',
@@ -251,54 +277,54 @@ const styles = theme => ({
         border: 'solid 1px #e8e8e8',
         backgroundColor: '#f1f1f1',
     },
-    inboxButton: {		
-        marginTop: 16,		
-        marginBottom: 16,		
-        borderRadius: 12,		
-        marginLeft: theme.spacing(),		
-        marginRight: theme.spacing(),		
-        paddingTop: 3,		
-        fontSize: 17,		
-        height: 40,		
-        border: 'solid 2px #ff0000',		
-        backgroundColor: '#ffffff',		
-    },		
-    greyInboxButton: {		
-        marginTop: 16,		
-        marginBottom: 16,		
-        borderRadius: 12,		
-        marginLeft: theme.spacing(),		
-        marginRight: theme.spacing(),		
-        paddingTop: .25,		
-        fontSize: 17,		
-        height: 40,		
-        border: 'solid 2px #868686',		
-        backgroundColor: '#ffffff',		
-    },		
-    envelope: {		
-        width: 48,		
-        height: 30,		
+    inboxButton: {
+        marginTop: 16,
+        marginBottom: 16,
+        borderRadius: 12,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
+        paddingTop: 3,
+        fontSize: 17,
+        height: 40,
+        border: 'solid 2px #ff0000',
+        backgroundColor: '#ffffff',
+    },
+    greyInboxButton: {
+        marginTop: 16,
+        marginBottom: 16,
+        borderRadius: 12,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
+        paddingTop: .25,
+        fontSize: 17,
+        height: 40,
+        border: 'solid 2px #868686',
+        backgroundColor: '#ffffff',
+    },
+    envelope: {
+        width: 48,
+        height: 30,
         color: '#ff0000',
-    },		
-    unreadMessageCount: {		
-        marginLeft: 2,		
-        fontSize: 20,		
-        fontWeight: 500,		
-        fontStyle: 'normal',		
-        fontStretch: 'normal',		
-        lineHeight: 'normal',		
-        letterSpacing: 0.78,		
-        color: '#ff0000',		
-    },		
-    allreadMessageCount: {		
-        marginLeft: 2,		
-        fontSize: 20,		
-        fontWeight: 500,		
-        fontStyle: 'normal',		
-        fontStretch: 'normal',		
-        lineHeight: 'normal',		
-        letterSpacing: 0.78,		
-        color: '#868686',		
+    },
+    unreadMessageCount: {
+        marginLeft: 2,
+        fontSize: 20,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.78,
+        color: '#ff0000',
+    },
+    allreadMessageCount: {
+        marginLeft: 2,
+        fontSize: 20,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.78,
+        color: '#868686',
     },
     balanceButton: {
         marginTop: 16,
@@ -463,34 +489,65 @@ const styles = theme => ({
         "&:focus": {
             backgroundColor: '#ffffff',
         },
-    }
-});
-
-const muiLogoBarTheme = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#ffffff',
-            primary1Color: '#ffffff'
+    },
+    mobileMenuItem: {
+        paddingTop: 3,
+        paddingBottom: 3,
+        borderBottom: '1px solid #212121',
+        "&:hover": {
+            backgroundColor: '#ffffff',
+        },
+        "&:focus": {
+            backgroundColor: '#ffffff',
         },
     },
-    appBar: {
-        height: 72,
+    mobileMenuIcon: {
+        marginRight: 15,
     },
-    typography: {
-        useNextVariants: true,
+    mobileSubMenu: {
+        backgroundColor: '#d8d8d8',
+        width: '100%',
     },
+    secondaryMobileMenuItem: {
+        paddingTop: 1,
+        paddingBottom: 1,
+        borderBottom: '1px solid #212121',
+        "&:hover": {
+            backgroundColor: '#d8d8d8',
+        },
+        "&:focus": {
+            backgroundColor: '#d8d8d8',
+        },
+    },
+    mobileSearchContainer: {
+        backgroundColor: '#212121',
+        padding: 15,
+        height: 80,
+    },
+    mobileSearchText: {
+        fontSize: 15,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 0.05,
+        color: '#fff',
+        backgroundColor: '#868686',
+        borderRadius: 6,
+        border: 'solid 1px #868686',
+        padding: 8,
+        "&:hover": {
+            border: 'solid 1px #868686',
+        },
+        "&:focus": {
+            border: 'solid 1px #868686',
+        },
+    },
+    mobileMainMenuList: {
+        paddingTop: 0,
+        paddingBottom: 0
+    }
 });
-
-const muiMenuBarTheme = createMuiTheme({
-    appBar: {
-        height: 62,
-        paddingBottom: 2,
-    },
-    typography: {
-        useNextVariants: true,
-    },
-});
-
 
 const SVG = ({
     style = {},
@@ -563,6 +620,8 @@ export class TopNavbar extends React.Component {
             showSettingsProfileSubMenu: false,
             showRewardsProfileSubMenu: false,
 
+            showMobileSportsSubMenu: false,
+
             mainTabValue: 'none',
         };
 
@@ -571,10 +630,8 @@ export class TopNavbar extends React.Component {
         this.onInputChange_password = this.onInputChange_password.bind(this);
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
         this.onloginFormSubmit = this.onloginFormSubmit.bind(this);
-        this.toggleSidePanel = this.toggleSidePanel.bind(this);
         this.profileIconClicked = this.profileIconClicked.bind(this);
         this.bankingProfileMenuItemClick = this.bankingProfileMenuItemClick.bind(this);
-        this.navBarItemChanged = this.navBarItemChanged.bind(this);
     }
 
     handleSignupOnEnter = (event) => {
@@ -618,34 +675,12 @@ export class TopNavbar extends React.Component {
         this.setState({ expandSearchBar: !this.state.expandSearchBar });
     }
 
-    handleSubMenuToggle = (param) => {
-        if (this.state.subMenuType === param) {
-            this.setState({ showSubMenu: false });
-            this.setState({ subMenuType: null });
-        } else {
-            this.setState({ showSubMenu: false });
-            this.setState({ showSubMenu: true });
-            this.setState({ subMenuType: param });
-        }
-    };
 
     handleClose = event => {
         if (this.anchorEl.contains(event.target)) { return; }
 
         this.setState({ showSubMenu: false });
         this.setState({ subMenuType: null });
-    };
-
-    submenuHandleChange = (event, submenu) => {
-        this.setState({ submenu });
-    };
-
-    toggleSidePanel(event, side, open) {
-        const { currentTarget } = event;
-        this.setState({
-            anchorEl: currentTarget,
-            [side]: open,
-        });
     };
 
     handleLoginMenuOpen = event => {
@@ -716,10 +751,6 @@ export class TopNavbar extends React.Component {
                     axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                 });
         }
-    }
-
-    onInputChange_checkbox = async () => {
-        await this.setState({ check: !this.state.check })
     }
 
     handleResize = () => {
@@ -805,11 +836,11 @@ export class TopNavbar extends React.Component {
                                 this.setState({ balance: res.data.main_wallet });
                                 this.setState({ balanceCurrency: res.data.currency });
 
-                                axios.get(API_URL + 'operation/api/notification-count/' + res.data.pk, config)		
-                                    .then(res => {		
-                                        if (this._isMounted) {		
-                                            this.props.handle_inbox_value(res.data);		
-                                        }		
+                                axios.get(API_URL + 'operation/api/notification-count/' + res.data.pk, config)
+                                    .then(res => {
+                                        if (this._isMounted) {
+                                            this.props.handle_inbox_value(res.data);
+                                        }
                                     })
                             }
                         })
@@ -927,16 +958,17 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
     };
 
+    sportsMenuItemClick = (event) => {
+        this.props.show_mobile_main_menu();
+        this.setState(state => ({ showMobileSportsSubMenu: !state.showMobileSportsSubMenu }));
+    };
+
     handleProfileMenuClose = () => {
         this.setState(() => ({ anchorEl: null }));
     };
 
-    navBarItemChanged(newValue) {
-        this.setState(() => ({ mainTabValue: newValue }));
-    }
-
     render() {
-        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency, anchorElLogin } = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
@@ -959,38 +991,124 @@ export class TopNavbar extends React.Component {
 
         const leftMobileSideList = (
             <div className={classes.list}>
-                <List>
-                    <ListItem button component="a" href="/">
-                        <ListItemIcon>
-                            <Person />
-                        </ListItemIcon>
-                        <ListItemText>
-                            <FormattedMessage id="nav.sports" defaultMessage='Sports' />
-                        </ListItemText>
+                <div className={classes.mobileSearchContainer}>
+                    <TextField
+                        placeholder="Search..."
+                        //onChange={this.amountChanged}
+                        InputProps={{
+                            className: classes.mobileSearchText,
+                            disableUnderline: true,
+                            endAdornment: <InputAdornment position="end">
+                                <span className="mobile-search-icon"></span>
+                            </InputAdornment>,
+                        }}
+                    />
+                </div>
+                <List
+                    component="nav"
+                    aria-labelledby="nested-list-subheader"
+                    className={classes.mobileMainMenuList}
+                >
+                    <ListItem button onClick={this.sportsMenuItemClick} className={classes.mobileMenuItem}>
+                        <img src={images.src + 'mobile-sports.svg'} alt="" className={classes.mobileMenuIcon} />
+                        <ListItemText primary="Sports" />
+                        {this.state.showMobileSportsSubMenu ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
-                    <ListItem button component="a" href="/">
-                        <ListItemIcon>
-                            <Person />
-                        </ListItemIcon>
-                        <ListItemText>
-                            <FormattedMessage id="nav.live-casino" defaultMessage='Live Casino' />
-                        </ListItemText>
+                    <Collapse in={this.state.showMobileSportsSubMenu} timeout="auto" unmountOnExit className={classes.mobileSubMenu}>
+                        <List component="div" disablePadding>
+                            <ListItem button className={classes.secondaryMobileMenuItem}
+                                onClick={() => {
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/football')
+                                }}
+                            >
+                                <img src={images.src + 'football.svg'} alt="" className={classes.mobileMenuIcon} />
+                                <ListItemText primary="Football" />
+                            </ListItem>
+                            <ListItem button className={classes.secondaryMobileMenuItem}
+                                onClick={() => {
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/basketball')
+                                }}>
+                                <img src={images.src + 'basketball.svg'} alt="" className={classes.mobileMenuIcon} />
+                                <ListItemText primary="Basketball" />
+                            </ListItem>
+                            <ListItem button className={classes.secondaryMobileMenuItem}
+                                onClick={() => {
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/tennis')
+                                }}>
+                                <img src={images.src + 'tennis.svg'} alt="" className={classes.mobileMenuIcon} />
+                                <ListItemText primary="Tennis" />
+                            </ListItem>
+                            <ListItem button className={classes.secondaryMobileMenuItem}
+                                onClick={() => {
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/ice_hockey')
+                                }}>
+                                <img src={images.src + 'ice-hockey.svg'} alt="" className={classes.mobileMenuIcon} />
+                                <ListItemText primary="Ice Hockey" />
+                            </ListItem>
+                            <ListItem button className={classes.secondaryMobileMenuItem}
+                                onClick={() => {
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/golf')
+                                }}>
+                                <img src={images.src + 'golf.svg'} alt="" className={classes.mobileMenuIcon} />
+                                <ListItemText primary="Golf" />
+                            </ListItem>
+                            <ListItem button className={classes.secondaryMobileMenuItem}
+                                onClick={() => {
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/baseball')
+                                }}>
+                                <img src={images.src + 'baseball.svg'} alt="" className={classes.mobileMenuIcon} />
+                                <ListItemText primary="Baseball" />
+                            </ListItem>
+                            <ListItem button className={classes.secondaryMobileMenuItem}
+                                onClick={() => {
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/american_football')
+                                }}>
+                                <img src={images.src + 'american-football.svg'} alt="" className={classes.mobileMenuIcon} />
+                                <ListItemText primary="American Football" />
+                            </ListItem>
+                            <ListItem button className={classes.secondaryMobileMenuItem}
+                                onClick={() => {
+                                    this.props.hide_mobile_main_menu();
+                                    this.props.history.push('/sports_type/badminton')
+                                }}>
+                                <img src={images.src + 'badminton.svg'} alt="" className={classes.mobileMenuIcon} />
+                                <ListItemText primary="Badminton" />
+                            </ListItem>
+                        </List>
+                    </Collapse>
+
+                    <ListItem button className={classes.mobileMenuItem}
+                        onClick={() => {
+                            this.props.hide_mobile_main_menu();
+                            this.props.history.push('/slot_type/slots/all')
+                        }}>
+                        <img src={images.src + 'mobile-casino.svg'} alt="" className={classes.mobileMenuIcon} />
+                        <ListItemText primary="Casino" />
                     </ListItem>
-                    <ListItem button component="a" href="/">
-                        <ListItemIcon>
-                            <Person />
-                        </ListItemIcon>
-                        <ListItemText>
-                            <FormattedMessage id="nav.slots" defaultMessage='Slots' />
-                        </ListItemText>
+                    <ListItem button className={classes.mobileMenuItem}
+                        onClick={() => {
+                            this.props.hide_mobile_main_menu();
+                            this.setState({showMobileSportsSubMenu: false});
+                            this.props.history.push('/liveCasino_type/live-casino/all')
+                        }}>
+                        <img src={images.src + 'mobile-live-casino.svg'} alt="" className={classes.mobileMenuIcon} />
+                        <ListItemText primary="Live Casino" />
                     </ListItem>
-                    <ListItem button component="a" href="/">
-                        <ListItemIcon>
-                            <Person />
-                        </ListItemIcon>
-                        <ListItemText>
-                            <FormattedMessage id="nav.lottery" defaultMessage='Lottery' />
-                        </ListItemText>
+
+                    <ListItem button className={classes.mobileMenuItem}
+                        onClick={() => {
+                            this.props.hide_mobile_main_menu();
+                            this.props.history.push('/lottery_type/lottery')
+                        }}>
+                        <img src={images.src + 'mobile-lottery.svg'} alt="" className={classes.mobileMenuIcon} />
+                        <ListItemText primary="Lottery" />
                     </ListItem>
                 </List>
             </div>
@@ -1008,205 +1126,211 @@ export class TopNavbar extends React.Component {
         const { formatMessage } = this.props.intl;
         let sportsMessage = formatMessage({ id: "nav.sports" });
         let liveCasinoMessage = formatMessage({ id: "nav.live-casino" });
-        let slotsMessage = formatMessage({ id: "nav.slots" });
+        let casinoMessage = formatMessage({ id: "nav.casino" });
         let lotteryMessage = formatMessage({ id: "nav.lottery" });
 
-        let messageBtn;		
-        if(this.props.inbox > 0) {		
-            messageBtn = (		
-                <Button		
-                    className={classes.inboxButton}		
-                    onClick={ () => {		
-                        this.setState({ mainTabValue: 'none' });		
-                        this.props.history.push('/p/account/inbox')		
-                    }}		
-                >		
-                    <div className={classes.envelope}>		
-                        <img src={images.src + 'envelope.svg'} className={classes.envelope} alt=''/>		
-                    </div>		
-                    <div className={classes.unreadMessageCount}>		
-                        <FormattedNumber		
-                            variant="outlined"		
-                            maximumFractionDigits={2}		
-                            value={this.props.inbox}		
-                        />		
-                    </div>		
-                </Button>);		
-        } else {		
-            messageBtn = (		
-                <Button		
-                    className={classes.greyInboxButton}		
-                    onClick={ () => {		
-                        this.setState({ mainTabValue: 'none' });		
-                        this.props.history.push('/p/account/inbox')		
-                    }}		
-                >		
-                    <div className={classes.envelope}>		
-                        <img src={images.src + 'grey_envelope.svg'} alt=""/>		
-                    </div>		
-                    <div className={classes.allreadMessageCount}>		
-                        <FormattedNumber		
-                            variant="outlined"		
-                            maximumFractionDigits={2}		
-                            value={this.props.inbox}		
-                        />		
-                    </div>		
-                </Button>);		
+        let messageBtn;
+        if (this.props.inbox > 0) {
+            messageBtn = (
+                <Button
+                    className={classes.inboxButton}
+                    onClick={() => {
+                        this.setState({ mainTabValue: 'none' });
+                        this.props.history.push('/p/account/inbox')
+                    }}
+                >
+                    <div className={classes.envelope}>
+                        <img src={images.src + 'envelope.svg'} className={classes.envelope} alt="" />
+                    </div>
+                    <div className={classes.unreadMessageCount}>
+                        <FormattedNumber
+                            variant="outlined"
+                            maximumFractionDigits={2}
+                            value={this.props.inbox}
+                        />
+                    </div>
+                </Button>);
+        } else {
+            messageBtn = (
+                <Button
+                    className={classes.greyInboxButton}
+                    onClick={() => {
+                        this.setState({ mainTabValue: 'none' });
+                        this.props.history.push('/p/account/inbox')
+                    }}
+                >
+                    <div className={classes.envelope}>
+                        <img src={images.src + 'grey_envelope.svg'} alt="" />
+                    </div>
+                    <div className={classes.allreadMessageCount}>
+                        <FormattedNumber
+                            variant="outlined"
+                            maximumFractionDigits={2}
+                            value={this.props.inbox}
+                        />
+                    </div>
+                </Button>);
         }
 
         return (
             <div className={classes.root}>
-                <MuiThemeProvider theme={muiLogoBarTheme} >
-                    <AppBar position="static" className={classes.firstNavLayer}>
-                        <Toolbar className={classes.appBar}>
-                            <div className={classes.sectionMobile}>
-                                <IconButton
-                                    className={classes.mobileLeftMenuButton}
-                                    color="inherit"
-                                    aria-label="Open drawer"
-                                    onClick={(event) => { this.toggleSidePanel(event, 'showLeftPanel', true) }}>
-                                    <MenuIcon />
-                                </IconButton>
-                                <Drawer open={this.state.showLeftPanel} onClose={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}>
-                                    <div
-                                        tabIndex={0}
-                                        role="button"
-                                        onClick={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}
-                                        onKeyDown={(event) => { this.toggleSidePanel(event, 'showLeftPanel', false) }}
-                                    >
-                                        {leftMobileSideList}
-                                    </div>
-                                </Drawer>
-                            </div>
-                            <IconButton href='/' className={classes.logoButton}>
-                                <img src={images.src + 'ibet_logo.svg'} alt="" />
+                <AppBar position="static" className={classes.firstNavLayer}>
+                    <Toolbar className={classes.firstRowBar}>
+                        <div className={classes.sectionMobile}>
+                            <IconButton
+                                color="inherit"
+                                aria-label="Open drawer"
+                                onClick={() => {
+                                    this.props.show_mobile_main_menu();
+                                }}>
+                                <img src={images.src + 'menu.svg'} alt="" />
                             </IconButton>
-                            <div className={classes.grow} />
-                            {
-                                this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
-                                    this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        {messageBtn}    
-                                         <Button
-                                            variant="outlined"
-                                            className={classes.balanceButton}
-                                            onClick={() => {
-                                                this.setState({ mainTabValue: 'none' });
-                                                this.props.history.push('/p/banking/deposit')
-                                            }}
-                                        >
-                                            <FormattedNumber
-                                                maximumFractionDigits={2}
-                                                value={balance}
-                                                style={`currency`}
-                                                currency={balanceCurrency}
-                                            />
-                                            <div className={classes.balanceDepositText} >
-                                                <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
+                            <Drawer open={this.props.showMobileMainMenu} onClose={() => { this.props.hide_mobile_main_menu(); }}>
+                                {leftMobileSideList}
+                            </Drawer>
+                        </div>
+                        <IconButton href='/' className={classes.logoButton}>
+                            <img src={images.src + 'ibet_logo.svg'} alt="" className={classes.logo}/>
+                        </IconButton>
+                        <div className={classes.grow} />
+                        {
+                            this.props.isAuthenticated || this.state.facebooklogin === 'true' ?
+                                this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
+                                    {messageBtn}
+                                    <Button
+                                        variant="outlined"
+                                        className={classes.balanceButton}
+                                        onClick={() => {
+                                            this.setState({ mainTabValue: 'none' });
+                                            this.props.history.push('/p/banking/deposit')
+                                        }}
+                                    >
+                                        <FormattedNumber
+                                            maximumFractionDigits={2}
+                                            value={balance}
+                                            style={`currency`}
+                                            currency={balanceCurrency}
+                                        />
+                                        <div className={classes.balanceDepositText} >
+                                            <FormattedMessage id="accountmenu.deposit" defaultMessage='Deposit' />
+                                        </div>
+                                    </Button>
+                                    {ProfileMenu}
+                                </div>
+                                :
+                                this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
+                                    <Button
+                                        variant="outlined"
+                                        className={classes.signupButton}
+                                        onClick={
+                                            this.handleSignupMenuOpen
+                                        }
+                                        onMouseEnter={this.handleSignupOnEnter}
+                                        onMouseLeave={this.handleSignupOnLeave}
+                                    >
+                                        <FormattedMessage id="nav.register" defaultMessage='Register' />
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        className={classes.loginButton}
+                                        onClick={
+                                            this.handleLoginMenuOpen
+                                        }
+                                    >
+                                        <SVG className="userIcon" />
+                                        <FormattedMessage id="nav.signin" defaultMessage='Sign in' />
+                                    </Button>
+                                </div>
+                        }
+                        <div className={classes.sectionMobile}>
+                            <IconButton
+                                className={classes.mobileMenuButton}
+                                color="inherit"
+                                aria-label="Open drawer"
+                                onClick={this.profileIconClicked}>
+                                <MoreIcon />
+                            </IconButton>
+                            <Popper open={this.props.showAccountMenu} anchorEl={anchorEl} className={classes.profilePopper}
+                                placement="top-start"
+                                modifiers={{
+                                    flip: {
+                                        enabled: true,
+                                    },
+                                    preventOverflow: {
+                                        enabled: true,
+                                        boundariesElement: 'scrollParent',
+                                    },
+                                }}
+                                transition>
+                                {({ TransitionProps }) => (
+                                    <Fade {...TransitionProps} timeout={350}>
+                                        <Paper>
+                                            <AccountMenu />
+                                        </Paper>
+                                    </Fade>
+                                )}
+                            </Popper>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+                <div className={classes.sectionDesktop}>
+                    <AppBar position="static" className={classes.secondNavLayer}>
+                        <div className={classes.secondRowBar}>
+                            <StyledTabs value={mainTabValue} >
+                                <StyledTab
+                                    style={{ outline: 'none' }}
+                                    value="sports_type"
+                                    label={<div> <img src={images.src + 'soccer.svg'} className="soccer" alt="" />{sportsMessage}</div>}
+                                    onClick={() => {
+                                        this.setState({ mainTabValue: 'sports_type' });
+                                        this.props.history.push("/sports_type/sports");
+                                    }} />
+                                <StyledTab
+                                    style={{ outline: 'none' }}
+                                    value="slot_type"
+                                    label={<div><img src={images.src + 'slots.svg'} className="games-icon" alt="" />{casinoMessage}</div>}
+                                    onClick={() => {
+                                        this.setState({ mainTabValue: 'liveCasino_type' });
+                                        this.props.history.push("/slot_type/slots/all");
+                                    }} />
+                                <StyledTab
+                                    style={{ outline: 'none' }}
+                                    value="liveCasino_type"
+                                    label={<div><img src={images.src + 'bet.svg'} className="bet" alt="" />{liveCasinoMessage}</div>}
+                                    onClick={() => {
+                                        this.setState({ mainTabValue: 'liveCasino_type' });
+                                        this.props.history.push("/liveCasino_type/live-casino/all");
+                                    }} />
+                                <StyledTab
+                                    style={{ outline: 'none' }}
+                                    value='lottery_type'
+                                    label={<div><img src={images.src + 'lottery.svg'} className="lottery_type" alt="" />{lotteryMessage}</div>}
+                                    onClick={() => {
+                                        this.setState({ mainTabValue: 'lottery_type' });
+                                        this.props.history.push("/lottery_type/lottery");
+                                    }} />
+                                <StyledTab
+                                    style={{ width: 0, minWidth: 0, maxWidth: 0, padding: 0 }}
+                                    value='none'
+                                />
+                            </StyledTabs>
+                            <ClickAwayListener onClickAway={this.handleClickAway} >
+                                <div className={classes.sectionDesktop}>
+                                    <span className={searchButtonClass.join(' ')} onClick={this.handleSearch}>
+                                        <span className="search-icon"></span>
+                                    </span>
+                                    <div className={searchClass.join(' ')} ref={this.searchDiv}>
+                                        <div className="search-box">
+                                            <div className="search-container">
+                                                <SearchBar onRef={actualChild => this.actualChild = actualChild} className={classes.grow} activeMenu={this.props.activeMenu} loaded={this.state.expandSearchBar}></SearchBar>
                                             </div>
-                                        </Button>
-                                        {ProfileMenu}
+                                        </div>
                                     </div>
-                                    :
-                                    this.state.show_loggedin_status && <div className={classes.sectionDesktop}>
-                                        <Button
-                                            variant="outlined"
-                                            className={classes.signupButton}
-                                            onClick={
-                                                this.handleSignupMenuOpen
-                                            }
-                                            onMouseEnter={this.handleSignupOnEnter}
-                                            onMouseLeave={this.handleSignupOnLeave}
-                                        >
-                                            <FormattedMessage id="nav.register" defaultMessage='Register' />
-                                        </Button>
-                                        <Button
-                                            variant="outlined"
-                                            className={classes.loginButton}
-                                            onClick={
-                                                this.handleLoginMenuOpen
-                                            }
-                                        >
-                                            <SVG className="userIcon" />
-
-                                            <FormattedMessage id="nav.signin" defaultMessage='Sign in' />
-                                        </Button>
-                                    </div>
-                            }
-                            <div className={classes.sectionMobile}>
-                                <IconButton
-                                    className={classes.mobileMenuButton}
-                                    color="inherit"
-                                    aria-label="Open drawer"
-                                    onClick={this.profileIconClicked}>
-                                    <MoreIcon />
-                                </IconButton>
-                                <Popper open={this.props.showAccountMenu} anchorEl={anchorEl} className={classes.profilePopper}
-                                    placement="top-start"
-                                    modifiers={{
-                                        flip: {
-                                            enabled: true,
-                                        },
-                                        preventOverflow: {
-                                            enabled: true,
-                                            boundariesElement: 'scrollParent',
-                                        },
-                                    }}
-                                    transition>
-                                    {({ TransitionProps }) => (
-                                        <Fade {...TransitionProps} timeout={350}>
-                                            <Paper>
-                                                <AccountMenu />
-                                            </Paper>
-                                        </Fade>
-                                    )}
-                                </Popper>
-                            </div>
-                        </Toolbar>
+                                </div>
+                            </ClickAwayListener>
+                        </div>
                     </AppBar>
-                </MuiThemeProvider>
-                <MuiThemeProvider theme={muiMenuBarTheme}>
-                    <AppBar position="static" >
-                        <StyledTabs className={classes.appBar} value={mainTabValue} style={{ backgroundColor: '#212121' }}>
-                            <StyledTab
-                                style={{ outline: 'none' }}
-                                value="sports_type"
-                                label={<div> <img src={images.src + 'soccer.svg'} className="soccer" alt="" />{sportsMessage}</div>}
-                                onClick={() => {
-                                    this.setState({ mainTabValue: 'sports_type' });
-                                    this.props.history.push("/sports_type/sports");
-                                }} />
-                            <StyledTab
-                                style={{ outline: 'none' }}
-                                value="liveCasino_type"
-                                label={<div><img src={images.src + 'bet.svg'} className="bet" alt="" />{liveCasinoMessage}</div>}
-                                onClick={() => {
-                                    this.setState({ mainTabValue: 'liveCasino_type' });
-                                    this.props.history.push("/liveCasino_type/live-casino/all");
-                                }} />
-                            <StyledTab
-                                style={{ outline: 'none' }}
-                                value="slot_type"
-                                label={<div><img src={images.src + 'slots.svg'} className="games-icon" alt="" />{slotsMessage}</div>}
-                                onClick={() => {
-                                    this.setState({ mainTabValue: 'liveCasino_type' });
-                                    this.props.history.push("/slot_type/slots/all");
-                                }} />
-                            <StyledTab
-                                style={{ outline: 'none' }}
-                                value='lottery_type'
-                                label={<div><img src={images.src + 'lottery.svg'} className="lottery_type" alt="" />{lotteryMessage}</div>}
-                                onClick={() => {
-                                    this.setState({ mainTabValue: 'lottery_type' });
-                                    this.props.history.push("/lottery_type/lottery");
-                                }} />
-                            <StyledTab
-                                style={{ width: 0, minWidth: 0, maxWidth: 0, padding: 0 }}
-                                value='none'
-                            />
-                        </StyledTabs>
-                    </AppBar>
-                </MuiThemeProvider>
-
+                </div>
                 <div className='overlay' style={searchBackgroundStyle}></div>
 
                 <Popper
@@ -1237,7 +1361,6 @@ export class TopNavbar extends React.Component {
                         <SignupEmail />
                     </Paper>
                 </Modal>
-
                 <Modal
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
@@ -1247,7 +1370,6 @@ export class TopNavbar extends React.Component {
                         <SignupDetail />
                     </Paper>
                 </Modal>
-
                 <Modal
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
@@ -1257,7 +1379,6 @@ export class TopNavbar extends React.Component {
                         <SignupContact />
                     </Paper>
                 </Modal>
-
                 <Modal
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
@@ -1267,7 +1388,6 @@ export class TopNavbar extends React.Component {
                         <SignupPhone />
                     </Paper>
                 </Modal>
-
                 <Modal
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
@@ -1463,9 +1583,6 @@ export class TopNavbar extends React.Component {
                                                 </ListItem>
                                             </List>
                                         </Collapse>
-
-
-
                                         <ListItem button onClick={this.rewardsProfileMenuItemClick} className={classes.mainMenuItem}>
                                             <ListItemText primary="Rewards" />
                                             {this.state.showRewardsProfileSubMenu ? <ExpandLess /> : <ExpandMore />}
@@ -1517,6 +1634,7 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
+        inbox: state.inbox,
         showLogin: state.general.show_login,
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,
@@ -1530,25 +1648,14 @@ const mapStateToProps = (state) => {
         showChangePassword: state.general.show_change_password,
         showUserProfile: state.general.show_user_profile,
         showUpdateProfile: state.general.show_update_profile,
-        showDeposit: state.general.show_deposit,
-        showDepositAmount: state.general.show_deposit_amount,
-        showDepositPaypal: state.general.show_deposit_paypal,
-        showDepositConfirm: state.general.show_deposit_confirm,
-        showDepositSuccess: state.general.show_deposit_success,
-        showWithdrawSuccess: state.general.show_withdraw_success,
-        showWithdraw: state.general.show_withdraw,
-        showWithdrawConfirm: state.general.show_withdraw_confirm,
         showForgetPassword: state.general.show_forget_password,
         showForgetPasswordValidation: state.general.show_forget_password_validation,
         showReferUser: state.general.show_refer_user,
         showAccountMenu: state.general.show_account_menu,
         showProfileMenu: state.general.show_profile_menu,
-        showOpenBets: state.general.show_open_bets,
-        showSettledBets: state.general.show_settled_bets,
-        showPromotions: state.general.show_promotions,
+
+        showMobileMainMenu: state.general.show_mobile_main_menu,
         showSettings: state.general.show_settings,
-        showHelp: state.general.show_help,
-        showResponsibleGambling: state.general.show_responsible_gambling,
         inbox: state.general.inbox,
     }
 }
@@ -1574,5 +1681,7 @@ export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps,
     hide_account_menu,
     show_profile_menu,
     hide_profile_menu,
+    show_mobile_main_menu,
+    hide_mobile_main_menu,
     handle_inbox_value,
 })(TopNavbar))));

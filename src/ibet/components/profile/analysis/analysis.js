@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';

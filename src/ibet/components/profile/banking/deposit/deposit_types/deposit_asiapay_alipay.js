@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState } from '../../../../../actions';
+import { authCheckState } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -436,7 +436,7 @@ class DepositAsiapayAlipay extends Component {
 
         const backButton = (
             <Button onClick={this.backClicked}>
-                <img src={images.src + 'prev_step.svg'} />
+                <img src={images.src + 'prev_step.svg'} alt=''/>
             </Button>
         );
 
@@ -547,7 +547,7 @@ class DepositAsiapayAlipay extends Component {
                                     <div className={classes.amountText}>
                                         <FormattedNumber
                                             value={this.state.amount}
-                                            style="currency"
+                                            style={`currency`}
                                             currency={this.state.currencyValue}
                                         />
                                     </div>

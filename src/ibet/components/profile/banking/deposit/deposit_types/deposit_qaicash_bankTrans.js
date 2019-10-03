@@ -14,6 +14,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
+import { authCheckState } from '../../../../../../actions';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const bank_options = [
@@ -617,4 +619,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps)(DepositQaicashBT)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositQaicashBT)));

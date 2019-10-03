@@ -13,7 +13,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 
-import { authCheckState } from '../../../../../actions';
+import { authCheckState } from '../../../../../../actions';
 
 var QRCode = require('qrcode.react');
 

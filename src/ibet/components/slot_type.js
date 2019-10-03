@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { slot_type } from '../actions';
+import { slot_type, authCheckState } from '../../actions';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import  TopNavbar from "./top_navbar";
 import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../../util_config';
-import { authCheckState } from '../actions';
 import SelectFieldExampleMultiSelect from "./filter_bar";
 
 
@@ -222,7 +221,7 @@ class Slot_Type extends Component {
 
         const { formatMessage } = this.props.intl;
         let allMessage = formatMessage({ id: "nav.all" });
-        let slotsMessage = formatMessage({ id: "nav.slots" });
+        let slotsMessage = formatMessage({ id: "nav.casino" });
         let jackpotsMessage = formatMessage({ id: "nav.jackpots" });
         let tableGamesMessage = formatMessage({ id: "nav.table-games" });
         let otherGamesMessage = formatMessage({ id: "nav.other-games" });
