@@ -1,8 +1,8 @@
 export const config = {
     headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
     },
-    withCredentials: true,
+    withCredentials: true
 };
 
 export const images = {
