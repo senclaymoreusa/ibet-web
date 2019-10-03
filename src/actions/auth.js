@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { config } from '../util_config';
+import { errors } from '../ibet/components/errors';
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
@@ -259,7 +260,7 @@ export const authCheckState = () => {
                     .then(res => {
                         return axios.get(API_URL + 'users/api/check-user-status/?userId=' + res.data.pk, config)
                         .then(userStatus => {
-                            if (userStatus.data.errorCode === 100) {
+                            if (userStatus.data.errorCode === errors.USER_IS_BLOCKED) {
                                 dispatch(authFail(userStatus.errorMsg.detail[0]));
                                 dispatch(logout());
                                 return Promise.resolve(AUTH_RESULT_FAIL);
