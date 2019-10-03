@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import '../css/banner.css';
+import { withRouter } from 'react-router-dom';
+
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -28,13 +32,26 @@ const styles = theme => ({
   
 });
 
-class live_casino extends Component {
-  
+export class live_casino extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        
+    
+    };
+
+    this.getLabel = this.getLabel.bind(this);
+  }
+  getLabel(labelId) {
+        const { formatMessage } = this.props.intl;
+        return formatMessage({ id: labelId });
+  }
 
   render() {
 
     const { classes } = this.props;
-
+    
     return (
       <div className={classes.root}>
         <TopNavbar />
@@ -44,7 +61,9 @@ class live_casino extends Component {
           </div>
           <div className="PgMain" > 
           {/* main */}
-            <h2><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Live casino</font></font></h2>
+            <h2><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>
+             {this.getLabel('Live-casino')}
+            </font></font></h2>
             
             <div>
               <div className="PgHall"> 
@@ -282,4 +301,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(live_casino));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(live_casino))));

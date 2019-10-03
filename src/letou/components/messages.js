@@ -44,6 +44,8 @@ export const messages = {
         'login-help': 'Login Help',
         'using-help': 'Using Help',
         'maximum-gaming-platform': 'Maximum Gaming Platform',
+
+        'Live-casino': 'Live casino',
     },
     zh: {},
     vi: {},
