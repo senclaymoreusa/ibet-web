@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import { config } from '../../util_config';
-import { sendingLog } from '../../actions';
+import { config } from '../../../util_config';
+import { sendingLog } from '../../../actions';
 import { FormattedMessage } from 'react-intl';
 import Calendar from 'react-calendar';
-import TopNavbar from "./top_navbar";
+import TopNavbar from "../top_navbar";
 import '../css/profile.css';
 
 

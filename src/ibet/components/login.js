@@ -56,7 +56,8 @@ export class Login extends React.Component {
 
             button_disable: true,
             wrong_password_error: false,
-            user_blocked: false
+            user_blocked: false,
+            error: '',
         };
 
         this.onInputChange_username = this.onInputChange_username.bind(this);
@@ -145,32 +146,32 @@ export class Login extends React.Component {
         this.setState({ hidden: !this.state.hidden });
     }
 
-    componentClicked = () => {
-        this.setState({ button_clicked: 1 })
-        var username = this.state.name
-        var email = this.state.email
+    // componentClicked = () => {
+    //     this.setState({ button_clicked: 1 })
+    //     var username = this.state.name
+    //     var email = this.state.email
 
-        this.props.FacebookauthLogin(username, email)
-            .then(res => {
-                this.props.history.push('/');
-            }).catch(err => {
-                this.props.FacebookSignup(username, email)
-                    .then(res => {
-                        this.props.FacebookauthLogin(username, email)
-                            .then(res => {
-                                this.props.history.push('/');
-                            })
-                            .catch(err => {
-                                sendingLog(err);
-                                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                            })
-                    })
-                    .catch(err => {
-                        sendingLog(err);
-                        // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                    })
-            })
-    }
+    //     this.props.FacebookauthLogin(username, email)
+    //         .then(res => {
+    //             this.props.history.push('/');
+    //         }).catch(err => {
+    //             this.props.FacebookSignup(username, email)
+    //                 .then(res => {
+    //                     this.props.FacebookauthLogin(username, email)
+    //                         .then(res => {
+    //                             this.props.history.push('/');
+    //                         })
+    //                         .catch(err => {
+    //                             sendingLog(err);
+    //                             // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+    //                         })
+    //                 })
+    //                 .catch(err => {
+    //                     sendingLog(err);
+    //                     // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+    //                 })
+    //         })
+    // }
 
     onInputChange_checkbox = async (event) => {
         await this.setState({ check: !this.state.check })
@@ -180,11 +181,9 @@ export class Login extends React.Component {
         event.preventDefault();
         this.props.authLogin(this.state.username, this.state.password)
             .then((response) => {
-                if (response.errorCode === 100) {
-                    this.setState({ user_blocked: true, wrong_password_error: false });
-                    // return;
-                } else if (response.errorCode === 101) {
-                    this.setState({ user_blocked: false, wrong_password_error: true });
+                console.log(response);
+                if (response.errorCode) {
+                    this.setState({ error: response.errorMsg.detail[0] });
                     // return;
                 } else {
                     if (this.state.check) {
@@ -331,17 +330,19 @@ export class Login extends React.Component {
                     </div>
 
                     {
-                        this.state.wrong_password_error &&
+                        this.state.error &&
                         <div style={{ color: 'red', marginTop: 20, marginLeft: 40 }}>
-                            <FormattedMessage id="login.fail" defaultMessage='Incorrect Username / Password' />
+                            {this.state.error}
+                            {/* <FormattedMessage id="login.fail" defaultMessage='Incorrect Username / Password' /> */}
                         </div>
                     }
 
                     {
-                        this.state.user_blocked &&
-                        <div style={{ color: 'red', marginTop: 20, marginLeft: 40 }}>
-                            <FormattedMessage id="login.block" defaultMessage='The Current User is Blocked' />
-                        </div>
+                        // this.state.user_blocked &&
+                        // <div style={{ color: 'red', marginTop: 20, marginLeft: 40 }}>
+                        //     {this.state.error}
+                        //     {/* <FormattedMessage id="login.block" defaultMessage='The current user is blocked' /> */}
+                        // </div>
                     }
 
 

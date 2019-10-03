@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../util_config';
+import { config } from '../../../util_config';
 import { connect } from 'react-redux';
 import '../css/deposit.css';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,8 +9,8 @@ import blue from '@material-ui/core/colors/blue';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { images } from '../../util_config';
-import { hide_deposit_amount, show_deposit } from '../../actions';
+import { images } from '../../../util_config';
+import { hide_deposit_amount, show_deposit } from '../../../actions';
 import WeChatIcon from '../images/WeChat.png';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL

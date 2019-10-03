@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import { config } from '../../util_config';
-import { sendingLog } from '../../actions';
+import { config } from '../../../util_config';
+import { sendingLog } from '../../../actions';
 import { FormattedMessage } from 'react-intl';
-import { errors } from './errors';
-import TopNavbar from "./top_navbar";
+import { errors } from '../errors';
+import TopNavbar from "../top_navbar";
 import { NavLink } from 'react-router-dom';
 
 

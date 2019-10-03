@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { images } from '../../util_config';
+import { images } from '../../../util_config';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -12,7 +12,7 @@ import {
     show_account_menu,
     hide_withdraw_success,
     show_withdraw
-} from '../../actions';
+} from '../../../actions';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 

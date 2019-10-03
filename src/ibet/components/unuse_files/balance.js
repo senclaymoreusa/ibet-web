@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../util_config';
+import { config } from '../../../util_config';
 import { connect } from 'react-redux';
 
-import TopNavbar from "./top_navbar";
+import TopNavbar from "../top_navbar";
 
 import '../css/balance.css';
 
