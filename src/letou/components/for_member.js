@@ -175,16 +175,16 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/football_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >一般投注规则与规定</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/general_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >赌盘（投注类型）规则之一般规则</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/special_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >特定赛事投注规则</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/virtual_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >虚拟运动规则</ListItemText>
                         </Link>
                     </List>
@@ -203,31 +203,29 @@ export class ForMember extends React.Component {
                         <Link className={classes.list}>
                         <ListItemText classes={{primary:classes.listItemText}} >21点</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_longhu">
                         <ListItemText classes={{primary:classes.listItemText}} >龙虎</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_gubao">
                         <ListItemText classes={{primary:classes.listItemText}} >骰宝</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
-                        <ListItemText classes={{primary:classes.listItemText}} >轮盘</ListItemText>
-                        </Link>
-                        <Link className={classes.list}>
+                        
+                        <Link className={classes.list} href="/game_erbagang">
                         <ListItemText classes={{primary:classes.listItemText}} >二八杠</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_sangong">
                         <ListItemText classes={{primary:classes.listItemText}} >三公</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_wenzhoujiupai">
                         <ListItemText classes={{primary:classes.listItemText}} >温州牌九</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_sedie">
                         <ListItemText classes={{primary:classes.listItemText}} >色碟</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_poker">
                         <ListItemText classes={{primary:classes.listItemText}} >德州扑克</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_niuniu">
                         <ListItemText classes={{primary:classes.listItemText}} >牛牛</ListItemText>
                         </Link>
                     </List>
