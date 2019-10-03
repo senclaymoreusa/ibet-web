@@ -35,9 +35,6 @@ const styles = theme => ({
   
 });
 
-
-const menuItems = [this.getLabel('ag-baccarat'),this.getLabel('ag-baccarat'),this.getLabel('ag-baccarat'),this.getLabel('ag-baccarat')]; 
-
 export class live_casino extends React.Component {
   constructor(props) {
     super(props);
@@ -54,30 +51,12 @@ export class live_casino extends React.Component {
         return formatMessage({ id: labelId });
   }
 
-  Navmenu(props) { 
-    const list = props.menuitems; 
-  
-    const updatedList = list.map((listItems)=>{ 
-        return( 
-                <li key={listItems.toString()}> 
-                  <a>
-                    <label>
-                      {listItems} 
-                    </label>
-                  </a>
-                </li> 
-            );  
-    }); 
-  
-    return( 
-        <ul>{updatedList}</ul> 
-    ); 
-  } 
+   
 
   render() {
     
     const { classes } = this.props;
-    const {menuItems} = this.state;
+   
     return (
       <div className={classes.root}>
         <TopNavbar />
@@ -101,8 +80,8 @@ export class live_casino extends React.Component {
                 </div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('ag-words')}</p>
-                    <Navmenu menuitems = {{menuItems}} />
-                  {/* <ul>
+                    
+                  <ul>
                     
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-baccarat')}</font></a></li>
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Jingmi')}</font></a></li>
@@ -113,7 +92,7 @@ export class live_casino extends React.Component {
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Internationalhall')}</font></a></li>
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Flagshiphall')}</font></a></li>
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-JingmiHall')}</font></a></li>
-                  </ul> */}
+                  </ul>
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}><a><span>{this.getLabel('Real-money')}</span></a></div>
                 </div>
               </div>
