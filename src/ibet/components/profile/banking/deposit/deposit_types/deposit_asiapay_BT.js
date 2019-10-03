@@ -238,13 +238,11 @@ class DepositAsiapayBT extends Component {
             live_check_amount: false,
             button_disable: true,
             value: '',
-            size: 128,
-            fgColor: '#000000',
-            bgColor: '#ffffff',
-            level: 'L',
-            renderAs: 'svg',
-            includeMargin: false,
-            show_qrcode: false,
+            order_id: '',
+            BankName: '',
+            CardChName: '',
+            CardNumber: '',
+            CardBankName: '',
             bankid: '',
             image: null,
 
@@ -347,7 +345,9 @@ class DepositAsiapayBT extends Component {
                 currentComponent.setState({ showLinearProgressBar: false });
                 console.log(data);
                 if(data.StatusMsg == 'OK'){
-                    currentComponent.props.callbackFromParent('success',data);
+                    currentComponent.setState({ order_id: data.order_id,
+                    CardNumber: data.CardNumber, BankName: data.BankName, CardChName: data.CardChName,CardBankName: data.CardBankName,
+                    amount: data.sPayMoney});
                 }else{
                     currentComponent.props.callbackFromParent('error',data.StatusMsg);
                 }
@@ -366,7 +366,7 @@ class DepositAsiapayBT extends Component {
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
-        const { showLinearProgressBar } = this.state;
+        const { showLinearProgressBar, order_id, BankName,CardChName,CardNumber,CardBankName } = this.state;
 
         let depositAmountMessage = formatMessage({
             id: 'deposit.deposit_amount'
@@ -571,6 +571,17 @@ class DepositAsiapayBT extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <div id="api-response" style={{textAlign: 'center', paddingLeft: 262, paddingRight: 262}}>
+                        {
+                            order_id?
+                            <>
+                                
+                                <p>Once you have scanned the QR code, please check your e-mail and transaction history to confirm that the deposit was successful.</p>
+                            </>
+                            : 
+                            <br/>
+                        }
+                    </div>
                 </form>
             </div>
         );
