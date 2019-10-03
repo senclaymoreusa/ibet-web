@@ -67,219 +67,221 @@ export class live_casino extends React.Component {
             
             <div>
               <div className="PgHall"> 
-                <div className="PgHallTitle">AG Extreme Square</div>
+                <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
                 <div className="PgHallPic">
                   <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ag.jpg" style={{opacity: 1}} className="PgHallPicImg"/>
                 </div>
                 <div className="PgHallArticle">
-                  <p>The world's first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.</p>
+                  <p>{this.getLabel('ag-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Jingmi Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Package table baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>LED package table baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Suibao</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Roulette</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>International hall</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Flagship hall</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Jingmi Hall</font></font></a></li>
+                    
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-baccarat')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Jingmi')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Package')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-led')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Suibao')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Roulette')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Internationalhall')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Flagshiphall')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-JingmiHall')}</font></font></a></li>
                   </ul>
-                  <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}><a><span>Real money</span></a></div>
+                  <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}><a><span>{this.getLabel('Real-money')}</span></a></div>
                 </div>
               </div>
               <div className="PgHall MarginLeft">
-                <div className="PgHallTitle">AB Clear</div>
+                <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ab.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
                 <div className="PgHallArticle">
-                  <p>The first super multi-brick baccarat once viewed 12 tables and roads, which is closer to the players' habits.</p>
+                  <p>{this.getLabel('ab-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Julong Hall</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Super multi-office</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Vip hall</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Jingmi Hall</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Julong')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Super')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Vip')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Jingmi')}</font></font></a></li>
                   </ul>
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}>
-                    <a><span>Real money</span></a>
+                    <a><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                 </div>
               </div>
               <div className="PgHall MarginLeft">
-                <div className="PgHallTitle">EA Ruibao Pavilion</div>
+                <div className="PgHallTitle">{this.getLabel('EA-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ea.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
                 <div className="PgHallArticle">
-                  <p>The longest operating platform in the industry, the operational experience of the sense of the scene, the original free-to-play game.</p>
+                  <p>{this.getLabel('EA-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>No commission baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Super baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Dragon and Phoenix Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Longbao Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Pair of baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Multi-door dragon tiger</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EA-commission')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EA-Super')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EA-Dragon')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EA-Longbao')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EA-Pair')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EA-Multi')}</font></font></a></li>
                   </ul>
                   <div className="PgHallBtn Active FloatLeft" style={{cursor:'pointer'}}>
-                    <a><span><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>PC version</font></font></span></a>
+                    <a><span><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('pc-version')}</font></font></span></a>
                   </div>
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}>
-                    <a><span><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Real money</font></font></span></a>
+                    <a><span><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('Real-money')}</font></font></span></a>
                   </div>
                 </div>
               </div>
               <div className="PgHall MarginLeft">
-                <div className="PgHallTitle">N2Live New Ruibao Pavilion</div>
+                <div className="PgHallTitle">{this.getLabel('n2live-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/n2live.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
                 <div className="PgHallArticle">
-                  <p>Exclusive new mobile, smooth operating experience, high quality gaming platform.</p>
+                  <p>{this.getLabel('n2live-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>No commission baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Suibao</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Roulette</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-baccarat')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EA-commission')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Suibao')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Roulette')}</font></font></a></li>
                   </ul>
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}>
-                    <a onClick={()=> window.open("https://666.claymoreasia.com/", "n2live")}><span>Real money</span></a>
+                    <a onClick={()=> window.open("https://666.claymoreasia.com/", "n2live")}><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                 </div>
               </div>
               <div className="PgHall MarginLeft">
-                <div className="PgHallTitle">OPUS Fortune Hall</div>
+                <div className="PgHallTitle">{this.getLabel('OPUS-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/opus.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
                 <div className="PgHallArticle">
-                  <p>2D mini game, 3D real person experience, exclusive music investment VIP baccarat hall.</p>
+                  <p>{this.getLabel('OPUS-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Roulette</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Suibao</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Qixi Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Texas Hold'em</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>21 o'clock</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-baccarat')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Roulette')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Suibao')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('OPUS-Qixi')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('OPUS-Texas')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('OPUS-21')}</font></font></a></li>
                   </ul>
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}>
-                    <a><span>Real money</span></a>
+                    <a><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                 </div>
               </div>
               <div className="PgHall">
-                <div className="PgHallTitle Color3">GD Panlong Temple</div>
+                <div className="PgHallTitle Color3">{this.getLabel('gd-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/gd.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
                 <div className="PgHallArticle">
-                  <p>A simple operating platform, experience a new scene mode, a variety of baccarat at a time.</p>
+                  <p>{this.getLabel('gd-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Mi brand baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Roulette</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Suibao</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-baccarat')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('gd-Mi')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Roulette')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Suibao')}</font></font></a></li>
                   </ul>
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}>
-                    <a><span>Real money</span></a>
+                    <a><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                 </div>
               </div>
               <div className="PgHall MarginLeft">
-                <div className="PgHallTitle Color3">BBIN Boeing Hall</div>
+                <div className="PgHallTitle Color3">{this.getLabel('bbin-title')}</div>
                 <div className="PgHallPic">
                   <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/bbin.jpg" style={{opacity: 1}} className="PgHallPicImg"/>
                 </div>
                 <div className="PgHallArticle">
-                  <p>The old-fashioned gaming platform, the highest share of the game platform, the original golden arm bet special gameplay.</p>
+                  <p>{this.getLabel('bbin-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Two bars</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Sangong</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Wenzhou Pai Gow</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Suibao</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Texas Hold'em</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Color dish</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-words')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-Two')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-Sangong')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Wenzhou')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-Texas')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-Color')}</font></font></a></li>
                   </ul>
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}>
-                    <a><span>Real money</span></a>
+                    <a><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                 </div>
               </div>
               <div className="PgHall MarginLeft">
-                <div className="PgHallTitle Color3">GPI Jin Yucheng</div>
+                <div className="PgHallTitle Color3">{this.getLabel('gpi-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/gpi.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
                 <div className="PgHallArticle">
-                  <p>Exclusive Super 98 Baccarat, innovative high odds, technical ability leading the industry.</p>
+                  <p>{this.getLabel('gpi-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Qixi Baccarat</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>斗色骰宝</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Sangong</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Black jack</font></font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Super stall</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-baccarat')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('gpi-Qixi')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('gpi-Dai')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('gpi-Sangong')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('gpi-Black')}</font></font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('gpi-Super')}</font></font></a></li>
                   </ul>
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}>
-                    <a><span>Real money</span></a>
+                    <a><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                 </div>
               </div>
             </div>
             <div className="ClearBoth"></div>
           <div>
-            <h3><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Learn about game rules and platform introduction</font></font></h3>
+            <h3><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('game-rule')}</font></font></h3>
             <div class="PgHallListBox">
             <ul class="List">
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Traditional baccarat</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>No commission baccarat</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Super baccarat</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Package table baccarat</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Jingmi Baccarat</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Traditional')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-No')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Super')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Package')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Jingmi')}</font></font></a></li>
             </ul>
             <ul class="List">
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Serial baccarat</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Longbao Baccarat</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Pair of baccarat</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Playboy Baccarat</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Dragon tiger</font></font></a></li>
-              </ul><ul class="List"><li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Two bars</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Sangong</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Wenzhou Pai Gow</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Color dish</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Texas Hold'em</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Serial')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Longbao')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Pair')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Playboy')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Dragon')}</font></font></a></li>
+              </ul><ul class="List">
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Two')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Sangong')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Wenzhou')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Color')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Texas')}</font></font></a></li>
             </ul>
             <ul class="List">
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Blackjack</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Cattle</font></font></a></li>
-              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>Roulette</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Blackjack')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Cattle')}</font></font></a></li>
+              <li><a><i></i><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Roulette')}</font></font></a></li>
             </ul>
             <ul class="PgHallBrand">
               <li><a>
                 <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo4.png" alt="HG platform"/></div>
-                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>HG platform</font></font></p>
+                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('HG-platform')}</font></font></p>
                 </a>
               </li>
               <li><a>
                 <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo3.png" alt="OPUS platform"/></div>
-                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>OPUS platform</font></font></p>
+                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('OPUS-platform')}</font></font></p>
                 </a>
               </li>
               <li><a>
                 <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo2.png" alt="EA platform"/></div>
-                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>EA platform</font></font></p>
+                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EA-platform')}</font></font></p>
                 </a>
               </li>
               <li><a>
                 <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo1.png" alt="AG platform"/></div>
-                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>AG platform</font></font></p>
+                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('AG-platform')}</font></font></p>
                 </a>
               </li>
               <li><a>
                 <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo8.png" alt="GD platform"/></div>
-                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>GD platform</font></font></p>
+                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('GD-platform')}</font></font></p>
                 </a>
               </li>
               <li><a>
                 <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo7.png" alt="EV platform"/></div>
-                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>EV platform</font></font></p>
+                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EV-platform')}</font></font></p>
                 </a>
               </li>
               <li><a>
                 <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo6.png" alt="PT platform"/></div>
-                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>PT platform</font></font></p>
+                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('PT-platform')}</font></font></p>
                 </a>
               </li>
               <li><a>
                 <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo5.png" alt="W88 platform"/></div>
-                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>W88 platform</font></font></p>
+                <p><font style={{verticalAlign: 'inherit'}}><font style={{verticalAlign: 'inherit'}}>{this.getLabel('W88-platform')}</font></font></p>
                 </a>
               </li>
             </ul>
