@@ -376,6 +376,10 @@ class DepositQaicah extends Component {
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
                 //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
+        }).catch(function (err) {  
+            console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", err.message);
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 

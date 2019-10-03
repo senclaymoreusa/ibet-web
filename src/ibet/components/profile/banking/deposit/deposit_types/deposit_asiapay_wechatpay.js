@@ -395,6 +395,8 @@ class DepositAsiapayWechatpay extends Component {
                     }
                 }, 1000);
                 
+            }else{
+                currentComponent.props.callbackFromParent("error", data.StatusMsg);
             }
             
                }).catch(function (err) {  

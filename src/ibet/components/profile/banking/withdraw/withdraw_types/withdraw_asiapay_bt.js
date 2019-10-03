@@ -328,6 +328,7 @@ class WithdrawAsiapayBT extends Component {
         let cardnumber = this.state.pin;
         let cardname = this.state.cardname;
         let bankname = this.state.bankname;
+        let username = this.state.data.username
 
 
         var postData = {
@@ -355,25 +356,47 @@ class WithdrawAsiapayBT extends Component {
             },
             body: formBody
         }).then(function (res) {
-            console.log(res.json())
+            console.log(res)
             if(res.ok){
                 return res.json();
             }else{
                 currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                return res.json();
             }
             
         }).then(function (data) {
             let status = data.StatusCode;
 
             if (status == '50001') {
-                currentComponent.props.callbackFromParent("Success", 'Your withdraw application is sent successfully.');
-            } else if (main_wallet - amount < 0) {
-                alert('Your account balance is not enough!')
+                const body = JSON.stringify({
+                    type: 'withdraw',
+                    username: username,
+                    balance: amount,
+                });
+                console.log(body)
+                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                    .then(res => {
+                        if (res.data === 'Failed') {
+                            //this.setState({ error: true });
+                            currentComponent.props.callbackFromParent("error", 'Transaction failed!');
+                        } else if (res.data === 'The balance is not enough') {
+                            //    // alert("cannot withdraw this amount")
+                            currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
+
+                        } else {
+                            currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
+
+                            // alert("your balance is updated")
+                            // window.location.reload()
+                        }
+                    });
+
             } else {
                 currentComponent.props.callbackFromParent("error", data.StatusMsg);
                 //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
+        }).catch(err => {
+            currentComponent.props.callbackFromParent("error", err.returnMessage);
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 

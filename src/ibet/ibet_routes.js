@@ -33,7 +33,7 @@ import ChangePassword from './components/change_password_new';
 import DepositLinePay from './components/profile/banking/deposit/deposit_types/deposit_linepay';
 import DepositQaicah from './components/profile/banking/deposit/deposit_types/deposit_qaicash';
 import DepositAsiapayJDPay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_jdpay';
-import DepositAsiapayBankcard from './components/profile/banking/deposit/deposit_types/deposit_asiapay_bankcard';
+import DepositAsiapayBankcard from './components/profile/banking/deposit/deposit_types/deposit_asiapay_onlinepay';
 import WithdrawAsiapay from './components/withdraw_asiapay';
 import DepositAsiapayQucikpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_kuaijie';
 import DepositAsiapayUnionpay from './components/profile/banking/deposit/deposit_types/deposit_asiapay_unionpay';
@@ -120,7 +120,7 @@ const BaseRouter = () => (
         />
         <Route
             exact
-            path="/deposit_asiapay_bankcard/"
+            path="/deposit_asiapay_onlinepay/"
             component={DepositAsiapayBankcard}
         />
         <Route

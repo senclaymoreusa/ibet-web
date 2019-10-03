@@ -177,6 +177,7 @@ export class DepositMethod extends Component {
                                 </Button>
                                 <Button
                                     className={classes.addButton}
+                                    disabled={true}
                                     onClick={() => {
                                         this.depositWith('qaicash_btc');
                                     }}
@@ -198,6 +199,14 @@ export class DepositMethod extends Component {
                                     }}
                                 >
                                     Line Pay
+                                </Button>
+                                <Button
+                                    className={classes.addButton}
+                                    onClick={() => {
+                                        this.depositWith('asia_bankTransfer');
+                                    }}
+                                >
+                                    Asiapay LBT
                                 </Button>
                                 <Button
                                     className={classes.addButton}

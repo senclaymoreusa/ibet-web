@@ -379,6 +379,10 @@ class DepositQaicashAlipay extends Component {
                 currentComponent.setState({ showLinearProgressBar: false });
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
             }
+        }).catch(function (err) {  
+            console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", err.message);
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 

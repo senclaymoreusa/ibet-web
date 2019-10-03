@@ -29,7 +29,7 @@ import DepositPayzod from './deposit_types/deposit_payzod';
 import DepositHelp2pay from './deposit_types/deposit_help2pay';
 import DepositFgo from './deposit_types/deposit_fgo';
 import DepositAstropay from './deposit_types/deposit_astropay';
-import DepositAsiapayBankcard from './deposit_types/deposit_asiapay_bankcard';
+import DepositAsiapayBankcard from './deposit_types/deposit_asiapay_onlinepay';
 import DepositScratchCard from './deposit_types/deposit_scratchcard';
 import DepositPIQ from './deposit_types/deposit_piq';
 

@@ -307,11 +307,12 @@ class DepositAsiapayJDPay extends Component {
         currentComponent.setState({ showLinearProgressBar: true });
         let userid = this.state.data.pk;
         var postData = {
-            "amount": this.state.amount,
-            "userid": this.state.data.pk,
-            "currency": "0",
-            "PayWay": "42", //QRcode
-            "method": "49", //京东支付
+            amount: this.state.amount,
+            userid: this.state.data.pk,
+            currency: "0",
+            PayWay: "42", //QRcode
+            method: "49", //京东支付
+            RealName: this.state.data.last_name + this.state.data.first_name,
         }
         console.log(this.state.amount)
         console.log(this.state.data.pk)
@@ -401,6 +402,8 @@ class DepositAsiapayJDPay extends Component {
                 //     }
                 // }, 1000);
                 
+            }else{
+                currentComponent.props.callbackFromParent("error", data.StatusMsg);
             }
             // currentComponent.setState({ qr: data.qr });
             // currentComponent.setState({ showLinearProgressBar: false });
@@ -523,7 +526,7 @@ class DepositAsiapayJDPay extends Component {
                         {
                             qr_code ? 
                             <>
-                                <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/>
+                                <QRCode value = {{qr_code}}/>
                                 <p>Once you have scanned the QR code, please check your e-mail and transaction history to confirm that the deposit was successful.</p>
                             </>
                             : 

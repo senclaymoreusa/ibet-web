@@ -13,7 +13,7 @@ import { authCheckState } from '../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-//var QRCode = require('qrcode.react');
+var QRCode = require('qrcode.react');
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -399,6 +399,8 @@ class DepositAsiapayUnionpay extends Component {
                 //     }
                 // }, 1000);
                 
+            }else{
+                currentComponent.props.callbackFromParent("error", data.StatusMsg)
             }
             // let myqr = data.qr;
 
@@ -520,7 +522,8 @@ class DepositAsiapayUnionpay extends Component {
                         {
                             qr_code ? 
                             <>
-                                <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/>
+                                {/* <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/> */}
+                                <QRCode value = {{qr_code}}/>
                                 <p>Once you have scanned the QR code, please check your e-mail and transaction history to confirm that the deposit was successful.</p>
                             </>
                             : 

@@ -297,7 +297,11 @@ class WithdrawQaicashLBT extends Component {
             },
             body: formBody
         }).then(function (res) {
-            return res.json();
+            if(res.ok){
+                return res.json();
+            }else{
+                currentComponent.props.callbackFromParent("error", "Transaction failed.");
+            }
         }).then(function (data) {
             let redirectUrl = data.paymentPageSession.paymentPageUrl;
             if (redirectUrl != null && main_wallet - amount >= 0) {
@@ -316,20 +320,26 @@ class WithdrawQaicashLBT extends Component {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
-                        return fetch(API_URL + 'accounting/api/qaicash/confirm', {
+                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             },
                             body: formBody
                         }).then(function (res) {
-                            return res.json();
+                            if(res.status == 200){
+                                return res.json();
+                            }else{
+                                currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                return res.json();
+                            }
+                            
                         }).then(function (data) {
                             let status = data.status;
 
                             if (status === 9) {
 
-                                alert('Transaction is approved.');
+                                //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'withdraw',
                                     username: user,
@@ -368,6 +378,9 @@ class WithdrawQaicashLBT extends Component {
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
                 //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
+        }).catch(err => {
+            currentComponent.props.callbackFromParent("error", err.returnMessage);
+            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
@@ -406,7 +419,7 @@ class WithdrawQaicashLBT extends Component {
                             <Grid container>
                                 <Grid item xs={12} className={classes.cardTypeCell}>
                                     <Button className={classes.cardTypeButton} disabled>
-                                        Qaicash Lbt
+                                        Qaicash Local Bank Transfer
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.detailRow}>

@@ -251,7 +251,8 @@ class DepositAsiapayQucikpay extends Component {
             userid: user,
             currency: '0',
             PayWay: '30', // pop up window / new tab
-            method: '39' // 快捷支付
+            method: '39', // 快捷支付
+            RealName: this.state.data.last_name + this.state.data.first_name,
         };
 
         var formBody = [];
@@ -317,7 +318,11 @@ class DepositAsiapayQucikpay extends Component {
                             }
                         )
                             .then(function(res) {
-                                return res.json();
+                                if(res.status == 200){
+                                    return res.json();
+                                }else{
+                                    currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                }
                             })
                             .then(function(data) {
                                 console.log(data.status);
