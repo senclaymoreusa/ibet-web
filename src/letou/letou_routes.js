@@ -1,43 +1,48 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Home from './components/home';
-import AboutUs from './components/about_us'
-import ForMember from './components/for_member';
-import ForPartner from './components/for_partner';
-import ContactUs from './components/contact_us';
-import  Statement  from './components/statement';
-import  Disclaimer  from './components/disclaimer';
-import  Privacy from './components/privacy';
-import SafeBet  from './components/safe_bet';
-import  Identity  from './components/identity';
-import  OfferTerms  from './components/offer_terms';
-import  Rules  from './components/rules';
-import  FootballRules  from './components/football_rules';
-import  BetRules  from './components/bet_rules';
-import  GeneralRules  from './components/general_rules';
-import  SpecialRules  from './components/special_rules';
-import  VirtualRules  from './components/virtual_rule';
-import  GameLongHu  from './components/game_longhu';
-import  GameGubao  from './components/game_gubao';
-import  GameErbagang  from './components/game_erbagang';
-import  GameSangong  from './components/game_sangong';
-import  GameWenzhoujiupai  from './components/game_wenzhoujiupai';
-import  GameSedie  from './components/game_sedie';
-import  GamePoker  from './components/game_poker';
-import  GameNiuniu  from './components/game.niuniu';
-import  GameRuleTwo  from './components/game_rule2';
-import  GameRuleFour  from './components/game_rule4';
-import  GameRuleFive  from './components/game_rule5';
-import  GameRuleSix  from './components/game_rule6';
-import  GameRuleSeven  from './components/game_rule7';
-import  GameRuleEight  from './components/game_rule8';
-import  LotteryRuleFour  from './components/lottery_rule4';
-import member_rule1 from './components/member_rule1';
-import member_rule2 from './components/member_rule2';
-import member_rule3 from './components/member_rule3';
-import member_rule4 from './components/member_rule4';
-import member_rule5 from './components/member_rule5';
-import member_rule6 from './components/member_rule6';
+import AboutUs from './components/member/about_us'
+import ForMember from './components/member/for_member'
+import ForPartner from './components/partner/for_partner';
+import ContactUs from './components/member/contact_us';
+import  Statement  from './components/member/statement';
+import  Disclaimer  from './components/member/disclaimer';
+import  Privacy from './components/member/privacy';
+import SafeBet  from './components/member/safe_bet';
+import  Identity  from './components/member/identity';
+import  OfferTerms  from './components/member/offer_terms';
+import  Rules  from './components/member/rules';
+import  FootballRules  from './components/member/football_rules';
+import  BetRules  from './components/member/bet_rules';
+import  GeneralRules  from './components/member/general_rules';
+
+import  GamePoker  from './components/member/game_poker';
+import  GameNiuniu  from './components/member/game.niuniu';
+import  GameRuleSix  from './components/member/game_rule6';
+
+import member_rule1 from './components/partner/partner_rule1';
+import member_rule2 from './components/partner/partner_rule2';
+import member_rule3 from './components/partner/partner_rule3';
+import member_rule4 from './components/partner/partner_rule4';
+import member_rule5 from './components/partner/partner_rule5';
+import member_rule6 from './components/partner/partner_rule6';
+import  LotteryRuleOne  from './components/member/lottery_rule1';
+import  GameSedie  from './components/member/game_sedie';
+import  GameErbagang  from './components/member/game_erbagang';
+import  SpecialRules  from './components/member/special_rules';
+import  GameRuleTwo  from './components/member/game_rule2';
+import  GameWenzhoujiupai  from './components/member/game_wenzhoujiupai';
+import  GameRuleFive  from './components/member/game_rule5';
+import  GameLongHu  from './components/member/game_longhu';
+import  GameRuleSeven  from './components/member/game_rule7';
+import  GameGubao  from './components/member/game_gubao';
+import  LotteryRuleFour  from './components/member/lottery_rule4';
+import  GameRuleFour  from './components/member/game_rule4';
+import  GameSangong  from './components/member/game_sangong';
+import  GameRuleEight  from './components/member/game_rule8';
+import virtual_sports from './components/member/virtual_sports';
+
+
 
 const containerStyle = {
     mineight: '100%'
@@ -61,7 +66,8 @@ const BaseRouter = () => (
         <Route exact path="/bet_rules" component={BetRules} />
         <Route exact path="/general_rules" component={GeneralRules} />
         <Route exact path="/special_rules" component={SpecialRules} />
-        <Route exact path="/virtual_rules" component={VirtualRules} />
+        <Route exact path="/virtual_sports" component={virtual_sports} />
+
         <Route exact path="/game_longhu" component={GameLongHu} />
         <Route exact path="/game_gubao" component={GameGubao} />
         <Route exact path="/game_erbagang" component={GameErbagang} />
@@ -76,6 +82,8 @@ const BaseRouter = () => (
         <Route exact path="/game_rule6" component={GameRuleSix} />
         <Route exact path="/game_rule7" component={GameRuleSeven} />
         <Route exact path="/game_rule8" component={GameRuleEight} />
+        <Route exact path="/lottery_rule1" component={LotteryRuleOne} />
+
         <Route exact path="/lottery_rule4" component={LotteryRuleFour} />
         <Route exact path="/member_rule1" component={member_rule1} />
         <Route exact path="/member_rule2" component={member_rule2} />

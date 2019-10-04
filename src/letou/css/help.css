@@ -37,3 +37,36 @@
     text-decoration: none;
     list-style-type: none;
 }
+.HelpCenterSmNav {
+    margin-bottom: 30px;
+  
+}
+.HelpCenterSmNav ul {
+    overflow: hidden;
+}
+.HelpCenterSmNav ul li {
+    height: 35px;
+    font-size: 14px;
+    line-height: 35px;
+    background-color: #f5f5f5;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    display:block;
+}
+.HelpCenterSmNav ul li a {
+    display: block;
+    color: #333333;
+    text-decoration: none;
+    padding: 0 15px;
+    cursor: pointer;
+}
+.HelpCenterSmNav ul li.Active {
+    background-color: #FF9300;
+    border: 1px solid #FF9300;
+}
+.HelpCenterSmNav ul li.Active a {
+    color: #fff;
+}
