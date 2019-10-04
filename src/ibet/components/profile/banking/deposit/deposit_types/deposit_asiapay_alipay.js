@@ -314,7 +314,7 @@ class DepositAsiapayAlipay extends Component {
                 if (qrurl != null) {
                     const mywin = window.open(qrurl, 'asiapay-alipay');
                     var timer = setInterval(function() {
-                        console.log('checking..');
+                        
                         if (mywin.closed) {
                             clearInterval(timer);
                             var postData = {
@@ -404,10 +404,19 @@ class DepositAsiapayAlipay extends Component {
                         }
                     }, 1000);
                 }else{
-                    currentComponent.props.callbackFromParent(
+                    if(data.StatusCode == ('00005' || '100504' || '100505' || '00800' || '100803' || '000008' || '100305' || '100306' || '100307'
+                        || '100606' || '100608' || '100603' || '100604' || '100605' || '100901' || '100902' || '100803' || '00050' || '00003' || '00002')){
+                        currentComponent.props.callbackFromParent(
                                                         'error',
                                                         data.StatusMsg
                                                     );
+                    }else{
+                        currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Something is wrong.'
+                                                    );
+                    }
+                    
                 }
                 
             })
@@ -416,7 +425,7 @@ class DepositAsiapayAlipay extends Component {
                 console.log('Request failed', err);
                 currentComponent.props.callbackFromParent(
                     'error',
-                    err.message
+                    "somerthu"
                 );
 
                 axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });

@@ -344,7 +344,7 @@ class DepositAsiapayWechatpay extends Component {
             if(qrurl != null){
                 const mywin = window.open(qrurl, 'asiapay-wechatpay')
                 var timer = setInterval(function () {
-                    console.log('checking..')
+                    
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {

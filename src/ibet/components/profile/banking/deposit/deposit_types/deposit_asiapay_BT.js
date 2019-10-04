@@ -339,9 +339,12 @@ class DepositAsiapayBT extends Component {
                 currentComponent.setState({ showLinearProgressBar: false });
                 console.log(data);
                 if(data.StatusMsg == 'OK'){
-                    currentComponent.setState({ order_id: data.order_id,
-                    CardNumber: data.CardNumber, BankName: data.BankName, CardChName: data.CardChName,CardBankName: data.CardBankName,
-                    amount: data.sPayMoney});
+                    currentComponent.setState({ order_id: data.order_id});
+                    currentComponent.setState({ CardNumber: data.CardNumber});
+                    currentComponent.setState({ BankName: data.BankName});
+                    currentComponent.setState({ CardChName: data.CardChName});
+                    currentComponent.setState({ CardBankName: data.CardBankName});
+                   
                 }else{
                     currentComponent.props.callbackFromParent('error',data.StatusMsg);
                 }

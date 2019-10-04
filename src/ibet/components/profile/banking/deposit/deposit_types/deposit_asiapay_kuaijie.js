@@ -288,10 +288,14 @@ class DepositAsiapayQucikpay extends Component {
                 // let url = data.url;
                 // let order_id = data.order_id;
                 // const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
-                let newwin = window.open('');
-                newwin.document.write(data);
-                var timer = setInterval(function() {
-                    console.log('checking..');
+                if(data.indexOf("其他错误|25") && data.includes("100309")){
+                    currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                }else{
+                    console.log(data.StatusCode)
+                    let newwin = window.open('');
+                    newwin.document.write(data);
+                    var timer = setInterval(function() {
+                
                     if (newwin.closed) {
                         clearInterval(timer);
                         var postData = {
@@ -374,8 +378,10 @@ class DepositAsiapayQucikpay extends Component {
                                     );
                                 }
                             });
-                    }
-                }, 1000);
+                        }
+                    }, 1000);
+                }
+                
             })
             .catch(err => {
                 console.log(err);

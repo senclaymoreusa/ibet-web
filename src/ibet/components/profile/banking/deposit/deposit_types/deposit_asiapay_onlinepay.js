@@ -356,7 +356,7 @@ class DepositAsiapayOnlinePay extends Component {
                 let newwin = window.open('');
                 newwin.document.write(data);
                 var timer = setInterval(function() {
-                    console.log('checking..');
+                    
                     if (newwin.closed) {
                         clearInterval(timer);
                         var postData = {
