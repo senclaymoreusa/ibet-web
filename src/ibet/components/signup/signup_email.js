@@ -4,11 +4,12 @@ import { hide_signup_email,
     show_signup, 
     handle_signup_email, 
     handle_signup_password, 
-    handle_signup_language } from '../../actions';
+    handle_signup_language,
+    sendingLog } from '../../../actions';
 import { FormattedMessage} from 'react-intl';
 import { connect } from 'react-redux';
 import axios from 'axios'
-import { config, images } from "../../util_config";
+import { config, images } from "../../../util_config";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -158,8 +159,8 @@ class SignupEmail extends React.Component {
             this.props.show_signup_detail();
             
         }).catch(err => {
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-            
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
             this.setState({email_exist: true})
         })
     }

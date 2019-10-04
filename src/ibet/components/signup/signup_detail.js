@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import TextField from '@material-ui/core/TextField';
-import { hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob } from '../../actions';
+import { hide_signup_detail, show_signup_email, show_signup_contact, handle_signup_username, handle_signup_first_name, handle_signup_last_name, handle_signup_dob, sendingLog } from '../../../actions';
 import { FormattedMessage } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import { getNames } from 'country-list';
-import { config, images } from "../../util_config";
+import { config, images } from "../../../util_config";
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -214,8 +214,8 @@ class SignupDetail extends React.Component {
             this.props.show_signup_contact();
             
         }).catch(err => {
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-            
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
             this.setState({username_error: true})
         })
     }

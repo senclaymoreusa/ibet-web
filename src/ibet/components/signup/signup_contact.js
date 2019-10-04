@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone, handle_signup_address, handle_signup_city, handle_signup_zipcode, handle_signup_country } from '../../actions';
+import { show_signup_contact, hide_signup_contact, show_signup_detail, show_signup_phone, handle_signup_address, handle_signup_city, handle_signup_zipcode, handle_signup_country } from '../../../actions';
 import axios from 'axios'
 import { getNames } from 'country-list';
 import { FormattedMessage } from 'react-intl';
-import { images } from '../../util_config';
+import { images } from '../../../util_config';
 
 
 

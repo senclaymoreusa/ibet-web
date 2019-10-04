@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
@@ -300,9 +300,9 @@ class DepositLinePay extends Component {
                 }
             })
             .catch(err => {
-                console.log("ERROR!!! " + err);
-
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                // console.log("ERROR!!! " + err);
+                sendingLog(err);
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             });
 
         console.log(this.props.history);
@@ -316,7 +316,8 @@ class DepositLinePay extends Component {
             })
             .catch(err => {
                 console.log("Error with authentication! Error: " + err);
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                sendingLog(err);
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             })
     }
 
@@ -361,8 +362,8 @@ class DepositLinePay extends Component {
             console.log('Request failed', err);
 
             currentComponent.setState({ showLinearProgressBar: false });
-
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
