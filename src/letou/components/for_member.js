@@ -240,25 +240,25 @@ export class ForMember extends React.Component {
                         <Link className={classes.list}>
                         <ListItemText classes={{primary:classes.listItemText}} >电动吃角子老虎</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_rule2">
                         <ListItemText classes={{primary:classes.listItemText}} >经典老虎机</ListItemText>
                         </Link>
                         <Link className={classes.list}>
                         <ListItemText classes={{primary:classes.listItemText}} >牌桌&牌游戏</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_rule4">
                         <ListItemText classes={{primary:classes.listItemText}} >刮刮乐</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_rule5">
                         <ListItemText classes={{primary:classes.listItemText}} >多玩家游戏</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_rule6">
                         <ListItemText classes={{primary:classes.listItemText}} >亚洲游戏</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_rule7">
                         <ListItemText classes={{primary:classes.listItemText}} >大型电玩</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_rule8">
                         <ListItemText classes={{primary:classes.listItemText}} >NetEnt</ListItemText>
                         </Link>
                     </List>
@@ -277,7 +277,7 @@ export class ForMember extends React.Component {
                         <Link className={classes.list}>
                         <ListItemText classes={{primary:classes.listItemText}} > 时时彩规则</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/lottery_rule4">
                         <ListItemText classes={{primary:classes.listItemText}} >PK拾游戏规则</ListItemText>
                         </Link>
                        

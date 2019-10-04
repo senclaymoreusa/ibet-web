@@ -36,7 +36,7 @@ const styles = theme => ({
     }
 })
 
-export class GameGubao extends React.Component {
+export class GameRuleTwo extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -65,39 +65,43 @@ export class GameGubao extends React.Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">小游戏规则 >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>
-                            <span>骰宝</span>
-                        </h2>
-                        <h1>【游戏规则】</h1>
-                        <p>- 骰宝游戏采用三粒骰子，用户可在投注时间内下注投注项目。
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> - 投注时间结束后，三粒骰子在自动振动骰盅内进行滚动。当振动时间完毕后，静止的三粒骰子朝上一方的点数便是该局的结果。</li>
-                            <li> - 因斜骰或叠骰...等因素令结果不能清析判定。监场人员有权把该次结果设为无效。该局投注会按重新摇骰后的清析结果计算。</li>
-            
-                            <li> - 当游戏结果出现围骰，投注（大／小 ）或（单／双）项目均作为输。</li></ul></p>
-                        <h1>【派彩赔率】</h1>
-                        <p></p>
-                            <img src="http://i.imgur.com/TsYw1Xt.png"></img>
-                        
-                        <p>下注在单一个点数：</p>
-                            
-                            <img src="http://i.imgur.com/HO61AWk.png"></img>
-                        
-                        <p>3颗骰子点数总和： </p>
-                           
-                            <img src="http://i.imgur.com/UmmvOkb.png"></img>
+                        <h2>经典老虎机</h2>
+                        &nbsp;
+                        <h1>游戏玩法</h1>
                        
-                        <p>3颗骰子点数总和：</p>
+                            <ul className={classes.helpCenterArticleColumn}>
+                            <li>- 单击屏幕左边的＋和－按钮选择您要在每局下注的硬币数。</li>
+                            <li>
+                            </li><li> - 单击 “ 赌一个 ” 或者 “ 赌最大 ” 按钮选择您想下注的硬币数。单击一次 “ 赌一个 ” 按钮可在赌注中增加一个硬币。
+                            </li><li>
+                            </li><li> - 您也可以单击赔率表中相应的列下注（最左边一列下一个硬币的赌注，中间列下两个硬币的赌注，最右边一列下三个硬币的赌注）。转轴会开始自动旋转。
+                            </li><li>
+                            </li><li> - 单击 “ 赌最大 ” 按钮可将赔付线的数目增加至最大－即三条赔付线－并且自动旋转转轴。
+                            </li><li>
+                            </li><li> - 单击 “ 旋转 ” 按钮（如果没有按赌最大或者使用赔率表），或者点击转臂以旋转转轴。
+                            </li><li>
+                            </li><li> - 如果转轴停止后显示赢奖组合（沿着赔付线），您将依照赔率表赢得相应奖金。
+                        </li><li>
+                        </li><li> &nbsp;</li>
+                        </ul>
+                        <h1>按钮</h1>
+                        &nbsp;
+                       
+                        <ul className={classes.helpCenterArticleColumn}>
+                            <li>► ＋和－按钮：增加或减少硬币值。 </li>
+                            <li> ► 赌一个：下一个硬币赌注或者增加一个硬币到赌注中（最多达三个）。然后单击旋转按钮旋转转轴。
+                            </li><li> ► 赌最大：下三个硬币的赌注并自动旋转转轴。
+                            </li><li> ► 旋转：旋转转轴。</li>
+                            </ul>
                            
-                            <img src="http://i.imgur.com/DTrEM5e.png"></img>
-                        
+                       
                     </div>
 
                 </Grid>
@@ -122,11 +126,11 @@ export class GameGubao extends React.Component {
 }
 
 
-GameGubao.propTypes = {
+GameRuleTwo.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(GameGubao))));
+})(GameRuleTwo))));

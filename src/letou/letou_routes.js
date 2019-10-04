@@ -25,6 +25,19 @@ import  GameWenzhoujiupai  from './components/game_wenzhoujiupai';
 import  GameSedie  from './components/game_sedie';
 import  GamePoker  from './components/game_poker';
 import  GameNiuniu  from './components/game.niuniu';
+import  GameRuleTwo  from './components/game_rule2';
+import  GameRuleFour  from './components/game_rule4';
+import  GameRuleFive  from './components/game_rule5';
+import  GameRuleSix  from './components/game_rule6';
+import  GameRuleSeven  from './components/game_rule7';
+import  GameRuleEight  from './components/game_rule8';
+import  LotteryRuleFour  from './components/lottery_rule4';
+import member_rule1 from './components/member_rule1';
+import member_rule2 from './components/member_rule2';
+import member_rule3 from './components/member_rule3';
+import member_rule4 from './components/member_rule4';
+import member_rule5 from './components/member_rule5';
+import member_rule6 from './components/member_rule6';
 
 const containerStyle = {
     mineight: '100%'
@@ -57,6 +70,19 @@ const BaseRouter = () => (
         <Route exact path="/game_sedie" component={GameSedie} />
         <Route exact path="/game_poker" component={GamePoker} />
         <Route exact path="/game_niuniu" component={GameNiuniu} />
+        <Route exact path="/game_rule2" component={GameRuleTwo} />
+        <Route exact path="/game_rule4" component={GameRuleFour} />
+        <Route exact path="/game_rule5" component={GameRuleFive} />
+        <Route exact path="/game_rule6" component={GameRuleSix} />
+        <Route exact path="/game_rule7" component={GameRuleSeven} />
+        <Route exact path="/game_rule8" component={GameRuleEight} />
+        <Route exact path="/lottery_rule4" component={LotteryRuleFour} />
+        <Route exact path="/member_rule1" component={member_rule1} />
+        <Route exact path="/member_rule2" component={member_rule2} />
+        <Route exact path="/member_rule3" component={member_rule3} />
+        <Route exact path="/member_rule4" component={member_rule4} />
+        <Route exact path="/member_rule5" component={member_rule5} />
+        <Route exact path="/member_rule6" component={member_rule6} />
 
 
 

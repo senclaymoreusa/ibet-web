@@ -65,7 +65,7 @@ export class GameSedie extends React.Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">维护账户安全 >
+                                <a href="/for_member">娱乐场规则 >
                                     <i></i>
                                 </a>
                             </li>

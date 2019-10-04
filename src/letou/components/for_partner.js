@@ -106,19 +106,19 @@ export class ForPartner extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} >
+                        <Link className={classes.list} href="/member_rule1">
                         <ListItemText classes={{primary:classes.listItemText}} >分享计划服务事项</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/member_rule2">
                         <ListItemText classes={{primary:classes.listItemText}} >合作经营</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/member_rule3">
                         <ListItemText classes={{primary:classes.listItemText}} >双方权利与义务</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/member_rule4">
                         <ListItemText classes={{primary:classes.listItemText}} >佣金分配与计算</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/member_rule5">
                         <ListItemText classes={{primary:classes.listItemText}} >代理FAQ</ListItemText>
                         </Link>
                     </List>
@@ -133,7 +133,7 @@ export class ForPartner extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/member_rule6">
                         <ListItemText classes={{primary:classes.listItemText}} >专业优势</ListItemText>
                         </Link>
                     </List>
