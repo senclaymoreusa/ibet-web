@@ -73,7 +73,7 @@ export class Baijiale extends React.Component {
                 </Grid>
             
                 <Grid item xs={7} className={classes.detail}>
-                    <div class="HelpCenterList">
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/for_member">供会员使用  >
@@ -87,49 +87,49 @@ export class Baijiale extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div class="HelpCenterSmNav">
+                    <div className="HelpCenterSmNav">
                         <ul>
-                            <li class={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>免佣百家乐</a>
                             </li>
-                            <li class={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>传统百家乐</a>
                             </li>
-                            <li class={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a>超级百家乐</a>
                             </li>
-                            <li class={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
                                 <a>对子百家乐</a>
                             </li>
-                            <li class={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
                                 <a>14座甩牌百家乐</a>
                             </li>
-                            <li class={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
+                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
                                 <a>经典百家乐</a>
                             </li>
-                            <li class={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
+                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
                                 <a>包桌百家乐</a>
                             </li>
-                            <li class={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
+                            <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
                                 <a>竞咪百家乐</a>
                             </li>
-                            <li class={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
+                            <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
                                 <a>连环百家乐</a>
                             </li>
-                            <li class={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
+                            <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
                                 <a>龙宝百家乐</a>
                             </li>
-                            <li class={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
+                            <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
                                 <a>Playboy百家乐</a>
                             </li>
-                            <li class={this.state.current == 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
+                            <li className={this.state.current == 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
                                 <a>免佣点数百家乐</a>
                             </li>
                         </ul>
-                        <div class="ClearBoth"></div>
+                        <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div class="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current != 1}>
                             <h2>免佣百家乐</h2>
                             <p>免佣百家乐是由传统百家乐演变而来，兩者的玩法非常相似，不同的是免佣百家乐增加了一项超6的特别投注，庄家的赔率也有别于传统百家乐。
                                 <br />
@@ -153,7 +153,7 @@ export class Baijiale extends React.Component {
                                 <br /> 温馨提示：以上资料来源于AG国际，各玩法赔率设置以具体的游戏厅公示为准。
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 2}> 
+                        <div className="centerDetail" hidden={this.state.current != 2}> 
                             <h2>传统百家乐</h2>
                             <p>游戏采用8副牌来进行，游戏牌数合计416张，9点或以下的牌按面值点数，A牌是1点，10点及公仔牌则是0点计算。
                                 <br />
@@ -171,21 +171,21 @@ export class Baijiale extends React.Component {
                                 <br /> ♦ 选择押闲赢1赔1免抽水
                                 <br /> ♦ 选择押和局1赔8免抽水</p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current != 3}>
                             <h2>超级百家乐</h2>
                             <p>超级百家乐投注方式与传统百家乐无异，对子投注的结算方式亦与对子百家乐一样。不同的是超级百家乐增加了六项特别投注：
                                 <br />
                                 <img src="http://i.imgur.com/GWynoVc.png" />
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current != 4}>
                             <h2>对子百家乐</h2>
                             <p>对子百家乐投注方式与传统百家乐无异，然而其投注种类则加有「庄对子」「闲对子」「庄对子」「闲对子」是指首先两张牌组成一对，即派彩。不包括第三张牌。百家乐博牌规例：
                                 <br />
                                 <br /> ♦ 选择押庄对子1赔11免抽水
                                 <br /> ♦ 选择押闲对子1赔11免抽水</p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current != 5}>
                             <h2>14座甩牌百家乐</h2>
                             <p>“14座甩牌百家乐”与“对子百家乐”的玩法和规则相同，但增加了令玩家更加紧张刺激的甩牌元素，令玩家仿似置身于真实赌场内，享受博彩所带来的欢乐。
                                 <br />
@@ -193,7 +193,7 @@ export class Baijiale extends React.Component {
                                 <br /> ♦ 玩家咪牌功能，现场感媲美真实赌场。
                                 <br /> ♦ 独有14座功能，每张虚拟枱可容纳14名玩家在线投注，互动感直迫真实赌场。</p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current != 6}>
                             <h2>经典百家乐</h2>
                             <p>在每一局开始前，荷官会将百家乐最大发牌数也就是6张，放置在桌枱上，然后再接受玩家投注，投注完毕后，将之前发的6张牌，按照百家乐补牌规则，进行发牌。
                                 <br />
@@ -214,7 +214,7 @@ export class Baijiale extends React.Component {
                                 <br /> 本游戏采用8副牌（每副牌52张）来进行，游戏牌数合计416张。“闲家”“庄家”各先派两张牌，以“闲家”先发，如第一轮未分出胜负需再按“牌例”发第二轮的牌，最多每方3张牌，谁最接近9点即为胜方，而相同点数即和局。
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current != 7}>
                             <h2>包桌百家乐</h2>
                             <p>包桌百家乐集结"网络"与"陆地"赌场的双重优势，特有的“独占桌台／独享游戏／高额下注／任意飞牌／咪牌／更换荷官／更换牌靴”，能非常自主的掌控整个游戏进程，更多独有权限，为您的桌枱设置密码，邀约好友同台落座。
                                 <br />
@@ -242,7 +242,7 @@ export class Baijiale extends React.Component {
                                 <br /> 温馨提示：以上资料来源于AG国际，各玩法赔率设置以具体的游戏厅公示为准。
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 8}>
+                        <div className="centerDetail" hidden={this.state.current != 8}>
                             <h2>竞咪百家乐</h2>
                             <p>首创竞咪互动百家乐新玩法，投注额最高者享咪牌权利；“等我”功能让您掌控牌局节奏；配合玩家与中或英文荷官即时互动，边聊天边下注，创造实地赌场无可比拟的升级体验。
                                 <br />
@@ -272,7 +272,7 @@ export class Baijiale extends React.Component {
                                 <br /> 2、当玩家点击“开牌”申请荷官开牌时，荷官会根据桌面上玩家投注情况决定是否直接开牌或提示其他玩家继续下注。
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 9}>
+                        <div className="centerDetail" hidden={this.state.current != 9}>
                             <h2>连环百家乐</h2>
                             <p>玩家入座“连环百家乐”或“多台百家乐”（不同平台叫法不一）可根据自己的喜好，随时组合各不同游戏种类，例如百家乐+骰宝+轮盘，让您同时畅游多款游戏，赢利翻倍；不同平台组合的要求和枱桌数不一样，具体以各平台为公示为准。
                                 <br />
@@ -297,7 +297,7 @@ export class Baijiale extends React.Component {
                                 <br /> 温馨提示：以上资料来源于AG国际，各玩法赔率设置以具体的游戏厅公示为准。
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 10}>
+                        <div className="centerDetail" hidden={this.state.current != 10}>
                             <h2>龙宝百家乐</h2>
                             <p>龙宝百家乐是由传统百家乐演变而来，投注方式与传统百家乐无异，对子投注的结算方式亦与对子百家乐一样。不同的是龙宝百家乐增加了额外的「龙宝」特别投注。
                                 <br />
@@ -313,7 +313,7 @@ export class Baijiale extends React.Component {
                                 <br /> 例子：庄家以非例牌赢9点，投注庄龙宝1赔30。
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 11}>
+                        <div className="centerDetail" hidden={this.state.current != 11}>
                             <h2>Playboy百家乐</h2>
                             <p>投注玩法与游戏规则与普通百家基本一致，在投注风格上独树一帜，特有的花花公子系列深得百家乐爱好者追捧，大胆的界面风格，西式的美女荷官，让您在经典游戏中，体会出不一样的风情。
                                 <br />
@@ -341,7 +341,7 @@ export class Baijiale extends React.Component {
                                 <br /> 温馨提示：以上资料来源于MG真人厅，各玩法赔率设置以具体的游戏厅公示为准。
                             </p>
                         </div>
-                        <div class="centerDetai" hidden={this.state.current != 12}>
+                        <div className="centerDetai" hidden={this.state.current != 12}>
                             <h2>免佣点数百家乐</h2>
                             <p>免佣点数百家乐是由免佣百家乐演变而来，不同的是免佣点数百家乐增加了「庄例牌赢」、「闲例牌赢」、「庄总点数0 」～「庄总点数9」以及「闲总点数0」～「闲总点数9」投注项目，庄／闲总点数为独立派彩，不受该牌局胜／负／和的影响。
                                 <br />

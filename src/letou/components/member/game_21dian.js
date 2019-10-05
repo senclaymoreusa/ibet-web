@@ -73,7 +73,7 @@ export class Game21dian extends React.Component {
                 </Grid>
             
                 <Grid item xs={7} className={classes.detail}>
-                    <div class="HelpCenterList">
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/for_member">供会员使用  >
@@ -87,19 +87,19 @@ export class Game21dian extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div class="HelpCenterSmNav">
+                    <div className="HelpCenterSmNav">
                         <ul>
-                            <li class={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>21点</a>
                             </li>
-                            <li class={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>国际轮盘</a>
                             </li>
                         </ul>
-                        <div class="ClearBoth"></div>
+                        <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div class="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current != 1}>
                             <h2>21点</h2>
                             <p>游戏目的是取得越接近21点且不超过21点的点数，最终比庄家点数高即可获胜。黑杰克〔Blackjack〕为一张A和任一张点数为10的牌组合而成，点数总和一样是21点，但黑杰克〔Blackjack〕比一般点数总和为21点的牌还要大。
                                 <br />
@@ -163,7 +163,7 @@ export class Game21dian extends React.Component {
                                 <img src="http://i.imgur.com/Ela2eb8.png" />
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current != 2}>
                             <h2>疯狂21点</h2>
                             <h1>【游戏规则】</h1>
                             <p>疯狂21点与传统的21点玩法相似，玩家想要赢得牌局，手上的牌点数必须比庄家的牌点数大，尽量接近21点但不可超过21点。游戏不需理会其他玩家的牌点数，玩家只与庄家的牌点数作对抗，所有玩家的牌均是牌面向上的。</p>

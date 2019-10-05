@@ -73,7 +73,7 @@ export class BetRuleTwo extends React.Component {
                 </Grid>
             
                 <Grid item xs={7} className={classes.detail}>
-                    <div class="HelpCenterList">
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/for_member">供会员使用  >
@@ -87,19 +87,19 @@ export class BetRuleTwo extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div class="HelpCenterSmNav">
+                    <div className="HelpCenterSmNav">
                         <ul>
-                            <li class={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>一般盘口规则</a>
                             </li>
-                            <li class={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>混合过关与兑现功能</a>
                             </li>
                         </ul>
-                        <div class="ClearBoth"></div>
+                        <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div class="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current != 1}>
                             <h2>优胜冠军</h2>
 
                             <p>优胜冠军是指对一项赛事、比赛或锦标赛中的获胜者投注。例如：足球联赛或一个F1赛季冠军。赌盘标题中将标明详细内容。
@@ -151,24 +151,24 @@ export class BetRuleTwo extends React.Component {
                                 <br /> 如果赛事在上半场结束之前中止，全部上半场的投注将视为无效。相反的，如果赛事在上半场结束之后中止，则全部上半场的投注将视为有效。
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current != 2}>
                             <h2>混合过关</h2>
 
                             <p>玩家可选择任何地区的投注选项进行过关投注，混和过关的赔率固定为相乘。同一场赛事、优胜冠军不能互相串关。</p>
 
-                            <div class="MarginBottom20 tableFontStyle">
+                            <div className="MarginBottom20 tableFontStyle">
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td class="Title">独赢1</td>
-                                            <td class="Title">独赢2</td>
-                                            <td class="Title">独赢3</td>
-                                            <td class="Title">独赢4</td>
-                                            <td class="Title">独赢5</td>
-                                            <td class="Title">独赢6</td>
-                                            <td class="Title">独赢7</td>
-                                            <td class="Title">独赢8</td>
-                                            <td class="Title">独赢9</td>
+                                            <td className="Title">独赢1</td>
+                                            <td className="Title">独赢2</td>
+                                            <td className="Title">独赢3</td>
+                                            <td className="Title">独赢4</td>
+                                            <td className="Title">独赢5</td>
+                                            <td className="Title">独赢6</td>
+                                            <td className="Title">独赢7</td>
+                                            <td className="Title">独赢8</td>
+                                            <td className="Title">独赢9</td>
                                         </tr>
                                         <tr>
                                             <td>&nbsp;</td>

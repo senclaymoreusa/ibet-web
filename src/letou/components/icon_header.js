@@ -1,14 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import TopNavbar from "./top_navbar";
+
 
 import { config, images } from '../../util_config';
 import IconButton from '@material-ui/core/IconButton';

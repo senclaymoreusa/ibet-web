@@ -73,7 +73,7 @@ export class Lunpan extends React.Component {
                 </Grid>
             
                 <Grid item xs={7} className={classes.detail}>
-                    <div class="HelpCenterList">
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/for_member">供会员使用  >
@@ -87,19 +87,19 @@ export class Lunpan extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div class="HelpCenterSmNav">
+                    <div className="HelpCenterSmNav">
                         <ul>
-                            <li class={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>亚洲轮盘</a>
                             </li>
-                            <li class={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>国际轮盘</a>
                             </li>
                         </ul>
-                        <div class="ClearBoth"></div>
+                        <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div class="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current != 1}>
                             <h2>亚洲轮盘</h2>
                             <p>- 本游戏是采用欧式轮盘，欧式轮盘上共有37个小方格（0至36）。
                                 <br /> - 轮盘会顺时针转动，在投注时间结束后，小球会向逆时针方向弹出并於轮盘上滚动，最后会停在其中一个小方格内。
@@ -115,7 +115,7 @@ export class Lunpan extends React.Component {
                                 <br />
                                 <br /> ♦ 例：在（ 上限：20000／下限：50）的轮盘游戏中，"单／双"项目的投注下限是$500，当用户押$100（ 低於$500）在"单／双"项目的时候，由於投注金额低於"单／双"项目的投注下限，所以游戏系统便会自动将投注金额增加到$500。</p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current != 2}>
                             <h2>国际轮盘</h2>
                             <p>- 采用国际轮盘，国际轮盘上共有37个小方格（0至36）。
                                 <br /> - 国际轮盘的号码排列方式与亚洲轮盘不同。

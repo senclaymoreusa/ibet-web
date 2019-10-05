@@ -73,7 +73,7 @@ export class BetRuleThree extends React.Component {
                 </Grid>
             
                 <Grid item xs={7} className={classes.detail}>
-                    <div class="HelpCenterList">
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/for_member">供会员使用  >
@@ -88,35 +88,35 @@ export class BetRuleThree extends React.Component {
                         </ul>
                     </div>
                   
-                    <div class="HelpCenterSmNav">
+                    <div className="HelpCenterSmNav">
                         <ul>
-                            <li class={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>亚洲让分盘</a>
                             </li>
-                            <li class={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>亚洲大小盘</a>
                             </li>
-                            <li class={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a>三項让分盘</a>
                             </li>
-                            <li class={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
                                 <a>一般盘口</a>
                             </li>
-                            <li class={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
                                 <a>角球盘口</a>
                             </li>
-                            <li class={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
+                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
                                 <a>罚牌盘口</a>
                             </li>
-                            <li class={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
+                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
                                 <a>滚球盘口</a>
                             </li>
                         </ul>
-                        <div class="ClearBoth"></div>
+                        <div className="ClearBoth"></div>
                     </div>
 
                     <div id="HelperCenterDetail" >
-                        <div class="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current != 1}>
                             <h2>亚洲让分盘 (包括上/下半场投注)</h2>
 
                             <p>开出的选项有主队与客队两项，若为中立场比赛，则以画面上实际显示之主、客队为主。结算依据仅限90分钟比赛，加时赛和点球不予计算在内。</p>
@@ -174,7 +174,7 @@ export class BetRuleThree extends React.Component {
                                 <br /> 球队输掉一球- 所有投注作废，投注金退还客户。
                                 <br /> 球队输掉至少两球 - 此项投注为输。</p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current != 2}>
                             <h2>亚洲大小盘 (包括上/下半场投注)</h2>
 
                             <p>如果赛事在90分钟前被中止，所有相关投注作废。结算依据上/下半场比赛结果计算。结算依据仅限90分钟比赛，加时赛和点球不予计算在内。</p>
@@ -233,7 +233,7 @@ export class BetRuleThree extends React.Component {
                                 <br /> 如果比赛中没有进球或只有一个进球，投注为赢。如果刚好有两个进球，一半投注按照所选选项赔率进行结算，另一半退还客户。如果有三个或更多的进球，投注为输。
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current != 3}>
                             <h2>三项让分盘 (包括上/下半场投注)</h2>
 
                             <p>开出的选项有主队、平手与客队三项，若在中立场比赛，则以画面上实际显示之主、客为主。结算依据仅限90分钟比赛，加时赛和点球不予计算在内。</p>
@@ -338,7 +338,7 @@ export class BetRuleThree extends React.Component {
                                 <br /> 当终场比分0:2时 - 两队2:2平局，投注项目为输。
                                 <br /> 当终场比分0:3时 - 主队2:3输球，投注项目为赢。</p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current != 4}>
                             <h2>一般盘口</h2>
 
                             <h1>双胜彩 (包括上/下半场投注)</h1>
@@ -554,7 +554,7 @@ export class BetRuleThree extends React.Component {
                                 <br /> 2：如果客队胜出，该选项投注为赢
                             </p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current != 5}>
                             <h2>角球盘口</h2>
 
                             <h1>角球:总角球数 大/小 (包括上半场投注)</h1>
@@ -645,7 +645,7 @@ export class BetRuleThree extends React.Component {
                                 <br /> 平局 - 投注项为赢。
                                 <br /> 球队角球输掉至少三球 - 此项投注为输。</p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current != 6}>
                             <h2>罚牌盘口</h2>
 
                             <h1>罚牌分大小盘 (包括上半场投注)</h1>
@@ -692,7 +692,7 @@ export class BetRuleThree extends React.Component {
 
                             <p>以全场两队的罚牌分加总计算。预测确切的罚牌分。结算依据仅限90分钟比赛，加时赛和点球不予计算在内。上半场罚牌分投注结果由上半场赛事的罚牌分来决定。</p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current != 7}>
                             <h2>滚球盘口</h2>
 
                             <h1>滚球：1X2 (延长加时)</h1>
