@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TopNavbar from "./top_navbar";
+import TopNavbar from "../top_navbar";
 import { config } from "../util_config";
 import axios from 'axios';
 
@@ -15,7 +15,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import PasswordStrengthMeter from './PasswordStrengthMeter';
+import PasswordStrengthMeter from '../PasswordStrengthMeter';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;

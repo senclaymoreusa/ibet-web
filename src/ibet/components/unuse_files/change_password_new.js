@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { hide_change_password } from '../../actions';
+import { hide_change_password, sendingLog } from '../../../actions';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios'
-import { config, images } from '../../util_config';
+import { config, images } from '../../../util_config';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
@@ -129,13 +129,13 @@ class ChangePassword extends Component {
         } else {
             axios.post(API_URL + 'users/api/validateandresetpassword/', { 'username': this.state.data.username, 'current_password': this.state.password, 'new_password': this.state.password1 }, config)
                 .then(res => {
-
                     alert('Password updated successfully')
                     this.props.hide_change_password()
 
                 }).catch(err => {
                     this.setState({ error: true })
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                 })
         }
 

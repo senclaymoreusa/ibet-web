@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { config } from "../../util_config";
+import { config } from "../../../util_config";
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { errors } from './errors';
+import { errors } from '../errors';
 
-import TopNavbar from "./top_navbar";
+import TopNavbar from "../top_navbar";
 
 import '../css/change_email.scss';
 

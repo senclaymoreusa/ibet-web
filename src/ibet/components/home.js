@@ -3,7 +3,7 @@ import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import ChatTool from "./chat_tool";
 import { connect } from 'react-redux';
-import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
+import { authCheckState, handle_referid, hide_landing_page, sendingLog } from '../../actions';
 import { FormattedMessage } from 'react-intl';
 import { config } from '../../util_config';
 
@@ -64,9 +64,7 @@ export class Home extends Component {
       this.props.handle_referid(referid);
     }
 
-
-    this.props.authCheckState()
-
+    this.props.authCheckState();
     var URL = API_URL + 'users/api/games/?term=game';
 
     await axios.get(URL, config)

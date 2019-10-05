@@ -5,9 +5,9 @@ import {
     show_signup_contact,
     show_complete_registration,
     handle_signup_phone
-} from '../../actions';
+} from '../../../actions';
 import { connect } from 'react-redux';
-import Country_Info from './country_info';
+import Country_Info from '../country_info';
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -15,7 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios'
-import { images } from '../../util_config';
+import { images } from '../../../util_config';
 
 const styles = theme => ({
     textField: {

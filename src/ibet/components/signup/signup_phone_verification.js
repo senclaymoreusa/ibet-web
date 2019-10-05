@@ -3,13 +3,14 @@ import {
     hide_phone_verification,
     show_complete_registration,
     show_signup_finish,
-    authLogin
-} from '../../actions';
+    authLogin,
+    sendingLog
+} from '../../../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { FormattedMessage } from 'react-intl';
-import { config,images } from '../../util_config';
+import { config,images } from '../../../util_config';
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
@@ -164,8 +165,8 @@ class Phone_Verification extends React.Component {
                     );
                 })
                 .catch(err => {
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                    
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
                     this.setState({ error: true });
                 });
         }
