@@ -209,7 +209,10 @@ const styles = theme => ({
     bankList: {
         width: '100%',
         height: 77
-    }
+    },
+    table: {
+        minWidth: 650,
+    },
 });
 
 const amounts = Object.freeze([100, 200, 500, 1000]);
@@ -568,7 +571,7 @@ class DepositAsiapayBT extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <div id="api-response" style={{textAlign: 'center', paddingLeft: 262, paddingRight: 262}}>
+                    <div id="api-response" style={{textAlign: 'left', paddingLeft: 100, paddingRight: 100}}>
                         {
                             order_id?
                             <>
@@ -577,20 +580,20 @@ class DepositAsiapayBT extends Component {
                                 <Table className={classes.table}>
                                     
                                     <TableRow>
-                                        <TableCell>订单编号</TableCell>
-                                        <TableCell align="right">{{order_id}}</TableCell>
+                                        <TableCell align="right">订单编号</TableCell>
+                                        <TableCell align="right">{order_id}</TableCell>
                                         <TableCell align="right">银行账号</TableCell>
-                                        <TableCell align="right">{{CardNumber}}</TableCell>
+                                        <TableCell align="right">{CardNumber}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>银行</TableCell>
-                                        <TableCell align="right">{{BankName}}</TableCell>
+                                        <TableCell align="right">银行</TableCell>
+                                        <TableCell align="right">{BankName}</TableCell>
                                         <TableCell align="right">用户名</TableCell>
-                                        <TableCell align="right">{{CardChName}}</TableCell>
+                                        <TableCell align="right">{CardChName}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>分行名称</TableCell>
-                                        <TableCell align="right">{{CardBankName}}</TableCell>
+                                        <TableCell align="right">分行名称</TableCell>
+                                        <TableCell align="right">{CardBankName}</TableCell>
                                         <TableCell align="right">金额</TableCell>
                                         <TableCell align="right">{this.state.amount}</TableCell>
                                     </TableRow>
