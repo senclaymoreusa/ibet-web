@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { hide_withdraw, show_withdraw_confirm, show_account_menu } from '../../actions';
+import { hide_withdraw, show_withdraw_confirm, show_account_menu } from '../../../actions';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
@@ -12,7 +12,7 @@ import { FormattedMessage } from 'react-intl';
 import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
 import InputBase from '@material-ui/core/InputBase';
-import { images } from '../../util_config';
+import { images } from '../../../util_config';
 
 const styles = theme => ({
     root: {

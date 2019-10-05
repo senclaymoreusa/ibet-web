@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config, images } from '../../../../../../util_config';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../../actions';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -385,13 +385,14 @@ class DepositAsiapayQucikpay extends Component {
             })
             .catch(err => {
                 console.log(err);
-                axios
-                    .post(
-                        API_URL + 'system/api/logstreamtos3/',
-                        { line: err, source: 'Ibetweb' },
-                        config
-                    )
-                    .then(res => {});
+                // axios
+                //     .post(
+                //         API_URL + 'system/api/logstreamtos3/',
+                //         { line: err, source: 'Ibetweb' },
+                //         config
+                //     )
+                //     .then(res => {});
+                sendingLog(err);
             });
     };
 

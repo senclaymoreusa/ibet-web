@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import TopNavbar from "./top_navbar";
-import { game_detail } from '../../actions';
-import { config } from '../../util_config';
+import TopNavbar from "../top_navbar";
+import { game_detail } from '../../../actions';
+import { config } from '../../../util_config';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import '../css/game_list.css';
 

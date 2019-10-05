@@ -33,6 +33,7 @@ import {
     show_profile_menu,
     hide_profile_menu,
     handle_inbox_value,
+    sendingLog,
     show_mobile_main_menu,
     hide_mobile_main_menu
 } from '../../actions';
@@ -51,17 +52,17 @@ import Tab from '@material-ui/core/Tab';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import Login from './login_2.js';
-import Signup from './signup_2.js';
-import SignupEmail from './signup_email';
-import SignupDetail from './signup_detail';
-import SignupContact from './signup_contact';
-import SignupPhone from './signup_phone';
+import Login from './login.js';
+import Signup from './signup/signup_2.js';
+import SignupEmail from './signup/signup_email';
+import SignupDetail from './signup/signup_detail';
+import SignupContact from './signup/signup_contact';
+import SignupPhone from './signup/signup_phone';
 import CompleteRegistration from './complete_registration';
-import PhoneVerification from './signup_phone_verification';
+import PhoneVerification from './signup/signup_phone_verification';
 import OneClickFinish from './one_click_finish';
 import RegisterFinish from './register_finish';
-import ChangePassword from './change_password_new';
+// import ChangePassword from './unuse_files/change_password_new';
 import NewForgetPassword from './forget_password_new';
 import ForgetPasswordValidation from './forget_password_validation';
 import ReferUser from './refer_user';
@@ -727,7 +728,6 @@ export class TopNavbar extends React.Component {
 
     onloginFormSubmit(event) {
         event.preventDefault();
-
         if (!this.state.username) {
             this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
         } else if (!this.state.password) {
@@ -748,7 +748,8 @@ export class TopNavbar extends React.Component {
                 })
                 .catch(err => {
                     this.setState({ errorCode: err });
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
                 });
         }
     }
@@ -1428,23 +1429,24 @@ export class TopNavbar extends React.Component {
                     </Paper>
                 </Modal>
 
-                <Popper
+                {/* <Popper
                     open={this.props.showChangePassword}
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
                         <ChangePassword />
                     </Paper>
-                </Popper>
+                </Popper> */}
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showForgetPassword}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
+                    className={classes.modal}>
                     <Paper>
                         <NewForgetPassword />
                     </Paper>
-                </Popper>
+                </Modal>
 
                 <Popper
                     open={this.props.showForgetPasswordValidation}

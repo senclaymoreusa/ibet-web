@@ -13,7 +13,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../../actions';
 
 var QRCode = require('qrcode.react');
 
@@ -402,7 +402,8 @@ class DepositAsiapayWechatpay extends Component {
                }).catch(function (err) {  
             console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 

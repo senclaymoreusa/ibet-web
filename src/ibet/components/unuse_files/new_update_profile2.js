@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { hide_update_profile, show_user_profile, authCheckState } from '../../actions';
+import { hide_update_profile, show_user_profile, authCheckState, sendingLog } from '../../../actions';
 import { connect } from 'react-redux';
-import { config } from '../../util_config';
+import { config } from '../../../util_config';
 import axios from 'axios'
 import { getNames } from 'country-list';
-import TopNavbar from "./top_navbar";
+import TopNavbar from "../top_navbar";
 import { Link } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -285,7 +285,8 @@ class NewUpdateProfile extends Component {
             }
         }).catch(err => {
             this.setState({email_exist: true});
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         })
     }
 

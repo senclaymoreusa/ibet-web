@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../util_config';
+import { config, images } from '../../../util_config';
 import { connect } from 'react-redux';
 import '../css/deposit.css';
 import TextField from '@material-ui/core/TextField';
@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import classNames from 'classnames';
 import { PayPalButton } from 'react-paypal-button-v2';
-import { hide_deposit_paypal, show_deposit } from '../../actions';
+import { hide_deposit_paypal, show_deposit } from '../../../actions';
 import Left from '@material-ui/icons/ChevronLeft'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import { config } from '../../util_config';
+import { config } from '../../../util_config';
+import { sendingLog } from '../../../actions';
 import { FormattedMessage } from 'react-intl';
-import { errors } from './errors';
-import TopNavbar from "./top_navbar";
+import { errors } from '../errors';
+import TopNavbar from "../top_navbar";
 import { NavLink } from 'react-router-dom';
 
 
@@ -123,7 +124,8 @@ class Forget_Password extends Component {
                 })
                 .catch((err) => {
                     this.setState({errorCode: errors.EMAIL_NOT_VALID});
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
                 });
             }else{
                 this.setState({email_not_exist: true})

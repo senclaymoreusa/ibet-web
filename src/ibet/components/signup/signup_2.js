@@ -11,11 +11,11 @@ import {
     handle_oneclick_username,
     handle_oneclick_password,
     show_oneclick_finish
-} from '../../actions';
+} from '../../../actions';
 import IoSocialFacebook from 'react-icons/lib/io/social-facebook';
 import IoSocialTwitter from 'react-icons/lib/io/social-twitter';
 import { withRouter } from 'react-router-dom';
-import { images } from '../../util_config';
+import { images } from '../../../util_config';
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
