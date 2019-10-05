@@ -41,6 +41,16 @@ import  GameRuleFour  from './components/member/game_rule4';
 import  GameSangong  from './components/member/game_sangong';
 import  GameRuleEight  from './components/member/game_rule8';
 import virtual_sports from './components/member/virtual_sports';
+import  LotteryRuleTwo  from './components/member/lottery_rule2';
+import  LotteryRuleThree  from './components/member/lottery_rule3';
+import  GameRuleThree  from './components/member/game_rule3';
+import  GameRuleOne  from './components/member/game_rule1';
+import  BetRuleTwo  from './components/member/bet_rules2';
+import  BetRuleThree  from './components/member/bet_rules3';
+import  BetRuleFour  from './components/member/bet_rules4';
+import  Baijiale  from './components/member/game_baijiale';
+import  Lunpan  from './components/member/game_lunpan';
+import  Game21dian  from './components/member/game_21dian';
 
 
 
@@ -64,9 +74,16 @@ const BaseRouter = () => (
         <Route exact path="/rules" component={Rules} />
         <Route exact path="/football_rules" component={FootballRules} />
         <Route exact path="/bet_rules" component={BetRules} />
+        <Route exact path="/bet_rules2" component={BetRuleTwo} />
+        <Route exact path="/bet_rules3" component={BetRuleThree} />
+        <Route exact path="/bet_rules4" component={BetRuleFour} />
+
         <Route exact path="/general_rules" component={GeneralRules} />
         <Route exact path="/special_rules" component={SpecialRules} />
         <Route exact path="/virtual_sports" component={virtual_sports} />
+        <Route exact path="/game_baijiale" component={Baijiale} />
+        <Route exact path="/game_lunpan" component={Lunpan} />
+        <Route exact path="/game_21dian" component={Game21dian} />
 
         <Route exact path="/game_longhu" component={GameLongHu} />
         <Route exact path="/game_gubao" component={GameGubao} />
@@ -76,13 +93,19 @@ const BaseRouter = () => (
         <Route exact path="/game_sedie" component={GameSedie} />
         <Route exact path="/game_poker" component={GamePoker} />
         <Route exact path="/game_niuniu" component={GameNiuniu} />
+        <Route exact path="/game_rule1" component={GameRuleOne} />
+
         <Route exact path="/game_rule2" component={GameRuleTwo} />
+        <Route exact path="/game_rule3" component={GameRuleThree} />
+
         <Route exact path="/game_rule4" component={GameRuleFour} />
         <Route exact path="/game_rule5" component={GameRuleFive} />
         <Route exact path="/game_rule6" component={GameRuleSix} />
         <Route exact path="/game_rule7" component={GameRuleSeven} />
         <Route exact path="/game_rule8" component={GameRuleEight} />
         <Route exact path="/lottery_rule1" component={LotteryRuleOne} />
+        <Route exact path="/lottery_rule2" component={LotteryRuleTwo} />
+        <Route exact path="/lottery_rule3" component={LotteryRuleThree} />
 
         <Route exact path="/lottery_rule4" component={LotteryRuleFour} />
         <Route exact path="/member_rule1" component={member_rule1} />

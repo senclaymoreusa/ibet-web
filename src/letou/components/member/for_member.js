@@ -152,16 +152,16 @@ export class ForMember extends React.Component {
                         <Link className={classes.list} href="/rules">
                         <ListItemText classes={{primary:classes.listItemText}} primary="投注规则与规定" />
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/bet_rules2">
                         <ListItemText classes={{primary:classes.listItemText}} >盘口介绍</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/football_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >足球赛事交易规则</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/bet_rules3">
                         <ListItemText classes={{primary:classes.listItemText}} >足球特有盘口介绍</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/bet_rules4">
                         <ListItemText classes={{primary:classes.listItemText}} >其他运动项目</ListItemText>
                         </Link>
                         
@@ -193,13 +193,13 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_baijiale">
                         <ListItemText classes={{primary:classes.listItemText}} >百家乐</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_lunpan">
                         <ListItemText classes={{primary:classes.listItemText}} >轮盘</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_21dian">
                         <ListItemText classes={{primary:classes.listItemText}} >21点</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_longhu">
@@ -236,13 +236,13 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_rule1">
                         <ListItemText classes={{primary:classes.listItemText}} >电动吃角子老虎</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_rule2">
                         <ListItemText classes={{primary:classes.listItemText}} >经典老虎机</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/game_rule3">
                         <ListItemText classes={{primary:classes.listItemText}} >牌桌&牌游戏</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_rule4">
@@ -270,10 +270,10 @@ export class ForMember extends React.Component {
                         <Link className={classes.list} href="/lottery_rule1">
                         <ListItemText classes={{primary:classes.listItemText}} >世界乐透规则</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/lottery_rule2">
                         <ListItemText classes={{primary:classes.listItemText}} >快乐彩规则</ListItemText>
                         </Link>
-                        <Link className={classes.list}>
+                        <Link className={classes.list} href="/lottery_rule3">
                         <ListItemText classes={{primary:classes.listItemText}} > 时时彩规则</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/lottery_rule4">

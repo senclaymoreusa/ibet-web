@@ -24,19 +24,19 @@ const styles = theme => ({
     
 
 
-export class InfoSelect extends React.Component {
+export  class InfoSelect extends React.Component {
     
     
     render() {
       const { classes } = this.props;
       return (
-        <div class="HelpCenterLeftNav">
+        <div    className="HelpCenterLeftNav">
         <ul>
             <li>
-                <a class="tabs active" href="/for_member">供会员使用</a>
+                <a  className="tabs active" href="/for_member">供会员使用</a>
             </li>
             <li>
-                <a class="tabs" href="/for_partner">供合作伙伴使用</a>
+                <a  className="tabs" href="/for_partner">供合作伙伴使用</a>
             </li>
         </ul>
     </div>
