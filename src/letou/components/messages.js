@@ -122,6 +122,7 @@ export const messages = {
         'GD-platform':'GD platform',
         'EV-platform':'EV platform',
         'PT-platform':'PT platform',
+        'W88-platform':'W88 platform',
 
 
     },

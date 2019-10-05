@@ -194,7 +194,7 @@ export class live_casino extends React.Component {
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-words')}</font></a></li>
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-Two')}</font></a></li>
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-Sangong')}</font></a></li>
-                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Wenzhou')}</font></a></li>
+                    <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-Wenzhou')}</font></a></li>
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-Texas')}</font></a></li>
                     <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('bbin-Color')}</font></a></li>
                   </ul>
@@ -227,70 +227,70 @@ export class live_casino extends React.Component {
             <div className="ClearBoth"></div>
           <div>
             <h3><font style={{verticalAlign: 'inherit'}}>{this.getLabel('game-rule')}</font></h3>
-            <div class="PgHallListBox">
-            <ul class="List">
+            <div className="PgHallListBox">
+            <ul className="List">
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Traditional')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-No')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Super')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Package')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Jingmi')}</font></a></li>
             </ul>
-            <ul class="List">
+            <ul className="List">
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Serial')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Longbao')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Pair')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Playboy')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Dragon')}</font></a></li>
-              </ul><ul class="List">
+              </ul><ul className="List">
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Two')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Sangong')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Wenzhou')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Color')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Texas')}</font></a></li>
             </ul>
-            <ul class="List">
+            <ul className="List">
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Blackjack')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('rule-Cattle')}</font></a></li>
               <li><a><i></i><font style={{verticalAlign: 'inherit'}}>{this.getLabel('ag-Roulette')}</font></a></li>
             </ul>
-            <ul class="PgHallBrand">
+            <ul className="PgHallBrand">
               <li><a>
-                <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo4.png" alt="HG platform"/></div>
+                <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo4.png" alt="HG platform"/></div>
                 <p><font style={{verticalAlign: 'inherit'}}>{this.getLabel('HG-platform')}</font></p>
                 </a>
               </li>
               <li><a>
-                <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo3.png" alt="OPUS platform"/></div>
+                <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo3.png" alt="OPUS platform"/></div>
                 <p><font style={{verticalAlign: 'inherit'}}>{this.getLabel('OPUS-platform')}</font></p>
                 </a>
               </li>
               <li><a>
-                <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo2.png" alt="EA platform"/></div>
+                <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo2.png" alt="EA platform"/></div>
                 <p><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EA-platform')}</font></p>
                 </a>
               </li>
               <li><a>
-                <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo1.png" alt="AG platform"/></div>
+                <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo1.png" alt="AG platform"/></div>
                 <p><font style={{verticalAlign: 'inherit'}}>{this.getLabel('AG-platform')}</font></p>
                 </a>
               </li>
               <li><a>
-                <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo8.png" alt="GD platform"/></div>
+                <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo8.png" alt="GD platform"/></div>
                 <p><font style={{verticalAlign: 'inherit'}}>{this.getLabel('GD-platform')}</font></p>
                 </a>
               </li>
               <li><a>
-                <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo7.png" alt="EV platform"/></div>
+                <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo7.png" alt="EV platform"/></div>
                 <p><font style={{verticalAlign: 'inherit'}}>{this.getLabel('EV-platform')}</font></p>
                 </a>
               </li>
               <li><a>
-                <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo6.png" alt="PT platform"/></div>
+                <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo6.png" alt="PT platform"/></div>
                 <p><font style={{verticalAlign: 'inherit'}}>{this.getLabel('PT-platform')}</font></p>
                 </a>
               </li>
               <li><a>
-                <div class="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo5.png" alt="W88 platform"/></div>
+                <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo5.png" alt="W88 platform"/></div>
                 <p><font style={{verticalAlign: 'inherit'}}>{this.getLabel('W88-platform')}</font></p>
                 </a>
               </li>
