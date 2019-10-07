@@ -15,7 +15,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import PasswordStrengthMeter from './PasswordStrengthMeter';
+import PasswordStrengthMeter from '../../commons/PasswordStrengthMeter';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;

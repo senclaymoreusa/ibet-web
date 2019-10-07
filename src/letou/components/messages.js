@@ -45,6 +45,7 @@ export const messages = {
         'using-help': 'Using Help',
         'maximum-gaming-platform': 'Maximum Gaming Platform',
         'title-login': 'Login',
+        'title-register': 'Register',
         'user-name': 'Username',
         'password-text': 'Password',
         'enter-valid-username': 'Please enter a valid username.',
@@ -53,7 +54,9 @@ export const messages = {
         'login-question-text': 'If you have any questions during login, please contact our 24-hour online customer service to help solve this problem. This website uses Global Trust\'s most advanced 128/256 bit SSL server encryption mechanism.',
         'dont-have-account': 'If you do not have an account, ',
         'register-here': 'register here now.',
+        'login-here': 'log in here now.',
         'retrieve-password': 'Retrieve password',
+        'already-have-account':'If you already have an account, '
         
 
     },

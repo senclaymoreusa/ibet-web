@@ -322,7 +322,10 @@ export class TopNavbar extends React.Component {
                                 </ClickAwayListener>
                             )}
                         </Popper>
-                        <Button variant="contained" className={classes.secondRowButton}>
+                        <Button variant="contained" className={classes.secondRowButton}
+                            onClick={() => {
+                                this.props.history.push('/register')
+                            }}>
                             {this.getLabel('sign-up')}
                         </Button>
                         <Button variant="contained" className={classes.secondRowButton}

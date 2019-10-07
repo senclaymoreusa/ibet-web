@@ -7,7 +7,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { config } from '../../util_config';
 import { errors } from './errors';
 import Calendar from 'react-calendar';
-import PasswordStrengthMeter from './PasswordStrengthMeter';
+import PasswordStrengthMeter from '../../commons/PasswordStrengthMeter';
 //import IoEye from 'react-icons/lib/io/eye';
 //import Dropdown from 'react-dropdown'
 //import 'react-dropdown/style.css'
