@@ -57,7 +57,7 @@ export class MemberRuleTwo extends React.Component {
                 </Grid>
             
                 <Grid item xs={7} className={classes.detail}>
-                    <div class="HelpCenterList">
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/for_partner">供合作伙伴使用  >

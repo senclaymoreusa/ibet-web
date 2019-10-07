@@ -73,7 +73,7 @@ export class LotteryRuleThree extends React.Component {
                 </Grid>
             
                 <Grid item xs={7} className={classes.detail}>
-                    <div class="HelpCenterList">
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/for_member">供会员使用  >
@@ -87,20 +87,20 @@ export class LotteryRuleThree extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div class="HelpCenterSmNav">
+                    <div className="HelpCenterSmNav">
                         <ul>
-                            <li class={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>时时彩介绍</a>
                             </li>
-                            <li class={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>时时彩规则</a>
                             </li>
                         </ul>
-                        <div class="ClearBoth"></div>
+                        <div className="ClearBoth"></div>
                     </div>
               
                     <div id="HelperCenterDetail">
-                        <div class="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current != 1}>
                             <h2>时时彩</h2>
                             &nbsp;
                             <p>时时彩是从3个或5个位数中，随机摇出一组号码作为开奖结果的彩票游戏。
@@ -113,7 +113,7 @@ export class LotteryRuleThree extends React.Component {
                                 <br /> - 长龙提示：任何一种玩法中，开奖连续超过4次以上相同时，以”旗帜”标示
                                 <br /> - 取消注单：当开奖来源未公布某期开奖结果时，如在1小时之后仍未更新，我们会斟酌进行取消该期投注单</p>
                         </div>
-                        <div class="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current != 2}>
                             <h2>时时彩玩法與交易規則</h2>
                             &nbsp;
                             <h1>1.大小</h1>
@@ -212,15 +212,15 @@ export class LotteryRuleThree extends React.Component {
                                 <br /> ♦ 追号从当前需要追号的订单开始，作为第一期追号，直到符合玩家设定的终止条件时停止追号。
                                 <br />
                                 <br /> ► 例：重慶和值大小【大】投注金10元，追号10期，倍投2倍</p>
-                            <div class="TableStyle3 MarginBottom20">
+                            <div className="TableStyle3 MarginBottom20">
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td class="Title">期数</td>
-                                            <td class="Title">开奖结果</td>
-                                            <td class="Title">赔率</td>
-                                            <td class="Title">注金</td>
-                                            <td class="Title">结果</td>
+                                            <td className="Title">期数</td>
+                                            <td className="Title">开奖结果</td>
+                                            <td className="Title">赔率</td>
+                                            <td className="Title">注金</td>
+                                            <td className="Title">结果</td>
                                         </tr>
                                         <tr>
                                             <td>第一期</td>

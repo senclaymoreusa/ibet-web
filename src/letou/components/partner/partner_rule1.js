@@ -57,7 +57,7 @@ export class MemberRuleOne extends React.Component {
                 </Grid>
             
                 <Grid item xs={7} className={classes.detail}>
-                    <div class="HelpCenterList">
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/for_partner">供合作伙伴使用  >
@@ -83,11 +83,11 @@ export class MemberRuleOne extends React.Component {
                         <p>&nbsp;</p>
                         <h2>佣金计算范围</h2>
                         <p>全平台开放合营：体育，真人娱乐场，游戏，基诺，扑克等等。</p>
-						<div class="TableStyle3 MarginBottom20">任何佣金和代理咨询请联系在线客服</div>
-                        <div class="TableStyle3 MarginBottom20">佣金计算方式请咨询乐投代理部:</div>
-                        <div class="TableStyle3 MarginBottom20">代理专员QQ：3007282086</div>
-                        <div class="TableStyle3 MarginBottom20">代理专员Skype：swifind</div>
-                        <div class="TableStyle3 MarginBottom20">&nbsp;</div>
+						<div className="TableStyle3 MarginBottom20">任何佣金和代理咨询请联系在线客服</div>
+                        <div className="TableStyle3 MarginBottom20">佣金计算方式请咨询乐投代理部:</div>
+                        <div className="TableStyle3 MarginBottom20">代理专员QQ：3007282086</div>
+                        <div className="TableStyle3 MarginBottom20">代理专员Skype：swifind</div>
+                        <div className="TableStyle3 MarginBottom20">&nbsp;</div>
                         <p>甲方保留改变上述所有条款之最终决定权（请紧记任何使用不诚实的方法以骗取佣金将会永久冻结账户，所有佣金一概不予发还。）诚信合作，健康发展，是我们共创辉煌的最终目标。*代理人不得操控下线进行投注，否则将取消代理资格并锁定佣金！</p>
                         <p>&nbsp;</p>
                         <h2>子合作伙伴佣金计划</h2>
@@ -99,11 +99,11 @@ export class MemberRuleOne extends React.Component {
                             <br/> 实例计算：
                             <br/> 所有的佣金=下级会员的佣金+下级代理佣金百分10%+二级下线佣金的10%*10%+三级下线佣金的10%*10%*10%
                         </p>
-                        <div class="TableStyle1 MarginBottom20">
+                        <div className="TableStyle1 MarginBottom20">
                             <table>
                                 <tbody>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>D1佣金收入</span>
                                         </td>
                                         <td>
@@ -111,14 +111,14 @@ export class MemberRuleOne extends React.Component {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>D2佣金收入</span>
                                         </td>
                                         <td>
                                             <span style={{color:'#FF9300'}}>=</span> 负10000</td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>D3佣金收入</span>
                                         </td>
                                         <td>
@@ -126,14 +126,14 @@ export class MemberRuleOne extends React.Component {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>D4佣金收入</span>
                                         </td>
                                         <td>
                                             <span style={{color:'#FF9300'}}>=</span> 负10000</td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>C1佣金收入</span>
                                         </td>
                                         <td>
@@ -142,7 +142,7 @@ export class MemberRuleOne extends React.Component {
                                             <span style={{color:'#FF9300'}}>=</span> 负9000</td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>C2佣金收入</span>
                                         </td>
                                         <td>
@@ -151,7 +151,7 @@ export class MemberRuleOne extends React.Component {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>C3佣金收入</span>
                                         </td>
                                         <td>
@@ -162,7 +162,7 @@ export class MemberRuleOne extends React.Component {
                                         <td colspan="2">(C1在抽取下线的10%后仍为负值，则上级B1也无法抽取下下级D1和D2的佣金)</td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>B1佣金收入</span>
                                         </td>
                                         <td>
@@ -176,7 +176,7 @@ export class MemberRuleOne extends React.Component {
                                         <td colspan="2">(D4本身为负佣金,则上级C2与上上级B1也无法抽取1%佣金)</td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">&nbsp;</td>
+                                        <td className="Title">&nbsp;</td>
                                         <td>
                                             <span style={{color:'#FF9300'}}>= 10000 +</span> 0
                                             <span style={{color:'#FF9300'}}>+ 10000*10% + 10000*10% +</span> 0
@@ -186,7 +186,7 @@ export class MemberRuleOne extends React.Component {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">&nbsp;</td>
+                                        <td className="Title">&nbsp;</td>
                                         <td>
                                             <span style={{color:'#FF9300'}}>= 10000 +</span> 0
                                             <span style={{color:'#FF9300'}}>+ 1000 + 1000 +</span> 0
@@ -196,7 +196,7 @@ export class MemberRuleOne extends React.Component {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>B2佣金收入</span>
                                         </td>
                                         <td>
@@ -206,7 +206,7 @@ export class MemberRuleOne extends React.Component {
                                         <td colspan="2">(C1在抽取下线的10%后仍为负值，则上级A也无法抽取下下级D1和D2的佣金)</td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">
+                                        <td className="Title">
                                             <span style={{color:'#FF9300'}}>A佣金收入</span>
                                         </td>
                                         <td>
@@ -220,7 +220,7 @@ export class MemberRuleOne extends React.Component {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">&nbsp;</td>
+                                        <td className="Title">&nbsp;</td>
                                         <td>
                                             <span style={{color:'#FF9300'}}>= 10000 + (10000*10% +</span> 0
                                             <span style={{color:'#FF9300'}}>+ 10000*10% +</span> 0
@@ -232,7 +232,7 @@ export class MemberRuleOne extends React.Component {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="Title">&nbsp;</td>
+                                        <td className="Title">&nbsp;</td>
                                         <td>
                                             <span style={{color:'#FF9300'}}>= 10000 + ( 1000 + 0 + 1000 + 0 ) + 100 +</span> 100
                                             <span style={{color:'#FF9300'}}>+</span> 10
@@ -245,7 +245,7 @@ export class MemberRuleOne extends React.Component {
                         </div>
                         <p>&nbsp;</p>
                         <h2>佣金结算规则</h2>
-                        <ul class="HelpCenterArticleColumn">
+                        <ul className="HelpCenterArticleColumn">
                             <li>1.合作伙伴每月的佣金提成为正值时，等于或大于6个活跃会员才能启动领取佣金。乙方每月的佣金提成为负值时，不会启动领取佣金，所有负值金额会累积计算（与活跃客户数无关）。</li>
                             <li>2.当乙方正式成为甲方合作伙伴之日起算，直到当月最后一日，为合作伙伴运营收益计算时间段。之后按每月计算收益。</li>
                             <li>3.每月5-9号系统将自动生成上个月代理佣金账单。10-19号为对账时间。如代理对佣金账单无异议，每月20号可以申请提款上一个月的佣金。（1月份佣金，2月5-9号生成佣金账单，2月10日-2月19日为对账时间。2月20号，代理可登陆平台申请提取佣金。）</li>
