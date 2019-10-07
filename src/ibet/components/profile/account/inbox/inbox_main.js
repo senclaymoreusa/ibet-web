@@ -266,7 +266,7 @@ export class InboxMain extends Component {
                                         </IconButton>,
                                     ]}
                                 /></Snackbar>
-                                {this.state.Messages.map(item => {
+                                {this.state.Messages.forEach(item => {
                                     if(!item.is_deleted) {
                                         if(!item.is_read) {
                                             return(

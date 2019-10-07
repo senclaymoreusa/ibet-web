@@ -6,26 +6,25 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
-import { config, images } from '../../util_config';
+import { images } from '../../util_config';
 import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Fade from '@material-ui/core/Fade';
-import clsx from 'clsx';
 import Modal from '@material-ui/core/Modal';
 import Announcements from "./announcements";
-import Login from "./login";
+import Login from "./login-register/login";
+import ForgotPassword from "./login-register/forgot_password";
 import NewReleases from '@material-ui/icons/NewReleases';
 
 import {
-    show_letou_announcements, 
-    show_letou_login
+    show_letou_announcements,
+    show_letou_login,
+    show_letou_forgot_password
 } from '../../actions';
 
 import '../css/top_navbar.scss';
@@ -150,7 +149,7 @@ export class TopNavbar extends React.Component {
         this.getLabel = this.getLabel.bind(this);
     }
 
-    closeMainMenu(event) {
+    closeMainMenu() {
         this.setState({ dropdownMenu: 'none' });
         this.setState({ anchorEl: null });
     }
@@ -166,7 +165,7 @@ export class TopNavbar extends React.Component {
     }
 
     render() {
-        const { classes, showAnnouncements } = this.props;
+        const { classes } = this.props;
         const { anchorEl, dropdownMenu } = this.state;
 
         return (
@@ -327,9 +326,9 @@ export class TopNavbar extends React.Component {
                             {this.getLabel('sign-up')}
                         </Button>
                         <Button variant="contained" className={classes.secondRowButton}
-                        onClick={() => {
-                            this.props.show_letou_login()
-                        }}>
+                            onClick={() => {
+                                this.props.show_letou_login()
+                            }}>
                             {this.getLabel('log-in')}
                         </Button>
                     </Toolbar>
@@ -341,6 +340,15 @@ export class TopNavbar extends React.Component {
                     className={classes.modal}>
                     <Paper className={classes.paper} >
                         <Login />
+                    </Paper>
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.props.showForgotPassword}
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
+                        <ForgotPassword />
                     </Paper>
                 </Modal>
             </div >
@@ -356,6 +364,7 @@ const mapStateToProps = (state) => {
         lang: state.language.lang,
         showAnnouncements: state.general.show_letou_announcements,
         showLogin: state.general.show_letou_login,
+        showForgotPassword: state.general.show_letou_forgot_password,
     }
 }
 
@@ -365,5 +374,5 @@ TopNavbar.propTypes = {
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
-    show_letou_announcements, show_letou_login
+    show_letou_announcements, show_letou_login, show_letou_forgot_password
 })(TopNavbar))));

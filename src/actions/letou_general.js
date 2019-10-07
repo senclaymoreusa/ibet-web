@@ -21,3 +21,15 @@ export const hide_letou_login = () => {
         type: 'HIDE_LETOU_LOGIN'
     };
 };
+
+export const show_letou_forgot_password = () => {
+    return {
+        type: 'SHOW_LETOU_FORGOT_PASSWORD'
+    };
+};
+
+export const hide_letou_forgot_password = () => {
+    return {
+        type: 'HIDE_LETOU_FORGOT_PASSWORD'
+    };
+};
