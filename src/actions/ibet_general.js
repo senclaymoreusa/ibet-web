@@ -543,6 +543,18 @@ export const hide_profile_menu = () => {
     };
 };
 
+export const show_mobile_main_menu = () => {
+    return {
+        type: 'SHOW_MOBILE_MAIN_MENU'
+    };
+};
+
+export const hide_mobile_main_menu = () => {
+    return {
+        type: 'HIDE_MOBILE_MAIN_MENU'
+    };
+};
+
 export const handle_inbox_value = value => {
     return {
         type: 'INBOX_CHANGE',
