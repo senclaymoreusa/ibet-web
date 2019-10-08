@@ -112,6 +112,11 @@ const styles = theme => ({
             borderBottom: "5px solid #fff",
         }
     },
+    onSelectSecondRowDropdown: {
+        height: '100%',
+        borderRadius: 0,
+        boxShadow: 'none',
+    },
     logo: {
         "&:hover": {
             backgroundColor: "transparent",
@@ -136,6 +141,7 @@ export class TopNavbar extends React.Component {
         this.state = {
             anchorEl: null,
             dropdownMenu: 'none',
+        
         };
 
         this.getLabel = this.getLabel.bind(this);
@@ -155,6 +161,8 @@ export class TopNavbar extends React.Component {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
     }
+
+    
 
     render() {
         const { classes, showAnnouncements } = this.props;
@@ -244,7 +252,11 @@ export class TopNavbar extends React.Component {
                             )}
                         </Popper>
                         <Button variant="contained" className={(dropdownMenu === 'live-casino') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
-                            onMouseEnter={(event) => { this.openMainMenu(event, 'live-casino'); }}>
+                            onMouseEnter={(event) => { this.openMainMenu(event, 'live-casino'); }}
+                            onClick={(event) => {   
+                                            this.props.history.push('/live_casino');
+                                            
+                                        }}>
                             {this.getLabel('nav-live-casino')}
                         </Button>
                         <Button variant="contained" className={(dropdownMenu === 'chess') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
