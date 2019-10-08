@@ -176,6 +176,9 @@ export class Login extends React.Component {
         this.onInputChange_password = this.onInputChange_password.bind(this);
         this.toggleShow = this.toggleShow.bind(this);
         this.handle_one_click = this.handle_one_click.bind(this);
+
+        this.getLabel = this.getLabel.bind(this);
+
     }
 
 

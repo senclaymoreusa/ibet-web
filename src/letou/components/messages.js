@@ -56,8 +56,20 @@ export const messages = {
         'register-here': 'register here now.',
         'login-here': 'log in here now.',
         'retrieve-password': 'Retrieve password',
-        'already-have-account':'If you already have an account, '
-        
+        'already-have-account': 'If you already have an account,',
+        'password-confirm': 'Password Confirm',
+        'register-policy-text': 'By clicking the button confirming the application. You confirm that you are 18 years old and you have read, accepted and agreed to the terms and conditions.',
+        'rules-privacy-policy': 'LETOU Gambling Rules and Privacy Policy',
+        'username-limit': '6-20 digits and uppercase or lowercase letters or special symbols.',
+        'please-strong-password': 'Please enter a strong password.',
+        'please-confirm-password': 'Please confirm your password.',
+        'register-hint1': 'Tips for a strong password',
+        'register-hint2': 'Use letters and numbers',
+        'register-hint3': 'Use special characters(e.g.!&@)',
+        'register-hint4': 'Mix lower and uppercase',
+        'phone-number': 'Phone Number',
+        'please-valid-phone': 'Please enter a valid phone number',
+
 
     },
     zh: {},

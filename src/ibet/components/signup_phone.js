@@ -7,7 +7,7 @@ import {
     handle_signup_phone
 } from '../../actions';
 import { connect } from 'react-redux';
-import Country_Info from './country_info';
+import Country_Info from '../../commons/country_info';
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
