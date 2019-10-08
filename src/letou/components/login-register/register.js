@@ -305,7 +305,19 @@ export class Register extends Component {
 
     this.setState({ errorCode: '' })
 
-    this.props.authSignup(this.state.username, null, this.state.password, this.state.confirmPassword, null, null, this.state.phoneCode.slice(1) + this.state.phone, null, null, null, null, null, null, null, null, null, null, null, null)
+    this.props.authSignup(
+      this.state.username,
+      '',
+      this.state.password,
+      '',
+      '',
+      this.state.phoneCode.slice(1) + this.state.phone,
+      '', 
+      '', 
+      '', 
+      '', 
+      '', 
+      true, 'cn')
       .then((res) => {
         this.props.history.push('/activation');
 
