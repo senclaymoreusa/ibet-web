@@ -165,7 +165,7 @@ export class TopNavbar extends React.Component {
             <div className={classes.root}>
                 <AppBar position="static" className={classes.firstRow}>
                     <Toolbar className={classes.firstBar}>
-                        <Button size="small" className={classes.topLinkButton} target="_blank" href="https://help.letou.com/cn/member_brand/seq1.html">
+                        <Button size="small" className={classes.topLinkButton} target="_blank" href="/about_us">
                             {this.getLabel('about-letou')}
                         </Button>
                         <Button size="small" className={classes.topLinkButton} target="_blank" href="https://affiliates.letou.com">
