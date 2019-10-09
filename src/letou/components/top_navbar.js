@@ -113,6 +113,11 @@ const styles = theme => ({
             borderBottom: "5px solid #fff",
         }
     },
+    onSelectSecondRowDropdown: {
+        height: '100%',
+        borderRadius: 0,
+        boxShadow: 'none',
+    },
     logo: {
         "&:hover": {
             backgroundColor: "transparent",
@@ -144,6 +149,7 @@ export class TopNavbar extends React.Component {
         this.state = {
             anchorEl: null,
             dropdownMenu: 'none',
+        
         };
 
         this.getLabel = this.getLabel.bind(this);
@@ -164,6 +170,8 @@ export class TopNavbar extends React.Component {
         return formatMessage({ id: labelId });
     }
 
+    
+
     render() {
         const { classes } = this.props;
         const { anchorEl, dropdownMenu } = this.state;
@@ -173,7 +181,7 @@ export class TopNavbar extends React.Component {
             <div className={classes.root}>
                 <AppBar position="static" className={classes.firstRow}>
                     <Toolbar className={classes.firstBar}>
-                        <Button size="small" className={classes.topLinkButton} target="_blank" href="https://help.letou.com/cn/member_brand/seq1.html">
+                        <Button size="small" className={classes.topLinkButton} target="_blank" href="/about_us">
                             {this.getLabel('about-letou')}
                         </Button>
                         <Button size="small" className={classes.topLinkButton} target="_blank" href="https://affiliates.letou.com">
@@ -252,7 +260,11 @@ export class TopNavbar extends React.Component {
                             )}
                         </Popper>
                         <Button variant="contained" className={(dropdownMenu === 'live-casino') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
-                            onMouseEnter={(event) => { this.openMainMenu(event, 'live-casino'); }}>
+                            onMouseEnter={(event) => { this.openMainMenu(event, 'live-casino'); }}
+                            onClick={(event) => {   
+                                            this.props.history.push('/live_casino');
+                                            
+                                        }}>
                             {this.getLabel('nav-live-casino')}
                         </Button>
                         <Button variant="contained" className={(dropdownMenu === 'chess') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, sendingLog } from '../../../../actions';
 import { config } from '../../../../util_config';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
@@ -188,8 +188,8 @@ export class Marketing extends Component {
                         this.setState({ showMessage: true });
                     });
             }).catch(err => {
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                sendingLog(err);
                 this.setState({ messageText: "An error occured while validating user credentials" });
                 this.setState({ showMessage: true });
             });
