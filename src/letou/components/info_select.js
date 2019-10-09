@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import TopNavbar from "./top_navbar";
 
+
 import { config, images } from '../../util_config';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -26,7 +27,11 @@ const styles = theme => ({
 
 export  class InfoSelect extends React.Component {
     
-    
+    getLabel(labelId) {
+        const { formatMessage } = this.props.intl;
+        return formatMessage({ id: labelId });
+    }
+
     render() {
       const { classes } = this.props;
       return (

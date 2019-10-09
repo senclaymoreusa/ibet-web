@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Home from './components/home';
-import AboutUs from './components/member/about_us'
 import ForMember from './components/member/for_member'
 import ForPartner from './components/partner/for_partner';
 import ContactUs from './components/member/contact_us';
@@ -51,6 +50,7 @@ import  BetRuleFour  from './components/member/bet_rules4';
 import  Baijiale  from './components/member/game_baijiale';
 import  Lunpan  from './components/member/game_lunpan';
 import  Game21dian  from './components/member/game_21dian';
+import  AboutUs  from './components/member_th/about_us';
 
 
 
