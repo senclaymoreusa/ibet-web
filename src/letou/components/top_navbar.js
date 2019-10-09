@@ -21,6 +21,9 @@ import clsx from 'clsx';
 import Modal from '@material-ui/core/Modal';
 import Announcements from "./announcements";
 import NewReleases from '@material-ui/icons/NewReleases';
+import Fab from '@material-ui/core/Fab';
+import Person from '@material-ui/icons/Person';
+
 
 import {
     show_letou_announcements
@@ -131,6 +134,15 @@ const styles = theme => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    profileIcon:{
+        margin: theme.spacing(1),
+        backgroundColor:'#F1941A',
+        height:30,
+        width:36,
+        "&:hover": {
+            backgroundColor: "#F1941A",
+        }
+    }
 });
 
 export class TopNavbar extends React.Component {
@@ -332,6 +344,12 @@ export class TopNavbar extends React.Component {
                         <Button variant="contained" className={classes.secondRowButton}>
                             {this.getLabel('sign-in')}
                         </Button>
+                        <Fab color="primary" aria-label="add" className={classes.profileIcon} onClick={
+                            () => {
+                                this.props.history.push('/p/fortune-center/deposit')   
+                            }}>
+                            <Person />
+                        </Fab>
                     </Toolbar>
                 </AppBar>
             </div >
