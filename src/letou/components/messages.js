@@ -34,11 +34,37 @@ export const messages = {
         'fast-3': 'Fast 3',
         'latest-offer': 'Latest Offer',
         'daily-discount': 'Daily Discount',
+        'operation-license': 'Operation License',
+        'seriea-sponsorship': 'Serie A Sponsorship',
+        'esport-sponsorship': 'E-sport Sponsorship',
+        'title-responsibility': 'Responsibility',
+        'title-partner': 'Partner',
+        'about-us': 'About Us',
+        'login-help': 'Login Help',
+        'using-help': 'Using Help',
+        'maximum-gaming-platform': 'Maximum Gaming Platform',
+        'gaming-responsibility': 'Gaming Rsponsibility',
+        'link-disclaimer': 'Link Disclaimer',
+        'terms-conditions': 'Terms and Conditions',
+        'contact-us': 'Contact Us',
+        'deposit-process': 'Deposit Process',
+        'common-problem': 'Common Problem',
+        'sabah-sports-rules': 'Sabah Sports Rules',
+        'happy-color-rules': 'Happy Color Rules',
+        'timing-rules': 'Timing Rules',
+        'withdrawal-process': 'Withdrawal Process',
+        'sports-rules': 'Sports Rules',
+        'casino-rules': 'Casino Rules',
+        'video-game-rules': 'Video Game Rules',
+        'world-lotto-rules': 'World Lotto Rules',
+        'footer-text1': 'Letou.com is one of Asia\'s leading online gaming groups, offering a wide selection of sports betting, live casinos, mini-games, digital lottery and more, and offers the industry\'s best dividends and returns.',
+        'footer-text2': 'Letou.com is operated by WK (Cyprus) Services Limited with the registered address. Gr. Xenopoulou, 17, 3106, Limassol, Cyprus which is a subsidiary of White Knight (Curacao) BV, established under the laws of Curacao, which has an Agreement with Curaçao eGaming for its gaming license. Curaçao eGaming\'s registration Number is 72819 and its registered address is at Pareraweg 45, Curacao.',
+        'footer-text3': 'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
+        'footer-text4': '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
 
 
 
         'help-title': '我们在此竭诚服务',
-        "about-letou": '关于LETOU',
         "aboutUs-detail-text-one": 'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
         "aboutUs-detail-text-two": '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
         "aboutUs-detail-text-three": 'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
@@ -173,12 +199,6 @@ export const messages = {
         'EV-platform': 'EV platform',
         'PT-platform': 'PT platform',
         'W88-platform': 'W88 platform',
-
-
-    },
-    zh: {
-
-
         'operation-license': 'Operation License',
         'seriea-sponsorship': 'Serie A Sponsorship',
         'esport-sponsorship': 'E-sport Sponsorship',
@@ -212,9 +232,8 @@ export const messages = {
         'register-hint4': 'Mix lower and uppercase',
         'phone-number': 'Phone Number',
         'please-valid-phone': 'Please enter a valid phone number',
-
-
     },
+    zh: {},
     vi: {},
     th: {}
 };
