@@ -167,7 +167,7 @@ export class live_casino extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="PgHall">
+              <div className="PgHall MarginLeft">
                 <div className="PgHallTitle Color3">{this.getLabel('gd-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/gd.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
                 <div className="PgHallArticle">
