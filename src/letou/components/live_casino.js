@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import '../css/banner.css';
 import { withRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom'
+import Grid from '@material-ui/core/Grid';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -23,6 +24,9 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
+    paddingLeft: 24,
+    paddingRight: 24,
+    alignItems: 'center',
     backgroundColor: theme.palette.background.paper,
 
   },
@@ -31,6 +35,44 @@ const styles = theme => ({
   },
   font:{
     verticalAlign: 'inherit',
+  },
+  mainGrid: {
+    maxWidth: 1000,
+  },
+  PgSmallBanner: {
+    height: 200,
+    marginTop: 20,
+    display: 'flex',
+  },
+  PgMain: {
+    display: 'flex',
+  },
+  mainRow: {
+    padding: '35px 0',
+    display: 'flex',
+    margin: '0 auto',
+  },
+  titleRow: {
+    marginBottom: 30,
+    display: 'flex',
+  },
+  PgHall: {
+    width: '20%',
+    height: 340,
+    border: '1px solid #f1f1f1',
+    backgroundColor: '#fffdf8',
+    marginBottom: 10,
+    alignItems: 'flex-end'
+  },
+  title: {
+    fontSize: 26,
+    color: '#333',
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+  hallRow: {
+    marginBottom: 30,
+    display: 'flex',
   },
   
 });
@@ -61,19 +103,20 @@ export class live_casino extends React.Component {
       <div className={classes.root}>
         <TopNavbar />
         <div className={classes.grow} >
-          <div className='PgSmallBanner'>
-            <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/banner.jpg" style={{opacity: 1}} className="BannerImg"/>
-          </div>
-          {/* main */}
-          <div className="PgMain" > 
-          
-            <h2><font style={{verticalAlign: 'inherit'}}>
-             {this.getLabel('Live-casino')}
-            </font></h2>
-            
+          <Grid container className={classes.mainGrid}>
+            <Grid item xs={12} className={classes.mainRow}>
+              <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/banner.jpg" style={{opacity: 1}} className="BannerImg"/>
+            </Grid>
+            {/* main */}
+            <Grid item xs={12} className={classes.titleRow}>
+              {/* <div className="PgMain" >  */}
+              <span className={classes.title}>{this.getLabel('Live-casino')}</span>
+            </Grid>
             {/* pghall */}
-            <div>
-              <div className="PgHall"> 
+            {/* <Grid item xs={12}  className={classes.hallRow}> */}
+            
+              <div className='PgHall'> 
+              
                 <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
                 <div className="PgHallPic">
                   <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ag.jpg" style={{opacity: 1}} className="PgHallPicImg"/>
@@ -96,6 +139,7 @@ export class live_casino extends React.Component {
                   <div className="PgHallBtn FloatRight" style={{cursor:'pointer'}}><a><span>{this.getLabel('Real-money')}</span></a></div>
                 </div>
               </div>
+            
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ab.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
@@ -112,6 +156,7 @@ export class live_casino extends React.Component {
                   </div>
                 </div>
               </div>
+            
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle">{this.getLabel('EA-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ea.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
@@ -133,6 +178,7 @@ export class live_casino extends React.Component {
                   </div>
                 </div>
               </div>
+            
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle">{this.getLabel('n2live-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/n2live.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
@@ -149,6 +195,7 @@ export class live_casino extends React.Component {
                   </div>
                 </div>
               </div>
+            
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle">{this.getLabel('OPUS-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/opus.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
@@ -167,6 +214,8 @@ export class live_casino extends React.Component {
                   </div>
                 </div>
               </div>
+             {/* </Grid> 
+             <Grid item xs={12}  className={classes.hallRow}> */}
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle Color3">{this.getLabel('gd-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/gd.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
@@ -183,6 +232,8 @@ export class live_casino extends React.Component {
                   </div>
                 </div>
               </div>
+             
+              
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle Color3">{this.getLabel('bbin-title')}</div>
                 <div className="PgHallPic">
@@ -203,6 +254,8 @@ export class live_casino extends React.Component {
                   </div>
                 </div>
               </div>
+              
+              
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle Color3">{this.getLabel('gpi-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/gpi.jpg" style={{opacity: 1}} className="PgHallPicImg"/></div>
@@ -221,7 +274,9 @@ export class live_casino extends React.Component {
                   </div>
                 </div>
               </div>
-            </div>
+              
+            {/* </div> */}
+            {/* </Grid> */}
             {/* pghall end */}
 
             <div className="ClearBoth"></div>
@@ -297,8 +352,9 @@ export class live_casino extends React.Component {
             </ul>
             </div>
           </div>
+          
+          </Grid>
         </div>
-          </div>
           {/* main end */}
           
         <Footer />

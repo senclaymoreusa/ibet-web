@@ -6,13 +6,13 @@ a, address, article, b, big, body, center, code, dd, details, div, dl, em, foote
     font: inherit;
     vertical-align: baseline;
 }
-.PgSmallBanner {
+/* .PgSmallBanner {
     width: 100%;
     height: auto;
     margin: 20px auto 0;
     overflow: hidden;
     position: relative;
-}
+} */
 .PgDividendBox {
     position: absolute;
     min-width: 440px;
@@ -68,12 +68,12 @@ a, address, article, b, big, body, center, code, dd, details, div, dl, em, foote
     overflow: hidden;
 }
 .BannerImg {
-    width: 60%;
+    width: 100%;
     position:relative;
-    margin-left:20%;
+    
 }
 .PgMain {
-    width: 60%;
+    width: 0%;
     position:relative;
     height: auto;
     margin: 0 auto;
@@ -96,12 +96,14 @@ a, address, article, b, big, body, center, code, dd, details, div, dl, em, foote
 }
 
 .PgHall {
-    width: 18%;
-    height: 50vh;
+    width: 20%;
+    /* height: 340; */
     border: 1px solid #f1f1f1;
     background-color: #fffdf8;
     margin-bottom: 10px;
     float: left;
+    flex-grow: 1;
+    flex-basis: 20%;
 }
 .PgHall.MarginLeft {
     margin-left: 8.75px;
