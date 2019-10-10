@@ -13,42 +13,72 @@ import Transfer from './transfer';
 import Withdrawal from './withdrawal';
 import { withStyles } from '@material-ui/core/styles';
 
+
+import AccountBalanceOutlined from '@material-ui/icons/AccountBalanceOutlined';
+import FlightLandOutlined from '@material-ui/icons/FlightLandOutlined';
+import FlightTakeoffOutlined from '@material-ui/icons/FlightTakeoffOutlined';
+import LoopOutlined from '@material-ui/icons/LoopOutlined';
+
 const styles = theme => ({
     root: {
         width: '100%',
-    },
-    leftPane: {
-        paddingTop: 50,
-        minWidth: 260,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
+    mainGrid: {
+        maxWidth: 1400,
+    },
+    leftPane: {
+        backgroundColor: '#f4f4f4',
+        minHeight: 500,
+        width: 240,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+    },
     rightPane: {
-        paddingTop: 50,
     },
     leftPaneButton: {
-        width: 250,
-        maxWidth: 250,
-        height: 76,
-        backgroundColor: '#f1f1f1',
-        marginTop: 2,
+        textTransform: 'capitalize',
+        justifyContent: 'flex-start',
+        width: 220,
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10,
         "&:hover": {
             backgroundColor: '#f1f1f1',
         },
     },
     activeLeftPaneButton: {
-        width: 250,
-        maxWidth: 250,
-        height: 76,
-        backgroundColor: '#dfdfdf',
-        marginTop: 2,
+        textTransform: 'capitalize',
+        justifyContent: 'flex-start',
+        width: 220,
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10,
         "&:hover": {
             backgroundColor: '#dfdfdf',
         },
     },
-    text: {
-        marginLeft: 0,
+    title: {
+        fontSize: 20,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: -0.24,
+        color: '#000',
+    },
+    titleRow: {
+        borderBottom: '1px solid #4DA9DF',
+        paddingBottom: 12,
+    },
+    content: {
+        flexGrow: 1,
+        paddingLeft: 10,
+        paddingTop: 10,
+        paddingBottom: 10
     }
 });
 
@@ -80,7 +110,7 @@ export class FortuneCenter extends Component {
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
-         this.initializeContent();
+        this.initializeContent();
     }
 
     componentDidMount() {
@@ -92,7 +122,7 @@ export class FortuneCenter extends Component {
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
-         this.initializeContent();
+        this.initializeContent();
     }
 
     initializeContent() {
@@ -134,18 +164,39 @@ export class FortuneCenter extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={4} className={classes.leftPane}>
-                        <Button className={(contentValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'deposit')}>{this.getLabel('title-deposit')}</Button>
-                        <Button className={(contentValue === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'total-assets')}>{this.getLabel('total-assets')}</Button>
-                        <Button className={(contentValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'transfer')}>{this.getLabel('title-transfer')}</Button>
-                        <Button className={(contentValue === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'withdrawal')}>{this.getLabel('title-withdrawal')}</Button>
+                <Grid container className={classes.mainGrid}>
+                    <Grid item xs={12} className={classes.titleRow}>
+                        <span className={classes.title}>{this.getLabel('fortune-center')}</span>
                     </Grid>
-                    <Grid item xs={8} className={classes.rightPane}>
-                        {contentValue === 'deposit' && <Deposit />}
-                        {contentValue === 'total-assets' && <TotalAssets />}
-                        {contentValue === 'transfer' && <Transfer />}
-                        {contentValue === 'withdrawal' && <Withdrawal />}
+                    <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
+                        <div className={classes.leftPane}>
+                            <Button className={(contentValue === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                onClick={(evt) => this.handleTabChange(evt, 'total-assets')}>
+                                <AccountBalanceOutlined style={{ marginRight: 8 }} />
+                                {this.getLabel('total-assets')}
+                            </Button>
+                            <Button className={(contentValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                onClick={(evt) => this.handleTabChange(evt, 'deposit')}>
+                                <FlightLandOutlined style={{ marginRight: 8 }} />
+                                {this.getLabel('title-deposit')}
+                            </Button>
+                            <Button className={(contentValue === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                onClick={(evt) => this.handleTabChange(evt, 'withdrawal')}>
+                                <FlightTakeoffOutlined style={{ marginRight: 8 }} />
+                                {this.getLabel('title-withdrawal')}
+                            </Button>
+                            <Button className={(contentValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                onClick={(evt) => this.handleTabChange(evt, 'transfer')}>
+                                <LoopOutlined style={{ marginRight: 8 }} />
+                                {this.getLabel('title-transfer')}
+                            </Button>
+                        </div>
+                        <div className={classes.content}>
+                            {contentValue === 'deposit' && <Deposit />}
+                            {contentValue === 'total-assets' && <TotalAssets />}
+                            {contentValue === 'transfer' && <Transfer />}
+                            {contentValue === 'withdrawal' && <Withdrawal />}
+                        </div>
                     </Grid>
                 </Grid>
             </div>

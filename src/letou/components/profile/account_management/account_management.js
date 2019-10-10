@@ -13,42 +13,72 @@ import SecuritySettings from './security_settings';
 import Suggestions from './suggestions';
 import { withStyles } from '@material-ui/core/styles';
 
+import PersonOutlineRounded from '@material-ui/icons/PersonOutlineRounded';
+import LockOutlined from '@material-ui/icons/LockOutlined';
+import MessageOutlined from '@material-ui/icons/MessageOutlined';
+import FeedbackOutlined from '@material-ui/icons/FeedbackOutlined';
+
+
 const styles = theme => ({
     root: {
         width: '100%',
-    },
-    leftPane: {
-        paddingTop: 50,
-        minWidth: 260,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
+    mainGrid: {
+        maxWidth: 1400,
+    },
+    leftPane: {
+        backgroundColor: '#f4f4f4',
+        minHeight: 500,
+        width: 240,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+    },
     rightPane: {
-        paddingTop: 50,
     },
     leftPaneButton: {
-        width: 250,
-        maxWidth: 250,
-        height: 76,
-        backgroundColor: '#f1f1f1',
-        marginTop: 2,
+        textTransform: 'capitalize',
+        justifyContent: 'flex-start',
+        width: 220,
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10,
         "&:hover": {
             backgroundColor: '#f1f1f1',
         },
     },
     activeLeftPaneButton: {
-        width: 250,
-        maxWidth: 250,
-        height: 76,
-        backgroundColor: '#dfdfdf',
-        marginTop: 2,
+        textTransform: 'capitalize',
+        justifyContent: 'flex-start',
+        width: 220,
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10,
         "&:hover": {
             backgroundColor: '#dfdfdf',
         },
     },
-    text: {
-        marginLeft: 0,
+    title: {
+        fontSize: 20,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: -0.24,
+        color: '#000',
+    },
+    titleRow: {
+        borderBottom: '1px solid #4DA9DF',
+        paddingBottom: 12,
+    },
+    content:{
+        flexGrow: 1,
+        paddingLeft:10,
+        paddingTop:10,
+        paddingBottom:10
     }
 });
 
@@ -134,19 +164,36 @@ export class AccountManagement extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={4} className={classes.leftPane}>
-                        <Button className={(contentValue === 'account-message') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'account-message')}>{this.getLabel('account-message')}</Button>
-                        <Button className={(contentValue === 'message-notification') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'message-notification')}>{this.getLabel('message-notification')}</Button>
-
-                        <Button className={(contentValue === 'security-settings') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'security-settings')}>{this.getLabel('security-settings')}</Button>
-                        <Button className={(contentValue === 'suggestions') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'suggestions')}>{this.getLabel('suggestions-feedback')}</Button>
+                <Grid container className={classes.mainGrid}>
+                    <Grid item xs={12} className={classes.titleRow}>
+                        <span className={classes.title}>{this.getLabel('account-management')}</span>
                     </Grid>
-                    <Grid item xs={8} className={classes.rightPane}>
-                        {contentValue === 'account-message' && <AccountMessage />}
-                        {contentValue === 'message-notification' && <MessageNotification />}
-                        {contentValue === 'security-settings' && <SecuritySettings />}
-                        {contentValue === 'suggestions' && <Suggestions />}
+                    <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop:20 }}>
+                        <div className={classes.leftPane}>
+                            <Button className={(contentValue === 'account-message') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                onClick={(evt) => this.handleTabChange(evt, 'account-message')}>
+                                <PersonOutlineRounded style={{ marginRight: 8 }} />
+                                {this.getLabel('account-message')}
+                            </Button>
+                            <Button className={(contentValue === 'message-notification') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'message-notification')}>
+                                <MessageOutlined style={{ marginRight: 8 }} />
+                                {this.getLabel('message-notification')}
+                            </Button>
+                            <Button className={(contentValue === 'security-settings') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'security-settings')}>
+                                <LockOutlined style={{ marginRight: 8 }} />
+                                {this.getLabel('security-settings')}
+                            </Button>
+                            <Button className={(contentValue === 'suggestions') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'suggestions')}>
+                                <FeedbackOutlined style={{ marginRight: 8 }} />
+                                {this.getLabel('suggestions-feedback')}
+                            </Button>
+                        </div>
+                        <div className={classes.content}>
+                            {contentValue === 'account-message' && <AccountMessage />}
+                            {contentValue === 'message-notification' && <MessageNotification />}
+                            {contentValue === 'security-settings' && <SecuritySettings />}
+                            {contentValue === 'suggestions' && <Suggestions />}
+                        </div>
                     </Grid>
                 </Grid>
             </div>

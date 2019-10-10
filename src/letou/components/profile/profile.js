@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Footer from "../footer";
-import TopNavbar from "../top_navbar";
 
 import Typography from '@material-ui/core/Typography';
 
@@ -33,14 +32,15 @@ const styles = theme => ({
     },
     content: {
         flexGrow: 1,
-        paddingTop: 50,
-        paddingBottom: 50
+        paddingTop: 20,
+        paddingBottom: 20
     },
     indicator: {
         backgroundColor: 'white',
     },
     appBar: {
-        zIndex: 0,
+        backgroundColor: '#3c3c3c',
+        color:'#fff',
     }
 });
 
@@ -59,8 +59,8 @@ const StyledTabs = withStyles({
 
 const StyledTab = withStyles(theme => ({
     root: {
-        textTransform: "uppercase",
-        color: "#474747",
+        textTransform: "capitalize",
+        color: "#fff",
         opacity: 1,
         margin: 'auto',
         fontWeight: theme.typography.fontWeightRegular,
@@ -70,21 +70,21 @@ const StyledTab = withStyles(theme => ({
         minWidth: 280,
         maxWidth: '16.6%',
         height: '100%',
-        borderBottom: '2px solid #d8d8d8',
+        borderBottom: '2px solid #3c3c3c',
         whiteSpace: 'nowrap',
         "&:focus": {
             height: '100%',
-            backgroundColor: '#c5c5c5',
+            backgroundColor: '#3c3c3c',
             borderBottom: '2px solid #ff0000',
         },
         "&:hover": {
             height: '100%',
-            backgroundColor: '#c5c5c5',
+            backgroundColor: '#3c3c3c',
             borderBottom: '2px solid #ff0000',
         },
         "&:selected": {
             height: '100%',
-            backgroundColor: '#c5c5c5',
+            backgroundColor: '#3c3c3c',
             borderBottom: '2px solid #ff0000',
         },
     }
@@ -112,20 +112,6 @@ TabPanel.propTypes = {
     index: PropTypes.any.isRequired,
     value: PropTypes.any.isRequired,
 };
-
-const muiSubMenuBarTheme = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#d8d8d8',
-        },
-    },
-    appBar: {
-        height: 72,
-    },
-    typography: {
-        useNextVariants: true,
-    },
-});
 
 export class Profile extends Component {
 
@@ -196,51 +182,48 @@ export class Profile extends Component {
 
         return (
             <div className={classes.root}>
-                <TopNavbar currentMenu='' />
-                <MuiThemeProvider theme={muiSubMenuBarTheme}>
-                    <AppBar position="static" className={classes.appBar}>
-                        <StyledTabs centered
-                            value={this.props.match.params.type}
-                            onChange={this.handleTabChange}>
-                            <StyledTab
-                                label={this.getLabel('fortune-center')}
-                                value="fortune-center"
-                                onClick={() => {
-                                    if (this.props.match.params.type !== 'fortune-center') {
-                                        this.handleCategoryChange('fortune-center');
-                                    }
-                                }}
-                            />
-                            <StyledTab
-                                label={this.getLabel('transaction-record')}
-                                value="transaction-record"
-                                onClick={() => {
-                                    if (this.props.match.params.type !== 'transaction-record') {
-                                        this.handleCategoryChange('transaction-record');
-                                    }
-                                }}
-                            />
-                            <StyledTab
-                                value="account-management"
-                                label={this.getLabel('account-management')}
-                                onClick={() => {
-                                    if (this.props.match.params.type !== 'account-management') {
-                                        this.handleCategoryChange('account-management');
-                                    }
-                                }}
-                            />
-                            <StyledTab
-                                value="sharing-plan"
-                                label={this.getLabel('sharing-plan')}
-                                onClick={() => {
-                                    if (this.props.match.params.type !== 'sharing-plan') {
-                                        this.handleCategoryChange('sharing-plan');
-                                    }
-                                }}
-                            />
-                        </StyledTabs>
-                    </AppBar>
-                </MuiThemeProvider>
+                <AppBar position="static" className={classes.appBar}>
+                    <StyledTabs centered
+                        value={this.props.match.params.type}
+                        onChange={this.handleTabChange}>
+                        <StyledTab
+                            label={this.getLabel('fortune-center')}
+                            value="fortune-center"
+                            onClick={() => {
+                                if (this.props.match.params.type !== 'fortune-center') {
+                                    this.handleCategoryChange('fortune-center');
+                                }
+                            }}
+                        />
+                        <StyledTab
+                            label={this.getLabel('transaction-record')}
+                            value="transaction-record"
+                            onClick={() => {
+                                if (this.props.match.params.type !== 'transaction-record') {
+                                    this.handleCategoryChange('transaction-record');
+                                }
+                            }}
+                        />
+                        <StyledTab
+                            value="account-management"
+                            label={this.getLabel('account-management')}
+                            onClick={() => {
+                                if (this.props.match.params.type !== 'account-management') {
+                                    this.handleCategoryChange('account-management');
+                                }
+                            }}
+                        />
+                        <StyledTab
+                            value="sharing-plan"
+                            label={this.getLabel('sharing-plan')}
+                            onClick={() => {
+                                if (this.props.match.params.type !== 'sharing-plan') {
+                                    this.handleCategoryChange('sharing-plan');
+                                }
+                            }}
+                        />
+                    </StyledTabs>
+                </AppBar>
                 <div className={classes.content}>
                     {this.state.tabValue === 'fortune-center' && <FortuneCenter />}
                     {this.state.tabValue === 'transaction-record' && <TransactionRecord />}
