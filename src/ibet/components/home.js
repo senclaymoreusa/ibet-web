@@ -97,6 +97,24 @@ export class Home extends Component {
     this.setState({ expand: true })
   }
 
+  game_url(event, item){
+    event.preventDefault();
+    if (item.name in ['SA', 'Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB']){
+      token = localStorage.getItem('token')
+      if (token){
+          config.headers["Authorization"] = `Token ${token}`;
+          Game_URL = API_URL + 'users/api/generategameurl'
+          axios.get(Game_URL, config)
+          .then(res => {
+            
+          })
+      }
+      
+
+    }
+    window.open(item.game_url)
+  }
+
   render() {
 
     const { classes } = this.props;
@@ -175,7 +193,7 @@ export class Home extends Component {
                     localStorage.setItem("recent-games", JSON.stringify(array));
 
                   }}>
-                    <span onClick={() => { window.open(item.game_url) }}>
+                    <span onClick={(e) => this.game_url(e, item)}> 
 
                       {
                         <img src={item.image_url} height="220" width="300" alt='Not available' />
