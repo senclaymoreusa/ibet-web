@@ -99,20 +99,25 @@ export class Home extends Component {
 
   game_url(event, item){
     event.preventDefault();
-    if (item.name in ['SA', 'Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB']){
-      token = localStorage.getItem('token')
+    console.log(item.name)
+    if (['SA', 'Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB'].includes(item.name)){
+      console.log('12345')
+      var token = localStorage.getItem('token')
       if (token){
           config.headers["Authorization"] = `Token ${token}`;
-          Game_URL = API_URL + 'users/api/generategameurl'
-          axios.get(Game_URL, config)
+          var URL = API_URL + 'users/api/generategameurl'
+          axios.get(URL, config)
           .then(res => {
-            
+              var Game_URL = res.game_url
+              window.open(Game_URL)
           })
+      }else{
+        alert('You have to login to play this game')
       }
-      
 
+    }else{
+      window.open(item.game_url)
     }
-    window.open(item.game_url)
   }
 
   render() {
