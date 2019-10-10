@@ -273,7 +273,7 @@ class DepositAsiapayQucikpay extends Component {
             body: formBody
         })
             .then(function(res) {
-                console.log(res);
+                // console.log(res);
 
                 currentComponent.setState({ showLinearProgressBar: false });
 
@@ -284,14 +284,14 @@ class DepositAsiapayQucikpay extends Component {
             })
             .then(function(data) {
                 currentComponent.setState({ showLinearProgressBar: false });
-                console.log(data);
+                //console.log(data);
                 // let url = data.url;
                 // let order_id = data.order_id;
                 // const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
                 if(data.indexOf("其他错误|25") && data.includes("100309")){
                     currentComponent.props.callbackFromParent("error", "Something is wrong.");
                 }else{
-                    console.log(data.StatusCode)
+                    //console.log(data.StatusCode)
                     let newwin = window.open('');
                     newwin.document.write(data);
                     var timer = setInterval(function() {
@@ -330,7 +330,7 @@ class DepositAsiapayQucikpay extends Component {
                                 }
                             })
                             .then(function(data) {
-                                console.log(data.status);
+                                //console.log(data.status);
                                 if (data.status === '001') {
                                     //alert('Transaction is approved.');
                                     const body = JSON.stringify({
@@ -384,7 +384,7 @@ class DepositAsiapayQucikpay extends Component {
                 
             })
             .catch(err => {
-                console.log(err);
+                //console.log(err);
                 // axios
                 //     .post(
                 //         API_URL + 'system/api/logstreamtos3/',

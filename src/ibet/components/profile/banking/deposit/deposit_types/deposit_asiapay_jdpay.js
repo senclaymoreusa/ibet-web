@@ -314,8 +314,8 @@ class DepositAsiapayJDPay extends Component {
             method: "49", //京东支付
             RealName: this.state.data.last_name + this.state.data.first_name,
         }
-        console.log(this.state.amount)
-        console.log(this.state.data.pk)
+        //console.log(this.state.amount)
+        //console.log(this.state.data.pk)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -330,7 +330,7 @@ class DepositAsiapayJDPay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            console.log(res);
+            //console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
             if(res.status == 200){
@@ -344,9 +344,9 @@ class DepositAsiapayJDPay extends Component {
             
 
         }).then(function (data) {
-            console.log(data)
+            //console.log(data)
             let qrurl = data.qr;
-            console.log(qrurl)
+            //console.log(qrurl)
             if(qrurl != null){
                 currentComponent.setState({ qr_code: qrurl });
                 // const mywin = window.open(qrurl, 'asiapay-alipay')
@@ -416,7 +416,7 @@ class DepositAsiapayJDPay extends Component {
         }).catch(function (err) {
             currentComponent.setState({ showLinearProgressBar: false });
 
-            console.log('Request failed', err);
+            //console.log('Request failed', err);
 
             // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             sendingLog(err);

@@ -298,7 +298,7 @@ class DepositAsiapayAlipay extends Component {
             body: formBody
         })
             .then(function(res) {
-                console.log(res);
+                //console.log(res);
                 currentComponent.setState({ showLinearProgressBar: false });
                 if(res.status == 200){
                     return res.json();
@@ -352,7 +352,7 @@ class DepositAsiapayAlipay extends Component {
                                     }
                                 })
                                 .then(function(data) {
-                                    console.log(data.status);
+                                    //console.log(data.status);
                                     if (data.status === '001') {
                                         //alert('Transaction is approved.');
                                         const body = JSON.stringify({
@@ -363,7 +363,7 @@ class DepositAsiapayAlipay extends Component {
                                             balance:
                                                 currentComponent.state.amount
                                         });
-                                        console.log(body);
+                                        //console.log(body);
                                         axios
                                             .post(
                                                 API_URL +

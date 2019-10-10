@@ -315,7 +315,7 @@ class DepositAsiapayWechatpay extends Component {
             "PayWay": "30", //在线支付
             "method": "38", //wechat
         }
-        console.log(this.state.data.pk)
+        //console.log(this.state.data.pk)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -330,7 +330,7 @@ class DepositAsiapayWechatpay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            console.log(res);
+            //console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
 
@@ -338,9 +338,9 @@ class DepositAsiapayWechatpay extends Component {
             return res.json();
 
         }).then(function (data) {
-            console.log(data)
+            //console.log(data)
             let qrurl = data.qr;
-            console.log(qrurl)
+            //console.log(qrurl)
             if(qrurl != null){
                 const mywin = window.open(qrurl, 'asiapay-wechatpay')
                 var timer = setInterval(function () {
@@ -369,7 +369,7 @@ class DepositAsiapayWechatpay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            console.log(data.status)
+                            //console.log(data.status)
                             if (data.status === "001") {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
@@ -377,7 +377,7 @@ class DepositAsiapayWechatpay extends Component {
                                     username: currentComponent.state.data.username,
                                     balance: currentComponent.state.amount,
                                 });
-                                console.log(body)
+                                //console.log(body)
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {
@@ -400,7 +400,7 @@ class DepositAsiapayWechatpay extends Component {
             }
             
                }).catch(function (err) {  
-            console.log('Request failed', err);
+            //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
             sendingLog(err);
             // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });

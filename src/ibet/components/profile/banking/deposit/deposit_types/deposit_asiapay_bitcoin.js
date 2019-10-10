@@ -340,7 +340,7 @@ class DepositAsiapayBitcoin extends Component {
             })
             .then(function(data) {
                 currentComponent.setState({ showLinearProgressBar: false });
-                console.log(data);
+                //console.log(data);
                 if(data.StatusMsg == 'OK'){
                     currentComponent.setState({ order_id: data.order_id});
                     currentComponent.setState({ CardNumber: data.CardNumber});
@@ -353,7 +353,7 @@ class DepositAsiapayBitcoin extends Component {
                 }
                 
             }).catch(function (err) {  
-            console.log('Request failed', err);
+            //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
             axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });

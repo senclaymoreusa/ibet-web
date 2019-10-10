@@ -347,7 +347,7 @@ class DepositAsiapayOnlinePay extends Component {
             })
             .then(function(data) {
                 currentComponent.setState({ showLinearProgressBar: false });
-                console.log(data);
+                //console.log(data);
                 // let url = data.url;
                 // let order_id = data.order_id;
                 // const mywin = window.open(
@@ -387,7 +387,7 @@ class DepositAsiapayOnlinePay extends Component {
                                 return res.json();
                             })
                             .then(function(data) {
-                                console.log(data.status);
+                                //console.log(data.status);
                                 if (data.status === '001') {
                                     //alert('Transaction is approved.');
                                     const body = JSON.stringify({
@@ -397,7 +397,7 @@ class DepositAsiapayOnlinePay extends Component {
                                                 .username,
                                         balance: currentComponent.state.amount
                                     });
-                                    console.log(body);
+                                    //console.log(body);
                                     axios
                                         .post(
                                             API_URL +

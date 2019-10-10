@@ -320,7 +320,7 @@ class DepositAsiapayUnionpay extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        console.log(formBody)
+        //console.log(formBody)
         return fetch(API_URL + 'accounting/api/asiapay/deposit', {
             method: 'POST',
             headers: {
@@ -328,7 +328,7 @@ class DepositAsiapayUnionpay extends Component {
             },
             body: formBody
         }).then(function (res) {
-           console.log(res);
+           //console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
 
@@ -341,9 +341,9 @@ class DepositAsiapayUnionpay extends Component {
             }
             
         }).then(function (data) {
-            console.log(data)
+            //console.log(data)
             let qrurl = data.qr;
-            console.log(qrurl)
+            //console.log(qrurl)
             if(qrurl != null){
                 currentComponent.setState({ qr_code: qrurl });
                 // const mywin = window.open(qrurl, 'asiapay-alipay')

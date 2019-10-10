@@ -596,7 +596,7 @@ class DepositQaicashBT extends Component {
                                 <Grid item xs={12} className={classes.buttonCell}>
                                     <Button className={classes.continueButton}
                                         onClick={this.handleClick}
-                                        disabled={this.state.amountInvalid}
+                                        disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
                                     >{continueMessage}</Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.backButtonCell}>

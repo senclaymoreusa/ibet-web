@@ -186,6 +186,7 @@ export class DepositMethod extends Component {
                                 </Button>
                                 <Button
                                     className={classes.addButton}
+                                    disabled={true}
                                     onClick={() => {
                                         this.depositWith('paypal');
                                     }}

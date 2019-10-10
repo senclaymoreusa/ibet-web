@@ -307,11 +307,11 @@ class WithdrawQaicashLBT extends Component {
             if (redirectUrl != null && main_wallet - amount >= 0) {
                 const mywin = window.open(redirectUrl, 'qaicash-checkout');
                 var timer = setInterval(function () {
-                    console.log('checking..')
+                    
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
-                            "trans_id": data.payoutTransaction.orderId,
+                            "order_id": data.payoutTransaction.orderId,
                         }
                         var formBody = [];
                         for (var pd in postData) {
@@ -320,7 +320,7 @@ class WithdrawQaicashLBT extends Component {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
-                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
+                        return fetch(API_URL + 'accounting/api/qaicash/payout_transaction', {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -337,31 +337,9 @@ class WithdrawQaicashLBT extends Component {
                         }).then(function (data) {
                             let status = data.status;
 
-                            if (status === 9) {
+                            if (status === 'HELD') {
 
-                                //alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'withdraw',
-                                    username: user,
-                                    balance: amount,
-                                });
-                                console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //this.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", 'Transaction failed!');
-                                        } else if (res.data === 'The balance is not enough') {
-                                        //    // alert("cannot withdraw this amount")
-                                            currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
-
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
-                                
-                                            // alert("your balance is updated")
-                                            // window.location.reload()
-                                        }
-                                    });
+                                currentComponent.props.callbackFromParent("success", data.status);
 
                             } else  {
 
