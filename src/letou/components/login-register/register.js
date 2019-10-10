@@ -177,6 +177,15 @@ const styles = theme => ({
     letterSpacing: 'normal',
     color: '#212121',
   },
+  errorText: {
+    fontSize: 12,
+    fontWeight: 500,
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    color: '#fe0000',
+  }
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -245,8 +254,9 @@ export class Register extends Component {
       emailFocused: false,
       emailInvalid: true,
 
+      referralCode: '',
 
-      referralCode:'',
+      errorMessage: '',
 
       allCountryName: Country_Info['Country_Info'],
       formOpen: false,
@@ -297,13 +307,13 @@ export class Register extends Component {
   }
 
   emailChanged(event) {
-    this.setState({email: event.target.value});
+    this.setState({ email: event.target.value });
 
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!event.target.value.match(re)){
-      this.setState({emailInvalid: true})
-    }else{
-      this.setState({emailInvalid: false})
+    if (!event.target.value.match(re)) {
+      this.setState({ emailInvalid: true })
+    } else {
+      this.setState({ emailInvalid: false })
     }
   }
 
@@ -337,7 +347,7 @@ export class Register extends Component {
       '',
       '',
       '',
-      true, 
+      true,
       this.props.lang)
       .then((res) => {
         this.props.history.push('/activation');
@@ -346,30 +356,18 @@ export class Register extends Component {
         sendingLog(err);
 
         if (err.response && 'username' in err.response.data) {
-          this.setState({ username_error: err.response.data.username[0] })
-        } else {
-          this.setState({ username_error: '' })
-        }
-
-        if (err.response && 'email' in err.response.data) {
-          this.setState({ email_error: err.response.data.email[0] })
-        } else {
-          this.setState({ email_error: '' })
-        }
-
-        if (err.response && 'phone' in err.response.data) {
-          this.setState({ phone_error: err.response.data.phone[0] })
-        } else {
-          this.setState({ phone_error: '' })
-        }
-
-        if (err.response && 'non_field_errors' in err.response.data) {
+          this.setState({ usernameInvalid: err.response.data.username[0] });
+        } else if (err.response && 'email' in err.response.data) {
+          this.setState({ emailInvalid: err.response.data.email[0] })
+        } else if (err.response && 'phone' in err.response.data) {
+          this.setState({ phoneInvalid: err.response.data.phone[0] })
+        } else if (err.response && 'non_field_errors' in err.response.data) {
           this.setState({ error: err.response.data.non_field_errors.slice(0) })
+        } else if (err.response && 'password1' in err.response.data) {
+          this.setState({ passwordInvalid: err.response.data.password1[0] })
         }
 
-        if (err.response && 'password1' in err.response.data) {
-          this.setState({ password_error: err.response.data.password1[0] })
-        }
+        this.setState({ errorMessage: err.response.data });
       })
   }
 
@@ -555,7 +553,7 @@ export class Register extends Component {
                           startAdornment: (<InputAdornment position="start">
                             <EmailOutlined />
                           </InputAdornment>)
-                        }}/>
+                        }} />
                     </Grid>
                     <Grid item xs={12} style={{ marginTop: 30 }}>
                       <TextField
@@ -570,7 +568,7 @@ export class Register extends Component {
                           startAdornment: (<InputAdornment position="start">
                             <SupervisedUserCircleOutlined />
                           </InputAdornment>)
-                        }}/>
+                        }} />
                     </Grid>
                     <Grid item xs={12} style={{ marginTop: 30 }}>
                       <Button className={classes.registerButton}
@@ -583,6 +581,9 @@ export class Register extends Component {
                       >{this.getLabel('title-register')}</Button>
                     </Grid>
                   </form>
+                  {this.state.errorMessage.length > 0 && <Grid item xs={12}>
+                    <span className={classes.errorText}>{this.state.errorMessage}</span>
+                  </Grid>}
                   <Grid item xs={12} style={{ paddingTop: 20, textAlign: 'center' }}>
                     <span className={classes.registerText}>{this.getLabel('register-policy-text')}</span>
                     <Button className={classes.policyLink}
