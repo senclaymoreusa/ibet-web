@@ -60,40 +60,42 @@ export class MemberRuleSix extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_partner">供合作伙伴使用  >
+                                <a href="/for_partner">สำหรับคู่ค้า  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_partner">品牌介绍 >
+                                <a href="/for_partner">เกมส์แนะนำ >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>乐投优势</h2>
-                        <h1>优秀的国际专业博彩品牌优势</h1>
-                        <p>乐投国际LETOU于2004年在菲律宾成立，公司的经营由菲律宾政府卡格杨河经济特区所授权和监管。10年老品牌，信誉优良，值得信赖，大额存提款轻松到位，大户首选，稳定安全，是您网上博彩的首选。</p>
-                        <h1>极具竞争力代理制度</h1>
-                        <p>只要四步骤，立即品味生活，享受成就。
-                            <br /> 1. 注册账号后，申请成为高级代理人，完善个人信息。
-                            <br /> 2. 联系代理专用QQ
-                            <br /> 3. 洽谈合作细节，获取高收益分红计划。
-                            <br /> 4. 完成开通账号，获取推广链结。</p>
-                        <h1>全球最优质平台</h1>
-                        <p>十年老品牌，值得您信赖。
-                            <br /> 大额存提款轻松到位，大客户必选平台。
-                            <br /> 提供业内所有优质游戏平台，精彩时光，瞬间开启。
+                        <h2>ข้อดีของ LETOU</h2>
+                        &nbsp;
+                        <h1>ข้อดีจากคาสิโนออนไลน์ยอดเยี่ยม</h1>
+                        <p>LETOU ก่อตั้งขึ้นเมื่อปีพ. ศ. 2547 ตั้งแต่ประเทศฟิลิปปินส์และมีใบอนุญาต PAGCOR เต็มรูปแบบ</p>
+                        <h1>โปรแกรมพันธมิตรการแข่งขัน</h1>
+                        <p>สี่ขั้นตอนสู่ความสำเร็จ
+                            <br /> 1. ลงทะเบียนกับเราและสมัครเป็นพันธมิตรระดับสูงเพื่อคุณโดยเฉพาะ
+                            <br /> 2. ติดต่อตัวแทนจำหน่ายผ่าน LINE
+                            <br /> 3. พูดคุยเกี่ยวกับความร่วมมือในรายละเอียดและเข้าร่วมโปรแกรม Affiliate ที่ทำกำไรได้มาก
+                            <br /> 4. เปิดใช้งานบัญชีเพื่อรับลิงก์การทำเครื่องหมายพิเศษ
+                        </p>
+                        <h1>แพลตฟอร์มที่ดีที่สุด</h1>
+                        <p>ประสบการณ์ในการสร้างความไว้วางใจมากกว่า 10 ปี
+                            <br /> ทางเลือกแรกสำหรับวีไอพี - คำขอถอนเงินเป็นจำนวนมากตั้งเป็นวินาที
+                            <br /> ให้ความอุดมสมบูรณ์ของเกมจากแพลตฟอร์มที่แตกต่างกันทั้งหมด
                             <br />
                             <br />
-                            <img src="http://i.imgur.com/dUnTJ3C.png"></img>
-                            <img src="http://i.imgur.com/2E0DHdC.png"></img>
-                            <img src="http://i.imgur.com/VFe5GuY.png"></img>
+                            <img src="http://i.imgur.com/dUnTJ3C.png" /> 
+                            <img src="http://i.imgur.com/2E0DHdC.png" />
+                            <img src="http://i.imgur.com/VFe5GuY.png" />
                             <br />
-                            <img src="http://i.imgur.com/5bJpJZr.png"></img>
-                            <img src="http://i.imgur.com/ddSTWzD.png"></img>
-                            <img src="http://i.imgur.com/IkaG8hp.png"></img>
+                            <img src="http://i.imgur.com/5bJpJZr.png" />
+                            <img src="http://i.imgur.com/ddSTWzD.png" />
+                            <img src="http://i.imgur.com/IkaG8hp.png" />
                         </p>
                     </div>
 
