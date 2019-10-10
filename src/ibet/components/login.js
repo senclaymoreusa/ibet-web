@@ -189,7 +189,7 @@ export class Login extends React.Component {
                     if (this.state.check) {
                         localStorage.setItem('remember_password', this.state.password);
                         localStorage.setItem('remember_check', 'checked')
-    
+
                         axios.get(API_URL + 'users/api/user/', config)
                             .then(res => {
                                 localStorage.setItem('remember_username', res.data.username);
@@ -200,7 +200,7 @@ export class Login extends React.Component {
                         localStorage.removeItem('remember_check');
                     }
                     this.props.hide_login()
-    
+
                     this.setActivityReminder();
                 }
             })
@@ -299,7 +299,6 @@ export class Login extends React.Component {
                     <div style={{ color: '#747175', marginTop: 10, marginLeft: 40 }}>
                         <FormattedMessage id="signup.email_message1" defaultMessage='This will be used to log in.' />
                     </div>
-
                     <div style={{ marginTop: 15, textAlign: 'center' }}>
                         <TextField
                             className={classes.textField}
@@ -314,13 +313,11 @@ export class Login extends React.Component {
                                     focused: classes.cssFocused,
                                     notchedOutline: classes.notchedOutline
                                 },
-
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
                                             aria-label="Toggle password visibility"
-                                            onClick={this.handleClickShowPassword}
-                                        >
+                                            onClick={this.handleClickShowPassword}>
                                             {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>
                                     </InputAdornment>

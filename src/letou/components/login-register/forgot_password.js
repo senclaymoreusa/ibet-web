@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import {
     authLogin, authCheckState, AUTH_RESULT_SUCCESS, hide_letou_forgot_password,
-    hide_letou_login, show_signup} from '../../../actions';
+    hide_letou_login, show_signup, sendingLog} from '../../../actions';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { config } from '../../../util_config';
@@ -254,11 +254,15 @@ export class ForgotPassword extends React.Component {
                                 this.props.history.push('/');
                             })
                             .catch(err => {
-                                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
+                                sendingLog(err);
+                                
+                                //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
                             })
                     })
                     .catch(err => {
-                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
+                        sendingLog(err);
+                        
+                        //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
                     })
             })
     }
@@ -281,7 +285,10 @@ export class ForgotPassword extends React.Component {
                 } else {
                     this.setState({ wrongPasswordError: true, userBlocked: false })
                 }
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
+                sendingLog(err);
+                
+                
+                //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
 
             });
     }

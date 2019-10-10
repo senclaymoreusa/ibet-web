@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Footer from "../footer";
 import TopNavbar from "../top_navbar";
 import { connect } from 'react-redux';
-import { authCheckState, authSignup, handle_referid, hide_landing_page, show_letou_login } from '../../../actions';
+import { authCheckState, authSignup, handle_referid, hide_landing_page, show_letou_login, sendingLog } from '../../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import { images, config } from '../../../util_config';
 import Paper from '@material-ui/core/Paper';
@@ -12,6 +12,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import PermIdentity from '@material-ui/icons/PermIdentity';
 import Button from '@material-ui/core/Button';
 import LockOpen from '@material-ui/icons/LockOpen';
+import EmailOutlined from '@material-ui/icons/EmailOutlined';
+import SupervisedUserCircleOutlined from '@material-ui/icons/SupervisedUserCircleOutlined';
 import Phone from '@material-ui/icons/Phone';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -239,6 +241,13 @@ export class Register extends Component {
       phoneFocused: false,
       phoneInvalid: true,
 
+      email: '',
+      emailFocused: false,
+      emailInvalid: true,
+
+
+      referralCode:'',
+
       allCountryName: Country_Info['Country_Info'],
       formOpen: false,
 
@@ -287,6 +296,17 @@ export class Register extends Component {
     this.setState({ confirmPasswordInvalid: (this.state.password !== event.target.value) })
   }
 
+  emailChanged(event) {
+    this.setState({email: event.target.value});
+
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!event.target.value.match(re)){
+      this.setState({emailInvalid: true})
+    }else{
+      this.setState({emailInvalid: false})
+    }
+  }
+
   phoneChanged(event) {
     if (event.target.value.length === 0)
       this.setState({ phone: event.target.value });
@@ -307,22 +327,23 @@ export class Register extends Component {
 
     this.props.authSignup(
       this.state.username,
-      '',
+      this.state.email,
       this.state.password,
       '',
       '',
       this.state.phoneCode.slice(1) + this.state.phone,
-      '', 
-      '', 
-      '', 
-      '', 
-      '', 
-      true, 'cn')
+      '',
+      '',
+      '',
+      '',
+      '',
+      true, 
+      this.props.lang)
       .then((res) => {
         this.props.history.push('/activation');
 
       }).catch(err => {
-        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+        sendingLog(err);
 
         if (err.response && 'username' in err.response.data) {
           this.setState({ username_error: err.response.data.username[0] })
@@ -517,6 +538,39 @@ export class Register extends Component {
                             <Phone />
                           </InputAdornment>)
                         }} />
+                    </Grid>
+                    <Grid item xs={12} style={{ marginTop: 30 }}>
+                      <TextField
+                        value={this.state.email}
+                        className={classes.registerField}
+                        placeholder={this.getLabel('title-email')}
+                        onChange={(event) => { this.emailChanged(event) }}
+                        onFocus={() => {
+                          this.setState({ emailFocused: true });
+                        }}
+                        error={this.state.emailInvalid && this.state.emailFocused}
+                        helperText={(this.state.emailInvalid && this.state.emailFocused) ? this.getLabel('please-valid-email') : ' '}
+                        InputProps={{
+                          disableUnderline: true,
+                          startAdornment: (<InputAdornment position="start">
+                            <EmailOutlined />
+                          </InputAdornment>)
+                        }}/>
+                    </Grid>
+                    <Grid item xs={12} style={{ marginTop: 30 }}>
+                      <TextField
+                        value={this.state.referrer}
+                        className={classes.registerField}
+                        placeholder={this.getLabel('referral-code')}
+                        onChange={(event) => {
+                          this.setState({ referralCode: event.target.value });
+                        }}
+                        InputProps={{
+                          disableUnderline: true,
+                          startAdornment: (<InputAdornment position="start">
+                            <SupervisedUserCircleOutlined />
+                          </InputAdornment>)
+                        }}/>
                     </Grid>
                     <Grid item xs={12} style={{ marginTop: 30 }}>
                       <Button className={classes.registerButton}
