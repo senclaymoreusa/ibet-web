@@ -60,40 +60,40 @@ export class MemberRuleSix extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_partner">供合作伙伴使用  >
+                                <a href="/for_partner">Dành cho Đối tác >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_partner">品牌介绍 >
+                                <a href="/for_partner">Giới Thiệu Về Letou>
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>乐投优势</h2>
-                        <h1>优秀的国际专业博彩品牌优势</h1>
-                        <p>乐投国际LETOU于2004年在菲律宾成立，公司的经营由菲律宾政府卡格杨河经济特区所授权和监管。10年老品牌，信誉优良，值得信赖，大额存提款轻松到位，大户首选，稳定安全，是您网上博彩的首选。</p>
-                        <h1>极具竞争力代理制度</h1>
-                        <p>只要四步骤，立即品味生活，享受成就。
-                            <br /> 1. 注册账号后，申请成为高级代理人，完善个人信息。
-                            <br /> 2. 联系代理专用QQ
-                            <br /> 3. 洽谈合作细节，获取高收益分红计划。
-                            <br /> 4. 完成开通账号，获取推广链结。</p>
-                        <h1>全球最优质平台</h1>
-                        <p>十年老品牌，值得您信赖。
-                            <br /> 大额存提款轻松到位，大客户必选平台。
-                            <br /> 提供业内所有优质游戏平台，精彩时光，瞬间开启。
+                    <h2>Lợi thế của LETOU</h2>
+                        <h1>Các lợi thế từ Sòng Bài Casino trực tuyến tuyệt đỉnh chuẩn quốc tế</h1>
+                        <p>LETOU đã được thành lập từ năm 2004 và giữ giấy phép hợp lệ của PAGCOR tại Philippines</p>
+                        <h1>Chương trình hợp tác Đại Lý mang tính cạnh tranh</h1>
+                        <p>Bốn bước tới thành công
+                            <br /> 1. Đăng ký và điền đầy đủ các thông tin của bạn để trở thành đại lý cấp cao với chúng tôi.
+                            <br /> 2. Liên hệ với bộ phận Hỗ trợ đại lý của chúng tôi thông qua QQ.
+                            <br /> 3. Thảo luận chi tiết về sự hợp tác này và tham gia vào Chương trình đại lý với lợi nhuận cao.
+                            <br /> 4. Kích hoạt ngay tài khoản đại lý để nhận ngay các ưu đãi liên kết tiếp thị độc quyền.</p>
+                        <h1>Nền tảng tốt nhất</h1>
+                        <p>Hơn 10 năm kinh nghiệm trong việc thiết lập sự tin tưởng của khách hàng.
+                            <br /> Lụa chọn hàng đầu của mọi khách hàng VIP – rút các khoản tiền lớn chỉ trong vài giây.
+                            <br /> Cung cấp phong phú nhiều loại trò chơi từ các nền tảng khác nhau .
                             <br />
                             <br />
-                            <img src="http://i.imgur.com/dUnTJ3C.png"></img>
-                            <img src="http://i.imgur.com/2E0DHdC.png"></img>
-                            <img src="http://i.imgur.com/VFe5GuY.png"></img>
+                            <img src="http://i.imgur.com/dUnTJ3C.png" />
+                            <img src="http://i.imgur.com/2E0DHdC.png" />
+                            <img src="http://i.imgur.com/VFe5GuY.png" />
                             <br />
-                            <img src="http://i.imgur.com/5bJpJZr.png"></img>
-                            <img src="http://i.imgur.com/ddSTWzD.png"></img>
-                            <img src="http://i.imgur.com/IkaG8hp.png"></img>
+                            <img src="http://i.imgur.com/5bJpJZr.png" />
+                            <img src="http://i.imgur.com/ddSTWzD.png" />
+                            <img src="http://i.imgur.com/IkaG8hp.png" />
                         </p>
                     </div>
 

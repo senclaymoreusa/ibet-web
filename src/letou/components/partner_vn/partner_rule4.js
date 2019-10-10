@@ -60,50 +60,80 @@ export class MemberRuleFour extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_partner">供合作伙伴使用  >
+                                <a href="/for_partner">Dành cho Đối tác  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_partner">分享计划 >
+                                <a href="/for_partner">Chia sẻ kế hoạch>
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>乐投国际合作伙伴计划</h2>
-                        <p>在乐投的所有平台中，每月您将得到最高40%的高额利润且每月定期发送。 加入“乐投国际合作伙伴计划”若有任何疑问，请咨询代理专员。</p>
-                        &nbsp;
-                        <h2>佣金提取的条件</h2>
-                            <ul className={classes.helpCenterArticleColumn}>
-                            <li>1. 当月保持至少6位活跃下线用户投注。</li>
-                            <li>2. 任何阻碍公司正常营运等手段都要禁止，审核期间将暂停合作关系，若有违规行为，将永久冻结账户。</li>
-                            <li>3. 如果合作伙伴在6个月内未达到预期表现，LETOU将会直接取消合作协议。代理专员会在3个月期间与您做专访协助。</li>
-                            <li>4. 每月5-9号系统将自动生成上个月代理佣金账单。10-19号为对账时间。如代理对佣金账单无异议，每月20号可以申请提款上一个月的佣金。（1月份佣金，2月5-9号生成佣金账单，2月10日-2月19日为对账时间。2月20号，代理可登陆平台申请提取佣金。）</li>
-                            <li>5. 代理用户帐户余额必须满100元，不足100元佣金会累积到100元才可以提款。有效活动用户定义为：玩家通过您的代理专属链接登录LETOU，或在注册过程中填写您的专属代理编码，并且该用户是首次注册LETOU并成功存款的，视为有效新注册会员。</li>
-                            <li>※ 如当月的收入为负值，，佣金则不产出，累计之下月可计算出正值佣金为止。。如当月的结算为盈利，及能达到提款的最小要求，LETOU将会支付佣金。</li>
-                        </ul>
-                        &nbsp;
-                        <h2>佣金支付参考</h2>
-                        <p>LETOU会根据合作伙伴下级会员每月在LETOU的各个平台的净赢利，按百分比计算佣金。
-                            <br/> 您将抽取您所推荐的合作客户的纯利润30%~40%的中介费用。
-                            <br/>
-                            <br/> 纯利润被界定为：所有被我们收到的合作客户的有关已结算投注的总金额数在扣除以下项目后
+                        <h2>Chương trình đại lý LETOU </h2>
+                        <p>Với chương trình Đại lý Letou, các đại lý sẽ có cơ hội để nhận được chiết khấu hoa hồng lên đến 55% hàng tháng
+						Phần trăm hoa hồng đại lý sẽ được dựa vào doanh thu từ tất cả các khách hàng của đại lý đang đặt cược tại Letou 
+						và thỏa mãn những điều kiện để nhận thanh toán hoa hồng 
+						Với 55% hoa hồng đại lý, lợi nhuận hoa hồng sẽ dựa vào 55% và được tính trên tổng số tiền thắng cược ròng của 
+						Công ty (tiền cược sau khi trừ đi mọi chi phí) sẽ là số tiền hoa hồng đại lý. 
+						Ít nhất 05 thành viên hoạt động trong tháng (Nếu số thành viên hoạt động ít hơn 5 thành viên sẽ không được 
+						tính hoa hồng) thì đại lý sẽ có cơ hội nhận được hoa hồng từ Letou. Phần trăm hoa hồng tăng hay giảm phụ thuộc vào số
+						lượng thành viên hoạt động và số tiền thua cược từ tất cả các khách mà đại lý kiếm được trong tháng. 
+						Nếu tài khoản đại lý có lợi nhuận hoa hồng là số âm trong tháng (Lợi nhuận số âm: Là số tiền nợ của Đại lý với Công ty).
+						Thì số tiền âm đó sẽ được chuyển sang những tháng tiếp theo để khấu trừ cho đến hết thì đại lý mới được tiếp tục nhận hoa hồng.</p>
+							
+                     <h2>Kế hoạch hoa hồng</h2>
+					 <div class="TableStyle3 MarginBottom20">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="Title">Số thành viên hoạt động</td>
+                                        <td class="Title">Số thành viên lệnh gửi tiền đầu tiên</td>
+                                        <td class="Title">Lợi nhuận ròng</td>
+                                        <td class="Title">Tỷ lệ % Hoa hồng</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5 thành viên </td>
+                                        <td>Không yêu cầu</td>
+                                        <td>1-128 triệu</td>
+                                        <td>30%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6 - 30 thành viên</td>
+                                        <td>3 - 15</td>
+										<td>128 triệu - 1,9 tỷ </td>
+                                        <td>38%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>31 - 51 Thành viên</td>
+                                        <td>16 - 34 Thành viên</td>
+                                        <td>1,9 - 3,5 tỷ</td>
+                                        <td>48% </td>
+                                    </tr>
+									<tr>
+									    <td> 51 Thành viên trở lên </td>
+										<td> 35 Thành viên trở lên </td>
+										<td> 3,5 tỷ trở lên </td>
+										<td> 55%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        
+                            <p>Công thức tính hoa hồng.
+                             Lợi nhuận ròng = [(Tiền thua của khách x 85%)- (Tiền gửi + tiền rút)x 1,5%) - Tiền thưởng khách nhận
+							 Tiền hoa hồng = Lợi nhuận ròng x tỷ lệ % hoa hồng </p>
+                        
+                        <h2>Phương thức thanh toán </h2>
+						<p> - Tiề  n hoa hồng sẽ được thanh toán theo tiền tệ VĐN.
+						    - Tiền hoa hồng sẽ được thanh toán cho Đại lý vào ngày 20 hàng tháng.
+						    - Letou có quyền thay đổi hoặc chỉnh sửa các điều khoản bên trên hoặc thêm bất kỳ điều khoản nào trong trường hợp cần thiết.
+						    - Letou có quyền hủy bỏ quyền Đại lý tại bất kỳ thời điểm nào mà không cần thông báo trước trong trường hợp các tài khoản đại lý không đáp ứng được yêu cầu của Letou đưa ra trong một thời gian nhất định.
+						    - Letou không chấp nhận gian lận, nếu phát hiện Đại lý có hành vi,vi phạm các nguyên tắc của chúng tôi. Letou có quyền hủy bỏ quyền Đại lý tại bất kỳ thời điểm nào mà không cần báo trước
                         </p>
-                            <ul className={classes.helpCenterArticleColumn}>
-                            <li>• 1. 支付给合作客户的所赢得的彩金</li>
-                            <li>• 2. 以博彩税收（或相关合理条款）形式所支付的款项</li>
-                            <li>• 3. 坏账款项</li>
-                            <li>• 4. 欺诈款项</li>
-                            <li>• 5. 被返还的本金金额</li>
-                            <li>• 6. 在银行卡持有人银行的指示下被收回的款项交易（一般来说指那些被银行收回的付款）</li>
-                            <li>• 7. 无效投注和</li>
-                            <li>• 8. 投注／存款奖金</li>
-                        </ul>
-                        <p>合作者有资格领取他们在体育投注、娱乐场、游戏或快乐彩金额中所获得的佣金。无论是在体育投注、娱乐场、扑克牌、游戏或快乐彩，负值的佣金额将会被从有效的佣金中扣除。</p>
                     </div>
-
+                    </div>
                 </Grid>
             </Grid>
             

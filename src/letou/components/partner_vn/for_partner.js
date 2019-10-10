@@ -102,24 +102,24 @@ export class ForPartner extends React.Component {
             <div className={classes.all}>
                 <div className={classes.first}>
                 <Typography variant="h6" className={classes.title}>
-                分享计划
+                Chia sẻ kế hoạch
                 </Typography>
                 <div className={classes.demo}>
                     <List >
                         <Link className={classes.list} href="/member_rule1">
-                        <ListItemText classes={{primary:classes.listItemText}} >分享计划服务事项</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Chia sẻ kế hoạch</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/member_rule2">
-                        <ListItemText classes={{primary:classes.listItemText}} >合作经营</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Chương trình đại lý</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/member_rule3">
-                        <ListItemText classes={{primary:classes.listItemText}} >双方权利与义务</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Điều kiện & Điều khoản</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/member_rule4">
-                        <ListItemText classes={{primary:classes.listItemText}} >佣金分配与计算</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Cách tính hoa hồng</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/member_rule5">
-                        <ListItemText classes={{primary:classes.listItemText}} >代理FAQ</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Hỏi đáp chương trình Đại lý LETOU</ListItemText>
                         </Link>
                     </List>
                 </div>
@@ -129,12 +129,12 @@ export class ForPartner extends React.Component {
             
                 <div className={classes.first}>
                 <Typography variant="h6" className={classes.title}>
-                品牌介绍
+                Giới Thiệu Về Letou
                 </Typography>
                 <div className={classes.demo}>
                     <List >
                         <Link className={classes.list} href="/member_rule6">
-                        <ListItemText classes={{primary:classes.listItemText}} >专业优势</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Lợi thế của LETOU</ListItemText>
                         </Link>
                     </List>
                 </div>

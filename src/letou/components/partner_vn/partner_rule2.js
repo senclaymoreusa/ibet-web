@@ -60,44 +60,43 @@ export class MemberRuleTwo extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_partner">供合作伙伴使用  >
+                                <a href="/for_partner">Dành cho Đối tác >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_partner">分享计划 >
+                                <a href="/for_partner">Chia sẻ kế hoạch >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>合作经营</h2>
-                        <p>合营计划是什么？简单来说，就是您与乐投国际之间的一种互会的合作伙伴关系。通过推荐有效的客户来到乐投国际进行投注，便可以获得相应收益和提成。当然，操作起来也是非常容易的，只要根据您所介绍的客源来分摊收益，乐投国际将根据您推荐来的客户所产生的收益来支付您的合营酬金！</p>
-                        <p>&nbsp;</p>
-                            <ul className={classes.helpCenterArticleColumn}>
-                            <li>• 乐投国际鼓励所有代理全力发展自己的下线业务，并且为您提供最贴心的5项优质服务！</li>
-                            <li>• 1. 七大平台服务</li>
-                            <li>• 2. 人性化的专人服务</li>
-                            <li>• 3. 安全迅捷的代理提成服务</li>
-                            <li>• 4. 人性化的管理页面服务</li>
-                            <li>• 5. 最新市场信息及推广资源服务</li>
-                        </ul>
-                        <p>&nbsp;</p>
-                        <p>
-                            <br/> &nbsp;
-                        </p>
-                        <p>&nbsp;</p>
-                        <h2>我要如何开始实行？</h2>
-                            <ul className={classes.helpCenterArticleColumn}>
-                            <li>• 1. 立即
-                                {/* <a style="cursor: pointer" onclick="getAffDomain()">成为合作伙伴</a>  */}
-								<a href="https://affiliates.letou.com/cn/" target="_blank">成为合作伙伴</a>
-                            </li>
-                            {/* <!--<li>• 2. 任何代理咨询请联系在线客服 </li>--> */}
-							<li>• 2. 代理专员QQ：3007282086</li>
-                            <li>• 3. 代理专员Skype：swifind</li>
-                        </ul>
+                    <h2>Chương trình đại lý</h2>
+                        <p>Chương trình Đại lý là gì? Nó được định nghĩa là quan hệ đối tác lẫn nhau giữa Letou và Đại lý. 
+						   Bắt đầu kiếm hoa hồng bằng cách mời thành viên mới chơi trên trang web. Letou sẽ chia sẻ lợi nhuận với bạn dựa trên hiệu suất của bạn
+						   Letou luôn khuyến khích các đại lý của letou phát triển mạng lưới thành viên của mình. Bằng cách cung cấp dịch vụ tốt nhất </p>
+						<ol class="HelpCenterArticleColumn">
+                            <p>1. Nhiều nền tảng chơi game
+							   2. Dịch vụ độc quyền
+							   3. Dịch vụ hoa hồng Đại lý an toàn và nhanh chóng 
+                               4. Giao diện quản lý tài khoản thân thiện với người dùng 
+                               5. Các nguồn thông tin thị trường và kênh quảng cáo mới nhất</p>
+							
+						</ol>&nbsp;
+                        <h2>Làm thế nào để tôi bắt đầu?</h2>
+						
+                        <ol class="HelpCenterArticleColumn">   
+                            <p>1.Truy cập vào trang website: <a href="https://affiliates.letou.com/">affiliates.letou1.com</a>. Đăng ký ngay tài khoản Đại lý để trở thành đối tác của Letou
+                               2. Letou sẽ liên hệ với bạn trong vòng 48h để xác minh thông tin và kích hoạt tài khoản đại lý cho bạn
+							   3. Bạn cần hỗ trợ thông tin đại lý có thể liên hệ với chúng tôi qua</p>
+						<ul>
+									<p>* Zalo: +84374785501 
+									   * Skype: vn.affiliate@letou.com 
+									   * Email: vn.affiliate@letou.com  </p>
+						</ul>
+                        </ol>
+						
                     </div>
 
                 </Grid>

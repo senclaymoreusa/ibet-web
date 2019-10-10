@@ -60,212 +60,250 @@ export class MemberRuleOne extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_partner">供合作伙伴使用  >
+                                <a href="/for_partner">Dành cho Đối tác >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_partner">分享计划 >
+                                <a href="/for_partner">Chia sẻ kế hoạch >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>何为乐投国际LETOU的合作伙伴计划</h2>
-                        <p>尊敬的用户，欢迎您加入成为乐投国际LETOU的合作伙伴！
-                            <br/>
-                            <br/> LETOU將为您带来亚洲最流行的娱乐平台之余，更为亚洲用户提供最适合和习惯的博彩游戏与玩法。
-                            <br/> 我们提供优质的娱乐平台，专业且全面的全天候服务，只要您介绍有效玩家来到乐投网站参与游戏，不需要承担任何风险和手续费就能获得丰厚的佣金提成。
-                            <br/>
-                            <br/> 乐投国际拥有业界公认最稳定，最安全的合作伙伴管理系统。保障合作用户权益共创双赢是我们的宗旨。我司欢迎所有真实的合作伙伴加入，对于有操纵下线投注、不当套利行为的代理，我司拥有最终的裁定权。
-                        </p>
-                        <p>&nbsp;</p>
-                        <h2>佣金计算范围</h2>
-                        <p>全平台开放合营：体育，真人娱乐场，游戏，基诺，扑克等等。</p>
-						<div className="TableStyle3 MarginBottom20">任何佣金和代理咨询请联系在线客服</div>
-                        <div className="TableStyle3 MarginBottom20">佣金计算方式请咨询乐投代理部:</div>
-                        <div className="TableStyle3 MarginBottom20">代理专员QQ：3007282086</div>
-                        <div className="TableStyle3 MarginBottom20">代理专员Skype：swifind</div>
-                        <div className="TableStyle3 MarginBottom20">&nbsp;</div>
-                        <p>甲方保留改变上述所有条款之最终决定权（请紧记任何使用不诚实的方法以骗取佣金将会永久冻结账户，所有佣金一概不予发还。）诚信合作，健康发展，是我们共创辉煌的最终目标。*代理人不得操控下线进行投注，否则将取消代理资格并锁定佣金！</p>
-                        <p>&nbsp;</p>
-                        <h2>子合作伙伴佣金计划</h2>
-                        <p>代理人成功介绍朋友来注册成为LETOU合作伙伴，将会获得额外10%佣金；介绍的朋友越多，更有机会获得更丰厚的佣金！以下为详细的子合作伙伴计划说明：
-                            <br/>
-                            <br/> 假定您为LETOU代理人A，下线代理人数无上限。B级代理人为A级的直接下线伙伴，C级代理人为B级的直接下线伙伴，依此类推，各代理人均可发展会员及下线代理人且数量无上限。您拥有的下线代理人越多，您从下线获取的额外佣金就越多。您可从您的直接下线代理人当月所获得的佣金获取最高10%的额外提成，对于您下线的下线代理人，您可以获得他们当月佣金提成的10%×10%的额外提成,
-                            以此类推。综上述，发展越多的有效会员会给您带来越多的佣金提成，同时，拥有越多的下线代理人，可使您获得越多的额外佣金提成。
-                            <br/>
-                            <br/> 实例计算：
-                            <br/> 所有的佣金=下级会员的佣金+下级代理佣金百分10%+二级下线佣金的10%*10%+三级下线佣金的10%*10%*10%
-                        </p>
-                        <div className="TableStyle1 MarginBottom20">
+                    <h2>Chương trình đại lý của LETOU là như thế nào?</h2>
+						<p>Chào mừng bạn gia nhập hệ thống đại lý của letou!</p>
+						Letou là một trong những nhà cái hàng đầu về lĩnh vực trò chơi trực tuyến tại Châu Á, cung cấp những trò chơi giải trí
+                        hấp dẫn nhất trên thị trường Châu Á. Chúng tôi cung cấp đến Quý khách hệ thống hỗ trợ trực tuyến 24/7 giàu kinh nghiệm.
+                        Chúng tôi cung cấp nền tảng giải trí chất lượng cao với dịch vụ khách hàng 24/7. Phần thưởng giành cho bạn mà không có bất
+                        kì sự rủi ro hay chi phí nào thật đơn giản khi bạn chỉ cần giới thiệu bạn bè tham gia chơi trên trang web chúng tôi.<a href="https://www.letou1.com">www.letou1.com</a>
+                        Letou được cung cấp hệ thống quản lý trong ngành ổn định và an toàn nhất. Mục tiêu hướng đến của chúng tôi đó là chia 
+						sẻ lợi nhuận cao nhất có thể đến hệ thống đại lý của Letou. Chúng tôi hoan nghênh chào đón các đại lý gia nhập hệ thống Letou. Letou có quyền quyết định cuối cùng cho các vấn đề tài chính đối với đại lý chi nhánh cho chiết khấu gian lận.
+                        <h2>Chiết khấu Hoa hồng</h2>
+                        <p>Áp dụng cho các sản phẩm: Thể thao, Casino trực tuyến, Trò chơi &amp; Keno</p>
+                        <div class="TableStyle3 MarginBottom20">
                             <table>
                                 <tbody>
                                     <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>D1佣金收入</span>
+                                        <td class="Title">Số thành viên hoạt động </td>
+                                        <td class="Title">Số thành viên lệnh gửi tiền đầu tiên</td>
+                                        <td class="Title">Lợi nhuận ròng</td>
+                                        <td class="Title">Tỷ lệ % Hoa hồng</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5 thành viên </td>
+                                        <td>Không yêu cầu</td>
+                                        <td>1 - 220 triệu</td>
+                                        <td>30%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6 - 30 thành viên</td>
+                                        <td>3 - 15</td>
+										<td>220 triệu - 2,340 tỷ </td>
+                                        <td>38%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>31 - 51 Thành viên</td>
+                                        <td>16 - 34 Thành viên</td>
+                                        <td>2,340 tỷ - 3,800 tỷ</td>
+                                        <td> 48% </td>
+                                    </tr>
+									<tr>
+									    <td> 51 Thành viên trở lên </td>
+										<td> 35 Thành viên trở lên </td>
+										<td> 3,800 tỷ trở lên </td>
+										<td> 55%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+								<p>  Công thức tính Hoa hồng </p>
+								<p> Lợi nhuận ròng = [(Tiền thắng/thua của khách x 85%) - (Tiền gửi + Tiền rút) x 1,5%) - Tiền thưởng] </p>
+								<p> Tiền hoa hồng = Lợi nhuận ròng  x  Tỷ lệ % hoa hồng. </p>
+								<p> 1. Để duy trì 1 tài khoản đại lý, Đại lý cần phải có ít nhất (05) năm thành viên gửi tiền và đặt cược hàng tháng. Nếu đại lý 
+								có ít hơn (5) năm thành viên hoạt động thì không nhận được hoa hồng.</p>
+								<p> 2. Đại lý không được nhận hoa hồng từ chính tài khoản thành viên của mình. Nếu đại lý tạo một tài khoản người chơi cho
+								riêng cá nhân mình thì tài khoản người chơi này sẽ được tách khỏi danh sách thành viên dưới quyền Đại lý.</p>
+                                <p>3. Số tiền hoa hồng của Đại lý là dương với thành viên hoạt động tích cực từ (05) năm thành viên trở lên đại lý sẽ được nhận tiền hoa hồng.</p>
+                                <p>4. Số tiền hoa hồng là âm Đại lý sẽ không được nhận tiền hoa hồng. Hoa hồng âm sẽ được cộng dồn sang tháng tiếp theo.</p>
+                                <p>5. Hệ thống sẽ tự động tính tiền hoa hồng đại lý trong khoảng từ ngày 05 đến ngày 09 hàng háng cho hoạt động Đại lý. Ngày 10 đến 19 là thời
+								điểm kiểm duyệt và Đại lý sẽ nhận dược Báo cáo chi tiết hoạt động của đại lý trong tháng đó. Ngày 20 Đại lý có thể làm lệnh rút tiền cho hoa hồng tháng trước đó.</p>
+                                <p>6. Đại lý có thể yêu cầu rút tiền dựa trên số dư trong tài khoản. Số tiền trong lệnh rút tiền hoàng tháng cần lớn hơn hoặc bằng 500,000 VNĐ. Nếu số dư dưới 500,000 VNĐ.
+								Số tiền hoa hồng sẽ được tích lũy cho đủ 500,000 VNĐ để có thể làm lệnh rút tiền.</p>
+                                <p>7. Ngoài số lượng thành viên tích cực cần có, chúng tôi có tiêu chuẩn đánh giá chất lượng thành viên của chúng tôi (Tiền gửi, chỉ số cá cược,
+								chỉ số gian lận,vv...) Để đánh gia chất lượng thành viên. Nếu thành viên của Đại lý không đủ các tiêu chuẩn chất lượng hay không đạt được yêu cầu tối thiểu cho Đại lý. 
+								Tháng đó Đại lý sẽ không được nhận tiền hoa hồng </p>
+                                <p>8. Các thành viên hoạt động dưới quyền đại lý chỉ được duy nhất 1 số điện thoại, địa chỉ email, địa chỉ nhà, thẻ ngân hàng, địa chỉ IP máy tính và các 
+								thiết bị điện tử khác. Nếu phát hiện thành viên hoạt động dưới quyền đại lý có hành vi, vi phạm các nguyên tắc của chúng tôi, letou có quyền từ chối thanh toán hoa
+								hồng và đồng thời sẽ tạm ngừng và khóa tài khoản vĩnh viễn. </p>
+                                <p>9. Các đại lý có 3 tháng để hoàn thành chỉ tiêu về số lượng thành viên hoạt động và hợp lệ, hoặc quyền đại lý sẽ bị hủy và trở thành thành viên thông thường. </p>
+                                <p>10.Các Đại lý cấp cao nếu không có thành viên hợp lệ nào trong 3 tháng hoạt động liên tục, hoa hồng tháng thứ 3 sẽ không được tính cho đến khi hoàn thành đủ chỉ tiêu.</p>
+                                <p>11.Đại lý không được phép can thiệp vào hoạt động của thành viên tuyến dưới, trong trường hợp vi phạm, quyền đại lý sẽ bị hủy bỏ và tiền hoa hồng sẽ bị khóa.
+								Không được phép có những hành vi như dưới đây.</p>
+                                <p>- Tạo nhiều tài khoản thành viên đăng ký tuyến dưới để đáp ứng đủ số lượng thành viên hoạt động.</p>
+                                <p> - Can thiệp vào hành vi cá cược của tuyến dưới.</p>
+                                <p>- Quản lý các thành viên ngoại tuyến đang hoạt động </p>
+								<p>Letou cung cấp các điều kiện và điều khoản như trên. Tài khoản đại lý và hoa hồng sẽ bị đình chỉ hoặc khóa vĩnh viễn nếu đại lý có hành vi không phù hợp đối với khoản hoa hồng). Chúng tôi khuyến khích các Đại lý hoạt động lành mạnh. Đại lý tuyệt đối không được liên kết với các thành viên tham gia các hoạt động cá cược, trường hợp bị phát hiện tài khoản sẽ bị treo và chấm dứt hoạt động ngay tức thì.</p>
+								<h2> Hoa hồng Đại lý tuyến dưới</h2>
+								<p> Đại lý sẽ được nhận 10% hoa hồng từ các hệ thống chi nhánh trực tuyến. Càng nhiều chi nhánh trực tuyến, cơ hội lợi nhuận của bạn càng cao. Tham khảo chi tiết thông tin dưới đây:
+								Giả sử bạn đang là đại lý A với LETOU, sẽ không có giới hạn số lượng đại lý tuyến dưới. Đại lý B là tuyến dưới đại lý A,trong khi đại lý C lại là tuyến dưới đại lý B và cứ như vậy.</p>
+								<p> Mỗi đại lý đều có thể tuyển những đại lý nhỏ của mình mà không có bất cứ giới hạn nào. Càng nhiều nhánh đại lý dưới, bạn lại càng nhận được nhiều chiết khấu. Đại lý tổng có hể thu về từ các đại lý nhánh nhỏ lên đến 10% chiết khấu mỗi tháng cũng như từ những chiết khấu mà các nhánh đại lý nhỏ thu về được. Tóm lại, bạn sẽ kiếm được doanh thu từ tất cả các nhánh đại lý và cả những thành viên của các đại lý.</p>
+								 <p>Công thức tính:</p>
+								 <p>Tổng chiết khấu = Hoa hồng từ các thành viên hoạt động trên đại lý + 10% + 10% x 10% + 10% x 10% x 10% </p>
+                                 <p>Ví dụ cách tính:</p>
+							<div class="TableStyle1 MarginBottom20">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">D1 Hoa hồng </span>
                                         </td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>= 10000</span>
+                                            <span style="color:#FF9300">= 10000</span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>D2佣金收入</span>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">D2 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>=</span> 负10000</td>
+                                            <span style="color:#FF9300">=</span> Âm 10000</td>
                                     </tr>
                                     <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>D3佣金收入</span>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">D3 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>= 10000</span>
+                                            <span style="color:#FF9300">= 10000</span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>D4佣金收入</span>
-                                        </td>
-                                        <td>
-                                            <span style={{color:'#FF9300'}}>=</span> 负10000</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>C1佣金收入</span>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">D4 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>=</span> 负10000
-                                            <span style={{color:'#FF9300'}}>+ [(D1=10000)*10%] +</span> [(D2=负10000)]
-                                            <span style={{color:'#FF9300'}}>=</span> 负9000</td>
+                                            <span style="color:#FF9300">=</span> Âm 10000</td>
                                     </tr>
                                     <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>C2佣金收入</span>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">C1 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>= 10000 + [(D3=10000*10%)] +</span> [(D4=负10000)]
-                                            <span style={{color:'#FF9300'}}>= 11000</span>
-                                        </td>
+                                            <span style="color:#FF9300">=</span> Âm 10000
+                                            <span style="color:#FF9300">+ [(D1=10000)*10%] +</span> [(D2=Âm 10000)]
+                                            <span style="color:#FF9300">=</span> Âm 9000</td>
                                     </tr>
                                     <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>C3佣金收入</span>
-                                        </td>
-                                        <td>
-                                            <span style={{color:'#FF9300'}}>= 10000</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">(C1在抽取下线的10%后仍为负值，则上级B1也无法抽取下下级D1和D2的佣金)</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>B1佣金收入</span>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">C2 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>= 10000 +</span> (C1负值不抽佣
-                                            <span style={{color:'#FF9300'}}>+ C2*10% + C3*10% +</span> D1*10%*10%
-                                            <span style={{color:'#FF9300'}}>+</span> D2*10%*10%
-                                            <span style={{color:'#FF9300'}}>+ D3*10%*10% +</span> D4*10%*10%)
-                                            <span style={{color:'#FF9300'}}>=</span> 12100</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">(D4本身为负佣金,则上级C2与上上级B1也无法抽取1%佣金)</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="Title">&nbsp;</td>
-                                        <td>
-                                            <span style={{color:'#FF9300'}}>= 10000 +</span> 0
-                                            <span style={{color:'#FF9300'}}>+ 10000*10% + 10000*10% +</span> 0
-                                            <span style={{color:'#FF9300'}}>+</span> 0
-                                            <span style={{color:'#FF9300'}}>+ 10000*10%*10% +</span> 0
-                                            <span style={{color:'#FF9300'}}>= 12100</span>
+                                            <span style="color:#FF9300">= 10000 + [(D3=10000*10%)] +</span> [(D4=Âm 10000)]
+                                            <span style="color:#FF9300">= 11000</span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="Title">&nbsp;</td>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">C3 Hoa hồng</span>
+                                        </td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>= 10000 +</span> 0
-                                            <span style={{color:'#FF9300'}}>+ 1000 + 1000 +</span> 0
-                                            <span style={{color:'#FF9300'}}>+</span> 0
-                                            <span style={{color:'#FF9300'}}>+ 100 +</span> 0
-                                            <span style={{color:'#FF9300'}}>= 12100</span>
+                                            <span style="color:#FF9300">= 10000</span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>B2佣金收入</span>
-                                        </td>
-                                        <td>
-                                            <span style={{color:'#FF9300'}}>=</span> 负5000</td>
+                                        <td colspan="2">(Nếu hoa hồng C1 là âm, B1 không đủ điều kiện để nhận hoa hồng D1 và D2)</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">(C1在抽取下线的10%后仍为负值，则上级A也无法抽取下下级D1和D2的佣金)</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="Title">
-                                            <span style={{color:'#FF9300'}}>A佣金收入</span>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">B1 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>= 10000 + (B1*10% +</span> B2负值
-                                            <span style={{color:'#FF9300'}}>+ B3*10% +</span> C1负值
-                                            <span style={{color:'#FF9300'}}>+ C2*10%*10% +</span> C3*10%*10%
-                                            <span style={{color:'#FF9300'}}>+</span> D1
-                                            <span style={{color:'#FF9300'}}>+</span> D2
-                                            <span style={{color:'#FF9300'}}>+ D3*10%*10% +</span> D40
-                                            <span style={{color:'#FF9300'}}>) = 12100</span>
-                                        </td>
+                                            <span style="color:#FF9300">= 10000 +</span> (C1 không nhận hoa hồng nếu giá trị là âm
+                                            <span style="color:#FF9300">+ C2*10% + C3*10% +</span> D1*10%*10%
+                                            <span style="color:#FF9300">+</span> D2*10%*10%
+                                            <span style="color:#FF9300">+ D3*10%*10% +</span> D4*10%*10%)
+                                            <span style="color:#FF9300">=</span> 12100</td>
                                     </tr>
                                     <tr>
-                                        <td className="Title">&nbsp;</td>
+                                        <td colspan="2">(Nếu D4 hoa hồng là âm, C2 và B1 không đủ điều kiện nhận hoa hồng)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Title">&nbsp;</td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>= 10000 + (10000*10% +</span> 0
-                                            <span style={{color:'#FF9300'}}>+ 10000*10% +</span> 0
-                                            <span style={{color:'#FF9300'}}>+ 10000*10%*10% +</span> 10000*10%*10%
-                                            <span style={{color:'#FF9300'}}>+</span> 0
-                                            <span style={{color:'#FF9300'}}>+</span> 0
-                                            <span style={{color:'#FF9300'}}>+ 10000*10%*10%*10% +</span> 0
-                                            <span style={{color:'#FF9300'}}>) = 12100</span>
+                                            <span style="color:#FF9300">= 10000 +</span> 0
+                                            <span style="color:#FF9300">+ 10000*10% + 10000*10% +</span> 0
+                                            <span style="color:#FF9300">+</span> 0
+                                            <span style="color:#FF9300">+ 10000*10%*10% +</span> 0
+                                            <span style="color:#FF9300">= 12100</span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="Title">&nbsp;</td>
+                                        <td class="Title">&nbsp;</td>
                                         <td>
-                                            <span style={{color:'#FF9300'}}>= 10000 + ( 1000 + 0 + 1000 + 0 ) + 100 +</span> 100
-                                            <span style={{color:'#FF9300'}}>+</span> 10
-                                            <span style={{color:'#FF9300'}}>+</span> 0
-                                            <span style={{color:'#FF9300'}}>)= 12100</span>
+                                            <span style="color:#FF9300">= 10000 +</span> 0
+                                            <span style="color:#FF9300">+ 1000 + 1000 +</span> 0
+                                            <span style="color:#FF9300">+</span> 0
+                                            <span style="color:#FF9300">+ 100 +</span> 0
+                                            <span style="color:#FF9300">= 12100</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">B2 Hoa hồng</span>
+                                        </td>
+                                        <td>
+                                            <span style="color:#FF9300">=</span> Âm 5000</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">(Nếu hoa hồng C1 là âm, A không đủ điều kiện nhận hoa hồng D1 và D2)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Title">
+                                            <span style="color:#FF9300">A Hoa hồng</span>
+                                        </td>
+                                        <td>
+                                            <span style="color:#FF9300">= 10000 + (B1*10% +</span> B2 negative
+                                            <span style="color:#FF9300">+ B3*10% +</span> C1 negative
+                                            <span style="color:#FF9300">+ C2*10%*10% +</span> C3*10%*10%
+                                            <span style="color:#FF9300">+</span> D1
+                                            <span style="color:#FF9300">+</span> D2
+                                            <span style="color:#FF9300">+ D3*10%*10% +</span> D40
+                                            <span style="color:#FF9300">) = 12100</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Title">&nbsp;</td>
+                                        <td>
+                                            <span style="color:#FF9300">= 10000 + (10000*10% +</span> 0
+                                            <span style="color:#FF9300">+ 10000*10% +</span> 0
+                                            <span style="color:#FF9300">+ 10000*10%*10% +</span> 10000*10%*10%
+                                            <span style="color:#FF9300">+</span> 0
+                                            <span style="color:#FF9300">+</span> 0
+                                            <span style="color:#FF9300">+ 10000*10%*10%*10% +</span> 0
+                                            <span style="color:#FF9300">) = 12100</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Title">&nbsp;</td>
+                                        <td>
+                                            <span style="color:#FF9300">= 10000 + ( 1000 + 0 + 1000 + 0 ) + 100 +</span> 100
+                                            <span style="color:#FF9300">+</span> 10
+                                            <span style="color:#FF9300">+</span> 0
+                                            <span style="color:#FF9300">)= 12100</span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <p>&nbsp;</p>
-                        <h2>佣金结算规则</h2>
-                        <ul className="HelpCenterArticleColumn">
-                            <li>1.合作伙伴每月的佣金提成为正值时，等于或大于6个活跃会员才能启动领取佣金。乙方每月的佣金提成为负值时，不会启动领取佣金，所有负值金额会累积计算（与活跃客户数无关）。</li>
-                            <li>2.当乙方正式成为甲方合作伙伴之日起算，直到当月最后一日，为合作伙伴运营收益计算时间段。之后按每月计算收益。</li>
-                            <li>3.每月5-9号系统将自动生成上个月代理佣金账单。10-19号为对账时间。如代理对佣金账单无异议，每月20号可以申请提款上一个月的佣金。（1月份佣金，2月5-9号生成佣金账单，2月10日-2月19日为对账时间。2月20号，代理可登陆平台申请提取佣金。）</li>
-                            <li>4.合作伙伴可根据帐户显示的提款余额申请提款，每月申请提款额度需大于或等于100RMB。如余额不足100RMB，将会累积到100RMB才能提取自动申请领取。</li>
-                            <li>5.代理净盈利=（所有平台输赢*85%）－系统红利－调帐－用户存提款总金额*1.5%
-                                <br/> 佣金=代理净盈利*佣金率
-                                <br/> 如当月的收入为负值，佣金则不产出，累计之下月可计算出正值佣金为止。如当月的结算为盈利，及能达到提款要求佣金将在解锁后，乙方即可申请领取。
-                            </li>
-                            <li>6.合作伙伴除了需达到上述的活跃会员数以外，我们有一套完整的针对会员质量进行审核的标准（存款指标，投注指标，客户存活率指标等）会针对会员的质量进行考核。对于部份会员质量达标，且未能达到最低自身活跃玩家要求的合作伙伴，我们将不会发放佣金。</li>
-                            <li>7.合作伙伴需在注册成为高级代理3个月内满足活跃下线数要求，乐投有权随时冻结或取消其合作伙伴权限，而不需要任何理由或者提前通知。</li>
-                            <li>8.高级代理人连续3个月未发展任何有效充值用户，第三个月佣金不于发放。完成代理部指定任务后可申请补发佣金。如果持续3个月均未满足任务要求，视代理自动放弃领取佣金。</li>
-                            <li>9.合作伙伴本身的游戏账号不可以在自己的合作伙伴旗下。如有上述情况发生，我们将按会扣除该账户所得到的输赢，并将该账户从您合作伙伴下线里移除。多次违规者将直接取消高级代理权限。</li>
-                            <li>10.代理人不得操控下线会员任何操作行为，否则将取消代理资格并锁定佣金！不允许代理的行为如下：
-                                <br/> a. 批量注册下线会员以满足活跃用户数。
-                                <br/> b. 操纵下线会员投注行为。
-                                <br/> c. 操纵活跃下线会员。</li>
-                        </ul>
-                        <p></p>
+                        	<p><h2> Phương thức thanh toán:</h2>
+						 <p> - Tiền hoa hồng sẽ được thanh toán theo tiền tệ VĐN.</p>
+							 - Tiền hoa hồng sẽ được thanh toán cho Đại lý vào ngày 20 hàng tháng.</p>
+							 - Letou có quyền thay đổi hoặc chỉnh sửa các điều khoản bên trên hoặc thêm bất kỳ điều khoản nào trong trường hợp cần thiết.
+							 - Letou có quyền hủy bỏ quyền Đại lý tại bất kỳ thời điểm nào mà không cần thông báo trước trong trường hợp các tài khoản đại lý không đáp ứng được yêu cầu của Letou đưa ra trong một thời gian nhất định.
+						     - Letou không chấp nhận gian lận, nếu phát hiện Đại lý có hành vi,vi phạm các nguyên tắc của chúng tôi. Letou có quyền hủy bỏ quyền Đại lý tại bất kỳ thời điểm nào mà không cần báo trước 
+                        
                     </div>
-
                 </Grid>
             </Grid>
             
