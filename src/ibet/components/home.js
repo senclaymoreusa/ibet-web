@@ -17,8 +17,7 @@ import '../css/home.css';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-
-console.log("Line 15, process env URL = " + API_URL);
+//console.log("Line 15, process env URL = " + API_URL);
 
 document.body.style = 'background: #f1f1f1;';
 
@@ -99,24 +98,19 @@ export class Home extends Component {
 
   game_url(event, item){
     event.preventDefault();
-    console.log(item.name)
     if (['SA', 'Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB Sports'].includes(item.name)){
-      console.log('12345')
       var token = localStorage.getItem('token')
       if (token){
           config.headers["Authorization"] = `Token ${token}`;
           var URL = API_URL + 'users/api/generategameurl/?game=' + item.name
           axios.get(URL, config)
           .then(res => {
-             console.log(res)
               var Game_URL = res.data.game_url
-              console.log(Game_URL)
               window.open(Game_URL)
           })
       }else{
         alert('You have to login to play this game')
       }
-
     }else{
       window.open(item.game_url)
     }
