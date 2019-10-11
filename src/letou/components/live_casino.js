@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import { connect } from 'react-redux';
@@ -7,7 +7,6 @@ import { authCheckState, handle_referid, hide_landing_page } from '../../actions
 import { withStyles } from '@material-ui/core/styles';
 import '../css/banner.css';
 import { withRouter } from 'react-router-dom';
-import ReactDOM from 'react-dom'
 import Grid from '@material-ui/core/Grid';
 
 
@@ -132,7 +131,7 @@ export class live_casino extends React.Component {
         <div className={classes.grow} >
           <Grid container className={classes.mainGrid}>
             <Grid item xs={12} className={classes.mainRow}>
-              <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/banner.jpg" style={{ opacity: 1 }} className="BannerImg" />
+              <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/banner.jpg" alt="live-casino banner" style={{ opacity: 1 }} className="BannerImg" />
             </Grid>
             {/* main */}
             <Grid item xs={12} className={classes.titleRow}>
@@ -146,7 +145,7 @@ export class live_casino extends React.Component {
 
                 <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
                 <div className="PgHallPic">
-                  <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ag.jpg" style={{ opacity: 1 }} className="PgHallPicImg" />
+                  <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ag.jpg" alt="ag" style={{ opacity: 1 }} className="PgHallPicImg" />
                 </div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('ag-words')}</p>
@@ -173,7 +172,7 @@ export class live_casino extends React.Component {
 
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
-                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ab.jpg" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ab.jpg" alt="ab" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('ab-words')}</p>
                   <ul>
@@ -192,7 +191,7 @@ export class live_casino extends React.Component {
 
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle">{this.getLabel('EA-title')}</div>
-                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ea.jpg" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ea.jpg" alt="ea" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('EA-words')}</p>
                   <ul>
@@ -218,7 +217,7 @@ export class live_casino extends React.Component {
 
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle">{this.getLabel('n2live-title')}</div>
-                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/n2live.jpg" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/n2live.jpg" alt="n2" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('n2live-words')}</p>
                   <ul>
@@ -237,7 +236,7 @@ export class live_casino extends React.Component {
 
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle">{this.getLabel('OPUS-title')}</div>
-                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/opus.jpg" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/opus.jpg" alt="opus" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('OPUS-words')}</p>
                   <ul>
@@ -259,7 +258,7 @@ export class live_casino extends React.Component {
            <Grid item xs={12}  className={classes.hallRow}> */}
               <div className="PgHall">
                 <div className="PgHallTitle Color3">{this.getLabel('gd-title')}</div>
-                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/gd.jpg" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/gd.jpg" alt="gd" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('gd-words')}</p>
                   <ul>
@@ -280,7 +279,7 @@ export class live_casino extends React.Component {
               <div className="PgHall MarginLeft">
                 <div className="PgHallTitle Color3">{this.getLabel('bbin-title')}</div>
                 <div className="PgHallPic">
-                  <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/bbin.jpg" style={{ opacity: 1 }} className="PgHallPicImg" />
+                  <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/bbin.jpg" style={{ opacity: 1 }}  alt="bbin" className="PgHallPicImg" />
                 </div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('bbin-words')}</p>
