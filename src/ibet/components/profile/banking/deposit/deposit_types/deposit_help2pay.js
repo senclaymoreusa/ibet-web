@@ -535,9 +535,9 @@ class DepositHelp2pay extends Component {
                                         return (
                                             <Button
                                                 className={
-                                                    i == 0
+                                                    i === 0
                                                         ? classes.leftButton
-                                                        : i == 3
+                                                        : i === 3
                                                         ? classes.rightButton
                                                         : classes.middleButton
                                                 }

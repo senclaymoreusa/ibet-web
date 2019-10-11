@@ -99,6 +99,16 @@ export class FortuneCenter extends Component {
 
     handleTabChange(event, newValue) {
         this.setState({ contentValue: newValue })
+
+        var url = this.state.urlPath;
+        var parts = url.split('/');
+
+        url = '/';
+        var path = parts.slice(1, 3).join('/');
+        url = url + path;
+
+        url = url + '/' + newValue;
+        this.props.history.push(url);
     }
 
     componentWillReceiveProps(props) {
