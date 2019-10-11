@@ -212,6 +212,9 @@ export const messages = {
         'total-assets':'Total Assets',
         'title-transfer':'Transfer',
         'title-withdrawal':'Withdrawal',
+        'actual-name':'Actual Name',
+        'title-mail':'Mail',
+        'edit-label':'Edit',
         
 
 
