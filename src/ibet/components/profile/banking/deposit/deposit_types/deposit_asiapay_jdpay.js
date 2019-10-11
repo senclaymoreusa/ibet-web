@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import { authCheckState, sendingLog } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Timer from 'react-compound-timer';
 
 var QRCode = require('qrcode.react');
 
@@ -528,7 +529,19 @@ class DepositAsiapayJDPay extends Component {
                             qr_code ? 
                             <>
                                 <QRCode value = {{qr_code}}/>
+                                <Timer
+                                    initialTime={165000}
+                                    direction="backward"
+                                >
+                                    {() => (
+                                        <React.Fragment>
+                                            <Timer.Minutes /> minutes
+                                            <Timer.Seconds /> seconds
+                                        </React.Fragment>
+                                    )}
+                                </Timer>
                                 <p>Once you have scanned the QR code, please check your e-mail and transaction history to confirm that the deposit was successful.</p>
+
                             </>
                             : 
                             <br/>

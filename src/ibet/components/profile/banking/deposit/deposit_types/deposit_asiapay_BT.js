@@ -23,6 +23,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Timer from 'react-compound-timer';
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const bankList = [
@@ -597,6 +599,19 @@ class DepositAsiapayBT extends Component {
                                         <TableCell align="right">{this.state.amount}</TableCell>
                                     </TableRow>
                                 </Table>
+                                
+                                <Timer
+                                    initialTime={10800000}
+                                    direction="backward"
+                                >
+                                    {() => (
+                                        <React.Fragment>
+                                            <Timer.Hours /> hours
+                                            <Timer.Minutes /> minutes
+                                            <Timer.Seconds /> seconds
+                                        </React.Fragment>
+                                    )}
+                                </Timer>
                             </>
                             : 
                             <br/>
