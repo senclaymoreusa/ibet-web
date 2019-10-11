@@ -105,10 +105,12 @@ export class Home extends Component {
       var token = localStorage.getItem('token')
       if (token){
           config.headers["Authorization"] = `Token ${token}`;
-          var URL = API_URL + 'users/api/generategameurl'
+          var URL = API_URL + 'users/api/generategameurl/'
           axios.get(URL, config)
           .then(res => {
-              var Game_URL = res.game_url
+             console.log(res)
+              var Game_URL = res.data.game_url
+              console.log(Game_URL)
               window.open(Game_URL)
           })
       }else{
