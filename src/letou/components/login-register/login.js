@@ -237,11 +237,7 @@ export class Login extends React.Component {
                 }
             })
             .catch(err => {
-                if (typeof err === "string") {
-                    this.setState({ userBlocked: true, wrongPasswordError: false })
-                } else {
-                    this.setState({ wrongPasswordError: true, userBlocked: false })
-                }
+                this.setState({errorMessage : err});
 
                 sendingLog(err);
             });
