@@ -60,68 +60,31 @@ export class GameWenzhoujiupai extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">Nguyên tắc Casino >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>温州牌九</h2>
-                        <p>温州牌九是古代中国传统游戏的一种，玩法是依据一副共32张牌，点数的不同组合来比较大小，以决胜负。</p>
-                        <p>- 游戏玩法
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> • 理牌：以两张牌为一副，排列成一列。
-                            </li><li> • 每副牌只玩两局即重新洗牌
-                            </li><li> • 发牌：庄家以两骰先击骰，再以点数除以4的余数，1=庄，2=顺门，3=出门，0=到门，来决定从哪一门开始发牌，每门一圈发一张牌，每家共各有两张牌。
-                            </li><li> • 下注门数：有三门，每一门可分别下注该门输或赢，但押闲输者每个玩家只能押一门，押闲赢者最高可以押到3门。
-                            </li><li> • 以两支牌点数之和的个位数来分胜负，最大是9，最小是0。
-                            </li><li>
-                            </li><li>
-                            </li><li>
-                            </li><li> - 牌面点数
-                            </li><li> 单张牌的大小顺序：
-                            </li><li>
-                            <img src="http://i.imgur.com/cUz0rk3.jpg"></img>
-                            </li><li>
-                            </li><li> 对牌的大小顺：
-                            </li><li>
-                            <img src="http://i.imgur.com/u4t1D4t.jpg"></img>
-                            </li><li>
-                            </li><li> 没有对牌的大小顺序：
-                            </li><li> 若没有对牌，则以两牌点数之和的个位数来分胜负，最大是9，最小是0。
-                            </li><li>
-                            </li><li> 范例一：没对牌的组合方式
-                            </li><li>
-                            <img src="http://i.imgur.com/X3BVwUg.jpg"></img>
-                            </li><li>
-                            </li><li> 范例二：比点数时如遇到同点数，就以其中最大单张牌的级别来比较大小。
-                            </li><li>
-                            <img src="http://i.imgur.com/FYHnwff.jpg "></img>
-                        
-                            </li><li>
-                            </li><li> 范例三：「大鸡六」和「小鸡」不能变化点数
-                            </li><li>
-                            <img src="http://i.imgur.com/nvfo5zm.jpg "></img>
-                            </li><li>
-                            </li><li>
-                            </li><li>
-                            </li><li> - 牌型比较
-                            </li><li> •任何对牌皆大于没对牌，任何没对牌皆小于对牌。
-                            </li><li> •若双方对牌名称相同，则为庄家赢。〔若庄门对牌级别为同级，则庄家赢。〕
-                            </li><li> •若没对牌的点数，其最大单张牌级别大小皆相同，则为庄家赢。
-                            </li><li> •0点没有级别，庄家通吃。
-                            </li><li> •「大鸡六」和「小鸡」不能变化点数
-                            </li><li>
-                            </li><li>
-                            </li><li> - 派彩
-                            </li><li> • 押门赢赔率为1 : 0.99
-                            </li><li> • 押门输赔率为1 : 0.93</li></ul></p>
+                    <h2>Pai Gow Ôn Châu (Bài cửu Ôn châu)</h2>
+                        <p>Bài cửu Ôn châu là một cách chơi game truyền thống Trung quốc, cách chơi là căn cứ vào một bộ bài 32 lá, lấy sự tổ hợp điểm
+                            số khác nhau làm cơ sở so sánh to bé, và quyết định thắng thua.</p>
+                        <p>-Quy tắc chơi
+                            <br /> • Xếp bài: lấy 2 lá bài làm một bộ, xếp thành một dãy.
+                            <br /> • Mỗi bộ bài chỉ chơi 2 ván là xào bài lại
+                            <br /> • Chia bài: Nhà cái lắc hai con xúc xắc trước, sau lấy điểm số trừ đi số dư của 4, 1= nhà cái,2= người chơi thứ nhất,
+                            3= người chơi thứ 2, 0= người chơi thứ 4 , để quyết định chia bài từ cửa nào, mỗi cửa một vòng chia một lá bài, mỗi nhà
+                            tổng cộng có 2 lá bài.
+                            <br /> • Đặt cược số cửa: có 3 cửa, mỗi cửa có thể đặt cược riêng xem cửa đó thắng hay thua,nhưng người đặt cược cửa thua mỗi
+                            ngưởi chơi chỉ được đặt một cửa, người đặt cửa thắng tối đa có thể đặt đến 3 cửa.
+                            <br /> • Lấy số hàng đơn vị của tổng điểm số hai lá bài để quyết định thắng thua, tối đa là 9, tối thiểu là 0.
+                        </p>
                     </div>
 
                 </Grid>

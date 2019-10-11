@@ -60,31 +60,29 @@ export class GameSedie extends React.Component {
                     <div class="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">Nguyên tắc Casino >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>色碟</h2>
-                        <p>色碟始于1909，用家里随处可得的器具即可进行这项游戏，用碗盖住碟上的双色钮扣4颗，快速摇动后出现的结果做为下注组合，简单有趣，因此很快便流行起来。</p>
-                        <p>- 派彩
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> 不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以波音厅为例：
-                            <img src="http://i.imgur.com/ZIapZbA.png"></img>
-                            </li><li>
-                            </li><li> 1.本游戏进行方式为最接近实境赌场之设置，若有发生特殊情形将依本公司公告之办法处理。
-                            </li><li> 2.荷官在游戏进行中若不慎让碗、碟或钮扣掉落，将对象放回定位后，重新进行摇碟。
-                            </li><li> 3.若开出结果时有钮扣重迭无法判定结果时，荷官将用玻璃棒分开重迭的钮扣。
-                            </li><li> 4.荷官若没有摇碟就开碟，或在下注时间尚未结束前即开碟，该局将判定为无效，并退还所有下注本金。</li>
-                            </ul>
-                        </p>
+                    <h2> Game Xóc đĩa – Se Die</h2>
+                        &nbsp;
+                        <p>Xóc Dĩa bắt đầu từ năm 1909, có thể sử dụng những dụng cụ có sẵn trong nhà để chơi, dùng bát đậy lên 04 hạt đặt trên đĩa
+                            và lắc nó. Người chơi đặt cược trên kết quả. Trò chơi đơn giản mà thú vị, do đó Xóc Dĩa được chơi phổ biến rộng rãi và
+                            rất nhanh.</p>
+                        &nbsp;
+                        <p>- Cách chơi
+                            <br /> Chủ Sới đặt 4 hạt bao gồm hai màu đỏ và trắng lên 1 cái dĩa và dùng bát úp lại sau đó lắc nhanh. Sau khi Chủ Sới ngừng
+                            lắc trên màn hình, người chơi có thể bắt đầu đặt cược. Khi hết thời gian đặt cược và Chủ Sới mở bát ra, hệ thống sẽ thanh
+                            toán cược dựa theo kết quả.</p>
+                        
                     </div>
 
                 </Grid>

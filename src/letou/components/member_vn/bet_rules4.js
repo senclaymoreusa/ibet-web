@@ -76,12 +76,12 @@ export class BetRuleFour extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">体育规则 >
+                                <a href="/for_member">Luật chơi Thể thao >
                                     <i></i>
                                 </a>
                             </li>
@@ -90,956 +90,1320 @@ export class BetRuleFour extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>网球</a>
+                                <a>Tennis</a>
                             </li>
                             <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>篮球</a>
+                                <a>Bóng rổ</a>
                             </li>
                             <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>美式足球</a>
+                                <a>Bóng bầu dục Mỹ</a>
                             </li>
                             <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>冰上曲棍球</a>
+                                <a>Hockey trên băng</a>
                             </li>
                             <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>棒球</a>
+                                <a>Bóng rổ</a>
                             </li>
                             <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>手球</a>
+                                <a>Bóng ném</a>
                             </li>
                             <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>排球</a>
+                                <a>Bóng chuyền</a>
                             </li>
                             <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>沙滩排球</a>
+                                <a>Bóng chuyền bãi biển</a>
                             </li>
                             <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>室内足球</a>
+                                <a>Futsal</a>
                             </li>
                             <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>羽毛球</a>
+                                <a>Cầu lông</a>
                             </li>
                             <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>英式橄榄球联赛联盟</a>
+                                <a>Rugby Union League</a>
                             </li>
                             <li className={this.state.current == 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>飞镖</a>
+                                <a>Phi tiêu</a>
                             </li>
                             <li className={this.state.current == 13 ? "Active" : ""} onClick={this.onClick.bind(this,13)}>
-                                <a>斯诺克</a>
+                                <a>Bida</a>
                             </li>
                             <li className={this.state.current == 14 ? "Active" : ""} onClick={this.onClick.bind(this,14)}>
-                                <a>乒乓球</a>
+                                <a>Table Tennis</a>
                             </li>
                             <li className={this.state.current == 15 ? "Active" : ""} onClick={this.onClick.bind(this,15)}>
-                                <a>高尔夫球镖</a>
+                                <a>Golf</a>
                             </li>
                             <li className={this.state.current == 16 ? "Active" : ""} onClick={this.onClick.bind(this,16)}>
-                                <a>板球</a>
+                                <a>Cricket</a>
                             </li>
                             <li className={this.state.current == 17 ? "Active" : ""} onClick={this.onClick.bind(this,17)}>
-                                <a>虚拟足球联赛 (VFL)</a>
+                                <a>Bóng đá ảo League(VFL)</a>
                             </li>
                             <li className={this.state.current == 18 ? "Active" : ""} onClick={this.onClick.bind(this,18)}>
-                                <a>电子竞技</a>
+                                <a>E-Sports</a>
                             </li>
                             <li className={this.state.current == 19 ? "Active" : ""} onClick={this.onClick.bind(this,19)}>
-                                <a>刀塔</a>
+                                <a>DOTA2</a>
                             </li>
                             <li className={this.state.current == 20 ? "Active" : ""} onClick={this.onClick.bind(this,20)}>
-                                <a>反恐精英:全球攻势</a>
+                                <a>Counter Strike: GO</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail" >
                         <div className="centerDetail" hidden={this.state.current != 1}>
-                            <h2>网球</h2>
-                            <h1>重要提醒</h1>
-                            <p>如出现选手退赛或不战而胜，所有未决投注视为无效。
-                                <br /> 如有延迟（降雨，天色过暗）所有未决盘口以及进行的交易都将在复赛时继续。
-                                <br /> 如果裁判判决罚分，所有本场比赛投注继续有效。
-                                <br /> 如果比赛在指定分数或局数前结束，所有受影响的局数相关的盘口视为无效。
-                            </p>
-                            <h1>结算及取消规则</h1>
-                            <p>如开出的盘口比分错误，并对价格有明显影响，我们有权宣布投注无效。
-                                <br /> 如选手/球队显示错误，我们有权利宣布投注无效。
-                                <br /> 如选手退赛，所有未决盘口视为无效。
-                                <br /> 若赛事由比赛抢七局(Match tie-break )定胜负，此抢七局将被视为第三盘。
-                                <br /> 每个抢七局(tie-break or Match tie-break )计为一局(game)。
-                                <br /> 双打若进行抢十，第十局同为Match tie-break，计为一局(game)。</p>
-                            <h2>特有盘口介绍</h2>
-                            <h1>总局数单/双</h1>
-                            <p>总局数单/双是指由比赛最终两队加总的局数来确定的投注。</p>
-                            <h1>赛局让分盘 (包括第一盘投注)</h1>
-                            <p>投注哪位球员在赛局让分调整后赢得比赛。</p>
-                            <h1>盘数让分盘</h1>
-                            <p>投注哪位球员在盘数让分调整后赢得比赛。</p>
-                            <h1>总盘数 (3盘)</h1>
-                            <p>预测比赛总共进行几盘。可下注的选项有有2及3盘。</p>
-                            <h1>总盘数 (5盘)</h1>
-                            <p>预测比赛总共进行几盘。可下注的选项有有3、4及5盘。</p>
-                            <h1>总局大小盘 (包括第一盘投注)</h1>
-                            <p>以比赛最终局数来确定的投注。如果局数超过大小盘指定的局数，则投注”大于”者为赢；如果局数低于大小盘指定的局数，则投注”小于”者为赢。</p>
-                            <h1>正确比分 (3盘)</h1>
-                            <p>预测该场赛最后的赛果为何，可下注的选项有：
-                                <br /> 2:1：主队(选手/球队)得2盘、客队(选手/球队)得1盘
-                                <br /> 2:0：主队(选手/球队)得2盘、客队(选手/球队)无得盘
-                                <br /> 0:2：主队(选手/球队)无得盘、客队(选手/球队)得2盘
-                                <br /> 1:2：主队(选手/球队)得1盘、客队(选手/球队)得2盘
-                            </p>
-                            <h1>正确比分 (5盘)</h1>
-                            <p>预测该场赛最后的赛果为何，可下注的选项有：
-                                <br /> 3:2：主队(选手/球队)得3盘、客队(选手/球队)得2盘
-                                <br /> 3:1：主队(选手/球队)得3盘、客队(选手/球队)得1盘
-                                <br /> 3:0：主队(选手/球队)得3盘、客队(选手/球队)无得盘
-                                <br /> 0:3：主队(选手/球队)无得盘、客队(选手/球队)得3盘
-                                <br /> 1:3：主队(选手/球队)得1盘、客队(选手/球队)得3盘
-                                <br /> 2:3：主队(选手/球队)得2盘、客队(选手/球队)得3盘
-                            </p>
-                            <h1>滚球：总局大小盘 (包括赛盘1-5盘的投注)</h1>
-                            <p>以比赛最终局数来确定。如果局数超过大小盘指定的局数，则投注”大于”者为赢；如果局数低于大小盘指定的局数，则投注”小于”者为赢。</p>
+                        <h2>Tennis</h2>
+                            <p> QUAN TRỌNG
+                                <br />
+                                <br /> ※ Trong trường hợp bỏ cuộc và đi qua bất kỳ người chơi nào, tất cả các cược không xác định sẽ bị coi là vô hiệu
+                                ※ Trong trường hợp có sự chậm trễ (mưa, bóng tối) tất cả các thị trường vẫn không ổn định và giao dịch sẽ được
+                                tiếp tục ngay khi trận đấu tiếp tục.
+                                <br /> ※ Trong trường hợp điểm phạt được trao cho trọng tài, mọi cược đặt cho trận đấu sẽ dừng.
+                                <br /> ※ Trong trường hợp trận đấu kết thúc trước khi một số điểm / trò chơi kết thúc, tất cả các thị trường liên quan
+                                đến điểm / trò chơi bị ảnh hưởng đều bị coi là vô hiệu.
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br /> Quy tắc Giải quyết và Hủy
+                                <br />
+                                <br /> ※ Nếu thị trường vẫn mở cửa với điểm không chính xác có ảnh hưởng đáng kể đến trận đấu, chúng tôi bảo lưu quyền
+                                hủy bỏ đặt cược.
+                                <br /> ※ Nếu các cầu thủ / đội được hiển thị không chính xác, chúng tôi bảo lưu quyền hủy bỏ cược.
+                                <br /> ※ Nếu một người chơi nghỉ bỏ cuộc tất cả các thị trường chưa quyết định được coi là vô hiệu.
+                                <br /> ※ Nếu trận đấu được quyết định bởi trận đấu tie-break, nó sẽ được coi là hiệp thứ 3 ※ Mỗi tie-break hoặc Match
+                                tie-break tính là 1 trò chơi.
+                                <br /> ※ Đôi khi siêu tie-break được tính là 1 trò chơi
+                                <br />
+                                <br />
+                                <br />
+                                <br /> Các thị trường đặc biệt
+                                <br />
+                                <br /> Lẻ/ Chẵn số lượng của games
+                                <br /> Lẻ và thậm chí là số lượng các trận đấu, được xác định bởi một đội kết quả trận chung kết cộng với tổng số trận
+                                đấu để xác định số lần đặt cược.
+                                <br />
+                                <br /> Game chấp (Bao gồm cá cược đặt 1st Set)
+                                <br /> Xử lý đặt cược sẽ dựa trên: Người chơi nào sẽ giành chiến thắng sau khi áp dụng Tỷ lệ Game vào điểm số cuối
+                                cùng
+                                <br /> Set chấp
+                                <br /> Giải quyết đặt cược sẽ dựa trên: Người chơi nào sẽ giành chiến thắng sau khi Set Spread được áp dụng cho điểm
+                                số cuối cùng.
+                                <br />
+                                <br /> Tổng số của set (với game 3 set)
+                                <br /> Dự đoán trò chơi cho tổng số bao nhiêu set. Có thể lựa chọn đặt cược là: 2 và 3 set
+                                <br /> Tổng số của set (với game 5 set)
+                                <br /> Dự đoán trò chơi cho tổng số bao nhiêu set. Có thể lựa chọn đặt cược là: 3, 4 và 5set.
+                                <br /> Tổng số (Bao gồm cược đặt set 1)
+                                <br /> Cược được xác định bởi tổng số trận đấu trong kết quả cuối cùng của Sự kiện. Nếu tổng số vượt quá dòng trên/dưới
+                                đã được chỉ định thì kết quả thắng kết thúc là trên: nếu tổng số ít hơn dòng Trên / dưới đường được chỉ định
+                                thì kết quả trúng thưởng sẽ dưới.
+                                <br /> Đặt kết quả chính xác(với game 3 set)
+                                <br /> Dự đoán kết quả cuối cùng của trò chơi, Có thể đặt cược tùy chọn:
+                                <br /> 2:1 - Đội chủ nhà 2 set, đội khách 1set.
+                                <br /> 2:0 - Đội chủ nhà 2 set, đội khách 0set.
+                                <br /> 0:2 - Đội chủ nhà 0 set, đội khách 2set.
+                                <br /> 1:2 - Đội chủ nhà 1set, đội khách 2 set.
+                                <br />
+                                <br /> Đặt kết quả chính xác(với game 5 set)
+                                <br /> Dự đoán kết quả cuối cùng của trò chơi, Có thể đặt cược tùy chọn:
+                                <br /> 3:2 - Đội chủ nhà 3 set, đội khách 2set.
+                                <br /> 3:1 - Đội chủ nhà 3 set, đội khách 1set.
+                                <br /> 3:0 - Đội chủ nhà 3set, đội khách 0set.
+                                <br /> 0:3 - Đội chủ nhà 0 set, đội khách 3set.
+                                <br /> 1:3 - Đội chủ nhà 1set, đội khách 3set.
+                                <br /> 2:3 - Đội chủ nhà 2 set, đội khách 3set.
+                                <br />
+                                <br /> In-Play - Tổng số game (Bao gồm 1-5 set))
+                                <br /> Dự đoán trận đấu cuối cùng của đội. Nếu số game nhiều hơn đường Over / under line đã được chỉ định thì kết quả
+                                thắng sẽ kết thúc; nếu số game nhỏ hơn đường Over / under line đã được chỉ định thì kết quả chiến thắng là dưới.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 2}>
-                            <h2>篮球</h2>
-                            <h1>重要提醒</h1>
-                            <p>除非明确说明，所有盘口不考虑加时。</p>
-                            <h1>结算及取消规则</h1>
-                            <p>如果比赛中断或延迟，并未在48小时继续，最初早盘投注将视为无效。
-                                <br /> 如在非正确比赛时间开出的赔率，我们保留宣布投注无效的权利。
-                                <br /> 如仍在开放的盘口对价格有明显影响的错误比分，我们保留宣布投注无效的权利。
-                            </p>
-                            <h2>特有盘口介绍</h2>
-                            &nbsp;
-                            <h1>半场/全场</h1>
-                            <p>分别预测半场、全场比赛时间结束时的赛果。可下注的选项有：
-                                <br /> 主队/主队：半场结束时主队获胜且全场结束时主队获胜
-                                <br /> 主队/平局：半场结束时主队获胜且全场结束时两队打和
-                                <br /> 主队/客队：半场结束时主队获胜且全场结束时客队获胜
-                                <br /> 平局/主队：半场结束时两队平局且全场结束时主队获胜
-                                <br /> 平局/平局：半场结束时两队平局且全场结束时两队打和
-                                <br /> 平局/客队：半场结束时两队平局且全场结束时客队获胜
-                                <br /> 客队/主队：半场结束时客队获胜且全场结束时主队获胜
-                                <br /> 客队/平局：半场结束时客队获胜且全场结束时两队打和
-                                <br /> 客队/客队：半场结束时客队获胜且全场结束时客队获胜
-                            </p>
-                            <h1>总得分 单/双 (包括上/下半场及单节投注)</h1>
-                            <p>总得分单/双是指由比赛最终赛果两队加总的得分来确定的投注。
-                                <br /> 半场单双盘是指投注结果由半场赛事的总分来决定。
-                                <br /> 单节单双盘是指投注结果由该节赛事的总分来决定。
-                            </p>
-                            <h1>让分盘 (包括上/下半场及单节投注)</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。结算依据是以让分调整后的最终赛果来计算。
-                                <br /> 半场让分盘是指投注结果由半场赛事的总分来决定。
-                                <br /> 单节让分盘是指投注结果由单节赛事的总分来决定。
-                            </p>
-                            <h1>总分大小盘 (包括上/下半场及单节投注)</h1>
-                            <p>以比赛最终总分来确定的投注。如果总分超过大小盘指定的分数线，则投注”大于”者为赢；如果总分低于大小盘指定的分数线，则投注”小于”者为赢。结算依据最终比赛结果计算。</p>
-                            <h1>主/客队总得分数</h1>
-                            <p>预测主队或客队比赛的最终得分。如果队伍得分超过大小盘指定的分数线，则投注”大于”者为赢；如果队伍得分低于大小盘指定的分数线，则投注”小于”者为赢。结算依据最终比赛结果计算。</p>
-                            <h1>总进球数与获胜队伍</h1>
-                            <p>预测全场比赛时间结束时的最终得分及获胜队伍。可下注选项有：
-                                <br /> 大于/主队：比赛结束时总分大于分数线且主队获胜
-                                <br /> 大于/客队：比赛结束时总分大于分数线且客队获胜
-                                <br /> 小于/主队：比赛结束时总分小于分数线且主队获胜
-                                <br /> 小于/客队：比赛结束时总分小于分数线且客队获胜
-                            </p>
-                            <h1>胜分差</h1>
-                            <p>以双方的全场比赛时间结束时的最终得分，胜的一队胜出另外一队有多少分做为下注。可下注的选项有：
-                                <br /> 主队 &gt;10 ：代表下注主队胜出，且胜出分数大于10分(不含10分)
-                                <br /> 主队6-10 ：代表下注主队胜出，且胜出分数介于6-10分
-                                <br /> 主队1-5 ：代表下注主队胜出，且胜出分数介于1-5分
-                                <br /> 客队1-5 ：代表下注客队胜出，且胜出分数介于1-5分
-                                <br /> 客队6-10 ：代表下注客队胜出，且胜出分数介于6-10分
-                                <br /> 客队 &gt;10 ：代表下注客队胜出，且胜出分数大于10分(不含10分)</p>
-                            <h1>最高得分单节</h1>
-                            <p>预测在比赛哪一节中得到最高分数。可下注的选项有：第1、2、3、4节及平分(同时有两节或以上的得分为最高分)。</p>
-                            <h1>平局退款 (包括上/下半场及单节投注)</h1>
-                            <p>在常规赛、半场及单节比赛中，比赛若以平局结束，所有投注视为无效。</p>
-                            <h1>总得分 (FOR NBA)</h1>
-                            <p>预测比赛总得分范围。此项投注仅适用于NBA赛事。</p>
-                            <h1>总得分 (NOT FOR NBA)</h1>
-                            <p>预测比赛总得分范围。此项投注仅适用于NBA以外的赛事。</p>
-                            <h1>总得分 三项</h1>
-                            <p>预测全场总得分是否大于、小于或与指定的分数线相同。可下注选项有：大于、小于及相同。</p>
-                            <h1>三项让分盘</h1>
-                            <p>开出的选项有主队、平手与客队三项。结算结果仅限常规时间，不包括加时赛。
+                        <h2>Bóng Rổ</h2>
+                            <p>QUAN TRỌNG
                                 <br />
-                                <br /> 让分数为1分:主队让出1分
-                                <br /> 投注主队赢球:
-                                <br /> 主队以多于客队至少两分胜出 – 投注项目为赢。
-                                <br /> 平局或客队获胜 – 投注项目为输。
-                                <br /> 投注平局:
-                                <br /> 主队以多于客队正好一分胜出 – 投注项目为赢。
-                                <br /> 平局或客队获胜 – 投注项目为输。
-                                <br /> 投注客队赢球:
-                                <br /> 客队以任何比分获胜或平局 – 投注项目为赢。
-                                <br /> 主队以多于客队至少两分胜出– 投注项目为输。
+                                <br /> ※ Thị trường không xem xét làm thêm giờ trừ khi có quy định khác.
                                 <br />
-                                <br /> 让分数为1分:主队获得1个让分
-                                <br /> 投注主队赢球:
-                                <br /> 主队以任何比分获胜或平局 – 投注项目为赢。
-                                <br /> 客队以多于两分以上获胜 – 投注项目为输。
-                                <br /> 投注平局:
-                                <br /> 主队输掉正好一分 – 投注项目为赢。
-                                <br /> 主队或客队以多于两分以上获胜– 投注项目为输。
-                                <br /> 投注客队赢球:
-                                <br /> 客队以多于两分以上获胜 – 投注项目为赢。
-                                <br /> 主队获胜或平局 – 投注项目为输。
+                                <br /> Nguyên tắc Xử lý và Huỷ bỏ
                                 <br />
-                                <br /> 让分数为2分:主队让出2分
-                                <br /> 投注主队赢球:
-                                <br /> 主队以多于客队至少三分胜出 – 投注项目为赢。
-                                <br /> 平局或客队获胜 – 投注项目为输。
-                                <br /> 投注平局:
-                                <br /> 主队以多于客队正好两分胜出 – 投注项目为赢。
-                                <br /> 平局或客队获胜 – 投注项目为输。
-                                <br /> 投注客队赢球:
-                                <br /> 客队以任何比分获胜或平局 – 投注项目为赢。
-                                <br /> 主队以多于客队至少三分胜出– 投注项目为输。
+                                <br /> ※ Nếu trận đấu bị gián đoạn hoặc hoãn lại và không được tiếp tục trong vòng 48 giờ sau ngày khởi đầu đầu tiên,
+                                cá cược sẽ bị hủy.
                                 <br />
-                                <br /> 让分数为2分:主队获得2个让分
-                                <br /> 投注主队赢球:
-                                <br /> 主队以任何比分获胜或平局 – 投注项目为赢。
-                                <br /> 客队以多于三分以上获胜– 投注项目为输。
-                                <br /> 投注平局:
-                                <br /> 主队输掉正好两分 – 投注项目为赢。
-                                <br /> 主队或客队以多于三分以上获胜– 投注项目为输。
-                                <br /> 投注客队赢球:
-                                <br /> 客队以多于三分以上获胜 – 投注项目为赢。
-                                <br /> 主队获胜或平局 – 投注项目为输。</p>
-                            <h1>滚球：率先到达X分队伍</h1>
-                            <p>预测本场比赛哪支球队得分率先到达X分。例如：目前比分20-19，主队即先到达20分。
-                                <br /> X为：20,30,40…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
-                            <h1>滚球：取得第X分者</h1>
-                            <p>预测本场比赛哪支球队取得第X分（例如：目前比分20-19，客队得1分，客队取得第40分）。
-                                <br /> X为：10,15,20,25…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
+                                <br /> ※ Nếu tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (hơn 2 phút), chúng tôi bảo lưu quyền
+                                hủy bỏ cược.
+                                <br />
+                                <br /> ※ Nếu tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (hơn 2 phút), chúng tôi bảo lưu quyền
+                                hủy bỏ cược.
+                                <br />
+                                <br /> ※ Nếu thị trường vẫn mở với điểm không chính xác có ảnh hưởng đáng kể đến giá, chúng tôi bảo lưu quyền hủy bỏ
+                                cược.
+                                <br />
+                                <br /> Thị trường đặc biệt
+                                <br />
+                                <br /> Hiệp 1/Cả trận
+                                <br /> Half-time/Full-time có nghĩa là đặt cược để dự đoán cả kết quả Hiệp 1 và kết quả Cả trận của một Sự kiện. Có
+                                thể đặt cược các tùy chọn là:
+                                <br /> Đội chủ nhà/đội chủ nhà: Đội chủ nhà giành chiến thắng hiệp 1 và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Đội chủ nhà/hòa: Đội chủ nhà giành chiến thắng vào hiệp 1 và kết thúc trận đấu cả hai đội đều có kết quả hòa.
+                                <br /> Đội chủ nhà/đội khách: Đội chủ nhà giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng.
+                                <br /> Hòa/đội chủ nhà: Hai đội hòa vào giờ nghỉ giải lao và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Hòa/Hòa: Cả hai đội Hòa vào giờ nghỉ giải lao và kết thúc trận đấu vẫn là tỷ số hòa.
+                                <br /> Hòa/đội khách: Hai đội hòa vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng.
+                                <br /> Đội khách/Đội chủ nhà: Đội khách giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Đội khách/Hòa: Đội khách giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu cả hai đội hòa nhau.
+                                <br /> Đội khách/Đội khách: Đội khách giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng.
+                                <br /> Điểm Chẵn/Lẻ (Bao gồm cả hiệp 1 và hiệp 2 và Quarter 1 đến 4)
+                                <br /> Điểm lẻ và điểm chẵn, được xác định bởi một đội kết quả trận đấu cộng với tổng số điểm để xác định cược.
+                                <br /> Điểm chấp (Bao gồm cả hiệp 1 /hiệp 2 và Quarter 1 đến 4)
+                                <br /> Điểm chấp nghĩa là đặt cược khi một đối thủ hoặc đội được nhận một sự khởi đầu ảo (dẫn đầu bằng cách bắt đầu
+                                trước khi sự kiện bắt đầu). Người chiến thắng là đối thủ hoặc đội có điểm số tốt hơn sau khi thêm điểm chấp này
+                                vào kết quả.
+                                <br /> Tổng số chấp (Bao gồm cả hiệp 1 /hiệp 2 và Quarter 1 đến 4)
+                                <br /> Cược được xác định bởi tổng số điểm trong kết quả cuối cùng của Sự kiện. Nếu tổng số vượt quá Trên/Dưới Đã được
+                                chỉ định thì kết quả thắng sẽ là Trên; nếu tổng số ít hơn dòng Trên / dưới đường được chỉ định trước thì kết
+                                quả chiến thắng là dưới.
+                                <br /> Tổng đội nhà/đội khách
+                                <br /> Dự đoán điểm số cuối cùng của đội. Nếu đội nhà đội khách ghi bàn nhiều hơn Trên/Dưới đường được chỉ định thì
+                                kết quả thắng sẽ là Trên; nếu điểm số đội nhà/đội khách ít hơn Trên/Dưới thì kết quả thắng là dưới.
+                                <br /> Cược trận đấu và tổng số
+                                <br /> Matchbet và Totals có nghĩa là cá cược cho cả hai dự đoán: trận đấu sẽ dẫn đến thắng cho đội chỉ nhà hoặc đội
+                                khách hay không; và liệu tổng số bàn thắng trong kết quả cuối cùng của một sự kiện sẽ là Trên/Dưới.
+                                <br /> Các tùy chọn đặt cược sau có sẵn:
+                                <br /> Đội chủ nhà &amp; Over- cược thắng nếu đội chủ nhà thắng và tổng số bàn thắng nằm trên chỉ số chỉ định trước.
+                                <br /> Đội chủ nhà &amp; Dưới - cược thắng nếu đội chủ nhà thắng và tổng số bàn thắng nằm dưới chỉ số chỉ định trước.
+                                <br /> Đội khách &amp; Trên – cược thắng nếu đội khách thắng và tổng số bàn thắng nằm trên đường chỉ định trước.
+                                <br /> Đội khách &amp; Dưới - cược giành chiến thắng nếu đội khách thắng và tổng số bàn thắng nằm dưới đường được chỉ
+                                định trước.
+                                <br /> Cược thắng ngoài lề
+                                <br /> Trong cả thời gian trò chơi trên cả hai mặt ở cuối của điểm số cuối cùng, Một thống kê dựa trên sự khác biệt
+                                giữa số điểm ghi được bởi đội chiến thắng và số điểm ghi được của đội thua. Có thể đặt cược các tùy chọn là:
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm lớn hơn 10 điểm (không bao gồm 10).
+                                <br /> Đặt đội chủ nhà để giành chiến thắng, và giành điểm số của 6-10 điểm.
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm số 1-5 điểm.
+                                <br /> Cược đội khách chiến thắng, và giành điểm lớn hơn 10 điểm (không bao gồm 10).
+                                <br /> Cược đội khách giành chiến thắng, và giành điểm số của 6-10 điểm.
+                                <br /> Cược đội khách giành chiến thắng, và giành điểm số 1-5 điểm.
+                                <br /> Hiệp đấu có điểm số cao nhất
+                                <br /> Dự đoán số điểm cao nhất trong quarter 1, quarter 2, quarter 3, quarter 4 hoặc tương đương.
+                                <br /> Không cược hòa (Bao gồm Hiệp 1/ Hiệp 2 và cược quarter 1 đến 4)
+                                <br /> Nếu kết quả cuối cùng sau thời gian chơi chính thức hoặc khi kết thúc thời gian đã lên lịch là Hòa, mọi cược
+                                sẽ được hoàn lại.
+                                <br /> Total margins NBA-ranges
+                                <br /> Dự đoán giới hạn điểm của tổng số hiệp. giới hạn được tối ưu cho các trận đấu của giải NBA.
+                                <br /> Tổng số điểm thông thường- giới hạn
+                                <br /> Dự đoán giới hạn điểm của tổng số hiệp. giới hạn được tối ưu cho các trận đấu không phải của giải NBA.
+                                <br /> Tổng 3 khả năng
+                                <br /> Điểm số dự đoán cuối cùng có tổng số điểm ít hơn hoặc bằng tổng số Điểm tích chấp.
+                                <br /> Cược chấp Châu Âu
+                                <br /> Có 3 lựa chọn là đội nhà, đội khách và hòa. Chỉ tính thời gian chính thức, không tính thời gian bù giờ.
+                                <br /> Cược chấp 1 điểm – đội đưa ra 1 điểm bắt đầu
+                                <br /> Cược đội nhà thắng :
+                                <br /> - Chiến thắng cách biệt 2 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thắng.
+                                <br /> - Hòa hoặc thua với bất kì điểm số nào – tất cả cược vào lựa chọn này sẽ thua.
+                                <br /> Cược Hòa:
+                                <br /> -Chiến thắng chính xác bởi 1 điểm – tất cả cược vào lựa chọn này sẽ chiến thắng.
+                                <br /> - Hòa hoặc thua với bất kì điểm số nào – tất cả cược vào lựa chọn này sẽ thua.
+                                <br /> Cược đội khách chiến thắng:
+                                <br /> - Hòa hoặc thua với bất kì điểm số nào – tất cả cược vào lựa chọn này sẽ thắng.
+                                <br /> - Chiến thắng cách biệt 2 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Cược chấp 1 điểm – đội nhận được 1 điểm khi bắt đầu
+                                <br /> Cược vào đội nhà thắng:
+                                <br /> -Chiến thắng với bất kì điểm số nào hoặc Hòa - tất cả cược vào lựa chọn này sẽ thắng.
+                                <br /> - Thua cách biệt 2 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Cược đội khách chiến thắng:
+                                <br /> -Thua bởi chính xác 1 điểm - tất cả cược vào lựa chọn này sẽ thắng.
+                                <br /> -Chiến thắng bởi bất kì điểm số nào hoặc thua bởi 2 điểm hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Cược hòa:
+                                <br /> - Thua cách biệt 2 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm hay trận hòa nào - Tất cả các cược đặt cho lựa chọn này đều là thua.
+                                <br /> Chấp 2 điểm - Đội đưa ra 2 điểm bắt đầu
+                                <br /> Đội chủ nhà giành chiến thắng:
+                                <br /> - Chiến thắng bằng 3 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thắng..
+                                <br /> - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thua cuộc.
+                                <br /> Cược hòa:
+                                <br /> - Thắng bằng chính xác 2 - Tất cả cược đặt cho lựa chọn này là người chiến thắng - Hòa hoặc thua theo bất kỳ
+                                số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thua cuộc.
+                                <br /> Cược đội khách thắng - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những
+                                người chiến thắng - Chiến thắng bằng 3 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Chấp 2 điểm - Đội nhận được 2 điểm bắt đầu Đội chủ nhà giành chiến thắng - Chiến thắng bằng bất kỳ số điểm hay
+                                hòa - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> -- Thua bằng 3 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Đội khách chiến thắng - Thua chính xác 2 - Tất cả cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm nào hoặc thua 3 hoặc nhiều hơn - Tất cả cược đặt cho lựa chọn này đều là thua
+                                Cược hòa:
+                                <br /> - Thua 3 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm hay hòa - Tất cả các cược đặt cho lựa chọn này đều là thua In-Play - Đội nào
+                                thắng cuộc đua tới điểm X
+                                <br /> Dự đoán đội nào sẽ nhận được điểm X đầu tiên. Ví dụ: Điểm số hiện tại 20-19, đội chủ nhà là để có được 20 điểm.
+                                <br /> X là: 20, 30, 40 ... etc.
+                                <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy.
+                                <br /> In-Play - Ai đạt được điểm X
+                                <br /> Dự đoán trò chơi mà đội có điểm X. Ví dụ: Điểm số hiện tại 20-19, đội khách đi được 1 điểm, đội khách có 40
+                                điểm.
+                                <br /> X là: 10,15,20,25 ... etc.
+                                <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 3}>
-                            <h2>美式足球</h2>
-                            <h1>重要提醒</h1>
-                            <p>如遇任何延迟（降雨，天色过暗）所有未结算盘口以及交易在比赛恢复时继续有效。
-                                <br /> 除非明确说明，所有盘口不考虑加时。
+                        <h2>Bóng bầu dục Mỹ</h2>
+                            <p>Các Điều Quan Trọng
+                                <br />
+                                <br /> ※ Trong trường hợp cản trở (mưa, trời tối) tất cả các thị trường cược sẽ duy trì không ổn định do đó mọi giao
+                                dịch sẽ tiếp tục ngay khi trận đấu tiếp tục.
+                                <br />
+                                <br /> ※ Các thị trường cược không tính thời gian thi đấu thêm giờ trừ khi được nêu ra.
+                                <br />
+                                <br /> Các Điều Luật Thanh Toán Và Hủy Cược
+                                <br />
+                                <br /> ※ Nếu thị trường cược vẫn mở để tiến hành đặt cược với số điểm không chính xác và làm ảnh hưởng đến giá trị
+                                cược, Nhà Cái bảo lưu quyền hủy cược.
+                                <br />
+                                <br /> ※ Nếu tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (hơn 89 giây), chúng tôi có quyền hủy
+                                bỏ cược.
+                                <br />
+                                <br /> ※ Nếu một điểm sai được hiển thị, chúng tôi bảo lưu quyền vô hiệu cược cho khung thời gian này.
+                                <br />
+                                <br /> ※ Nếu các đội được hiển thị không chính xác, chúng tôi bảo lưu quyền hủy bỏ cược.
+                                <br />
+                                <br /> ※ Trong trường hợp trận đấu bị hủy hoặc hoãn lại thì tất cả các thị trường đều bị coi là vô hiệu, trừ khi trận
+                                đấu tiếp tục trong cùng một lịch trình NFL (thứ năm – thứ tư sân vận động địa phương)).
+                                <br />
+                                <br /> Các thị trường đặc biệt
+                                <br />
+                                <br /> Giờ nghỉ giải lao / Toàn thời gian
+                                <br /> Half-time / Full-time có nghĩa là đặt cược để dự đoán cả kết quả nửa trận và kết quả cả trận của một Sự kiện.
+                                Có thể đặt cược được:
+                                <br /> Đội chủ nhà / đội chủ nhà: Đội chủ nhà giành chiến thắng trong giờ nghỉ giải lao và kết thúc trận đấu đội chủ
+                                nhà thắng.
+                                <br /> Đội chủ nhà / hòa: đội chủ nhà giành chiến thắng tại thời gian nghỉ giải lao và kết thúc trận đấu cả hai đội
+                                đều hòa.
+                                <br /> Đội chủ nhà / đội khách: Đội chủ nhà giành chiến thắng trong giờ nghỉ giải lao và kết thúc trận đấu đội khách
+                                thắng.
+                                <br /> Hòa / đội chủ nhà: Cả hai đội đều hòa nhau vào giờ nghỉ giải lao và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Hòa / hòa: Cả hai đội đều hòa nhau vào giờ nghỉ giải lao và kết thúc trận đấu cả hai đội đều nhau Hòa / đội:
+                                Cả hai đội đều hòa nhau vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng.
+                                <br /> Đội khách / Đội chủ nhà: Đội đi giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Đội khách / Đội hòa: Đội đi giành chiến thắng ở giờ nghỉ giải lao và kết thúc trận đấu cả hai đội đều hòa.
+                                <br /> Đội khách / Đội khách: Đội đi giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng Số
+                                lẻ/chẵn( Bao gồm cả hiệp1)
+                                <br /> Các điểm lẻ và chẵn, được xác định bởi một đội kết quả trận chung kết cộng với tổng số điểm để xác định số lần
+                                đặt cược. Chỉ có thời gian bình thường, không bao gồm thêm giờ.
+                                <br /> Số lẻ/chẵn(thời gian thêm giờ)
+                                <br /> Các điểm lẻ và chẵn, được xác định bởi một đội kết quả trận chung kết cộng với tổng số điểm để xác định số lần
+                                đặt cược. Đặt cược này có tính thêm giờ.
+                                <br /> Điểm kết quả hiệp 1
+                                <br /> Điểm Phẳng nghĩa là đặt cược khi một đối thủ hoặc đội được nhận một sự khởi đầu ảo (dẫn đầu bằng cách bắt đầu
+                                trước khi sự kiện bắt đầu). Người chiến thắng là đối thủ cạnh tranh hoặc đội có điểm số tốt hơn sau khi thêm
+                                điểm cho kết quả.
+                                <br /> 1st Half Points Spreads nghĩa là đặt cược vào kết quả của hiệp một từ điểm số giải đấu nửa đầu để quyết định.
+                                <br /> Điểm phẳng ( Bao gồm cả hiệp 2/ thời gian thêm giờ)
+                                <br /> Điểm Phẳng nghĩa là đặt cược khi một đối thủ hoặc đội được nhận một sự khởi đầu ảo (dẫn đầu bằng cách bắt đầu
+                                trước khi sự kiện bắt đầu). Người chiến thắng là đối thủ cạnh tranh hoặc đội có điểm số tốt hơn sau khi thêm
+                                điểm cho một kết quả. Đặt cược này có tính thêm giờ.
+                                <br /> 1st Half - Total Spreads
+                                <br /> Cược được xác định bởi tổng số điểm trong kết quả cuối cùng của Sự kiện. Nếu tổng số vượt quá Trên/Dưới đã được
+                                chỉ định thì kết quả thắng sẽ là Tài; nếu tổng số ít hơn Trên/dưới đường được chỉ định trước thì kết quả chiến
+                                thắng là Dưới.
+                                <br /> 1st Half - Total Spread nghĩa là cược vào kết quả của hiệp một từ số điểm giải đấu đầu tiên để quyết định.
+                                <br /> Total Spreads (Bao gồm thời gian hiệp 2/bù giờ)
+                                <br /> Cược được xác định bởi tổng số điểm trong kết quả cuối cùng của Sự kiện. Nếu tổng số vượt quá Trên/Dưới đã được
+                                chỉ định thì kết quả thắng sẽ là Tài; nếu tổng số ít hơn Trên/dưới đường được chỉ định trước thì kết quả chiến
+                                thắng là Dưới. cược này bao gồm cả thời gian bù giờ.
+                                <br /> Chiến thắng ngoài lề
+                                <br /> Trong cả thời gian trò chơi trên cả hai mặt ở cuối của điểm số cuối cùng, Một thống kê dựa trên sự khác biệt
+                                giữa số điểm ghi được bởi đội chiến thắng và số điểm ghi được của đội thua. Có thể đặt cược các tùy chọn là:
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm lớn hơn 14 điểm (không bao gồm 14).
+                                <br /> Đặt đội chủ nhà để giành chiến thắng, và giành điểm số của 8-14 điểm.
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm số 1-7 điểm.
+                                <br /> Hai đội hòa.
+                                <br /> Cược đội để giành chiến thắng, và giành điểm lớn hơn 14 điểm (không bao gồm 10).
+                                <br /> Cược đội đi để giành chiến thắng, và giành điểm số của 8-14 điểm.
+                                <br /> Cược đội đi để giành chiến thắng, và giành điểm số 1-7 điểm.
+                                <br /> Hiệp đấu có số điểm cao nhất
+                                <br /> Dự đoán số điểm cao nhất trong quarter 1, quarter2, quarter3, quarter 4 hoặc tương đương.
+                                <br /> Tổng số điểm đội nhà / Tổng số điểm của đội khách
+                                <br /> Dự đoán điểm số cuối cùng của đội. Nếu đội nhà/đội khách ghi bàn nhiều hơn Trên/Dưới đã được chỉ định thì kết
+                                quả thắng sẽ là Trên; nếu điểm số của Đội nhà/Đội khách thấp hơn Trên/Dưới đã được chỉ định thì kết quả thắng
+                                thắng là dưới.
+                                <br /> Trong trận – cược ngoài lề Bóng đá Mỹ, bao gồm cả thời gian bù giờ
+                                <br /> Vào cuối trò chơi, điểm số đội chủ nhà trừ đi khoảng cách điểm số đội khách. Cược này có tính thêm giờ. Có thể
+                                đặt cược các tùy chọn là:
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm lớn hơn 13 điểm.
+                                <br /> Đặt cược đội chủ nhà để giành chiến thắng, và giành chiến thắng 7-13 điểm.
+                                <br /> Đặt cược đội chủ nhà để giành chiến thắng, và giành chiến thắng 1-6 điểm.
+                                <br /> Cược hai đội hòa.
+                                <br /> Đặt đội chủ nhà thua, và mất 1-6 điểm.
+                                <br /> Đặt cược đội chủ nhà thua, và mất 7-13 điểm.
+                                <br /> Cược đội chủ nhà thua, và mất điểm lớn hơn 13 điểm.
+                                <br /> Trong trận đấu - Đội nào thắng cuộc đua đến điểm X
+                                <br /> Dự đoán đội nào sẽ nhận được điểm X đầu tiên. Ví dụ: Điểm số hiện tại 20-19, đội chủ nhà là đội có được điểm
+                                thứ 20.
+                                <br /> X là: 20, 30, 40 ... vv
+                                <br /> Vào cuối trò chơi, không có đội nào có điểm X, tỷ lệ thắng cược sẽ bị hủy.
+                                <br /> Trong trận - Điểm tiếp theo (đội), bao gồm cả thời gian làm thêm giờ
+                                <br /> Cá cược bắt đầu từ thời điểm này, đội nào sẽ đến điểm tiếp theo. Có thể đặt cược các lựa chọn là: đội nhà, đội
+                                khách và không có. Việc đặt cược này bao gồm cả thêm giờ.
+                                <br /> In-Play - Các điểm tiếp theo (đội) của giờ nghỉ giải lao
+                                <br /> Cá cược bắt đầu từ thời điểm này, đội nào sẽ đến điểm tiếp theo. Có thể đặt cược các lựa chọn là: đội nhà, đội
+                                khách và không có. Sự kiện cá cược chỉ bao gồm giờ giải lao.
+                                <br /> Trong trận - Điểm tiếp theo (loại), bao gồm cả làm thêm giờ
+                                <br /> Cược bắt đầu từ thời điểm này, cách tiếp theo để ghi bàn. Có thể đặt cược các lựa chọn là: touchdown, field
+                                goal, safety và không có. Việc đặt cược này bao gồm cả làm thêm giờ.
                             </p>
-                            <h1>结算及取消原则</h1>
-                            <p>如果开放盘口有错误比分，对赔率有明显影响我们有权宣布投注无效。
-                                <br /> 如在错误的比赛时间（超过89秒）开出赔率，我们有权宣布投注无效。
-                                <br /> 如果显示结果错误，我们有权宣布这一时间的投注无效。
-                                <br /> 如果比赛队显示错误，我们有权宣布注单无效。
-                                <br /> 除非在NFL每周赛程（当地球场时间周二，周三）继续否则因禁止或延迟，所有盘口将视为无效投注。
-                            </p>
-                            <h2>特有盘口介绍</h2>
-                            <h1>半场 / 全场</h1>
-                            <p>分别预测半场、全场比赛时间结束时的赛果。可下注的选项有：
-                                <br /> 主队/主队：半场结束时主队获胜且全场结束时主队获胜
-                                <br /> 主队/平局：半场结束时主队获胜且全场结束时两队打和
-                                <br /> 主队/客队：半场结束时主队获胜且全场结束时客队获胜
-                                <br /> 平局/主队：半场结束时两队平局且全场结束时主队获胜
-                                <br /> 平局/平局：半场结束时两队平局且全场结束时两队打和
-                                <br /> 平局/客队：半场结束时两队平局且全场结束时客队获胜
-                                <br /> 客队/主队：半场结束时客队获胜且全场结束时主队获胜
-                                <br /> 客队/平局：半场结束时客队获胜且全场结束时两队打和
-                                <br /> 客队/客队：半场结束时客队获胜且全场结束时客队获胜
-                            </p>
-                            <h1>总得分 单/双 (包括上半场投注)</h1>
-                            <p>总得分单/双是指由比赛最终赛果两队加总的得分来确定的投注。结算依据仅限常规比赛时间。半场单双盘是指投注结果由半场赛事的总分来决定。</p>
-                            <h1>总分数单/双 (含延时)</h1>
-                            <p>总得分单/双是指由比赛最终赛果两队加总的得分来确定的投注。此项投注包含延长赛。</p>
-                            <h1>让分盘 - 上半场</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。结算依据是以让分调整后的上半场赛果来计算。</p>
-                            <h1>让分盘 (包括下半场投注，包含延时)</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。结算依据是以让分调整后的最终赛果来计算。此项投注包含延长赛。</p>
-                            <h1>总分大小盘 - 上半场</h1>
-                            <p>以比赛最终总分来确定的投注。如果总分超过大小盘指定的分数线，则投注”大于”者为赢；如果总分低于大小盘指定的分数线，则投注”小于”者为赢。结算依据上半场赛果来计算。</p>
-                            <h1>总分大小盘 (包括下半场投注，含延时)</h1>
-                            <p>以比赛最终总分来确定的投注。如果总分超过大小盘指定的分数线，则投注”大于”者为赢；如果总分低于大小盘指定的分数线，则投注”小于”者为赢。结算依据最终比赛结果计算。</p>
-                            <h1>胜分差</h1>
-                            <p>以双方的全场比赛时间结束时的最终得分，胜的一队胜出另外一队有多少分做为下注。可下注的选项有：
-                                <br /> 主队 &gt; 14 ：代表下注主队胜出，且胜出分数大于14分(不含14分)
-                                <br /> 主队8-14 ：代表下注主队胜出，且胜出分数介于8-14分
-                                <br /> 主队1-7 ：代表下注主队胜出，且胜出分数介于1-7分
-                                <br /> 平局：代表两队打和
-                                <br /> 客队1-7 ：代表下注客队胜出，且胜出分数介于1-7分
-                                <br /> 客队8-14 ：代表下注客队胜出，且胜出分数介于8-14分
-                                <br /> 客队 &gt; 14 ：代表下注客队胜出，且胜出分数大于14分(不含14分)</p>
-                            <h1>最高得分单节</h1>
-                            <p>预测在比赛哪一节中得到最高分数。可下注的选项有：第1、2、3、4节及平分(同时有两节或以上的得分为最高分)。</p>
-                            <h1>球队总得分数</h1>
-                            <p>预测主队或客队比赛的最终得分。如果队伍得分超过大小盘指定的分数线，则投注”大于”者为赢；如果队伍得分低于大小盘指定的分数线，则投注”小于”者为赢。结算依据最终比赛结果计算。</p>
-                            <h1>滚球：净胜数 (含延长加时)</h1>
-                            <p>以主队全场比赛结束时的最终得分，减去客队得分做为下注。
-                                <br /> 可下注选项有：
-                                <br /> 主队 超过13 ：代表下注主队胜出，且胜出分数大于13分
-                                <br /> 主队7到13 ：代表下注主队胜出，且胜出7-13分
-                                <br /> 主队1到6 ：代表下注主队胜出，且胜出1-6分
-                                <br /> 无分差 ：代表下注两队平手
-                                <br /> 主队-1到-6 ：代表下注主队输球，且输的分数为1-6分
-                                <br /> 主队-7到-13 ：代表下注主队输球，且输的分数为7-13分
-                                <br /> 主队 超过-13 ：代表下注主队输球，且输的分数为大于13分</p>
-                            <h1>滚球：率先到达X分队伍</h1>
-                            <p>预测本场比赛哪支球队得分率先到达X分。例如：目前比分20-19，主队即先到达20分。
-                                <br /> X为：20,30,40…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
-                            <h1>滚球：下一得分队伍 (含延长)</h1>
-                            <p>表示投注由当下开始计算，哪支队伍得到下一个分。可下注的选项有：主队、客队、无得分。此项投注包含延长加时阶段。</p>
-                            <h1>滚球：下一得分队伍 - 上半场</h1>
-                            <p>表示投注由当下开始计算，哪支队伍得到下一个分。可下注的选项有：主队、客队、无得分。此项投注仅限上半场。</p>
-                            <h1>滚球：下一得分方式 (含延长)</h1>
-                            <p>表示投注由当下开始计算，下一个得分的方式。可下注的选项有：达阵、射门得分、安全罚分或无进球。</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 4}>
-                            <h2>冰上曲棍球</h2>
-                            <h1>重要提醒</h1>
-                            <p>除明确说明外，所述盘口皆为常规赛时（除小节超时，罚球盘）。
-                                <br /> 如果比赛中止及在开球之后的48小时内恢复比赛，所有盘口根据最终结果结算，否则所有未结投注视为无效。
-                            </p>
-                            <h1>结算及结算规则</h1>
-                            <p>滚球盘口中，发生得分或者罚球的情况，我们有权利宣布注单无效。
-                                <br /> 如果在非正确比赛时间开出赔率（超过2分钟），我们保留宣布注单无效的权利。
-                                <br /> 如果显示错误比分，就此错误比分的所有盘口都将取消。
-                                <br /> 如比赛中断或延迟，未在开球之后的48小时恢复比赛，所有注单将视为无效。
-                            </p>
-                            <h2>特有盘口介绍</h2>
-                            <h1>波胆 正确比分</h1>
-                            <p>全场比赛时间结束时的最终得分。”其他”选项表示若开出非选项内的结果时，则”其他”此项胜出。结算依据仅限常规时间比赛，加时赛与任意球对决不计算在内。</p>
-                            <h1>总进球数 单/双 (包括单局投注)</h1>
-                            <p>总进球数单/双是指由比赛最终赛果两队加总的得分来确定的投注。结算依据仅限常规时间比赛，加时赛与任意球对决不计算在内。单局单双盘是指投注结果由该局赛事的总分来决定。</p>
-                            <h1>总进球数单/双 (包括延长赛及任意球对决)</h1>
-                            <p>总进球数单/双是指由比赛最终赛果两队加总的得分来确定的投注。此项投注包含延长赛与任意球对决的结果。</p>
-                            <h1>双胜彩 (包括单局投注)</h1>
-                            <p>预测全场或赛局结果，拥有双重机会可下注的选项有：
-                                <br /> 主队或客队：当主队获胜或是客队获胜时，投注项为赢
-                                <br /> 主队或平局：当主队获胜或是平局时，投注项为赢
-                                <br /> 客队或平局：当客队获胜或是平局时，投注项为赢
-                            </p>
-                            <h1>平局退款 (包括单局投注)</h1>
-                            <p>在常规赛时，比赛以平局结束，所有投注视为无效。
-                                <br /> 单局比赛若以平局结束，所有投注视为无效。
-                            </p>
-                            <h1>让分盘 (包括单局投注)</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。结算依据仅限常规时间比赛，加时赛与任意球对决不计算在内。
-                                <br /> 单局让分盘是指投注结果由单局赛事的总分来决定。
-                            </p>
-                            <h1>让分盘 (包括延长赛)</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。此项投注包含延长赛与任意球对决的结果。</p>
-                            <h1>总分大小盘 (包括单局投注)</h1>
-                            <p>以比赛最终总分来确定的投注。如果总分超过大小盘指定的分数线，则投注”大于”者为赢；如果总分低于大小盘指定的分数线，则投注”小于”者为赢。结算依据仅限常规时间比赛，加时赛与任意球对决不计算在内。
-                                <br /> 单局大小盘是指投注结果由该局赛事的总分来决定。
-                            </p>
-                            <h1>总分大小盘 (包括延长赛)</h1>
-                            <p>以比赛最终总分来确定的投注。如果总分超过大小盘指定的分数线，则投注”大于”者为赢；如果总分低于大小盘指定的分数线，则投注”小于”者为赢。此项投注包含延长赛与任意球对决的结果。</p>
-                            <h1>总分大小盘与1X2</h1>
-                            <p>总分大小盘1X2表示投注预测下列两个方面：比赛最终赛果的总进球数为大盘还是小盘、比赛是主队赢、客队赢还是平局。有下列投注选项可供选择：
-                                <br /> 大盘且客队获胜：如果客队赢且总进球数在预先指定的进球数基线之上，则此投注赢
-                                <br /> 大盘且平局：如果比赛结果为平局且总进球数在预先指定的进球数基线之上，则此投注赢
-                                <br /> 大盘且主队获胜：如果主队赢且总进球数在预先指定的进球数基线之上，则此投注赢
-                                <br /> 小盘且客队获胜：如果客队赢且总进球数在预先指定的进球数基线之下，则此投注赢
-                                <br /> 小盘且平局：如果比赛结果为平局且总进球数在预先指定的进球数基线之下，则此投注赢
-                                <br /> 小盘且主队获胜：如果主队赢且总进球数在预先指定的进球数基线之下，则此投注赢
-                            </p>
-                            <h1>胜分差</h1>
-                            <p>以双方的全场比赛时间结束时的最终得分，胜的一队胜出另外一队有多少分做为下注。可下注选项有：
-                                <br /> 主队 &gt; 10 ：代表下注主队胜出，且胜出分数大于10分(不含10分)
-                                <br /> 主队6-10 ：代表下注主队胜出，且胜出分数介于6-10分
-                                <br /> 主队1-5 ：代表下注主队胜出，且胜出分数介于1-5分
-                                <br /> 平局：代表两队打和
-                                <br /> 客队1-5 ：代表下注客队胜出，且胜出分数介于1-5分
-                                <br /> 客队6-10 ：代表下注客队胜出，且胜出分数介于6-10分
-                                <br /> 客队 &gt; 10 ：代表下注客队胜出，且胜出分数大于10分(不含10分)</p>
-                            <h1>独赢 (包含延长赛)</h1>
-                            <p>独赢盘是指投注哪支球队获胜(没有平局)。此项投注包含延长赛与任意球对决的结果。</p>
-                            <h1>主/客队进球数</h1>
-                            <p>预测主队或客队比赛的最终得分。如果队伍得分超过大小盘指定的分数线，则投注”大于”者为赢；如果队伍得分低于大小盘指定的分数线，则投注”小于”者为赢。结算依据仅限常规时间比赛，加时赛与任意球对决不计算在内。</p>
-                            <h1>三项让分盘</h1>
-                            <p>开出的选项有主队、平手与客队三项。结算依据仅限常规时间比赛，加时赛与任意球对决不计算在内。
+                        <h2>Hockey trên băng</h2>
+                            <p>Quan Trọng
                                 <br />
-                                <br /> 让球数为1球:主队让出1球
-                                <br /> 投注主队赢球:
-                                <br /> 主队以多于客队至少两球胜出 – 投注项目为赢。
-                                <br /> 平局或客队获胜 – 投注项目为输。
-                                <br /> 投注平局:
-                                <br /> 主队以多于客队正好一球胜出 – 投注项目为赢。
-                                <br /> 平局或客队获胜 – 投注项目为输。
-                                <br /> 投注客队赢球:
-                                <br /> 客队以任何比分获胜或平局 – 投注项目为赢。
-                                <br /> 主队以多于客队至少两球胜出– 投注项目为输。
+                                <br /> ※ Tất cả các thị trường (trừ thời gian, ngoài giờ và thị trường bắn súng) chỉ được xem xét cho thời gian bình
+                                thường trừ khi nó được đề cập trên thị trường
+                                <br /> ※ Nếu trận đấu bị gián đoạn và tiếp tục trong vòng 48 giờ sau khi tạm dừng thì tất cả các cược mở sẽ được giải
+                                quyết với kết quả cuối cùng. Nếu không, tất cả các cược không xác định được coi là vô hiệu.
                                 <br />
-                                <br /> 让球数为1球:主队获得1个让球
-                                <br /> 投注主队赢球:
-                                <br /> 主队以任何比分获胜或平局 – 投注项目为赢。
-                                <br /> 客队以多于两球以上获胜 – 投注项目为输。
-                                <br /> 投注平局:
-                                <br /> 主队输掉正好一球 – 投注项目为赢。
-                                <br /> 主队或客队以多于两球以上获胜– 投注项目为输。
-                                <br /> 投注客队赢球:
-                                <br /> 客队以多于两球以上获胜 – 投注项目为赢。
-                                <br /> 主队获胜或平局 – 投注项目为输。
+                                <br /> Quy tắc Giải quyết và Hủy
                                 <br />
-                                <br /> 让球数为2球:主队让出2球
-                                <br /> 投注主队赢球:
-                                <br /> 主队以多于客队至少三球胜出 – 投注项目为赢。
-                                <br /> 平局或客队获胜 – 投注项目为输。
-                                <br /> 投注平局:
-                                <br /> 主队以多于客队正好两球胜出 – 投注项目为赢。
-                                <br /> 平局或客队获胜 – 投注项目为输。
-                                <br /> 投注客队赢球:
-                                <br /> 客队以任何比分获胜或平局 – 投注项目为赢。
-                                <br /> 主队以多于客队至少三球胜出– 投注项目为输。
+                                <br /> ※ Nếu thị trường vẫn mở cửa khi các sự kiện sau đã diễn ra: bàn thắng và hình phạt, chúng tôi bảo lưu quyền
+                                hủy bỏ cá cược.
                                 <br />
-                                <br /> 让球数为2球:主队获得2个让球
-                                <br /> 投注主队赢球:
-                                <br /> 主队以任何比分获胜或平局 – 投注项目为赢。
-                                <br /> 客队以多于三球以上获胜– 投注项目为输。
-                                <br /> 投注平局:
-                                <br /> 主队输掉正好两球 – 投注项目为赢。
-                                <br /> 主队或客队以多于三球以上获胜– 投注项目为输。
-                                <br /> 投注客队赢球:
-                                <br /> 客队以多于三球以上获胜 – 投注项目为赢。
-                                <br /> 主队获胜或平局 – 投注项目为输。</p>
-                            <h1>滚球：下一个进球 (延长加时)</h1>
-                            <p>表示投注由当下开始计算，下一个进球的队伍。可下注的选项有：主队、客队、无进球。此项投注仅限延长加时阶段。</p>
-                            <h1>滚球：剩余时间获胜者 (延长加时)</h1>
-                            <p>滚球剩余时间获胜者，结算将以投注被接受后，赛事剩下时间内的进球为准。在投注被接受前所进的任何球均无计算在内。可下注的选项有:主队、客队、平局。此项投注仅限延长加时阶段。</p>
-                            <h1>滚球：下一个进球 (PK)</h1>
-                            <p>表示投注由当下开始计算，下一个进球的队伍。可下注的选项有：主队、客队、无进球。此项投注仅限任意球(PK)。</p>
-                            <h1>滚球：获胜队伍 (PK)</h1>
-                            <p>投注赢得任意球(PK)的球队。可下注的选项有：主队、客队。</p>
+                                <br /> ※ Nếu tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (hơn 2 phút), chúng tôi có quyền hủy bỏ
+                                cược.
+                                <br />
+                                <br /> ※ Nếu điểm sai được nhập vào tất cả các thị trường sẽ bị hủy trong thời gian khi điểm không chính xác được hiển
+                                thị.
+                                <br />
+                                <br /> ※ Nếu trận đấu bị gián đoạn hoặc hoãn lại và không được tiếp tục trong vòng 48 giờ sau ngày khởi đầu đầu tiên
+                                thì cá cược sẽ bị hủy.
+                                <br />
+                                <br /> Các thị trường đặc biệt
+                                <br />
+                                <br /> Điểm chính xác
+                                <br /> Điểm chính xác có nghĩa là cá cược để dự đoán số điểm cuối cùng vào cuối toàn thời gian. Tùy chọn "Khác" chỉ
+                                ra rằng nếu kết quả của không tùy chọn bên trong ra, tùy chọn "khác" sẽ thắng. Chỉ được tính thời gian bình thường,
+                                giờ phụ trội và đá luân lưu không được tính.
+                                <br /> Cược lẻ / chẵn (Bao gồm set 1/2/3)
+                                <br /> Bàn thắng lẻ và chẵn, được xác định bởi kết quả trận chung kết cộng với tổng số điểm để xác định cược. Chỉ tính
+                                thời gian thi đấu chính thức , hiệp phụ và đá luân lưu không được tính. Cược lẻ và chẵn có thể tính từ kết quả
+                                của giai đoạn 1st / 2nd / 3rd trong suốt thời gian thi đấu để quyết định.
+                                <br /> Cược lẻ/ chẵn( bao gồm thời gian hiệp phụ và đá luân lưu)
+                                <br /> Bàn thắng lẻ và chẵn, được xác định bởi một đội kết quả trận chung kết cộng với tổng số điểm để xác định cược.
+                                Bao gồm cả làm thêm giờ và loạt sút luân lưu.
+                                <br /> Cơ hội kép (Bao gồm cả set1/2/3)
+                                <br /> Dự đoán kết quả cuối cùng, với một cơ hội gấp đôi. Có thể đặt cược được:
+                                <br /> 1 or 2 - Nếu kết quả lựa chọn lúc đầu là đội nhà hoặc đội khách sau đó đặt cược vào tùy chọn này là người chiến
+                                thắng.
+                                <br /> 1 or X - Nếu kết quả lựa chọn lúc đầu là đội nhà hoặc hòa sau đó đặt cược vào tùy chọn này là người chiến thắng.
+                                <br /> X or 2 - Nếu kết quả lựa chọn lúc đầu là hòa hoặc đội khách sau đó đặt cược vào tùy chọn này là người chiến
+                                thắng.
+                                <br /> Hòa, hoàn trả( bao gồm cả set1/2/3 /.
+                                <br /> Nếu kết quả cuối cùng sau thời gian thi đấu chính thức hoặc vào cuối thời gian dự kiến là hòa, tất cả cược sẽ
+                                được hoàn trả.
+                                <br /> Nếu thời gian của trận đấu hòa, tất cả cược sẽ được hoàn trả.
+                                <br /> Goal Spreads (Including 1st/2nd/3rd Period Bets)
+                                <br /> Đích Mục tiêu có nghĩa là đặt cược khi một đối thủ cạnh tranh hoặc nhóm nhận được sự khởi đầu ảo (dẫn đầu bằng
+                                cách bắt đầu trước khi sự kiện bắt đầu). Người chiến thắng là đối thủ cạnh tranh hoặc đội có điểm số tốt hơn
+                                sau khi tính cược chấp cho kết quả. Chỉ được tính thời gian bình thường, giờ phụ trội và đá luân lưu không được
+                                tính.
+                                <br /> Goal Spreads (incl. OT)
+                                <br /> Đích Mục tiêu có nghĩa là đặt cược khi một đối thủ cạnh tranh hoặc nhóm nhận được sự khởi đầu ảo (dẫn đầu bằng
+                                cách bắt đầu trước khi sự kiện bắt đầu). Người chiến thắng là đối thủ cạnh tranh hoặc đội có điểm số tốt hơn
+                                sau khi thêm cược chấp cho kết quả. Bao gồm cả làm thêm giờ và loạt sút luân lưu.
+                                <br /> Total Spreads (Including 1st/2nd/3rd Period Bets)
+                                <br /> Cược được xác định bởi tổng số điểm trong kết quả cuối cùng của Sự kiện. Nếu tổng số điểm vượt quá dòng trên/
+                                dưới đã được chỉ định thì kết quả thắng sẽ là trên ; nếu tổng số ít hơn dòng Trên / dưới đường được chỉ định
+                                thì kết quả trúng thưởng sẽ dưới.
+                                <br /> Chỉ được tính thời gian bình thường, hiệp phụ và đá luân lưu không được tính.
+                                <br /> Total Spreads (incl. OT)
+                                <br /> Cược được xác định bởi tổng số điểm trong kết quả cuối cùng của Sự kiện. Nếu tổng số tiền vượt quá dòng trên/
+                                dưới đã được chỉ định thì kết quả thắng sẽ là trên; nếu tổng số ít hơn dòng Trên / dưới đường chỉ định trước
+                                thì kết quả thắng sẽ nằm dưới. Bao gồm cả làm thêm giờ và loạt sút luân lưu.
+                                <br /> Matchbet and Totals
+                                <br /> Matchbet và Totals có nghĩa là cá cược cho cả hai dự đoán: trận đấu sẽ dẫn đến chiến thắng cho đội chủ nhà hay
+                                đội khách hoặc hòa và tống số bàn thắng trong cả trận sẽ là trên hoặc dưới.
+                                <br /> Các tùy chọn đặt cược sau có sẵn:
+                                <br /> Cược đội khách-,trên :nếu đội khách thắng và tổng số bàn thắng vượt quá dòng được chỉ định.
+                                <br /> Cược hòa -trên :nếu trận đấu hòa và tổng số bàn thắng vượt quá dòng được chỉ định.
+                                <br /> Cược đội chủ nhà -trên: nếu đội chủ nhà thắng và tổng số bàn thắng vượt quá dòng được chỉ định.
+                                <br /> Cược đội khách -dưới: nếu đội khách thắng và tổng số bàn thắng dưới dòng được chỉ định.
+                                <br /> Cược hòa -dưới: nếu đội trận đấu hòa và tổng số bàn thắng dưới dòng được chỉ định.
+                                <br /> Cược đội chủ nhà -dưới: nếu đội chủ nhà thắng và tổng số bàn thắng dưới dòng được chỉ định.
+                                <br /> Winning Margins
+                                <br /> Trong thời gian trận đấu điểm số cuối cùng của hai bên có thể được cược, Một thống kê dựa trên sự khác biệt
+                                giữa số điểm ghi được bởi đội chiến thắng và số điểm ghi được của đội thua. Có thể đặt cược được Cược đội chủ
+                                nhà để giành chiến thắng, và giành được điểm số lớn hơn 10 điểm (không bao gồm 10).
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm số của 6-10 điểm.
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm số của 1-5 điểm.
+                                <br /> Hai đội gắn liền.
+                                <br /> Cược đội khách giành chiến thắng, và giành được điểm số lớn hơn 10 điểm (không bao gồm 10)).
+                                <br /> Cược đội khách giành chiến thắng, và giành điểm số của 6-10 điểm.
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm số của 1-5 điểm.
+                                <br /> 2 cách (bao gồm hiệp phụ)
+                                <br /> 2 cách có nghĩa là đánh cược vào đội nào thắng (không có tie). Bao gồm cả làm thêm giờ và loạt sút luân lưu.
+                                <br /> Tổng của đội nhà/ đội khách
+                                <br /> Dự đoán điểm số cuối cùng của đội. Nếu đội nhà / đội khách ghi bàn nhiều hơn dòng trên / dưới được chỉ định
+                                thì kết quả thắng sẽ là trên; nếu số điểm của đội nhà / đội khách ít hơn đường trên/dưới được chỉ định thì kết
+                                quả thắng sẽ nằm dưới. Chỉ được tính thời gian bình thường, giờ phụ trội và đá luân lưu không được tính.
+                                <br /> Chấp Châu Âu
+                                <br /> Có ba lựa chọn cho đội chủ nhà, hòa và đội khách. Chỉ được tính thời gian bình thường, giờ phụ trội và đá luân
+                                lưu không được tính.
+                                <br /> Chấp 1 bóng- Đội bắt đầu có 1 bóng
+                                <br /> Đội chủ nhà giành chiến thắng:
+                                <br /> - Chiến thắng bằng 2 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thua cuộc.
+                                <br /> Cược hòa:
+                                <br /> - Thắng bằng chính xác 1 - Tất cả cược đặt cho lựa chọn này là người chiến thắng.
+                                <br /> - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thua cuộc.
+                                <br /> Đội khách giành chiến thắng:
+                                <br /> - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thắng cuộc.
+                                <br /> - Chiến thắng bằng 2 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này đều là những người thua.
+                                <br /> Chấp 1 bóng. Đội bắt đầu có đầy đủ bóng
+                                <br /> Đội chủ nhà giành chiến thắng:
+                                <br /> - Chiến thắng bằng bất kỳ số điểm hay hòa - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Thua 2 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này là thua.
+                                <br /> Đội khách giành chiến thắng:
+                                <br /> - Thua bởi chính xác 1 - Tất cả cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm nào hoặc thua bởi 2 hoặc nhiều hơn - Tất cả cược đặt cho lựa chọn này đều
+                                là thua.
+                                <br /> Ví dụ:
+                                <br /> Cược hòa :
+                                <br /> - Thua 2 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm hay trận đấu hòa - Tất cả các cược đặt cho lựa chọn này đều là thua.
+                                <br /> Chấp 2 bóng- Đội bắt đầu có 2 bóng
+                                <br /> Đội chủ nhà giành chiến thắng:
+                                <br /> - Chiến thắng bằng 3 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thua cuộc.
+                                <br /> Cược hòa:
+                                <br /> - Thắng bằng chính xác 2 - Tất cả cược đặt cho lựa chọn này là người chiến thắng.
+                                <br /> - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thua cuộc.
+                                <br /> Đội khách giành chiến thắng:
+                                <br /> - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thắng cuộc.
+                                <br /> - Chiến thắng bằng 3 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này đều là những người thua.
+                                <br /> Chấp 2 bóng. Đội bắt đầu có đầy đủ 2 bóng
+                                <br /> Đội chủ nhà giành chiến thắng:
+                                <br /> - Chiến thắng bằng bất kỳ số điểm hay hòa - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Thua 3 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này là thua.
+                                <br /> Đội khách giành chiến thắng:
+                                <br /> - Thua bởi chính xác 2 - Tất cả cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm nào hoặc thua bởi 3 hoặc nhiều hơn - Tất cả cược đặt cho lựa chọn này đều
+                                là thua.
+                                <br /> Cược hòa:
+                                <br /> - Thua 3 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm hay trận đấu hòa - Tất cả các cược đặt cho lựa chọn này đều là thua.
+                                <br /> In-Play – Bàn thắng tiếp theo( Chỉ tính trong hiệp phụ!)
+                                <br /> Cược bắt đầu từ thời điểm hiệp phụ, đội nào có được bàn thắng tiếp theo. Có thể đặt cược các lựa chọn là: đội
+                                nhà, đội khách và không có mục tiêu. Sự kiện cá cược chỉ bao gồm thêm giờ.
+                                <br /> In-Play - Ai thắng phần còn lại của trận đấu (chỉ dành cho hiệp phụ)?
+                                <br /> Các cược sẽ được chấp nhận sau thời gian giải quyết, thời gian còn lại trong chiến thắng sẽ được áp dụng. Trong
+                                bất kỳ cược chấp nhận trước khi bóng vào không có tính. Có thể đặt cược các lựa chọn là: đội chủ nhà, đội khách
+                                và hòa. Sự kiện cá cược chỉ bao gồm thêm giờ.
+                                <br /> In-Play - Bàn thắng tiếp theo( Chỉ tính trong luân lưu)
+                                <br /> Cược bắt đầu từ thời điểm này, đội nào đạt được bàn thắng tiêu tiếp theo. Có thể đặt cược các lựa chọn là: đội
+                                nhà, đội khách và không có mục tiêu. Sự kiện cá cược chỉ trong luân lưu .
+                                <br /> In-Play - Đội nào sẽ giành chiến thắng trong loạt đá luân lưu phạt?
+                                <br /> Cá cược rằng đội giành được chiến thắng trong luân lưu. Có thể đặt cược các lựa chọn là: đội nhà, đội khách.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 5}>
-                            <h2>棒球</h2>
-                            <h1>重要提醒</h1>
-                            <p>除非明确说明，否则可能存在的加时赛不计入任何盘口之内，“率先到达X分 队伍”或“取得第X分者”除外。
-                                <br /> 盘口名称不反映棒球真实术语。棒球真实术语请参照下方:
-                            </p>
-                            <div className="TableStyle3 MarginBottom20">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td className="Title">盘口名称</td>
-                                            <td className="Title">棒球术语</td>
-                                        </tr>
-                                        <tr>
-                                            <td>局(Period)</td>
-                                            <td>局(Inning)</td>
-                                        </tr>
-                                        <tr>
-                                            <td>延长加时(OverTime)</td>
-                                            <td>延长局(Extra Inning)</td>
-                                        </tr>
-                                        <tr>
-                                            <td>得点(Points)</td>
-                                            <td>得分(Runs)</td>
-                                        </tr>
-                                        <tr>
-                                            <td>半场(Halftime)</td>
-                                            <td>前九个半局的结果(Result after 9th half-inning)</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <h1>结算及取消规则</h1>
-                            <p>只有比赛必须进行9局后才进行所有盘口结算（或者如果主队领先，则为8.5局）
-                                <br /> 如果比赛中断或取消无法在当天复赛，所有未结算盘口视为无效
-                                <br /> 如果开放盘口有错误比分或不正确的比赛状态，对赔率有明显影响我们有权宣布投注无效。
-                            </p>
-                            <h2>特有盘口介绍</h2>
-                            <h1>总分大小盘与1X2</h1>
-                            <p>总分大小盘1X2表示投注预测下列两个方面：比赛最终赛果的总得分为大盘还是小盘、比赛是主队赢、客队赢还是平局。有下列投注选项可供选择：
-                                <br /> 大盘且客队获胜：如果客队赢且总得分在预先指定的分数基线之上，则此投注赢
-                                <br /> 大盘且平局：如果比赛结果为平局且总得分在预先指定的分数基线之上，则此投注赢
-                                <br /> 大盘且主队获胜：如果主队赢且总得分在预先指定的分数基线之上，则此投注赢
-                                <br /> 小盘且客队获胜：如果客队赢且总得分在预先指定的分数基线之下，则此投注赢
-                                <br /> 小盘且平局：如果比赛结果为平局且总得分在预先指定的分数基线之下，则此投注赢
-                                <br /> 小盘且主队获胜：如果主队赢且总得分在预先指定的分数基线之下，则此投注赢
-                            </p>
-                            <h1>胜分差</h1>
-                            <p>以双方的全场比赛时间结束时的最终得分，胜的一队胜出另外一队有多少分做为下注。可下注选项有：
-                                <br /> 主队 &gt; 4 ：代表下注主队胜出，且胜出分数大于4分(不含4分)
-                                <br /> 主队3-4 ：代表下注主队胜出，且胜出分数介于3-4分
-                                <br /> 主队1-2 ：代表下注主队胜出，且胜出分数介于1-2分
-                                <br /> 客队1-2 ：代表下注客队胜出，且胜出分数介于1-2分
-                                <br /> 客队3-4 ：代表下注客队胜出，且胜出分数介于3-4分
-                                <br /> 客队 &gt; 4 ：代表下注客队胜出，且胜出分数大于4分(不含4分)</p>
-                            <h1>让分盘 (包括延长赛)</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。此项投注包含延长赛结果在内。</p>
-                            <h1>总分大小盘 (包括延长赛)</h1>
-                            <p>以比赛最终总分来确定的投注。如果总分超过大小盘指定的分数线，则投注”大于”者为赢；如果总分低于大小盘指定的分数线，则投注”小于”者为赢。此项投注包含延长赛结果在内。</p>
-                            <h1>总垒数单/双 (包括延长赛)</h1>
-                            <p>总垒数 单/双是指由比赛最终两队跑垒数加总来确定的投注。此项投注包含延长赛结果在内。</p>
-                            <h1>主/客队总得分数</h1>
-                            <p>预测主队或客队比赛的最终得分。如果队伍得分超过大小盘指定的分数线，则投注”大于”者为赢；如果队伍得分低于大小盘指定的分数线，则投注”小于”者为赢。结算依据仅限常规时间比赛，加时赛不计算在内。</p>
-                            <h1>滚球：净胜数 (含延长加时)</h1>
-                            <p>以主队全场比赛结束时的最终得分，减去客队得分做为下注。 可下注选项有：
-                                <br /> 主队 超过3：代表下注主队胜出，且胜出分数大于3分(包含3分)
-                                <br /> 主队2：代表下注主队胜出，且胜出2分
-                                <br /> 主队1：代表下注主队胜出，且胜出1分
-                                <br /> 主队-1：代表下注主队输球，且输的分数为1分
-                                <br /> 主队-2：代表下注主队输球，且输的分数为2分
-                                <br /> 主队 超过-3：代表下注主队输球，且输的分数为大于3分(包含3分)</p>
-                            <h1>滚球：取得第X分者</h1>
-                            <p>可下注的选项为：主队、和局、客队。延长赛的得分也计算在内。如果比赛结束时比分未达到X分，此投注视为无效（取消）。</p>
-                            <h1>滚球：率先到达X分队伍</h1>
-                            <p>可下注的选项为：主队、和局、客队。延长赛的得分也计算在内。
-                                <br /> X为3,5及7。如果比赛结束时比分未达到X分，此投注视为无效（取消）。
-                            </p>
-                            <h1>滚球：亚洲让分盘</h1>
-                            <p>所有滚球的亚洲让分盘的投注，结算将以投注被接受后，赛事剩下时间内的得分为准。在投注被接受前任何得分均无计算在内。延长赛的得分也计算在内。</p>
+                        <h2>Bóng Rổ</h2>
+                            <p>QUAN TRỌNG
+                                <br />
+                                <br /> ※ Thị trường không xem xét làm thêm giờ trừ khi có quy định khác.
+                                <br />
+                                <br /> Nguyên tắc Xử lý và Huỷ bỏ
+                                <br />
+                                <br /> ※ Nếu trận đấu bị gián đoạn hoặc hoãn lại và không được tiếp tục trong vòng 48 giờ sau ngày khởi đầu đầu tiên,
+                                cá cược sẽ bị hủy.
+                                <br />
+                                <br /> ※ Nếu tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (hơn 2 phút), chúng tôi bảo lưu quyền
+                                hủy bỏ cược.
+                                <br />
+                                <br /> ※ Nếu tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (hơn 2 phút), chúng tôi bảo lưu quyền
+                                hủy bỏ cược.
+                                <br />
+                                <br /> ※ Nếu thị trường vẫn mở với điểm không chính xác có ảnh hưởng đáng kể đến giá, chúng tôi bảo lưu quyền hủy bỏ
+                                cược.
+                                <br />
+                                <br /> Thị trường đặc biệt
+                                <br />
+                                <br /> Hiệp 1/Cả trận
+                                <br /> Half-time/Full-time có nghĩa là đặt cược để dự đoán cả kết quả Hiệp 1 và kết quả Cả trận của một Sự kiện. Có
+                                thể đặt cược các tùy chọn là:
+                                <br /> Đội chủ nhà/đội chủ nhà: Đội chủ nhà giành chiến thắng hiệp 1 và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Đội chủ nhà/hòa: Đội chủ nhà giành chiến thắng vào hiệp 1 và kết thúc trận đấu cả hai đội đều có kết quả hòa.
+                                <br /> Đội chủ nhà/đội khách: Đội chủ nhà giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng.
+                                <br /> Hòa/đội chủ nhà: Hai đội hòa vào giờ nghỉ giải lao và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Hòa/Hòa: Cả hai đội Hòa vào giờ nghỉ giải lao và kết thúc trận đấu vẫn là tỷ số hòa.
+                                <br /> Hòa/đội khách: Hai đội hòa vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng.
+                                <br /> Đội khách/Đội chủ nhà: Đội khách giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Đội khách/Hòa: Đội khách giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu cả hai đội hòa nhau.
+                                <br /> Đội khách/Đội khách: Đội khách giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng.
+                                <br /> Điểm Chẵn/Lẻ (Bao gồm cả hiệp 1 và hiệp 2 và Quarter 1 đến 4)
+                                <br /> Điểm lẻ và điểm chẵn, được xác định bởi một đội kết quả trận đấu cộng với tổng số điểm để xác định cược.
+                                <br /> Điểm chấp (Bao gồm cả hiệp 1 /hiệp 2 và Quarter 1 đến 4)
+                                <br /> Điểm chấp nghĩa là đặt cược khi một đối thủ hoặc đội được nhận một sự khởi đầu ảo (dẫn đầu bằng cách bắt đầu
+                                trước khi sự kiện bắt đầu). Người chiến thắng là đối thủ hoặc đội có điểm số tốt hơn sau khi thêm điểm chấp này
+                                vào kết quả.
+                                <br /> Tổng số chấp (Bao gồm cả hiệp 1 /hiệp 2 và Quarter 1 đến 4)
+                                <br /> Cược được xác định bởi tổng số điểm trong kết quả cuối cùng của Sự kiện. Nếu tổng số vượt quá Trên/Dưới Đã được
+                                chỉ định thì kết quả thắng sẽ là Trên; nếu tổng số ít hơn dòng Trên / dưới đường được chỉ định trước thì kết
+                                quả chiến thắng là dưới.
+                                <br /> Tổng đội nhà/đội khách
+                                <br /> Dự đoán điểm số cuối cùng của đội. Nếu đội nhà đội khách ghi bàn nhiều hơn Trên/Dưới đường được chỉ định thì
+                                kết quả thắng sẽ là Trên; nếu điểm số đội nhà/đội khách ít hơn Trên/Dưới thì kết quả thắng là dưới.
+                                <br /> Cược trận đấu và tổng số
+                                <br /> Matchbet và Totals có nghĩa là cá cược cho cả hai dự đoán: trận đấu sẽ dẫn đến thắng cho đội chỉ nhà hoặc đội
+                                khách hay không; và liệu tổng số bàn thắng trong kết quả cuối cùng của một sự kiện sẽ là Trên/Dưới.
+                                <br /> Các tùy chọn đặt cược sau có sẵn:
+                                <br /> Đội chủ nhà &amp; Over- cược thắng nếu đội chủ nhà thắng và tổng số bàn thắng nằm trên chỉ số chỉ định trước.
+                                <br /> Đội chủ nhà &amp; Dưới - cược thắng nếu đội chủ nhà thắng và tổng số bàn thắng nằm dưới chỉ số chỉ định trước.
+                                <br /> Đội khách &amp; Trên – cược thắng nếu đội khách thắng và tổng số bàn thắng nằm trên đường chỉ định trước.
+                                <br /> Đội khách &amp; Dưới - cược giành chiến thắng nếu đội khách thắng và tổng số bàn thắng nằm dưới đường được chỉ
+                                định trước.
+                                <br /> Cược thắng ngoài lề
+                                <br /> Trong cả thời gian trò chơi trên cả hai mặt ở cuối của điểm số cuối cùng, Một thống kê dựa trên sự khác biệt
+                                giữa số điểm ghi được bởi đội chiến thắng và số điểm ghi được của đội thua. Có thể đặt cược các tùy chọn là:
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm lớn hơn 10 điểm (không bao gồm 10).
+                                <br /> Đặt đội chủ nhà để giành chiến thắng, và giành điểm số của 6-10 điểm.
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành điểm số 1-5 điểm.
+                                <br /> Cược đội khách chiến thắng, và giành điểm lớn hơn 10 điểm (không bao gồm 10).
+                                <br /> Cược đội khách giành chiến thắng, và giành điểm số của 6-10 điểm.
+                                <br /> Cược đội khách giành chiến thắng, và giành điểm số 1-5 điểm.
+                                <br /> Hiệp đấu có điểm số cao nhất
+                                <br /> Dự đoán số điểm cao nhất trong quarter 1, quarter 2, quarter 3, quarter 4 hoặc tương đương.
+                                <br /> Không cược hòa (Bao gồm Hiệp 1/ Hiệp 2 và cược quarter 1 đến 4)
+                                <br /> Nếu kết quả cuối cùng sau thời gian chơi chính thức hoặc khi kết thúc thời gian đã lên lịch là Hòa, mọi cược
+                                sẽ được hoàn lại.
+                                <br /> Total margins NBA-ranges
+                                <br /> Dự đoán giới hạn điểm của tổng số hiệp. giới hạn được tối ưu cho các trận đấu của giải NBA.
+                                <br /> Tổng số điểm thông thường- giới hạn
+                                <br /> Dự đoán giới hạn điểm của tổng số hiệp. giới hạn được tối ưu cho các trận đấu không phải của giải NBA.
+                                <br /> Tổng 3 khả năng
+                                <br /> Điểm số dự đoán cuối cùng có tổng số điểm ít hơn hoặc bằng tổng số Điểm tích chấp.
+                                <br /> Cược chấp Châu Âu
+                                <br /> Có 3 lựa chọn là đội nhà, đội khách và hòa. Chỉ tính thời gian chính thức, không tính thời gian bù giờ.
+                                <br /> Cược chấp 1 điểm – đội đưa ra 1 điểm bắt đầu
+                                <br /> Cược đội nhà thắng :
+                                <br /> - Chiến thắng cách biệt 2 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thắng.
+                                <br /> - Hòa hoặc thua với bất kì điểm số nào – tất cả cược vào lựa chọn này sẽ thua.
+                                <br /> Cược Hòa:
+                                <br /> -Chiến thắng chính xác bởi 1 điểm – tất cả cược vào lựa chọn này sẽ chiến thắng.
+                                <br /> - Hòa hoặc thua với bất kì điểm số nào – tất cả cược vào lựa chọn này sẽ thua.
+                                <br /> Cược đội khách chiến thắng:
+                                <br /> - Hòa hoặc thua với bất kì điểm số nào – tất cả cược vào lựa chọn này sẽ thắng.
+                                <br /> - Chiến thắng cách biệt 2 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Cược chấp 1 điểm – đội nhận được 1 điểm khi bắt đầu
+                                <br /> Cược vào đội nhà thắng:
+                                <br /> -Chiến thắng với bất kì điểm số nào hoặc Hòa - tất cả cược vào lựa chọn này sẽ thắng.
+                                <br /> - Thua cách biệt 2 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Cược đội khách chiến thắng:
+                                <br /> -Thua bởi chính xác 1 điểm - tất cả cược vào lựa chọn này sẽ thắng.
+                                <br /> -Chiến thắng bởi bất kì điểm số nào hoặc thua bởi 2 điểm hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Cược hòa:
+                                <br /> - Thua cách biệt 2 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm hay trận hòa nào - Tất cả các cược đặt cho lựa chọn này đều là thua.
+                                <br /> Chấp 2 điểm - Đội đưa ra 2 điểm bắt đầu
+                                <br /> Đội chủ nhà giành chiến thắng:
+                                <br /> - Chiến thắng bằng 3 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thắng..
+                                <br /> - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thua cuộc.
+                                <br /> Cược hòa:
+                                <br /> - Thắng bằng chính xác 2 - Tất cả cược đặt cho lựa chọn này là người chiến thắng - Hòa hoặc thua theo bất kỳ
+                                số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những người thua cuộc.
+                                <br /> Cược đội khách thắng - Hòa hoặc thua theo bất kỳ số điểm nào - Tất cả các cược đặt cho lựa chọn này đều là những
+                                người chiến thắng - Chiến thắng bằng 3 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Chấp 2 điểm - Đội nhận được 2 điểm bắt đầu Đội chủ nhà giành chiến thắng - Chiến thắng bằng bất kỳ số điểm hay
+                                hòa - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> -- Thua bằng 3 hoặc nhiều hơn – tất cả cược ở lựa chọn này sẽ thua.
+                                <br /> Đội khách chiến thắng - Thua chính xác 2 - Tất cả cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm nào hoặc thua 3 hoặc nhiều hơn - Tất cả cược đặt cho lựa chọn này đều là thua
+                                Cược hòa:
+                                <br /> - Thua 3 hoặc nhiều hơn - Tất cả các cược đặt cho lựa chọn này đều là những người chiến thắng.
+                                <br /> - Chiến thắng bằng bất kỳ số điểm hay hòa - Tất cả các cược đặt cho lựa chọn này đều là thua In-Play - Đội nào
+                                thắng cuộc đua tới điểm X
+                                <br /> Dự đoán đội nào sẽ nhận được điểm X đầu tiên. Ví dụ: Điểm số hiện tại 20-19, đội chủ nhà là để có được 20 điểm.
+                                <br /> X là: 20, 30, 40 ... etc.
+                                <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy.
+                                <br /> In-Play - Ai đạt được điểm X
+                                <br /> Dự đoán trò chơi mà đội có điểm X. Ví dụ: Điểm số hiện tại 20-19, đội khách đi được 1 điểm, đội khách có 40
+                                điểm.
+                                <br /> X là: 10,15,20,25 ... etc.
+                                <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 6}>
-                            <h2>手球</h2>
-                            <h1>重要提醒</h1>
-                            <p>所有盘口仅计算常规赛时（”半场”玩法、”上半场”、“率先到达X分队伍”或“取得第X分者”除外。）
-                                <br /> 如果比赛进行到七米球对决，下注”取得第X分者” 及”率先到达X分队伍”盘口的注单将被作废。</p>
-                            <h1>结算与取消规则</h1>
-                            <p>如比赛中止或延迟，并未在开球后的48小时复赛，投注视为无效。
-                                <br /> 如果在非正确比赛时间（超过3分钟）开出赔率我们有权宣布投注无效。
-                                <br /> 如开出的盘口比分错误，并对价格有明显影响我们有权宣布投注无效。
-                            </p>
-                            <h2>特有盘口介绍</h2>
-                            <h1>半场/全场</h1>
-                            <p>分别预测半场、全场比赛时间结束时的赛果。可下注的选项有：
-                                <br /> 主队/主队：半场结束时主队获胜且全场结束时主队获胜
-                                <br /> 主队/平局：半场结束时主队获胜且全场结束时两队打和
-                                <br /> 主队/客队：半场结束时主队获胜且全场结束时客队获胜
-                                <br /> 平局/主队：半场结束时两队平局且全场结束时主队获胜
-                                <br /> 平局/平局：半场结束时两队平局且全场结束时两队打和
-                                <br /> 平局/客队：半场结束时两队平局且全场结束时客队获胜
-                                <br /> 客队/主队：半场结束时客队获胜且全场结束时主队获胜
-                                <br /> 客队/平局：半场结束时客队获胜且全场结束时两队打和
-                                <br /> 客队/客队：半场结束时客队获胜且全场结束时客队获胜
-                            </p>
-                            <h1>总进球数 单/双 (包括上/下半场投注)</h1>
-                            <p>总进球数单/双是指由比赛最终赛果两队加总的得分来确定的投注。
-                                <br /> 结算依据仅限常规时间比赛，加时赛不计算在内。
-                                <br /> 半场单双盘是指投注结果由半场赛事的总分来决定。
-                            </p>
-                            <h1>双胜彩 (包括上/下半场投注)</h1>
-                            <p>预测全场或半场结果，拥有双重机会可下注的选项有：
-                                <br /> 主队或客队：当主队获胜或是客队获胜时，投注项为赢
-                                <br /> 主队或平局：当主队获胜或是平局时，投注项为赢
-                                <br /> 客队或平局：当客队获胜或是平局时，投注项为赢
-                            </p>
-                            <h1>平局退款 (包括上/下半场投注)</h1>
-                            <p>在常规赛时，比赛以平局结束，所有投注视为无效。
-                                <br /> 半场比赛若以平局结束，所有投注视为无效。
-                            </p>
-                            <h1>让分盘 (包括上半场投注)</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。结算依据仅限常规时间比赛，加时赛不计算在内。
-                                <br /> 半场让分盘是指投注结果由半场赛事的总分来决定。
-                            </p>
-                            <h1>总分大小盘 (包括上半场投注)</h1>
-                            <p>以比赛最终总分来确定的投注。如果总分超过大小盘指定的分数线，则投注”大于”者为赢；如果总分低于大小盘指定的分数线，则投注”小于”者为赢。投注结果由比赛最终总分来决定。
-                                <br /> 半场大小盘是指投注结果由半场赛事的总分来决定。
-                            </p>
-                            <h1>最高得分半场</h1>
-                            <p>预测比赛最高得分是上半场、下半场或一样。</p>
-                            <h1>总分大小盘与1X2</h1>
-                            <p>总分大小盘1X2表示投注预测下列两个方面：比赛最终赛果的总进球数为大盘还是小盘、比赛是主队赢、客队赢还是平局。有下列投注选项可供选择：
-                                <br /> 大盘且客队获胜：如果客队赢且总进球数在预先指定的进球数基线之上，则此投注赢
-                                <br /> 大盘且平局：如果比赛结果为平局且总进球数在预先指定的进球数基线之上，则此投注赢
-                                <br /> 大盘且主队获胜：如果主队赢且总进球数在预先指定的进球数基线之上，则此投注赢
-                                <br /> 小盘且客队获胜：如果客队赢且总进球数在预先指定的进球数基线之下，则此投注赢
-                                <br /> 小盘且平局：如果比赛结果为平局且总进球数在预先指定的进球数基线之下，则此投注赢
-                                <br /> 小盘且主队获胜：如果主队赢且总进球数在预先指定的进球数基线之下，则此投注赢
-                            </p>
-                            <h1>胜分差</h1>
-                            <p>以双方的全场比赛时间结束时的最终得分，胜的一队胜出另外一队有多少分做为下注。可下注选项有：
-                                <br /> 主队 &gt; 10 ：代表下注主队胜出，且胜出分数大于10分(不含10分)
-                                <br /> 主队6-10 ：代表下注主队胜出，且胜出分数介于6-10分
-                                <br /> 主队1-5 ：代表下注主队胜出，且胜出分数介于1-5分
-                                <br /> 平局：代表两队打和
-                                <br /> 客队1-5 ：代表下注客队胜出，且胜出分数介于1-5分
-                                <br /> 客队6-10 ：代表下注客队胜出，且胜出分数介于6-10分
-                                <br /> 客队 &gt; 10 ：代表下注客队胜出，且胜出分数大于10分(不含10分)</p>
-                            <h1>主/客队总得分数</h1>
-                            <p>预测主队或客队比赛的最终得分。如果队伍得分超过大小盘指定的分数线，则投注”大于”者为赢；如果队伍得分低于大小盘指定的分数线，则投注”小于”者为赢。结算依据仅限常规时间比赛，加时赛不计算在内。</p>
-                            <h1>滚球：率先到达X分队伍</h1>
-                            <p>预测本场比赛哪支球队得分率先到达X分。例如：目前比分20-19，主队即先到达20分。 X为：20,30,40…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
-                            <h1>滚球：取得第X分者</h1>
-                            <p>预测本场比赛哪支球队取得第X分（例如：目前比分20-19，客队得1分，客队取得第40分）。
-                                <br /> X为：10,15,20,25…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
+                        <h2>Bóng Ném</h2>
+                            <p>CÁC ĐIỀU QUAN TRỌNG
+                                <br />
+                                <br /> ※ Tất cả các thị trường cược (ngoại trừ nửa hiệp, hiệp đầu ”Cược Cho Người Chơi ghi được điểm “X” “và “Đội nào
+                                sẽ thắng trận đấu tới điểm “X” ) chỉ tính trong thời gian thi đấu chính thức.
+                                <br /> ※ Nếu trận đấu diễn ra có một cú ném luân lưu ra 7 mét; Thị trường cược "Ai là người thứ mấy ghi điểm “X”?"
+                                Và "Đội nào sẽ thắng trận đấu đến X điểm?" sẽ bị hủy.
+                                <br />
+                                <br /> Điều khoản Thanh Toán và Hủy Cược
+                                <br />
+                                <br /> ※ Nếu trận đấu bị gián đoạn và tiếp tục trong vòng 48 giờ sau cú giao bóng đầu tiên, tất cả các cược sẽ bị hủy.
+                                <br />
+                                <br /> ※ Nếu các tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (nhiều hơn 3 phút), chúng tôi cái
+                                sẽ bảo lưu quyền vô hiệu hóa các cược.
+                                <br />
+                                <br /> ※ Nếu thị trường đặt cược vẫn mở với số điểm không chính xác làm ảnh hưởng đáng kể đến giá cược, chúng tôi bảo
+                                lưu quyền hủy bỏ cược.
+                                <br />
+                                <br /> Các Thị Trường Cược Đặc Biệt
+                                <br />
+                                <br /> Cược Nửa Trận/Nguyên Trận
+                                <br /> Cược Nửa Trận/Nguyên Trận nghĩa là cược dự đoán kết quả nửa trận và nguyên trận của một trận đấu .Các lựa chọn
+                                cược như:
+                                <br /> Đội chủ nhà / đội chủ nhà: Đội chủ nhà giành chiến thắng trong nửa trận đầu và kết thúc trận đấu đội chủ nhà
+                                thắng.
+                                <br /> Đội chủ nhà / hòa: Đội chủ nhà thắng trong nửa trận đầu và kết thúc trận đấu hai đội hòa.
+                                <br /> Đội chủ nhà/ đội khách: Đội chủ nhà giành chiến thắng ở nửa hiệp đẩu và kết thúc trận đấu đội khách thắng .
+                                <br /> Hòa/đội chủ nhà: Cả hai đội hòa ở nửa trận đầu và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Hòa/Hòa: Cả hai đội hòa ở nửa trận và kết thúc trận đấu hai đội hòa.
+                                <br /> Hòa/Đội khách: Cả hai đội hòa ở nửa trận đầu và kết thúc trận đấu đội chủ khách thắng.
+                                <br /> Đội khách/ đội chủ nhà : Đội khách giành chiến thắng ở nửa hiệp đẩu và kết thúc trận đấu đội chủ nhà thắng .
+                                <br /> Đội khách / hòa: Đội khách thắng trong nửa trận đầu và kết thúc trận đấu hai đội hòa.
+                                <br /> Đội khách / đội khách: Đội khách giành chiến thắng trong nửa trận đầu và kết thúc trận đấu đội khách thắng.
+                                <br /> Cược điểm tỷ số lẻ/chẵn (Bao gồm Hiệp 1/Hiệp 2)
+                                <br /> Cược điểm tỷ số lẻ/chẵn được xác định bởi kết quả cuối cùng của trận đấu cộng với tổng tỷ số điểm để quyết định
+                                các cược. Chỉ tính thời gian thi đấu chính thức. Không bao gồm thời gian Hiệp Phụ.
+                                <br /> Cược lẻ và chẵn nghĩa là dựa trên kết quả tổng bàn thắng của trận đấu tại Hiệp 1/Hiệp 2 để quyết định
+                                <br /> Cược Cơ Hội Kép ( Bao gồm cả Hiệp 1/ Hiệp 2)
+                                <br /> Dự đoán kết quả cuối cùng, với một cơ hội gấp đôi. Có thể đặt cược các tùy chọn :
+                                <br /> 1 hoặc 2 - Nếu kết quả là đội chủ nhà hoặc đội khách thắng thì các cược đặt tại lựa chọn này là thắng.
+                                <br /> 1 hoặc X - Nếu kết quả là đội chủ nhà thắng hoặc hai đội hòa thì các cược đặt tại lựa chọn này là thắng.
+                                <br /> X hoặc 2 - Nếu kết quả là hai đội hòa hoặc đội khách thắng thì các cược đặt tại lựa chọn này là thắng.
+                                <br /> Cược Hòa không tính ( bao gồm Hiệp 1/Hiệp 2) .
+                                <br /> Nếu kết quả cuối cùng sau thời gian chính thức thi đấu hoặc cuối thời gian dự kiến là Hòa, tất cả các cược sẽ
+                                được hoàn trả.
+                                <br /> Cược Hiệp đầu tiên –tỷ lệ điểm chấp ( điểm Spread) (Bao gồm cược Hiệp 1)
+                                <br /> Cược tỷ lệ Điểm Chấp (Spread) là đặt cược khi một đấu thủ hoặc một đội nhận được một điểm chấp ảo (có sự bắt
+                                đầu thuận lợi trước khi trận đấu diễn ra). Người chiến thắng là đấu thủ hoặc đội có điểm số tốt hơn sau khi kết
+                                quả tỷ số cộng thêm điểm được chấp .
+                                <br /> Tại hiệp 1 - Cược tỷ lệ Điểm Chấp (Spread) nghĩa là cược trên kết quả của nửa trận đầu tiên, lấy kết quả tỷ
+                                số của nửa trận đấu để quyết định.
+                                <br /> Cược hiệp đầu tiên – Tổng điểm chấp Cược được xác định bằng tổng số điểm trong kết quả cuối cùng của trận đấu.Nếu
+                                tổng số điểm thì lớn hơn chỉ số đã cược tại Trên(Tài)/Dưới(Xỉu) thì kết quả thắng chung cuộc là trên. Nếu tổng
+                                số điểm thì nhỏ hơn chỉ số đã cược tại Trên(Tài)/Dưới(Xỉu) thì kết quả thắng chung cuộc là dưới.
+                                <br /> Tại Hiệp 1- Cược tổng Điểm Chấp (Spread) nghĩa là cược trên kết quả của nửa trận đầu tiên, lấy kết quả tỷ số
+                                của nửa trận đấu để quyết định.
+                                <br /> Cược điểm cao nhất nửa trận đầu
+                                <br /> Dự đoán điểm số cao nhất của hiệp thứ nhất, hiệp thứ hai hoặc như vậy.
+                                <br /> Cược Trận Đấu Và Tổng Bàn Thắng
+                                <br /> Cược Trận Đấu Và Tổng Bàn Thắng có nghĩa là cược cho hai dự đoán: Nơi mà kết quả cuối cùng đội chủ nhà dành
+                                chiến thắng hoặc đội khách thắng hoặc hòa; và tổng số bàn thắng trong kết quả cuối cùng của một trận đấu sẽ trên(tài)
+                                hoặc dưới(xỉu) .
+                                <br /> Các lựa chon đặt cược có sẵn như sau:
+                                <br /> Đội khách &amp; Trên( Tài): Cược thắng nếu đội khách thắng và tổng số bàn thắng thì lớn hơn chỉ số cược đã đặt
+                                cược trước đó.
+                                <br /> Hòa và Trên (Tài) – Cược thắng nếu kết quả trận đấu là hòa tổng số bàn thắng thì lớn hơn chỉ số cược đã đặt
+                                cược trước đó.
+                                <br /> Đội chủ Nhà và Trên (Tài) – Cược thắng nếu đội chủ nhà thắng và tổng số bàn thắng thì lớn hơn chỉ số cược đã
+                                đặt cược trước đó.
+                                <br /> Đội khách &amp; Dưới (Xỉu): Cược thắng nếu đội khách thắng và tổng số bàn thắng thì nhỏ hơn chỉ số cược đã đặt
+                                cược trước đó.
+                                <br /> Hòa và Dưới (Xỉu) – Cược thắng nếu kết quả trận đấu là hòa tổng số bàn thắng thì nhỏ hơn chỉ số cược đã đặt
+                                cược trước đó.
+                                <br /> Đội chủ Nhà và Dưới (Xỉu) – Cược thắng nếu đội chủ nhà thắng và tổng số bàn thắng thì nhỏ hơn chỉ số cược đã
+                                đặt cược trước đó.
+                                <br /> Cươc Cách Biệt Tỷ Số ( Khoảng cách tỷ số bàn thắng)
+                                <br /> Trong toàn bộ thời gian trận đấu,trên tỷ số cuối cùng của hai bên, Một thống kê dựa trên sự chênh lệch giữa
+                                số điểm ghi được bởi đội chiến thắng và số điểm ghi được bởi đội thua.
+                                <br /> Có thể đặt cược với các lựa chọn sau:
+                                <br /> Cược đội nhà thắng, và thắng cách biệt hơn 10 điểm (ngoại trừ 10).
+                                <br /> Cược đội nhà thắng, và thắng cách biệt 6 -10 điểm.
+                                <br /> Cược đội nhà thắng, và thắng cách biệt 1 - 5 điểm.
+                                <br /> Hai đội hòa
+                                <br /> Cược đội khách thắng, và thắng cách biệt hơn 10 điểm (ngoại trừ 10).
+                                <br /> Hai đội hòa
+                                <br /> Cược đội khách thắng, và thắng cách biệt 6 -10 điểm.
+                                <br /> Hai đội hòa
+                                <br /> Cược đội khách thắng, và thắng cách biệt 1 - 5 điểm.
+                                <br /> Hai đội hòa
+                                <br /> Tổng số bàn thắng đội chủ nhà/ đội khách
+                                <br /> Hai đội hòa
+                                <br /> Dự đoán điểm số cuối cùng của đội. Nếu đội nhà / đội khách ghi bàn nhiều hơn đường trên / dưới được chỉ định
+                                thì kết quả thắng khi kết thúc là trên ; nếu số điểm trên sân nhà / đội khách ít hơn đường Over / under line
+                                được chỉ định thì kết quả thắng sẽ nằm dưới. Chỉ có thời gian bình thường, không bao gồm thêm giờ .
+                                <br /> In-Play - Đội nào thắng cuộc đua tới điểm X
+                                <br /> Dự đoán đội nào sẽ nhận được điểm X đầu tiên. Ví dụ: Điểm số hiện tại 20-19, đội chủ nhà là để có được 20 điểm
+                                .
+                                <br /> X là: 20, 30, 40 ... etc.
+                                <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy .
+                                <br /> In-Play - Ai điểm X điểm
+                                <br /> ự đoán trò chơi mà đội có điểm X. Ví dụ: Điểm số hiện tại 20-19, đội khách đi được 1 điểm, đội khách có 40 điểm
+                                .
+                                <br /> X là: 10,15,20,25 ... etc.
+                                <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy .</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 7}>
-                            <h2>排球</h2>
-                            <h1>重要提醒</h1>
-                            <p>如果比赛未能完成，所有未结盘口视为无效。
-                                <br /> “决胜局”将不计算任何上述盘口。
-                            </p>
-                            <h1>结算及取消规则</h1>
-                            <p>如比赛中止或延迟，并未在开球后的48小时恢复，投注视为无效。
-                                <br /> 如果错误比分对仍开放的盘口有明显影响，我们有权宣布投注无效。
-                            </p>
-                            <h2>特有盘口介绍</h2>
-                            <h1>让分盘 (包括第一局投注)</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。
-                                <br /> 单局让分盘是指投注结果由单局赛事的总分来决定。
-                            </p>
-                            <h1>总分大小盘 (包括第一局投注)</h1>
-                            <p>以比赛最终总分来确定的投注。如果总分超过大小盘指定的分数线，则投注”大于”者为赢；如果总分低于大小盘指定的分数线，则投注”小于”者为赢。
-                                <br /> 单局大小盘是指投注结果由单局赛事的总分来决定。
-                            </p>
-                            <h1>总局数</h1>
-                            <p>预测比赛总共进行几局。五局制有3、4及5局可供下注。</p>
-                            <h1>正确局数</h1>
-                            <p>预测该场比赛最后的赛果为何，可下注的选项有：
-                                <br /> 3:0:主队得3局、客队无得局
-                                <br /> 3:1:主队得3局、客队得1局
-                                <br /> 3:2:主队得3局、客队得2局
-                                <br /> 0:3:主队无得局、客队得3局
-                                <br /> 1:3:主队得1局、客队得3局
-                                <br /> 2:3:主队得2局、客队得3局
-                            </p>
-                            <h1>有几局会超过分数上限?</h1>
-                            <p>预测有多少局，会有球队比数超过25分（第五局为15分）的比分限制。</p>
-                            <h1>第一局率先到达X分队伍</h1>
-                            <p>预测第一局哪支球队得分率先到达X分。例如：目前比分20-19，主队即先到达20分。
-                                <br /> X为：20,30,40…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
-                            <h1>第一局总得分 单/双</h1>
-                            <p>第一局单双盘是指投注结果由第一局赛事的总分来决定。</p>
-                            <h1>赛局获胜者 (包括第三、四、五局投注)</h1>
-                            <p>若赛局未能进行完毕，投注无效。</p>
-                            <h1>滚球：率先到达X分队伍</h1>
-                            <p>预测本场比赛哪支球队得分率先到达X分。例如：目前比分20-19，主队即先到达20分。
-                                <br /> X为：20,30,40…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
-                            <h1>滚球：取得第X分者</h1>
-                            <p>预测本场比赛哪支球队取得第X分（例如：目前比分20-19，客队得1分，客队取得第40分）。
-                                <br /> X为：10,15,20,25…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
+                        <h2>Bóng chuyền</h2>
+                            <p> QUAN TRỌNG
+                                <br />
+                                <br /> ※ Trong trường hợp trận đấu không kết thúc, tất cả các thị trường chưa quyết định đều bị coi là vô hiệu.
+                                <br />
+                                <br /> ※ Hiệp vàng không được xem xét ở bất kỳ thị trường nào
+                                <br /> Quy tắc Giải quyết và Hủy
+                                <br />
+                                <br /> ※ Nếu trận đấu bị gián đoạn hoặc hoãn lại và không được tiếp tục trong vòng 48 giờ sau ngày khởi đầu, cá cược
+                                sẽ bị hủy.
+                                <br />
+                                <br /> ※ Nếu thị trường vẫn mở cửa với điểm không chính xác có ảnh hưởng đáng kể đến giá, chúng tôi bảo lưu quyền hủy
+                                bỏ đặt cược.
+                                <br />
+                                <br /> Các thị trường đặc biệt
+                                <br />
+                                <br /> Cược chấp(Bao gồm cược đặt hiệp 1)
+                                <br /> Cược chấp có nghĩa là đặt cược khi một đối thủ hoặc đội được nhận một sự khởi đầu ảo (dẫn đầu bởi sự khởi đầu
+                                đó trước khi sự kiện bắt đầu). Người chiến thắng là đối thủ cạnh tranh hoặc đội có điểm số tốt hơn sau khi thêm
+                                chấp thêm cho kết quả.
+                                <br /> Tổng số (Bao gồm cược đặt 1)
+                                <br /> Cược được xác định bởi tổng số điểm trong kết quả cuối cùng của Sự kiện. Nếu tổng số điểm vượt quá trên / dưới
+                                Đã được chỉ định thì kết quả thắng sẽ kết thúc cho trên; nếu tổng số ít hơn dòng Trên / dưới đường được chỉ định
+                                thì kết quả thắng sẽ dưới .
+                                <br /> Tổng số hiệp (tối đa là 5)
+                                <br /> Dự đoán trò chơi sẽ là bao nhiêu hiệp. Có thể đặt cược các lựa chọn là 3, 4 và 5.
+                                <br /> Điểm đặt chính xác
+                                <br /> Dự đoán kết quả cuối cùng của trò chơi, Có thể đặt cược tùy chọn sau:
+                                <br /> 3:0 – Chủ nhà 3 set, đội khách 0 set.
+                                <br /> 3:1 - Chủ nhà 3 set, đội khách 1 set.
+                                <br /> 3:2 - Chủ nhà 3 set, đội khách 2 set.
+                                <br /> 0:3 - Chủ nhà 0 set, đội khách 3 set.
+                                <br /> 1:3 - Chủ nhà 1 set, đội khách 3 set.
+                                <br /> 2:3 - Chủ nhà 2 set, đội khách 3 set.
+                                <br /> Có bao nhiêu hiệp vượt quá giới hạn điểm?
+                                <br /> Dự đoán bao nhiêu hiệp, đội sẽ có nhiều hơn số điểm vượt quá 25 điểm (hiệp 5 là 15 điểm).
+                                <br /> 1st Set Race to X
+                                <br /> Dự đoán đội nào trong trò chơi đầu tiên có điểm X trong hiệp đầu tiên. Ví dụ: Điểm số hiện tại 20-19, đội chủ
+                                nhà là để có được 20 điểm.
+                                <br /> X là: 20, 30, 40 ... etc.
+                                <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy.
+                                <br /> 1st đặt lẻ/chẵn
+                                <br /> 1st đặt lẻ và chẵn,được xác định bởi điểm số đặt đầu tiên để xác định cá cược.
+                                <br /> Ai thắng set đầu tiên (Bao gồm các Đặt 3/4/5))
+                                <br /> Trong trường hợp trận đấu bắt đầu nhưng không được hoàn thành thì tất cả cược sẽ bị vô hiệu In-Play - Đội nào
+                                thắng cuộc đua tới điểm X
+                                <br /> Dự đoán đội nào sẽ nhận được điểm X đầu tiên. Ví dụ: Điểm số hiện tại 20-19, đội chủ nhà là để có được 20 điểm.
+                                <br /> X là: 20, 30, 40 ... etc.
+                                <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy.
+                                <br /> In-Play - Ai điểm X điểm
+                                <br /> Dự đoán trò chơi mà đội có điểm X. Ví dụ: Điểm số hiện tại 20-19, đội khách đi được 1 điểm, đội khách có 40
+                                điểm.
+                                <br /> X là: 10,15,20,25 ... etc.
+                                <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy
+                                </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 8}>
-                            <h2>沙滩排球</h2>
-                            <h1>重要提醒</h1>
-                            <p>如比赛未能完成，所有未结赌盘视为无效。
-                                <br /> “决胜局”将不计算任何上述盘口。
-                            </p>
-                            <h1>结算及取消规则</h1>
-                            <p>如果比赛中止或延迟并未在开球之后的48小时之内恢复投注无效。
-                                <br /> 如果错误比分对仍开放的盘口有明显影响，我们有权宣布投注无效。
-                                <br /> 如球队退赛，所有未结算盘口视为无效。
-                            </p>
-                            <h2>特有盘口介绍</h2>
-                            <h1>让分盘(包含单局投注)</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。
-                                <br /> 单局让分盘是指投注结果由单局赛事的总分来决定。
-                            </p>
-                            <h1>总分大小盘(包含单局投注)</h1>
-                            <p>以比赛最终总分来确定的投注。如果总分超过大小盘指定的分数线，则投注”大于”者为赢；如果总分低于大小盘指定的分数线，则投注”小于”者为赢。
-                                <br /> 单局大小盘是指投注结果由单局赛事的总分来决定。
-                            </p>
-                            <h1>总局数</h1>
-                            <p>预测比赛总共进行几局。三局制有2、3局可供下注。</p>
-                            <h1>正确局数</h1>
-                            <p>预测该场比赛最后的赛果为何，可下注的选项有：
-                                <br /> 2:0:主队得2局、客队无得局
-                                <br /> 2:1:主队得2局、客队得1局
-                                <br /> 0:2:主队无得局、客队得2局
-                                <br /> 1:2:主队得1局、客队得2局
-                            </p>
-                            <h1>有几局会超过分数上限?</h1>
-                            <p>预测有多少局，会有球队比数超过21分（第三局为15分）的比分限制。</p>
-                            <h1>第一局率先到达X分队伍</h1>
-                            <p>预测第一局哪支球队得分率先到达X分。例如：目前比分20-19，主队即先到达20分。
-                                <br /> X为：20,30,40…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
-                            <h1>第一局总得分 单/双</h1>
-                            <p>总进球数 单/双是指由比赛最终赛果两队加总的得分来确定的投注。
-                                <br /> 单局单双盘是指投注结果由该局赛事的总分来决定。
-                            </p>
-                            <h1>赛局获胜者</h1>
-                            <p>若赛局未能进行完毕，投注无效。</p>
-                            <h1>滚球：率先到达X分队伍</h1>
-                            <p>预测本场比赛哪支球队得分率先到达X分。例如：目前比分20-19，主队即先到达20分。
-                                <br /> X为：20,30,40…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
-                            <h1>滚球：取得第X分者</h1>
-                            <p>预测本场比赛哪支球队取得第X分（例如：目前比分20-19，客队得1分，客队取得第40分）。
-                                <br /> X为：10,15,20,25…等
-                                <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
-                            </p>
+                        <h2>Bóng Chuyền Bãi Biển</h2>
+                            <p>QUAN TRỌNG
+                                <br />
+                                <br />
+                                <br /> ※ Trong trường hợp trận đấu không được hoàn tất, tất cả những loại cược chưa được xác định đều được xem là hủy.
+                                <br />
+                                <br /> ※ Golden set không được coi là một trong những loại cược kể trên.
+                                <br />
+                                <br /> Luật thanh toán và hủy cược
+                                <br />
+                                <br /> ※ Nếu một trận đấu bị bị gián đoạn hoặc hoãn và không tiếp tục lại trong vòng 48 giờ sau thời gian phát bóng
+                                đầu tiên, các cược sẽ bị hủy.
+                                <br />
+                                <br /> ※ Nếu các loại cược vẫn mở với một điểm số không chính xác và ảnh hưởng rõ ràng đến thanh toán, chúng tôi sẽ
+                                hủy cược.
+                                <br />
+                                <br /> ※ Nếu một đội rút lui, tất cả cược chưa xác định sẽ được coi là hủy.
+                                <br />
+                                <br /> Các loại cược đặc biệt
+                                <br />
+                                <br /> Cược chấp (Bao gồm cược hiệp 1)
+                                <br /> Cược chấp nghĩa là cược cho một cầu thủ hay một đội nhận trước một tỉ số ảo (dẫn trước trước khi trận đấu bắt
+                                đầu). Người chiến thắng sẽ là cầu thủ hoặc đội có điểm số cao hơn sau khi cộng điểm chấp vào kết quả.
+                                <br /> Cược tổng điểm (Bao gồm cược hiệp 1)
+                                <br /> Cược được xác định bằng tổng số điểm trong kết quả cuối cùng của một sự kiện. Nếu tổng điểm cao hơn điểm Trên/Dưới
+                                cho trước thì kết quả thắng là Trên; Nếu tổng điểm thấp hơn điểm Trên/Dưới cho trước thì kết quả thắng là Dưới.
+                                <br /> Cược tổng số hiệp (cao nhất là 3)
+                                <br /> Dự đoán trận đấu diễn ra trong bao nhiêu hiệp. Những lựa chọn có thể cược là 2 và 3.
+                                <br /> Cược số hiệp chính xác
+                                <br /> Dự đoán kết quả cuối cùng của trò chơi, những lựa chọn có thể là:
+                                <br /> 2:0 – Đội chủ nhà 2 hiệp, đội khách 0 hiệp.
+                                <br /> 2:1 - Đội chủ nhà 2 hiệp, đội khách 1 hiệp.
+                                <br /> 0:2 - Đội chủ nhà 0 hiệp, đội khách 2 hiệp.
+                                <br /> 1:2 - Đội chủ nhà 1 hiệp, đội khách 2 hiệp.
+                                <br /> Có bao nhiêu hiệp vượt quá số điểm tối đa?
+                                <br /> Dự đoán có bao nhiêu hiêp mà có đội có số điểm lớn hơn 21 điểm tối đa (hiệp thứ 3 15 điểm)
+                                <br /> Hiệp 1 đạt được X
+                                <br /> Dự đoán đội nào đạt được điểm X đầu tiên trong hiệp 1. Ví dụ: Điểm số hiện tại 20-19, đội chủ nhà là đội đạt
+                                20 điểm.
+                                <br /> X là: 20, 30, 40 ... vv.
+                                <br /> Khi kết thúc trò chơi, không có đội nào đạt X điểm, các cược sẽ được coi là hủy.
+                                <br /> Cược Chẵn/Lẻ hiệp 1
+                                <br /> Hiệp 1 chẵn và lẻ, được xác định bởi điểm số của hiệp đầu tiên để quyết định kết quả cược.
+                                <br /> Đội thắng hiệp 1 (Bao gồm các cược hiệp 2, hiệp 3)
+                                <br /> Trong trường hợp trận đấu được bắt đầu nhưng không hoàn thành, tất cả cược sẽ bị hủy.
+                                <br /> Cược trong trận – Đội đạt được X điểm đầu tiên
+                                <br /> Dự đoán đội đạt được X điểm đầu tiên trong trận đấu. Ví dụ: Điểm số hiện tại 20-19, đội chủ nhà là đội đạt 20
+                                điểm.
+                                <br /> X là: 20, 30, 40 ... vv.
+                                <br /> Khi kết thúc trò chơi, không có đội nào đạt X điểm, các cược sẽ được coi là hủy.
+                                <br /> Cược trong trận – Đội ghi điểm X
+                                <br /> Cược này dự đoán đội nào ghi được điểm X. Ví dụ: Điểm số hiện tại 20-19, độ khách ghi 1 điểm, đội khách ghi
+                                số điểm 40.
+                                <br /> X là: 20, 30, 40 ... vv.
+                                <br /> Khi kết thúc trò chơi, không có đội nào đạt X điểm, các cược sẽ được coi là hủy.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 9}>
-                            <h2>室内足球</h2>
-                            <h1>重要提醒</h1>
-                            <p>所有盘口（除”半场”，”上半场”盘口，”加时”及”罚球”）仅计算常规赛时。
-                                <br /> 如果比赛中止，并在开球后的48小时内复赛，所有投注以最终结果结算。 否则所有未结投注视为无效。</p>
-                            <h1>结算及取消规则</h1>
-                            <p>如果盘口仍开放，发生得分，红牌，黄牌罚球，我们有权宣布投注无效。
-                                <br /> 如果盘口有遗漏或错误红牌，我们有权宣布投注无效。
-                                <br /> 如果在错误的比赛时间（超出2分钟）开出赔率，我们有权宣布投注无效。
-                                <br /> 如果显示错误比分，这一时间所有盘口都将取消。
-                                <br /> 如果比赛中止，并在开球后的48小时内复赛，所有投注视为无效。
-                                <br /> 如队名或目录显示错误，我们有权利宣布投注无效。
-                            </p>
-                            <h1>特有盘口介绍</h1>
-                            <p>亚洲让分盘
-                                <br /> 所有滚球的亚洲让分盘的投注，结算将以投注被接受后，赛事/半场剩下时间内的进球为准。在投注被接受前所进的任何球均无计算在内。
-                            </p>
+                        <h2>Bóng Đá Trong Nhà</h2>
+                            <p>QUAN TRỌNG
+                                <br />
+                                <br /> ※ Tất cả các thị trường cược (ngoại trừ nửa trận, các cược Hiệp thứ nhất, thời gian thi đấu thêm giờ và các
+                                lượt luân lưu) được tính trong thời gian thi đấu chính thức.
+                                <br />
+                                <br /> Nếu trận đấu bị gián đoạn và tiếp tục trong vòng 48 giờ sau cú giao bóng đầu tiên, tất cả các cược mở sẽ được
+                                thanh toán dựa trên kết quả cuối cùng của trận đấu. Nếu không, tất cả các cược không xác định sẽ bị hủy
+                                <br />
+                                <br /> Các điều khoản thanh toán và Hủy cược
+                                <br />
+                                <br /> ※ Nếu các thị trường cược vẫn mở trong khi trận đấu đã diễn ra với: các bàn thắng, thẻ đỏ hoặc thẻ vàng, các
+                                cú đá luân lưu, chúng tôi cái sẽ bảo lưu quyền vô hiệu hóa các cược
+                                <br />
+                                <br /> Nếu thị trường cược đã được mở ra nhưng thiếu hoặc không chính xác thẻ đỏ, chúng tôi cái sẽ bảo lưu quyền vô
+                                hiệu hóa các cược.
+                                <br />
+                                <br /> ※ Nếu các tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (nhiều hơn 2 phút), chúng tôi cái
+                                sẽ bảo lưu quyền vô hiệu hóa các cược.
+                                <br />
+                                <br /> ※ Nếu tỷ số bị nhập sai, tất cả các thị trường sẽ bị hủy trong thời gian đặt cược tại lúc điểm không chính xác
+                                được hiển thị.
+                                <br />
+                                <br /> ※ Nếu trận đấu bị gián đoạn hoặc hoãn lại và không được tiếp tục trong vòng 48 giờ sau ngày cú giao bóng đầu
+                                tiên, các cược sẽ bị hủy
+                                <br />
+                                <br /> Nếu tên các đội và hạng mục được hiển thị không chính xác, chúng tôi bảo lưu quyền hủy bỏ cược.
+                                <br />
+                                <br /> Các Thị Trường Cược Đặc Biệt
+                                <br /> Cược chấp Châu Á HDP – Trong Trận
+                                <br /> Tất cả các cược tại thị trường Cược Chấp Châu Á Trực Tiếp được thanh toán theo Tỷ Số của Hiệp/trận đấu còn lại
+                                của giải đấu sau khi vé cược đã được đặt,Khi thanh toán cược bất cứ bàn thắng nào xảy ra trước khi vé cược được
+                                đặt sẽ bị bỏ qua.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 10}>
-                            <h2>羽毛球</h2>
-                            <h1>重要提醒</h1>
-                            <p>如果比赛未能完成，所有未决盘口视为无效。</p>
-                            <h1>结算及取消规则</h1>
-                            <p>如果比赛中断或延迟，并未在开球之后的48小时恢复，投注视为无效。
-                                <br /> 如果开出的盘口比分错误，并对价格有明显影响我们有权宣布投注无效。
-                                <br /> 如果球员/球队显示错误，我们有权宣布投注无效。
-                                <br /> 如果球员退赛，所有未决盘口视为无效。
+                        <h2>Cầu lông</h2>
+                            <p>QUAN TRỌNG
+                                <br />
+                                <br /> ※ Trong trường hợp trận đấu không kết thúc, tất cả các thị trường chưa quyết định đều bị coi là vô hiệu .
+                                <br />
+                                <br /> Quy tắc Giải quyết và Hủy
+                                <br />
+                                <br /> Nếu một trận đấu bị gián đoạn hoặc hoãn lại và không được tiếp tục trong vòng 48 giờ sau ngày khởi đầu, đặt
+                                cược sẽ bị hủy
+                                <br />
+                                <br /> Nếu thị trường vẫn mở cửa với điểm không chính xác có ảnh hưởng đáng kể đến giá, chúng tôi có quyền quyết định
+                                cá cược
+                                <br />
+                                <br /> Nếu các cầu thủ / đội được hiển thị không chính xác, chúng tôi bảo lưu quyền hủy bỏ cược.
+                                <br />
+                                <br /> ※ Nếu một người chơi nghỉ không thi đấu tất cả các thị trường chưa được quyết định sẽ bị coi là vô hiệu.
                             </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 11}>
-                            <h2>英式橄榄球联赛&amp;联盟</h2>
-                            <h1>重要提醒</h1>
-                            <p>所有盘口只计算常规赛时（半场，上半场盘口加时及罚球除外）。
-                                <br /> 如比赛中断并在开球后的48小时之内复赛，所有盘口按最终结果进行结算。若不在48小时内，则所有未结算之盘口将取消。
-                                <br /> 常规赛80分钟：除非明确说明，所有盘口根据常规80分结果进行计算。包括伤停补时，但不包括加时赛、罚球时间以及骤死赛时间。
-                            </p>
-                            <h1>结算及取消规则</h1>
-                            <p>如果开出的盘口发生下列情况：比分更改或红牌，我们有权宣布投注无效。
-                                <br /> 如果开出的盘口有遗漏或错误的红牌，我们有权宣布投注无效。
-                                <br /> 如果在错误的比赛时间（超过两分钟）开出赔率，我们有权利宣布投注无效。
-                                <br /> 如果比赛中止或延迟，并未在开球之后的48小时，之内复赛，所有投注无效。
-                                <br /> 如果队名或目录显示错误，我们有权利宣布投注无效。
-                            </p>
-                            <h2>特有盘口介绍</h2>
-                            <h1>半场/全场</h1>
-                            <p>分别预测半场、全场比赛时间结束时的赛果。可下注的选项有：
-                                <br /> 主队/主队：半场结束时主队获胜且全场结束时主队获胜
-                                <br /> 主队/平局：半场结束时主队获胜且全场结束时两队打和
-                                <br /> 主队/客队：半场结束时主队获胜且全场结束时客队获胜
-                                <br /> 平局/主队：半场结束时两队平局且全场结束时主队获胜
-                                <br /> 平局/平局：半场结束时两队平局且全场结束时两队打和
-                                <br /> 平局/客队：半场结束时两队平局且全场结束时客队获胜
-                                <br /> 客队/主队：半场结束时客队获胜且全场结束时主队获胜
-                                <br /> 客队/平局：半场结束时客队获胜且全场结束时两队打和
-                                <br /> 客队/客队：半场结束时客队获胜且全场结束时客队获胜
-                            </p>
-                            <h1>总得分 单/双 (包括上半场投注)</h1>
-                            <p>总得分单/双是指由比赛最终赛果两队加总的得分来确定的投注。结算依据仅限常规比赛时间。半场单双盘是指投注结果由半场赛事的总分来决定。</p>
-                            <h1>让分盘 (包括上半场投注)</h1>
-                            <p>让分盘是指当一方参赛者或团队获得假定的预先让分（在赛事开始之前凭借该让分而有效领先）。获胜者为赛果加上该让分后得分更高的参赛者或团队。结算依据是以让分调整后的最终赛果来计算。</p>
-                            <h1>最高得分半场</h1>
-                            <p>预测在比赛哪个半场得到最高分数。可下注的选项有：上半场、下半场及平分(两个半场得分相同)。</p>
-                            <h1>胜分差 (橄榄球)</h1>
-                            <p>以双方的全场比赛时间结束时的最终得分，胜的一队胜出另外一队有多少分做为下注。可下注的选项有：
-                                <br /> 主队 &gt; 14 ：代表下注主队胜出，且胜出分数大于14分(不含14分)
-                                <br /> 主队8-14 ：代表下注主队胜出，且胜出分数介于8-14分
-                                <br /> 主队1-7 ：代表下注主队胜出，且胜出分数介于1-7分
-                                <br /> 平局：代表两队打和
-                                <br /> 客队1-7 ：代表下注客队胜出，且胜出分数介于1-7分
-                                <br /> 客队8-14 ：代表下注客队胜出，且胜出分数介于8-14分
-                                <br /> 客队 &gt; 14 ：代表下注客队胜出，且胜出分数大于14分(不含14分)</p>
-                            <h1>胜分差 (联盟式橄榄球)</h1>
-                            <p>以双方的全场比赛时间结束时的最终得分，胜的一队胜出另外一队有多少分做为下注。可下注的选项有：
-                                <br /> 主队 &gt; 12 ：代表下注主队胜出，且胜出分数大于12分(不含12分)
-                                <br /> 主队7-12 ：代表下注主队胜出，且胜出分数介于7-12分
-                                <br /> 主队1-6 ：代表下注主队胜出，且胜出分数介于1-6分
-                                <br /> 平局：代表两队打和
-                                <br /> 客队1-6 ：代表下注客队胜出，且胜出分数介于1-6分
-                                <br /> 客队7-12 ：代表下注客队胜出，且胜出分数介于7-12分
-                                <br /> 客队 &gt; 12 ：代表下注客队胜出，且胜出分数大于12分(不含12分)</p>
-                            <h1>滚球：剩余时间获胜者</h1>
-                            <p>滚球剩余时间获胜者，结算将以投注被接受后，赛事剩下时间内的进球为准。在投注被接受前所进的任何球均无计算在内。可下注的选项有：主队、客队、平局。</p>
-                            <h1>滚球：剩余时间获胜者-上半场</h1>
-                            <p>滚球剩余时间获胜者，结算将以投注被接受后，上半场赛事剩下时间内的进球为准。在投注被接受前所进的任何球均无计算在内。可下注的选项有：主队、客队、平局。</p>
-                            <h1>滚球：总得分</h1>
-                            <p>以全场两队的得分数计算。可下注的选项有：小于28、28-34、35-41、42-48、49-55、56-62、大于62分。</p>
-                            <h1>滚球：总得分-上半场</h1>
-                            <p>以半场两队的得分数计算。可下注的选项有：小于7、7-13、14-20、21-27、28-34、35-41、大于41。投注结果由半场赛事的总分来决定。</p>
-                            <h1>滚球：总分大小盘与1X2</h1>
-                            <p>总分大小盘1X2表示投注预测下列两个方面：比赛最终赛果的总进球数为大盘还是小盘、比赛是主队赢、客队赢还是平局。有下列投注选项可供选择：
-                                <br /> 大盘且客队获胜：如果客队赢且总进球数在预先指定的进球数基线之上，则此投注赢
-                                <br /> 大盘且平局：如果比赛结果为平局且总进球数在预先指定的进球数基线之上，则此投注赢
-                                <br /> 大盘且主队获胜：如果主队赢且总进球数在预先指定的进球数基线之上，则此投注赢
-                                <br /> 小盘且客队获胜：如果客队赢且总进球数在预先指定的进球数基线之下，则此投注赢
-                                <br /> 小盘且平局：如果比赛结果为平局且总进球数在预先指定的进球数基线之下，则此投注赢
-                                <br /> 小盘且主队获胜：如果主队赢且总进球数在预先指定的进球数基线之下，则此投注赢
-                            </p>
+                        <h2>Rugby Union &amp; League</h2>
+                            <p>Quan Trọng
+                                <br />
+                                <br /> ※ Tất cả các thị trường (ngoại trừ thời gian nghỉ giải lao, nửa đầu của mùa giải, thời gian làm thêm giờ và
+                                sút phạt) được xem xét thường xuyên chỉ thời gian .
+                                <br />
+                                <br /> ※ Nếu trận đấu bị gián đoạn và tiếp tục trong vòng 48 giờ sau khi đá phạt đầu tiên, tất cả cược mở sẽ được giải
+                                quyết bằng kết quả cuối cùng. Nếu không, tất cả các cược không xác định được coi là vô hiệu.
+                                <br />
+                                <br /> ※ Thường xuyên 80 phút: Các thị trường được dựa trên kết quả vào cuối thời gian chơi 80 phút theo lịch trình,
+                                trừ khi nói. Điều này bao gồm thời gian bất kỳ chấn thương hoặc thời gian đình chỉ bổ sung nào nhưng không bao
+                                gồm hiệp phụ thời gian, thời gian dành cho hình phạt hoặc thời gian chết..
+                                <br />
+                                <br /> Quy tắc Giải quyết và Hủy
+                                <br />
+                                <br /> ※ Nếu thị trường vẫn mở cửa khi các sự kiện sau đã diễn ra: thay đổi điểm hoặc thẻ đỏ, chúng tôi bảo lưu quyền
+                                hủy bỏ cá cược.
+                                <br />
+                                <br /> ※ Nếu thị trường đã được mở ra với một thẻ đỏ bị thiếu hoặc không chính xác, chúng tôi bảo lưu quyền hủy bỏ
+                                cá cược.
+                                <br />
+                                <br /> ※ Nếu tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (hơn 2 phút), chúng tôi có quyền hủy bỏ
+                                cược
+                                <br />
+                                <br /> ※ Nếu trận đấu bị gián đoạn hoặc hoãn lại và không được tiếp tục trong vòng 48 giờ sau ngày bắt đầu đá banh
+                                sẽ bị hủy.
+                                <br />
+                                <br /> ※ Nếu tên nhóm hoặc đội hình được hiển thị không chính xác, chúng tôi bảo lưu quyền hủy bỏ cược.
+                                <br />
+                                <br /> Các thị trường đặc biệt
+                                <br />
+                                <br /> Nửa trận / Cả trận
+                                <br /> Half-time / Full-time có nghĩa là đặt cược để dự đoán cả kết quả của nửa trận và kết quả cả trận của một Sự
+                                kiện. Có thể đặt cược là:
+                                <br /> Đội chủ nhà / đội chủ nhà: Đội chủ nhà giành chiến thắng trong giờ nghỉ giải lao và kết thúc trận đấu đội chủ
+                                nhà thắng.
+                                <br /> Đội chủ nhà / hòa: đội chủ nhà giành chiến thắng tại thời gian nghỉ giải lao và kết thúc trận đấu cả hai đội
+                                đều hòa .
+                                <br /> Đội chủ nhà / đội khách: Đội chủ nhà giành chiến thắng trong giờ nghỉ giải lao và kết thúc trận đấu đội khách
+                                thắng.
+                                <br /> Hòa/ đội chủ nhà: Hai đội kết thúc hòa vào giờ nghỉ giải lao và kết thúc trận đấu đội chủ nhà thắng.
+                                <br /> Hòa/ hòa: Hai đội kết thúc hòa vào giờ nghỉ giải lao và kết thúc trận đấu là hòa.
+                                <br /> Hòa/ đội khách : Hai đội kết thúc hòa vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng .
+                                <br /> Đội khách / Đội chủ nhà: Đội khách giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội chủ nhà
+                                thắng.
+                                <br /> Đội khách / hòa: Đội khách giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu cả hai đội hòa .
+                                <br /> Đội khách / Đội khách : Đội khách giành chiến thắng vào giờ nghỉ giải lao và kết thúc trận đấu đội khách thắng.
+                                <br /> Điểm lẻ/ chẵn( Bao gồm cả nửa trận)
+                                <br /> Điểm lẻ/chẵn , được xác định bởi một đội kết quả trận chung kết cộng với tổng số điểm để xác định cược. Chỉ
+                                có thời gian bình thường, không bao gồm thêm giờ.
+                                <br /> 1st Half Odd / Even Points nghĩa là cược vào kết quả của hiệp một đầu tiên từ điểm số hiệp 1 quyết định
+                                <br /> Điểm chấp ( Bao gồm cả cược trong hiệp 1)
+                                <br /> Các điểm chấp nghĩa là đặt cược khi một đối thủ cạnh tranh hoặc nhóm nhận được sự khởi đầu ảo (dẫn đầu một cách
+                                hiệu quả bởi đầu đó bắt đầu trước khi sự kiện bắt đầu). Người chiến thắng là đối thủ cạnh tranh hoặc đội có điểm
+                                số tốt hơn sau thêm điểm chấp tính vào kết quả .
+                                <br /> 1st Half Points Spreads nghĩa là đặt cược chấp vào kết quả của hiệp một từ điểm số hiệp 1mà quyết định.
+                                <br /> Nửa số điểm cao nhất
+                                <br /> Dự đoán số điểm cao nhất trong hiệp 1, hiệp hai hoặc như vậy
+                                <br /> Hiệp hội bóng bầu dục thắng lợi
+                                <br /> Trong toàn bộ thời gian trò chơi trên cả hai mặt ở cuối điểm số cuối cùng, Một thống kê dựa trên sự khác biệt
+                                giữa số điểm ghi được của đội thắng và số điểm ghi được của đội thua. Có thể đặt cược tùy chọn là :
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành được điểm số lớn hơn 14 điểm (trừ 14)
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành được điểm số lớn từ 8-14 điểm.
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành được điểm số lớn từ 1-7 điểm.
+                                <br /> Hai đội hòa
+                                <br /> Cược đội khách giành chiến thắng, và giành được điểm số lớn hơn 14 điểm (trừ 14).
+                                <br /> Cược đội khách giành chiến thắng, và giành được điểm số lớn từ 8-14 điểm.
+                                <br /> Cược đội khách giành chiến thắng, và giành được điểm số lớn từ 1-7 điểm.
+                                <br /> Winning Margins Rugby League
+                                <br /> Trong toàn bộ thời gian trò chơi trên cả hai mặt ở cuối điểm số cuối cùng, Một thống kê dựa trên sự khác biệt
+                                giữa số điểm ghi được của đội thắng và số điểm ghi được của đội thua. Có thể đặt cược tùy chọn là
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành được điểm số lớn hơn 12 điểm (trừ 12).
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành được điểm số lớn từ 7-12 điểm.
+                                <br /> Cược đội chủ nhà để giành chiến thắng, và giành được điểm số lớn từ 1-6 điểm.
+                                <br /> Hai đội hòa.
+                                <br /> Cược đội khách giành chiến thắng, và giành được điểm số lớn hơn 12 điểm (trừ 12).
+                                <br /> Cược đội khách giành chiến thắng, và giành được điểm số lớn từ 7-12 điểm.
+                                <br /> Cược đội khách giành chiến thắng, và giành được điểm số lớn từ 1-6 điểm.
+                                <br /> In-Play - ai là người thắng phần còn lại của trận đấu?
+                                <br /> Các cược sẽ được chấp nhận sau thời gian giải quyết, thời gian còn lại trong chiến thắng sẽ được áp dụng. Không
+                                chấp nhận bất kỳ cược nào trước khi bóng vào. Có thể đặt cược các lựa chọn là: đội chủ nhà, đội khách và hòa.
+                                /&gt; In-Play – Nửa trận - Ai thắng phần còn lại?
+                                <br /> Các cược sẽ được chấp nhận sau thời gian giải quyết, thời gian còn lại trong chiến thắng sẽ được áp dụng. Không
+                                chấp nhận bất kỳ cược nào trước khi bóng vào. Có thể đặt cược các lựa chọn là: đội chủ nhà, đội khách và hòa.
+                                Cá cược sự kiện chỉ chứa nửa đầu.
+                                <br /> In-Play - Tổng lợi số điểm của Rugby
+                                <br /> Tổng số mục tiêu một trò chơi hai đội cộng với tính toán tổng cộng. Tùy chọn đặt cược là: dưới 28, 28-34, 35-41,
+                                42-48, 49-55, 56-62 và hơn 62.
+                                <br /> In-Play – Nửa hiệp - Tổng lợi số điểm của Rugby
+                                <br /> Tổng số mục tiêu một trò chơi hai đội cộng với tính toán tổng cộng. Tùy chọn đặt cược là: dưới 7, 7-13, 14-20,
+                                21-27, 28-34, 35-41 và nhiều hơn 41. Sự kiện cá cược chỉ chứa nửa đầu
+                                <br /> In-Play - Matchbet and Totals
+                                <br /> Matchbet và Totals có nghĩa là cá cược cho cả hai dự đoán: trận đấu sẽ dẫn đến chiến thắng cho đội chủ nhà hay
+                                chiến thắng cho đội khách hay hòa; và liệu tổng số mục tiêu trong kết quả cuối cùng của một sự kiện sẽ vượt quá
+                                hay dưới .
+                                <br /> Các tùy chọn đặt cược sau có sẵn :
+                                <br /> Đội khách – trên:cược thắng nếu đội khách thắng và tổng số bàn thắng vượt quá dòng được chỉ định .
+                                <br /> Hòa – trên:cược thắng nếu trận đấu hòa và tổng số bàn thắng vượt quá dòng được chỉ định.
+                                <br /> Đội chủ nhà – trên:cược thắng nếu đội chủ nhà thắng và tổng số bàn thắng vượt quá dòng được chỉ định.
+                                <br /> Đội khách – dưới :cược thắng nếu đội khách thắng và tổng số bàn thắng dưới dòng được chỉ định.
+                                <br /> Hòa – dưới:cược thắng nếu trận đấu hòa và tổng số bàn thắng dưới dòng được chỉ định.
+                                <br /> Đội chủ nhà – dưới :cược thắng nếu đội chủ nhà thắng và tổng số bàn thắng dưới dòng được chỉ định.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 12}>
-                            <h2>飞镖</h2>
-                            <h1>重要提醒</h1>
-                            <p>如果比赛未能完成，所有未决盘口视为无效。</p>
-                            <h1>结算及取消原则</h1>
-                            <p>如开出的盘口比分错误，并对价格有明显影响，我们有权宣布投注无效。
-                                <br /> 如果球员/球队显示错误，我们有权宣布投注无效。
-                                <br /> 如果比赛未能完成，所有未决盘口视为无效。
-                                <br /> “牛眼（Bulleye）”将计为红色。
-                            </p>
+                        <h2>Phi tiêu</h2>
+                            <p>QUAN TRỌNG
+                                <br />
+                                <br /> ※ Trường hợp trận đấu chưa kết thúc, tất cả các giải đấu chưa quyết định đều bị coi là vô hiệu hóa.
+                                <br />
+                                <br /> Quy tắc hòa và hủy
+                                <br />
+                                <br /> ※ Nếu giải đấu vẫn với điểm không chính xác có ảnh hưởng đáng kể đến giá trị cược, chúng tôi có quyền hủy bỏ
+                                đặt cược
+                                <br />
+                                <br /> ※ Nếu cầu thủ/ đội tuyển hiển thị không chính xác, chúng tôi có quyền hủy đặt cược.
+                                <br />
+                                <br /> ※ Nếu trận đấu không kết thúc, tất cả các giải đấu chưa quyết định đều bị coi là vô hiệu hóa..
+                                <br />
+                                <br /> ※ Sự kiện đặc biệt sẽ được tính bằng cách kiểm tra màu sắc .</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 13}>
-                            <h2>斯诺克</h2>
-                            <h1>重要提醒</h1>
-                            <p>如球员退赛或不合格，所有未决盘口视为无效。</p>
-                            <h1>结算及取消规则</h1>
-                            <p>如开出的盘口比分错误，并对价格有明显影响，我们有权宣布投注无效。
-                                <br /> 如球员/球队显示错误，我们有权宣布投注无效。
-                                <br /> 如果比赛或相关比赛没有进行完毕，则所有未决投注，将计为无效。
-                            </p>
+                        <h2>Bida</h2>
+                            <p>QUAN TRỌNG
+                                <br />
+                                <br /> ※ Trường hợp người chơi tạm nghỉ hoặc bị truất quyền thi đấu, giải đấu không được quyết định sẽ bị coi là vô
+                                hiệu hóa.
+                                <br />
+                                <br /> Quy tắc hòa và hủy
+                                <br />
+                                <br /> ※ Nếu giải đấu vẫn với điểm không chính xác có ảnh hưởng đáng kể đến giá trị cược, chúng tôi có quyền hủy bỏ
+                                đặt cược .
+                                <br />
+                                <br /> ※ Nếu cầu thủ/ đội tuyển hiển thị không chính xác, chúng tôi có quyền hủy đặt cược..
+                                <br />
+                                <br /> ※ Nếu trận đấu không kết thúc, tất cả các giải đấu chưa quyết định đều bị coi là vô hiệu hóa.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 14}>
-                            <h2>乒乓球</h2>
-                            <h1>重要提醒</h1>
-                            <p>如比赛未能完成，所有未决盘口视为无效。</p>
-                            <h1>结算及取消规则</h1>
-                            <p>如比赛中止或延迟，并未能在开球日之后的48小时之内复赛所有投注无效。
-                                <br /> 如开出的盘口比分错误，并对价格有明显影响我们有权宣布投注无效。
-                                <br /> 如果选手/球队显示错误，我们有权利宣布投注无效。
-                                <br /> 如选手退赛，所有未决盘口视为无效。
-                            </p>
-                            <h2>特有盘口介绍</h2>
-                            <h1>多少局超过分数限制（所有局数-五战三胜）</h1>
-                            <p>在多少局至少一队超过11分的比分限制。</p>
+                        <h2>Table Tennis</h2>
+                            <p>QUAN TRỌNG
+                                <br />
+                                <br />
+                                <br /> ※Trong trường hợp một trận đấu không kết thúc, tất cả các thị trường chưa quyết định đều bị coi là vô hiệu.
+                                <br />
+                                <br /> Quy tắc Giải quyết và Hủy
+                                <br />
+                                <br /> ※Nếu một trận đấu bị gián đoạn hoặc hoãn lại và không được tiếp tục trong vòng 48 giờ sau ngày khởi đầu, các
+                                cược đặt sẽ bị hủy.
+                                <br />
+                                <br /> ※Nếu trận đấu vẫn mở với điểm số không chính xác và có ảnh hưởng đáng kể đến mức tiền, chúng tôi có quyền đúng
+                                để hủy bỏ cược
+                                <br />
+                                <br /> ※Nếu các cầu thủ / đội được hiển thị không chính xác, chúng tôi có quyền đúng để hủy bỏ cược.
+                                <br />
+                                <br /> ※Nếu một người chơi rút lui thì tất cả các cược chưa quyết định được coi là vô hiệu.
+                                <br />
+                                <br /> Các cược đặc biệt
+                                <br />
+                                <br /> Có bao nhiêu séc sẽ vượt quá giới hạn về điểm
+                                <br /> Có bao nhiêu séc có ít nhất vượt quá giới hạn 11 điểm.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 15}>
-                            <h2>高尔夫球</h2>
-                            <h1>重要提醒</h1>
-                            <p>所有高尔夫球投注都是按照官方锦标赛的结果来结算的。
-                                <br /> 如果一名选手没有参与一场锦标赛或特定回合，则对该名选手的所有投注将为无效。如果一名高尔夫球手在一场锦标赛和特定回合中退出或被取消资格，则对该选手的所有投注将全输。
-                                <br /> 如果一场锦标赛或特定回合延期或暂停，则所有投注将在预定结束时间后的四十八小时内有效。
-                            </p>
+                        <h2>Golf</h2>
+                            <p>QUAN TRỌNG
+                                <br />
+                                <br />
+                                <br /> ※ Tất cả cược phù hợp với kết quả của giải đấu chính thức cho giải quyết.
+                                <br />
+                                <br /> ※ Nếu một người chơi không tham gia một giải đấu hoặc một vòng đấu nào đó, thì tất cả các cá cược sẽ bị hủy.
+                                Nếu một vận động viên golf trong một giải đấu bỏ cuộc hoặc bị truất quyền thi đấu, tất cả các cược của người
+                                chơi sẽ thua.
+                                <br />
+                                <br /> ※ Nếu một giải đấu hoặc vòng đấu cụ thể được hoãn hoặc bị treo thì tất cả cược sẽ có hiệu lực trong vòng 48
+                                giờ sau khi thời gian kết thúc dự kiến..</p>
                         </div>
                         <div className="centerDetail"hidden={this.state.current != 16}>
-                            <h2>板球</h2>
-                            <h1>重要提醒</h1>
-                            <p>除非明确说明，所有盘口不考虑超级轮。
-                                <br /> 任何轮数或球数的盘口都将不计入罚分的分数(这个规则不考虑复数轮的盘口)。
-                                <br /> Twenty 20 (T20)：所有预定的轮数必须完成，未结算盘口才能结算，除非该局已经得到自然的结果。
-                                <br /> ODI：一局中必须至少完成所有轮数的90%，下注成立后的盘口才能进行结算，除非该局已经达到自然的结果。
-                                <br /> 超级轮：指延长赛。
-                            </p>
-                            <h1>结算及取消规则</h1>
-                            <p>如果在开始进行前比赛被取消，则所有的投注都将被取消，除非在最初比赛时间的48小时内重新开赛。
-                                <br /> 如果比赛结果是平手且根据官方的比赛规则不决定出胜利者，或是比赛规定将以丢硬币或抽签决定赢家，则所有未结盘口均视为无效。
-                                <br /> 一场赛事中若打击轮数未能完成，所有特定轮数的未结盘口都将被视为无效，除非该局已经达到自然的结果，如队长声明结束或团队全数出局等。
-                                <br /> 如开出的盘口比分错误，并对价格有明显影响我们有权宣布投注无效。
-                            </p>
-                            <h2>特有盘口介绍</h2>
+                        <h2>Cricket</h2>
                             &nbsp;
-                            <h1>独赢</h1>
-                            <p>独赢是指投注哪支队伍胜出，包含超级轮。所有比赛投注都将根据官方比赛规则结算。在受到恶劣天气影响的比赛中，投注将以官方结果做结算。</p>
-                            <h1>总分大小盘</h1>
-                            <p>总分大小盘是指由该赛事总分来确定的投注。结算依据仅限常规时间，不包括超级轮。如果总分超过大/小盘预先指定的分数线，则投注“大盘”者为赢；如果总分低于大/小盘预先指定的分数线，则投注“小盘”者为赢。</p>
-                            <h1>总得分单/双</h1>
-                            <p>总得分单/双是指由该赛事总分是奇数还是偶数来决定。结算依据仅限常规时间，不包括超级轮。</p>
-                            <h1>队伍总分大小盘</h1>
-                            <p>投注是指特定队伍在常规时间结束时，总分大于还是小于预先指定的分数线。结算依据仅限常规时间，不包括超级轮。</p>
-                            <h1>单轮最高得分</h1>
-                            <p>预测单轮最高得到几分。结算依据仅限常规时间，不包括超级轮。</p>
-                            <h1>哪一个队伍获得单轮最高得分</h1>
-                            <p>预测哪支队伍得到单轮最高分。结算依据仅限常规时间，不包括超级轮。可投注的选项有：主队、平手或客队。</p>
-                            <h1>队伍总得分</h1>
-                            <p>预测特定队伍在常规时间结束时的得分范围。结算依据仅限常规时间，不包括超级轮。</p>
-                            <h1>队伍前6/10轮 - 1X2</h1>
-                            <p>预测前6轮或前10轮结束时的比赛结果。可投注的选项有：主队、平手或客队。</p>
-                            <h1>队伍前6/10轮 - 大小盘</h1>
-                            <p>投注是指特定队伍在前6轮或前10轮结束时的得分，大于还是小于预先指定的分数线。</p>
-                            <h1>队伍前6/10轮 - 总得分</h1>
-                            <p>预测特定队伍在前6轮或前10轮结束时的得分范围。</p>
-                            <h1>是否有超级轮?</h1>
-                            <p>预测比赛是否会进行超级轮(延长赛)。</p>
-                            <h1>滚球：队伍总得分</h1>
-                            <p>预测特定队伍在常规时间结束时的得分范围。结算依据仅限常规时间，不包括超级轮。</p>
-                            <h1>滚球：最高得分轮得到几分？</h1>
-                            <p>预测单轮最高得到几分。结算依据仅限常规时间，不包括超级轮。</p>
-                            <h1>滚球：获胜队伍 前“X”轮</h1>
-                            <p>预测在指定的轮数结束时的比赛结果。可投注的选项有：主队、平手或客队。</p>
-                            <h1>滚球：队伍总分大小盘 前“X”轮</h1>
-                            <p>投注是由特定队伍在指定的轮数结束时的得分来决定。</p>
-                            <h1>滚球：队伍前“X”轮得分</h1>
-                            <p>预测特定队伍在指定的轮数结束时的得分范围。</p>
-                            <h1>滚球：队伍第“X”局第“X”轮 得分大小盘</h1>
-                            <p>投注是由特定队伍在指定的局数与轮数结束时的得分来决定。</p>
-                            <h1>滚球：队伍第“X”局第“X”轮 得分单/双</h1>
-                            <p>投注是由特定队伍在指定的局数与轮数结束时的得分来决定。</p>
-                            <h1>滚球：队伍第“X”局第“X”轮第“X”球 得分大小盘</h1>
-                            <p>投注是由特定队伍在指定的局数、轮数与球数结束时的得分来决定。</p>
-                            <h1>滚球：下一个出局方式</h1>
-                            <p>可投注的选项有：接球出局、投杀、触身出局、追杀出局、倒柱出局、其他。如果没有下一个出局，所有的投注都将被取消。</p>
-                            <h1>滚球：下一个出局方式(接杀/非接杀)</h1>
-                            <p>可投注的选项有：接杀或非接杀。如果没有下一个出局，所有的投注都将被取消。</p>
+                            <h1>Các điều quan trọng </h1>
+                            <p>※ Tất cả các thị trường cược sẽ bao gồm cược tại Các quả siêu cao trừ khi có các chú thích cụ thể khác được đề cập.
+                                <br /> ※Vòng chạy phạt không được xem xét trong bất kỳ thị trường hoặc hình thức nào (thị trường cho nhiều lệnh không được
+                                xem xét cho quy tắc này).
+                                <br /> ※ Hai mươi 20: tất cả các lịch thi đấu có thời hạn phải được đưa ra cho các thị trường chưa quyết định được giải
+                                quyết trừ khi các hiệp hội đã đạt được một cách tự nhiên.
+                                <br /> ※ ODIs: tối thiểu 90% tổng số tiền chi trả được phân bổ cho một lần lượt phải được phát tại thời điểm đặt cược cho
+                                các thị trường được giải quyết trừ khi các hiệp hội đã đạt được kết luận tự nhiên của nó.
+                                <br /> ※ Các Quả Siêu cao: Hiệp phụ</p>
+                            <h1>Quy tắc thanh toán và hủy cược</h1>
+                            1.
+                            <p>※ Nếu một trận đấu bị hoãn hoặc tạm dừng thì tất cả các cược được coi là hợp lệ nếu trận đấu được bắt đầu lại trong vòng
+                                thời gian 48 giờ.
+                                <br /> ※ Nếu trận đấu có kết quả hòa và các quy tắc cạnh tranh chính thức không xác định người thắng; hoặc nếu các quy
+                                tắc cạnh tranh xác định người thắng cược bằng một đồng xu ném hoặc vẽ lô, thì tất cả các thị trường chưa quyết định
+                                đều bị coi là vô hiệu.
+                                <br /> ※Trong trường hợp không hoàn thành, tất cả các thị trường chưa xác định được kết quả sẽ bị coi là vô hiệu, trừ khi
+                                các hiệp hội đã đạt được kết luận tự nhiên của nó, ví dụ: tuyên bố, tất cả đội bỏ cuộc, vv..
+                                <br /> ※ Nếu thị trường vẫn mở với điểm không chính xác có ảnh hưởng đáng kể đến tỷ lệ cược, chúng tôi bảo lưu quyền hủy
+                                bỏ cược. </p>
+                            <h2>Những thị trường đặc biệt</h2>
+                            &nbsp;
+                            <h1>2 cửa</h1>
+                            <p>2 way có nghĩa là đặt cược vào đội nào thắng, kể cả thắng cách biệt. Tất cả các cược đặt cược sẽ được giải quyết theo
+                                luật chơi chính thức. Trong các trận đấu bị ảnh hưởng bởi thời tiết bất lợi, cược sẽ được giải quyết theo kết quả
+                                chính.
+                            </p>
+                            <h1>Tổng số chấp</h1>
+                            <p>Total Spreads means betting that is determined by the total number of runs in the result of a match. Regular time only,
+                                super overs do not count. If the total is more than the Over/Under pre-designated line then the winning result is
+                                Over; if the total is less than the Over/Under pre-designated line then the winning result is Under.</p>
+                            <p> Tổng số chấp nghĩa là cược được xác định bởi tổng số lần chạy trong kết quả của một trận đấu. Chỉ tính thời gian chính
+                                thức, thời gian bù giờ không được tính. Nếu tổng cộng nhiều hơn đường Trên/Dưới được chỉ định trước thì kết quả thắng
+                                là Trên; nếu tổng số ít hơn đường Trên/Dưới được chỉ định trước thì kết quả thắng là Dưới.
+                            </p>
+                            <h1>Chẵn/lẻ của số lượt chạy</h1>
+                            <p> Chẵn/Lẻ có nghĩa là cá cược được xác định bởi việc tổng số lần chạy trong kết quả của trận đấu là Chẵn hoặc Lẻ. Chỉ tính
+                                thời gian chính thức, không tính supper over. </p>
+                            <h1>Tổng số đội</h1>
+                            <p> Cá cược có nghĩa là điểm số của đội vượt trội hoặc vượt trội so với tổng số dòng được phân bổ vào cuối thời gian thi
+                                đấu chính thức. Chỉ tính thời gian chính thức, không tính supper over. </p>
+                            <h1> Có bao nhiêu lượt chạy đạt được điểm số cao?</h1>
+                            <p> Dự đoán điểm cao nhất để có được một vài lần chạy. Chỉ tính thời gian chính thức, không tính supper over.
+                            </p>
+                            <h1> Đội nào sẽ có số điểm vượt trội cao nhất?</h1>
+                            <p> Dự đoán đội sẽ đạt được điểm cao nhất. Chỉ tính thời gian chính thức, không tính supper over.
+                            </p>
+                            <h1>Phạm vi của tổng số điểm</h1>
+                            <p> Dự đoán phạm vi ghi điểm của một đội vào cuối thời gian thi đấu chính thức. Chỉ tính thời gian chính thức, không tính
+                                supper over. </p>
+                            <h1> Đội đạt được điểm 6/10 trước – 3 lựa chọn</h1>
+                            <p> dự đoán kết quả sau 6/10 điểm đầu tiên. Có thể đặt cược các lựa chọn là: đội nhà, hòa và đội.
+                            </p>
+                            <h1> Đội đạt được điểm 6/10 trước – Tổng số</h1>
+                            <p> Một cược được xác định bởi số điểm của một đội sau một số lần vượt qua. </p>
+                            <h1> Đội đạt được điểm 6/10 trước – Phạm vi điểm</h1>
+                            <p>Dự đoán phạm vi số điểm của một đọi khi kết thúc một vòng đặc biệt.</p>
+                            <h1>Sẽ có super overs?</h1>
+                            <p>Dự đoán trận đấu sẽ có kết quả hòa và để dẫn tới supper over.</p>
+                            <h1>Trong trận – đội chạy</h1>
+                            <p>Dự đoán phạm vi số điểm của một đội khi kết thúc thời gian thi đấu chính thức. chỉ tính thời gian thi đấu chính thức,
+                                không tính supper over. </p>
+                            <h1>Trong trận – số lượt chạy có số điểm cao?</h1>
+                            <p>Dự đoán số điểm cao để đạt được vài lượt chạy. chỉ tính thời gian thi đấu chính thức, không tính supper over.</p>
+                            <h1>Trong trận – đội nào sẽ dẫn đầu sau khi vượt qua “X” </h1>
+                            <p> Dự đoán kết quả sau một số lượt cụ thể. Có thể đặt cược các lựa chọn là: đội nhà, hòa và đội khách.
+                            </p>
+                            <h1>Trong trận – Tổng số điểm của đội trước khi vượt qua “X”</h1>
+                            <p> một cược được xác định bởi số điểm của đội sau lượt đặc biệt.</p>
+                            <h1> Trong trận – Đội chạy sau khi vượt qua “X”</h1>
+                            <p>Dự đoán giới hạn điểm của đội khi kết thúc lượt đặc biệt.</p>
+                            <h1>Trong trận – Tổng số lượt chạy cho “X” vượt qua sự kiện “X” </h1>
+                            <p>Một cược được xác định bởi số điểm của một đội sau lượt đặc biệt của sự kiện/lượt</p>
+                            <h1>Trong trận – đội chẵn/lẻ của số lượt chạy “X” trên số lượt sự kiện “X”</h1>
+                            <p>Một cược được xác đinh bởi số điểm của một đội sau lượt đặc biệt của sự kiện/lượt.</p>
+                            <h1>Trong trận – tổng số lượt chạy trong lượt “X” của sự kiện “X”</h1>
+                            <p> Một cược được xác định bởi số điểm của một đội đặc biệt sau sự kiện/lượt/giao bóng.</p>
+                            <h1>Trong trận – Lượt bỏ lỡ tiếp theo</h1>
+                            <p>Các lựa chọn có sẵn là: Caught, Bowled, LBW, Run Out, Stumped hoặc Any Other. Nếu không có bóng rơi xuống thì tất cả
+                                cược sẽ bị hủy.</p>
+                            <h1>Trong trận – lượt bỏ lỡ tiếp theo (bị bắt/không bị bắt)</h1>
+                            <p>Các lựa chọn có sẵn là: Bị bắt và không bị bắt. Nếu không có bóng rơi xuống thì tất cả cược sẽ bị hủy.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 17}>
-                            <h2>虚拟足球联赛 (VFL)</h2>
-                            <h1>如何玩</h1>
-                            <p>VFL提供全天候虚拟足球投注体验，该联赛由16支队伍进行每季的赛事，每一季包含30天比赛日(主、客场比赛)，赛季任何时间都能接受投注。</p>
-                            <h1>赛季信息</h1>
-                            <p>一个赛季共进行141分钟，分成「季前赛」、「循环赛」和「季后赛」。
-                                <br /> 季前赛在赛季前进行，时间为2分30秒；每季循环赛共进行137分30秒；季后赛的时间为60秒。
-                            </p>
-                            <h1>比赛日信息</h1>
-                            <p>一个比赛日进行4分35秒，分成「赛前」、「上半场」、「中场休息」、「下半场」、「比赛结束」与「比赛日后」。
-                                <br /> 赛前该阶段指比赛开始前60秒，上下半场各进行1分30秒，半场休息时间为10秒，每场比赛赛后有10秒间隔，比赛日间有15秒间隔。
-                            </p>
-                            <h1>投注</h1>
-                            <p>VFL允许在开赛10秒前进行投注，该赛季尚未开始的比赛盘口皆开放投注，在「选择比赛日」可选择未来的比赛，当天比赛的赔率将显示在画面下方。
-                                <br /> 比赛可供投注的盘口如下:
-                                <br /> ‧亚洲让分盘
-                                <br /> ‧大小盘 (大于、小于)
-                                <br /> ‧1X2 (主、和、客)
-                                <br /> ‧上半场1X2 (主、和、客)
-                                <br /> ‧第一个进球 (主、无进球、客)
-                                <br /> ‧让分盘 (主、和、客)</p>
-                            <h1>其他</h1>
-                            <p>所有的虚拟赛事的直播将藉由媒体播放器在你的浏览器播放。你可以在每个比赛日随意切换可供投注的8场比赛或仅选择你所喜欢的比赛。
-                                <br /> 该比赛藉由人工智能和独立的随机变量生成组合来仿真。同时，VFL球员表现的参数是根据职业足球选手所设定 (例如得分、身体素质、持续比赛的数据统计等各方面)。</p>
+                        <h2>Bóng đá ảo League (VFL)</h2>
+                            <h1>Cách chơi</h1>
+                            <p>VFL cung cấp trải nghiệm cược tiền thật 24/7/365 cho bóng đá ảo. Giải đấu bao gồm 16 đội và mùa chạy liên tục. Mỗi
+                                mùa bao gồm 30 ngày kết hợp (trận đấu trên sân nhà và trận đấu trên sân khách).
+                                <br /> Có thể đặt cược vào bất kỳ lúc nào - ngay cả trong một mùa giải.</p>
+                            <h1>Thông tin mùa giải</h1>
+                            <p>Một mùa giải tổng cộng 141 phút, tách ra các giai đoạn trong một khoảng thời gian 'Pre League', 'Matchday Loop' và
+                                'Post Season' . Giai đoạn 'Pre League' chạy trước khi bắt đầu một mùa và kéo dài 2:30 phút.
+                                <br /> Tất cả các trận đấu phù hợp được tóm tắt là khoảng thời gian 'Matchday Loop' với tổng thời gian là 137: 30.
+                                Vào cuối mỗi mùa có 60 giây 'Post Season'.</p>
+                            <h1>Thông tin trận đấu</h1>
+                            <p>Một trận đấu kéo dài 4:35 phút. Nó được tách ra các giai đoạn 'Pre Match', '1st Half', 'Halftime', '2nd Half' Giai
+                                đoạn’ Post Match’ và giai đoạn 'Post Matchday'.
+                                <br /> Giai đoạn 'Pre Match' chạy trước khi trận đấu bắt đầu trong 60 giây. Trận đấu kéo dài 1:30 phút cho mỗi một
+                                nửa với khoảng nghỉ giải lao là 10 giây . Mỗi trận đấu sau đó được theo sau bởi giai đoạn 10 giây’ Post Match'
+                                và cuối cùng là một khoảng thời gian 15 giây cho ‘ Post Matchday’.</p>
+                            <h1>Đặt cược</h1>
+                            <p>Cược vào một trận đấu VFL được cho phép lên đến 10 giây trước khi phát bóng. Cược cho những trận đấu chưa bắt đầu
+                                và những trận hiện tại đang mở. Khi một trận đấu chưa diễn ra từ thanh công cụ 'Select Matchday' ở dưới cùng
+                                được chọn, các trận đấu liên quan đến ngày đó cùng với tỷ lệ cược sẽ được hiển thị trong phần tỷ lệ cược thấp
+                                hơn. Phù hợp với các lựa chọn cá cược có sẵn sau đây:
+                                <br /> ‧Asian HDP
+                                <br /> ‧Total (over; under)
+                                <br /> ‧3way (home; draw; away)
+                                <br /> ‧1st half 3way (home; draw; away)
+                                <br /> ‧First goal (home; no goal; away)
+                                <br /> ‧Handicap (home; draw; away)</p>
+                            <h1>Thông tin khác</h1>
+                            <p>Tất cả trận đấu được phát như luồng video trực tiếp thông qua trình phát media tích hợp trong trình duyệt của bạn.
+                                <br /> Bạn có thể chuyển đổi tự do giữa tám trận có sẵn trong mỗi ngày hoặc cách khác theo trận đấu yêu thích của bạn.
+                                Các mô phỏng trận đấu được tạo ra thông qua sự kết hợp của Trí tuệ Nhân tạo và các con số ngẫu nhiên và độc lập
+                                với nhau. Đồng thời, thông số hoạt động của các cầu thủ VFL được dựa trên thông tin cầu thủ của bóng đá chuyên
+                                nghiệp (ví dụ: về số bán thắng, thể lực, thống kê trận đấu liên tiếp, v.v.).</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 18}>
-                            <h2>电子竞技&nbsp;</h2>
-                            <h1>一般盘口规则</h1>
-                            <p>● 如果一个盘口涉及两位选手或队伍进行复数场比赛或地图，以”best of 3”为例，当赛事结果已经确定，导致一场或多场比赛/地图没有进行时，则所有未进行的比赛/地图投注将计为作废，投注金退还。</p>
-                            <p>● 日期与开赛时间仅供参考。如果比赛被取消、延迟或中断，并且未在原定的开赛时间48小时重新开赛，则该比赛的所有投注视为无效并退还投注金。然而，那些在48小时完成的比赛或地图会正常结算，即使作为同场比赛或地图的一部分赛事或地图被取消或是进一步延迟。</p>
-                            <p>● 投注是根据发行人或赛事组织于游戏中的官方转播结算。在转播中显示计算的回合获胜者、杀敌数、龙、防御塔等，将用于结算相关的投注。如果从转播中无法清楚得知相关结果或是没有转播，那么将使用游戏中的API统计数据做为结算依据。</p>
-                            <p>● 在顺序或数量的盘口(如CSGO的特定回合获胜者，或是在英雄联盟/Dota2中队伍取得特定顺序的击杀)，依顺序决定记数的目标。盘口名称中的”下一个”的字眼不能保证是正确的，因为游戏转播可能会延迟，当得分或是回合结束时，我们可能不会总是精确的提供顺序。因此，所有投注均按照特定回合数或是得分进行结算，无论盘口名称有任何其他字眼，也与投注的时间点无关。</p>
-                            <p>● 如果预定进行的回合数或地图数发生变化，或是由于盘口提供了与正确比赛不同的回合数或地图数时，则投注在分差(包含让分盘)、回合/地图大小盘、正确比分等项目的所有投注将视为无效并退还投注金。地图获胜者和比赛获胜者的投注仍有效。</p>
-                            <p>● 如果有任何地图没有进行比赛，或是选手/队伍因不战而胜(walkover)或因故没有进行比赛，那么所有该地图与整场比赛的投注都将视为无效并退还投注金。投注仅与已进行的地图有关。地图在游戏开始计时或是队伍/选手进行与该地图相关的游戏动作包括选角、禁角和购买武器，都将视为该地图已经开始进行游戏。</p>
-                            <p>● 有关防御塔(towers)的投注，所有被摧毁的防御塔都将被计为敌对方团队所摧毁，即使最后一次命中是来自于小兵(minion)。</p>
-                            <p>● 有关水晶(inhibitors)的投注，所有被摧毁的水晶都将被计为敌对方团队所摧毁，即使最后一次命中是来自于小兵(minion)。</p>
-                            <p>● 有关摧毁水晶(inhibitors)数量的投注，六个水晶每一个仅计算一次，即使它被摧毁，重生并再次被摧毁。</p>
-                            <p>● 有关摧毁下一个水晶(inhibitors)的投注，每一个摧毁的水晶都分别计算，即使它已经重生并第二次或在之后的游戏时间内摧毁。</p>
-                            <p>● 有关杀敌的投注(包括第一滴血，这在英雄联盟是地图首杀的代名词)，英雄是否被杀死将依官方转播或游戏API认定。例如当英雄在周围没有对方英雄的情况下被防御塔或小兵击杀，这可能不会被广播记录为击杀，在这种情况下，注单结算不被计入为击杀。</p>
-                            <p>● 有关投注下一个队伍得到特定目标(particular objective)，或是投注得到最多特定目标的队伍，当有提供”两队皆不”或”平局”的选项时，并且该选项胜出时，则投注在任一队伍的注单皆输。如果没有提供这样的选项并且两队都不是赢家时，那么所有该盘口的投注将视为无效并退还投注金。</p>
-                            <p>● 所有的元素飞龙和远古巨龙都计算在小龙市场。</p>
-                            <p>● 当一支队伍投降的情况下，投注的结算如下：
-                                <br /> 1. 有关地图获胜者的投注，获胜队伍是属于未投降的队伍。
-                                <br /> 2. 有关小龙(dragon)、大龙(baron)和杀敌数的投注将根据投降时的计分情况来结算。
-                                <br /> 3. 有关防御塔和水晶的投注结算，如果出现投降情况，摧毁的防御塔/水晶的数量将根据理论上赢得比赛所需摧毁防御塔/水晶的最少数量进行结算。
-                                <br /> 4. 例如，如果输的队伍的水晶在投降时已被摧毁，那么其他的水晶将不会被视为被摧毁。如果输的队伍的水晶没有被摧毁，则获胜队伍被视为摧毁一个额外的水晶。优先计算曾经被摧毁的水晶，当水晶有存在并已重生。
-                                <br /> 5. 如果获胜队伍已经摧毁所有第一层防御塔和一座第二层防御塔，那么将被视为已经摧毁另外三座防御塔(总计为七座)，因为依据规则通常获胜队伍至少需要摧毁一座第三层防御塔和两座主堡防御塔。</p>
+                        <h2>E-Sports</h2>
+                            <h1> Quy tắc Chung </ h1>
+                                <p>● Trường hợp có một sự kiện nào đó ảnh hưởng giống nhau đến 2 cầu thủ hoặc các đội và bản đồ, ví dụ: “best of
+                                    3”, Và một hoặc nhiều trận đấu hoặc bản đổ không được bắt đầu bởi vì kết quả của trận đấu đã được xác định,
+                                    cược trên các trận đó sẽ bị vô hiệu và hoàn lại tiền.</p>
+                                <p>● Ngày và giờ bắt đầu được hiển thị chỉ với mục đích thông tin và có thể không chính xác. Trường hợp một sự kiện
+                                    bị hủy bỏ, hoãn lại hoặc bị gián đoạn và không hoàn thành trong vòng 48 giờ kể từ thời gian bắt đầu ban đầu
+                                    ban đầu, cược vào trận đó sẽ bị vô hiệu và trả lại tiền. Tuy nhiên, các trò chơi hoặc trận đấu được hoàn
+                                    thành trong vòng 48 giờ được giải quyết bình thường ngay cả khi các trò chơi hoặc bản đồ bổ sung được cho
+                                    là một phần của cùng một trận đấu bị hủy hoặc được hoãn lại.</p>
+                                <p>● Các cược được giải quyết dựa trên việc phát hành chính thức của trò chơi bởi nhà xuất bản hoặc nhà tổ chức
+                                    sự kiện. Nơi phát sóng cho thấy số lượng của vòng chiến thắng, giết chết, con rồng, tháp vv, điều này thường
+                                    sẽ được sử dụng để giải quyết cược liên quan. Nếu kết quả của cược không rõ ràng từ chương trình phát sóng
+                                    hoặc nếu không có chương trình phát sóng thì API số liệu thống kê trò chơi sẽ được sử dụng nếu có.</p>
+                                <p>● Trong trường hợp cá trận đấu có thể chỉ mục hoặc đánh số ( chẳng hạn như người chiến thắng một vòng cụ thể
+                                    trong Counter Strike: GO, hoặc đội được ghi số điểm giết chết trong League of Legends hoặc DOTA2), chỉ số
+                                    xác định những lựa chọn này được đếm. Những từ như "next" trong tên giải đấu không được bảo đảm là chính
+                                    xác, vì các chương trình phát sóng có thể bị trì hoãn và chúng ta không phải lúc nào cũng có thể chỉ trước
+                                    một cách chính xác khi một mục tiêu được ghi điểm số hoặc một trận hoàn thành. Tất cả cược do đó được giải
+                                    quyết theo một vòng tròn hoặc mục tiêu được đánh số cụ thể, bất kể các từ khác trong tên giải đấu hoặc thời
+                                    gian của nó liên quan đến thời điểm đặt.</p>
+                                <p>● Nếu số hiệp hoặc bản đồ đã được lên lịch thay đổi hoặc nếu trận đấu được cung cấp sai dựa trên số hiệp hoặc
+                                    bản đồ từ số thực đã lên lịch, sau đó đặt cược trên biên thắng (bao gồm cả handicap), tổng số vòng / bản
+                                    đồ, điểm chính xác vv .. đều bị hủy và hoàn trả. Người thắng cuộc chiến thắng trong trận đấu và đội thắng
+                                    trận vẫn được giữ nguyên.</p>
+                                <p>● Nếu bất kỳ trận đấu nào không được bắt đầu hoặc được trao cho một người chơi hoặc một đội một cách mặc định
+                                    mà không cần phải bắt đầu chơi, tất cả các cược đặt trên bản đồ đó và trên toàn bộ trận đấu đều bị hủy và
+                                    hoàn trả tiền. Các cược chỉ liên quan đến bản đồ được giữ nguyên. Một bản đồ được cho là đã bắt đầu ngay
+                                    khi đồng hồ trò chơi bắt đầu hoặc đội hoặc người chơi có hành động trò chơi liên quan đến bản đồ đó, bao
+                                    gồm chọn, lệnh cấm và mua vũ khí.</p>
+                                <h1>League of Legends</h1>
+                                <p>● Đối với cược liên quan đến tháp, tất cả các tháp bị phá hủy tính là đã bị phá hủy bởi đội đối lập ngay cả khi
+                                    Đòn đánh cuối cùng là từ một con lính.</p>
+                                <p>● Đối với cược liên quan nhà lính, tất cả các nhà lính bị phá hủy tính là đã bị phá hủy bởi đội đối lập ngay
+                                    cả khi Đòn đánh cuối cùng là từ một con lính.</p>
+                                <p> Đối với cược liên quan đến số lượng nhà lính bị phá hủy, mỗi sáu nhà lính chỉ đếm một lần, ngay cả khi nó bị phá hủy,
+                                    trở lại và bị hủy hoại một lần nữa.</p>
+                                    <p>● Đối với các cược liên quan đến nhà lính tiếp theo bị phá hủy, mỗi sự phá hủy của một nhà lính này được
+                                        tính một cách riêng biệt, nó đã trở lại và đang bị phá hủy lần thứ hai hoặc lần tiếp theo.</p>
+                                    <p>● Đối với các cược liên quan đến giết người (bao gồm cả "First Blood", trong League of Legends đồng nghĩa
+                                        với vụ giết người đầu tiên trên bản đồ), việc phát hành chính thức hoặc API trò chơi nếu có là xác định
+                                        cuối cùng để xác định xem cái chết của một Tướng được đếm như một vụ giết người.. Ví dụ, khi một Tướng
+                                        bị giết bởi tháp hoặc lính mà không có sự tham gia của một Tướng của đối phương, điều này có thể không
+                                        được đăng ký như một sự giết người, trong trường hợp đó nó không được tính là giết người vì mục đích
+                                        giải quyết cược.</p>
+                                    <p>● Đối với cược liên quan đến đội tiếp theo để ghi được điểm của một mục tiêu cụ thể hoặc đội ghi được nhiều
+                                        điểm nhất , trong đó một lựa chọn "không" hoặc "rút thăm" được cung cấp và là kết quả chiến thắng, các
+                                        cược đặt cho cả hai đội là kẻ thua cuộc. Trường hợp không có lựa chọn như vậy được cung cấp và không
+                                        đội là người chiến thắng, tất cả các cược trên thị trường là vô hiệu và tiền được hoàn lại.</p>
+                                    <p> ● Tất cả các lại rồng ( Elemental Dragon và Elder Dragon…) đều được tính toán trong thị trường rồng.</p>
+                                    <p>● Trường hợp một đội đầu hàng, đặt cược giữ nguyên và được giải quyết như sau.
+                                        <br /> I. Đối với cược liên quan đến người chiến thắng trên bản đồ, đội chiến thắng là đội không đầu hàng.
+                                        <br /> II. Các giao dịch liên quan đến rồng, Baron và chỉ số hạ gục được giải quyết dựa trên tình huống tại
+                                        thời điểm đầu hang có hiệu lực.
+                                        <br /> III. Các cược liên quan đến tháp và nhà lính được giải quyết như thể đội chiến thắng đã phá hủy số lượng
+                                        tối thiểu để bổ sung của tháp / hoặc nhà lính về mặt lý thuyết yêu cầu để giành chiến thắng trong trò
+                                        chơi bình thường từ thời điểm việc đầu hàng xảy ra.
+                                        <br /> IV. Ví dụ, nếu bất kỳ nhà lính nào của đội thua ở thời điểm đầu hàng bị phá và không có nhà lính bổ
+                                        sung được coi là đã bị phá hủy. Nếu không có nhà lính nào của đội thua bị phá hủy thì đội thắng sẽ được
+                                        coi là phá hủy thêm một nhà lính bổ sung, với ưu tiên cho một nhà lính đã bị phá hủy nếu như một nhà
+                                        lính tồn tại và đã hồi trở lại.
+                                        <br /> V. Nếu đội chiến thắng đã phá hủy tất cả các tháp cấp 1 và một tháp cấp 2, thì nó sẽ được coi là đã
+                                        phá hủy ba tháp kế tiếp (tổng cộng bảy), vì nó cần phải tiêu diệt ít nhất một tháp cấp 3 và hai tháp
+                                        nexus để có được chiến thắng bình thường từ vị trí đó.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 19}>
-                            <h2>刀塔</h2>
-                            <p>● 有关防御塔(towers)的投注，所有被摧毁的防御塔都将被计为敌对方队伍所摧毁，即使最后一次命中是来自于小兵(minion)。
-                                <br /> ● 有关兵营(barracks)的投注，所有被摧毁的兵营都将被计为敌对方队伍所摧毁，即使最后一次命中是来自于小兵(minion)。每一个近战兵营和远程兵营都视为独立的兵营，每个队伍共有6个兵营。
-                                <br /> ● 有关杀敌的投注(除了”第一滴血”之外)，英雄是否被杀死将依官方广播或游戏API认定。例如当英雄在周围没有对方英雄的情况下被防御塔或小兵击杀，这可能不会被广播记录为击杀，在这种情况下，这并不被计入注单结算中。
-                                <br /> ● 有关第一滴血的投注，应依据官方广播或游戏API认定。例如一个英雄被队友反补(denying)而杀死，基于投注结算的前提下，将可能不被计为第一滴血(不论广播是否将其登记为杀敌计数)。为了避免疑虑，除了第一滴血以外所有杀敌盘口的结算都是基于杀敌计数器，但登记在杀敌计数器上的杀敌只有在被广播的时候才算是第一滴血。
-                                <br /> ● 有关肉山(roshan)的投注，最后一下击击中肉山的得分队伍将根据广播或游戏API认定最后一下击中肉山的队伍為得分队伍，而非拿起不朽之守护的队伍。如有前述情形，将视为已消灭肉山。
-                                <br /> ● 有关投注下一个得到特定目标的队伍，或是投注得到最多特定目标的队伍，当有提供”两队皆不”或”平局”的选项时，并且该选项胜出时，则投注在任一队伍的注单皆输。如果没有提供这样的选项并且两队都不是赢家时，那么所有该盘口的投注将视为无效并退还投注金。
-                                <br /> ● 当一支队伍投降的情况下，投注的结算如下：
-                                <br /> 1. 有关地图获胜者的投注，获胜队伍是属于未投降的队伍。
-                                <br /> 2. 有关肉山(roshan)、兵营(barrack)和杀敌数的投注将根据投降时的计分情况来结算。
-                                <br /> 3. 有关防御塔的投注结算，如果出现投降情况，摧毁的防御塔的数量将根据理论上赢得比赛所需防御塔的最少数量进行结算。
-                                <br /> 4. 例如，如果获胜队伍已经摧毁所有第一层防御塔和一座第二层防御塔，那么将被视为已经摧毁另外三座防御塔(总计为七座)，因为依据规则通常获胜队伍至少需要摧毁一座第三层防御塔和两座遗迹防御塔。</p>
+                        <h2>DOTA2</h2>
+                            <p>● Đối với cược liên quan đến tháp, tất cả các tháp bị phá hủy tính là đã bị phá hủy bởi đội đối lập ngay cả khi đạt
+                                được cuối cùng từ một quân lính.
+                                <br /> ● Đối với các cược liên quan đến doanh trại, tất cả các doanh trại bị tiêu diệt tính là đã bị phá hủy bởi đội
+                                đối phương ngay cả khi lần cuối cùng là từ một quân lính. Các trại lính khoảng cách và cận chiến trong mỗi cặp
+                                được tính là doanh trại riêng biệt, do đó mỗi đội có tổng cộng sáu doanh trại.
+                                <br /> ● Đối với cược liên quan đến giết người (trừ "First Blood"), chương trình phát sóng chính thức hoặc API trò
+                                chơi nếu có sẵn là xác định cuối cùng để xác định xem cái chết của Champion có nghĩa là giết người hay không.
+                                Ví dụ, khi một Champion bị giết bởi tháp hoặc đội quân thiệt hại mà không có sự tham gia của một Champion của
+                                đối phương, điều này có thể không được đăng ký như một vụ giết người trên chương trình phát sóng, trong trường
+                                hợp đó nó không được coi là giết người vì mục đích giải quyết cược.
+                                <Br /> Đối với cược First Blood, số điểm phát sóng chính thức của API phải đăng ký giết người như First Blood. Trường
+                                hợp, ví dụ, giết người bị từ chối bởi một đồng đội, nó có thể không được tính là First Blood (bất kể nó được
+                                đăng ký là giết người trên máy phát thanh truy cập truy cập), trong trường hợp nó sẽ không được tính là First
+                                Blood cho mục đích đặt cược đặt cược. Để tránh nghi ngờ, tất cả các thị trấn giết ngoài "First Blood" đều được
+                                định cư dựa vào bộ đếm sát thủ, nhưng một vụ giết người được đăng ký trên máy đếm sát sẽ được tính là First Blood
+                                chỉ khi được thông báo như vậy.
+                                <br /> ●Đối với cược vào Roshans, đội đánh bại cú đánh cuối cùng trên Roshan được xác định bởi API của chương trình
+                                phát sóng hoặc trò chơi nếu có được coi là đã giết Roshan, bất kể người chơi nào đã chọn được uy quyền của bất
+                                tử.
+                                <br /> ● Đối với các cược liên quan đến đội bóng kế tiếp ghi được một mục tiêu cụ thể hoặc đội ghi được nhiều mục tiêu
+                                cụ thể nhất, khi đó lựa chọn "không" hoặc "rút gọn" được đưa ra và là kết quả thắng, cược của cả hai đội đều
+                                là những người thất bại. Trường hợp không có lựa chọn nào được đề nghị và không đội nào là người chiến thắng,
+                                mọi cược đặt trên thị trường đều vô hiệu và hoàn trả tiền.
+                                <br /> ● Trường hợp một đội đầu hàng, đặt cược và được giải quyết như sau.
+                                <br /> I. Đối với cược liên quan đến người chiến thắng trên bản đồ, đội chiến thắng là đội không đầu hàng.
+                                <br /> II. Các giao dịch liên quan đến Roshans, doanh trại và giết người được giải quyết dựa trên tình hình tại thời
+                                điểm đầu hàng diễn ra.
+                                <br /> III. Các cược liên quan đến tháp được giải quyết như thể đội chiến thắng đã phá hủy tối thiểu số tháp bổ sung
+                                về mặt lý thuyết yêu cầu để giành chiến thắng trong trò chơi bình thường từ vị trí khi đầu hàng xảy ra.
+                                <br /> IV. Ví dụ: nếu đội chiến thắng đã phá hủy tất cả các tháp cấp 1 và một tháp cấp 2, thì nó sẽ bị coi là đã phá
+                                hủy ba tháp tiếp theo (tổng cộng bảy), vì nó cần phải phá hủy ít nhất một tháp cấp 3 và hai ngọn tháp cổ đã thắng
+                                được trò chơi bình thường từ vị trí đó. </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 20}>
-                            <h2>反恐精英:全球攻势</h2>
-                            <p>● 大多数地图投注是基于预定的回合数(通常为30回合)，不包括在平手情况时进行的额外回合。然而，如果地图获胜者的盘口没有提供”平手”选项，那么结算将包含平手时所进行的额外回合。
-                                <br /> ● 手枪局：指的是一张地图中的第一和第十六回合。</p>
+                        <h2>Counter Strike: GO</h2>
+                            <p>● Hầu hết các đặt cược vào bản đồ đều dựa trên số vòng dự kiến (thường là 30) trừ các vòng chơi thêm trong trường
+                                hợp hòa. Tuy nhiên, nếu một thị trường chiến thắng của bản đồ được cung cấp mà không có lựa chọn "được đội thắng"
+                                thì điều này sẽ được giải quyết dựa trên tổng thể chiến thắng của bản đồ bao gồm cả thời gian nếu được chơi.</p>
+                            <p>● Pistol round: Là vòng đầu tiên và mười sáu vòng trong bản đồ.</p>
                         </div>
                     </div>
                     

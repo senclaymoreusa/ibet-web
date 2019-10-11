@@ -60,37 +60,53 @@ export class GameLongHu extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">Nguyên tắc Casino>
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>龙虎</h2>
-                        <p>一个以牌面点数大小来决定输赢的博彩游戏，简单易学，让玩家完全体验赌场的趣味！</p>
-                        <h1>【游戏规则】</h1>
-                        <p>正确预计两家「龙」 和「虎」 的点数比较大。点击下注的筹码，再点击桌上下注任何一块 （ 龙、虎或平局 ）。荷官只派两门牌，每门各派一只牌，即龙与虎，双方斗大。牌面的大小不比花色，只比点数，K为最大牌，A为最小。荷官先派发第一张牌于龙的位置，而第二张牌派发到虎的位置，牌面全是向上的，点数较大的胜出。</p>
-                        <h1>【派彩】</h1>
-                        <ul className={classes.helpCenterArticleColumn}>
-                        <p>不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以AG国际厅为例：
-                            
-                            <li> - 龙：1赔1（开和局时，退回一半下注金额。）</li>
-                            <li> - 虎：1赔1（开和局时，退回一半下注金额。）</li>
-                            <li> - 合局：1赔8</li></p>
-                        <p>请注意：
-                            <li> • 桌台限红是本游戏桌台主要玩法的最小、最大玩法限红。玩家在每个玩法的可押注限额是玩法限红与玩家个人限红的交集。如需调节个人限红，请联系网站客服。</li>
-                            <li> • 荷官发牌时，偶有系统无法判读状况时，此时荷官将重新扫描，直到系统能够完整判读(如遇故障因素将注销所有相关注单／派彩)。</li>
-                            <li> • 如遇结算错误，按照当期视频结果重新结算。</li>
+                        <p> Rồng hổ là một loại của bài Poker ( Xì Tố). Các chơi của Game là phía Nhà Cái chia một thẻ bài lần lượt cho các cửa Rồng
+                            và Hổ để so sánh điểm số
+                            <br /> Cách bắt đầu Game Chọn số tiền mà bạn muốn cược và đặt cược vào các cửa “Rồng”,”Hổ” hoặc “Hòa” trong bàn trò Rồng Hổ.
+                            Khi đếm ngược là kết thúc Nhà Cái chia 2 lá bài. Hai lá bài sẽ được chia mặt phải, bên Rồng được phát bài trước, sau
+                            đó đến Hổ, bên nào có lá bài lớn hơn bên đó thắng. Kết quả
+                            <br />Màn hình được rọi sáng với ánh đèn, cho phép xem được rõ ràng về các cược thắng và các tỷ lệ thua. Xác định bởi các đặt cược
+                            của người chơi.
+                            <br /> Quy tắc Trò Chơi 1. Cây già (K) là cây bài có điểm cao nhất và cây Xì (A) được tính điểm nhỏ nhất. 2. Khi người chia bài
+                            chia các lá bài, hệ thống có thể hoặc không có thể nhìn thấy các lá bài, nếu hệ thống không nhìn thấy lá bài, người chia
+                            bài sẽ chiếu lá bài lại một làn nữa cho đến khi hệ thống đọc thấy lá bài (nếu hệ thống vẫn không đọc được lá bài, vòng chơi
+                            hiện tại sẽ bị hủy và các cược sẽ được hoàn lại) ).
                         </p>
-                        </ul>
+                        <div class="MarginBottom20 tableFontStyle">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="Title">&nbsp;</td>
+                                        <td class="Title">B/O</td>
+                                        <td class="Title">S/O</td>
+                                        <td class="Title">B/E</td>
+                                        <td class="Title">S/E</td>
+                                        <td class="Title">Giá trị tổng cộng là 810</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Các tỷ lệ</td>
+                                        <td>3.7</td>
+                                        <td>3.7</td>
+                                        <td>3.7</td>
+                                        <td>3.7</td>
+                                        <td>Cược đã được hoàn trả</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
                 </Grid>
             </Grid>
             

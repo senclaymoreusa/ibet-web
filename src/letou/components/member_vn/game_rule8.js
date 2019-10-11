@@ -60,12 +60,12 @@ export class GameRuleEight extends React.Component {
                     <div class="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">小游戏规则 >
+                                <a href="/for_member">Luật chơi RNG >
                                     <i></i>
                                 </a>
                             </li>

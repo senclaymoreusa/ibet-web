@@ -60,55 +60,56 @@ export class GameErbagang extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">Nguyên tắc Casino >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>二八杠</h2>
-                        <h1>【游戏规则】</h1>
-                        <p>二八杠游戏，是利用中国麻将中，单一色筒子牌〔一筒到九筒，每一种花色4张牌，一共36张牌〕，外加白皮4张牌，共有40张牌。</p>
-                        <p>- 游戏玩法
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> 玩法很简单，区分为庄家〔1方〕跟闲家〔3方〕，总共四方，游戏开始前，需将40张牌洗干净，然后掷出3个骰子所得数字依庄家是1、上门是2、中门是3、下门是4、庄家是5、上门是6, …依此类推。
-                            </li><li>
-                            </li><li> - 牌面点数
-                            </li><li> 开始发开牌，每家发两张牌来比点数大小，两张牌的点数相加后，取其个位数字，每家单独跟庄家比输赢，然后直接比大小，正所谓一番两瞪眼，庄家必须跟三个闲家比大小，庄家的点数，如果比闲家小，则庄家输了该赌局；反之，庄家的点数，如果比闲家大，则庄家赢了该赌局。
-                            </li><li>
-                            </li><li> - 大小
-                            </li><li> 在游戏中，先比对子大小，再比数字大小。
-                            </li><li> 比点数时有一特例，即二筒配八筒，该组合除对子外为点数最大。
-                            </li><li> 详细大小比较请看图示。
-                            </li><li>
-                            </li><li> 图示点数大小：
-                            </li><li> 点数大小如下图所示：〔排序由最大点数依次排由左至右到最下方最小点数〕
-                            </li>
-                            <img src="http://i.imgur.com/xXkvekX.jpg"></img>
-                            <li>
-                            </li><li> 和局：庄家与闲家所持牌的组合完全相同时，该局即为和局，退还本金。
-                            </li><li>
-                            </li><li> - 派彩
-                            </li><li> • 下注上门赢，1赔0.97
-                            </li><li> • 下注上门输，1赔0.97
-                            </li><li> • 下注中门赢，1赔0.97
-                            </li><li> • 下注中门输，1赔0.97
-                            </li><li> • 下注下门赢，1赔0.97
-                            </li><li> • 下注下门输，1赔0.97
-                            </li><li> • 下注上门和局，1赔60
-                            </li><li> • 下注中门和局，1赔60
-                            </li><li> • 下注下门和局，1赔60
-                            </li><li> • 下注上门对子，1赔6
-                            </li><li> • 下注中门对子，1赔6
-                            </li><li> • 下注下门对子，1赔6</li>
-                            </ul>
-                        </p>
+                    <h2>Pai gow (Bài Cửu)</h2>
+                        <p>
+                            <br /> Pai Gow (Bài Cửu) là một trò chơi cờ bạc Trung Hoa, chơi với một bộ 32 con Domino.
+                            <br /> • Cách tính điểm cơ bản
+                            <br /> Cái tên”pai gow” được tạm dịch như “tạo ra chín” hoặc” lá bài chín”. Theo phản ánh thực tế, với một vài số điểm mong
+                            đợi cao nhất, điểm tối đa cho một tay là 9. Giá trị của một ván bài được tính bằng cách cộng tổng các điểm trên hai đường
+                            dọc của thanh domino và bỏ đi chữ số hàng chục. Ví dụ: 1-3 với 2-3: giá trị 9 (chín điểm ) 2-3 với 5-6: giá trị 6 (16
+                            điểm, bỏ giá trị hàng chục 10) 5-5 với 4-6: giá trị 0 (20 điểm, những chữ số hàng chục là 0)
+                            <br /> • Gongs và Wongs
+                            <br /> Đây là các cách đặt biệt để mà một lượt bài có thể nhiều điểm hơn 9 điểm. Gạch domino đôi 1 (2 điếm 1) và gạch domino
+                            đôi 6 (có 2 điểm 6) được tính như là gạch Day và Teen khi kết hợp cộng các gạch này với các gạch domino 8 điểm(Gong),
+                            thì giá trị tổng cộng là 10 điểm, trong khi đặt 1 trong 2 gạch này với 1 gạch 9 điểm được tạo(Wong) giá trị điểm tổng
+                            cộng là 11. Tuy nhiên khi thanh gạch Day hoặc Teen được nối với gạch khác, áp dụng quy tắc điểm tiêu chuẩn.
+                            <br /> •Gạch Gee Joon
+                            <br /> Gạch 1-2 và gạch 2-4 được gọi là gạch Gee Joon và cách tính như các thẻ gạch giới hạn bình thường. khi sử dụng như 1
+                            phần của ván bài, các gạch này có thể được tính điểm là 3 và 6, bất cứ kết quả nào mang lại điểm cao hơn cho ván bài.
+                            Ví dụ, 1 ván bài có loại thẻ gạch 1-2 và 5-6 điểm được tính là 7 chứ không phải là 4 .
+                            <br /> • Các Cặp
+                            <br /> 32 gạch trong một domino bộ Trung Quốc có thể được sắp xếp thành 16 cặp, như thể hiện trong hình ở đầu bài viết này.
+                            Có 11 gạch của các gạch đôi này giống hệt nhau, và năm của những cặp được tạo thành từ hai gạch mà có điểm giống nhau,
+                            nhưng nhìn khác nhau. (Nhóm thứ hai bao gồm các gạch Gee Joon, có thể được tính điểm tương tự, cho dù là ba hoặc sáu.)
+                            Nếu một ván bài được tạo thành một cặp, nó luôn luôn điểm cao hơn so với các thẻ gạch không phải cặp, không có vấn đề
+                            gì về giá trị của các điểm. (Các Cặp thường được tính là 12 điểm mỗi cặp.) Khi người chơi và người chia bài đều có một
+                            đôi gạch, cặp có điểm cao hơn xếp hạng thắng. Bảng xếp hạng được xác định không phải bằng tổng của cách điểm của gạch,
+                            mà là bởi tính thẩm mỹ; trật tự phải được ghi nhớ. Các cặp cao nhất là gạch Gee Joon, các gạch Teens, các gạch Days,
+                            và gạch 8 điểm đỏ Các cặp thấp nhất là không đủ 9 điểm, 8 điểm, 7 điểm và 5 điểm.
+                            <br /> • Các gạch có điểm giống nhau
+                            <br /> Khi các người chơi và người chia bài có các thẻ gạch với điểm giống nhau, với một thẻ gạch có giá trị cao nhất (dựa
+                            trên các bảng xếp hạng cặp được mô tả ở trên) sẽ là người chiến thắng. Ví dụ, một người chơi với các thẻ 3-4, 2-2 và
+                            thẻ bài của người chia bài 5-6, 5-5 có điểm giống nhau trên từng gạch bài. Tuy nhiên, vì thẻ gạch của người chia bài
+                            5-5 mạnh hơn 3 thẻ gạch còn lại, người chia bài sẽ giành chiến thắng tay. Nếu có các gạch có điểm giống nhau , và người
+                            chơi và người chia bài có một gạch có thứ hạng cao nhất giống hệt nhau, lượt bài đó được coi như là sao chép nhau và
+                            người chia bài thắng. Ví dụ, nếu người chơi được chia các gạch 2-2 và 1-6, và người chia bài có gạch 2-2 và 3-4, người
+                            chia bài sẽ giành chiến thắng vì có điểm gạch cao hơn (xét từng gạch) và gạch (2-2) đều giống nhau. Gạch xếp hạng thấp
+                            hơn trong mỗi lượt bài không bao giờ được tính để thắng được các gạch có điểm số giống nhau. Có hai trường hợp ngoại
+                            lệ với các phương pháp mô tả ở trên. Đầu tiên, mặc dù các gạch Gee Joon từ cặp gạch có thứ hạng cao nhất, nó được coi
+                            là không có giá trị khi quy đổi với các gạch có điểm giống nhau. Thứ hai, bất kỳ gạch giống nhau zero – zero ( không
+                            điểm nào trên gạch) thì người chia bài thắng, bất kể các gạch nằm trong quân bài của ai.</p>
                     </div>
 
                 </Grid>

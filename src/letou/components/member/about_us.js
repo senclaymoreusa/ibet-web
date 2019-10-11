@@ -55,12 +55,12 @@ export class AboutUs extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">{this.getLabel('for-member')}  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">乐投品牌故事  >
+                                <a href="/for_member">{this.getLabel('story')}  >
                                     <i></i>
                                 </a>
                             </li>

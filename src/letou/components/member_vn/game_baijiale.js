@@ -76,12 +76,12 @@ export class Baijiale extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">Nguyên tắc Casino >
                                     <i></i>
                                 </a>
                             </li>
@@ -90,280 +90,254 @@ export class Baijiale extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>免佣百家乐</a>
+                                <a>Super 6 Baccarat</a>
                             </li>
                             <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>传统百家乐</a>
+                                <a>Baccarat truyền thống</a>
                             </li>
                             <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>超级百家乐</a>
+                                <a>Super Baccarat</a>
                             </li>
                             <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>对子百家乐</a>
+                                <a>Baccarat Cặp</a>
                             </li>
                             <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>14座甩牌百家乐</a>
+                                <a>Baccarat 14 người chơi</a>
                             </li>
                             <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>经典百家乐</a>
+                                <a>Classic Baccarat</a>
                             </li>
                             <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>包桌百家乐</a>
+                                <a>VIP Baccarat</a>
                             </li>
                             <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>竞咪百家乐</a>
+                                <a>Bid Baccarat</a>
                             </li>
                             <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>连环百家乐</a>
+                                <a>Baccarat nhiều bàn chơi</a>
                             </li>
                             <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>龙宝百家乐</a>
+                                <a>Dragon Bonus Baccarat</a>
                             </li>
                             <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>Playboy百家乐</a>
+                                <a>Playboy Baccarat</a>
                             </li>
                             <li className={this.state.current == 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>免佣点数百家乐</a>
+                                <a>Points Baccarat</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
                         <div className="centerDetail" hidden={this.state.current != 1}>
-                            <h2>免佣百家乐</h2>
-                            <p>免佣百家乐是由传统百家乐演变而来，兩者的玩法非常相似，不同的是免佣百家乐增加了一项超6的特别投注，庄家的赔率也有别于传统百家乐。
+                        <h2>Super 6 Baccarat</h2>
+                            &nbsp;
+                            <p> Bắt nguồn từ Ý vào những năm 1500 và được phổ biến tại các nước còn lại tại Châu Âu từ thế kỷ 19, Baccarat được coi là trò
+                                chơi của các vị Vua. Baccarat còn được biết như là Lucky 9 (Số 9 may mắn) và Punto Banco (không có gì). Có hai biến thể
+                                của Baccarat có thể chơi tại Resort World Manila, Mini Bacaccarat và Super Six. Mục đính của Trò chơi là đặt cược vào
+                                ván bài có tổng 9 điểm hoặc gần 9 điểm nhất. Bạn có thể đặt cược tại cửa Người chơi, Nhà Cái và Hòa.
                                 <br />
-                                <br /> - 免佣百家乐游戏平台：AG旗舰厅、AG国际厅、EA厅、OPUS厅、MG厅
+                                <br /> -Các sàn AG, EA, OPUS, MG
                                 <br />
-                                <br /> - 游戏规则
-                                <br /> 免佣百家乐玩法的博牌规则和投注种类与经典百家乐基本一致，但投注庄的派彩方式有区别。其投注种类与派彩如下：
-                                <br />
-                                <img src="http://i.imgur.com/TZHuRBw.png" />
-                                <br />
-                                <br /> - 派彩赔率
-                                <br /> ♦ 选择押庄赢1赔1免抽水（如庄6点赢，1赔0.5。）
-                                <br /> ♦ 选择押闲赢1赔1免抽水
-                                <br /> ♦ 选择押和局1赔8免抽水时
-                                <br /> ♦ 选择押超6（即庄6点赢）1赔12免抽水
-                                <br />
-                                <br /> - 大小、庄／闲对子
-                                <br /> 大小：指根据当局所开之牌张数的总和为依据，4张牌为小，5张牌或6张牌为大。游戏中，若庄家及闲家各只发两张牌，合共4张牌，即押注「小」者为胜。相反，若庄、闲任一方有博牌，令总牌数为5或6张，即押注「大」者为胜。
-                                <br /> 庄／闲对子：指根据当局所开之牌的庄／闲前两张牌的牌面（数字或字母，不计花式。）为依据，牌面相同为对子。游戏中，庄家前两张牌的牌面相同，为庄对子，即押注「庄对」者为胜。闲家前两张牌牌面相同，为闲对子，即押注「闲对」者为胜。
-                                <br />
-                                <br /> 温馨提示：以上资料来源于AG国际，各玩法赔率设置以具体的游戏厅公示为准。
+                                <br /> - Cách chơi
+                                <br /> 1. Mục đính của Trò chơi là đặt cược vào ván bài có tổng 9 điểm hoặc gần 9 điểm nhất.
+                                <br /> 2. Người chơi có thể đặt cược vào: “NGƯỜI CHƠI” hoặc ”NHÀ CÁI” với các lựa chọn cược thêm cho Người Chơi Pair /Nhà Cái
+                                Pair (cược 2 lá bài có số điểm bằng nhau), Hòa hoặc Super Six theo mức tối thiểu và tối đa của bàn cược.
+                                <br /> 3. Người chia bài chia 2 lá bài cho cửa”Người chơi” và”Nhà Cái”
+                                <br /> Người có đặc quyền cao nhất có quyền yêu cầu hạn chế chia các lá bài hoặc để người chia bài thay mặt mở lá bài. Đại
+                                diện là Người chơi/Nhà Cái hoặc lá bài thứ 3 sẽ được chia phụ thuộc vào từng hoàn cảnh ván bài (xem thông tin mở rộng
+                                để hiểu thêm).
+                                <br /> 5. Người chia bài thông báo người thắng sau khi các con bài của 2 bên đã được tiết lộ.
+                                <br /> ♦ Các cược thắng tại Người chơi hay Nhà Cược được thanh toán tiền rõ rang.
+                                <br /> ♦ Super Six thắng thanh toán tỷ lệ 12 cho 1 nếu Nhà Cái thắng 6 điểm và tất cả các cược tại tùy chọn Nhà Cái trả 1 nửa.
+                                <br /> ♦ Hòa thanh toán tỷ lệ 8 cho 1 if Nếu cửa Người chơi và Nhà Cái có điểm của ván bài giống nhau.
+                                <br /> ♦ Pair thanh toán tỷ lệ 11 cho 1 nếu các lá bài đầu tiên cho Người Chơi hoặc Nhà Cái có số điểm giống nhau.
+                                <br /> ♦ Đặt cược vào các loại cược sẽ có nhiều cơ hội thắng hơn.”CƯỢC CÀNG NHIỀU,THẮNG CÀNG NHIỀU”
                             </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 2}> 
-                            <h2>传统百家乐</h2>
-                            <p>游戏采用8副牌来进行，游戏牌数合计416张，9点或以下的牌按面值点数，A牌是1点，10点及公仔牌则是0点计算。
+                        <h2> Baccarat Truyền Thống</h2>
+                            <p>Sử dụng 8 bộ bài 52 lá trong trò chơi này:
                                 <br />
-                                <br /> 闲丶庄家各先派两张牌，以闲家先发，如第一轮末分出胜负需再按牌例发第二轮的牌，最多每方３张牌，谁最接近9点即为胜方，而相同点数即和局。
+                                <br /> Người chia bài chia cho “Banker” và “Player”. Ai có được tổng là 8 hoặc 9 trong ván, được gọi là “Thắng tự nhiên” và
+                                trò chơi kết thúc. Không cần chia lá bài thứ 3. Có 9 lựa chọn để bạn đặt cược: Banker (Nhà cái), Player (Người chơi),
+                                Tie (Hòa), Banker pair, Player pair, Either Pair, Perfect pair, Big, Small. Sau khi 2 lá bài được chia ra, lá bài thứ
+                                3 sẽ được chia theo luật chia bài thứ 3.
                                 <br />
-                                <br /> - 百家乐博牌规例
-                                <br />
-                                <img src="http://i.imgur.com/HOhyidy.png" />
-                                <br />
-                                <br /> 庄家0-5点的时候，闲家没有第三张牌（6、7点），庄家需要补牌，若6点的话，就为和局。
-                                <br /> 庄闲任何一方两牌合计8丶9点为例牌，对方不须博牌，即定胜负。
-                                <br /> 庄闲两方各得6丶7点，即和局。
-                                <br />
-                                <br /> ♦ 选择押庄赢1赔0.95抽水5%
-                                <br /> ♦ 选择押闲赢1赔1免抽水
-                                <br /> ♦ 选择押和局1赔8免抽水</p>
+                                <br /> - Luật chia bài thứ 3
+                                <br /> Player
+                                <br /> Tổng số điểm là 0, chia lá bài thứ 3 Tổng số điểm là 1, chia lá bài thứ 3 Tổng số điểm là 2, chia lá bài thứ 3 Tổng
+                                số điểm là 3, chia lá bài thứ 3 Tổng số điểm là 4, chia lá bài thứ 3 Tổng số điểm là 5, chia lá bài thứ 3 Tổng số điểm
+                                là 6, dừng Tổng số điểm là 7, dừng Tổng số điểm là 8, “thắng tự nhiên” Tổng số điểm là 9, “thắng tự nhiên”
+                                <br/> Banker
+                                <br /> Tổng điểm là 0, chia lá bài thứ 3
+                                <br /> Tổng điểm là 1, chia lá bài thứ 3
+                                <br /> Tổng điểm là 2, chia lá bài thứ 3
+                                <br /> Tổng điểm là 3, nếu Player rút lá 8 thì Banker dừng
+                                <br /> Tổng điểm là 4, nếu Player rút lá 0, Ace, 8, 9 thì Banker dừng
+                                <br /> Tổng điểm là 5, nếu Player rút lá 0, Ace, 2, 3, 8, 9 thì Banker dừng
+                                <br /> Tổng điểm là 6, nếu Player rút lá 0, Ace, 2, 3, 4, 5, 8, 9 thì Banker dừng
+                                <br /> Tổng số điểm là 7, dừng
+                                <br/> Tổng số điểm là 8, “thắng tự nhiên”
+                                <br/> Tổng số điểm là 9, “thắng tự nhiên”
+                                <br/> - Hoàn trả
+                                <br /> Đặt cược vào Banker Tỷ lệ cược 1 ： 0.95
+                                <br /> Đặt cược vào Player Tỷ lệ cược 1 ： 1
+                                <br /> Đặt cược vào Tie Tỷ lệ cược 1 ： 8
+                                <br /> Đặt cược vào Banker Pair Tỷ lệ cược 1 ： 11
+                                <br /> Đặt cược vào Player Pair Tỷ lệ cược 1 ： 11
+                                <br /> Đặt cược vào Either Pair Tỷ lệ cược 1 ： 5
+                                <br /> Đặt cược vào Prefect Pair Tỷ lệ cược 1 ： 25
+                                <br /> Đặt cược vào Big Tỷ lệ cược 1 ： 0.54
+                                <br /> Đặt cược vào Small Tỷ lệ cược 1 ： 1.50
+                                <br /> ♦ Đối với mỗi ván có kết quả Hòa, các cược đặt cho Banker hoặc Player sẽ hoàn trả về cho người.
+                                <br /> ♦ "Banker Pair" Nghĩa là 2 lá bài đầu tiên của Banker là một đôi.
+                                <br /> ♦"Player Pair" Nghĩa là 2 lá bài đầu tiên của Player là một đôi.
+                                <br /> ♦"Either Pair" Nghĩa là 2 lá đầu tiên của Player hoặc Banker là một đôi.
+                                <br /> ♦"Prefect Pair" Nghĩa là 2 lá đầu tiên của Banker hoặc Player đều là đôi cùng màu
+                                <br /> ♦"Big" Nghĩa là khi kết thúc ván bài có tổng số 5 hoặc 6 lá
+                                <br /> ♦ "Small" Nghĩa là khi kết thúc ván bài có tổng số 4 lá.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 3}>
-                            <h2>超级百家乐</h2>
-                            <p>超级百家乐投注方式与传统百家乐无异，对子投注的结算方式亦与对子百家乐一样。不同的是超级百家乐增加了六项特别投注：
+                        <h2>Super Baccarat</h2>
+                            &nbsp;
+                            <p>Không có nhiều khác biệt giữa Baccarat truyền thống và Super Baccarat. Điểm khác biệt duy nhất trong Super Baccarat là có
+                                hơn sáu cược đặc biệt:
                                 <br />
-                                <img src="http://i.imgur.com/GWynoVc.png" />
                             </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 4}>
-                            <h2>对子百家乐</h2>
-                            <p>对子百家乐投注方式与传统百家乐无异，然而其投注种类则加有「庄对子」「闲对子」「庄对子」「闲对子」是指首先两张牌组成一对，即派彩。不包括第三张牌。百家乐博牌规例：
+                        <h2> Baccarat Cặp </h2>
+                            &nbsp;
+                            <p> “Baccarat Cặp” là một cược bên của Punto Banco, cược này sẽ thắng nếu hai lá bài đầu tiên được chia cho Player hoặc Banker
+                                (cược bởi người chơi) tạo thành một cặp (ví dụ 10,10 hoặc K,K) và thắng tất cả cá kể quả khác. Trò chơi được chơi như
+                                bình thường nhung người chơi cũng có thể cược cho Player Pair, Banker Pair hoặc cả hai. Người chơi có thể cược thêm vào,
+                                hoặc cược thay thể cho cược Player hoặc Banker.
                                 <br />
-                                <br /> ♦ 选择押庄对子1赔11免抽水
-                                <br /> ♦ 选择押闲对子1赔11免抽水</p>
+                                <br /> ♦ Tỉ lệ thanh toán thông thường: Cặp chiến thắng 11:1
+                                <br /> ♦ Chi tiết hoa hồng của nhà cái trong cược bên:
+                                <br /> 8 Bộ bài – Thanh toán 11 : 1 – Xác suất của cặp là 7.47% -- Tỉ lệ hoa hồng 10.36%
+                                <br /> 6 Bộ bài -- Thanh toán 11 : 1 -- Xác suất của cặp là 7.40% -- Tỉ lệ hoa hồng 11.25% </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 5}>
-                            <h2>14座甩牌百家乐</h2>
-                            <p>“14座甩牌百家乐”与“对子百家乐”的玩法和规则相同，但增加了令玩家更加紧张刺激的甩牌元素，令玩家仿似置身于真实赌场内，享受博彩所带来的欢乐。
-                                <br />
-                                <br /> - 游戏特色
-                                <br /> ♦ 玩家咪牌功能，现场感媲美真实赌场。
-                                <br /> ♦ 独有14座功能，每张虚拟枱可容纳14名玩家在线投注，互动感直迫真实赌场。</p>
+                        <h2>Baccarat 14 người chơi</h2>
+                            <p>Baccarat 14 người chơi có cùng luật chơi với Baccarat nhưng lại thú
+                                vị hơn và khiến người chơi có thể cảm thấy như họ đang thật sự chơi ở casino thực tế để có thể tận hưởng niềm vui nhiều
+                                hơn.</p>
+                            <p>♦ Các tính năng trò chơi</p>
+                            <p>♦ Chức năng trả giá để có thể say mê như
+                                ở casino thực tế.</p>
+                            <p>♦ Một bàn chơi lên tới 14 người có thể cược
+                                và tương tác trực tuyến cùng một lúc.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 6}>
-                            <h2>经典百家乐</h2>
-                            <p>在每一局开始前，荷官会将百家乐最大发牌数也就是6张，放置在桌枱上，然后再接受玩家投注，投注完毕后，将之前发的6张牌，按照百家乐补牌规则，进行发牌。
+                        <h2> Classic Baccarat </h2>
+                            &nbsp;
+                            <p> Baccarat Cổ điển là trò đánh bài được chơi đấu lại nhà cái. Mục đích của trò chơi là dự đoán kết quả của những lá bài được
+                                chia cho player và banker. Tất cả tay chơi sẽ có điểm bằng hoặc nhỏ hơn chín, hãy nhớ rằng tất cả lá bài trị giá 10 điểm
+                                được tính bằng 0 và lá Ace tính bằng 1. Khi tổng giá trị các lá bài lớn hơn 10, 10 sẽ được trừ đi và số điểm có giá trị
+                                sẽ bằng hoặc nhỏ hơn chín. Để chơi, bạn sẽ phải đặt cược cho Player hoặc Banker hoặc Tie. Bạn không thể cược hơn một
+                                trong số đó. Luật rút bài có thể xem trong mục Luật chơi bên dưới. Bên thắng sẽ là bên có điểm gần nhất với chín sau
+                                khi được chia bài. Bên thắng sẽ được thanh toán theo như bẳng thanh toán.
                                 <br />
-                                <br /> - 简介
-                                <br /> 长期以来，百家乐是亚洲、欧洲和拉丁美洲最受欢迎的游戏之一，玩法简单，却刺激紧张！
-                                <br />
-                                <br /> - 如何胜出
-                                <br /> 百家乐中将发两份牌&lt; &lt;庄家&gt; &gt;和&lt; &lt;闲家&gt; &gt;，总数得9点或最接近9点的一家胜出。
-                                <br />
-                                <br /> - 操作及下注指南
-                                <br /> 1、点击下注的筹码，再点击桌上下注任何一块〔闲家、庄家或平局〕。
-                                <br /> 2、闲家和庄家将获发两张牌，加起来等於10作0点，总和超过9，则只算总数中的个位。
-                                <br /> 3、任何一家拿到9点（天生赢家），牌局就算结束，不再补牌。
-                                <br /> 4.、派出两张牌後，如果任何一手牌的头两张牌的牌面为0至7，将依照补牌规则多发一张牌，不可以任选补牌。
-                                <br /> 5、没有任何一手牌获得超过三张牌。
-                                <br />
-                                <br /> - 游戏玩法
-                                <br /> 本游戏采用8副牌（每副牌52张）来进行，游戏牌数合计416张。“闲家”“庄家”各先派两张牌，以“闲家”先发，如第一轮未分出胜负需再按“牌例”发第二轮的牌，最多每方3张牌，谁最接近9点即为胜方，而相同点数即和局。
-                            </p>
+                                <br /> - Thông tin
+                                <br /> 1. 6 bộ bài thông thường với mỗi bộ 52 lá bài và không có joker sẽ được dùng. 2. Bài sẽ được đảo trước mỗi trò chơi.
+                                3. Tất cả các chất (bích, cơ, chuồn, rô) đều không phân biệt. 4. Luật chơi và thánh toán đều giống nhau ở cả phiên bản
+                                tiền thật và phiên bản tiền chơi. 5. Tất cả những lá bài 10 điểm hoặc tổng điểm bằng 10 đều được tính bằng 0. Ví dụ,
+                                nếu lá bảy và sáu được chia, tổng là 13, 10 điểm sẽ được trừ đi nên tổng điểm sẽ là ba.
+                                <br /> - Luật chơi
+                                <br /> 1. Nếu cả player hoặc banker có tổng điểm là 8 hoặc 9 thì đều dừng lại. Luật này sẽ bao gồm tất cả những luật chơi khác.
+                                2. Nếu player có tổng điểm là 5 hoặc nhỏ hơn thì player sẽ rút tiếp, nếu không player sẽ dừng lại. 3. Nếu player dừng
+                                lại, banker sẽ rút tiếp trên tổng điểm là 5 hoặc nhỏ hơn.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 7}>
-                            <h2>包桌百家乐</h2>
-                            <p>包桌百家乐集结"网络"与"陆地"赌场的双重优势，特有的“独占桌台／独享游戏／高额下注／任意飞牌／咪牌／更换荷官／更换牌靴”，能非常自主的掌控整个游戏进程，更多独有权限，为您的桌枱设置密码，邀约好友同台落座。
+                        <h2> VIP Baccarat </h2>
+                            &nbsp;
+                            <p> VIP Baccarat cơ bản là phiên bản với tiền cược cao hơn của trò chơi gốc, nơi mà người chơi có thể đặt những cược lớn nhất
+                                cho cả Player và Banker để có cơ hội đạt mức tối đa các thẻ ẩn dấu và biết được kết quả trước những người chơi khác.
+                                Ngoài cược cho Player, Banker hoặc Tie, VIP Baccarat cung cấp sáu cược bên khác để cung cấp cho khách hàng thêm nhiều
+                                cơ hội đặt cược.
                                 <br />
-                                <br /> - 游戏玩法
-                                <br /> 游戏玩法、赔率、补牌规则遵循经典百家乐玩法。
-                                <br />
-                                <br /> - 桌主的特别权限
-                                <br /> 1、咪牌：在庄／闲下注之后，可以咪庄或者闲家牌；
-                                <br /> 2、飞牌：未下注的情况下直接开牌；
-                                <br /> 3、设定包桌：包桌玩家可以设置“是否咪牌”，“是否竖向咪牌”，以及“是否设置密码”；
-                                <br /> 4、更换荷官：更换当前荷官；
-                                <br /> 5、更换牌靴：若该靴满30局，玩家可以选择换靴。
-                                <br />
-                                <br /> - 下注模式
-                                <br /> 1、包桌（VIP）百家乐有旁观下注，进桌下注，进入包桌三种方式；
-                                <br /> 2、当桌台没玩家，人数为0时，玩家只能选择进入包桌成为桌主；
-                                <br /> 3、当桌台人数已满（7人）时，玩家只能选择旁观下注；
-                                <br /> 4、当桌台还有座位时，玩家可以选择进桌下注或者旁观下注；
-                                <br /> 5、若包桌桌主退出游戏厅其他玩家也会自动退出。
-                                <br />
-                                <br /> - 下注限红
-                                <br /> 1、“进入包桌”／“进桌下注”：下注限红是游戏桌台定义的限红，不受个人限红的限制。
-                                <br /> 2、“旁观下注”：下注限红是玩家的个人限红与对应不同玩法限红的交集。
-                                <br />
-                                <br /> 温馨提示：以上资料来源于AG国际，各玩法赔率设置以具体的游戏厅公示为准。
+                                <br /> - Thông tin
+                                <br /> Có tổng cộng sáu kích thước chip được cung cấp, bạn chỉ cần nhấn vào chúng sau đó đặt cược vào Player, Tie hoặc Banker.
+                                Trong trường hợp bạn muốn cược thêm một số cược bên, nhấn vào Pair ở góc bên phải và cược Player Pair và Banker Pair
+                                sẽ được thêm vào ba loại cược truyền thống.
+                                <br /> Bảng lựa chọn của trò chơi sẽ được tìm thấy phía dưới màn hình bao gồm các tính năng rất hữu dụng cho phép người chơi
+                                có thể điều chỉnh video và âm lượng, chuyển đổi giữ quan sát cổ điển và 3D, chat với người chia bài và ghi nhận lịch
+                                sử trò chơi.
+                                <br /> Lộ trình hiển thị ở góc trên bên trái chứa các chỉ số Big Road, Big Eye Boy, Small Road và Cockroac giúp người chơi
+                                có bắt được các xu hướng gần nhất, mặc dù bạn có thể cần một số trợ giúp để hiểu được những con số này thực sự có nghĩa
+                                gì.
                             </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 8}>
-                            <h2>竞咪百家乐</h2>
-                            <p>首创竞咪互动百家乐新玩法，投注额最高者享咪牌权利；“等我”功能让您掌控牌局节奏；配合玩家与中或英文荷官即时互动，边聊天边下注，创造实地赌场无可比拟的升级体验。
-                                <br />
-                                <br /> - 下注模式
-                                <br /> 游戏玩法、赔率、补牌规则遵循经典百家乐玩法。
-                                <br />
-                                <br /> - 桌主的特别权限
-                                <br /> 1、竞咪（LED）百家乐有“旁观下注”和“进桌下注”两种方式；
-                                <br /> 2、当桌台为空（人数为0）时，玩家只能选择进桌下注，进桌下注有最低VIP 额度, 低于此额度的只能选择旁观下注；
-                                <br /> 3、当桌台人数已满（7人）时，玩家只能选择旁观下注，旁观下注玩家所在桌台，如果其他进桌玩家都离开了。若此局旁观下注的玩家有下注，那么此局结算完之后旁观玩家会被踢出桌台；若此局旁观玩家没有下注，会立刻被踢出桌台；
-                                <br /> 4、其他情况玩家可以自由选择旁观下注或者进桌下注。
-                                <br />
-                                <br /> - 下注限红
-                                <br /> 1、进桌下注：下注限红是游戏桌台定义的限红，不受个人限红的限制；
-                                <br /> 2、旁观下注：下注限红是玩家的个人限红与对应不同玩法限红的交集。
-                                <br />
-                                <br /> - 咪牌（竞咪）
-                                <br /> 1、只有“进桌下注”的玩家才有咪牌资格；
-                                <br /> 2、不同玩家下注庄／闲，下注金额多的玩家获得对应庄／闲的咪牌资格；
-                                <br /> 3、不同玩家下注庄／闲相同的金额，先下注成功的玩家拥有咪庄／闲家牌的资格；
-                                <br /> 4、同一玩家，如果一局中下注庄和闲的金额一样，那么默认该玩家咪闲家牌；（前提：其他玩家没有下注庄／闲，或者下注金额没有高于这一玩家）
-                                <br />
-                                <br /> - 其他功能
-                                <br /> 等我：在下注倒数计时内，玩家可以点击“等我”按键，请求荷官延长下注时间；
-                                <br /> 开牌：
-                                <br /> 1、只有进座下注的玩家才有开牌的权限；
-                                <br /> 2、当玩家点击“开牌”申请荷官开牌时，荷官会根据桌面上玩家投注情况决定是否直接开牌或提示其他玩家继续下注。
+                        <h2> Bid Baccarat </h2>
+                            &nbsp;
+                            <p> Bid Baccarat là một trong những trò chơi cổ nhất và phổ biến nhất trong các casino trên khắp thế giới. Hơn nữa, tính năng
+                                mới được thêm vào "Wait Me" mang lại cho người chơi trải nghiện chơi game đích thực hơn bao giờ hết! Một cơ hội tuyệt
+                                vời hơn để nâng cao kinh nghiệm của toàn bộ người chơi bằng cách mang lại sự tương tác bằng chat trong thời gian thực
+                                tế từ sàn casino đến thiết bị của người chơi.
                             </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 9}>
-                            <h2>连环百家乐</h2>
-                            <p>玩家入座“连环百家乐”或“多台百家乐”（不同平台叫法不一）可根据自己的喜好，随时组合各不同游戏种类，例如百家乐+骰宝+轮盘，让您同时畅游多款游戏，赢利翻倍；不同平台组合的要求和枱桌数不一样，具体以各平台为公示为准。
+                        <h2>Multi-game Baccarat</h2>
+                            <p>Trong trò chơi baccarat trực tuyến điển hình trong một casino, một người chơi có thể chuyển qua bàn chơi khác. Người chơi
+                                có thể làm vậy khi đang chơi Oriental Game nhưng để giữ người chơi khỏi việc nhảy qua bàn chơi khác, chúng tối có tính
+                                năng đa trò chơi. Tại đây, người chơi có thể chọn chơi tới sáu (6) bàn baccarat khác nhau ở cùng một thời điểm. Điểm
+                                tốt của tính năng này là mọi bàn chơi trong nhóm vẫn giữ nguyên mọi tính năng như bàn chơi đơn; ví dụ, thời gian đặt
+                                cược, bảng chỉ đường, tính năng Super Six, hiển thị bài,… Baccarat đa bàn chơi của Oriental Game có hai loại: baccarat
+                                3 bàn chơi và baccarat 6 bàn chơi nói trên.
                                 <br />
-                                <br /> - 连环百家乐游戏平台：AG旗舰厅、AG国际厅、OPUS厅
-                                <br />
-                                <br /> - 简介
-                                <br /> 长期以来，百家乐是亚洲、欧洲和拉丁美洲最受欢迎的游戏之一，玩法简单，却刺激紧张！
-                                <br />
-                                <br /> - 如何胜出
-                                <br /> 百家乐中将发两份牌&lt; &lt;庄家&gt; &gt;和&lt; &lt;闲家&gt; &gt;，总数得9点或最接近9点的一家胜出。
-                                <br />
-                                <br /> - 操作及下注指南
-                                <br /> 1、点击下注的筹码，再点击桌上下注任何一块（闲家、庄家或平局）。
-                                <br /> 2、闲家和庄家将获发两张牌，加起来等於10作0点，总和超过9，则只算总数中的个位。
-                                <br /> 3、任何一家拿到9点（天生赢家），牌局就算结束，不再补牌。
-                                <br /> 4.、派出两张牌後，如果任何一手牌的头两张牌的牌面为0至7，将依照补牌规则多发一张牌，不可以任选补牌。
-                                <br /> 5、没有任何一手牌获得超过三张牌。
-                                <br />
-                                <br /> - 游戏玩法
-                                <br /> 本游戏采用8副牌（每副牌52张）来进行，游戏牌数合计416张。“闲家”“庄家”各先派两张牌，以“闲家”先发，如第一轮未分出胜负需再按“牌例”发第二轮的牌，最多每方3张牌，谁最接近9点即为胜方，而相同点数即和局。
-                                <br />
-                                <br /> 温馨提示：以上资料来源于AG国际，各玩法赔率设置以具体的游戏厅公示为准。
-                            </p>
+                                <br /> - Baccarat nhiều bàn chơi: AG, OPUS</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 10}>
-                            <h2>龙宝百家乐</h2>
-                            <p>龙宝百家乐是由传统百家乐演变而来，投注方式与传统百家乐无异，对子投注的结算方式亦与对子百家乐一样。不同的是龙宝百家乐增加了额外的「龙宝」特别投注。
+                        <h2>Dragon Bonus Baccarat</h2>
+                            <p>Dragon Bonus là một lựa chọn cược bên được cung cấp trong bàn Baccarat định sẵn. Một cược Dragon Bonus thắng nếu Player hoặc
+                                Banker có điểm tổng tự nhiên cao hơn bên còn lại, hoặc nếu điểm tổng của bên thắng vượt qua bên còn lại 4 điểm hoặc hơn
+                                4 điểm.
+                                <br /> - 1. Khi bên bạn chọn thắng tự nhiên.
+                                <br /> - 2. Khi bên bạn không chọn thắng cách biệt ít nhất bốn điểm.
+                                <br /> - 3. Khi bên Player và Banker cách biệt ba điểm hoặc ít hơn sẽ được coi là thua.
+                                <br /> - Dragon Bonus Baccarat: AG, EA, MG
                                 <br />
-                                <br /> - 龙宝百家乐游戏平台：AG旗舰厅、AG国际厅、EA真人厅、MG真人厅
-                                <br />
-                                <br /> - 游戏规则
-                                <br /> 如玩家于庄家龙宝或闲家龙宝下注，派彩会根据不同的”胜出点数差距”而有所不同。
-                                <br />
-                                <img src="http://i.imgur.com/InlXhsz.png" />
-                                <br />
-                                <br /> 非例牌：庄或闲首两张牌的点数总和并非8或9点，所有庄或闲需要博第三张牌的情况亦属于非例牌；
-                                <br /> 例牌：庄或闲首两张牌的点数总和为8或9点。
-                                <br /> 例子：庄家以非例牌赢9点，投注庄龙宝1赔30。
-                            </p>
+                                <br /> - Chú ý
+                                <br /> 1. Khi đạt tới vòng chơi 31 hoặc các vòng chơi sau khi chơi hết một cỗ bài thì không được phép cược các cược: Player
+                                Dragon Bonus, Banker Dragon Bonus, Big và Small.
+                                <br /> 2. Cược tối thiểu và tối đa dựa trên giới hạn bàn chơi. Người chơi có thể đặt cược trong giới hạn cược của loại bàn
+                                chơi và giới hạn đặt cược của bản thân người chơi, hãy liên hệ bộ phận chăm sóc khách hàng để biêt rõ hơn.
+                                <br /> 3. Khi bài đang được chia bởi người chia bài, hệ thống có thể hoặc không đọc được bài, nếu hệ thống không đọc được bài,
+                                người chia bài sẽ quét bài lại cho đến khi hệ thống đọc được (nếu hệ thống vẫn không đọc được, vòng chơi đó sẽ được hủy
+                                và cược sẽ được trả về).
+                                <br /> 4. Trong trường hợp thanh toán sai, cược sẽ được thanh toán lại dựa trên kết quả của video.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 11}>
-                            <h2>Playboy百家乐</h2>
-                            <p>投注玩法与游戏规则与普通百家基本一致，在投注风格上独树一帜，特有的花花公子系列深得百家乐爱好者追捧，大胆的界面风格，西式的美女荷官，让您在经典游戏中，体会出不一样的风情。
+                        <h2>Playboy Baccarat</h2>
+                            <p>Nếu bạn đang tìm kiếm sự hồi hộp cuối cùng trong khi chơi trò chơi bài phổ biến nhất ở châu Á, bạn phải thử tay tại Playboy
+                                Live Baccarat. Trò chơi được chơi ở các bảng độc quyền trên sòng casino ở Toronto, nơi các chú thỏ Playboy chính hiệu
+                                giả định vai trò của các tên cướp nhà băng.
                                 <br />
-                                <br /> - Playboy百家乐游戏平台：MG厅
+                                <br /> - Playboy Baccarat: MG
                                 <br />
-                                <br /> - 玩法介绍
-                                <br /> 博牌规则和投注种类与经典百家乐基本一致
-                                <br />
-                                <br /> - 一般规则
-                                <br /> 1、必须在下注时间内放置并确认所有赌注。
-                                <br /> 2、如果在下注时间内未确认赌注，则在当前游戏中不能对其进行计算。
-                                <br /> 3、始终是先派玩家的第一张牌后才派发庄家的第一张牌。
-                                <br /> 4、K、Q、J和10点数为零。
-                                <br /> 5、如果庄家的手牌和您的手牌点数相同，则为平局。
-                                <br /> 6、故障会使所有游戏和支付无效。
-                                <br />
-                                <br /> - 下注和奖金规则
-                                <br /> 1、您可以在平局赌注和庄家赌注或玩家赌注上下双重赌注。每个赌注会被独立处理；
-                                <br /> 2、如果您下了平局赌注并且获胜，您将按常规赌注金额以8:1的赔率获得奖金；
-                                <br /> 3、如果您仅下了玩家赌注或庄家赌注，并且牌为平手，则您的赌注会归还给您；
-                                <br /> 4、庄家赌注奖金会扣除5%佣金；
-                                <br /> 5、仅赢赏赌注会扣除5%佣金；
-                                <br /> 6、常规赢赏被添加到红利赢赏。
-                                <br />
-                                <br /> 温馨提示：以上资料来源于MG真人厅，各玩法赔率设置以具体的游戏厅公示为准。
-                            </p>
+                                <br /> - Các bàn trò chơi Baccarat của Playboy trông sang trọng và có thể chứa tối đa bảy người chơi cùng một lúc, trong khi
+                                bạn có tùy chọn để chơi ở nhiều bảng cùng một lúc bằng cách nhấn vào nút Thêm bàn. Một khi bạn đã chọn kích thước chip
+                                phù hợp, hãy nhấp vào P hoặc B ở phía trước vị trí ngồi của bạn để đặt cược vào Người chơi hoặc Nhà cái tương ứng.
+                                <br
+                                /> - Mỗi một bảng này cũng chứa một hộp Tiền thưởng nhỏ, nơi bạn có thể đặt cược Dragon Bonus. Bên cược xem bạn đặt cược
+                                vào biên lợi nhuận của một trong hai bên là Người chơi hoặc Nhà cái, với khoản thanh toán có khi lên tới 30 và 1. Người
+                                chơi hòa và Nhà cái hòa thắng cược lên tới 11-1, trong khi hòa trả từ 8 đến 1.
+                                <br /> - Lịch sử đặt tay và Bản đồ đường chuẩn được hiển thị bên trái và bên phải của người tổ chức trò chơi, ở phần trên của
+                                màn hình trò chơi. Trong khi đó, tất cả các tùy chọn trò chơi quan trọng có thể được tìm thấy dưới thẻ Menu.</p>
                         </div>
                         <div className="centerDetai" hidden={this.state.current != 12}>
-                            <h2>免佣点数百家乐</h2>
-                            <p>免佣点数百家乐是由免佣百家乐演变而来，不同的是免佣点数百家乐增加了「庄例牌赢」、「闲例牌赢」、「庄总点数0 」～「庄总点数9」以及「闲总点数0」～「闲总点数9」投注项目，庄／闲总点数为独立派彩，不受该牌局胜／负／和的影响。
-                                <br />
-                                <br /> - 游戏规则
-                                <br /> 免佣百家乐是由传统百家乐演变而来，两者的玩法非常相似，不同的是免佣百家乐庄家的赔率有别于传统百家乐。
-                                <br />
-                                <br /> - 在免佣百家乐中
-                                <br /> • 选择押庄赢1赔1免抽水（如庄6点赢，1赔0.5）
-                                <br /> • 选择押闲赢1赔1免抽水
-                                <br /> • 选择押和局1赔8免抽水
-                                <br />
-                                <br /> 庄例牌赢：庄首两张牌的点数总和为8或9点并胜出该牌局。
-                                <br /> 闲例牌赢：闲首两张牌的点数总和为8或9点并胜出该牌局。
-                                <br />
-                                <br /> 庄／闲总点数投注：指庄或闲在该牌局中获得的点数总和，根据相对应的赔率派彩，并不计算庄／闲在该牌局中的胜负。
-                                <br />
-                                <br /> - 对战百分比区域
-                                <br /> 该区域的显示是依据所有身处同一伺服器之玩家在「庄」、「闲」投注位所投注的总金额比例来显示。
-                                <br /> 对战百分比区域的百分比为即时更新，即当有玩家投注庄、闲投注位并确认投注后，就立即更新百分比比例。
-                                <br /> 当开始新的一局，且还没有玩家投注时，对战百分比区域的庄、闲百分比率分别为50%。
-                                <br />
-                                <img src="http://i.imgur.com/D9Xkcnd.png" />
+                        <h2> Points Baccarat </h2>
+                            &nbsp;
+                            <p> Points Baccarat là một dạng khác của “Baccarat không hoa hồng” – Super 6
+                                <br/>
+                                <br /> - Tính năng hấp dẫn mới: Tỉ lệ cược thời gian thực – Cho thấy tỉ lệ thực sự trong thời gian cược cho [Banker] và [Player],
+                                tỉ lệ này được cập nhật mỗi khi một cược đơn được xác nhận.
+                                <br /> - Nó thậm chí có nhiều hơn các cược bên được thêm vào cho banker và Player, như là [Banker thắng tự nhiên], [Player
+                                thắng tự nhiên], từ [Banker 0 điểm] đến [Banker 9 điểm] và [Player 0 Point] đến [Player 9 điểm].
+                                <br /> - Thanh toán điểm cho cược của banker và Player là mặt riêng không liên quan đến thắng thua của trò chơi.
                             </p>
                         </div>
                     </div>

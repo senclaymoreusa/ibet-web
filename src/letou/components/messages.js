@@ -37,6 +37,7 @@ export const messages = {
 
 
         "for-member": '供会员使用',
+        "story": '乐投品牌故事',
         "for-partner": '供合作伙伴使用',
         'help-title': '我们在此竭诚服务',
         "about-letou": '关于LETOU',
@@ -64,6 +65,7 @@ export const messages = {
         'maximum-gaming-platform': 'Maximum Gaming Platform',
 
     },
-    vi: {},
+    vi: {
+    },
     th: {}
 };

@@ -60,95 +60,79 @@ export class FootballRules extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">体育规则 >
+                                <a href="/for_member">Luật chơi Thể thao >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>重要提醒</h2>
-
-                        <p>※所有盘口若无特别声明，只限于规定时间内(regular time)之结果（如果有标注半场、上半场、加时赛或点球对决时不在此限）。
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> ※如比赛中断并在开球后的48小时之内复赛，所有盘口按最终结果进行结算。若不在48小时内，则所有未结算之盘口将取消。</li>
-                            <li> ※除非有特别声明，否则所有赛事的盘口都基于90分钟规定时间比赛的结果。在此，90分钟赛事包括伤停补时，但不包括加时赛、金球(golden goal)和点球(penalty shootout)所用时间。</li>
-                            <li> ※若球赛原定的比赛时间异于常规时间（如各种锦标赛，青年队，后备队或友谊赛的特别比赛时间），所有投注将依照该场比赛的最终完场时间来结算。</li>
-                            <li> ※本公司提供信息（例如中立场地、红牌、计时、统计信息、日期、生效日期等）服务，同时不接受任何相关责任。客户有责任确认任何比赛的正确信息。</li>
-                            <li> ※对于现场投注，在一场比赛中，本公司可自行全权认定可能会影响一支球队或一名球员的得分、结果、表现的危险行为；或者批准改变赔率/赌金或赌盘或投注信息（“危险比赛”），本公司有权暂停接受投注并且可以在“危险比赛”后接受或拒绝投注。在一场比赛中的所有其它行为都被视为安全比赛，投注仍会被接受。</li>
-                            <li> ※对于大多数比赛（由本公司决定）的现场投注，可在第90分钟以及任何伤停时间内下注。但在比赛进行后的第85分钟或常规比赛时间结束前的最后五分钟（以适用于一场比赛者为准），任何除了本节中所述行为以外的行为将被视作安全比赛，因此所有待定的投注都可被接受：在大禁区中或附近进行比赛；判罚点球；以及本公司认定为危险（可能进球）的任意球。</li>
-                            <li>※对于现场投注，在裁判宣布半场以及/或者全场比赛时间结束的一刻，所有待定的投注都会被自动拒绝。</li>
-                            </ul>
-                        </p>
-
-                        <p>&nbsp;</p>
-
-                        <h2>罚牌分(bookings)</h2>
-
-                        <p>※一张黄牌计数为1分，一张红牌或黄牌转红牌计数为2分。第二张黄牌或第二张黄牌转红牌给同一球员则不计算。因此一名球员不能有超过三张罚牌数。
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> ※根据常规赛时90分钟内现有的罚牌进行结算。</li>
-                            <li> ※任何在比赛完场结束后出示的罚牌不计入内。</li>
-                            <li> ※对非参赛球员（例如：已下场队员、球队经理或没有上场的替补队员）所出示的罚牌不计入总罚牌分。</li>              
-                            </ul>
-                        </p>
-
-                        <p>&nbsp;</p>
-
-                        <h2>罚牌点数(booking points)</h2>
-
-                        <p>※一张黄牌计分为10点，一张红牌或黄牌转红牌计分为25点。第二张黄牌或第二张黄牌转红牌给同一球员则不计算。因此一名球员不能有超过35分罚牌分。
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> ※根据常规赛时90分钟内现有的罚牌进行结算。</li>
-                            <li> ※任何在比赛完场结束后出示的罚牌不计入内。</li>
-                            <li> ※对非参赛球员（例如：已下场队员、球队经理或没有上场的替补队员）所出示的罚牌不计入总罚牌点数。</li>
-                            </ul>
-                        </p>
-
-                        <p>&nbsp;</p>
-
-                        <h2>角球盘口</h2>
-
-                        <p>※判罚后未开出的角球不计入内。</p>
-
-                        <p>&nbsp;</p>
-
-                        <h2>下一得分球员</h2>
-
-                        <p>※乌龙球将不予计入结算。
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> ※从开球后所有参与比赛或此前进球的球员视为参赛者。</li>
-                            <li> ※所有参与比赛的球员都计入在内，如因任何原因未列球员进球，所有就列明球员投注继续有效。</li>
-                            <li> ※如没有明确的证据证明英国国家通讯社的资料有误，投注结算将以英国国家通讯社（Press Association）公布的资料为根据。</li>
-                            
-                        </ul>
-                        </p>
-                        <p>&nbsp;</p>
-
-                        <h2>进球区间盘口</h2>
-
-                        <p>※盘口的结算基于电视中显示的时钟时间为准。如果无法取得，进球时间根据比赛时间来考虑。</p>
-                            <li> ※盘口的结算基于球越过线，而不是造成进球的时间。</li>
-                        
-
-                        <p>&nbsp;</p>
-
-                        <h2>结算与取消规则</h2>
-
-                        <p>※如发生下列情况：进球，红牌或黄牌及罚球，盘口仍开放，我们有权利宣布投注无效。
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> ※如果开出的盘口有遗漏或错误的罚牌，我们有权利宣布投注无效。</li>
-                            <li> ※如在错误的比赛时间（超过五分钟）开出赔率，我们有权利宣布投注无效。</li>
-                            <li> ※如果显示结果错误，我们有权宣布取消这一时间的所有盘口。</li>
-                            <li> ※如比赛中断并未能在开球后的48小时之内复赛，所有投注视为无效。</li>
-                            <li> ※如球队名称或类别显示错误，我们有权利宣布投注无效。</li>
-                            </ul>
-                            </p>
+                    <h2>Nguyên tắc Thể thao</h2>
+                        <p>LƯU Ý<br />
+                        <br />
+                        ※ Tất cả các loại cược (ngoại trừ nửa trận, những cược hiệp đầu tiên, quá giờ và sút phạt đền) chỉ được tính trong thời gian chính thức.<br />
+                        ※ Nếu trận đấu bị hoãn, nhưng sau đó khởi hành trong vòng 48 giờ kể từ thời gian lịch định, các cá cược vẫn có hiệu lực. Ngược lại, mọi cá cược đều vô hiệu. .<br />
+                        ※ Thời gian chính thức 90 phút: Các thị trường cược được tính dựa trên kết quả cuối cùng vào thời gian 90 phút chơi theo lịch trình, trừ khi có quy định khác. Điều này bao gồm bất kỳ thời gian chấn thương hoặc hiệp phụ nào nhưng không bao gồm thời gian bù giờ, thời gian dành cho một lượt đá luân lưu hoặc bàn thắng vàng.<br />
+                        ※ Nhà Cái cung cấp thông tin (ví dụ như sân trung lập, thẻ đỏ, giờ giấc, thông tin thống kê, ngày tháng, bắt đầu, v.v…) như một dịch vụ mang tính chất tham khảo và không chịu bất kỳ trách nhiệm nào. Khách hàng phải có trách nhiệm tự nhận thức được những thông tin chính xác cho bất kỳ trận đấu nào.<br />
+                        ※ Với cá cược trực tiếp, trong một trò chơi, liên quan đến các hành động mà Công ty cá cược tùy ý và tuyệt đối có quyền, xét thấy nguy hiểm ở tỷ số, kết quả, màn trình diễn của một đội hay cầu thủ có thể bị ảnh hưởng; hoặc cam kết thay đổi tỷ lệ cược / giá hoặc thị trường hoặc Thông tin Cược (“Cuộc chơi Nguy hiểm”) Công ty cá cược có quyền ngừng chấp nhận cược và có thể chấp nhận hoặc từ chối cược sau Cuộc chơi nguy hiểm. Tất cả các hành động khác trong một trò chơi được coi là Chơi An toàn và các cược sẽ tiếp tục được xem xét chấp nhận.<br />
+                        ※ Đối với cược trực tiếp, cược được phép đặt tới phút thứ 90 hoặc tới phút cuối cùng của thời gian chính thức cộng thời gian bù giờ cho hầu hết các trận đấu. Tuy nhiên trong 5 phút cuối cùng trước khi kết thúc 85 phút đầu tiên của thời gian thi đấu chính thức trong một trận đấu (trong một trận đấu, tùy điều kiện nào áp dụng) bất kỳ tình huống nào khác không được nhắc đến trong phần này, sẽ được xem là Safe Play(Tình huống an toàn) và vì vậy tất cả những cược chờ được đặt có thể được cân nhắc nhận: Chơi trong hoặc quanh khu vực nữa vòng tròn cách cầu môn 11 mét, khu vực 11 mét ,đá luân lưu và những quả đá phạt trực tiếp được nhà cái xem là nguy hiểm (dễ có bàn thắng).<br />
+                        ※ Đối với cược trực tiếp, tất cả những cược chờ sẽ tự động bị từ chối vào thời điểm trọng tài thổi còi kết thúc hiệp đấu hoặc trận đấu trong nửa hiệp/nguyên trận.<br />
+                        <br />
+                        <br />
+                        <br />
+                        Cược Thẻ Phạt<br />
+                        <br />
+                        ※ Thẻ vàng được tính là 1 điểm, thẻ đỏ được tính như 2 điểm. Thẻ vàng thứ hai cho cầu thủ dẫn đến thẻ đỏ thì không được tính được tính. Tổng số thẻ tối đa mỗi cầu thủ nhận là 3 điểm.<br />
+                        ※ Thanh toán cược sẽ được tính theo tất cả các thẻ được rút trong suốt 90 phút chơi chính thức.<br />
+                        ※ Các thẻ được rút sau trận đấu thì không được không tính.<br />
+                        ※ Thẻ được rút cho những người không phải là cầu thủ chính thức (cầu thủ dự bị, người quản lý, huấn luyện viên, v.v..) không được tính .<br />
+                        <br />
+                        <br />
+                        <br />
+                        Cược Điểm Thẻ Phạt<br />
+                        <br />
+                        ※ Thẻ vàng được tính là 10 điểm, thẻ đỏ được tính như 25 điểm. Thẻ vàng thứ hai cho cầu thủ dẫn đến thẻ đỏ thì không được tính được tính. Tổng số thẻ tối đa mỗi cầu thủ nhận là 35 điểm.<br />
+                        ※ Thanh toán cược sẽ được tính theo tất cả các thẻ được rút trong suốt 90 phút chơi chính thức.<br />
+                        ※ Các thẻ được rút sau trận đấu thì không được không tính.<br />
+                        ※ Thẻ được rút cho những người không phải là cầu thủ (cầu thủ dự bị, người quản lý, huấn luyện viên, v.v..) không được tính.<br />
+                        <br />
+                        <br />
+                        <br />
+                        Cược Phạt Góc<br />
+                        <br />
+                        ※ Những quả phạt góc được trao nhưng không được thực hiện thì không tính..<br />
+                        <br />
+                        <br />
+                        <br />
+                        Cược Cầu thủ ghi bàn<br />
+                        <br />
+                        ※ Cược không bao gồm bàn thắng tự ghi vào lưới nhà và xem như không được tính.<br />
+                        ※ Tất cả các cầu thủ tham gia trận đấu từ khi giao bóng hoặc trước bàn thắng được tính như là người chơi.<br />
+                        ※ Tất cả các cầu thủ đang tham gia trận đấu đều được xem là hợp lệ. Nếu vì bất cứ lý do nào đó, một cầu thủ không được xem là hợp lệ ghi một bàn thắng thì tất cả các cược cho các cầu thủ hợp lệ vẫn được giữ nguyên.<br />
+                        ※ Các thị trường cược sẽ được thanh toán dựa trên kết quả Tivi và các số liệu thống kê từ Hiệp Hội Báo Chí cung cấp trừ khi có các bằng chứng rõ ràng rằng những thống kê này là không chính xác.<br />
+                        <br />
+                        <br />
+                        <br />
+                        Cược Thời Gian Ghi Bàn<br />
+                        <br />
+                        ※ Cược được thanh toán dựa trên thời gian ghi bàn được thông báo trên TV. Nếu không có, thời gian ghi bàn sẽ được tính theo đồng hồ trận đấu.<br />
+                        ※ Cược được thanh toán dựa trên thời gian ghi bàn, chứ không phải thời điểm sút bóng..<br />
+                        <br />
+                        <br />
+                        <br />
+                        Các Điều Khoản Thanh Toán Và Hủy Cược<br />
+                        <br />
+                        ※ Nếu các thị trường cược vẫn mở trong khi trận đấu đã diễn ra với: các bàn thắng, thẻ đỏ hoặc thẻ vàng, các cú đá luân lưu, chúng tôi cái sẽ bảo lưu quyền vô hiệu hóa các cược.<br />
+                        ※Nếu thị trường cược đã được mở ra nhưng thiếu hoặc không chính xác thẻ đỏ, chúng tôi cái sẽ bảo lưu quyền vô hiệu hóa các cược.<br />
+                        ※ Nếu các tỷ lệ cược được cung cấp với thời gian trận đấu không chính xác (nhiều hơn 5 phút), chúng tôi cái sẽ bảo lưu quyền vô hiệu hóa các cược.<br />
+                        ※ Nếu nhập sai số điểm, tất cả các thị trường sẽ bị hủy trong thời gian đặt cược tại lúc điểm không chính xác được hiển thị.<br />
+                        ※ Nếu trận đấu bị gián đoạn hoặc hoãn lại và không được tiếp tục trong vòng 48 giờ sau ngày đá phạt đầu tiên, các cược sẽ bị hủy.<br />
+                        ※ Nếu tên các đội và hạng mục được hiển thị không chính xác, chúng tôi bảo lưu quyền hủy bỏ cược.</p>
                     </div>
                 </Grid>
             </Grid>

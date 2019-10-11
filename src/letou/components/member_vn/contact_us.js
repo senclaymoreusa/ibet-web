@@ -85,19 +85,19 @@ export class ContactUs extends React.Component {
                             </li>
                         </ul>
                     </div>
-                <Typography component="p" variant="h6">
-                联络我们
-                </Typography>
-                
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                客户服务  cs@letou.me
-                </Typography>
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                热线电话  4001208588   
-                </Typography>
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                注册办公地址 Pareraweg 45, Curacao
-                </Typography>
+                    <div id="HelperCenterDetail">
+                        <h2>Về chúng tôi</h2>
+                        <br /> <strong>Chăm sóc Khách hàng:&nbsp;</strong>
+						<li></li>
+						<br />- Zalo/Viber: <strong>+84 369070341</strong>
+						<li></li>
+                          <br />- Email: <strong>vn.support@letou.com</strong>
+						<li></li>
+                            <br />- Hotline:&nbsp;
+                            <strong>0084 24 44582028</strong>
+                      
+                       
+                    </div>
                 
                 </Grid>
             </Grid>

@@ -76,12 +76,12 @@ export class Lunpan extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">Nguyên tắc Casino >
                                     <i></i>
                                 </a>
                             </li>
@@ -90,38 +90,58 @@ export class Lunpan extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>亚洲轮盘</a>
+                                <a>Asian Roulette</a>
                             </li>
                             <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>国际轮盘</a>
+                                <a>International Roulette</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
                         <div className="centerDetail" hidden={this.state.current != 1}>
-                            <h2>亚洲轮盘</h2>
-                            <p>- 本游戏是采用欧式轮盘，欧式轮盘上共有37个小方格（0至36）。
-                                <br /> - 轮盘会顺时针转动，在投注时间结束后，小球会向逆时针方向弹出并於轮盘上滚动，最后会停在其中一个小方格内。
-                                <br /> - 戏目的是预测小球会停留在那一个颜色，号码或投注号码组合上。</p>
-
-                            <h1>【押注方式】</h1>
-                            <p>♦ 在赌桌上有个下注的表格是以每竖排三个数字共有12排1~36依序排列，数字的颜色即和轮盘相同。轮盘压注方式有：直接押注号码、两码押注、竖排三码押注、方形四码押注、二竖排六码押注、十二码押注、直线押注、红色／黑色押注、奇数／偶数押注和大／小范围押注等。
-                                <br
-                                />
-                                <br /> ♦ 关於押注的方式并没有硬性规定，所以您可以自由选择多种押注。在电脑屏幕的右上方我们随时会将上一局游戏的号码秀出来，通常若有号码久久都末出现，那接下来要出的概率将会很大（ 下列例子赔率不连本金计算）。
+                        <h2>Roulette Châu Á </h2>
+                            <p>- Đây là trò chơi kiểu Châu Âu bao gồm 1 số 0 Roulette. Có 37 ô số riêng biệt có màu trên bàn xoay. Bao gồm 1 ô số màu
+                                xanh và các ô số còn lại trong bàn xoay từ số 1 đến 36. Từ số 1 đến số 10 và từ 19 đến 28, các số chẵn màu đen và
+                                lẻ màu đỏ. Từ số 11 đến 18 và 29 đến 36, số chẵn màu đỏ và số lẻ màu đen.</p>
+                            <br />
+                            <h1>Cách chơi </h1>
+                            <p>♦ Khi trò chơi bắt đầu, bạn có thể chọn xu tiền cược để tiến hành đặt cược dựa trên việc dự đoán số sẽ quay ra hoặc các
+                                kiểu cược khác trên bàn cược. Quá trình đặt cược sẽ kết thúc sau khi kết thúc đồng hồ đếm ngược.
                                 <br />
-                                <br /> ♦ 自动加注功能：在轮盘游戏中，不同的投注项目也有其独立的投注下限（ 详情请查询"单项限红"）。为方便用户投注，低於单项投注下限的投注金额将会自动增加，从而达到该单项投注项目的下限标准。
+                                <br />♦ Khi đồng hồ đếm ngược kết thúc, người điều khiển vòng xoay sẽ bắt đầu quay số bằng cách tung quả bóng theo một
+                                hướng ngược lại hướng của vòng quay đang quay tròn.
                                 <br />
-                                <br /> ♦ 例：在（ 上限：20000／下限：50）的轮盘游戏中，"单／双"项目的投注下限是$500，当用户押$100（ 低於$500）在"单／双"项目的时候，由於投注金额低於"单／双"项目的投注下限，所以游戏系统便会自动将投注金额增加到$500。</p>
+                                <br />
+                                <br />♦ Khi quả bóng rớt vào 1 số, người điều khiển vòng xoay sẽ nhập số kết quả và việc thanh toán cược sẽ được hiển thị
+                                tại bàn của người chơi.</p>
+                            <h1>Luật chơi</h1>
+                            <p>♦ Các xu tiền cược được đặt cược trên các ô cược khác nhau, và người chơi có thể đặt cược vào bất kỳ ô cược nào trong
+                                suốt thời gian đặt cược.</p>
+                            <h1>Cược Phụ </h1>
+                            <p>♦ Cược đặc biệt: Người chơi có thể lưu sẵn 4 cược yêu thích của mình sau đó tiến hành đặt chỉ với một cú nhấp chuột.
+                                <br />
+                                <br />♦ Cược số hàng đơn vị: bao gồm các cược cho số hàng đơn vị của số dự đoán bao gồm từ 0 đến 9 hay các số đơn như vậy.
+                                Để đặt cược này, nhấp chuột vào cược muốn chọn tại các số trong khoảng từ 0 đến 9 trong cược kiểu Pháp. Các cược
+                                sẽ tự động được đặt tại các vị trí liên quan.
+                                <br />
+                                <br />♦ Cược lân cận: Bảng láng giềng cho phép bạn trừ số được lựa chọn của riêng bạn cũng đặt cược giữa các con số trên
+                                hai bên của nó. Có tổng số từ 1 đến 5 loại cược lân cận. để đặt cược lân cận, nhấp vào một loại mong muốn trong phần
+                                bên cạnh, sau đó nhập vào số bạn mong muốn trên bảng cược của Pháp. Ví dụ: lựa chọn những cược lân cận loại 5, sau
+                                đó nhấp vào số 7, thì bảng cược tương ứng sẽ đặt vào: 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26.
+                                <br />
+                                <br />♦Cược kiểu Pháp: Có một số khác biệt trong Roulette có tên đặc biệt gắn liền với chúng (ví dụ như “third cylinder”,
+                                “neighbors of zero” và “so on”), và mỗi loại bào gồm một phần của vòng quay. Có 5 loại cược trong cược kiểu Pháp.
+                                Phương thức đặt cược: đặt cược vào bảng roulette hình elip, và hiển thị các con chip trên một bảng roulette khác.
+                                Và sau đó, nhấp vào “Sure” để xác nhận cược của bạn.
+                            </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 2}>
-                            <h2>国际轮盘</h2>
-                            <p>- 采用国际轮盘，国际轮盘上共有37个小方格（0至36）。
-                                <br /> - 国际轮盘的号码排列方式与亚洲轮盘不同。
-                                <br /> - 轮盘会顺时针转动，在投注时间结束后，小球会向逆时针方向弹出并於轮盘上滚动，最后会停在其中一个小方格内。
-                                <br /> - 游戏目的是预测小球会停留在那一个颜色，号码或投注号码组合上。
-                                <br /> - 国际轮盘的投注方式与亚洲轮盘无异，而投注种类则有区别。</p>
+                        <h2>Roulette Quốc tế</h2>
+                            <p>- Trò chơi này là theo phong cách Châu Âu, Roulette chỉ có một số 0. Có 37 ô màu và đánh số trên bánh xe. Có một ô màu xanh
+                                lá cây được đánh số 0 và các ô khác được đánh số từ 1 đến 36. Trong khoảng số từ 1 đến 10 và 19 đến 28, số lẻ là màu
+                                đỏ, số chẵn là màu đen. Trong khoảng từ 11 đến 18 và từ 29 đến 36, số lẻ là màu đen và số chẵn là màu đỏ .
+                                <br /> Sự khác nhau giữa Châu Á và Roulette quốc tế là cách đặt cược và trả tiền.</p>
                         </div>
                     </div>
                     

@@ -60,115 +60,85 @@ export class BetRules extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">体育规则 >
+                                <a href="/for_member">Luật chơi Thể thao >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>投注规则</h2>
-                        <p>某些赛事和赌盘有不同的规则，这些规则列于本网站有关特定赛事或赌盘/投注类型的《特别赛事/赌盘投注规则》中。 下述内容为适用于所有赛事和赌盘/投注类型的一般规则，必须完全遵守。 在适用的情况下，本公司网站公布的《条款和条件》中所列规定与定义应当适用于本《投注规则与规定》。</p>
-                        <h2>• 1.一般投注规则与规定</h2>
-                        <h2>&nbsp;</h2>
-                        <h1>• 1.1.总则</h1>
-                        <p>• 1.1.1.本公司的所有投注信息都是出于诚意提供的。 不过，本公司不对有关日期、时间、地点、竞争对手、赔率、结果、统计数据、团队制服（显示在实时视频中）或其它投注信息的任何错误或遗漏负责。 本公司保留纠正任何明显错误的权利，并且应当采取所有合理行动确保以诚信透明的方式管理赌盘，赌盘定义为针对某一体育赛事所提供的不同的投注类型。
-                            公司保留做出最终性决定的权利。
-                            </p>
-                            <ul className={classes.helpCenterArticleColumn}>
-                            <li> • 1.1.2.如果一项赛事在预定时间之前开始，则只有该项赛事开始之前所做投注（除指定的现场投注以外）会被视为有效投注，赛事的定义是两个团队或个人间有组织的体育比赛或活动。 如果一个赌盘未在正确时间关闭或中止，则本公司有权取消在实际开始时间之后进行的所有投注（除指定的现场投注以外）。
-                            
-                            </li><li> • 1.1.3.如果网站对赛事所用的英语和非英语名称之间有任何差异，以英语版本为准。
-                            </li><li> • 1.1.4.在任何时候，客户有责任了解比赛分数和所有相关的比赛信息，并且建议客户在下注之前确认比赛状况。
-                            </li><li> • 1.1.5.本公司有权在任何时候出于任何原因修改这些规则。 一旦在网站上发布，任何此类修改都是具有约束性和立即生效的。
-                            </li><li> • 1.1.6.客户承认网站上提供的当前分数、所用时间及其它数据虽然是由第三方以“直播”形式提供，但仍会有时间延迟以及/或者可能不准确的情况，并且根据这些数据做任何投注时，客户应自行承担所有风险。 本公司提供这些数据时，不保证其准确性、完整性或及时性，并且不对客户因依赖这些数据而遭受的任何损失（直接或间接损失）负责。
-                            </li><li> • 1.1.7.有以下情形之一的，本公司可全权决定取消或宣布投注无效或暂停某一客户的游戏，而无需提前发出通知：
-                            </li><li> • 投注细节不完整或错误；
-                            </li><li> • 所投之注超过了规则允许的限度；
-                            </li><li> • 所投之注违反规则；
-                            </li><li> • 人为的打字及传输错误导致不正确的游戏数据或概率；
-                            </li><li> • 当出现异常或不规范使用游戏平台的情况，或出现过高的损失或收益。
-                            </li><li> • 1.1.8.本公司保留暂停比赛游戏或特定产品的权利，以纠正任何明显错误，维持该游戏的诚信和公平性。
-                            </li><li> • 1.1.9.一旦公司确认赌注，则客户不能修改或取消该赌注。
-                            </li><li> • 1.1.10.如果客户存有任何疑问或怀疑系统错误，则建议客户停止游戏，并与本公司的客户支持部门相协调。如果客户继续游戏，该客户应对其赌注的结果负责，且公司有权决定是否解决这一问题。
-                            </li><li> • 1.1.11.当开始现场比赛或游戏，且客户在其活动进行时予以投注，如果由于任何原因导致赌注断开的，不管断开的原因如何，或出现赌注冻结或崩溃，都将停止所有赌注，直到该活动完成并已知结果时才能进行结算。该一般规则不适用于某一游戏或产品拥有发生断开意外时具体规则的情形，适用该具体规则时的结果应以该规则对客户的约束力为基础。
-                            </li><li> • 1.1.12.本公司保留暂停和/或随时关闭客户账户的权利，如果公司认为客户违反任何适用的规则和规章，或欺骗、黑客入侵、攻击、操纵或破坏了正常的投注程序，或如果该客户从事洗钱或其他非法活动，或者该客户低于其所在管辖区或实际区域参与赌博的法定年龄。一旦由于上述原因关闭客户帐户，包括客户账户余额在内的所有奖金和/或支出都将没收。
-                            </li><li> • 1.1.13.本公司保留为其现有产品和即将提供的产品设置最大奖金额的权利。
-                            </li><li> • 1.1.14.如果公司有证据表明价格或联营的操纵，或比赛、活动或竞赛中的作弊行为，则公司保留拒绝付款的权利。上述证据以所有投注渠道的投注大小、容量或模式为基础。如上述规则解释存有任何争议，以公司解释为准。
-                            </li><li> • 1.1.15.本公司保留作废并取消涉及非法赌博活动的所有投注的权利。
-                            </li><li> • 1.1.16.本公司保留拒绝客户进入游戏或将客户踢出游戏的权利。
-                            </li><li> • 1.1.17.该软件不存在任何明示或暗示、法定或公司其他方面规定的保证、条件、承诺或声明。本公司不出于任何目的保证该软件适销性、质量及适合性，且不保证该软件能够满足客户的要求，不保证软件不会构成侵权。
-                            </li><li> • 1.1.18.虽然公司承诺会合理且谨慎行事，公司并不保证该软件不会出现任何错误或中断，不保证会修正软件内的任何错误，也不保证软件或服务器无病毒。
-                            </li><li> • 1.1.19.本公司对因账户结算相关的通信或系统错误造成的所有成本、费用、损失或索赔概不负责。本公司保留采取任何适当的措施，包括删除所有相关游戏软件以纠正此类错误的权利。
-                            </li><li> • 1.1.20.当下注或使用该软件时，客户承认公司无法控制客户如何使用该软件。此外，客户应承担其下注及使用软件的所有风险，且公司对任何直接、间接、附加、偶然的或特殊的任何形式的伤害或损失概不负责。
-                            </li><li> • 1.1.21.禁止客户披露软件内属于公司或软件供应商的任何机密信息。
-                            </li><li> • 1.1.22.为进行游戏或投注，授予客户个人的、非排他的、不可转让的使用该软件的权利。
-                            </li><li> • 1.1.23.禁止客户：
-                            </li><li> • 将软件安装或加载至另一个设备的服务器上，或采取措施使其他人可在网络上获取该软件。
-                            </li><li> • 再许可、转让、出租、出借、转移、复制或分发本软件的副本；
-                            </li><li> • 以该软件、该软件或复制品的任何部分为基础，解码、还原工程、反汇编、修改或创造衍生软件，或适应性转录或合并软件的任何部分，转换软件或软件的任何部分或企图破解本软件的源代码；
-                            </li><li> • 删除软件供应商的任何版权、专利或类似通知；和
-                            </li><li> • 进入、访问，或试图进入、访问或以其他方式进入公司安全系统或以任何方式干扰软件、游戏和网站。
-                            </li><li> • 1.1.24.使用该软件并不授予客户该软件任何知识产权的所有权。
-                            </li><li> • 1.1.25.以上一般规则应仅使用于特殊游戏或产品缺乏特殊规则的情况。</li>
-                            </ul>
-                       
-                           
-                       
-                        <h1>• 1.2.中止和延期</h1>
-                        <p>• 1.2.1.如果一项赛事未在预定开始日期开始，并且未按特定体育规则的规定，在原先预定的完成日期完成，则所有的投注都将无效，除了对已获得无条件确定的赌盘所做的投注以外。
-                            <ul className={classes.helpCenterArticleColumn}>
-                            <li> • 1.2.2.如果一项赛事已经开始，但之后又中止，并且未按特定体育规则的规定，在原先预定的完成日期完成，则所有的投注都将无效，除了对无条件决定结果的赌盘所做的投注以外。
-                            </li><li> • 1.2.3.如果一项赛事未按特定体育规则的规定，在原告预定的完成日期完成，而正式的比赛结果得以宣布，或者特定赛事的相关主管机构宣布了一个结果，则本公司有权认定这一比赛是正式有效的。 在此方面，本公司的决定是最终和具有结束性的。
-                            </li>
-                            </ul>
+                    <h2>Quy tắc đặt cược và điều lệ</h2>
+                        <p>Các sự kiện/trận đấu và kèo khác nhau sẽ có có những quy tắc và điều lệ khác nhau; và được liệt kê dưới đây trong mục “Quy Tắc Chung Cá Cược Thể Thao” trên mỗi Sự Kiện hay loại Kèo/cược được đề cập trong Website này. Dưới đây là các quy tắc cá cược chung đối với tất cả các Sự Kiện và loại cược, và cần được tuân thủ nghiêm ngặt. Trong trường hợp áp dụng, các quy định và định nghĩa nêu trong Điều khoản và Điều kiện sẽ được công bố trên website Letou và sẽ áp dụng đối với các Quy tắc và Điều Lệ này.<br />
+                        • 1.Quy tắc và điều lệ chung đặt cược <br />
+                        • 1.1.Tổng quan <br />
+                        • 1.1.1.Tất cả các thông tin cá cược được cung cấp bởi Công ty đều được thực hiện với thiện chí tốt. Tuy nhiên công ty không thể nhận trách nhiệm đối với bất kỳ lỗi hoặc thiếu sót liên quan đến ngày tháng, thời gian, địa điểm, đối thủ cạnh tranh, tỷ lệ cược, kết quả, thống kê, áo cầu thủ (hiển thị tại Live Streaming) hoặc những thông tin Cá cược khác. Công ty có quyền sửa đổi bất kỳ các lỗi nghiễm nhiên và áp dụng mọi biện pháp hợp lý để đảm bảo rằng các loại kèo – được định nghĩa trong “Các Loại Cá Cược” khác nhau trong các sự kiện thể thao nhất định – được quản lý bởi tính toàn vẹn và minh bạch. Công ty có quyền đưa ra quyết định cuối cùng.<br />
+                        • 1.1.2.Nếu một sự kiện được xem như là một trận đấu thể thao có tổ chức hay một sự kiện giữa hai đội hoặc giữa các cá nhân bắt đầu trước thời gian quy định thì những cược được đặt trước khi Sự Kiện Bắt Đầu (không bao gồm cược trực tiếp) sẽ được coi là hợp lệ. Nếu một loại Kèo không bị đóng hoặc bị tạm ngưng tại thời điểm chính xác thì Công ty có quyền vô hiệu hóa tất cả các cược đặt sau khi thời gian thực tế bắt đầu (ngoại trừ trường hợp cá độ trực tiếp).<br />
+                        • 1.1.3.Trong trường hợp không thống nhất giữa tiếng Anh và tên phi tiếng Anh được sử dụng trong các trận đấu hoặc đội bóng trên Webite, phiên bản tiếng Anh sẽ được áp dụng làm cơ sở.<br />
+                        • 1.1.4.Trong mọi thời điểm, người chơi có trách nhiệm nhận thức được về tỷ số trận đấu và tất cả các thông tin có liên quan; khách hàng nên nắm rõ tình trạng trận đấu trước khi đặt cược.<br />
+                        • 1.1.5.Công ty có quyền sửa đổi những Quy tắc này tại bất kỳ thời điểm nào vì bất kỳ lý do gì. Bất kỳ các sửa đổi đó sẽ được ràng buộc và có hiệu quả ngay lập tức khi đăng tải trên Website.<br />
+                        • 1.1.6.Khách hàng thừa nhận tỷ số hiện tại, thời gian trôi qua và các dữ liệu khác được cung cấp trên trang web, trong khi nếu như lấy từ “live feed” thì thông tin được cung cấp bởi một bên thứ ba và có thể dẫn đến thời gian chậm trễ và/ hoặc có thể không chính xác, tất cả cược đặt dựa trên dữ liệu này hoàn toàn có nguy cơ gây bất lợi cho khách hàng. Công ty cung cấp dữ liệu này nhưng không mang tính đảm bảo về sự chính xác, đầy đủ và kịp thời của dữ liệu đó và không chịu trách nhiệm cho bất kỳ tổn thất (trực tiếp hoặc gián tiếp) gây ra cho khách hàng nếu khách hàng phụ thuộc vào những thông tin này.<br />
+                        • 1.1.7.Công ty, có quyền quyết định cuối cùng và duy nhất, về việc hủy bỏ hoặc tuyên bố vô hiệu hay đình chỉ bất kỳ người chơi nào mà không cần báo trước, trong bất kỳ trường hợp nào sau đây:<br />
+                        • Các chi tiết đặt cược chưa đầy đủ hoặc có sai sót;<br />
+                        • Cược đặt quá giới hạn được cho phép bởi luật chơi;<br />
+                        • Cược đặt không đúng với các quy tắc;<br />
+                        • Lỗi của con người trong việc đánh máy hoặc truyền đạt dẫn đến việc sử dụng một dữ liệu chơi game hoặc tỷ lệ cược không chính xác;<br />
+                        • Nếu có và khi xuất hiện việc sử dụng một nên tảng chơi game bất thường hoặc không thường xuyên hoặc xuất hiện một số tiền thua hoặc thắng cao bất thường.<br />
+                        • 1.1.8.Công ty bảo lưu quyền đình chỉ một trò chơi hoặc sản phẩm cụ thể để sửa chữa bất kỳ lỗi rõ ràng nào, để duy trì tính toàn vẹn và công bằng của trò chơi nói trên.<br />
+                        • 1.1.9.Khi một cược được xác nhận bởi công ty, cược đó sẽ không thể được sửa đổi hoặc hủy bỏ bởi khách hàng.<br />
+                        • 1.1.10.Nếu khách hàng có bất kỳ nghi ngại hay nghi ngờ rằng hệ thống có gì sai sót, khách hang sẽ được khuyên nên ngừng chơi và phối hợp với bộ phận hỗ trợ khách hàng của Công ty. Nếu khách hàng tiếp tục chơi, thì anh ấy/cô ấy đã chấp nhận trách nhiệm về kết quả của cược của mình và Công ty có toàn quyền quyết định việc giải quyết hay không để giải quyết vấn đề.<br />
+                        • 1.1.11.Trong trường hợp trận đấu trực tiếp hoặc trận đấu bắt đầu và cược đã được thực hiện trong khi sự kiện này là trong hoạt động và nếu vì lý do nào đó mà các dòng bị ngắt kết nối, bất kể nguyên nhân ngắt kết nối là gì, hoặc đóng băng đường thông hoặc treo máy, bất kỳ và tất cả các cược được thực hiện vẫn sẽ được giữ nguyên và được giải quyết khi sự kiện này đã được hoàn thành và khi kết quả được công bố. Nguyên tắc chung này không áp dụng trong trường hợp một trò chơi hoặc một sản phẩm có một quy tắc cụ thể khi ngắt kết nối trong trường hợp này, phải áp dụng các quy tắc cụ thể và kết quả dựa trên các quy tắc cụ thể sẽ ràng buộc khách hàng.<br />
+                        • 1.1.12.Công ty có quyền đình chỉ và / hoặc đóng tài khoản của khách hàng bất cứ lúc nào nếu người ta tin rằng các khách hàng vi phạm các quy tắc và quy định áp dụng hoặc lừa dối, bị tấn công, bị lấy cắp thông tin, bị thao túng hoặc bị hư hỏng các thủ tục cá độ bình thường hoặc nếu khách hàng tham gia vào các hoạt động rửa tiền hoặc các hoạt động bất hợp pháp khác hoặc là dưới tuổi pháp lý cần thiết để tham gia cá cược trong thẩm quyền của mình hoặc vị trí thực tế. Khi tài khoản của khách hàng bị đóng cửa vì những lý do nói trên, tất cả tiền thắng cược và / hoặc thanh toán bao gồm số dư trong tài khoản của khách hàng sẽ bị hủy bỏ<br />
+                        • 1.1.13.Các Công ty có quyền để thiết lập số tiền thanh toán tối đa cho những sản phẩm đã có và những sản phẩm được giới thiệu.<br />
+                        • 1.1.14.Công ty có quyền giữ khoản thanh toán nếu có bằng chứng cho thấy các tỷ lệ cược hoặc tổng giải thưởng đã được thao túng hoặc nơi một cuộc đua, sự kiện hoặc trận đấu đã được sắp đặt. Những bằng chứng kể trên có thể dựa trên kích thước, khối lượng hoặc mô hình của các cược được đặt trên bất kỳ hoặc tất cả các kênh cá cược của chúng tôi. Nếu có bất kỳ tranh chấp về việc giải thích các quy tắc này, giải thích của Công ty sẽ được áp dụng.<br />
+                        • 1.1.15.Công ty có quyền từ chối và hủy bỏ tất cả các cược có dính líu với các hoạt động cá cược bất hợp pháp..<br />
+                        • 1.1.16.Công ty bảo lưu quyền từ chối khách hàng tham gia các trò chơi hoặc hủy bỏ tư cách của người chơi trong trò chơi đó.<br />
+                        • 1.1.17.Phần mềm này được cung cấp “nguyên vẹn” mà không có bất kỳ sự bảo đảm, điều kiện, cơ sở hoặc đại diện, rõ ràng hay ngụ ý, theo luật định hoặc theo một phần của Công ty. Công ty không đảm bảo khả năng bán hàng, chất lượng, phù hợp cho một mục đích cụ thể, rằng phần mềm sẽ đáp ứng yêu cầu của khách hàng và rằng phần mềm là không vi phạm.<br />
+                        • 1.1.18.Trong khi Công ty cam kết rằng nó sẽ hoạt động với việc chăm sóc hợp lý, Công ty không đảm bảo rằng các phần mềm có lỗi hoặc không bị gián đoạn hoặc bất kỳ khiếm khuyết nào trong phần mềm sẽ được sửa chữa hoặc các phần mềm hoặc các máy chủ không có vi-rút.<br />
+                        • 1.1.19.Công ty không chịu trách nhiệm cho tất cả các chi phí, tổn thất hoặc khiếu nại phát sinh từ hoặc do thông tin liên lạc hoặc lỗi hệ thống liên quan đến việc giải quyết các tài khoản. Công ty bảo lưu quyền thực hiện bất kỳ hành động thích hợp nào để sửa các lỗi đó bao gồm việc loại bỏ tất cả các trò chơi có liên quan từ phần mềm.<br />
+                        • 1.1.20.Trong việc đặt cược và sử dụng phần mềm, khách hàng thừa nhận rằng Công ty sẽ không kiểm soát cách khách hàng sử dụng phần mềm. Hơn nữa, khách hàng đặt cược của mình và chịu trách nhiệm về việc sử dụng phần mềm của riêng mình và Công ty sẽ không chịu trách nhiệm cho bất kỳ thiệt hại trực tiếp, gián tiếp, là hậu quả, ngẫu nhiên hay đặc biệt nào.<br />
+                        • 1.1.21.Khách hàng không được tiết lộ bất kỳ thông tin bí mật nào thuộc Công ty hoặc nhà cung cấp phần mềm có thể có trong phần mềm<br />
+                        • 1.1.22.Để chơi các trò chơi và đặt cược, khách hàng được cung cấp quyền hạn cá nhân, không độc quyền, không được chuyển nhượng quyền để sử dụng phần mềm.<br />
+                        • 1.1.23.Khách hàng sẽ bị cấm:<br />
+                        • 1.1.23.1.Cài đặt hoặc tải các phần mềm trên máy chủ của một thiết bị khác hoặc thực hiện các bước để làm cho các phần mềm sẵn sàng cho bất kỳ người nào khác;<br />
+                        • 1.1.23.2.Những bản sao giấy phép phụ, chuyển nhượng, cho thuê, cho mượn, chuyển nhượng, sao chép hoặc phát hành phần mềm;<br />
+                        • 1.1.23.3.Giải mã, đảo ngược, tháo rời, dịch, biên soạn, chỉnh sửa, tạo ra các sản phẩm dựa trên phần mềm, bất kỳ phần nào hoặc bất kỳ bản sao nào, thích ứng phiên mã hoặc phần sáp nhập của phần mềm, chuyển đổi phần mềm hoặc bất kỳ phần nào của nó hay thực hiện bất kỳ nỗ lực để khám phá mã nguồn của phần mềm;<br />
+                        • 1.1.23.4.Hủy bỏ bất kỳ quyền tác giả, quyền sở hữu hoặc tương tự từ các nhà cung cấp phần mềm; và<br />
+                        • 1.1.23.5.Đăng nhập, truy cập hoặc cố gắng đăng nhập hay truy cập hoặc bỏ qua hệ thống an ninh của Công ty hoặc can thiệp bằng bất kỳ cách nào với các phần mềm, trò chơi và các trang web.<br />
+                        • 1.1.24.Việc sử dụng phần mềm không cung cấp cho khách hàng quyền sở hữu của bất kỳ quyền sở hữu trí tuệ nào trong phần mềm.<br />
+                        • 1.1.25.Những quy định chung chỉ được áp dụng trong trường hợp không có bất kỳ quy tắc đặc biệt nào áp dụng cho một trò chơi hoặc sản phẩm cụ thể.<br />
+                        • 1.2. Hủy bỏ hoặc Trì Hoãn<br />
+                        • 1.2.1.Nếu một Sự Kiện không bắt đầu vào đúng thời gian đã lên kế hoạch trước và không được hoàn thành trong ngày dự kiến hoàn thành và theo quy định trong các quy tắc thể thao cụ thể, thì tất cả các cược sẽ bị vô hiệu, ngoại trừ những Kèo đã được xác định vô điều kiện.<br />
+                        • 1.2.2.Nếu một Sự Kiện bắt đầu nhưng sau đó bị hủy bỏ, và không hoàn thành trong ngày dự kiến hoàn thành theo quy định trong các quy tắc thể thao cụ thể, thì tất cả các cược sẽ bị vô hiệu, ngoại trừ những Kèo đã được xác định vô điều kiện.<br />
+                        • 1.2.3.Nếu sự kiện không được hoàn thành như theo thời gian dự kiến ban đầu trong các quy tắc thể thao cụ thể mà kết quả chính thức được công bố, hay kết quả sẽ được công bố bởi nhà tổ chức sự kiện hoặc cơ quan quản lý có liên quan, Công ty có quyền xem đó là các trận đấu chính thức hợp lệ. Quyết định của Công ty là quyết định cuối cùng và có tính ràng buộc trong vấn đề này.<br />
+                        • 1.3.Thay Đổi Địa Điểm<br />
+                        • 1.3.1.Trừ khi có quy định khác, nếu trận đấu dự kiến được chơi trên sân trung lập nhưng lại được chơi trên sân không trung lập hoặc ngược lại, tất cả các cược sẽ vẫn được coi là hợp lệ. Trong trường hợp thay đổi địa điểm nơi mà đội chủ nhà đáng lý chơi hoặc ngược lại, tất cả các cược vào trận đấu này sẽ bị hủy. Cược cũng sẽ bị hủy nếu tên đội nhà và đội khách là đặt tên sai quy định.<br />
+                        • 1.3.2.Đối với tất cả sự kiện không mang tính đồng đội, nếu các địa điểm dự kiến thay đổi sau khi các Kèo mở ra, thì tất cả các cược vẫn được coi là hợp lệ.<br />
+                        • 1.4.Thời Gian Tiến Hành <br />
+                        • 1.4.1.Nếu thời gian dự kiến tổ chức sự kiện bị thay đổi thì tất cả các cá cược sẽ vô hiệu.<br />
+                        • 1.4.2.Bất kỳ sự cố xảy ra trong thời gian bù giờ hoặc thời gian tạm ngưng, được xem là xảy ra vào cuối thời gian chính thức, ví dụ: bàn thắng được ghi trong thời gian bù giờ của hiệp 1 trong một trận bóng đá được coi là đã ghi được trong 45 phút.<br />
+                        • 1.5.Kết quả<br />
+                        • 1.5.1.Trong trường hợp có liên quan, đội được trao giải sẽ được tính kết quả chính thức, bất kể kết quả xếp loại nào khác hoặc sửa đổi khác đối với kết quả. Nếu không có lễ đăng quang trao giải, kết quả sẽ được xác định theo kết quả chính thức của trọng tài có liên quan tại thời điểm kèo mở ra, bất kể kết quả xếp loại nào khác hoặc sửa đổi khác đối với kết quả. Nếu không có kết quả chính thức thì kết quả sẽ được xác định dựa theo bằng chứng thực sẵn có tại thời điểm kèo mở ra.<br />
+                        • 1.5.2.Các Kèo nói chung được giải quyết ngay sau khi kết thúc một Sự Kiện. Được xem như một dịch vụ chăm sóc khách hàng hoàn hảo, một số Kèo có thể được giải quyết trước khi các kết quả chính thức được công bố. Công ty có quyền đảo ngược kết quả các sự kiện của một số kèo khi xuất hiện lỗi.<br />
+                        • 1.5.3.Trong trận đấu không có kết quả chắc chắn thì chúng tôi có quyền từ chối các kèo cược liên quan.<br />
+                        • 1.5.4.Ngoại trừ những trận đấu không tồn tại, Công ty sẽ không hủy bỏ hoặc hoàn tiền cho cược đã được xử lý vì bất kỳ sửa đổi hoặc thay đổi nòa với kết quả, tên đội bóng, hoặc bất kỳ chi tiết trận đấu khác được thực hiện 72 giờ sau thời gian bắt đầu Sự Kiện hoặc cho những cược đã được xử lý.<br />
+                        • 1.5.5.Trường hợp có sự mâu thuẫn giữa các kết quả chính thức và kết quả được đăng trên Website của Công ty thì mâu thuẫn đó sẽ được giải quyết bằng cách dựa trên băng ghi hình sự kiện của Công ty để xác định kết quả chính xác. Tuy nhiên, nếu không có băng ghi hình thì kết quả chính xác sẽ được xác định theo kết quả của nhà tổ chức hoặc cơ quan quản lý có liên quan theo công bố của họ trên trang web chính thức. Nếu trang web chính thức không thể cung cấp kết quả hoặc kết quả được đăng tải trên trang web chính thức đó là sai, thì Công ty có quyền đưa ra quyết định/sửa đổi để xác định kết quả cuối cùng. Quyết định của Công ty là quyết định cuối cùng và có tính ràng buộc trong vấn đề này.<br />
+                        • 1.5.6.Người chiến thắng của một Sự kiện được xác định vào lúc kết thúc Sự kiện để xác định số lần đặt cược trúng số bất kể quyết định đảo ngược quyết định hoặc kết quả của bất kỳ phản đối hoặc khiếu nại nào.<br />
+                        • 1.6.Chức Năng Hẹn Giờ Tự Động<br />
+                        • 1.6.1.Trong một vài trận đấu được xác định bởi Công Ty, khách hàng có thể đặt cược sử dụng chức năng Chấp Nhận Hẹn Giờ bằng cách chọn vào nút “Chấp Nhận Hẹn Giờ” trong phần menu. Mỗi cược được đặt sử dụng chức năng hẹn giờ sẽ tự động đếm ngược thời gian. Khi thời gian kết thúc, mà không có bất kỳ gián đoạn nào xảy ra ở mục 1.6.2 dưới đây thì cược này được chấp nhận.<br />
+                        • 1.6.2.Nếu trường hợp gián đoạn đề cập trong phần này xảy ra trước thời gian đếm ngược kết thúc, tất cả cược đã đặt sử dụng chức năng Chấp Nhận Hẹn Giờ sẽ bị loại bỏ ngay lập tức;<br />
+                        • 1.6.2.1.Nếu trận đấu có khả năng xuất hiện thẻ đỏ hay thẻ đỏ đã thực sự được đưa ra;<br />
+                        • 1.6.2.2.Nếu trận đấu có khả năng xuất hiện quả phạt đền hay quả phạt đền thực sự xảy ra;<br />
+                        • 1.6.2.3.Nếu trận đấu có khả năng xuất hiện bàn thắng ghi bàn hay bàn thắng đã thực sự được ghi bởi bất kỳ đội nào;<br />
+                        • 1.6.2.4.Nếu những sự kiện không giới hạn nhưng ngẫu nhiên xảy ra như trục trặc về các thiết bị hoặc kỹ thuật viễn thông có thể ngăn cản việc đặt chình xác, chấp nhận, ghi hình hoặc thông báo của các cược, trì hoãn hoặc gián đoạn trong tổ chức hoặc truyền dẫn thông tin thất bại.<br />
+                        • 1.6.3.Khi sử dụng chức năng Chấp Nhận Hẹn Giờ, khách hàng cần phải thừa nhận điểm số hiện tại, thời gian diễn ra và những dữ liệu được cung cấp bởi website này, trong khi nếu như lấy từ “live feed” thì thông tin được cung cấp bởi một bên thứ ba và có thể dẫn đến thời gian chậm trễ và/ hoặc có thể không chính xác, tất cả cược đặt dựa trên dữ liệu này hoàn toàn có nguy cơ gây bất lợi cho khách hàng. Công ty cung cấp dữ liệu này nhưng không chịu trách nhiệm cho bất kỳ tổn thất (trực tiếp hoặc gián tiếp) gây ra cho khách hàng nếu khách hàng phụ thuộc vào những thông tin này.<br />
                         </p>
-                           
-                        
-                        <h1>• 1.3.场地变更</h1>
-                        <p>• 1.3.1.除非另有说明，如果一项比赛预计在一个中立性场地上展开，但却在非中立的场地上展开，所有的投注仍将被视为有效，反之亦然。如果主场团队打客场团队的场地变更，反之亦然，对该场比赛的所有投注都将被视为无效。如果主场和客场团队的名称被错误地颠倒，投注也会被视为无效。
-                            <li> • 1.3.2.对于所有非团队赛事，如果预定的场地在赌盘开放后变更，则所有的投注仍将被视为有效。</li></p>
-                        <p>
-                            <li> &nbsp;</li>
-                        </p>
-                        <h1>• 1.4.赛事期间</h1>
-                        <p>• 1.4.1.所显示的赛事进行时间仅供于参考。尽管赛事进行时间和所显示的有所差异，投注仍有可能被视为有效。
-                            <li> • 1.4.2.在比赛伤停时间发生的任何情况都被视为在常规时间末时发生，例如一场足球比赛上半场伤停补时阶段的一个进球会被视为是在第45分钟时踢进的。
-                        </li>
-                            <li> &nbsp;</li>
-                        </p>
-                        <h1>• 1.5.赛果</h1>
-                        <p>• 1.5.1.必要时，颁奖仪式的位次将被视为是正式赛果，不论之后是否出现取消或更改赛果的情况。 如果没有颁奖仪式，赛果将会依据相关主管机构在赌盘结算时提供的官方结果而定，不论之后是否出现取消或更改赛果的情况。 如果没有提供适用的官方结果，则将依据到赌盘结算时适用且已知的证据来确定赛果。
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> • 1.5.2.赌盘通常会在一项赛事结束后不久进行结算。 完全出于服务客户的目的，一些赌盘可能会在正式结果公布之前结算。 如果一个赌盘结算错误，本公司有权撤销结算。
-                            </li><li> • 1.5.3.如果无法确定赛事结果，公司保留暂停任何赌盘结算的权利。
-                            </li><li> • 1.5.4.除了不存在的赛事以外，公司将不会因任何赛事结果，球队名称或该赛事任何细节上的修改而对已结算72小时的投注项目作出更改。
-                            </li><li> • 1.5.5.当官方赛果与本公司网站赛果版块公布的赛果之间有冲突时，应当通过参考本公司的有关赛事视频记录来确定正确的结果，以便解决冲突。 然而，如果没有此类适用的视频记录，应当根据特定赛事的相关主管机构在其官方网站上公布的赛果确定正确的结果。
-                            如果该官方网站无法提供这一结果或者官方网站公布的赛果明显有错，则本公司有权做出决定/修正，以便确定最终的结果。 在此方面，本公司的决定是最终和具有结束性的。
-                            </li><li> • 1.5.6.无论任何的项目在结束后出现后续的决定更改、抗议或上诉而引致的成绩变动，项目的获胜者将就根据项目结束时的成绩来确定投注的胜负。</li>
-                        </ul>
-                        <p>
-                            <li> &nbsp;</li>
-
-                        </p>
-                        <h1>• 1.6.自动计时器接受功能</h1>
-                        <p>• 1.6.1.对于某些可由本公司确定的赛事，客户可以利用计时器接受功能进行投注，选择菜单上的“计时器接受”按钮即可。 利用计时器接受功能所做的每次投注将有自己的倒计时，其持续时间将由本公司独家决定。 在计时器倒数完毕时，若没有下文1.6.2节所述任何妨害的情况出现，投注将会被接受。
-                         <ul className={classes.helpCenterArticleColumn}>
-                            <li> • 1.6.2.如果在计时器倒数结束前发生任何本节所述的妨害情况，所有使用计时器接受功能所做投注都将立即被取消；
-                            </li><li> • 如果很可能或确实领得一张红牌；
-                            </li><li> • 如果可能或确实被判罚一个点球；
-                            </li><li> • 如果任何球队可能入球或取得入球；
-                            </li><li> • 偶发事件包括但不限于，影响正确地下注、接受投注、记录或通告投注的任何设备或通讯中断，操作或传输延误或中断，通讯线路故障等。
-                            </li><li> • 1.6.3.在使用计时器接受功能时，客户承认本网站上提供的当前分数、所用时间及其它数据虽然是由第三方以直播形式提供，但仍会有时间延迟以及/或者可能不准确的情况，并且根据这些数据做任何投注时，客户应自行承担所有风险。 本公司提供这些数据，并且不对客户因依赖这些数据而遭受的任何损失（直接或间接损失）负责。</li>
-                             </ul>
-                        </p>
-                    </p>
                     </div>
+                    
 
                 </Grid>
             </Grid>

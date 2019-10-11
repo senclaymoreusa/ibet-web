@@ -56,32 +56,35 @@ export class OfferTerms extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">优惠活动条款  >
+                                <a href="/for_member">Kế hoạch Khuyến mãi  >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>优惠活动条款</h2>
-
-                        <p>乐投国际会定期与不定期举办各种优惠活动，在您参与前，您必须完全同意以下规则和遵循以下义务：</p>
-
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li>1. 您必须已经是乐投国际会员且必须同意我们的“乐投国际服务条款”方有参与本活动资格。</li>
-                            <li>2. 活动资格与奖励无法转让。</li>
-                            <li>3. 同一帐户／家庭／户籍地址／电邮地址／电话号码／付款账号（如借记卡／信用卡账号等）／ IP地址／共享计算机环境，仅限于优惠一次。</li>
-                            <li>4. 领取该红利用户在完成相应红利流水活动期间，必须从本机物理IP地址登陆，凡是隐藏客户真实身份，使用VPN，代理服务器或云服务器登陆者，一律没收所发放红利。</li>
-                            <li>5. 小游戏平台的桌面游戏、21点类游戏以及视频扑克均不计算为有效流水。</li>
-                            <li>6. 乐投国际有权单方面决定会员是否利用优惠活动进行异常或无风险投注。对会员行为做出严格监视，发现有任何违背、欺骗、或利用规则与条款进行非法获利的会员，乐投国际有权终止会员的登陆、暂停会员使用网站和没收奖金及赢利的权力，无须特别通知。</li>
-                            <li>7. 活动如有任何异动，乐投国际有权在任何时间，修改、暂停或取消优惠活动。</li>
-                            <li>8. 会员参与本活动时，乐投国际将默认同意并遵守活动条款等相关规定，若用户有异议，可申请放弃此活动参加资格。</li>
-                            <li>9. 乐投国际具有解释奖金授予事项及规则与条款的权力。</li>
+                    <h2>Điều kiện và Điều khoản của Khuyến mãi</h2>
+                        <p>Letou thường xuyên đưa ra các chương trình Khuyến mãi. Vui lòng đọc và đồng ý các Điều kiện &amp; Điều khoản dưới đây trước khi tham gia Khuyến mãi:</p>
+                        <ul class="HelpCenterArticleColumn">
+                            <li>1. Khi tham gia Khuyến mãi, thành viên cần đồng ý và chấp nhận các Điều kiện &amp; Điều khoản. Nếu bạn không đồng ý với các Điều kiện và Điều khoản trên, thành viên sẽ bị coi là không hợp lệ.</li>
+                            <li>2. Tiền thưởng không được chuyển nhượng.</li>
+                            <li>3.Cược tất tay (cược toàn bộ số tiền gửi và Khuyến mãi) trong lần cược đầu tiên sẽ không được coi là hợp lệ tại Letou. Tiền cược tối đa cho lần cược đầu tiên sau khi nhận Khuyến mãi&nbsp;phải thấp hơn hoặc bằng với số tiền gốc gửi vào. Các tài khoản vi phạm sẽ bị tịch thu toàn bộ tiền Khuyến mãi cũng như các khoản tiền thắng khác.&nbsp;</li>
+                            <li>4. Duy nhất 1: Số điện thoại, địa chỉ email, địa chỉ nhà, thẻ ngân hàng, địa chỉ IP &amp; thiết bị được sử dụng cho Khuyến mãi.</li>
+							<li>5. Tiền hoàn trả sẽ dựa trên tổng số tiền đặt cược hợp lệ (doanh thu cược) của thành viên tại từng sản phẩm theo từng kèo, từng trận đấu và từng cấp độ thành viên như sau: </li>
+							<li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Thua hết - Hoàn trả trên tiền cược </li>
+                            <li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Thua ít hơn tiền cược - Hoàn trả trên Thắng/Thua </li>
+                            <li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Thắng >=75% - Hoàn trả trên tiền cược </li>
+                            <li>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Thắng 75% - Hoàn trả trên tiền thắng</li>
+                            <li>6. Letou không chấp nhận gian lận, nếu phát hiện người chơi có hành vi vi phạm các nguyên tắc của chúng tôi, Letou có quyền đóng tài khoản và tịch thu số dư trong tài khoản của người chơi.</li>
+                            <li>7. LETOU có quyền đưa ra quyết định cuối cùng về các hành vi gian lận của người chơi ở mức độ cao hay có sự trao đổi. Hành vi cá cược của người chơi được theo dõi chặt chẽ và nếu chúng tôi có bất cứ sự phát hiện về gian lận, lợi dụng Điều kiện &amp; Điều khoản Khuyến mãi nhằm trục lợi, LETOU sẽ đóng tài khoản ngay lập tức của người chơi, thu hồi toàn bộ tiền thưởng hoặc tiền thắng mà không cần có bất cứ sự thông báo nào.</li>
+                            <li>8. Việc tính doanh thu cược sẽ được căn cứ theo các mục sau: Giới hạn rút tiền &gt; Giới hạn gửi tiền &gt; không bao gồm tặng tiền Khuyến mãi &gt; tiền Khuyến mãi đặc biệt. Khi người dùng sử dụng Khuyến mãi gửi tiền lần đầu tiên, hệ thống sẽ yêu cầu doanh thu cược yêu cầu được tính theo số tiền gửi vào lần đầu và sau đó người chơi sẽ phải đạt được doanh số theo yêu cầu để có thể nhận được Khuyến mãi, hệ thống sẽ tính tiền Khuyến mãi đặc biệt/ Khuyến mãi không bao gồm dựa trên doanh thu cược yêu cầu.</li>
+                            <li>9. Letou có quyền đưa ra giải thích và quyết định cuối cùng về vấn đề tiền thưởng dựa trên các Điều kiện và Điều khoản.</li>
+                            <li>10. Letou có quyền hủy bỏ chương trình Khuyến mãi hoặc sự kiện bất cứ lúc nào mà không cần có thông báo.</li>
                         </ul>
                     </div>
                 </Grid>

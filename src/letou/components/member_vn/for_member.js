@@ -99,70 +99,70 @@ export class ForMember extends React.Component {
                 <div className={classes.all}>
                 <div className={classes.first}>
                 <Typography variant="h6" className={classes.title}>
-                乐投品牌故事
+                Lịch sử LETOU
                 </Typography>
                 <div className={classes.demo}>
                     <List >
                         <Link className={classes.list} href="/about_us">
-                        <ListItemText classes={{primary:classes.listItemText}} >关于我们</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Về LETOU</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/contact_us">
-                        <ListItemText classes={{primary:classes.listItemText}} >联络我们</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Liên hệ</ListItemText>
                         </Link>
                     </List>
                 </div>
                 <Typography variant="h6" className={classes.title}>
-                 维护帐户安全
+                Bảo mật duy trì tài khoản
                 </Typography>
                 <div className={classes.demo}>
                     <List >
                         <Link className={classes.list} href="/statement">
-                        <ListItemText classes={{primary:classes.listItemText}} >法律声明与责任</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Điều kiện và Điều khoản</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/disclaimer">
-                        <ListItemText classes={{primary:classes.listItemText}} >免责声明</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Từ chối</ListItemText>
                         </Link>
                         <Link className={classes.list}  href="/privacy">
-                        <ListItemText classes={{primary:classes.listItemText}} >隐私权政策</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Thu thập dữ liệu</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/safe_bet">
-                        <ListItemText classes={{primary:classes.listItemText}} >理性博彩</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Trách nhiệm khi chơi</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/identity">
-                        <ListItemText classes={{primary:classes.listItemText}} >身份核实</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Xác minh chứng minh thư</ListItemText>
                         </Link>
                     </List>
                 </div>
                 <Typography variant="h6" className={classes.title}>
-                优惠活动与奖励
+                Kế hoạch Khuyến mãi
                 </Typography>
                 <div className={classes.demo}>
                     <List >
                         <Link className={classes.list} href="/offer_terms">
-                        <ListItemText classes={{primary:classes.listItemText}} >活动相关条款</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Điều kiện và Điều khoản của Khuyến mãi</ListItemText>
                         </Link>
                         
                     </List>
                 </div>
                 <Typography variant="h6" className={classes.title}>
-                体育规则
+                >Luật chơi Thể thao
                 </Typography>
                 <div className={classes.demo}>
                     <List >
                         <Link className={classes.list} href="/rules">
-                        <ListItemText classes={{primary:classes.listItemText}} primary="投注规则与规定" />
+                        <ListItemText classes={{primary:classes.listItemText}} primary="Điều lệ và Quy tắc đặt cược" />
                         </Link>
                         <Link className={classes.list} href="/bet_rules2">
-                        <ListItemText classes={{primary:classes.listItemText}} >盘口介绍</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Giới thiệu cược chấp</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/football_rules">
-                        <ListItemText classes={{primary:classes.listItemText}} >足球赛事交易规则</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Nguyên tắc Thể thao</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/bet_rules3">
-                        <ListItemText classes={{primary:classes.listItemText}} >足球特有盘口介绍</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Giới thiệu các loại cược chấp trong bóng đá</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/bet_rules4">
-                        <ListItemText classes={{primary:classes.listItemText}} >其他运动项目</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Các môn Thể thao khác</ListItemText>
                         </Link>
                         
                     </List>
@@ -170,62 +170,62 @@ export class ForMember extends React.Component {
                 </div>
                 <div className={classes.first}>
                 <Typography variant="h6" className={classes.title}>
-                沙巴体育规则
+                Luật chơi thể thao OW
                 </Typography>
                 <div className={classes.demo}>
                     <List >
                         <Link className={classes.list} href="/football_rules">
-                        <ListItemText classes={{primary:classes.listItemText}} >一般投注规则与规定</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Luật cược</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/general_rules">
-                        <ListItemText classes={{primary:classes.listItemText}} >赌盘（投注类型）规则之一般规则</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Luật doanh thu cược</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/special_rules">
-                        <ListItemText classes={{primary:classes.listItemText}} >特定赛事投注规则</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Luật đặt cược đặc biệt</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/virtual_sports">
-                        <ListItemText classes={{primary:classes.listItemText}} >虚拟运动规则</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Luật trò chơi Ảo</ListItemText>
                         </Link>
                     </List>
                 </div>
                 <Typography variant="h6" className={classes.title}>
-                娱乐场规则
+                Nguyên tắc Casino
                 </Typography>
                 <div className={classes.demo}>
                     <List >
                         <Link className={classes.list} href="/game_baijiale">
-                        <ListItemText classes={{primary:classes.listItemText}} >百家乐</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Baccarat</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_lunpan">
-                        <ListItemText classes={{primary:classes.listItemText}} >轮盘</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Rồng hổ</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_21dian">
-                        <ListItemText classes={{primary:classes.listItemText}} >21点</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Blackjack</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_longhu">
-                        <ListItemText classes={{primary:classes.listItemText}} >龙虎</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Rồng hổ</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_gubao">
-                        <ListItemText classes={{primary:classes.listItemText}} >骰宝</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Sic Bo</ListItemText>
                         </Link>
                         
                         <Link className={classes.list} href="/game_erbagang">
-                        <ListItemText classes={{primary:classes.listItemText}} >二八杠</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Pai gow</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_sangong">
-                        <ListItemText classes={{primary:classes.listItemText}} >三公</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Ba Hình</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_wenzhoujiupai">
-                        <ListItemText classes={{primary:classes.listItemText}} >温州牌九</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Pai Gow Ôn Châu</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_sedie">
-                        <ListItemText classes={{primary:classes.listItemText}} >色碟</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Xóc đĩa</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_poker">
-                        <ListItemText classes={{primary:classes.listItemText}} >德州扑克</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Texas Hold'em</ListItemText>
                         </Link>
                         <Link className={classes.list} href="/game_niuniu">
-                        <ListItemText classes={{primary:classes.listItemText}} >牛牛</ListItemText>
+                        <ListItemText classes={{primary:classes.listItemText}} >Bull Bull</ListItemText>
                         </Link>
                     </List>
                 </div>

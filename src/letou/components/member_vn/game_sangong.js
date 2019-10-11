@@ -60,72 +60,70 @@ export class GameSangong extends React.Component {
                     <div class="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">Nguyên tắc Casino >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>三公</h2>
-                        <p>三公(3 Face / 3 Picture)是百家乐玩法的一种变形。会员与庄家赌点数、赌公牌数，还可以赌特殊牌型。下注简单、节奏明快，在新兴的游戏中受到欢迎。</p>
-                        <p>• 游戏中共设计1门庄家及3门闲家，会员可任意进行投注。
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> • 使用1副扑克牌，下注结束后开始发牌，发牌时先开头牌决定发牌顺序，再以逆时钟方向进行，每门连续发3张牌。
-                            </li><li> • 游戏主旨为闲家与庄家比较牌的点数高低来决定胜负。
-                            </li><li>
-                            </li><li> • 会员可以有以下的下注选择：
-                            </li><li> 闲1：赢、输、和、三公、对牌以上
-                            </li><li> 闲2：赢、输、和、三公、对牌以上
-                            </li><li> 闲3：赢、输、和、三公、对牌以上
-                            </li><li> 庄家：对牌以上
-                            </li><li> 注：各下注以及对牌以上赔率请见派彩说明。
-                            </li><li>
-                            </li><li> • 头牌：荷官每局开始会先开「头牌」，依据头牌点数〔从庄家方位逆时针方向算起〕决定开牌位置。
-                            </li><li> • 开牌顺序：以逆时针方向开牌〔如下〕
-                            </li><li>
-                            <img src="http://i.imgur.com/GRE2cCX.png "></img>
-                            </li><li>
-                            </li><li>
-                            </li><li>
-                            </li><li> - 牌面点数
-                            </li><li> • 三公以牌面点数的总和来比较大小，加上公牌(J，Q，K)来变化大小牌型。
-                            </li><li> • 公牌及10点以「0」点计，其它牌则以牌面点数来计算，总和超过10或20则取其个位数字来看。
-                            </li><li> • 公牌以「P」来代表，1张公牌显示为「P」，2张公牌显示为「2P」，3张公牌（三公）显示为「3P」。
-                            </li><li> • 牌面的显示方法为「公牌+点数」，例如拿到1张公牌与点数和为8，则显示「P8」，2张公牌与点数和为0，则显示 「2P0」。
-                            </li><li> • 最大牌型为「三公」，其次为「双公9」；牌型中若无公牌，则最大牌型为9点，扑克牌的花色无任何影响。
-                            </li><li> • 双方点数与公牌数相同时则为和，出现和牌时，会员若下注「输」或「赢」则退回注额。
-                            </li><li>
-                            </li><li> • 基本的牌型大小：
-                            </li><li>
-                            <img src="http://i.imgur.com/7zb3zUo.png"></img>
-                            </li><li>
-                            </li><li> 「对牌以上」的定义：
-                            </li><li>
-                            <img src="http://i.imgur.com/lsYfRbb.png"></img>
-                            </li><li>
-                            </li><li> 注：「同花顺／顺子」最大牌型为「Q，K，A」，最小牌型为「A，2，3」，无「K，A，2」这个组合。
-                            </li><li>
-                            </li><li>
-                            </li><li>
-                            </li><li> - 派彩
-                            </li><li> 不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以波音厅为例：
-                            </li><li>
-                            <img src="http://i.imgur.com/M1WCXw5.png"></img>
-                            </li><li>
-                            </li><li> 无抽水的设计，但下列两种状况有特殊赔率：
-                            </li><li> 1. 投注「赢」，闲家以6点的任意牌型组合胜出，则获1赔0.5。
-                            </li><li> 2. 投注「输」，庄家以6点的任意牌型组合胜出，则获1赔0.5。
-                            </li><li>
-                            </li><li> 对牌以上的赔率设定如下：
-                            </li><li>
-                            <img src="http://i.imgur.com/JPVX1c8.png"></img></li>
-                            </ul>
+                    <p>
+                            1. Những luật chơi:
+                            <br /> “Picture cards” đề cập đến các quân Bài Jack (J) Bồi, Queen (Đầm) Q và Kings (K) Già. “Vòng chơi” có nghĩa là thời gian
+                            trò chơi khi bắt đầu cược và kết thúc khi người chia bài thông báo kết quả và áp dụng để lấy các tiền thua và thanh toán
+                            các tiền thắng. “Royal Picture”- Cược cạnh nghĩa là một cược sẽ được thanh toán bởi nhiều cược thắng kết hợp. Thanh toán
+                            của Bài “Royal Pictures” – Cược cạnh không phụ thuộc vào kết quả chính của người chơi chính. Tức là: Thắng, Thua hoặc
+                            Hòa. Các cược “Royal Picture” thắng nếu kết hợp các lá bài sau đây trên tay của người chơi: 1. “Three Kings”, Một tụ
+                            của người chơi bao gồm 3 lá bài K (già). 2. “Three Queens”, Một tụ của người chơi bao gồm 3 lá bài Q (đầm). 3. “Three
+                            Jacks”, Một tụ của người chơi bao gồm 3 lá bài J (bồi). 4. “Three Pictures”, Một tụ bài của người chơi bao gồm 3 quân
+                            hình, ngoại “Three Kings”, “Three Queens” hoặc “Three Jacks”. 5. “Any Picture Pair”, Một tụ bài của người chơi bao gồm
+                            một đôi và một không phải là quân hình. 6. “Any King”, một tụ bài của người chơi bao gồm: một quân K và hai lá bài không
+                            phải hình; hoặc một quân K, một lá J và một lá không phải hình. “Tie” nghĩa là người chơi và người chia bài có cùng số
+                            điểm.
+                            <br />
+                            <br /> 2. Cách chơi như thế nào:
+                            <br /> - 2.1.Trò chơi sẽ bắt đầu khi người chia bài thông báo “vui lòng đặt cược của bạn”.
+                            <br /> - 2.2. Việc đặt cược kết thúc khi người chia bài thông báo “Ngưng đặt cược”
+                            <br />
+                            <br />3. Mục tiêu của trò chơi là có điểm cao hơn người chia bài.
+                            <br />
+                            <br />4. Một cược đặt trên “Tie Bet” và/hoặc “Royal Pictures bet” có thể đặt được sau khi người chơi đặt cược ban đầu.
+                            <br />
+                            <br />5. Sau khi đặt cược xong, bắt đầu từ bên trái của người chia bài và tiếp tục theo chiều kim đồng hồ, Người chia bài sẽ
+                            chia 3 lá bài cho mỗi khu vựa chơi. Người chia bài sẽ nhận được lá bài cuối cùng.
+                            <br />
+                            <br />6. Sau khi kiểm tra tất cả các lá bài, mỗi người chơi sẽ lật lá bài lên tại khi vực chơi của mình.
+                            <br />
+                            <br />7. Sau khi tất cả người chơi được hoàn trả, người chia bài sẽ mở và thông báo lá bài trên tay mình.
+                            <br />
+                            <br />8. Sau khi so sánh bài trên tay mình với mỗi người chơi, người chia bài sẽ tuyên bố mỗi người chơi giành chiến thắng,
+                            thua hoặc hòa.
+                            <br />
+                            <br />9. Mỗi người chơi bao gồm ba lá bài với tổng điểm của mỗi người chơi được xác đinh bằng giá trị của mỗi lá bài đơn. Giá
+                            trị điểm của mối lá bài là giá trị trên mặt của chúng, ngoại trừ:10, King, Queen, Jack, có giá trị bằng 0, nhưng chỉ
+                            King, Queen và Jack, sẽ xếp hàng là “Picture card” với tổng điểm tương ứng.
+                            <br />
+                            <br />10. Tổng điểm của mỗi người chơi sẽ là: số của tổng các giá trị trên tay là từ số 0 đến 9, hoặc số bên phải của số đó
+                            trong tổng giá trị của lá bài trong tay là số 10 hoặc cao hơn.
+                            <br />
+                            <br />11. Three Picture Cards là tụ bài được xếp hạng cao nhất. trong trường hợp cả người chơi và người chia bài đêu có ba
+                            quân hình, sẽ được tuyên bố như là “hòa”
+                            <br />
+                            <br />12. Sau đó, các tụ bài được xác định dựa trên tổng điểm từ 0 đến 9.
+                            <br />
+                            <br />13. khi một người chơi và người chia bài có cùng số điểm, tụ bài có nhiều quân hình hơn sẽ thắng. Nếu cả người chơi và
+                            người chia bài có cùng thứ hạng, sẽ được tuyên bố là “Hòa”.
+                            <br />
+                            <br />14. Khi người chơi và người chia bài có cùng số điểm, tiền cược hòa sẽ được thanh toán.
+                            <br />
+                            <br />15. Những quân hình không có thứ hạng, nghĩa là KK bằng với QJ và không cao hơn QJ.
+                            <br />
+                            <br />16. không có thứ hạng phù hợp trong trò chơi của Royal Three Pictures.
                         </p>
                     </div>
 

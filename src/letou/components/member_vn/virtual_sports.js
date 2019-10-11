@@ -81,142 +81,169 @@ export class Statement extends React.Component {
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">沙巴体育规则  >
+                                <a href="/for_member">Luật chơi thể thao OW  >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h1>• 4.1.一般规定</h1>
-                        &nbsp;
-                        <p>• 4.1.1.虚拟运动游戏是电脑生成的演示，随机抽取的数字结果可决定哪队赢得比赛或赛事，或者哪一位参赛者将在比赛或赛事中获得第一名、第二名、第三名等等。 比赛或赛事的结果由通过认证测试公司单独测试的随机号码生成器 (RNG) 控制。
+                    <h2>4. Luật chơi Thể Thao Ảo</h2>
+                        <p>
+                            <br /> • 4.1.Luật chung
+                            <br /> • 4.1.1. Trò chơi thể thao ảo là sự hiển thị do máy tính tạo ra của kết quả rút thăm con số ngẫu nhiên quyết định đội
+                            nào chiến thắng trong một trận đấu hay một sự kiện thi đấu hoặc quyết định đối thủ nào về nhất, nhì, ba… trong một cuộc
+                            đua hay một sự kiện thi đấu. Kết quả của một trận đấu, cuộc đua hay sự kiện thi đấu do bộ tạo số ngẫu nhiên (RNG) kiểm
+                            soát, RNG do một công ty kiểm tra có uy tín kiểm tra độc lập.
+                            <br /> • 4.1.2. Vào bất cứ lúc nào có thể áp dụng được, các khoản cá cược trong thể thao ảo bị chi phối bởi các luật lệ giống
+                            như cá cược đối với các sự kiện thể thao thật.
+                            <br /> • 4.1.3. Thể thao ảo là trò chơi được phát rộng. Tất cả mọi thành viên cá cược trong cùng một trận đấu, cuộc đua hay
+                            sự kiện thi đấu sẽ nhận được kết quả giống nhau.
+                            <br /> • 4.1.4. Trong trường hợp xảy ra sự cố trục trặc máy tính, điện tử hay bất kỳ hỏng hóc nghiêm trọng nào khác làm gián
+                            đoạn sự hiển thị của một trận đấu, cuộc đua hay sự kiện thi đấu thì các khoản đặt cược trong trận đấu, cuộc đua hay sự
+                            kiện thi đấu bị ảnh hưởng sẽ không có giá trị và sẽ được hoàn lại.
+                            <br /> • 4.1.5. Nếu thông tin bình luận trong một trận đấu, cuộc đua hay sự kiện thi đấu không khớp với dòng video trình chiếu
+                            về thể thao ảo thì tất cả mọi khoản cược vẫn có giá trị.
+                            <br /> • 4.1.6. Trong trường hợp trận đấu, cuộc đua hay sự kiện thi đấu không bắt đầu hoặc không kết thúc và không thể quyết
+                            định kết quả thì trận đấu, cuộc đua hay sự kiện đó sẽ không có giá trị. Các khoản cược sẽ được hoàn lại tuỳ theo Luật
+                            & quy định về cá cược này.
+                            <br /> • 4.1.7. Các khoản cá cược đã được chấp nhận dùng để cá các trận đấu, cuộc đua, sự kiện thi đấu, tuần thi đấu hay mùa
+                            giải thi đấu sẽ vẫn có giá trị ngay cả khi thành viên thoát khỏi trang web cá cược.
+                            <br /> • 4.2. Bóng đá ảo
+                            <br /> • 4.2.1. Bóng đá ảo là cá cược dựa trên kết quả của một trận đấu hay sự kiện thi đấu bóng đá tạo ra một con số ngẫu
+                            nhiên. Bộ tạo số ngẫu nhiên sẽ quyết định kết quả của trận đấu hay sự kiện thi đấu bằng cách áp dụng đánh giá của hệ
+                            thống cho từng đội tham gia thi đấu. Có năm (5) nhóm đội để chọn, từ cấp quốc tế đến cấp câu lạc bộ. Mỗi trận đấu sẽ
+                            có hai (2) đội thi đấu với nhau.
+                            <br /> • 4.2.2. Có sáu (6) kiểu đặt cược đối với môn bóng đá ảo:
+                            <br /> 1. 1x2
+                            <br /> 2. Tỷ số chính xác
+                            <br /> 3. Tổng số bàn thắng
+                            <br /> 4. Cơ hội kép
+                            <br /> 5. Tài /Xỉu 2,5 số bàn thắng
+                            <br /> 6. Tỉ lệ chấp kiểu châu Á (Asian Handicap)
+                            <br /> • 4.2.3. Mỗi trận đấu hoặc sự kiện diễn ra trong điều kiện trời nắng trong khoảng sáu mươi (60) giây. Hình ảnh đánh
+                            dấu điểm quan trọng thể hiện số lần sút Cầu môn sẽ được hiển thị, mỗi lần sút sẽ được phân vào loại Thành bàn, Trượt
+                            cầu môn hoặc Bị cản phá.
+                            <br /> • 4.2.4. Tất cả mọi trận đấu hay sự kiện thi đều bắt đầu bằng thông tin giới thiệu cho biết danh sách của cả hai (2)
+                            đội và giá tiền tương ứng của kiểu cá cược cung cấp.
+                            <br /> • 4.2.5. Không chấp nhận cược đối với tất cả mọi trận đấu hay sự kiện thi đấu sau khi có thông báo bóng đã lăn. Tất
+                            cả mọi khoản cược được chấp nhận nhầm sau khi bóng lăn sẽ không có giá trị và sẽ được hoàn trả.
+                            <br /> • 4.2.6. Sau khi trận đấu hay sự kiện thi đấu kết thúc, bảng thông báo kết quả trận đấu sẽ xuất hiện, cho biết tỷ số
+                            bàn thắng và kết quả chiến thắng đối với từng kiểu cược.
+                            <br /> • 4.2.7. Sau khi kết quả của trận đấu hay sự kiện thi đấu được hiển thị, trận đấu hay sự kiện thi đấu tiếp theo sẽ được
+                            giới thiệu. Kết quả của từng trận đấu hay sự kiện thi đấu sẽ được hiển thị trên trang web trong một khoảng thời gian
+                            nhất định.
+                            <br /> • 4.3. Đua Ngựa Ảo
+                            <br /> • 4.3.1. Đua Ngựa Ảo có nghĩa là đặt cược vào kết quả của một cuộc đua ngựa hoặc giải đấu tạo ra các con số ngẫu nhiên.
+                            <br /> • 4.3.2. Có năm (5) loại đặt cược đua ngựa ảo:
+                            <br /> 1. Cược Thắng.
+                            <br /> 2. Cược Vị trí.
+                            <br /> 3. Cược Thắng/Cược Vị trí.
+                            <br /> 4. Cược Dự đoán.
+                            <br /> 5. Cược Dự đoán Ba vị trí.
+                            <br /> • 4.3.3. Số lượng ngựa đua có thể thay đổi trong mỗi cuộc đua hoặc sự kiện được tổ chức trong đường đua bằng phẳng,
+                            nhảy vượt hoặc chạy nước rút trong điều kiện ngày nắng, ngày âm u và đêm.
+                            <br /> • 4.3.4. ùy thuộc vào số lượng ngựa đua, cách Cược thắng/Cược vị trí đối với đua ngựa ảo được định nghĩa như sau:
                             <br
-                            /> • 4.1.2.在任何适用条件下, 虚拟运动的投注规则约束与真实体育赛事相同。
-                            <br /> • 4.1.3.虚拟运动是广播赛事。 对同一比赛或赛事投注的会员都将收到同一结果。
-                            <br /> • 4.1.4.如果因电脑、电子或其他关键故障而干扰比赛或赛事的演示，被受影响的赛事上的投注均将作废，赌金将全额退还。
-                            <br /> • 4.1.5.即使比赛或赛事的评论信息不与虚拟运动视频流同步，所有投注仍视为有效。
-                            <br /> • 4.1.6.如果比赛或赛事未开始或未完成且不能确定赛果，则比赛或赛事将作废。 根据此次投注规则与规定，赌金将全额退还。
-                            <br /> • 4.1.7.即使会员从网站注销，未来比赛、赛事、周赛或季度赛的已接受投注仍视为有效。</p>
-                        <br />
-                        <br /> &nbsp;
-                        <h1>• 4.2.虚拟足球</h1>
-                        &nbsp;
-                        <p>• 4.2.1.虚拟足球是指对由随机号码生成的足球比赛或赛事结果进行的投注。 RNG 使用每个单独球队的系统评级来决定比赛或赛事的结果。 这里有五 (5) 个球队彩池可供选择，从国际级到俱乐部级标准。 每次比赛将由两 (2) 个球队对决。
+                            />  Có 8-11 ngựa đua: tỷ lệ cược 1/5 cho vị trí 1, 2, 3
+                            <br />  Có 12-15 ngựa đua: tỷ lệ cược 1/4 cho vị trí 1, 2, 3
+                            <br />  Có 16 ngựa đua: tỷ lệ cược 1/4 cho vị trí 1, 2, 3
+                            <br /> • 4.3.5. Mỗi cuộc đua hay giải đấu bắt đầu với lời giới thiệu hiển thị một danh sách của tất cả các ngựa đua và con
+                            số tương ứng của chúng và giá cả cho từng loại cược.
+                            <br /> • 4.3.6. Mỗi cuộc đua hay giải đấu sẽ kéo dài từ 30 giây đến 45 giây.
+                            <br /> • 4.3.7. Một khi cuộc đua hoặc giải đấu đã kết thúc, hình ảnh về đích của những con ngựa sẽ được phát lại và theo sau
+                            là kết quả nhóm 3 hoặc 4 con về đầu.
+                            <br /> • 4.3.8. Sau khi kết quả của cuộc đua hay giải đấu được hiển thị, cuộc đua hoặc giải đấu tiếp theo sẽ được giới thiệu.
+                            Kết quả của mỗi cuộc đua hoặc giải đấu sẽ được hiển thị trên trang web trong một khoảng thời gian.
+                            <br /> • 4.4. Đua Chó Ảo
+                            <br /> • 4.4.1. Đua chó ảo có nghĩa là đặt cược vào kết quả của một cuộc đua chó hoặc giải đấu tạo ra các con số ngẫu nhiên.
                             <br
-                            /> • 4.2.2.虚拟足球有六 (6) 种投注类型：
-                            <br /> 1. 1x2(独赢)
-                            <br /> 2. 波胆
-                            <br /> 3. 总进球数(总入球数)
-                            <br /> 4. 双重机会
-                            <br /> 5. 2.5大小盘
-                            <br /> 6. 亚洲盘
-                            <br /> • 4.2.3.每场比赛或赛事都在晴天天气下举行，时间持续大约六十 (60) 秒。 包含四 (4) 次射门的精彩镜头集锦显示每个进球、失球和救球的结果。
-                            <br /> • 4.2.4.每场比赛或赛事开始都会说明及显示两 (2) 个球队和投注类型的相应金额列表。
-                            <br /> • 4.2.5.在开球警报之后，所有比赛或赛事将不会再接受投注。 开球后错误接受的任何投注将作废并退还赌金。
-                            <br /> • 4.2.6.一旦比赛或赛事结束，将会出现一个比赛结果比分牌，上面显示每个投注类型的分数线和投注结果。
-                            <br /> • 4.2.7.在显示比赛或赛事的结果后，将会介绍下一场比赛或赛事。 每场比赛或赛事的结果将在网站上显示一段时间。</p>
-                        <br />
-                        <br /> &nbsp;
-                        <h1>• 4.3.虚拟赛马</h1>
-                        &nbsp;
-                        <p>• 4.3.1.虚拟赛马表示根据随机数字产生的赛马或赛事的结果下注。
-                            <br /> • 4.3.2.对于虚拟赛马，有5种下注方式：
-                            <br /> 1. 独赢（ Win）
-                            <br /> 2. 位置（Place）
-                            <br /> 3. 独赢/位置(Win/Place)
-                            <br /> 4. 连赢（Forecast）
-                            <br /> 5. 三重彩（Tri-cast）
-                            <br /> • 4.3.3.参赛马匹的数量在每次竞赛或赛事中将改变，这些竞赛将在晴天、阴天和夜晚的情况下分别按平跑、跳跃或冲刺的形式举行。
-                            <br /> • 4.3.4.取决于参赛马匹的数量，虚拟赛马中独赢/位置（Win/Place）定义为：
-                            <br /> • 4.3.4.1.对于8-11 匹: 位置1、2、3，赔率1/5
-                            <br /> • 4.3.4.2.对于12-15匹: 位置1、2、3，赔率1/4
-                            <br /> • 4.3.4.3.对于16 匹: 位置1、2、3，赔率1/4
-                            <br /> • 4.3.5.每次竞赛或赛事开始时将进行介绍，要显示所有马匹、它们各自的号码和价格清单。
-                            <br /> • 4.3.6.每次竞赛或赛事将持续30到45秒。
-                            <br /> • 4.3.7.一旦竞赛或赛事结束，将回放跨过终点线的马匹，然后显示前3或前4名。
-                            <br /> • 4.3.8.显示竞赛或赛事的结果后，将介绍下一次竞赛或赛事。每次竞赛或赛事的结果将在网站上显示一段时间。</p>
-                        <br />
-                        <br /> &nbsp;
-                        <h1>• 4.4.虚拟赛狗</h1>
-                        &nbsp;
-                        <p>• 4.4.1.虚拟赛狗表示根据随机数字产生的赛狗或赛事的结果下注。
-                            <br /> • 4.4.2.对于虚拟赛狗，有5种下注方式：
-                            <br /> 1. 独赢（ Win）
-                            <br /> 2. 位置（Place）
-                            <br /> 3. 独赢/位置(Win/Place)
-                            <br /> 4. 连赢（Forecast）
-                            <br /> 5. 三重彩（Tri-cast）
-                            <br /> • 4.4.3.每次竞赛或赛事有6只狗参赛，这些竞赛将在晴天、阴天和夜晚的情况下分别按平跑、跳跃或冲刺的形式举行。
-                            <br /> • 4.4.4.每次竞赛或赛事开始时将进行介绍，要显示所有赛狗、它们各自的号码和价格清单。
-                            <br /> • 4.4.5.每次竞赛或赛事将持续30到45秒。
-                            <br /> • 4.4.6.一旦竞赛或赛事结束，将回放跨过终点线的赛狗，然后显示前3名。
-                            <br /> • 4.4.7.显示竞赛或赛事的结果后，将介绍下一次竞赛或赛事。每次竞赛或赛事的结果将在网站上显示一段时间。</p>
-                        <br />
-                        <br /> &nbsp;
-                        <h1>• 4.5.虚拟网球赛</h1>
-                        &nbsp;
-                        <p>• 4.5.1.虚拟网球赛表示根据随机数字产生的网球赛或赛事的结果下注。
-                            <br /> • 4.5.2.每次网球赛有两名选手参赛，这些比赛将于天晴时在草地球场上举行。
-                            <br /> • 4.5.3.对于虚拟网球赛，有三种下注方式：
-                            <br /> 1. Moneyline
-                            <br /> 2. 正确的得分
-                            <br /> 3. 总分
-                            <br /> • 4.5.4.每次竞赛或赛事开始时将进行介绍，要显示两位选手、他们各自的衬衫和旗帜、一只选手服务指示器以及每种下注的价格。
-                            <br /> • 4.5.5.每次竞赛或赛事包括分数达到12分的单轮比赛，比赛时间为30到120秒。
-                            <br /> • 4.5.6.显示竞赛或赛事的结果后，将介绍下一次竞赛或赛事。每次竞赛或赛事的结果将在网站上显示一段时间。</p>
-                        <br />
-                        <br /> &nbsp;
-                        <h1>• 4.6.虚拟赛车</h1>
-                        &nbsp;
-                        <p>• 4.6.1.虚拟赛车表示根据随机数字产生的竞赛或赛事的结果下注。
-                            <br /> • 4.6.2.虚拟赛车有五种下注方式：
-                            <br /> 1． 独赢
-                            <br /> 2． 位置
-                            <br /> 3． 独赢/位置
-                            <br /> 4． 连赢
-                            <br /> 5． 三重彩
-                            <br /> • 4.6.3.每场竞赛或赛事将由12位车手参赛，这些赛事将在晴天的情况下在椭圆的赛道 上进行。
-                            <br /> • 4.6.4.每场竞赛或赛事开始时将进行介绍，介绍将显示车手列表，价格，赛道名字， 倒计时钟，赛事距离和赛事。
-                            <br /> • 4.6.5.每场竞赛或赛事将为60秒。
-                            <br /> • 4.6.6.一旦竞赛或赛事结束，将回放及显示前3名跨过终点线的车手。
-                            <br /> • 4.6.7.显示竞赛或赛事的结果后，将介绍下一次竞赛或赛事，每次竞赛或赛事的结果 将在网站上显示一段时间。</p>
-                        <br />
-                        <br /> &nbsp;
-                        <h1>• 4.7.虚拟自行车</h1>
-                        &nbsp;
-                        <p>• 4.7.1.虚拟自行车表示根据随机数字产生的赛车或赛事的结果下注。
-                            <br /> • 4.7.2.对于虚拟自行车，有5种下注方式：
-                            <br /> 1. 独赢
-                            <br /> 2. 位置
-                            <br /> 3. 独赢/位置
-                            <br /> 4. 连赢
-                            <br /> 5. 三重彩
-                            <br /> • 4.7.3.每次竞赛或赛事有6-9辆自行车参赛，竞赛是在椭圆形的自行车场及灯光的情况下进行。
-                            <br /> • 4.7.4.每次竞赛或赛事开始时将进行介绍，介绍将显示骑士名单，球衣颜色，价格清单，跑道名称，倒数时钟和比赛距离。
-                            <br /> • 4.7.5.每次竞赛或赛事将持续45秒。
-                            <br /> • 4.7.6.一旦竞赛或赛事结束，屏幕将回放跨过终点的骑士，附加照片显示及首三位到达终点的骑士
-                            <br /> • 4.7.7.显示竞赛或赛事的结果后，将介绍下一场竞赛或赛事。每次竞赛或赛事的结果将在网站上显示一段时间。</p>
-                        <br />
-                        <br /> &nbsp;
-                        <h1>• 4.8.虚拟沙地摩托车</h1>
-                        &nbsp;
-                        <p>• 4.8.1.虚拟沙地摩托车表示根据随机数字产生的赛车或赛事的结果下注。
-                            <br /> • 4.8.2.对于虚拟沙地摩托车，有2种下注方式：
-                            <br /> 1. 独赢
-                            <br /> 2. 连赢
-                            <br /> • 4.8.3.每次竞赛或赛事有4名摩托车骑士，竞赛将在夜间或灯光下的扁椭圆形轨道上进行。
-                            <br /> • 4.8.4.每次竞赛或赛事开始时将进行介绍，介绍将显示骑士名单，价格清单，跑道名称，倒数时钟和比赛距离。
-                            <br /> • 4.8.5.每次竞赛或赛事将持续30秒。
-                            <br /> • 4.8.6.一旦竞赛或赛事结束，屏幕将回放跨过终点的骑士，附加照片显示及首三 位到达终点的骑士。
-                            <br /> • 4.8.7.显示竞赛或赛事的结果后，将介绍下一场竞赛或赛事。每次竞赛或赛事的结果将在网站上显示一段时间。</p>
-                        <br />
-                        <br /> &nbsp;
+                            /> • 4.4.2. Có năm (5) loại đặt cược đua chó ảo:
+                            <br /> 1) Cược Thắng
+                            <br /> 2) Cược Vị trí
+                            <br /> 3) Cược Thắng/Cược Vị trí
+                            <br /> 4) Cược Dự đoán
+                            <br /> 5) Cược Dự đoán Ba vị trí
+                            <br /> • 4.4.3. Có sáu (6) chó đua trong mỗi cuộc đua hoặc giải đấu được tổ chức trong đường đua bằng phẳng hoặc nhảy vượt
+                            trong điều kiện ngày nắng, ngày âm u và đêm.
+                            <br /> • 4.4.4. Mỗi cuộc đua hay giải đấu bắt đầu với lời giới thiệu hiển thị một danh sách của tất cả các chó đua và con số
+                            tương ứng của chúng và giá cả cho từng loại cược.
+                            <br /> • 4.4.5. Mỗi cuộc đua hay giải đấu sẽ kéo dài từ 30 giây đến 45 giây.
+                            <br /> • 4.4.6. Một khi cuộc đua hoặc giải đấu đã kết thúc, hình ảnh về đích của chó đua sẽ được phát lại và theo sau là kết
+                            quả nhóm 3 con về đầu.
+                            <br /> • 4.4.7. Sau khi kết quả của cuộc đua hay giải đấu được hiển thị, cuộc đua hoặc giải đấu tiếp theo sẽ được giới thiệu.
+                            Kết quả của mỗi cuộc đua hoặc giải đấu sẽ được hiển thị trên trang web trong một khoảng thời gian.
+                            <br /> • 4.5. Quần Vợt Ảo
+                            <br /> • 4.5.1. Quần vợt ảo có nghĩa là đặt cược vào kết quả của một trận đấu quần vợt hoặc giải đấu tạo ra các con số ngẫu
+                            nhiên.
+                            <br /> • 4.5.2. Có hai (2) đấu thủ trong mỗi trận đấu quần vợt được tổ chức trên sân cỏ quần vợt trong điều kiện trời nắng.
+                            <br
+                            /> • 4.5.3. Có ba (3) loại đặt cược cho quần vợt ảo :
+                            <br /> 1) Moneyline
+                            <br /> 2) Cược Đúng Điểm
+                            <br /> 3) Cược Tổng Điểm
+                            <br /> • 4.5.4. Mỗi trận đấu hoặc giải đấu bắt đầu với lời giới thiệu hiển thị hai đấu thủ và màu áo tương ứng và cờ của họ,
+                            bộ phận chỉ báo phục vụ đấu thủ và giá cả cho từng loại cược.
+                            <br /> • 4.5.5. Mỗi trận đấu hoặc giải đấu sẽ gồm một ván đơn lên đến mười hai (12) điểm kéo dài từ 30 giây đến 120 giây.
+                            <br
+                            /> • 4.5.6. Sau khi kết quả của cuộc đua hay giải đấu được hiển thị, cuộc đua hoặc giải đấu tiếp theo sẽ được giới thiệu.
+                            Kết quả của mỗi cuộc đua hoặc giải đấu sẽ được hiển thị trên trang web trong một khoảng thời gian.
+                            <br /> • 4.6. Cược đua xe thể thao ảo (Xe hơi)
+                            <br /> • 4.6.1. Cược đua xe thể thao ảo nghĩa là đặt cược vào kết quả của một con số ngẫu nhiên được tạo ra trong một sự kiện
+                            đua xe hơi.
+                            <br /> • 4.6.2. Có năm (5) kiểu đặt cược đua xe thể thao ảo:
+                            <br /> 1) Thắng (Win)
+                            <br /> 2) Đặt (Place)
+                            <br /> 3) Thắng/Đặt (Win/Place)
+                            <br /> 4) Cược 2 xe về đầu (Forecast)
+                            <br /> 5) Cược 3 xe về đầu (Tri-cast)
+                            <br /> • 4.6.3. Có mười hai (12) xe trong mỗi lượt đua xe được tổ chức trên đường đua xe lòng chảo khi điều kiện thời tiết
+                            nắng ráo.
+                            <br /> • 4.6.4. Mỗi lượt đua bắt đầu bằng việc giới thiệu danh sách các xe tham dự cuộc đua, thông tin về giá cả, tên vòng
+                            đua, đồng hồ đếm ngược, quãng đường đua và kiểu đua.
+                            <br /> • 4.6.5. Mỗi lượt đua sẽ kéo dài 60 giây.
+                            <br /> • 4.6.6. Sau khi lượt đua kết thúc, hình ảnh các xe cán vạch về đích sẽ được phát lại và sau đó là công bố kết quả,
+                            trong đó có kết quả của 3 xe về đích đầu tiên.
+                            <br /> • 4.6.7. Sau khi kết quả lượt đua được công bố, lượt đua tiếp theo sẽ được giới thiệu. Tất cả các kết quả sẽ được công
+                            bố trên trang web trong một khoảng thời gian nhất định.
+                            <br /> • 4.7. Đua xe đạp ảo
+                            <br /> • 4.7.1. Đua xe đạp ảo nghĩa là cá cược dựa trên kết quả của một con số ngẫu nhiên do sự kiện đua xe đạp tạo ra.
+                            <br
+                            /> • 4.7.2. Có năm (5) kiểu cược sẵn có đối với Đua xe đạp ảo:
+                            <br /> 1) Thắng (Win)
+                            <br /> 2) Vị trí (Place)
+                            <br /> 3) Thắng/Vị trí (Win/Place)
+                            <br /> 4) Dự đoán hai vị trí đầu tiên (Forecast)
+                            <br /> 5) Dự đoán ba vị trí đầu tiên (Tri-cast)
+                            <br /> • 4.7.3. Có từ sáu đến chín (6-9) vận động viên đua xe đạp thi đấu trên sân đua xe đạp hình bầu dục có đèn chiếu sáng.
+                            <br
+                            /> • 4.7.4. Mỗi sự kiện đua xe bắt đầu bằng thông tin giới thiệu cho biết danh sách vận động viên đua xe đạp, màu áo, thông
+                            tin về mức giá đặt cược, tên đường đua, đồng hồ đếm ngược và quãng đường đua.
+                            <br /> • 4.7.5. Mỗi sự kiện đua xe đạp sẽ kéo dài 45 giây.
+                            <br /> • 4.7.6. Sau khi cuộc đua kết thúc, hình ảnh các vận động viên đua xe đạp cán đích sẽ được phát lại và sau đó là hình
+                            chụp vận động viên ngay tại thời điểm cán vạch đích và bảng kết quả, trong đó có ba (3) người về đích đầu tiên.
+                            <br /> • 4.7.7. Sau khi kết quả của cuộc đua đã hiển thị xong, sự kiện đua tiếp theo sẽ được giới thiệu. Tất cả các kết quả
+                            sẽ được hiển thị trên trang web trong một khoảng thời gian nhất định.
+                            <br /> • 4.8. Đua xe mô tô ảo
+                            <br /> • 4.8.1. Đua xe mô tô ảo nghĩa là cá cược dựa trên kết quả của một con số ngẫu nhiên do sự kiện đua xe mô tô tạo ra.
+                            <br
+                            /> • 4.8.2. Có hai (2) kiểu cược sẵn có đối với Đua xe mô tô ảo:
+                            <br /> 1) Thắng (Win)
+                            <br /> 2) Dự đoán hai vị trí đầu tiên (Forecast)
+                            <br /> • 4.8.3. Có bốn (4) vận động viên đua xe trong mỗi sự kiện đua xe mô tô được tổ chức trên đường đua bằng phẳng hình
+                            bầu dục vào ban đêm hoặc trong điều kiện có đèn chiếu sáng.
+                            <br /> • 4.8.4. Mỗi sự kiện đua xe bắt đầu bằng thông tin giới thiệu cho biết danh sách vận động viên tham gia đua xe, thông
+                            tin về mức giá đặt cược, tên đường đua, đồng hồ đếm ngược và quãng đường đua.
+                            <br /> • 4.8.5. Mỗi sự kiện đua xe mô tô ảo sẽ kéo dài 30 giây.
+                            <br /> • 4.8.6. Sau khi cuộc đua kết thúc, hình ảnh các vận động viên đua xe mô tô cán đích sẽ được phát lại và sau đó là hình
+                            chụp vận động viên ngay tại thời điểm cán đích và bảng kết quả, trong đó có ba (3) người về đích đầu tiên.
+                            <br /> • 4.8.7. Sau khi kết quả cuộc đua được hiển thị xong, sự kiện đua tiếp theo sẽ được giới thiệu. Tất cả các kết quả sẽ
+                            được hiển thị trên trang web trong một khoảng thời gian nhất định.</p>
                     </div>
                 </Grid>
             </Grid>

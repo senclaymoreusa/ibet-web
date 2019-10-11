@@ -55,33 +55,29 @@ export class AboutUs extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">乐投品牌故事  >
+                                <a href="/for_member">Lịch sử LETOU  >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
-                    <Typography component="p" variant="h6">
-                    {this.getLabel('about-letou')}  
-                    </Typography>
-                    {'\n'}{'\n'}
-                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                    {this.getLabel('aboutUs-detail-text-one')}     
-                    </Typography>
-                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                    {this.getLabel('aboutUs-detail-text-two')}     
-                    </Typography>
-                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                    {this.getLabel('aboutUs-detail-text-three')}     
-                    </Typography>
-                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                    {this.getLabel('aboutUs-detail-text-four')}     
-                    </Typography>
+                    <div id="HelperCenterDetail">
+                        <h2>Về LETOU</h2>
+                        <p>Công ty LETOU được thành lập từ năm 2004, là công ty hoạt động về lĩnh vực giải trí với các trò chơi trực tuyến (Game online) bằng tiền thật đầu tiên ở Châu Á. Gia nhập tập đoàn Wilshire Worldwide vào năm 2008 dưới sự quản lý và cấp giấy phép hoạt động trong lĩnh vực Game online từ CURACAO.<br />
+                        <br />
+                        Chúng tôi luôn cam kết cung cấp đến khách hàng sự công bằng, hợp lý, bảo mật, tin cậy, chính xác và hệ thống giao dịch tiền mặt hiệu quả nhất, cũng như đội ngũ chăm sóc Khách hàng 24/7. LETOU cung cấp hơn 500 các thể loại Game khác nhau bao gồm các giải đấu Thể thao, Number Games, Thể thao ảo và Casino trực tuyến.<br />
+                        <br />
+                        LETOU tuân thủ nghiêm ngặt các quy định tiền gửi và quản lý tài chính của chính phủ, rút tiền công ty chuyên nghiệp, để đảm bảo an ninh tài chính đến khách hàng và phù hợp với pháp luật về phòng chống rửa tiền (AML), tối đa hóa môi trường tài chính minh bạch theo quy định của chính phủ và đặt các lợi ích của khách hàng lên hàng đầu. Đảm bảo sự bảo mật của người chơi một cách tốt nhất. Chúng tôi duy trì những luật lệ và quy tắc giúp người chơi có trách nhiệm trong quá trình tham gia, khuyến khích người chơi có tinh thần giải trí tốt nhất, chơi Game chỉ mang tính chất giải trí có giới hạn.<br />
+                        <br />
+                        LETOU không chỉ mang đến người người chơi những trải nghiệm không giới hạn mà còn hơn thế nữa đó là sự thú vị và sáng tạo, tạo dựng những giới hạn cá nhân trong mỗi trò chơi. LETOU luôn đồng hành cùng bạn để tạo dựng hình ảnh LETOU xa hơn nữa!<br />
+                        <br />
+                        Địa chỉ giấy phép hoạt động của Công ty:<a href="http://www.pagcor.ph/regulatory/pdf/offshore/list-of-approved-offshore-operators.pdf">http://www.gaming-curacao.com</a></p>
+                    </div>
                 </Grid>
             </Grid>
             

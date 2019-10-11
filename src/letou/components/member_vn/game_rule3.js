@@ -76,12 +76,12 @@ export class GameRuleThree extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">小游戏规则 >
+                                <a href="/for_member">Luật chơi RNG>
                                     <i></i>
                                 </a>
                             </li>
@@ -90,82 +90,103 @@ export class GameRuleThree extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>21点</a>
+                                <a>Blackjack (Xì-zách)</a>
                             </li>
                             <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>轮盘</a>
+                                <a>Roulette</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
                         <div className="centerDetail" hidden={this.state.current != 1}>
-                            <h2>21点</h2>
+                        <h2> Blackjack( Xì-zách) </h2>
                             &nbsp;
-                            <h1>21点</h1>
-                            &nbsp;
-                            <p>- 六副牌的21点。每一回合结束后，用过的牌放回牌组，然后洗牌。</p>
+                            <p>- Mục tiêu của bài Blackjack là các lá bài của người chơi phải đạt tới gần 21 điểm so với bài của nhà Cái, nhưng không thể
+                                quá 21 điểm (quắc). Trong bài Blackjack, Còn A (Xì) được tính như 1 hoặc 11 điểm, bài tây thì tính là 10 điểm, và các
+                                lá bài số tính theo số điểm tương ứng. Nếu trong 2 lá bài đầu tiên người chơi có 1 quân bài A (Xì) và 1 lá bài tương
+                                đương 10 điểm, thì người đó đã có Blackjack và thắng cược với tỷ lệ 1.5 lần (nếu đặt 10$,nhận được 25). Nếu các lá bài
+                                của người chơi có tổng số điểm gần 21 hơn so với nhà cái,người chơi thắng tiền cược (cược 10$, nhận 20$). Nếu tổng các
+                                lá bài của người chơi nhiều hơn 21 điểm, người chơi bị”bust” (bù hoặc quắc) và thua cược. Nếu người chơi và Nhà Cái có
+                                tổng điểm các lá bài giống nhau (17 điểm trở lên) , cả 2 đều không thắng cược và cược của người chơi được trả lại kết
+                                quả sẽ là “Push” (Hòa). Bài Blackjack phải đạt được số điểm là 21.</p>
                             <br />
                             <br /> &nbsp;
-                            <h1>游戏玩法</h1>
+                            <h1>Luật chơi</h1>
                             &nbsp;
-                            <p>- 点击筹码选中。点击可用手位（牌桌上以半圆铺开的圆）。每点击一次，您的投注增加所选筹码之数额。投注可下在任何手位，可仅在一个位置下注，也可在最多五个位置下注。要减少赌注，按住键盘上的Shift键，同时点击赌注，即减少选定筹码值数目。
+                            <p>- Nhấp vào thẻ chip tiền cược để đặt cược. Nhấp chuột vào các cửa có sẵn ( vòng tròn cược được sắp xếp theo hình bán nguyệt
+                                tại bàn cược). Mỗi cú nhấp chuột vào tiền chip cược tương đương tăng tiền đặt cược của người chơi tính theo giá trị của
+                                tiền chip. Người chơi có thể đặt vào 1 cửa duy nhất hoặc có thể cược lên đến 5 cửa cùng 1 lúc. Để giảm tiền cược, nhấp
+                                chuột phải vào tiền chip cược để chọn số tiền cược mong muốn.
                                 <br />
-                                <br /> - 您可点击 “ 清除赌注 ” 从牌桌上去除所有投注。
+                                <br /> - Nếu người chơi đang chơi một ván bài tại 1 cửa, nhấp vào chip tiền để tăng tiền cược. Mỗi cú nhấp chuột vào tiền chip
+                                cược tương đương tăng tiền đặt cược của người chơi tính theo giá trị của tiền chip, mỗi cú nhấp chuột phải để giảm tiền
+                                cược
                                 <br />
-                                <br /> - 点击 “ 加倍 ” 将您已经投放在牌桌的赌注加倍。
+                                <br /> - Người chơi có thể nhấp vào “Clear Bets” (Làm mới các cược) để xóa các cược tại bàn cược.
                                 <br />
-                                <br /> - 每个投注位的最小最大投注限制根据您的VIP级别不同而不同，该限制显示在牌桌上。限制仅适用于第一次投注。既然您放置了等于最大投注的投注，需要额外加注的操作（如分牌等）仍然可用。
+                                <br /> - Giới hạn đặt cược tối thiểu và tối đa tại mỗi ván bài phụ thuộc vào cấp độ VIP của người chơi được hiển thị rõ tại
+                                bàn chơi. Các giới hạn chỉ áp dụng cho lần cược đầu tiên. Các lựa chon như Split (Tách bài, vv) yêu cầu phải người chơi
+                                phải đặt thêm cược dù người chơi đã đặt cược với số tiền tối đa.
                                 <br />
-                                <br /> - 点击 “ 发牌 ” 按钮发牌。玩家和庄家派发两张牌。牌依次一张一张地派发到每个手中，第一张牌发到玩家手中。最后一张牌发到庄家手中，发牌时面朝下。
+                                <br /> - Nhấp vào nút “Deal” (Chia bài) để bắt đầu chia bài. Hai lá bài được chia cho người chơi và nhà Cái. Các lá bài được
+                                chia từng lá một tới từng cửa chơi theo mỗi vòng, lá bài thứ nhất được chia cho người chơi. Lá bài cuối cùng sẽ là lá
+                                bài úp được chia cho Nhà Cái.
                                 <br />
-                                <br /> - 如果您打超过一手牌，那么每手牌应分别操作，从最右边一手开始。
+                                <br /> - Nếu người chơi đang chơi tại nhiều cửa chơi, các hành động của từng cửa cược được thực hiện riêng biệt, bắt đầu từ
+                                cửa đầu tiên bên phải.
                                 <br />
-                                <br /> - 如果庄家翻开的牌是A，您则被提供保险。点击 “ 保险 ” 按钮预防庄家有二十一点。
+                                <br /> - If the dealer's face up card is an Ace, you are offered insurance. Click the Insurance button to insure against the
+                                dealer having Blackjack. Nếu Nhà Cái có lá bài ngửa là quân A (Xì), người chơi có quyền chọn cược “Bảo Hiểm”. Nhấp vào
+                                nút Bảo Hiểm để giảm tiền thua cho người chơi khi nhà cái thật sự có BlackJack (Xì-zách)
                                 <br />
-                                <br /> - 按需要使用 “ 要牌 ” 、 “ 开牌 ” 、 “ 加倍 ” 和 “ 分牌 ” 按钮。
+                                <br /> - Sử dụng các nút sau để chơi: Hit (Rút bài), Stand (Đứng), Double (Cược gấp đôi) và Split (Tách bài)
                                 <br />
-                                <br /> - 请注意投保、加倍和分牌都需要加注。若账户余额不足，您需要存入更多的存款才能使用这些功能。
+                                <br /> - Vui lòng lưu ý khi đặt Cược Bảo Hiểm (insurance), Cược gấp đôi (Double) và Tách bài (Split) người chơi được yêu cầu
+                                đặt thêm tiền cược. Nếu người chơi không còn đủ tiền cược để tham gia các cược trên, người chơi cần nạp tiền thêm để
+                                tham gia.
                                 <br />
-                                <br /> - 庄家展示面朝下的牌，并根据规则抽取附加牌。
+                                <br /> - Người chơi công khai các là bài úp và các lá bài rút thêm theo luật chơi.
                                 <br />
-                                <br /> - 您的手牌与庄家手牌对比。
+                                <br /> - Các cây bài của người chơi sẽ được so với Nhà Cái.
                                 <br />
-                                <br /> - 如果您再想玩一回合，点击 “ 新建游戏 ” 。然后根据以上所述下注，或点击 “ 再次下注 ” 放置与上一回合同样的投注，然后点击 “ 发牌 ” 按钮发牌。点击 “ 重新下注并发牌 ” 放置与上一局相同的赌注并立即发牌。</p>
+                                <br /> - Nếu người chơi muốn chơi ván khác, nhấp vào “New Game” (Ván Mới). Cách đặt cược được nêu như thông tin phía trên hoặc
+                                nhấp vào Rebet để đặt các cược tương tự tại ván trước tiếp đến nhấp vào nút “Deal”(Chia Bài) để chia bài.</p>
                             <br />
                             <br /> &nbsp;
-                            <h1>多手模式</h1>
+                            <h1>Nhiều cửa</h1>
                             &nbsp;
-                            <p>- 在多手模式下，可以在牌桌半圆的多个手位投注。在手位投注时，您可以放一手，也可以放多手，最多放5手。每个手位的投注数额可能不同。
+                            <p>- Tại chế độ đặt nhiều cửa, người chơi có thể đặt vào các cược nằm trong hình bán nguyệt trên bàn cược. Người chơi có thể
+                                đặt cươc chơi tại 1 cửa duy nhất hoặc tối đa là 5 cửa. Mỗi cửa có thể cược các số tiền khác nhau.
                                 <br />
-                                <br /> - 牌依次派发到每个手中，在最右边开始，然后顺时针派发，庄家收到最后一手。牌派发完毕后，每手分开打，从最右边开始。</p>
+                                <br /> - Từng lá bài được chia từng lá một theo thứ tự theo ngược chiều kim đồng hồ bắt đầu từ người ngoài cùng bên phải và
+                                Nhà Cái sẽ là người nhận lá bài cuối cùng trong ván bài. Khi các lá bài đã được chia, từng người chơi sẽ chơi các lá
+                                bài riêng của mình, bắt đầu từ người chơi ngoài cùng bên phải.</p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current != 2}>
-                            <h2>轮盘</h2>
+                        <h2>Roulette</h2>
                             &nbsp;
-                            <h1>美式轮盘</h1>
-                            &nbsp;
-                            <p>- 游戏的目标是预测小球将在轮盘哪个位置停留。轮盘包括红黑相间的1至36号数字和绿色的0和00。</p>
-                            <br />
-                            <br /> &nbsp;
-                            <h1>游戏玩法</h1>
-                            &nbsp;
-                            <p>- 单击选择含有所需值的筹码。
-                                <br />
-                                <br /> - 单击轮盘赌桌上的数字或下注区域下注。每次单击该区域将在赌注中增加一个所选值的筹码。
-                                <br />
-                                <br /> - 最小和最大下注限额取决于您的VIP等级。如果赌注小于最低限制，则显示信息提示赌注不足，牌桌上相应的筹码闪动三次。关于所有位置下注限额的详细信息，将鼠标悬停或点击牌桌上的限额标志。
-                                <br />
-                                <br /> - 若要增加其他金额的赌注，请选择其他筹码并单击需要的下注区域。
-                                <br />
-                                <br /> - Shift点击（按住Shift点击）赌注区，从赌注中去除与选中筹码相同数额的筹码，如果选定筹码比已放置赌注数额大，则去除整个赌注。
-                                <br />
-                                <br /> - 您可同时将多个筹码放置在不同的下注区。
-                                <br />
-                                <br /> - 请在投放赌注后单击 “ 旋转 ” 转动小球。请注意， “ 旋转 ” 按钮在赌注低于最低限制时不能使用。单击 “ 清除赌注 ” 从赌桌上移除所有已下赌注。旋转结束后，单击 “ 重新下注 ” 投放与上一轮旋转相同的赌注，然后单击
-                                “ 旋转 ” 转动小球。
-                                <br />
-                                <br /> - 获胜赌注留在桌子上。您可像拿走别的赌注一样把它们拿走，也可留在牌桌上供下一局使用。Inandplay可在某个牌桌上禁用此功能。如果禁用，获胜赌注与您的奖金一起返还给您。</p>
+                            <h1>Americal Roulette</h1>
+                            <p>- Mục tiêu của trò này là dự đoán chính xác ô số mà quả bóng sẽ lăn vào. Vòng quay Roulette bao gồm các số
+                                từ 1 đến 36, xen kẽ nhau là các màu đỏ và đen, cả số 0 và 00 thì màu xanh.</p>
+                            <p>Luật chơi</p>
+                            <p>- Nhấp vào xu tiền cược (hình đồng xu có số tiền) để lựa chọn trị giá tiền cược muốn đặt.</p>
+                            <p>- Nhấp vào con số bạn muốn cược trên bàn Roulette để đặt cược. Mỗi cú nhấp tại khu vực cược sẽ tăng tiền cược tương đương
+                                theo trị giá xu tiền cược. </p>
+                            <p>Giới hạn đặt cược tối thiểu và tối đa tại mỗi ván bài phụ thuộc vào cấp độ VIP của người chơi. Nếu người chơi đặt cược ít
+                                hơn giới hạn tối thiểu, một tin nhắn thông báo về tiền cược chưa đủ sẽ hiện ra và các xu tiền cược tương ứng trên bàn
+                                sẽ phát sáng 3 lần. Di chuột hoặc nhấp vào các ký hiệu trên bảng cược để biết thêm các thông tin chi tiết về giới hạn
+                                cược cho các vị trí.</p>
+                            <p>- Để tăng số tiền cược, chọn xu tiền cược và nhấp vào khu vực cược.</p>
+                            <p>- Nhấp chuột phải vào khu vực đặt cược để bỏ bớt xu tiền cược có cùng trị giá đã đặt tại ván cược đó hoặc của cả ván cược
+                                nếu đã lựa chọn các xu tiền cược nhiều hơn ván cược đã đặt.</p>
+                            <p>- Bạn có thể đặt nhiều xu tiền cược cùng 1 lúc tại nhiều ô cược khác nhau.</p>
+                            <p>- Sau khi đặt cược, Nhấp vào “Spin” (Quay) để quay bóng. Nhấp vào “Clear Bets” để bỏ các cược đã đặt trên bàn. Sau khi quay
+                                bóng, click vào ”re-bet” (cược lại) để cược lại các cược đã giống tại ván cược trước và nhấp vào Spin để tiếp tục quay
+                                bóng. Nhấp vào Double (Cược gấp đôi) để cược gấp đôi cược mà bạn đã đặt tại bàn.</p>
+                            <p>- Các cược thắng sẽ được hiển thị trên bàn. Người chơi có thể xóa hoặc giữ lại tại bàn cho ván chơi tiếp theo. Sòng bài của
+                                Nhà Cái Letou có quyền đình chỉ chức năng này của bàn cược. Nếu vậy, các cược thắng sẽ được lại cho người chơi với tiền
+                                thắng.</p>
                         </div>
                     </div>
                 </Grid>

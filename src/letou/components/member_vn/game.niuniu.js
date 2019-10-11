@@ -60,57 +60,46 @@ export class GameNiuniu extends React.Component {
                     <div class="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">Nguyên tắc Casino >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                    <p>-游戏玩法
-                    <ul className={classes.helpCenterArticleColumn}>
-                            <li> 游戏使用扑克牌中52张牌（不含鬼牌），每局每家派发5张牌，先从5张牌中找出3张可成10或10的倍数组合，剩余2张牌相 加，如遇点数相加超过10点则减去10点，为该局之点数，与庄家比点数大小决定胜负。
-                            </li><li>
-                            </li><li> 你有以下几种下注选择：
-                            </li><li> ‘闲一’：平倍、翻倍。
-                            </li><li> ‘闲二’：平倍、翻倍。
-                            </li><li> ‘闲三’：平倍、翻倍。
-                            </li><li> 注意：于翻倍中下注时，‘可用余额’必须高于下注额度的5倍（下注分数X5公赔率），详情请看‘其他补充说明’。
-                            </li><li>
-                            </li><li> 头牌：发牌员每局开始会先开“头牌”，依据头牌点数（从庄家方位逆时针方向算起）决定开牌位置。
-                            </li><li>
-                            <img src="http://i.imgur.com/sJzs2gw.jpg"></img>
-                            </li><li>
-                            </li><li> 开牌顺序：以逆时针方向开牌（如下）
-                            </li><li>
-                            <img src="http://i.imgur.com/dJmqONC.png"></img>
-                            </li><li>
-                            </li><li> - 大小
-                            </li><li> 在游戏中，如遇点数相同时，将从5张牌中挑选牌值最大的比牌，牌值大的一方获胜。如点数与牌值都相同时，最后再比花色大小。 详细大小比较请看下表说明。
-                            </li><li>
-                            </li><li> 牌型：
-                            </li><li>
-                            <img src="http://i.imgur.com/kFgcRVR.png "></img>
-                            </li><li>
-                            </li><li> 大小：
-                            </li><li>
-                            <img src="http://i.imgur.com/sRZf7W7.png "></img>
-                            </li><li>
-                            </li><li>
-                            </li><li>
-                            </li><li> - 派彩
-                            </li><li> 不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以波音厅为例： 赢赔率：
-                            </li><li>
-                            <img src="http://i.imgur.com/paep88b.png "></img>
-                            </li><li>
-                            </li><li> 输赔率：
-                            </li><li>
-                            <img src="http://i.imgur.com/Hnj7FPY.png "></img></li></ul>
+                    <h2> Bull Bull </h2>
+                        &nbsp;
+                        <p> Game Bull Bull trực tuyến là một loại trò chơi poker truyền thống phổ biến ở Quảng Đông, Quảng Tây, Hồ Nam, Giang Tô và tỉnh
+                            Chiết Giang của Trung Quốc. Các quy tắc trò chơi của Game Bull rất đơn giản và dễ hiểu.</p>
+                        &nbsp;
+                        <p>-Cách chơi
+                            <br /> Trò chơi sử dụng 52 lá bài (không bao gồm lá Joker). Chia 5 lá bài cho từng người chơi trong mỗi vòng trận đấu. Tìm
+                            3 lá bài mà có tổng là 10 hoặc bội số của 10. Nếu 2 lá còn lại tổng là 10 hoặc lớn hơn 10 sẽ lấy giá trị đó trừ 10, tổng
+                            còn lại sẽ so sánh với Nhà Cái .
+                            <br />
+                            <br /> Bạn có nhiều loại cược để chọn, vui lòng xem qua thông tin đi kèm như sau:
+                            <br /> ”Người chơi 1”: Hòa, Đôi
+                            <br /> ”Người chơi 2”: Hòa, Đôi
+                            <br /> ”Người chơi 3”: Hòa, Đôi
+                            <br /> Lưu ý: Khi đặt cược Double (Đôi), “Mức Tiền” còn lại của người chơi phải cao hơn mức tiền cược 5 lần (Mức tiền cược
+                            x mức tỷ lệ cược của 5p). Vui lòng đọc mục ”Giải Thích” để biết thêm thông tin chi tiết.
+                            <br />
+                            <br /> Người chia bài sẽ cho bạn thấy “Lá bài đầu tiên” khi mỗi trận đấu bắt đầu. Theo thứ hạng của “Lá đầu tiên” quyết định
+                            vị trí chia bài. (bắt đầu từ người chia bài theo ngược chiều kim đồng hồ)
+                            <br />
+                            <img src="http://i.imgur.com/sJzs2gw.jpg" />
+                            <br />
+                            <br /> Trình tự chia bài: Theo ngược chiều kim đồng hồ
+                            <br />
+                            <br /> -Cách đếm Lá bài Lớn và Nhỏ
+                            <br /> Trong suốt ván bài, nếu các lá bài có điểm giống nhau, người chơi chọn lá bài có thứ tự cuối cùng từ 5 lá bài để so
+                            sánh. Người chơi có lá bài với điểm cao nhất thì thắng. Nếu điểm và thứ tự của lá bài giống nhau, người chơi cần so sánh
+                            con Hoa của bài (Pích, Cơ, Nhép, Rô). Vui lòng xem bàn dưới đây.
                         </p>
                     </div>
 

@@ -60,50 +60,62 @@ export class GamePoker extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/for_member">Nguyên tắc Casino >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>德州扑克</h2>
-                        <p>视讯德州扑克Texas Hold'em，使用52张扑克牌，玩法是利用2张底牌与牌桌上的5张公牌，共7张牌，再取其中5张组成最佳牌组，玩家单纯与庄家比拚牌型大小而不用考虑花色，是一款考验智力与运气的扑克游戏。</p>
-                        <p>- 游戏玩法
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li> 闲家下底注后，庄家与闲家轮流分配2张底牌，再依赌桌上5张公牌分次下注，最后庄家开牌与闲家依照牌型组合大小定胜负。
-                            </li><li> 闲家下底注同时可选择下注Bonus，闲家当局底牌拿到符合Bonus的牌型时，可依照牌型组合获得3 ~ 30倍不等的赔率奖金。
-                            </li><li>
-                            </li><li>
-                            </li><li>
-                            </li><li> - 游戏规则
-                            </li><li> 牌局开始，闲家在时限内下注并决定是否加注：
-                            </li><li>
-                            <img src="http://i.imgur.com/d4G3e4O.png"></img>
-                            </li><li>
-                            </li><li> 摊牌后，闲家与庄家以自己的2张底牌加上桌面5张公牌，共7张牌中取最大的5张牌型组合决定胜负。
-                            </li><li>
-                            </li><li> • 若牌型组合在顺子以上(含顺子)，获胜时可取得Ante、Flop、Turn、River个别1：1的下注赔率奖金；若牌型组合在三条以下(含三条)，获胜时可取得Flop、Turn、River个别1：1的下注赔率奖金。
-                            </li><li> • 庄家与闲家牌型组合相同时将取中扑克数字最大的定胜负，若数字依然相同时则为平局，闲家将拿回所有下注金额，不含Bonus。
-                            </li><li>
-                            </li><li>
-                            </li><li>
-                            </li><li> - 赔率表
-                            </li><li> 不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以波音厅为例：
-                            </li><li>
-                            <img src=" http://i.imgur.com/qX4wJpQ.png"></img>
-                            </li><li>
-                            </li><li> - 获胜组合
-                            </li><li>
-                            <img src=" http://i.imgur.com/NNAVms4.png"></img>
-                            </li><li>
-                            <img src="http://i.imgur.com/5n5iQi0.png"></img></li>
-                            </ul>
+                    <h2> Poker Texas Hold'em </h2>
+                        &nbsp;
+                        <p>Bài Poker Texas Hold'em là một trò chơi sòng bài có người chia bài trực tiếp. Sử dụng 52 lá bài. Ngươi chơi sử dụng 2 lá
+                            bài úp của mình (hole cards) và 5 lá bài chung (community cards) thì sẽ có 7 lá bài và chọn 5 lá bài tốt nhất cho ván
+                            bài. Người chơi đơn thuần chỉ so lá bài to nhỏ với người chia bài mà không xem xét tới màu hoa.Đây là một trò chơi bài
+                            thử nghiệm trí tuệ và vận may.</p>
+                        &nbsp;
+                        <p>- Cách Chơi
+                            <br /> Sau khi người chơi đặt cược Ante, thì người chia bài và người chơi luân phiên được chia 2 lá bài riêng, rồi chia đợt
+                            đặt cược theo 5 lá bài công khai trên bàn, cuối cùng người chia bài cùng với người chơi so sánh tổ hợp bài to bé để phân
+                            thắng thua..
+                            <b/> Khi người chơi đặt cược Ante, đồng thời cũng có thể đặt cược Bonus. Khi bài riêng mà người chơi phù hợp với kiểu bài
+                            của Bonus thì căn cứ vào tổ hợp nhóm bài sẽ giành được tiền thưởng có tỷ lệ thưởng từ 3-30 lần hoặc hơn thế..
+                            <br />
+                            <br />
+                            <br />
+                            <br /> - Quy tắc trò chơi
+                            <br /> Bắt đầu ván bài, người chơi cần đặt cược trong thời hạn và quyết đinh theo (call) hay không:
+                            <br /> Đặt Cược Số tiền Cược Nội Dung Cược Ante Số tiền cược Ante cần phù hợp với mức cược tối đa và tối thiểu của mỗi ván
+                            Vòng Flop 2 lần tiền cược Ante Người chơi có thể theo (raise) hoặc rút lui (fold). Rút lui sẽ thua cược Ante. Sau khi
+                            đặt cược Ante 3 là bài chung được chia trên bàn. Vòng Turn 1 lần tiền cược Ante Người chơi có thể đặt cược và bỏ qua.
+                            Nếu Bỏ qua thì sẽ không cược thêm khi ván bài tiếp tục. Một lá bài chung thứ 4 sẽ được chia trên bàn cược. Vòng River
+                            1 lần tiền cược Ante Người chơi có thể đặt cược và bỏ qua Nếu Bỏ qua thì sẽ không cược thêm khi ván bài tiếp tục. Một
+                            lá bài chung thứ 5 sẽ được chia trên bàn cược.
+                            <br />
+                            <br /> Sau khi xì bài, người chơi và người chia bài lấy 2 lá bài riêng và 5 lá bài công khai trên bàn , trong 7 bài đó rút
+                            ra tổ hợp 5 lá bài lớn nhất để phân thắng thua.
+                            <br />
+                            <br /> • Nếu tổ hợp bài của người chơi là Straight – Sảnh ( một dãy liên kết năm quân bài) trở lên thì thắng tiền (ví dụ 1:1)
+                            tại vòng Ante, Flop, Turn Và River. Ante, Flop, Turn, River.Nếu nhóm bài từ bộ ba trở xuống thì khi thắng sẽ giành được
+                            tiền thưởng có tỷ lệ cược lần lượt 1:1 Flop, Turn, River
+                            <br /> • Khi nhóm bài của người chia bài với người chơi giống nhau thì sẽ phân thắng thua theo lá bài có số lớn nhất trong
+                            nhóm bài , nếu số đó giống nhau thì ván đó là hòa, người chơi sẽ lấy về toàn bộ giá trị đặt cược. nhưng không bao gồm
+                            giá trị đặt cược Bonus
+                            <br />
+                            <br />
+                            <br />
+                            <br /> - Thanh toán tỷ lệ Tiền Thưởng - BOnus
+                            <br /> Tổ hợp bài riêng được tiền thưởng theo giá trị cược và tỷ lệ cược , bất kể kết quả ván đó thua hay thắng.
+                            <br /> Tổ hợp Cặp các lá bài A-A tỷ lệ thanh toán 1︰30 A-K（con hình） tỷ lệ thanh toán 1：25 A-Q or A-J（con hình） tỷ lệ thanh
+                            toán 1：20 A-K（không có quân hình） tỷ lệ thanh toán 1：15 K-K or Q-Q or J-J tỷ lệ thanh toán 1：10 A-Q or A-J（con hình）
+                            tỷ lệ thanh toán 1：5 Bất cứ đôi nào trong 2~10 tỷ lệ thanh toán 1：3
+                            <br />
+                            <br /> - Thắng kết hợp
                         </p>
                     </div>
 

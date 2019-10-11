@@ -56,66 +56,48 @@ export class Identity extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">维护账户安全 >
+                                <a href="/for_member">Bảo mật duy trì tài khoản >
                                     <i></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div id="HelperCenterDetail">
-                        <h2>身份核实</h2>
-
-                        <p>当客户遇到无法自行通过身份验证或其它特殊问题无法正常解决，需要通过人工服务方法进行处理时，我们将对您的身份进行核实。当需要您发送身份证数据时，针对身份证数据的内容及格式要求如下：
-                            
-                        </p>
-
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li>1. 证件要求原件拍摄，照片不得涂改，需确保完整、水印、文字、图片、证件号码清晰可辨。</li>
-                            <li>2. IC版证件需要同时提交正反二面。</li>
-                            <li>3. 如是一代身份证，证件上需有有效盖章。</li>
-                            <li>4. 证件有效期在3个月内的不予受理。</li>
-                            <li>5. 户口本需要正面打开盖有两个章的那页,及本人信息的那页。</li>
-                            <li>6. 申请人帐户真实姓名和证件号码与提交的证件信息一致。</li>
-                            <li>7. 证件都需要彩色原件的数码照片。</li>
+                    <h2>Xác minh ID</h2>
+                        <p>Ảnh chứng minh nhân dân và định dạng yêu cầu:<br />
+                        &nbsp;</p>
+                        <ul class="HelpCenterArticleColumn">
+                            <li>1. Chứng từ xác minh phải là một bản sao có tổng thể rõ ràng bao gồm nội dung, hình ảnh và số chứng minh nhân dân.</li>
+                            <li>2. Khách hàng cần cung cấp hình ảnh mặt trước và mặt sau của thẻ chứng minh nhân dân.</li>
+                            <li>3. Trên hình cần có con dấu hiệu lực của chứng từ cung cấp ở bản đầu tiên.</li>
+                            <li>4. Chứng minh nhân dân sẽ không được chấp nhận nếu hết hạn trong vòng ba (3) tháng.</li>
+                            <li>5. Với hộ khẩu, khách hàng cần cung cấp hình ảnh chứng từ với đủ hai dấu mộc và thông tin cá nhân.</li>
+                            <li>6. Họ tên đăng ký tài khoản phải trùng với họ tên trên ảnh chứng minh nhân dân đã cung cấp.</li>
+                            <li>7. Ảnh chứng minh nhân dân phải là ảnh kỹ thuật số bản gốc.</li>
                         </ul>
-
                         <p>&nbsp;</p>
-
-                        <h2>温馨提示</h2>
-
+                        <h2>Lưu ý</h2>
                         <p>&nbsp;</p>
-
-                        <ul className={classes.helpCenterArticleColumn}>
-                            <li>1. 如果您没有身份证，则可提供在有效期内的临时身份证、户口本、护照、军人身份证、武装警察身份证、港澳台身份证、港澳台通行证等有效证件的清晰照片。</li>
-                            <li>2. 您可以使用数码相机、手机或较高像素摄像头拍下身份证，并上传到您的计算机保存为jpg、gif、png或jpeg的格式，就可以是有您的电子邮箱发送邮件给我们了。</li>
-                            <li>3. 发送证件照片时，请说明您需要处理的事项，此次发送照片，仅会处理您此次所需处理的事项。乐投公司绝不会泄露您的证件信息，请您放心！</li>
+                        <ul class="HelpCenterArticleColumn">
+                            <li>1. Nếu bạn không có chứng minh nhân dân, bạn cần cung cấp hình ảnh rõ ràng của một giấy nhận dạng hoặc chứng minh thư tạm thời, hộ khẩu, hộ chiếu</li>
+                            <li>2. Bạn có thể chụp ảnh chứng minh nhân dân qua máy ảnh kỹ thuật số, điện thoại hoặc camera với độ phân giải cao và lưu trên định dạng jpg, gif, png hoặc jpeg và gửi đến chúng tôi thông qua email.</li>
+                            <li>3. Vui lòng ghi rõ vấn đề cần xác minh khi Quý khách gửi hình đến chứng tôi. HÌnh ảnh Quý khách gửi chỉ được dùng với mục đích mà Quý khách đề cập. Đừng lo lắng. Letou sẽ không tiết lộ thông tin cá nhân của Quý khách.</li>
                         </ul>
-
                         <p>&nbsp;</p>
-
-                        <h2>证件清晰度图示（以二代证为例）</h2>
-
-                        <p>正面清晰：</p>
-                            
-                            <img src="http://i.imgur.com/3OJMHCO.jpg"></img>
-                        <p>正面不清晰：</p>
-                           
-                            <img src="http://i.imgur.com/GBZgmPI.jpg"></img>
-                        
-
-                        <p>背面清晰： </p>
-                            
-                            <img src="http://i.imgur.com/m33bGbm.jpg"></img>
-                       
-
-                        <p>背面不清晰：</p>
-                           
-                            <img src="http://i.imgur.com/uuWYLSQ.jpg"></img>
+                        <h2>Xóa bỏ hình ảnh xác nhận (sử dụng chứng minh nhân dân thứ hai)</h2>
+                        <p>Rõ ràng (trước)：<br />
+                        <img src="http://i.imgur.com/3OJMHCO.jpg" /></p>
+                        <p>Mờ (trước)：<br />
+                        <img src="http://i.imgur.com/GBZgmPI.jpg" /></p>
+                        <p>Rõ ràng (sau):<br />
+                        <img src="http://i.imgur.com/m33bGbm.jpg" /></p>
+                        <p>Mờ (sau):<br />
+                        <img src="http://i.imgur.com/uuWYLSQ.jpg" /></p>
                         
                     </div>
                 </Grid>
