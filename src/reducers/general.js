@@ -42,6 +42,8 @@ const INITIAL_STATE = {
     show_withdraw_main_menu: false,
 
     show_letou_announcements: false,
+    show_letou_login: false,
+    show_letou_forgot_password: false,
 
     onc_click_username: '',
     one_click_password: '',
@@ -265,6 +267,14 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, show_letou_announcements: true };
         case 'HIDE_LETOU_ANNOUNCEMENTS':
             return { ...state, show_letou_announcements: false };
+        case 'SHOW_LETOU_LOGIN':
+            return { ...state, show_letou_login: true };
+        case 'HIDE_LETOU_LOGIN':
+            return { ...state, show_letou_login: false };
+        case 'SHOW_LETOU_FORGOT_PASSWORD':
+            return { ...state, show_letou_forgot_password: true };
+        case 'HIDE_LETOU_FORGOT_PASSWORD':
+            return { ...state, show_letou_forgot_password: false };
 
         default:
             return state;

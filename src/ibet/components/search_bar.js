@@ -18,25 +18,6 @@ import '../css/search_bar.scss';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-function renderInput(inputProps) {
-    const { InputProps, classes, ref, ...other } = inputProps;
-
-    return (
-        <TextField
-            InputProps={{
-                inputRef: ref,
-                classes: {
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                    focused: classes.inputInput,
-                },
-                ...InputProps,
-            }}
-            {...other}
-        />
-    );
-}
-
 const styles = theme => ({
     root: {
         width: '100%',
@@ -217,44 +198,44 @@ class SearchResults extends React.Component {
                             </MenuItem> */}
                         </div>
                         : null
-                        
+
                 }
                 {
                     this.props.providers.length > 0 ?
-                    <div>
-                        <div className={this.props.classes.resultMenuTitle}>
-                            <FormattedMessage id="search.providers" defaultMessage='Providers' />
+                        <div>
+                            <div className={this.props.classes.resultMenuTitle}>
+                                <FormattedMessage id="search.providers" defaultMessage='Providers' />
+                            </div>
+                            {
+                                this.props.providers.slice(0, 4).map(r => (
+                                    <MenuItem className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                                        {r}
+                                        <SVG className="playIcon" width={24} />
+                                        <Typography className="play-text">See other game</Typography>
+                                    </MenuItem>
+                                ))
+                            }
                         </div>
-                        {
-                            this.props.providers.slice(0, 4).map(r => (
-                                <MenuItem className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                                    {r}
-                                    <SVG className="playIcon" width={24} />
-                                    <Typography className="play-text">See other game</Typography>
-                                </MenuItem>
-                            ))
-                        }
-                    </div>
-                    : null
+                        : null
 
                 }
                 {
                     this.props.entireSite.length > 0 ?
-                    <div>
-                        <div className={this.props.classes.resultMenuTitle}>
-                            <FormattedMessage id="search.entire_site" defaultMessage='Entire Site' />
+                        <div>
+                            <div className={this.props.classes.resultMenuTitle}>
+                                <FormattedMessage id="search.entire_site" defaultMessage='Entire Site' />
+                            </div>
+                            {
+                                this.props.entireSite.slice(0, 4).map(r => (
+                                    <MenuItem component={Link} to={`/game_detail/${r.pk}`} className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
+                                        {r.fields.name}
+                                        <SVG className="playIcon" width={24} />
+                                        <Typography className="play-text">Play game</Typography>
+                                    </MenuItem>
+                                ))
+                            }
                         </div>
-                        {
-                            this.props.entireSite.slice(0, 4).map(r => (
-                                <MenuItem component={Link} to={`/game_detail/${r.pk}`} className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                                    {r.fields.name}
-                                    <SVG className="playIcon" width={24} />
-                                    <Typography className="play-text">Play game</Typography>
-                                </MenuItem>
-                            ))
-                        }
-                    </div>
-                    : null
+                        : null
 
                 }
                 <div className={this.props.classes.resultMenuTitle}>
@@ -308,9 +289,9 @@ export class SearchBar extends React.Component {
     }
 
     blurInput = () => {
-        this.textInput.current.blur();   
+        this.textInput.current.blur();
         this.textInput.current.value = '';
-        this.state.results = [];  
+        this.setState({ results: [] });
     }
 
     getInfo = () => {
@@ -322,14 +303,14 @@ export class SearchBar extends React.Component {
             axios.get(url, config),
             axios.get(providerUrl, config),
             axios.get(entireSiteUrl, config)
-          ])
-          .then(axios.spread(function (games, providers, entire) {
-            var gameResults = games.data || [];
-            var providerResults = providers.data || [];
-            var entireSiteResults = entire.data || [];
-            that.setState({ results: gameResults, providerResults: providerResults });
-            that.setState({ entireSiteResults: entireSiteResults });   
-          }))
+        ])
+            .then(axios.spread(function (games, providers, entire) {
+                var gameResults = games.data || [];
+                var providerResults = providers.data || [];
+                var entireSiteResults = entire.data || [];
+                that.setState({ results: gameResults, providerResults: providerResults });
+                that.setState({ entireSiteResults: entireSiteResults });
+            }))
     }
 
     handleInputChange = (event) => {
@@ -348,7 +329,7 @@ export class SearchBar extends React.Component {
             URL = URL + '?q=' + term;
         }
         if (this.props.activeMenu) {
-            URL = URL +'&type=' + this.props.activeMenu;
+            URL = URL + '&type=' + this.props.activeMenu;
         }
 
         return URL;
@@ -359,27 +340,21 @@ export class SearchBar extends React.Component {
 
         return (
             <div className={classes.root}>
-                <img src={images.src + 'search.svg'} className={classes.searchIcon} />
+                <img src={images.src + 'search.svg'} className={classes.searchIcon} alt='' />
                 <div className={classes.searchInput}>
                     <Downshift id="downshift-options" >
                         {({
-                            clearSelection,
                             getInputProps,
-                            getItemProps,
-                            getLabelProps,
                             getMenuProps,
-                            highlightedIndex,
-                            inputValue,
                             isOpen,
                             openMenu,
-                            selectedItem,
                         }) => {
-                            const { onBlur, onChange, onFocus, ...inputProps } = getInputProps({
+                            const { onBlur, onChange, onFocus } = getInputProps({
                                 onChange: event => {
                                     this.handleInputChange(event)
                                 },
-                                onBlur: event => {
-                                    this.state.results = []
+                                onBlur: () => {
+                                    this.setState({ results: [] });
                                 },
                                 onFocus: openMenu,
                                 placeholder: 'Search..',

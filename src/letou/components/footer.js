@@ -5,13 +5,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, handle_search, setLanguage, authCheckState } from '../../actions';
 import Typography from '@material-ui/core/Typography';
-import Flag from 'react-flagkit';
 import Grid from '@material-ui/core/Grid';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import Link from '@material-ui/core/Link';
-import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import { images } from '../../util_config';
 import InputBase from '@material-ui/core/InputBase';
 

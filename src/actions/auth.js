@@ -120,7 +120,8 @@ export const authSignup = (
     city,
     zipcode,
     over_eighteen,
-    language
+    language,
+    referralCode
 ) => {
     return dispatch => {
         dispatch(authStart());
@@ -142,7 +143,8 @@ export const authSignup = (
             city,
             zipcode,
             over_eighteen,
-            language
+            language,
+            referralCode
         });
 
         return axios
