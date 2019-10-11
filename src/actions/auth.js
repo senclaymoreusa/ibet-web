@@ -42,7 +42,7 @@ export const authLogin = (username, password) => {
                 config
             )
             .then(res => {
-                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                if (res.data.errorCode) {
                     // return Promise.resolve(AUTH_RESULT_FAIL);
                     // dispatch(authFail(res.data.errorMsg));
                     return Promise.resolve(res.data);
@@ -121,7 +121,8 @@ export const authSignup = (
     city,
     zipcode,
     over_eighteen,
-    language
+    language,
+    referralCode
 ) => {
     return dispatch => {
         dispatch(authStart());
@@ -143,7 +144,8 @@ export const authSignup = (
             city,
             zipcode,
             over_eighteen,
-            language
+            language,
+            referralCode
         });
 
         return axios

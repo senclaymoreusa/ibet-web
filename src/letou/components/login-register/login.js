@@ -110,10 +110,6 @@ const styles = () => ({
             backgroundColor: '#f79c25',
         },
     },
-    showIcon: {
-        height: 30,
-        width: 30
-    },
     loginText: {
         fontSize: 14,
         fontWeight: 500,
@@ -144,6 +140,15 @@ const styles = () => ({
             backgroundColor: '#fff',
         },
     },
+    errorText: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#fe0000',
+      },
 });
 
 export class Login extends React.Component {
@@ -154,12 +159,9 @@ export class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
-            hidden: true,
 
             name: '',
             email: '',
-            button_clicked: 0,
-            check: false,
             showPassword: false,
 
             usernameInvalid: true,
@@ -168,23 +170,15 @@ export class Login extends React.Component {
             usernameFocused: false,
             passwordFocused: false,
 
-            loginDisabled: true,
             wrongPasswordError: false,
-            userBlocked: false
+            userBlocked: false,
+
+            errorMessage:''
         };
 
-        this.onInputChange_password = this.onInputChange_password.bind(this);
-        this.toggleShow = this.toggleShow.bind(this);
-        this.handle_one_click = this.handle_one_click.bind(this);
 
         this.getLabel = this.getLabel.bind(this);
-
     }
-
-
-    handleClickShowPassword = () => {
-        this.setState(state => ({ showPassword: !state.showPassword }));
-    };
 
     async componentDidMount() {
         this.props.authCheckState()
@@ -217,89 +211,30 @@ export class Login extends React.Component {
         }
     }
 
-    handle_one_click() {
-        axios.post(API_URL + 'users/api/oneclicksignup/')
-            .then(res => {
-                const { formatMessage } = this.props.intl;
-                const message_username = formatMessage({ id: "login.username" });
-
-                const message_password = formatMessage({ id: "login.password" });
-
-                var temp = res.data.split('-')
-                var username = temp[0]
-                var password = temp[1]
-                this.setState({ username: username, password: password, loginDisabled: false, check: false })
-
-                localStorage.removeItem('remember_username');
-                localStorage.removeItem('remember_password');
-                localStorage.removeItem('remember_check');
-
-                alert(message_username + ":" + username + '  ' + message_password + ":" + password)
-            })
-    }
-
-    usernameCahnged(event) {
-        if (event.target.value && this.state.password) {
-            this.setState({ loginDisabled: false })
-        } else {
-            this.setState({ loginDisabled: true })
-        }
-        this.setState({ username: event.target.value });
-    }
-
-    onInputChange_password(event) {
-        if (event.target.value && this.state.username) {
-            this.setState({ loginDisabled: false })
-        } else {
-            this.setState({ loginDisabled: true })
-        }
-        this.setState({ password: event.target.value });
-    }
-
-    toggleShow() {
-        this.setState({ hidden: !this.state.hidden });
-    }
-
-    componentClicked = () => {
-        this.setState({ button_clicked: 1 })
-        var username = this.state.name
-        var email = this.state.email
-
-        this.props.FacebookauthLogin(username, email)
-            .then(() => {
-                this.props.history.push('/');
-            }).catch(() => {
-                this.props.FacebookSignup(username, email)
-                    .then(() => {
-                        this.props.FacebookauthLogin(username, email)
-                            .then(() => {
-                                this.props.history.push('/');
-                            })
-                            .catch(err => {
-                                sendingLog(err);
-                                
-                                //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
-                            })
-                    })
-                    .catch(err => {
-                        sendingLog(err);
-                        
-                        //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
-                    })
-            })
-    }
-
-    onInputChange_checkbox = async () => {
-        await this.setState({ check: !this.state.check })
-    }
-
     onFormSubmit(event) {
         event.preventDefault();
 
         this.props.authLogin(this.state.username, this.state.password)
-            .then(() => {
-                this.props.hide_letou_login()
+            .then((response) => {
+                if (response.errorCode) {
+                    this.setState({ errorMessage: response.errorMsg.detail[0] });
+                } else {
+                    if (this.state.check) {
+                        localStorage.setItem('remember_password', this.state.password);
+                        localStorage.setItem('remember_check', 'checked')
 
+                        axios.get(API_URL + 'users/api/user/', config)
+                            .then(res => {
+                                localStorage.setItem('remember_username', res.data.username);
+                            })
+                    } else {
+                        localStorage.removeItem('remember_username');
+                        localStorage.removeItem('remember_password');
+                        localStorage.removeItem('remember_check');
+                    }
+                    this.props.hide_letou_login()
+
+                }
             })
             .catch(err => {
                 if (typeof err === "string") {
@@ -388,13 +323,14 @@ export class Login extends React.Component {
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton
+                                                size="small"
                                                 disabled={this.state.password.length === 0}
                                                 aria-label="Toggle password visibility"
                                                 onClick={() => {
                                                     this.setState(state => ({ showPassword: !state.showPassword }))
                                                 }}
                                             >
-                                                {this.state.showPassword ? <VisibilityOff className={classes.showIcon} /> : <Visibility className={classes.showIcon} />}
+                                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
                                         </InputAdornment>
                                     ),
@@ -403,12 +339,15 @@ export class Login extends React.Component {
                         </Grid>
                         <Grid item xs={12} >
                             <Button className={classes.loginButton}
-                                onClick={this.handleClick}
                                 disabled={this.state.usernameInvalid ||
                                     this.state.passwordInvalid}
+                                type="submit"
                             >{this.getLabel('title-login')}</Button>
                         </Grid>
                     </form>
+                    {this.state.errorMessage.length > 0 && <Grid item xs={12} style={{ paddingTop: 10 }}>
+                    <span className={classes.errorText}>{this.state.errorMessage}</span>
+                  </Grid>}
                     <Grid item xs={12} style={{ paddingTop: 10, textAlign: 'center' }}>
                         <Button className={classes.forgotButton}
                             onClick={() => {

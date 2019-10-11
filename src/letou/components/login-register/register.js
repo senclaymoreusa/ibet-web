@@ -26,8 +26,11 @@ import Country_Info from '../../../commons/country_info';
 import InputBase from '@material-ui/core/InputBase';
 import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
+import CloseIcon from '@material-ui/icons/Close';
 
 import PasswordStrengthMeter from '../../../commons/PasswordStrengthMeter';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -44,7 +47,7 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundImage: "url(" + images.src + "letou/register_bg.jpg)",
     backgroundPosition: 'top',
-    backgroundSize: 'cover',
+    backgroundSize: '180%',
     backgroundRepeat: 'no-repeat',
     paddingTop: 30,
     paddingBottom: 30
@@ -185,7 +188,13 @@ const styles = theme => ({
     lineHeight: 'normal',
     letterSpacing: 'normal',
     color: '#fe0000',
-  }
+  },
+  registerSuccess: {
+    backgroundColor: '#41d930',
+  },
+  icon: {
+    fontSize: 20,
+  },
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -261,7 +270,7 @@ export class Register extends Component {
       allCountryName: Country_Info['Country_Info'],
       formOpen: false,
 
-
+      showRegisterMessage: false,
     };
 
     this.getLabel = this.getLabel.bind(this);
@@ -286,10 +295,10 @@ export class Register extends Component {
   usernameChanged(event) {
     this.setState({ username: event.target.value });
 
-    if (!event.target.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/)) {
-      this.setState({ usernameInvalid: false })
-    } else {
+    if (!event.target.value.match(/^[a-zA-Z0-9]{8,16}$/)) {
       this.setState({ usernameInvalid: true })
+    } else {
+      this.setState({ usernameInvalid: false })
     }
   }
 
@@ -298,6 +307,8 @@ export class Register extends Component {
     let testedResult = zxcvbn(event.target.value);
 
     this.setState({ passwordInvalid: (testedResult.score !== 4) })
+
+    this.setState({ confirmPasswordInvalid: (this.state.confirmPassword !== event.target.value) })
   }
 
   confirmPasswordChanged(event) {
@@ -333,41 +344,45 @@ export class Register extends Component {
   onFormSubmit(event) {
     event.preventDefault();
 
-    this.setState({ errorCode: '' })
+    this.setState({ errorMessage: '' })
 
     this.props.authSignup(
       this.state.username,
-      this.state.email,
+      (this.state.email.length !== 0) ? this.state.email : undefined,
       this.state.password,
-      '',
-      '',
+      undefined,
+      undefined,
       this.state.phoneCode.slice(1) + this.state.phone,
-      '',
-      '',
-      '',
-      '',
-      '',
+      undefined,
+      undefined,
+      'china',
+      undefined,
+      undefined,
       true,
-      this.props.lang)
+      this.props.lang,
+      (this.state.referralCode.length !== 0) ? this.state.referralCode : undefined)
       .then((res) => {
-        this.props.history.push('/activation');
-
+        this.props.show_letou_login();
+        this.setState({showRegisterMessage: true});
       }).catch(err => {
         sendingLog(err);
 
         if (err.response && 'username' in err.response.data) {
-          this.setState({ usernameInvalid: err.response.data.username[0] });
+          this.setState({ usernameInvalid: true });
+          this.setState({ errorMessage: err.response.data.username[0] });
         } else if (err.response && 'email' in err.response.data) {
-          this.setState({ emailInvalid: err.response.data.email[0] })
+          this.setState({ emailInvalid: true })
+          this.setState({ errorMessage: err.response.data.username[0] });
         } else if (err.response && 'phone' in err.response.data) {
-          this.setState({ phoneInvalid: err.response.data.phone[0] })
+          this.setState({ phoneInvalid: true })
+          this.setState({ errorMessage: err.response.data.username[0] });
         } else if (err.response && 'non_field_errors' in err.response.data) {
-          this.setState({ error: err.response.data.non_field_errors.slice(0) })
+          // this.setState({ error: err.response.data.non_field_errors.slice(0) })
+          // this.setState({ errorMessage: err.response.data.username[0] });
         } else if (err.response && 'password1' in err.response.data) {
-          this.setState({ passwordInvalid: err.response.data.password1[0] })
+          this.setState({ passwordInvalid: true })
+          this.setState({ errorMessage: err.response.data.username[0] });
         }
-
-        this.setState({ errorMessage: err.response.data });
       })
   }
 
@@ -440,6 +455,7 @@ export class Register extends Component {
                           endAdornment: (
                             <InputAdornment position="end">
                               <IconButton
+                              size="small"
                                 disabled={this.state.password.length === 0}
                                 aria-label="Toggle password visibility"
                                 onClick={() => {
@@ -482,6 +498,7 @@ export class Register extends Component {
                           endAdornment: (
                             <InputAdornment position="end">
                               <IconButton
+                              size="small"
                                 disabled={this.state.confirmPassword.length === 0}
                                 aria-label="Toggle password visibility"
                                 onClick={() => {
@@ -581,7 +598,7 @@ export class Register extends Component {
                       >{this.getLabel('title-register')}</Button>
                     </Grid>
                   </form>
-                  {this.state.errorMessage.length > 0 && <Grid item xs={12}>
+                  {this.state.errorMessage.length > 0 && <Grid item xs={12} style={{ paddingTop: 10 }}>
                     <span className={classes.errorText}>{this.state.errorMessage}</span>
                   </Grid>}
                   <Grid item xs={12} style={{ paddingTop: 20, textAlign: 'center' }}>
@@ -598,6 +615,33 @@ export class Register extends Component {
           </Grid>
         </div>
         <Footer />
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          variant="success"
+          autoHideDuration={3000}
+          open={this.state.showRegisterMessage}
+          onClose={() => {
+            this.setState({ showRegisterMessage: false })
+          }}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}>
+          <SnackbarContent
+            className={classes.registerSuccess}
+            aria-describedby="client-snackbar"
+            message={<span id="message-id">{this.getLabel('register-succes')}</span>}
+            action={[
+              <IconButton key="close" aria-label="close" color="inherit" onClick={() => {
+                this.setState({ showRegisterMessage: false })
+              }}>
+                <CloseIcon className={classes.icon} />
+              </IconButton>,
+            ]}
+          />
+        </Snackbar>
       </div>
     );
   }

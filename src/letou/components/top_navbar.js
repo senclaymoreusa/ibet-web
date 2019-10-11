@@ -22,6 +22,9 @@ import ForgotPassword from "./login-register/forgot_password";
 import NewReleases from '@material-ui/icons/NewReleases';
 
 import {
+    logout,
+    postLogout,
+    authCheckState,
     show_letou_announcements,
     show_letou_login,
     show_letou_forgot_password
@@ -149,7 +152,8 @@ export class TopNavbar extends React.Component {
         this.state = {
             anchorEl: null,
             dropdownMenu: 'none',
-        
+
+            showSoggedinStatus: false,
         };
 
         this.getLabel = this.getLabel.bind(this);
@@ -170,7 +174,19 @@ export class TopNavbar extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    
+    componentWillReceiveProps(props) {
+        this.props.authCheckState()
+            .then(() => {
+                this.setState({ showSoggedinStatus: true });
+            })
+    }
+
+    componentDidMount() {
+        this.props.authCheckState()
+            .then(() => {
+                this.setState({ showSoggedinStatus: true });
+            })
+    }
 
     render() {
         const { classes } = this.props;
@@ -212,6 +228,15 @@ export class TopNavbar extends React.Component {
                         <Button size="small" className={classes.topLinkButton} target="_blank" href="https://www.letou.com/cn/chat">
                             {this.getLabel('online-service')}
                         </Button>
+                        {this.props.isAuthenticated ?
+                            this.state.showSoggedinStatus &&
+                            <Button size="small" className={classes.topLinkButton}
+                                onClick={() => {
+                                    this.props.logout()
+                                    postLogout();
+                                }}>
+                                {this.getLabel('log-out')}
+                            </Button> : null}
                     </Toolbar>
                 </AppBar>
                 <AppBar position="static" className={classes.secondRow}>
@@ -261,10 +286,10 @@ export class TopNavbar extends React.Component {
                         </Popper>
                         <Button variant="contained" className={(dropdownMenu === 'live-casino') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
                             onMouseEnter={(event) => { this.openMainMenu(event, 'live-casino'); }}
-                            onClick={(event) => {   
-                                            this.props.history.push('/live_casino');
-                                            
-                                        }}>
+                            onClick={(event) => {
+                                this.props.history.push('/live_casino');
+
+                            }}>
                             {this.getLabel('nav-live-casino')}
                         </Button>
                         <Button variant="contained" className={(dropdownMenu === 'chess') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
@@ -334,18 +359,23 @@ export class TopNavbar extends React.Component {
                                 </ClickAwayListener>
                             )}
                         </Popper>
-                        <Button variant="contained" className={classes.secondRowButton}
-                            onClick={() => {
-                                this.props.history.push('/register')
-                            }}>
-                            {this.getLabel('sign-up')}
-                        </Button>
-                        <Button variant="contained" className={classes.secondRowButton}
-                            onClick={() => {
-                                this.props.show_letou_login()
-                            }}>
-                            {this.getLabel('log-in')}
-                        </Button>
+                        {this.props.isAuthenticated ?
+                            this.state.showSoggedinStatus &&
+                            null : <div>
+                                <Button variant="contained" className={classes.secondRowButton}
+                                    onClick={() => {
+                                        this.props.history.push('/register')
+                                    }}>
+                                    {this.getLabel('sign-up')}
+                                </Button>
+                                <Button variant="contained" className={classes.secondRowButton}
+                                    onClick={() => {
+                                        this.props.show_letou_login()
+                                    }}>
+                                    {this.getLabel('log-in')}
+                                </Button>
+                            </div>}
+
                     </Toolbar>
                 </AppBar>
                 <Modal
@@ -389,5 +419,5 @@ TopNavbar.propTypes = {
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
-    show_letou_announcements, show_letou_login, show_letou_forgot_password
+    logout, postLogout, authCheckState, show_letou_announcements, show_letou_login, show_letou_forgot_password
 })(TopNavbar))));
