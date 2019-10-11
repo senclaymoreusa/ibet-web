@@ -100,12 +100,12 @@ export class Home extends Component {
   game_url(event, item){
     event.preventDefault();
     console.log(item.name)
-    if (['SA', 'Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB'].includes(item.name)){
+    if (['SA', 'Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB Sports'].includes(item.name)){
       console.log('12345')
       var token = localStorage.getItem('token')
       if (token){
           config.headers["Authorization"] = `Token ${token}`;
-          var URL = API_URL + 'users/api/generategameurl/'
+          var URL = API_URL + 'users/api/generategameurl/?game=' + item.name
           axios.get(URL, config)
           .then(res => {
              console.log(res)
