@@ -86,7 +86,21 @@ const styles = theme => ({
     color: '#333',
     marginLeft: "auto",
     marginRight: "auto"
+  },
+  PgHallBtn:{
+    width: '80vw',
+    height: 30,
+    fontSize: '14vw',
+    borderRadius: 3,
+    lineHeight: 30,
+    backgroundColor: '#ff6050',
+    marginBottom: 10,
+    float: "right",
+  },
+  PgHallBtnLeft:{
+    float: "left",
   }
+
 
 });
 
@@ -149,7 +163,11 @@ export class live_casino extends React.Component {
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Flagshiphall')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-JingmiHall')}</font></a></li>
                   </ul>
-                  <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}><a><span>{this.getLabel('Real-money')}</span></a></div>
+                  <Grid item xs={3} className={classes.PgHallBtn}>
+                  <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
+                    <a><span>{this.getLabel('Real-money')}</span></a>
+                  </div>
+                  </Grid>
                 </div>
               </div>
 
@@ -164,9 +182,11 @@ export class live_casino extends React.Component {
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Vip')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Jingmi')}</font></a></li>
                   </ul>
+                  <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                     <a><span>{this.getLabel('Real-money')}</span></a>
                   </div>
+                  </Grid>
                 </div>
               </div>
 
@@ -183,12 +203,16 @@ export class live_casino extends React.Component {
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Pair')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Multi')}</font></a></li>
                   </ul>
+                  <Grid item xs={3} className={classes.PgHallBtnLeft}>
                   <div className="PgHallBtn Active FloatLeft" style={{ cursor: 'pointer' }}>
                     <a><span><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('pc-version')}</font></span></a>
                   </div>
+                  </Grid>
+                  <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                     <a><span><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('Real-money')}</font></span></a>
                   </div>
+                  </Grid>
                 </div>
               </div>
 
@@ -203,9 +227,11 @@ export class live_casino extends React.Component {
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
                   </ul>
+                  <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                     <a onClick={() => window.open("https://666.claymoreasia.com/", "n2live")}><span>{this.getLabel('Real-money')}</span></a>
                   </div>
+                  </Grid>
                 </div>
               </div>
 
@@ -222,9 +248,11 @@ export class live_casino extends React.Component {
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('OPUS-Texas')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('OPUS-21')}</font></a></li>
                   </ul>
+                  <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                     <a><span>{this.getLabel('Real-money')}</span></a>
                   </div>
+                  </Grid>
                 </div>
               </div>
               {/* </Grid> 
@@ -240,9 +268,11 @@ export class live_casino extends React.Component {
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
                   </ul>
+                  <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                     <a><span>{this.getLabel('Real-money')}</span></a>
                   </div>
+                  </Grid>
                 </div>
               </div>
 
@@ -262,9 +292,11 @@ export class live_casino extends React.Component {
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Texas')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Color')}</font></a></li>
                   </ul>
+                  <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                     <a><span>{this.getLabel('Real-money')}</span></a>
                   </div>
+                  </Grid>
                 </div>
               </div>
          
