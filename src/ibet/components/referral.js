@@ -3,7 +3,7 @@ import axios from 'axios';
 import { config } from '../../util_config';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../actions';
+import { authCheckState, sendingLog } from '../../actions';
 
 import TextField from '@material-ui/core/TextField';
 import blue from '@material-ui/core/colors/blue';
@@ -108,8 +108,8 @@ class Referral extends React.Component {
                     alert(message)
                     this.props.history.push('/');
                 }).catch(err => {
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
                     console.log(err.response)
                 })
             }else{

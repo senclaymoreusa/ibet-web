@@ -1,6 +1,11 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Home from './components/home';
+
+import Register from './components/login-register/register';
+import live_casino from "./components/live_casino";
+import AboutUs from './components/member/about_us'
+
 import ForMember from './components/member/for_member'
 import ForPartner from './components/partner/for_partner';
 import ContactUs from './components/member/contact_us';
@@ -54,6 +59,7 @@ import  Virtual  from './components/member/virtual_sports';
 
 
 
+
 const containerStyle = {
     mineight: '100%'
 };
@@ -61,6 +67,9 @@ const containerStyle = {
 const BaseRouter = () => (
     <div style={containerStyle}>
         <Route exact path="/" component={Home} />
+        <Route exact path="/register" component={Register} />
+
+        <Route exact path="/live_casino" component={live_casino} />
         <Route exact path="/about_us" component={AboutUs} />
         <Route exact path="/contact_us" component={ContactUs} />
         <Route exact path="/statement" component={Statement} />

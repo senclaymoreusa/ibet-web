@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -449,8 +449,8 @@ class DepositHelp2pay extends Component {
             console.log('Request failed', err);
 
             currentComponent.props.callbackFromParent("error", err.message);
-
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
@@ -535,9 +535,9 @@ class DepositHelp2pay extends Component {
                                         return (
                                             <Button
                                                 className={
-                                                    i == 0
+                                                    i === 0
                                                         ? classes.leftButton
-                                                        : i == 3
+                                                        : i === 3
                                                         ? classes.rightButton
                                                         : classes.middleButton
                                                 }

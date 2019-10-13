@@ -1,10 +1,8 @@
-import React, { Component, forwardRef, useRef, useImperativeHandle } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
     authCheckState,
-    hide_deposit_main_menu,
-    show_deposit_main_menu
-} from '../../../../../actions';
+    hide_deposit_main_menu} from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import DepositSuccess from './deposit_success';
@@ -33,7 +31,7 @@ import DepositAsiapayBankcard from './deposit_types/deposit_asiapay_bankcard';
 import DepositScratchCard from './deposit_types/deposit_scratchcard';
 import DepositPIQ from './deposit_types/deposit_piq';
 
-const styles = theme => ({
+const styles = () => ({
     root: {
         width: '100%'
     }
