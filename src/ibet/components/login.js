@@ -1,58 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { errors } from './errors';
-import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin } from '../../actions';
-//import IoEye from 'react-icons/lib/io/eye';
-import FacebookLogin from "react-facebook-login";
+import { authLogin, authCheckState, AUTH_RESULT_SUCCESS, FacebookSignup, FacebookauthLogin, hide_login, show_signup, show_forget_password, sendingLog } from '../../actions';
 import axios from 'axios';
-import IoSocialFacebook from 'react-icons/lib/io/social-facebook';
-import '../css/login.css';
-
+import { withRouter } from 'react-router-dom';
 import { config } from '../../util_config';
-
-// Material design
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Button from '@material-ui/core/Button';
-import blue from '@material-ui/core/colors/blue';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import classNames from 'classnames';
 
-import TopNavbar from "./top_navbar";
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-
-    margin: {
-        margin: 'auto',
-    },
-
     textField: {
         flexBasis: 200,
         width: 300,
         backgroundColor: '#ffffff;'
     },
 
-    cssRoot: {
-        color: theme.palette.getContrastText(blue[300]),
-        backgroundColor: blue[300],
-        '&:hover': {
-            backgroundColor: blue[800],
+    cssOutlinedInput: {
+        "& $notchedOutline": {
+            //add this nested selector
+            borderColor: "'#e4e4e4'",
         },
+
+        "&$cssFocused $notchedOutline": {
+            borderColor: "blue",
+        }
     },
+    cssFocused: {},
+
+    notchedOutline: {},
 });
 
 export class Login extends React.Component {
@@ -61,7 +44,6 @@ export class Login extends React.Component {
         super(props);
 
         this.state = {
-            errorCode: '',
             username: '',
             password: '',
             hidden: true,
@@ -73,7 +55,9 @@ export class Login extends React.Component {
             showPassword: false,
 
             button_disable: true,
-            button_type: 'login-button-disable'
+            wrong_password_error: false,
+            user_blocked: false,
+            error: '',
         };
 
         this.onInputChange_username = this.onInputChange_username.bind(this);
@@ -82,7 +66,6 @@ export class Login extends React.Component {
         this.toggleShow = this.toggleShow.bind(this);
         this.handle_one_click = this.handle_one_click.bind(this);
     }
-
 
 
     handleClickShowPassword = () => {
@@ -109,13 +92,13 @@ export class Login extends React.Component {
             localStorage.removeItem('one-click');
             localStorage.removeItem('username');
             localStorage.removeItem('password');
-            this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+            this.setState({ username: username, password: password, button_disable: false })
         } else {
             const remember_check = localStorage.getItem('remember_check');
             if (remember_check) {
                 const username = localStorage.getItem('remember_username');
                 const password = localStorage.getItem('remember_password');
-                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button' })
+                this.setState({ username: username, password: password, button_disable: false })
             }
         }
     }
@@ -128,33 +111,33 @@ export class Login extends React.Component {
 
                 const message_password = formatMessage({ id: "login.password" });
 
-                var username = res.data.username;
-                var password = res.data.password;
-                this.setState({ username: username, password: password, button_disable: false, button_type: 'login-button', check: false })
+                var temp = res.data.split('-')
+                var username = temp[0]
+                var password = temp[1]
+                this.setState({ username: username, password: password, button_disable: false, check: false })
 
                 localStorage.removeItem('remember_username');
                 localStorage.removeItem('remember_password');
                 localStorage.removeItem('remember_check');
 
-                alert(message_username + ": " + username + '  ' + message_password + ": " + password)
-                // alert(message_username + username + '  ' + message_password + password)
+                alert(message_username + ":" + username + '  ' + message_password + ":" + password)
             })
     }
 
     onInputChange_username(event) {
         if (event.target.value && this.state.password) {
-            this.setState({ button_disable: false, button_type: 'login-button' })
+            this.setState({ button_disable: false })
         } else {
-            this.setState({ button_disable: true, button_type: 'login-button-disable' })
+            this.setState({ button_disable: true })
         }
         this.setState({ username: event.target.value });
     }
 
     onInputChange_password(event) {
         if (event.target.value && this.state.username) {
-            this.setState({ button_disable: false, button_type: 'login-button' })
+            this.setState({ button_disable: false })
         } else {
-            this.setState({ button_disable: true, button_type: 'login-button-disable' })
+            this.setState({ button_disable: true })
         }
         this.setState({ password: event.target.value });
     }
@@ -163,83 +146,32 @@ export class Login extends React.Component {
         this.setState({ hidden: !this.state.hidden });
     }
 
-    componentClicked = () => {
-        this.setState({ button_clicked: 1 })
-        var username = this.state.name
-        var email = this.state.email
-        console.log(username, email)
+    // componentClicked = () => {
+    //     this.setState({ button_clicked: 1 })
+    //     var username = this.state.name
+    //     var email = this.state.email
 
-        this.props.FacebookauthLogin(username, email)
-            .then(res => {
-                this.props.history.push('/');
-            }).catch(err => {
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                this.props.FacebookSignup(username, email)
-                    .then(res => {
-                        this.props.FacebookauthLogin(username, email)
-                            .then(res => {
-                                this.props.history.push('/');
-                            })
-                            .catch(err => {
-                                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-
-                            })
-                    })
-                    .catch(err => {
-                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                  })
-            })
-    }
-
-    FacebookFailed = () => {
-        console.log('Facebook Login cancelled')
-    }
-
-    responseFacebook = (response) => {
-        //console.log(response);
-
-        localStorage.setItem('facebook', true)
-
-        var facebookObj = {
-            userID: response.userID,
-            name: response.name,
-            email: response.email,
-            picture: response.picture.data.url
-        }
-
-        this.setState({
-            name: response.name,
-            email: response.email
-        })
-
-        localStorage.setItem('facebookObj', JSON.stringify(facebookObj));
-
-        var username = this.state.name
-        var email = this.state.email
-
-        if (this.state.button_clicked === 1) {
-            this.props.FacebookauthLogin(username, email)
-                .then(res => {
-                    this.props.history.push('/');
-                }).catch(err => {
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-
-                    this.props.FacebookSignup(username, email)
-                        .then(res => {
-                            this.props.FacebookauthLogin(username, email)
-                                .then(res => {
-                                    this.props.history.push('/');
-                                })
-                                .catch(err => {
-                                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                                })
-                        })
-                        .catch(err => {
-                            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                        })
-                })
-        }
-    };
+    //     this.props.FacebookauthLogin(username, email)
+    //         .then(res => {
+    //             this.props.history.push('/');
+    //         }).catch(err => {
+    //             this.props.FacebookSignup(username, email)
+    //                 .then(res => {
+    //                     this.props.FacebookauthLogin(username, email)
+    //                         .then(res => {
+    //                             this.props.history.push('/');
+    //                         })
+    //                         .catch(err => {
+    //                             sendingLog(err);
+    //                             // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+    //                         })
+    //                 })
+    //                 .catch(err => {
+    //                     sendingLog(err);
+    //                     // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+    //                 })
+    //         })
+    // }
 
     onInputChange_checkbox = async (event) => {
         await this.setState({ check: !this.state.check })
@@ -247,29 +179,88 @@ export class Login extends React.Component {
 
     onFormSubmit(event) {
         event.preventDefault();
-        if (!this.state.username) {
-            this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
-        } else if (!this.state.password) {
-            this.setState({ errorCode: errors.PASSWORD_EMPTY_ERROR });
-        } else {
-            this.props.authLogin(this.state.username, this.state.password)
-                .then(() => {
+        this.props.authLogin(this.state.username, this.state.password)
+            .then((response) => {
+                // console.log(response);
+                if (response.errorCode) {
+                    this.setState({ error: response.errorMsg.detail[0] });
+                    // return;
+                } else {
                     if (this.state.check) {
-                        localStorage.setItem('remember_username', this.state.username);
                         localStorage.setItem('remember_password', this.state.password);
                         localStorage.setItem('remember_check', 'checked')
+
+                        axios.get(API_URL + 'users/api/user/', config)
+                            .then(res => {
+                                localStorage.setItem('remember_username', res.data.username);
+                            })
                     } else {
                         localStorage.removeItem('remember_username');
                         localStorage.removeItem('remember_password');
                         localStorage.removeItem('remember_check');
                     }
-                    this.props.history.push('/');
-                })
-                .catch(err => {
-                    this.setState({ errorCode: err });
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                });
+                    this.props.hide_login()
+
+                    this.setActivityReminder();
+                }
+            })
+            .catch(err => {
+                if (typeof err === "string") {
+                    this.setState({ user_blocked: true, wrong_password_error: false })
+                } else {
+                    this.setState({ wrong_password_error: true, user_blocked: false })
+                }
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                // sendingLog(err);
+            });
+    }
+
+    async setActivityReminder() {
+        let currentComponent = this;
+
+        let reminderData = {
+            "userId": currentComponent.state.userId,
+            "startTime": new Date(),
+            "duration": 60
         }
+
+        await this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_SUCCESS) {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        let userId = res.data.pk;
+                        reminderData.userId = userId;
+
+                        return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
+                    }).then(res => {
+                        switch (res.data) {
+                            case 0:
+                                reminderData.duration = 5;
+                                break;
+                            case 1:
+                                reminderData.duration = 30;
+                                break;
+                            case 2:
+                                reminderData.duration = 60;
+                                break;
+                            case 120:
+                                reminderData.duration = 120;
+                                break;
+                            default:
+                                reminderData.duration = 60;
+                        }
+
+                        localStorage.setItem('activityCheckReminder', JSON.stringify(reminderData));
+                    }).catch(err => {
+                        // console.log(err);
+                        // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                        sendingLog(err);
+                    })
+            }
+        })
     }
 
     render() {
@@ -279,82 +270,95 @@ export class Login extends React.Component {
         const { formatMessage } = this.props.intl;
         const remember_password = formatMessage({ id: "login.remember" });
 
-        const showErrors = () => {
-            if (this.state.errorCode === errors.USERNAME_EMPTY_ERROR) {
-                return (
-                    <div style={{ color: 'red' }}>
-                        <FormattedMessage id="login.username_empty_error" defaultMessage='Username cannot be empty' />
-                    </div>
-                );
-            } else if (this.state.errorCode === errors.PASSWORD_EMPTY_ERROR) {
-                return (
-                    <div style={{ color: 'red' }}>
-                        <FormattedMessage id="login.password_empty_error" defaultMessage='Password cannot be empty' />
-                    </div>
-                );
-            } else {
-                return (
-                    <div style={{ color: 'red' }}> {this.state.errorCode} </div>
-                )
-            }
-        }
-
         return (
-            <div>
-                <TopNavbar />
-                <div className='login-form '>
+            <div style={{ backgroundColor: '#ffffff', width: 380 }}>
 
-                    <div className='title'>
-                        <FormattedMessage id="nav.login" defaultMessage='Login' />
-                    </div>
+                <div style={{ fontSize: 32, textAlign: 'center' }}>
+                    <FormattedMessage id="nav.login" defaultMessage='Login' />
+                </div>
 
-                    <form onSubmit={this.onFormSubmit} >
+                <form onSubmit={this.onFormSubmit} >
 
-                        <FormattedMessage id="login.username" defaultMessage='Username: ' />
-
-                        <br />
-
-
+                    <div style={{ marginTop: 37, textAlign: 'center' }}>
                         <TextField
-                            id="outlined-adornment-password"
-                            className={classNames(classes.margin, classes.textField)}
+                            className={classes.textField}
+                            label="EMAIL DDRESS"
                             variant="outlined"
-                            type={'text'}
                             value={this.state.username}
                             onChange={this.onInputChange_username}
+                            InputProps={{
+                                classes: {
+                                    root: classes.cssOutlinedInput,
+                                    focused: classes.cssFocused,
+                                    notchedOutline: classes.notchedOutline
+                                }
+                            }}
                         />
+                    </div>
 
-
-                        <br />
-
-                        <FormattedMessage id="login.password" defaultMessage='Password: ' />
-
-                        <br />
-
-
+                    <div style={{ color: '#747175', marginTop: 10, marginLeft: 40 }}>
+                        <FormattedMessage id="signup.email_message1" defaultMessage='This will be used to log in.' />
+                    </div>
+                    <div style={{ marginTop: 15, textAlign: 'center' }}>
                         <TextField
-                            id="outlined-adornment-password2"
-                            className={classNames(classes.margin, classes.textField)}
+                            className={classes.textField}
+                            label="PASSWORD"
                             variant="outlined"
                             type={this.state.showPassword ? 'text' : 'password'}
                             value={this.state.password}
                             onChange={this.onInputChange_password}
                             InputProps={{
+                                classes: {
+                                    root: classes.cssOutlinedInput,
+                                    focused: classes.cssFocused,
+                                    notchedOutline: classes.notchedOutline
+                                },
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
                                             aria-label="Toggle password visibility"
-                                            onClick={this.handleClickShowPassword}
-                                        >
+                                            onClick={this.handleClickShowPassword}>
                                             {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>
                                     </InputAdornment>
                                 ),
                             }}
                         />
+                    </div>
 
-                        <br />
+                    {
+                        this.state.error &&
+                        <div style={{ color: 'red', marginTop: 20, marginLeft: 40 }}>
+                            {this.state.error}
+                            {/* <FormattedMessage id="login.fail" defaultMessage='Incorrect Username / Password' /> */}
+                        </div>
+                    }
 
+                    {
+                        // this.state.user_blocked &&
+                        // <div style={{ color: 'red', marginTop: 20, marginLeft: 40 }}>
+                        //     {this.state.error}
+                        //     {/* <FormattedMessage id="login.block" defaultMessage='The current user is blocked' /> */}
+                        // </div>
+                    }
+
+
+                    <div style={{ color: '#747175', marginTop: 20, marginLeft: 40 }}>
+
+                        <span
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                this.props.hide_login()
+                                this.props.show_forget_password();
+                            }}
+                        >
+                            Forgot Password ?
+                        </span>
+                    </div>
+
+
+
+                    <div style={{ marginTop: 20, marginLeft: 40 }}>
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -365,89 +369,32 @@ export class Login extends React.Component {
                             }
                             label={remember_password}
                         />
-
-                        <br />
-
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            disabled={this.state.button_disable}
-                            className={this.state.button_type}
-                            type="submit" >
-                            <FormattedMessage id="login.login" defaultMessage='Login' />
-                        </Button>
-
-                    </form>
-
-
-                    <br />
-
-                    <div>
-                        <NavLink to='/forget_password' style={{ textDecoration: 'none', color: 'blue' }}>
-                            <FormattedMessage id="login.forget_password" defaultMessage='Forgot Password?' />
-                        </NavLink>
                     </div>
 
-                    <br />
+                    <button
+                        disabled={this.state.button_disable}
+                        style={{ backgroundColor: this.state.button_disable ? '#ff8080' : 'red', height: 52, width: 272, marginTop: 30, color: 'white', cursor: 'pointer', border: 'none', marginLeft: 50 }}
+                        type="submit"
+                    >
+                        <FormattedMessage id="login.login" defaultMessage='Login' />
+                    </button>
 
-                    <div>
-                        <NavLink to='/signup' style={{ textDecoration: 'none', color: 'blue' }}>
-                            <FormattedMessage id="login.notauser" defaultMessage='Not a member? Signup for free' />
-                        </NavLink>
-                    </div>
+                </form>
 
-                    <br />
-
-                    <div>
-                        <FormattedMessage id="login.one-click" defaultMessage='Or try one click signup' />
-                    </div>
-
-                    <br />
-
-                    <div>
-                        <Button
-                            onClick={this.handle_one_click}
-                            variant="contained"
-                            color="primary"
-                            className={this.state.button_type}
-                        >
-                            <FormattedMessage id="login.signup" defaultMessage='Signup' />
-                        </Button>
-                    </div>
-
-
-                    <br />
-
-                    <div>
-                        <FormattedMessage id="login.option" defaultMessage='Other login options' />
-                    </div>
-
-                    <br />
-
-                    <div>
-                        <FacebookLogin
-                            appId="236001567251034"
-                            size='small'
-                            textButton=""
-                            fields="name, email, picture"
-                            onClick={this.componentClicked}
-                            callback={this.responseFacebook}
-                            onFailure={this.FacebookFailed}
-                            icon={
-                                <div style={{ fontSize: '25px' }}>
-                                    <IoSocialFacebook />
-                                </div>
-                            }
-                        />
-                    </div>
-
-                    <br />
-
-                    <br />
-                    {
-                        showErrors()
-                    }
+                <div
+                    onClick={() => {
+                        this.props.hide_login();
+                        this.props.show_signup();
+                    }}
+                    style={{ marginTop: 30, cursor: 'pointer', fontSize: 14, color: '#212121', textAlign: 'center' }}
+                >
+                    <FormattedMessage id="login.notauser" defaultMessage='Not a member? Signup for free' />
                 </div>
+
+                <div style={{ height: 30 }}>
+
+                </div>
+
             </div>
         );
     }
@@ -458,8 +405,7 @@ const mapStateToProps = (state) => {
     return {
         isAuthenticated: token !== null && token !== undefined,
         loading: state.auth.loading,
-        error: state.auth.error,
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authLogin, authCheckState, FacebookSignup, FacebookauthLogin })(Login)));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authLogin, authCheckState, FacebookSignup, FacebookauthLogin, hide_login, show_signup, show_forget_password })(Login))));

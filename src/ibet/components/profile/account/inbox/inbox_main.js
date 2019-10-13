@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, handle_inbox_value } from '../../../../../actions';
+import { authCheckState, handle_inbox_value, sendingLog } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 
 import { images, config } from '../../../../../util_config';
@@ -189,7 +189,8 @@ export class InboxMain extends Component {
                         // });
                         this.setState({Messages: res.data});
                     }).catch(err => {
-                        axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                        // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                        sendingLog(err);
                     })
             })
     }
@@ -210,7 +211,8 @@ export class InboxMain extends Component {
 
             }).catch(err => {
                 //console.log("err: ", err);
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                sendingLog(err);
             })
     }
 
@@ -266,7 +268,7 @@ export class InboxMain extends Component {
                                         </IconButton>,
                                     ]}
                                 /></Snackbar>
-                                {this.state.Messages.map(item => {
+                                {this.state.Messages.forEach(item => {
                                     if(!item.is_deleted) {
                                         if(!item.is_read) {
                                             return(

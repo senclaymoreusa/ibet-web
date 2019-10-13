@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -305,7 +305,7 @@ class DepositAsiapayUnionpay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+       
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -405,7 +405,8 @@ class DepositAsiapayUnionpay extends Component {
 
         }).catch(err => {
             currentComponent.props.callbackFromParent("error", err.returnMessage);
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
         });
     }
 
