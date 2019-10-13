@@ -39,7 +39,6 @@ import  LotteryRuleFour  from './components/member/lottery_rule4';
 import  GameRuleFour  from './components/member/game_rule4';
 import  GameSangong  from './components/member/game_sangong';
 import  GameRuleEight  from './components/member/game_rule8';
-import virtual_sports from './components/member/virtual_sports';
 import  LotteryRuleTwo  from './components/member/lottery_rule2';
 import  LotteryRuleThree  from './components/member/lottery_rule3';
 import  GameRuleThree  from './components/member/game_rule3';
@@ -51,6 +50,7 @@ import  Baijiale  from './components/member/game_baijiale';
 import  Lunpan  from './components/member/game_lunpan';
 import  Game21dian  from './components/member/game_21dian';
 import  AboutUs  from './components/member/about_us';
+import  Virtual  from './components/member/virtual_sports';
 
 
 
@@ -80,7 +80,7 @@ const BaseRouter = () => (
 
         <Route exact path="/general_rules" component={GeneralRules} />
         <Route exact path="/special_rules" component={SpecialRules} />
-        <Route exact path="/virtual_sports" component={virtual_sports} />
+        <Route exact path="/virtual_sports" component={Virtual} />
         <Route exact path="/game_baijiale" component={Baijiale} />
         <Route exact path="/game_lunpan" component={Lunpan} />
         <Route exact path="/game_21dian" component={Game21dian} />

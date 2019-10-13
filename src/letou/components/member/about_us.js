@@ -17,83 +17,92 @@ import {
 
 
 const styles = theme => ({
-    content : {
+    content: {
         display: 'flex',
         paddingRight: 400,
     },
-    infoSelect : {
+    infoSelect: {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    aboutUsDetail: {
+        fontSize: '14px',
     }
 })
 
 export class AboutUs extends React.Component {
-    
+
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
     }
 
     render() {
-  
-      const { classes } = this.props;
-  
-      return (
-       
-        <div className={classes.root}> 
-            <IconHeader/>
-            <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
-                    <InfoSelect/>
-                </Grid>
-            
-                <Grid item xs={7} className={classes.detail}>
-                    <div className="HelpCenterList">
-                        <ul>
-                            <li>
-                                <a href="/for_member">{this.getLabel('for-member')}  >
+
+        const { classes } = this.props;
+
+        return (
+
+            <div className={classes.root}>
+                <IconHeader />
+                <Grid container className={classes.content}>
+                    <Grid item xs={5} className={classes.infoSelect}>
+                        <div className="HelpCenterLeftNav">
+                            <ul>
+                                <li>
+                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                </li>
+                                <li>
+                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </Grid>
+
+                    <Grid item xs={7} className={classes.detail}>
+                        <div className="HelpCenterList">
+                            <ul>
+                                <li>
+                                    <a href="/for_member">{this.getLabel('for-member')}  >
                                     <i></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/for_member">{this.getLabel('story')}  >
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/for_member">{this.getLabel('story')}  >
                                     <i></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <Typography component="p" variant="h6">
-                    {this.getLabel('about-letou')}  
-                    </Typography>
-                    {'\n'}{'\n'}
-                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                    {this.getLabel('aboutUs-detail-text-one')}     
-                    </Typography>
-                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                    {this.getLabel('aboutUs-detail-text-two')}     
-                    </Typography>
-                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                    {this.getLabel('aboutUs-detail-text-three')}     
-                    </Typography>
-                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                    {this.getLabel('aboutUs-detail-text-four')}     
-                    </Typography>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <Typography component="p" variant="h6">
+                            {this.getLabel('about-letou')}
+                        </Typography>
+                        {'\n'}{'\n'}
+                        <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                            {this.getLabel('aboutUs-detail-text-one')}
+                        </Typography>
+                        <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                            {this.getLabel('aboutUs-detail-text-two')}
+                        </Typography>
+                        <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                            {this.getLabel('aboutUs-detail-text-three')}
+                        </Typography>
+                        <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                            {this.getLabel('aboutUs-detail-text-four')}
+                        </Typography>
+                    </Grid>
                 </Grid>
-            </Grid>
-            
-        </div>
-      );
+
+            </div>
+        );
     }
-  }
+}
 
 
 
-  
-  const mapStateToProps = (state) => {
+
+const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
         isAuthenticated: (token !== null && token !== undefined),
