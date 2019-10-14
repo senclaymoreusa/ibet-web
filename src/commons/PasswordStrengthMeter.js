@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../css/PasswordStrengthMeter.css';
+import './PasswordStrengthMeter.css';
 import zxcvbn from 'zxcvbn';
 
 class PasswordStrengthMeter extends Component {

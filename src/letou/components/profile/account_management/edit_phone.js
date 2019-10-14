@@ -6,8 +6,21 @@ import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Create from '@material-ui/icons/Create';
 import Button from '@material-ui/core/Button';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import { config } from '../../../../util_config';
+import axios from 'axios'
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
+import { TextField } from '@material-ui/core';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = () => ({
     root: {
@@ -29,21 +42,135 @@ const styles = () => ({
         lineHeight: 'normal',
         color: '#999'
     },
+    title: {
+        fontSize: 18,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: -0.24,
+        color: '#000',
+    },
+    titleRow: {
+        paddingBottom: 12,
+    },
     row: {
         padding: 20,
-        borderBottom: '1px solid #ddd'
     },
-    editButton:{
-        textTransform:'capitalize',
+    sendButton: {
+        textTransform: 'capitalize',
         fontSize: 12,
-        whiteSpace: 'nowrap'
-    }
+        whiteSpace: 'nowrap',
+        width: 140,
+    },
+    nextButton: {
+        textTransform: 'capitalize',
+        fontSize: 12,
+        whiteSpace: 'nowrap',
+        width: 140,
+        backgroundColor: '#4DA9DF',
+        color: '#fff',
+        "&:hover": {
+            backgroundColor: '#57b9f2',
+            color: '#fff',
+
+        },
+        "&:focus": {
+            backgroundColor: '#57b9f2',
+            color: '#fff',
+
+        },
+    },
+    verificationCodeField: {
+        width: 140,
+        marginRight: 20,
+        fontSize: 12,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 36,
+        paddingTop: 2,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderRadius: 4,
+        border: 'solid 1px #e4e4e4',
+        "&:hover": {
+            border: 'solid 1px #717171',
+        },
+        "&:focus": {
+            border: 'solid 1px #717171',
+        },
+    },
+    checkbox: {
+
+    },
 });
+
+const CustomCheckbox = withStyles({
+    root: {
+        color: '#4DA9DF',
+        '&$checked': {
+            color: '#4DA9DF',
+        },
+    },
+    checked: {},
+})(props => <Checkbox color="default" {...props} />);
+
+const customStepStyles = makeStyles({
+    root: {
+        zIndex: 1,
+        color: '#fff',
+        width: 26,
+        height: 26,
+        display: 'flex',
+        borderRadius: '50%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ccc',
+    },
+    active: {
+        backgroundColor: '#4DA9DF',
+    },
+    completed: {
+        backgroundColor: '#4DA9DF',
+    },
+});
+
+function customStepIcon(props) {
+    const classes = customStepStyles();
+    const { active, completed } = props;
+   
+    return (
+        <div
+            className={clsx(classes.root, {
+                [classes.active]: active,
+                [classes.completed]: completed
+            })}
+        >
+            {props.icon}
+        </div>
+    );
+}
+
+customStepIcon.propTypes = {
+    active: PropTypes.bool,
+    completed: PropTypes.bool
+};
 
 export class EditPhone extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            activeStep: 0,
+            phone: '',
+            verificationCode: '',
+            verificationCodeSent: true,
+        }
     }
 
     getLabel(labelId) {
@@ -51,146 +178,107 @@ export class EditPhone extends Component {
         return formatMessage({ id: labelId });
     }
 
+    componentDidMount() {
+
+        this.props.authCheckState()
+            .then(res => {
+                if (res === 1) {
+                    this.props.history.push('/');
+                    window.location.reload()
+                }
+            })
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ phone: res.data.phone });
+            })
+    }
+
+    sendVerificationCode(){
+
+    }
+
     render() {
         const { classes } = this.props;
+        const { activeStep, phone, verificationCode, verificationCodeSent } = this.state;
 
         return (
             <div className={classes.root}>
                 <Grid container>
+                    <Grid item xs={12} className={classes.titleRow}>
+                        <span className={classes.title}>
+                            {this.getLabel('modify-phone')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Stepper alternativeLabel activeStep={activeStep}>
+                            <Step key={this.getLabel('phone-verification')}>
+                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('phone-verification')}</StepLabel>
+                            </Step>
+                            <Step key={this.getLabel('phone-settings')}>
+                                <StepLabel>{this.getLabel('phone-settings')}</StepLabel>
+                            </Step>
+                            <Step key={this.getLabel('set-successfully')}>
+                                <StepLabel>{this.getLabel('set-successfully')}</StepLabel>
+                            </Step>
+                        </Stepper>
+                    </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
-                            {this.getLabel('actual-name')}
+                            {this.getLabel('phone-number')}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            actual name
+                            {this.state.phone}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row}>
+                        <span className={classes.label}>
+                            {this.getLabel('verification-code')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={9} className={classes.row}>
+                        <TextField className={classes.verificationCodeField}
+                            value={verificationCode}
+                            onChange={(event) => {
+                                this.setState({ verificationCode: event.target.value });
+                            }}
+                            InputProps={{
+                                disableUnderline: true,
 
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('title-mail')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            mail address
-                        </span>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
+                            }}></TextField>
                         <Button variant="contained"
                             color="default"
-                            className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('edit-label')}</Button>
+                            className={classes.sendButton}>{this.getLabel('send-verification-code')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('phone-label')}
-                        </span>
                     </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            phone
-                        </span>
+                    <Grid item xs={9} className={classes.row}>
+                        {this.getLabel('only-three-code')}
                     </Grid>
-                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
+                    <Grid item xs={3} className={classes.row}>
+                    </Grid>
+                    <Grid item xs={9} className={classes.row}>
                         <Button variant="contained"
-                            color="default"
-                            className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('edit-label')}</Button>
+                            disabled={verificationCode.length === 0}
+                            onClick={this.sendVerificationCode.bind(this)}
+                            className={classes.nextButton}>{this.getLabel('next-step')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('username-label')}
-                        </span>
                     </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            username
-                        </span>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                        
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('username-label')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            username
-                        </span>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                        
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('login-password')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            *********
-                        </span>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                    <Button variant="contained"
-                            color="default"
-                            className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('change-password')}</Button>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('withdrawal-password')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            *********
-                        </span>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                    <Button variant="contained"
-                            color="default"
-                            className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('change-password')}</Button>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('registration-time')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            2017/10/10
-                        </span>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                    <Button variant="contained"
-                            color="default"
-                            className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('gaming-responsibility')}</Button>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('bank-card')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            Bind bank card
-                        </span>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                    <Button variant="contained"
-                            color="default"
-                            className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('binding-card-number')}</Button>
+                    <Grid item xs={9} className={classes.row}>
+                        <FormControlLabel
+                            control={
+                                <CustomCheckbox className={classes.checkbox} checked={verificationCodeSent} readOnly={true} value="checkedA" />
+                            }
+                            label={this.getLabel('verification-code-sent')}
+                        />
                     </Grid>
                 </Grid>
             </div>

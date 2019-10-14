@@ -40,7 +40,6 @@ import {
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu/account_menu';
 import Popper from '@material-ui/core/Popper';
@@ -50,7 +49,6 @@ import Collapse from '@material-ui/core/Collapse';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import { createMuiTheme } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Login from './login.js';
 import Signup from './signup/signup_2.js';
@@ -129,7 +127,7 @@ const styles = theme => ({
         height: 45,
         [theme.breakpoints.down('sm')]: {
             height: 49,
-            minHeight:49,
+            minHeight: 49,
         },
         width: '100%',
         maxWidth: 1400
@@ -166,7 +164,7 @@ const styles = theme => ({
             display: 'flex',
         },
     },
-    logo:{
+    logo: {
         [theme.breakpoints.down('sm')]: {
             height: 20,
         }
@@ -694,7 +692,7 @@ export class TopNavbar extends React.Component {
         this.props.show_login()
     };
 
-    handleSignupMenuOpen = event => {
+    handleSignupMenuOpen = () => {
         this.setState({ username: '', password: '' })
 
         this.props.show_signup()
@@ -764,7 +762,7 @@ export class TopNavbar extends React.Component {
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-            .then((res) => {
+            .then(() => {
                 if (this._isMounted)
                     this.setState({ show_loggedin_status: true });
             })
@@ -789,7 +787,7 @@ export class TopNavbar extends React.Component {
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-            .then((res) => {
+            .then(() => {
                 if (this._isMounted)
                     this.setState({ show_loggedin_status: true });
             })
@@ -959,7 +957,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
     };
 
-    sportsMenuItemClick = (event) => {
+    sportsMenuItemClick = () => {
         this.props.show_mobile_main_menu();
         this.setState(state => ({ showMobileSportsSubMenu: !state.showMobileSportsSubMenu }));
     };
@@ -969,7 +967,7 @@ export class TopNavbar extends React.Component {
     };
 
     render() {
-        const { anchorEl, mainTabValue, balance, balanceCurrency, anchorElLogin } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
@@ -1096,7 +1094,7 @@ export class TopNavbar extends React.Component {
                     <ListItem button className={classes.mobileMenuItem}
                         onClick={() => {
                             this.props.hide_mobile_main_menu();
-                            this.setState({showMobileSportsSubMenu: false});
+                            this.setState({ showMobileSportsSubMenu: false });
                             this.props.history.push('/liveCasino_type/live-casino/all')
                         }}>
                         <img src={images.src + 'mobile-live-casino.svg'} alt="" className={classes.mobileMenuIcon} />
@@ -1191,7 +1189,7 @@ export class TopNavbar extends React.Component {
                             </Drawer>
                         </div>
                         <IconButton href='/' className={classes.logoButton}>
-                            <img src={images.src + 'ibet_logo.svg'} alt="" className={classes.logo}/>
+                            <img src={images.src + 'ibet_logo.svg'} alt="" className={classes.logo} />
                         </IconButton>
                         <div className={classes.grow} />
                         {
@@ -1636,7 +1634,6 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
-        inbox: state.inbox,
         showLogin: state.general.show_login,
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,

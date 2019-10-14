@@ -23,7 +23,7 @@ const styles = () => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         color: '#212121',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
     },
     value: {
         fontSize: 15,
@@ -35,12 +35,16 @@ const styles = () => ({
     },
     row: {
         padding: 20,
-        borderBottom: '1px solid #ddd'
+        borderBottom: '1px solid #ddd',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column'
     },
     editButton: {
         textTransform: 'capitalize',
         fontSize: 12,
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        minWidth:140
     }
 });
 
@@ -78,11 +82,11 @@ export class AccountMessage extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ actualName: res.data.pk });
+                this.setState({ actualName: res.data.first_name });
                 this.setState({ email: res.data.email });
                 this.setState({ phone: res.data.phone });
                 this.setState({ username: res.data.username });
-                this.setState({ registrationDate: res.data.email });
+                this.setState({ registrationDate: res.data.time_of_registration });
             })
     }
 
@@ -107,7 +111,7 @@ export class AccountMessage extends Component {
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
-                            {this.getLabel('title-mail')}
+                            {this.getLabel('title-email')}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
@@ -135,6 +139,11 @@ export class AccountMessage extends Component {
                         <Button variant="contained"
                             color="default"
                             className={classes.editButton}
+                            onClick={() => {
+                                this.props.callbackFromParent(
+                                    'edit-phone'
+                                );
+                            }}
                             startIcon={<Create />}>{this.getLabel('edit-label')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
@@ -150,7 +159,6 @@ export class AccountMessage extends Component {
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
 
                     </Grid>
-
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
                             {this.getLabel('login-password')}

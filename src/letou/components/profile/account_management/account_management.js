@@ -11,6 +11,7 @@ import AccountMessage from './account_message';
 import MessageNotification from './message_notification';
 import SecuritySettings from './security_settings';
 import Suggestions from './suggestions';
+import EditPhone from './edit_phone';
 import { withStyles } from '@material-ui/core/styles';
 
 import PersonOutlineRounded from '@material-ui/icons/PersonOutlineRounded';
@@ -158,6 +159,12 @@ export class AccountManagement extends Component {
         return formatMessage({ id: labelId });
     }
 
+    setPage = (page, msg) => {
+        this.setState({ contentValue: page });
+
+        //if (msg) this.setState({ depositMessage: msg });
+    };
+
     render() {
         const { classes } = this.props;
         const { contentValue } = this.state;
@@ -189,10 +196,11 @@ export class AccountManagement extends Component {
                             </Button>
                         </div>
                         <div className={classes.content}>
-                            {contentValue === 'account-message' && <AccountMessage />}
+                            {contentValue === 'account-message' && <AccountMessage callbackFromParent={this.setPage} />}
                             {contentValue === 'message-notification' && <MessageNotification />}
                             {contentValue === 'security-settings' && <SecuritySettings />}
                             {contentValue === 'suggestions' && <Suggestions />}
+                            {contentValue === 'edit-phone' && <EditPhone callbackFromParent={this.setPage} />}
                         </div>
                     </Grid>
                 </Grid>
