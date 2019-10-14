@@ -215,8 +215,15 @@ export const messages = {
         'actual-name':'Actual Name',
         'title-mail':'Mail',
         'edit-label':'Edit',
-        
-
+        'phone-label':'Phone',
+        'username-label':'Username',
+        'login-password':'Login Password',
+        'withdrawal-password':'Withdrawal Password',
+        'change-password':'Change Password',
+        'registration-time':'Registration Time',
+        'gaming-responsibility':'Gaming Responsiblity',
+        'bank-card':'Bank Card',
+        'binding-card-number':'Binding Card Number',
 
 
     },

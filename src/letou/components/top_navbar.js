@@ -38,7 +38,7 @@ const styles = theme => ({
     firstRow: {
         height: 32,
         alignItems: 'center',
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#f0f0f0',
     },
     firstBar: {
         paddingLeft: 0,

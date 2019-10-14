@@ -30,7 +30,7 @@ const styles = theme => ({
         maxWidth: 1400,
     },
     leftPane: {
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#f0f0f0',
         minHeight: 500,
         width: 240,
         display: 'flex',

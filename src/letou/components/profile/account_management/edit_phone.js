@@ -6,12 +6,8 @@ import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Create from '@material-ui/icons/Create';
 import Button from '@material-ui/core/Button';
-import { config } from '../../../../util_config';
-import axios from 'axios'
 
 import { withStyles } from '@material-ui/core/styles';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = () => ({
     root: {
@@ -37,53 +33,22 @@ const styles = () => ({
         padding: 20,
         borderBottom: '1px solid #ddd'
     },
-    editButton: {
-        textTransform: 'capitalize',
+    editButton:{
+        textTransform:'capitalize',
         fontSize: 12,
         whiteSpace: 'nowrap'
     }
 });
 
-export class AccountMessage extends Component {
+export class EditPhone extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            actualName: '',
-            email: '',
-            phone: '',
-            username: '',
-            registrationDate: '',
-        }
     }
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
-    }
-
-    componentDidMount() {
-
-        this.props.authCheckState()
-            .then(res => {
-                if (res === 1) {
-                    this.props.history.push('/');
-                    window.location.reload()
-                }
-            })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ actualName: res.data.pk });
-                this.setState({ email: res.data.email });
-                this.setState({ phone: res.data.phone });
-                this.setState({ username: res.data.username });
-                this.setState({ registrationDate: res.data.email });
-            })
     }
 
     render() {
@@ -99,7 +64,7 @@ export class AccountMessage extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {this.state.actualName}
+                            actual name
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
@@ -112,7 +77,7 @@ export class AccountMessage extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {this.state.email}
+                            mail address
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
@@ -128,7 +93,7 @@ export class AccountMessage extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {this.state.phone}
+                            phone
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
@@ -144,13 +109,25 @@ export class AccountMessage extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {this.state.username}
+                            username
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-
+                        
                     </Grid>
-
+                    <Grid item xs={3} className={classes.row}>
+                        <span className={classes.label}>
+                            {this.getLabel('username-label')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={6} className={classes.row}>
+                        <span className={classes.value}>
+                            username
+                        </span>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
+                        
+                    </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
                             {this.getLabel('login-password')}
@@ -162,7 +139,7 @@ export class AccountMessage extends Component {
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                        <Button variant="contained"
+                    <Button variant="contained"
                             color="default"
                             className={classes.editButton}
                             startIcon={<Create />}>{this.getLabel('change-password')}</Button>
@@ -178,7 +155,7 @@ export class AccountMessage extends Component {
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                        <Button variant="contained"
+                    <Button variant="contained"
                             color="default"
                             className={classes.editButton}
                             startIcon={<Create />}>{this.getLabel('change-password')}</Button>
@@ -190,11 +167,11 @@ export class AccountMessage extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {this.state.registrationDate}
+                            2017/10/10
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                        <Button variant="contained"
+                    <Button variant="contained"
                             color="default"
                             className={classes.editButton}
                             startIcon={<Create />}>{this.getLabel('gaming-responsibility')}</Button>
@@ -210,7 +187,7 @@ export class AccountMessage extends Component {
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
-                        <Button variant="contained"
+                    <Button variant="contained"
                             color="default"
                             className={classes.editButton}
                             startIcon={<Create />}>{this.getLabel('binding-card-number')}</Button>
@@ -227,4 +204,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(AccountMessage))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(EditPhone))));

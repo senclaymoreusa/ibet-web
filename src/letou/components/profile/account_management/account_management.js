@@ -30,7 +30,7 @@ const styles = theme => ({
         maxWidth: 1400,
     },
     leftPane: {
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#f0f0f0',
         minHeight: 500,
         width: 240,
         display: 'flex',
@@ -102,27 +102,27 @@ export class AccountManagement extends Component {
     }
 
     componentWillReceiveProps(props) {
-        // this.props.authCheckState().then(res => {
-        //     if (res === AUTH_RESULT_FAIL) {
-        //         this.props.history.push('/')
-        //     }
-        // })
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
-        // this.initializeContent();
+         this.initializeContent();
     }
 
     componentDidMount() {
-        // this.props.authCheckState().then(res => {
-        //     if (res === AUTH_RESULT_FAIL) {
-        //         this.props.history.push('/')
-        //     }
-        // })
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
-        // this.initializeContent();
+         this.initializeContent();
     }
 
     initializeContent() {
@@ -134,7 +134,7 @@ export class AccountManagement extends Component {
                 this.setState({ contentValue: parts[3] })
             }
         } else
-            this.setState({ contentValue: 'user_information' })
+            this.setState({ contentValue: 'account-message' })
     }
 
 

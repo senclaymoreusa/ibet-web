@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Footer from "../footer";
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../actions';
+import { authCheckState,AUTH_RESULT_FAIL } from '../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
@@ -145,11 +145,11 @@ export class Profile extends Component {
     }
 
     componentDidMount() {
-        // this.props.authCheckState().then(res => {
-        //     if (res === AUTH_RESULT_FAIL) {
-        //         this.props.history.push('/')
-        //     }
-        // })
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
