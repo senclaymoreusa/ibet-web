@@ -54,7 +54,6 @@ import  BetRuleFour  from './components/member/bet_rules4';
 import  Baijiale  from './components/member/game_baijiale';
 import  Lunpan  from './components/member/game_lunpan';
 import  Game21dian  from './components/member/game_21dian';
-import  AboutUs  from './components/member/about_us';
 import  Virtual  from './components/member/virtual_sports';
 
 
