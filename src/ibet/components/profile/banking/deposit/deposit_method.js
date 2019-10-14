@@ -129,7 +129,6 @@ export class DepositMethod extends Component {
     }
 
     handleClick = () => {
-        let currentComponent = this;
         
         var postData = {
                 user_id: this.state.data.pk,

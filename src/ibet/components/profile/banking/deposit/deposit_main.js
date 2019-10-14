@@ -7,6 +7,7 @@ import {
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
+import DepositBankTransfer from './deposit_bankTransfer';
 import DepositSuccess from './deposit_success';
 import DepositError from './deposit_error';
 import DepositMethod from './deposit_method';
@@ -64,6 +65,12 @@ export class DepositMain extends Component {
         this.setState({ contentValue: page });
 
         if (msg) this.setState({ depositMessage: msg });
+        
+    };
+    setPageData = (page, data) => {
+        this.props.hide_deposit_main_menu();
+        this.setState({contentValue: page });
+        if (data) this.setState({order_id: data});
     };
 
     render() {
@@ -162,6 +169,13 @@ export class DepositMain extends Component {
                     <DepositError
                         callbackFromParent={this.setPage}
                         errorMessage={this.state.depositMessage}
+                    />
+                )}
+                {contentValue === 'bank_transfer' && (
+                    <DepositBankTransfer
+                        callbackFromParent={this.setPageData}
+                        order_id={this.state.order_id}
+                        
                     />
                 )}
             </div>

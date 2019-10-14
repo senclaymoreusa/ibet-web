@@ -334,6 +334,7 @@ class DepositAsiapayBT extends Component {
             body: formBody
         })
             .then(function(res) {
+                console.log(res)
                 if(res.status == 200){
                     return res.json();
                 }else{
@@ -342,13 +343,15 @@ class DepositAsiapayBT extends Component {
             })
             .then(function(data) {
                 currentComponent.setState({ showLinearProgressBar: false });
-                //console.log(data);
+                console.log(data.order_id);
                 if(data.StatusMsg == 'OK'){
-                    currentComponent.setState({ order_id: data.order_id});
-                    currentComponent.setState({ CardNumber: data.CardNumber});
-                    currentComponent.setState({ BankName: data.BankName});
-                    currentComponent.setState({ CardChName: data.CardChName});
-                    currentComponent.setState({ CardBankName: data.CardBankName});
+                    
+                    // currentComponent.setState({ order_id: data.order_id});
+                    // currentComponent.setState({ CardNumber: data.CardNumber});
+                    // currentComponent.setState({ BankName: data.BankName});
+                    // currentComponent.setState({ CardChName: data.CardChName});
+                    // currentComponent.setState({ CardBankName: data.CardBankName});
+                    currentComponent.props.callbackFromParent('bank_transfer',data.order_id);
                    
                 }else{
                     currentComponent.props.callbackFromParent('error',data.StatusMsg);
@@ -368,7 +371,7 @@ class DepositAsiapayBT extends Component {
     render() {
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
-        const { showLinearProgressBar, order_id, BankName,CardChName,CardNumber,CardBankName } = this.state;
+        const { showLinearProgressBar } = this.state;
 
         let depositAmountMessage = formatMessage({
             id: 'deposit.deposit_amount'
@@ -572,7 +575,7 @@ class DepositAsiapayBT extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <div id="api-response" style={{textAlign: 'left', paddingLeft: 100, paddingRight: 100}}>
+                    {/* <div id="api-response" style={{textAlign: 'left', paddingLeft: 100, paddingRight: 100}}>
                         {
                             order_id?
                             <>
@@ -616,7 +619,7 @@ class DepositAsiapayBT extends Component {
                             : 
                             <br/>
                         }
-                    </div>
+                    </div> */}
                 </form>
             </div>
         );
