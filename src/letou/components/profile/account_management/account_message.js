@@ -212,6 +212,8 @@ export class AccountMessage extends Component {
                         <Button variant="contained"
                             color="default"
                             className={classes.editButton}
+                            target="_blank" 
+                            href='https://help.letou.com/cn/member_maintain/seq4.html'
                             >{this.getLabel('gaming-responsibility')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
@@ -227,6 +229,11 @@ export class AccountMessage extends Component {
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
                         <Button variant="contained"
                             color="default"
+                            onClick={() => {
+                                this.props.callbackFromParent(
+                                    'bank-cards'
+                                );
+                            }}
                             className={classes.editButton}
                             >{this.getLabel('binding-card-number')}</Button>
                     </Grid>

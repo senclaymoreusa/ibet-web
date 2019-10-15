@@ -44,7 +44,7 @@ export const messages = {
         'login-help': 'Login Help',
         'using-help': 'Using Help',
         'maximum-gaming-platform': 'Maximum Gaming Platform',
-        'gaming-responsibility': 'Gaming Rsponsibility',
+        'gaming-responsibility': 'Gaming Responsibility',
         'link-disclaimer': 'Link Disclaimer',
         'terms-conditions': 'Terms and Conditions',
         'contact-us': 'Contact Us',

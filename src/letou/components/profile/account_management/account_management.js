@@ -13,6 +13,7 @@ import SecuritySettings from './security_settings';
 import Suggestions from './suggestions';
 import EditPhone from './edit_phone';
 import ResetPassword from './reset_password';
+import BankCards from './bank_cards';
 import { withStyles } from '@material-ui/core/styles';
 
 import PersonOutlineRounded from '@material-ui/icons/PersonOutlineRounded';
@@ -203,6 +204,7 @@ export class AccountManagement extends Component {
                             {contentValue === 'suggestions' && <Suggestions />}
                             {contentValue === 'edit-phone' && <EditPhone callbackFromParent={this.setPage} />}
                             {contentValue === 'reset-password' && <ResetPassword callbackFromParent={this.setPage} />}
+                            {contentValue === 'bank-cards' && <BankCards callbackFromParent={this.setPage} />}
                         </div>
                     </Grid>
                 </Grid>
