@@ -104,9 +104,6 @@ const styles = () => ({
             border: 'solid 1px #717171',
         },
     },
-    checkbox: {
-
-    },
 });
 
 const CustomCheckbox = withStyles({
@@ -167,10 +164,13 @@ export class EditPhone extends Component {
 
         this.state = {
             activeStep: 0,
+            username:'',
             phone: '',
             verificationCode: '',
             verificationCodeSent: true,
         }
+
+        this.sendVerificationCode = this.sendVerificationCode.bind(this);
     }
 
     getLabel(labelId) {
@@ -194,11 +194,18 @@ export class EditPhone extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ phone: res.data.phone });
+                this.setState({ username: res.data.username });
+
             })
     }
 
     sendVerificationCode(){
-
+        axios.post(API_URL + `users/api/verifyresetpasswordcode/`, {
+            username: this.state.username,
+          })
+            .then(res => {
+                let i = res;
+            })
     }
 
     render() {
@@ -255,6 +262,7 @@ export class EditPhone extends Component {
                             }}></TextField>
                         <Button variant="contained"
                             color="default"
+                            onClick={this.sendVerificationCode}
                             className={classes.sendButton}>{this.getLabel('send-verification-code')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
@@ -267,7 +275,7 @@ export class EditPhone extends Component {
                     <Grid item xs={9} className={classes.row}>
                         <Button variant="contained"
                             disabled={verificationCode.length === 0}
-                            onClick={this.sendVerificationCode.bind(this)}
+                            //onClick={this.sendVerificationCode.bind(this)}
                             className={classes.nextButton}>{this.getLabel('next-step')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
@@ -275,7 +283,7 @@ export class EditPhone extends Component {
                     <Grid item xs={9} className={classes.row}>
                         <FormControlLabel
                             control={
-                                <CustomCheckbox className={classes.checkbox} checked={verificationCodeSent} readOnly={true} value="checkedA" />
+                                <CustomCheckbox checked={verificationCodeSent} readOnly={true} value="checkedA" />
                             }
                             label={this.getLabel('verification-code-sent')}
                         />

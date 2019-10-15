@@ -12,6 +12,7 @@ import MessageNotification from './message_notification';
 import SecuritySettings from './security_settings';
 import Suggestions from './suggestions';
 import EditPhone from './edit_phone';
+import ResetPassword from './reset_password';
 import { withStyles } from '@material-ui/core/styles';
 
 import PersonOutlineRounded from '@material-ui/icons/PersonOutlineRounded';
@@ -201,6 +202,7 @@ export class AccountManagement extends Component {
                             {contentValue === 'security-settings' && <SecuritySettings />}
                             {contentValue === 'suggestions' && <Suggestions />}
                             {contentValue === 'edit-phone' && <EditPhone callbackFromParent={this.setPage} />}
+                            {contentValue === 'reset-password' && <ResetPassword callbackFromParent={this.setPage} />}
                         </div>
                     </Grid>
                 </Grid>

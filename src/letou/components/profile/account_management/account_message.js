@@ -123,7 +123,7 @@ export class AccountMessage extends Component {
                         <Button variant="contained"
                             color="default"
                             className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('edit-label')}</Button>
+                            >{this.getLabel('edit-label')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
@@ -144,7 +144,7 @@ export class AccountMessage extends Component {
                                     'edit-phone'
                                 );
                             }}
-                            startIcon={<Create />}>{this.getLabel('edit-label')}</Button>
+                            >{this.getLabel('edit-label')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
@@ -173,7 +173,12 @@ export class AccountMessage extends Component {
                         <Button variant="contained"
                             color="default"
                             className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('change-password')}</Button>
+                            onClick={() => {
+                                this.props.callbackFromParent(
+                                    'reset-password'
+                                );
+                            }}
+                           >{this.getLabel('reset-label')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
@@ -189,7 +194,7 @@ export class AccountMessage extends Component {
                         <Button variant="contained"
                             color="default"
                             className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('change-password')}</Button>
+                            >{this.getLabel('reset-label')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
@@ -205,7 +210,7 @@ export class AccountMessage extends Component {
                         <Button variant="contained"
                             color="default"
                             className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('gaming-responsibility')}</Button>
+                            >{this.getLabel('gaming-responsibility')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
@@ -221,7 +226,7 @@ export class AccountMessage extends Component {
                         <Button variant="contained"
                             color="default"
                             className={classes.editButton}
-                            startIcon={<Create />}>{this.getLabel('binding-card-number')}</Button>
+                            >{this.getLabel('binding-card-number')}</Button>
                     </Grid>
                 </Grid>
             </div>

@@ -58,19 +58,26 @@ export const messages = {
         'casino-rules': 'Casino Rules',
         'video-game-rules': 'Video Game Rules',
         'world-lotto-rules': 'World Lotto Rules',
-        'footer-text1': 'Letou.com is one of Asia\'s leading online gaming groups, offering a wide selection of sports betting, live casinos, mini-games, digital lottery and more, and offers the industry\'s best dividends and returns.',
-        'footer-text2': 'Letou.com is operated by WK (Cyprus) Services Limited with the registered address. Gr. Xenopoulou, 17, 3106, Limassol, Cyprus which is a subsidiary of White Knight (Curacao) BV, established under the laws of Curacao, which has an Agreement with Curaçao eGaming for its gaming license. Curaçao eGaming\'s registration Number is 72819 and its registered address is at Pareraweg 45, Curacao.',
-        'footer-text3': 'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
-        'footer-text4': '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
-
-
+        'footer-text1':
+            "Letou.com is one of Asia's leading online gaming groups, offering a wide selection of sports betting, live casinos, mini-games, digital lottery and more, and offers the industry's best dividends and returns.",
+        'footer-text2':
+            "Letou.com is operated by WK (Cyprus) Services Limited with the registered address. Gr. Xenopoulou, 17, 3106, Limassol, Cyprus which is a subsidiary of White Knight (Curacao) BV, established under the laws of Curacao, which has an Agreement with Curaçao eGaming for its gaming license. Curaçao eGaming's registration Number is 72819 and its registered address is at Pareraweg 45, Curacao.",
+        'footer-text3':
+            'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
+        'footer-text4':
+            '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
 
         'help-title': '我们在此竭诚服务',
-        "aboutUs-detail-text-one": 'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
-        "aboutUs-detail-text-two": '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
-        "aboutUs-detail-text-three": 'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
-        "aboutUs-detail-text-four": '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
-        "statement": '1.如果会员怀疑自己的资料被盗用，应立即通知本公司，并更改详细数据，以前的用户名称及密码将全部无效。\
+        'aboutUs-detail-text-one':
+            'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
+        'aboutUs-detail-text-two':
+            '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
+        'aboutUs-detail-text-three':
+            'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
+        'aboutUs-detail-text-four':
+            '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
+        statement:
+            '1.如果会员怀疑自己的资料被盗用，应立即通知本公司，并更改详细数据，以前的用户名称及密码将全部无效。\
         2.会员有责任确保自己的帐户及登入资料的保密性。以用户名称及密码进行的任何网上交易将被视为有效。\
         3.公布赔率时出现的任何打字错误或非故意人为失误，本公司保留改正错误和按正确赔率结算交易的权力。\
         4.您居住所在地的法律有可能规定网络交易不合法；若此情况属实，本公司将不会批准您使用付账卡进行交易。\
@@ -117,14 +124,15 @@ export const messages = {
         √ 居住证明：1. 最近的（不超过三个月）水电费单副本。2. 银行账户及信用卡结算单副本反映您在LETOU注册的姓名以及地址。\
         \
         LETOU保留在任何时候关闭或冻结会员账号、降低会员账号投注限额的权利。',
-        "general-rule": '',
-        "rule": '',
-        "condition": '',
-        "policy": '',
+        'general-rule': '',
+        rule: '',
+        condition: '',
+        policy: '',
 
         'Live-casino': 'Live casino',
         'ag-title': 'AG Extreme Square',
-        'ag-words': 'The world\'s first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.',
+        'ag-words':
+            "The world's first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.",
         'ag-baccarat': 'Baccarat',
         'ag-Jingmi': 'Jingmi Baccarat',
         'ag-Package': 'Package table baccarat',
@@ -135,14 +143,16 @@ export const messages = {
         'ag-Flagshiphall': 'Flagship hall',
         'ag-JingmiHall': 'Jingmi Hall',
         'ab-title': 'AB Clear',
-        'ab-words': 'The first super multi-brick baccarat once viewed 12 tables and roads, which is closer to the players\' habits.',
+        'ab-words':
+            "The first super multi-brick baccarat once viewed 12 tables and roads, which is closer to the players' habits.",
         'ab-Julong': 'Julong Hall',
         'ab-Super': 'Super multi-office',
         'ab-Vip': 'Vip hall',
         'ab-Jingmi': 'Jingmi Hall',
         'Real-money': 'Real money',
         'EA-title': 'EA Ruibao Pavilion',
-        'EA-words': 'The longest operating platform in the industry, the operational experience of the sense of the scene, the original free-to-play game.',
+        'EA-words':
+            'The longest operating platform in the industry, the operational experience of the sense of the scene, the original free-to-play game.',
         'EA-commission': 'No commission baccarat',
         'EA-Super': 'Super baccarat',
         'EA-Dragon': 'Dragon and Phoenix Baccarat',
@@ -151,24 +161,29 @@ export const messages = {
         'EA-Multi': 'Multi-door dragon tiger',
         'pc-version': 'PC version',
         'n2live-title': 'N2Live New Ruibao Pavilion',
-        'n2live-words': 'Exclusive new mobile, smooth operating experience, high quality gaming platform.',
+        'n2live-words':
+            'Exclusive new mobile, smooth operating experience, high quality gaming platform.',
         'OPUS-title': 'OPUS Fortune Hall',
-        'OPUS-words': '2D mini game, 3D real person experience, exclusive music investment VIP baccarat hall.',
+        'OPUS-words':
+            '2D mini game, 3D real person experience, exclusive music investment VIP baccarat hall.',
         'OPUS-Qixi': 'Qixi Baccarat',
-        'OPUS-Texas': 'Texas Hold\'em',
-        'OPUS-21': '21 o\'clock',
+        'OPUS-Texas': "Texas Hold'em",
+        'OPUS-21': "21 o'clock",
         'gd-title': 'GD Panlong Temple',
-        'gd-words': 'A simple operating platform, experience a new scene mode, a variety of baccarat at a time.',
+        'gd-words':
+            'A simple operating platform, experience a new scene mode, a variety of baccarat at a time.',
         'gd-Mi': 'Mi brand baccarat',
         'bbin-title': 'BBIN Boeing Hall',
-        'bbin-words': 'The old-fashioned gaming platform, the highest share of the game platform, the original golden arm bet special gameplay.',
+        'bbin-words':
+            'The old-fashioned gaming platform, the highest share of the game platform, the original golden arm bet special gameplay.',
         'bbin-Two': 'Two bars',
         'bbin-Sangong': 'Sangong',
         'bbin-Wenzhou': 'Wenzhou Pai Gow',
-        'bbin-Texas': 'Texas Hold\'em',
+        'bbin-Texas': "Texas Hold'em",
         'bbin-Color': 'Color dish',
         'gpi-title': 'GPI Jin Yucheng',
-        'gpi-words': 'Exclusive Super 98 Baccarat, innovative high odds, technical ability leading the industry.',
+        'gpi-words':
+            'Exclusive Super 98 Baccarat, innovative high odds, technical ability leading the industry.',
         'gpi-Qixi': 'Qixi Baccarat',
         'gpi-Dai': 'Dai siu Sic bo',
         'gpi-Sangong': 'Sangong',
@@ -189,7 +204,7 @@ export const messages = {
         'rule-Sangong': 'Sangong',
         'rule-Wenzhou': 'Wenzhou Pai Gow',
         'rule-Color': 'Color dish',
-        'rule-Texas': 'Texas Hold\'em',
+        'rule-Texas': "Texas Hold'em",
         'rule-Blackjack': 'Blackjack',
         'rule-Cattle': 'Cattle',
         'HG-platform': 'HG platform',
@@ -220,21 +235,10 @@ export const messages = {
         'username-label': 'Username',
         'login-password': 'Login Password',
         'withdrawal-password': 'Withdrawal Password',
-        'change-password': 'Change Password',
         'registration-time': 'Registration Time',
-        'gaming-responsibility': 'Gaming Responsiblity',
         'bank-card': 'Bank Card',
         'binding-card-number': 'Binding Card Number',
 
-
-        'operation-license': 'Operation License',
-        'seriea-sponsorship': 'Serie A Sponsorship',
-        'esport-sponsorship': 'E-sport Sponsorship',
-        'title-responsibility': 'Responsibility',
-        'about-us': 'About Us',
-        'login-help': 'Login Help',
-        'using-help': 'Using Help',
-        'maximum-gaming-platform': 'Maximum Gaming Platform',
         'title-login': 'Login',
         'title-register': 'Register',
         'user-name': 'Username',
@@ -242,16 +246,19 @@ export const messages = {
         'enter-valid-username': 'Please enter a valid username.',
         'enter-password': 'Please enter a valid password.',
         'forgot-password': 'Forgot Password?',
-        'login-question-text': 'If you have any questions during login, please contact our 24-hour online customer service to help solve this problem. This website uses Global Trust\'s most advanced 128/256 bit SSL server encryption mechanism.',
+        'login-question-text':
+            "If you have any questions during login, please contact our 24-hour online customer service to help solve this problem. This website uses Global Trust's most advanced 128/256 bit SSL server encryption mechanism.",
         'dont-have-account': 'If you do not have an account, ',
         'register-here': 'register here now.',
         'login-here': 'log in here now.',
         'retrieve-password': 'Retrieve password',
         'already-have-account': 'If you already have an account,',
         'password-confirm': 'Password Confirm',
-        'register-policy-text': 'By clicking the button confirming the application. You confirm that you are 18 years old and you have read, accepted and agreed to the terms and conditions.',
+        'register-policy-text':
+            'By clicking the button confirming the application. You confirm that you are 18 years old and you have read, accepted and agreed to the terms and conditions.',
         'rules-privacy-policy': 'LETOU Gambling Rules and Privacy Policy',
-        'username-limit': 'Username requires 8-16 digits with letters or numbers.',
+        'username-limit':
+            'Username requires 8-16 digits with letters or numbers.',
         'please-strong-password': 'Please enter a strong password.',
         'please-confirm-password': 'Please confirm your password.',
         'register-hint1': 'Tips for a strong password',
@@ -263,17 +270,29 @@ export const messages = {
         'title-email': 'Email',
         'please-valid-email': 'Please enter a valid email',
         'referral-code': 'Invitaion/Referral Code',
-        'register-succes': 'Congratulations! You\'ve successfully registered.',
+        'register-succes': "Congratulations! You've successfully registered.",
         'modify-phone': 'Modify Phone Number',
         'phone-verification': 'Phone Verification',
         'phone-settings': 'Phone Settings',
         'set-successfully': 'Set Successfully',
-        'phone-number': 'Phone Number',
         'verification-code': 'Verification Code',
         'send-verification-code': 'Send Verification Code',
-        'only-three-code': 'Only three verification codes can be sent each day!',
+        'only-three-code':
+            'Only three verification codes can be sent each day!',
         'next-step': 'Next Step',
-        'verification-code-sent':'The verification code was sent successfully.'
+        'verification-code-sent':
+            'The verification code was sent successfully.',
+        'reset-password': 'Reset Password',
+        'reset-label': 'Reset',
+        'current-password': 'Current Password',
+        'new-password': 'New Password',
+        'confirm-new-password': 'Confirm New Password',
+        'password-not-match': 'Your password does not match.',
+        'old-new-same': 'New password cannot be same as old password',
+        'incorrect-password':'Incorrect password. Please, try again.',
+        'password-reset-successful':'You have successfully changed your password.',
+        'wrong-password':'You entered a wrong password.',
+        'password-update-failed':'Password update failed',
     },
     zh: {},
     vi: {},
