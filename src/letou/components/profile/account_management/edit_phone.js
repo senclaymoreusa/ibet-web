@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState,sendingLog } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -139,7 +139,7 @@ const customStepStyles = makeStyles({
 function customStepIcon(props) {
     const classes = customStepStyles();
     const { active, completed } = props;
-   
+
     return (
         <div
             className={clsx(classes.root, {
@@ -164,7 +164,7 @@ export class EditPhone extends Component {
 
         this.state = {
             activeStep: 0,
-            username:'',
+            username: '',
             phone: '',
             verificationCode: '',
             verificationCodeSent: true,
@@ -195,17 +195,21 @@ export class EditPhone extends Component {
             .then(res => {
                 this.setState({ phone: res.data.phone });
                 this.setState({ username: res.data.username });
-
-            })
+            }).catch(function (err) {
+                sendingLog(err);
+            });
     }
 
-    sendVerificationCode(){
-        axios.post(API_URL + `users/api/verifyresetpasswordcode/`, {
+    sendVerificationCode() {
+        axios.post(API_URL + `users/api/generateactivationcode/`, {
+            type: 'change_member_phone_num',
             username: this.state.username,
-          })
+        })
             .then(res => {
                 let i = res;
-            })
+            }).catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     render() {

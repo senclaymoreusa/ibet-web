@@ -140,6 +140,7 @@ const styles = theme => ({
     },
     profileIcon: {
         margin: theme.spacing(1),
+        marginLeft:30,
         backgroundColor: '#F1941A',
         height: 30,
         width: 36,
@@ -377,11 +378,10 @@ export class TopNavbar extends React.Component {
                                 () => {
                                     window.open(window.location.origin + "/p/fortune-center/deposit",
                                         "Letou profile",
-                                        "resizable,scrollbars,status");
-                                    //this.props.history.push('/p/fortune-center/deposit')   
+                                        "resizable,scrollbars,status"); 
                                 }}>
                                 <Person />
-                            </Fab> : <div>
+                            </Fab> : <div style={{marginLeft:20}}>
                                 <Button variant="contained" className={classes.secondRowButton}
                                     onClick={() => {
                                         this.props.history.push('/register')

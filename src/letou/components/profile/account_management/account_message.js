@@ -122,6 +122,7 @@ export class AccountMessage extends Component {
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
                         <Button variant="contained"
                             color="default"
+                            disabled={true}
                             className={classes.editButton}
                             >{this.getLabel('edit-label')}</Button>
                     </Grid>
@@ -193,6 +194,7 @@ export class AccountMessage extends Component {
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
                         <Button variant="contained"
                             color="default"
+                            disabled={true}
                             className={classes.editButton}
                             >{this.getLabel('reset-label')}</Button>
                     </Grid>
