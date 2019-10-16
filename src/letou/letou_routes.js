@@ -54,6 +54,7 @@ import  Baijiale  from './components/member/game_baijiale';
 import  Lunpan  from './components/member/game_lunpan';
 import  Game21dian  from './components/member/game_21dian';
 
+import Profile from "./components/profile/profile"
 
 
 
@@ -122,6 +123,7 @@ const BaseRouter = () => (
         <Route exact path="/member_rule6" component={member_rule6} />
 
 
+        <Route exact path="/p/:type?/:sub?" component={Profile} />
 
     </div>
 );
