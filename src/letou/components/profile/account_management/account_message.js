@@ -167,7 +167,7 @@ export class AccountMessage extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            *********
+                        {this.getLabel('password-you-need-login')}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
@@ -188,7 +188,7 @@ export class AccountMessage extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            *********
+                        {this.getLabel('password-you-need-withdrawing')}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>

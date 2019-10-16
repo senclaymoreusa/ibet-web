@@ -53,6 +53,7 @@ const styles = theme => ({
     activeLeftPaneButton: {
         textTransform: 'capitalize',
         justifyContent: 'flex-start',
+        backgroundColor: '#d1d1d1',
         width: 220,
         marginTop: 10,
         marginLeft: 10,
@@ -90,6 +91,7 @@ export class FortuneCenter extends Component {
         this.state = {
             urlPath: '',
             contentValue: '',
+            activeTab: '',
             userInformationEditMessage: '',
             message: '',
         }
@@ -98,15 +100,26 @@ export class FortuneCenter extends Component {
     }
 
     handleTabChange(event, newValue) {
-        this.setState({ contentValue: newValue })
+        this.setState({ contentValue: newValue });
+        this.setState({ activeTab: newValue });
+
+        var url = this.state.urlPath;
+        var parts = url.split('/');
+
+        url = '/';
+        var path = parts.slice(1, 3).join('/');
+        url = url + path;
+
+        url = url + '/' + newValue;
+        this.props.history.push(url);
     }
 
     componentWillReceiveProps(props) {
-        // this.props.authCheckState().then(res => {
-        //     if (res === AUTH_RESULT_FAIL) {
-        //         this.props.history.push('/')
-        //     }
-        // })
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -114,11 +127,11 @@ export class FortuneCenter extends Component {
     }
 
     componentDidMount() {
-        // this.props.authCheckState().then(res => {
-        //     if (res === AUTH_RESULT_FAIL) {
-        //         this.props.history.push('/')
-        //     }
-        // })
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -129,12 +142,16 @@ export class FortuneCenter extends Component {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
 
+        
         if (parts.length > 3) {
             if (parts[1].length > 0) {
                 this.setState({ contentValue: parts[3] })
             }
+
+            this.setState({ activeTab: parts[3] })
         } else
             this.setState({ contentValue: 'total-assets' })
+            this.setState({ activeTab: 'total-assets'})
     }
 
 
@@ -160,7 +177,7 @@ export class FortuneCenter extends Component {
 
     render() {
         const { classes } = this.props;
-        const { contentValue } = this.state;
+        const { contentValue,activeTab } = this.state;
 
         return (
             <div className={classes.root}>
@@ -170,22 +187,22 @@ export class FortuneCenter extends Component {
                     </Grid>
                     <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
                         <div className={classes.leftPane}>
-                            <Button className={(contentValue === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                            <Button className={(activeTab === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                 onClick={(evt) => this.handleTabChange(evt, 'total-assets')}>
                                 <AccountBalanceOutlined style={{ marginRight: 8 }} />
                                 {this.getLabel('total-assets')}
                             </Button>
-                            <Button className={(contentValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                            <Button className={(activeTab === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                 onClick={(evt) => this.handleTabChange(evt, 'deposit')}>
                                 <FlightLandOutlined style={{ marginRight: 8 }} />
                                 {this.getLabel('title-deposit')}
                             </Button>
-                            <Button className={(contentValue === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                            <Button className={(activeTab === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                 onClick={(evt) => this.handleTabChange(evt, 'withdrawal')}>
                                 <FlightTakeoffOutlined style={{ marginRight: 8 }} />
                                 {this.getLabel('title-withdrawal')}
                             </Button>
-                            <Button className={(contentValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                            <Button className={(activeTab === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                 onClick={(evt) => this.handleTabChange(evt, 'transfer')}>
                                 <LoopOutlined style={{ marginRight: 8 }} />
                                 {this.getLabel('title-transfer')}

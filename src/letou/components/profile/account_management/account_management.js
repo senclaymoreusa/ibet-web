@@ -56,6 +56,7 @@ const styles = theme => ({
     activeLeftPaneButton: {
         textTransform: 'capitalize',
         justifyContent: 'flex-start',
+        backgroundColor: '#d1d1d1',
         width: 220,
         marginTop: 10,
         marginLeft: 10,
@@ -77,11 +78,11 @@ const styles = theme => ({
         borderBottom: '1px solid #4DA9DF',
         paddingBottom: 12,
     },
-    content:{
+    content: {
         flexGrow: 1,
-        paddingLeft:10,
-        paddingTop:10,
-        paddingBottom:10
+        paddingLeft: 10,
+        paddingTop: 10,
+        paddingBottom: 10
     }
 });
 
@@ -93,6 +94,7 @@ export class AccountManagement extends Component {
         this.state = {
             urlPath: '',
             contentValue: '',
+            activeTab: '',
             userInformationEditMessage: '',
             message: '',
         }
@@ -101,7 +103,18 @@ export class AccountManagement extends Component {
     }
 
     handleTabChange(event, newValue) {
-        this.setState({ contentValue: newValue })
+        this.setState({ contentValue: newValue });
+        this.setState({ activeTab: newValue });
+
+        var url = this.state.urlPath;
+        var parts = url.split('/');
+
+        url = '/';
+        var path = parts.slice(1, 3).join('/');
+        url = url + path;
+
+        url = url + '/' + newValue;
+        this.props.history.push(url);
     }
 
     componentWillReceiveProps(props) {
@@ -113,7 +126,7 @@ export class AccountManagement extends Component {
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
-         this.initializeContent();
+        this.initializeContent();
     }
 
     componentDidMount() {
@@ -125,19 +138,26 @@ export class AccountManagement extends Component {
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
-         this.initializeContent();
+        this.initializeContent();
     }
 
     initializeContent() {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
 
+        
         if (parts.length > 3) {
             if (parts[1].length > 0) {
                 this.setState({ contentValue: parts[3] })
             }
-        } else
+
+            this.setState({ activeTab: parts[3] })
+
+        } else {
             this.setState({ contentValue: 'account-message' })
+            this.setState({ activeTab: 'account-message' })
+
+        }
     }
 
 
@@ -169,7 +189,7 @@ export class AccountManagement extends Component {
 
     render() {
         const { classes } = this.props;
-        const { contentValue } = this.state;
+        const { contentValue, activeTab } = this.state;
 
         return (
             <div className={classes.root}>
@@ -177,22 +197,25 @@ export class AccountManagement extends Component {
                     <Grid item xs={12} className={classes.titleRow}>
                         <span className={classes.title}>{this.getLabel('account-management')}</span>
                     </Grid>
-                    <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop:20 }}>
+                    <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
                         <div className={classes.leftPane}>
-                            <Button className={(contentValue === 'account-message') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                            <Button className={(activeTab === 'account-message') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                 onClick={(evt) => this.handleTabChange(evt, 'account-message')}>
                                 <PersonOutlineRounded style={{ marginRight: 8 }} />
                                 {this.getLabel('account-message')}
                             </Button>
-                            <Button className={(contentValue === 'message-notification') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'message-notification')}>
+                            <Button className={(activeTab === 'message-notification') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                onClick={(evt) => this.handleTabChange(evt, 'message-notification')}>
                                 <MessageOutlined style={{ marginRight: 8 }} />
                                 {this.getLabel('message-notification')}
                             </Button>
-                            <Button className={(contentValue === 'security-settings') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'security-settings')}>
+                            <Button className={(activeTab === 'security-settings') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                onClick={(evt) => this.handleTabChange(evt, 'security-settings')}>
                                 <LockOutlined style={{ marginRight: 8 }} />
                                 {this.getLabel('security-settings')}
                             </Button>
-                            <Button className={(contentValue === 'suggestions') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'suggestions')}>
+                            <Button className={(activeTab === 'suggestions') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                onClick={(evt) => this.handleTabChange(evt, 'suggestions')}>
                                 <FeedbackOutlined style={{ marginRight: 8 }} />
                                 {this.getLabel('suggestions-feedback')}
                             </Button>

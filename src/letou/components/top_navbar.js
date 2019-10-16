@@ -376,9 +376,10 @@ export class TopNavbar extends React.Component {
                             this.state.showSoggedinStatus &&
                             <Fab color="primary" aria-label="add" className={classes.profileIcon} onClick={
                                 () => {
-                                    window.open(window.location.origin + "/p/fortune-center/deposit",
-                                        "Letou profile",
-                                        "resizable,scrollbars,status"); 
+                                    // window.open(window.location.origin + "/p/fortune-center/deposit",
+                                    //     "Letou profile",
+                                    //     "resizable,scrollbars,status"); 
+                                        this.props.history.push('/p/fortune-center/deposit')
                                 }}>
                                 <Person />
                             </Fab> : <div style={{marginLeft:20}}>
