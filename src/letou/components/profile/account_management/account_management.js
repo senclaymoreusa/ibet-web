@@ -7,13 +7,15 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
 
-import AccountMessage from './account_message';
+import AccountInfo from './account_info';
 import MessageNotification from './message_notification';
 import SecuritySettings from './security_settings';
 import Suggestions from './suggestions';
 import EditPhone from './edit_phone';
 import ResetPassword from './reset_password';
 import BankCards from './bank_cards';
+import SetSecurityQuestion from './set_security_question';
+import JiufuPasswordSet from './jiufu_password_set';
 import { withStyles } from '@material-ui/core/styles';
 
 import PersonOutlineRounded from '@material-ui/icons/PersonOutlineRounded';
@@ -154,8 +156,8 @@ export class AccountManagement extends Component {
             this.setState({ activeTab: parts[3] })
 
         } else {
-            this.setState({ contentValue: 'account-message' })
-            this.setState({ activeTab: 'account-message' })
+            this.setState({ contentValue: 'account-info' })
+            this.setState({ activeTab: 'account-info' })
 
         }
     }
@@ -199,10 +201,10 @@ export class AccountManagement extends Component {
                     </Grid>
                     <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
                         <div className={classes.leftPane}>
-                            <Button className={(activeTab === 'account-message') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                onClick={(evt) => this.handleTabChange(evt, 'account-message')}>
+                            <Button className={(activeTab === 'account-info') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                onClick={(evt) => this.handleTabChange(evt, 'account-info')}>
                                 <PersonOutlineRounded style={{ marginRight: 8 }} />
-                                {this.getLabel('account-message')}
+                                {this.getLabel('account-info')}
                             </Button>
                             <Button className={(activeTab === 'message-notification') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                 onClick={(evt) => this.handleTabChange(evt, 'message-notification')}>
@@ -221,13 +223,15 @@ export class AccountManagement extends Component {
                             </Button>
                         </div>
                         <div className={classes.content}>
-                            {contentValue === 'account-message' && <AccountMessage callbackFromParent={this.setPage} />}
+                            {contentValue === 'account-info' && <AccountInfo callbackFromParent={this.setPage} />}
                             {contentValue === 'message-notification' && <MessageNotification />}
-                            {contentValue === 'security-settings' && <SecuritySettings />}
+                            {contentValue === 'security-settings' && <SecuritySettings callbackFromParent={this.setPage}/>}
                             {contentValue === 'suggestions' && <Suggestions />}
                             {contentValue === 'edit-phone' && <EditPhone callbackFromParent={this.setPage} />}
                             {contentValue === 'reset-password' && <ResetPassword callbackFromParent={this.setPage} />}
                             {contentValue === 'bank-cards' && <BankCards callbackFromParent={this.setPage} />}
+                            {contentValue === 'security-question' && <SetSecurityQuestion callbackFromParent={this.setPage} />}
+                            {contentValue === 'jiufu-temple' && <JiufuPasswordSet callbackFromParent={this.setPage} />}
                         </div>
                     </Grid>
                 </Grid>

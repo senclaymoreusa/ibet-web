@@ -45,6 +45,7 @@ const variantIcon = {
 
 const styles = () => ({
     root: {
+        width: 1160,
     },
     label: {
         marginTop: 8,
@@ -56,6 +57,17 @@ const styles = () => ({
         lineHeight: 'normal',
         color: '#212121',
         whiteSpace: 'nowrap',
+    },
+    text: {
+        marginTop: 8,
+        marginBottom: 12,
+        fontSize: 15,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        color: '#212121',
+        wordBreak: 'break-word'
     },
     value: {
         fontSize: 15,
@@ -211,7 +223,7 @@ LetouSnackbarContentWrapper.propTypes = {
 };
 
 
-export class ResetPassword extends Component {
+export class JiufuPasswordSet extends Component {
 
     constructor(props) {
         super(props);
@@ -220,15 +232,15 @@ export class ResetPassword extends Component {
             activeStep: 0,
 
             password: '',
-            newPassword: '',
+            jiufuPassword: '',
             confirmPassword: '',
 
             passwordInvalid: false,
-            newPasswordInvalid: false,
+            jiufuPasswordInvalid: false,
             confirmPasswordInvalid: false,
 
             showPassword: false,
-            showNewPassword: false,
+            showJiufuPassword: false,
             showConfirmPassword: false,
 
             passwordSame: false,
@@ -243,18 +255,18 @@ export class ResetPassword extends Component {
     }
 
     async passwordChanged(event) {
-        this.setState({ newPasswordInvalid: (event.target.value.length > 0 && event.target.value === this.state.newPassword) });
-        this.setState({ passwordSame: (event.target.value.length > 0 && event.target.value === this.state.newPassword) });
+        this.setState({ jiufuPasswordInvalid: (event.target.value.length > 0 && event.target.value === this.state.jiufuPassword) });
+        this.setState({ passwordSame: (event.target.value.length > 0 && event.target.value === this.state.jiufuPassword) });
 
         await this.setState({ password: event.target.value, passwordInvalid: false });
     }
 
-    async newPasswordChanged(event) {
+    async jiufuPasswordChanged(event) {
         this.setState({ passwordSame: (event.target.value.length > 0 && this.state.password === event.target.value) });
 
         let testedResult = zxcvbn(event.target.value);
 
-        this.setState({ newPasswordInvalid: (testedResult.score !== 4) })
+        this.setState({ jiufuPasswordInvalid: (testedResult.score !== 4) })
 
         if (this.state.confirmPassword && (event.target.value !== this.state.confirmPassword)) {
             this.setState({ confirmPasswordInvalid: true })
@@ -263,19 +275,19 @@ export class ResetPassword extends Component {
         }
 
         if ((event.target.value.length < 8))
-            this.setState({ newPasswordInvalid: true })
+            this.setState({ jiufuPasswordInvalid: true })
         else if (event.target.value.length > 0 && this.state.password === event.target.value)
-            this.setState({ newPasswordInvalid: true })
+            this.setState({ jiufuPasswordInvalid: true })
         else
-            this.setState({ newPasswordInvalid: false })
+            this.setState({ jiufuPasswordInvalid: false })
 
         this.setState({ passwordTooSimple: (event.target.value.length < 8) })
 
-        await this.setState({ newPassword: event.target.value });
+        await this.setState({ jiufuPassword: event.target.value });
     }
 
     async confirmPasswordChanged(event) {
-        if (event.target.value !== this.state.newPassword) {
+        if (event.target.value !== this.state.jiufuPassword) {
             this.setState({ confirmPasswordInvalid: true })
         } else {
             this.setState({ confirmPasswordInvalid: false })
@@ -293,7 +305,7 @@ export class ResetPassword extends Component {
             {
                 'username': this.state.username,
                 'current_password': this.state.password,
-                'new_password': this.state.newPassword
+                'new_password': this.state.jiufuPassword
             }, config)
             .then(res => {
                 this.setState({ snackType: 'success' });
@@ -347,13 +359,13 @@ export class ResetPassword extends Component {
     render() {
         const { classes } = this.props;
 
-        let newPasswordErrorMessage = '';
+        let jiufuPasswordErrorMessage = '';
 
-        if (this.state.newPasswordInvalid) {
+        if (this.state.jiufuPasswordInvalid) {
             if (this.state.passwordTooSimple)
-                newPasswordErrorMessage = this.getLabel('please-strong-password');
+                jiufuPasswordErrorMessage = this.getLabel('please-strong-password');
             else if (this.state.passwordSame)
-                newPasswordErrorMessage = this.getLabel('old-new-same');
+                jiufuPasswordErrorMessage = this.getLabel('old-new-same');
         }
 
         return (
@@ -363,14 +375,19 @@ export class ResetPassword extends Component {
                         <Grid item xs={12} className={classes.titleRow}>
 
                             <span className={classes.title}>
-                                {this.getLabel('reset-password')}
+                                {this.getLabel('jiufu-password-title')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.titleRow}>
+                            <span className={classes.text}>
+                                {this.getLabel('jiufu-password-text')}
                             </span>
                         </Grid>
                         <Grid item xs={12}>
                             <div className={classes.labelDiv}>
                                 <div className={classes.row}>
                                     <span className={classes.label}>
-                                        {this.getLabel('current-password')}
+                                        {this.getLabel('letou-login-password')}
                                     </span>
                                 </div>
                                 <div className={classes.row}>
@@ -412,32 +429,32 @@ export class ResetPassword extends Component {
                                 </div>
                                 <div className={classes.row}>
                                     <TextField className={classes.textField}
-                                        value={this.state.newPassword}
-                                        onChange={this.newPasswordChanged.bind(this)}
-                                        type={this.state.showNewPassword ? '' : 'password'}
-                                        error={this.state.newPasswordInvalid}
-                                        helperText={this.state.newPasswordInvalid ? newPasswordErrorMessage : ''}
+                                        value={this.state.jiufuPassword}
+                                        onChange={this.jiufuPasswordChanged.bind(this)}
+                                        type={this.state.showJiufuPassword ? '' : 'password'}
+                                        error={this.state.jiufuPasswordInvalid}
+                                        helperText={this.state.jiufuPasswordInvalid ? jiufuPasswordErrorMessage : ''}
                                         InputProps={{
                                             disableUnderline: true,
                                             endAdornment: (
                                                 <InputAdornment position="end">
                                                     <IconButton
                                                         size="small"
-                                                        disabled={this.state.newPassword.length === 0}
+                                                        disabled={this.state.jiufuPassword.length === 0}
                                                         aria-label="Toggle password visibility"
                                                         onClick={() => {
-                                                            this.setState(state => ({ showNewPassword: !state.showNewPassword }));
+                                                            this.setState(state => ({ showJiufuPassword: !state.showJiufuPassword }));
                                                         }}
                                                     >
-                                                        {this.state.showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                                        {this.state.showJiufuPassword ? <VisibilityOff /> : <Visibility />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
                                         }} />
                                 </div>
                                 {
-                                    this.state.newPassword && <div className={classes.hintContainer}>
-                                        <PasswordStrengthMeter password={this.state.newPassword} style={{ width: 180 }} />
+                                    this.state.jiufuPassword && <div className={classes.hintContainer}>
+                                        <PasswordStrengthMeter password={this.state.jiufuPassword} style={{ width: 180 }} />
                                         <span className={classes.hintText}>{this.getLabel('register-hint1')}</span>
                                         <span className={classes.hintText}>{this.getLabel('register-hint2')}</span>
                                         <span className={classes.hintText}>{this.getLabel('register-hint3')}</span>
@@ -474,8 +491,8 @@ export class ResetPassword extends Component {
                                         type="submit"
                                         disabled={this.state.passwordInvalid
                                             || this.state.password.length === 0
-                                            || this.state.newPasswordInvalid
-                                            || this.state.newPassword.length === 0
+                                            || this.state.jiufuPasswordInvalid
+                                            || this.state.jiufuPassword.length === 0
                                             || this.state.confirmPasswordInvalid
                                             || this.state.confirmPassword.length === 0}
                                         className={classes.nextButton}>{this.getLabel('next-step')}</Button>
@@ -510,4 +527,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(ResetPassword))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(JiufuPasswordSet))));

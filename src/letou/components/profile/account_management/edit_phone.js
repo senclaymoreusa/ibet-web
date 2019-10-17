@@ -27,6 +27,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
+import StepConnector from '@material-ui/core/StepConnector';
+import { images } from '../../../../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -69,13 +71,13 @@ const styles = () => ({
         textTransform: 'capitalize',
         fontSize: 12,
         whiteSpace: 'nowrap',
-        width: 140,
+        minWidth: 140,
     },
-    nextButton: {
+    button: {
         textTransform: 'capitalize',
         fontSize: 12,
         whiteSpace: 'nowrap',
-        width: 140,
+        minWidth: 140,
         backgroundColor: '#4DA9DF',
         color: '#fff',
         "&:hover": {
@@ -89,7 +91,7 @@ const styles = () => ({
 
         },
     },
-    verificationCodeField: {
+    textField: {
         width: 140,
         marginRight: 20,
         fontSize: 12,
@@ -112,7 +114,44 @@ const styles = () => ({
             border: 'solid 1px #717171',
         },
     },
+    resultRow: {
+        paddingTop: 40,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    successLabel: {
+        fontSize: 20,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        color: '#212121',
+        whiteSpace: 'nowrap'
+    }
 });
+
+const ColorlibConnector = withStyles({
+    alternativeLabel: {
+
+    },
+    active: {
+        '& $line': {
+            backgroundColor: '#4DA9DF',
+        },
+    },
+    completed: {
+        '& $line': {
+            backgroundColor: '#4DA9DF',
+        },
+    },
+    line: {
+        height: 3,
+        border: 0,
+        backgroundColor: '#ccc',
+        borderRadius: 1,
+    },
+})(StepConnector);
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -174,7 +213,7 @@ const snackStyles = makeStyles(theme => ({
     message: {
         display: 'flex',
         alignItems: 'center',
-    },
+    }
 }));
 
 function customStepIcon(props) {
@@ -231,6 +270,7 @@ LetouSnackbarContentWrapper.propTypes = {
 };
 
 export class EditPhone extends Component {
+    timeIntervalID = null;
 
     constructor(props) {
         super(props);
@@ -239,12 +279,15 @@ export class EditPhone extends Component {
             activeStep: 0,
             username: '',
             phone: '',
+            newPhone: '',
             verificationCode: '',
             verificationCodeSent: true,
 
             showSnackbar: false,
             snackType: 'info',
             snackMessage: '',
+
+            remainingTime: 0,
         }
 
         this.sendVerificationCode = this.sendVerificationCode.bind(this);
@@ -256,6 +299,131 @@ export class EditPhone extends Component {
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
+    }
+
+    getStepContent() {
+        const { classes } = this.props;
+        const { activeStep, phone, newPhone, remainingTime, verificationCode, verificationCodeSent } = this.state;
+
+        switch (activeStep) {
+            case 0:
+                return (<Grid container>
+                    <Grid item xs={2} className={classes.row}>
+                        <span className={classes.label}>
+                            {this.getLabel('phone-number')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={10} className={classes.row}>
+                        <span className={classes.value}>
+                            {phone}
+                        </span>
+                    </Grid>
+                    <Grid item xs={2} className={classes.row}>
+                        <span className={classes.label}>
+                            {this.getLabel('verification-code')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={10} className={classes.row}>
+                        <TextField className={classes.textField}
+                            value={verificationCode}
+                            onChange={(event) => {
+                                this.setState({ verificationCode: event.target.value });
+                            }}
+                            InputProps={{
+                                disableUnderline: true,
+
+                            }}></TextField>
+                        <Button variant="contained"
+                            color="default"
+                            onClick={this.sendVerificationCode}
+                            className={classes.sendButton}>{
+                                ((this.timeIntervalID != 0 && this.state.remainingTime) > 0 ?
+                                    this.getLabel('enter-code') + ' ' + this.state.remainingTime :
+                                    this.getLabel('send-verification-code'))
+                            }</Button>
+                    </Grid>
+                    <Grid item xs={2} className={classes.row}>
+                    </Grid>
+                    <Grid item xs={10} className={classes.row}>
+                        {this.getLabel('only-three-code')}
+                    </Grid>
+                    <Grid item xs={2} className={classes.row}>
+                    </Grid>
+                    <Grid item xs={10} className={classes.row}>
+                        <Button variant="contained"
+                            disabled={verificationCode.length === 0 || remainingTime > 0}
+                            onClick={this.verifyVerificationCode}
+                            className={classes.button}>{this.getLabel('next-step')}</Button>
+                    </Grid>
+                    <Grid item xs={2} className={classes.row}>
+                    </Grid>
+                    <Grid item xs={10} className={classes.row}>
+                        <FormControlLabel
+                            control={
+                                <CustomCheckbox checked={verificationCodeSent} readOnly={true} value="checkedA" />
+                            }
+                            label={this.getLabel('verification-code-sent')}
+                        />
+                    </Grid>
+                </Grid>);
+            case 1:
+                return (
+                    <Grid container>
+                        <Grid item xs={2} className={classes.row}>
+                            <span className={classes.label}>
+                                {this.getLabel('new-phone-number')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={10} className={classes.row}>
+                            <TextField className={classes.textField}
+                                value={newPhone}
+                                onChange={(event) => {
+                                    const re = /^[0-9\b]+$/;
+                                    if (event.target.value === '' || re.test(event.target.value))
+                                        this.setState({ newPhone: event.target.value });
+                                }}
+                                InputProps={{
+                                    disableUnderline: true,
+
+                                }}></TextField>
+                        </Grid>
+                        <Grid item xs={2} className={classes.row}>
+                        </Grid>
+                        <Grid item xs={10} className={classes.row}>
+                            <Button variant="contained"
+                                disabled={newPhone.length === 0}
+                                onClick={this.setNewPhoneNumber.bind(this)}
+                                className={classes.button}>{this.getLabel('set-new-phone')}</Button>
+                        </Grid>
+                    </Grid>
+                );
+            case 2:
+                return (<Grid container>
+                    <Grid item xs={12} className={classes.resultRow}>
+                        <img src={images.src + 'letou/complete-icon.svg'} alt="" />
+                        <span className={classes.successLabel} style={{ marginTop: 30 }}>
+                            {this.getLabel('good-job')}
+                        </span>
+                        <Button variant="contained" style={{ marginTop: 30 }}
+                            onClick={() => {
+                                this.props.callbackFromParent(
+                                    'account-info'
+                                );
+                            }}
+                            className={classes.button}>{this.getLabel('back-acccount-settings')}</Button>
+                    </Grid>
+                </Grid>);
+            default:
+                return <div>
+                    <Button variant="contained" style={{ marginTop: 30 }}
+                        onClick={() => {
+                            this.props.callbackFromParent(
+                                'account-info'
+                            );
+                        }}
+                        className={classes.button}>{this.getLabel('back-acccount-settings')}</Button>
+                </div>;
+        }
     }
 
     componentDidMount() {
@@ -280,6 +448,13 @@ export class EditPhone extends Component {
             });
     }
 
+    setNewPhoneNumber() {
+        this.setState({ activeStep: 2 });
+        this.setState({ snackType: 'success' });
+        this.setState({ snackMessage: this.getLabel('phone-change-success') });
+        this.setState({ showSnackbar: true });
+    }
+
     sendVerificationCode() {
         axios.post(API_URL + `users/api/generateactivationcode/`, {
             type: 'change_member_phone_num',
@@ -291,7 +466,19 @@ export class EditPhone extends Component {
                     this.setState({ snackMessage: this.getLabel('verification-code-sent') });
                     this.setState({ showSnackbar: true });
                     this.setState({ activeStep: 1 });
-                }else if(res.status === 200) {
+
+                    this.setState({ remainingTime: 180 });
+
+                    this.timeIntervalID = setInterval(() => {
+                        if (this.state.remainingTime > 0) {
+                            this.setState({ remainingTime: this.state.remainingTime - 1 });
+                        } else {
+                            clearInterval(this.timeIntervalID);
+                            this.timeIntervalID = null;
+                        }
+                    }, 1000);
+
+                } if (res.data === 104) {
                     this.setState({ snackType: 'warning' });
                     this.setState({ snackMessage: this.getLabel('reached-verification-limit') });
                     this.setState({ showSnackbar: true });
@@ -333,7 +520,7 @@ export class EditPhone extends Component {
 
     render() {
         const { classes } = this.props;
-        const { activeStep, phone, verificationCode, verificationCodeSent } = this.state;
+        const { activeStep } = this.state;
 
         return (
             <div className={classes.root}>
@@ -344,7 +531,7 @@ export class EditPhone extends Component {
                         </span>
                     </Grid>
                     <Grid item xs={12} >
-                        <Stepper alternativeLabel activeStep={activeStep}>
+                        <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                             <Step key={this.getLabel('phone-verification')}>
                                 <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('phone-verification')}</StepLabel>
                             </Step>
@@ -356,62 +543,8 @@ export class EditPhone extends Component {
                             </Step>
                         </Stepper>
                     </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('phone-number')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            {this.state.phone}
-                        </span>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('verification-code')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={9} className={classes.row}>
-                        <TextField className={classes.verificationCodeField}
-                            value={verificationCode}
-                            onChange={(event) => {
-                                this.setState({ verificationCode: event.target.value });
-                            }}
-                            InputProps={{
-                                disableUnderline: true,
-
-                            }}></TextField>
-                        <Button variant="contained"
-                            color="default"
-                            onClick={this.sendVerificationCode}
-                            className={classes.sendButton}>{this.getLabel('send-verification-code')}</Button>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={9} className={classes.row}>
-                        {this.getLabel('only-three-code')}
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={9} className={classes.row}>
-                        <Button variant="contained"
-                            disabled={verificationCode.length === 0}
-                            onClick={this.verifyVerificationCode}
-                            className={classes.nextButton}>{this.getLabel('next-step')}</Button>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={9} className={classes.row}>
-                        <FormControlLabel
-                            control={
-                                <CustomCheckbox checked={verificationCodeSent} readOnly={true} value="checkedA" />
-                            }
-                            label={this.getLabel('verification-code-sent')}
-                        />
-                    </Grid>
                 </Grid>
+                {this.getStepContent()}
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',

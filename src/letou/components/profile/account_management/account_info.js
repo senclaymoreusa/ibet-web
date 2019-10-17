@@ -48,7 +48,7 @@ const styles = () => ({
     }
 });
 
-export class AccountMessage extends Component {
+export class AccountInfo extends Component {
 
     constructor(props) {
         super(props);
@@ -249,4 +249,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(AccountMessage))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(AccountInfo))));

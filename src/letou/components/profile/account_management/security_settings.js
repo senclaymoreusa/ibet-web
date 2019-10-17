@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import { config } from '../../../../util_config';
 import axios from 'axios'
 import { withStyles } from '@material-ui/core/styles';
+import moment from "moment";
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -53,6 +54,7 @@ export class SecuritySettings extends Component {
         super(props);
 
         this.state = {
+            lastLoginTime: '',
         }
     }
 
@@ -75,11 +77,11 @@ export class SecuritySettings extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ actualName: res.data.first_name });
-                this.setState({ email: res.data.email });
-                this.setState({ phone: res.data.phone });
-                this.setState({ username: res.data.username });
-                this.setState({ registrationDate: res.data.time_of_registration });
+                this.setState({ lastLoginTime: res.data.last_login_time });
+                // this.setState({ email: res.data.email });
+                // this.setState({ phone: res.data.phone });
+                // this.setState({ username: res.data.username });
+                // this.setState({ registrationDate: res.data.time_of_registration });
             })
     }
 
@@ -97,16 +99,17 @@ export class SecuritySettings extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ actualName: res.data.first_name });
-                this.setState({ email: res.data.email });
-                this.setState({ phone: res.data.phone });
-                this.setState({ username: res.data.username });
-                this.setState({ registrationDate: res.data.time_of_registration });
+                this.setState({ lastLoginTime: res.data.last_login_time });
+                // this.setState({ email: res.data.email });
+                // this.setState({ phone: res.data.phone });
+                // this.setState({ username: res.data.username });
+                // this.setState({ registrationDate: res.data.time_of_registration });
             })
     }
 
     render() {
         const { classes } = this.props;
+        const { lastLoginTime } = this.state;
 
         return (
             <div className={classes.root}>
@@ -118,7 +121,7 @@ export class SecuritySettings extends Component {
                     </Grid>
                     <Grid item xs={9} className={classes.row}>
                         <span className={classes.value}>
-                            *********
+                            {moment(lastLoginTime).format('llll')}
                         </span>
                     </Grid>
 
@@ -167,31 +170,38 @@ export class SecuritySettings extends Component {
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
-                    <span className={classes.label}>
+                        <span className={classes.label}>
                             {this.getLabel('you-have-set-question')}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
                         <Button variant="contained"
                             color="default"
+                            onClick={() => {
+                                this.props.callbackFromParent(
+                                    'security-question'
+                                );
+                            }}
                             className={classes.editButton}
                         >{this.getLabel('modify-label')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label} style={{wordBreak:'break-all'}}>
+                        <span className={classes.label} style={{ wordBreak: 'break-all' }}>
                             {this.getLabel('jiufu-password')}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                        {this.getLabel('not-set')}
+                            {this.getLabel('not-set')}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
                         <Button variant="contained"
                             color="default"
                             onClick={() => {
-                             
+                                this.props.callbackFromParent(
+                                    'jiufu-temple'
+                                );
                             }}
                             className={classes.editButton}
                         >{this.getLabel('setting-label')}</Button>
