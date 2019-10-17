@@ -31,7 +31,7 @@ const handleGameClick = (username, token) => {
     );
 };
 const onClickDict = {
-    'test game': handleGameClick
+    n2_games: handleGameClick
 };
 
 const styles = theme => ({
@@ -56,6 +56,16 @@ const styles = theme => ({
     paper: {
         height: 140,
         width: 100
+    },
+    lobby: {
+        margin: 'auto',
+        width: '80%'
+        // backgroundColor: 'blue',
+        // paddingLeft: 50,
+        // paddingRight: 50
+    },
+    square: {
+        cursor: 'pointer'
     }
 });
 
@@ -105,7 +115,6 @@ class LiveCasino_Type extends Component {
             expand: false,
             urlPath: '',
             live_casino: []
-            // value: 'top-rated'
         };
     }
 
@@ -292,7 +301,15 @@ class LiveCasino_Type extends Component {
                     </StyledTabs>
                 </AppBar>
                 {/* <SelectFieldExampleMultiSelect /> */}
-                <Grid container item xs={12} sm={12} key="455">
+                <Grid
+                    id="game-lobby"
+                    className={classes.lobby}
+                    container
+                    item
+                    xs={12}
+                    sm={12}
+                    key="455"
+                >
                     <Grid container item xs={12} sm={12}>
                         {games.map((game, i) => {
                             var gameFields = game['fields'];
@@ -304,12 +321,12 @@ class LiveCasino_Type extends Component {
                                     key={i}
                                     user={username}
                                     token={token}
+                                    className={classes.square}
                                 />
                             );
                         })}
                     </Grid>
                 </Grid>
-
                 <Footer activeMenu={'live-casino'} />
             </div>
         );
@@ -320,7 +337,7 @@ function GameSquare(props) {
     const user = props.user;
     const token = props.token;
     const fallback = () => {
-        console.log('hi');
+        console.log('hi :)');
     };
     let onClick = onClickDict[props.name] || fallback;
     return (
@@ -331,7 +348,7 @@ function GameSquare(props) {
             key={props.pk}
             onClick={() => onClick(user, token)}
         >
-            <Paper style={{ margin: 15 }}>
+            <Paper style={{ margin: 25 }} className={props.className}>
                 <div>
                     <img
                         src={props.imageURL || placeholderimage}
