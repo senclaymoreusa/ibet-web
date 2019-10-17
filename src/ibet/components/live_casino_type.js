@@ -23,28 +23,16 @@ import placeholderimage from '../images/casino-stock-photo.jpg';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
-const casino_games = [
-    [
-        {
-            fields: {
-                name: 'test game'
-            },
-            pk: 1
-        },
-        {
-            fields: {
-                name: 'best game'
-            },
-            pk: 2
-        },
-        {
-            fields: {
-                name: 'rest game'
-            },
-            pk: 3
-        }
-    ]
-];
+const handleGameClick = (username, token) => {
+    console.log('test game click');
+    console.log(username, token);
+    window.open(
+        `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`
+    );
+};
+const onClickDict = {
+    'test game': handleGameClick
+};
 
 const styles = theme => ({
     fab: {
@@ -114,30 +102,23 @@ class LiveCasino_Type extends Component {
             table_game: false,
             vitrual_sport: false,
             other_game: false,
-
             expand: false,
             urlPath: '',
-
-            live_casino: [],
-            all_live_casino: [],
-
-            value: 'top-rated'
+            live_casino: []
+            // value: 'top-rated'
         };
-
-        this.handle_expand = this.handle_expand.bind(this);
-        this.handlechange = this.handlechange.bind(this);
     }
 
     type_change(text) {
         this.props.slot_type(text);
     }
 
-    handle_expand() {
+    handleExpand = () => {
         this.setState({
             live_casino: this.state.all_live_casino,
             expand: true
         });
-    }
+    };
 
     async handle_category_change(category, sub) {
         // const { sub } = this.props.match.params;
@@ -157,92 +138,81 @@ class LiveCasino_Type extends Component {
         this.props.history.push(url);
     }
 
-    handlechange(event, newValue) {
+    handleChange = (event, newValue) => {
         this.setState({ value: newValue });
-    }
+    };
 
-    async componentWillReceiveProps(props) {
-        // console.log('componentWillReceiveProps');
-        const { type } = this.props.match.params;
-        const { sub } = props.match.params;
-        const { filter } = props.match.params;
-        // console.log("live page filter:" + filter);
-        var URL = API_URL + 'games/api/games/?type=' + type;
-        if (sub) {
-            URL = URL + '&category=' + sub;
-        }
-        if (filter) {
-            URL = URL + '&' + filter;
-        }
-        await axios.get(URL, config).then(res => {
-            // console.log(res);
-            var gameArray = [];
-            var chunk = 6;
-            for (var i = 0, j = res.data.length; i < j; i += chunk) {
-                var tempArr = res.data.slice(i, i + chunk);
-                gameArray.push(tempArr);
-            }
-            this.setState({ live_casino: gameArray });
-            // this.setState({ all_live_casino: res.data})
-        });
-    }
+    // async componentWillReceiveProps(props) {
+    //     // console.log('componentWillReceiveProps');
+    //     const { type } = this.props.match.params;
+    //     const { sub } = props.match.params;
+    //     const { filter } = props.match.params;
+    //     // console.log("live page filter:" + filter);
+    //     var URL = API_URL + 'games/api/games/?type=' + type;
+    //     if (sub) {
+    //         URL = URL + '&category=' + sub;
+    //     }
+    //     if (filter) {
+    //         URL = URL + '&' + filter;
+    //     }
+    //     await axios.get(URL, config).then(res => {
+    //         // console.log(res);
+    //         var gameArray = [];
+    //         var chunk = 6;
+    //         for (var i = 0, j = res.data.length; i < j; i += chunk) {
+    //             var tempArr = res.data.slice(i, i + chunk);
+    //             gameArray.push(tempArr);
+    //         }
+    //         this.setState({ live_casino: gameArray });
+    //         // this.setState({ all_live_casino: res.data})
+    //     });
+    // }
 
     async componentDidMount() {
-        console.log('hi');
         this.props.authCheckState();
         const { type } = this.props.match.params;
         const { sub } = this.props.match.params;
         const { filter } = this.props.match.params;
+
         this.setState({ urlPath: this.props.history.location.pathname });
 
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
+
         let userInfo = await axios.get(API_URL + 'users/api/user/', config);
 
-        this.setState({
-            data: userInfo.data,
-            currencyValue: userInfo.data.currency
-        });
-
-        var URL = API_URL + 'games/api/games/?type=' + type;
-        if (sub) URL = URL + '&category=' + sub;
-        if (filter) URL = URL + '&' + filter;
+        var URL = API_URL + 'games/api/live-casino/';
 
         let games = await axios.get(URL, config);
-        // console.log(games);
-        var gameArray = [];
-        var chunk = 6;
-        for (var i = 0, j = games.data.length; i < j; i += chunk) {
-            var tempArr = games.data.slice(i, i + chunk);
-            gameArray.push(tempArr);
-        }
-        this.setState({ live_casino: gameArray });
+        this.setState({
+            token: token,
+            data: userInfo.data,
+            currencyValue: userInfo.data.currency,
+            live_casino: games.data || []
+        });
     }
 
     render() {
         const { classes } = this.props;
-
         const { formatMessage } = this.props.intl;
+
         let allMessage = formatMessage({ id: 'nav.all' });
         let rouletteMessage = formatMessage({ id: 'nav.roulette' });
         let blackjackMessage = formatMessage({ id: 'nav.blackjack' });
         let baccaratMessage = formatMessage({ id: 'nav.baccarat' });
         let pokerMessage = formatMessage({ id: 'nav.poker' });
-        let torunamentsMessage = formatMessage({ id: 'nav.tournaments' });
+        let tournamentMessage = formatMessage({ id: 'nav.tournaments' });
 
-        const { data: userdata } = this.state;
+        const { data: userdata, live_casino: games, token } = this.state;
 
-        console.log('userdata');
-        console.log(userdata);
+        console.log('games');
+        console.log(games);
 
         let username = '';
-        if (userdata) {
-            username = userdata.username;
-        }
+        if (userdata) username = userdata.username;
         return (
             <div className={classes.root}>
                 <TopNavbar />
-
                 <AppBar position="static" style={{ zIndex: 0 }}>
                     <StyledTabs
                         centered
@@ -250,16 +220,6 @@ class LiveCasino_Type extends Component {
                         onChange={this.handlechange}
                         style={{ backgroundColor: '#2d2d2d' }}
                     >
-                        {/* <StyledTab
-                                style={{ outline: 'none' }}
-                                value="top-rated"
-                                label={topRatedMessage}
-                                onClick={() => {
-                                    if (this.props.match.params.sub !== 'top-rated') {
-                                        this.handle_category_change('top-rated', this.props.match.params.sub);
-                                    }
-                                }}
-                            /> */}
                         <StyledTab
                             style={{ outline: 'none' }}
                             label={allMessage}
@@ -319,7 +279,7 @@ class LiveCasino_Type extends Component {
                         <StyledTab
                             style={{ outline: 'none' }}
                             value="tournaments"
-                            label={torunamentsMessage}
+                            label={tournamentMessage}
                             onClick={() => {
                                 if (
                                     this.props.match.params.sub !==
@@ -331,68 +291,62 @@ class LiveCasino_Type extends Component {
                         />
                     </StyledTabs>
                 </AppBar>
-                <SelectFieldExampleMultiSelect />
+                {/* <SelectFieldExampleMultiSelect /> */}
                 <Grid container item xs={12} sm={12} key="455">
-                    {/* <Grid item xs={11} sm={11} key="234"> */}
-                    {/* {this.state.live_casino.map((games, index) => { */}
-                    {casino_games.map((games, index) => {
-                        return (
-                            <Grid container item xs={12} sm={12} key={index}>
-                                {games.map(game => {
-                                    var gameFields = game['fields'];
-                                    // var gameName = '';
-                                    // if (gameFields.name) {
-                                    //     gameName = gameFields.name.replace(/\s+/g, '-').toLowerCase();
-                                    // }
-                                    return (
-                                        <Grid item xs={2} sm={2} key={game.pk}>
-                                            <Paper style={{ margin: 15 }}>
-                                                {/* <NavLink
-                                                    to={`/game_detail/${game.pk}`}
-                                                    style={{
-                                                        textDecoration: 'none'
-                                                    }}
-                                                > */}
-                                                <div>
-                                                    <a
-                                                        href={`https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${localStorage.getItem(
-                                                            'token'
-                                                        )}`}
-                                                    >
-                                                        <img
-                                                            src={
-                                                                placeholderimage
-                                                            }
-                                                            height="200"
-                                                            width="100%"
-                                                            alt="Not available"
-                                                        />
-                                                    </a>
-
-                                                    <br />
-
-                                                    <div className="game-title">
-                                                        {gameFields.name}
-                                                    </div>
-                                                </div>
-                                                {/* </NavLink> */}
-                                            </Paper>
-                                        </Grid>
-                                    );
-                                })}
-                            </Grid>
-                        );
-                    })}
-                    {/* </Grid>
-                        <Grid item xs={1} sm={1} key="123">
-                        123
-                        </Grid> */}
+                    <Grid container item xs={12} sm={12}>
+                        {games.map((game, i) => {
+                            var gameFields = game['fields'];
+                            return (
+                                <GameSquare
+                                    pk={game.pk}
+                                    imageURL={gameFields.imageURL}
+                                    name={gameFields.name}
+                                    key={i}
+                                    user={username}
+                                    token={token}
+                                />
+                            );
+                        })}
+                    </Grid>
                 </Grid>
 
                 <Footer activeMenu={'live-casino'} />
             </div>
         );
     }
+}
+
+function GameSquare(props) {
+    const user = props.user;
+    const token = props.token;
+    const fallback = () => {
+        console.log('hi');
+    };
+    let onClick = onClickDict[props.name] || fallback;
+    return (
+        <Grid
+            item
+            xs={3}
+            sm={3}
+            key={props.pk}
+            onClick={() => onClick(user, token)}
+        >
+            <Paper style={{ margin: 15 }}>
+                <div>
+                    <img
+                        src={props.imageURL || placeholderimage}
+                        height="200"
+                        width="100%"
+                        alt="Not available"
+                    />
+                    <br />
+                    <div className="game-title">{props.name}</div>
+                    {/* <div>{user}</div>
+                    <div>{token}</div> */}
+                </div>
+            </Paper>
+        </Grid>
+    );
 }
 
 const mapStateToProps = state => {
