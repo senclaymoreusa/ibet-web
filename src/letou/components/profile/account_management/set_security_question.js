@@ -27,6 +27,8 @@ import StepConnector from '@material-ui/core/StepConnector';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
+import { images } from '../../../../util_config';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -126,6 +128,21 @@ const styles = () => ({
         height: 36,
         width: 240,
     },
+    resultRow: {
+        paddingTop: 40,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    successLabel: {
+        fontSize: 20,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        color: '#212121',
+        whiteSpace: 'nowrap'
+    }
 });
 
 const variantIcon = {
@@ -345,11 +362,11 @@ export class SetSecurityQuestion extends Component {
         await axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 currentComponent.setState({ userId: res.data.pk });
-
+                currentComponent.setState({ securityQuestion: res.data.security_question });
                 axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
                     .then(res => {
                         if (res.data.errorCode !== 105)
-                            this.setState({ securityQuestion: res.data });
+                            this.setState({ securityQuestion: res.data.value });
                     }).catch(function (err) {
                         sendingLog(err);
                     });
@@ -391,31 +408,13 @@ export class SetSecurityQuestion extends Component {
         this.setState({ showSnackbar: false });
     }
 
-    render() {
+    getStepContent() {
         const { classes } = this.props;
         const { activeStep, securityAnswer, securityQuestion, questionList } = this.state;
 
-        return (
-            <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={12} className={classes.titleRow}>
-                        <span className={classes.title}>
-                            {this.getLabel('set-security-question')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={12} >
-                        <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-                            <Step key={this.getLabel('setting-problem')}>
-                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('setting-problem')}</StepLabel>
-                            </Step>
-                            <Step key={this.getLabel('confirm-answer')}>
-                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('confirm-answer')}</StepLabel>
-                            </Step>
-                            <Step key={this.getLabel('set-successfully')}>
-                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('set-successfully')}</StepLabel>
-                            </Step>
-                        </Stepper>
-                    </Grid>
+        switch (activeStep) {
+            case 1:
+                return (<Grid container>
                     <Grid item xs={2} className={classes.row} style={{ verticalAlign: 'middle' }}>
                         <span className={classes.label} >
                             {this.getLabel('security-question')}
@@ -463,7 +462,53 @@ export class SetSecurityQuestion extends Component {
                             onClick={this.setSecurityAnswer.bind(this)}
                             className={classes.nextButton}>{this.getLabel('next-step')}</Button>
                     </Grid>
+                </Grid>);
+            case 2:
+                return (
+                    <Grid container>
+                        <Grid item xs={12} className={classes.resultRow}>
+                            <img src={images.src + 'letou/complete-icon.svg'} alt="" />
+                            <span className={classes.successLabel} style={{ marginTop: 30 }}>
+                                {this.getLabel('good-job')}
+                            </span>
+                            <span className={classes.title} style={{ marginTop: 50 }}>
+                                {this.getLabel('intimate-reminder')}
+                            </span>
+                            <span className={classes.label} style={{ marginTop: 30 }}>
+                                {this.getLabel('intimate-reminder-text')}
+                            </span>
+                        </Grid>
+                    </Grid>
+                );
+        }
+    }
+    render() {
+        const { classes } = this.props;
+        const { activeStep, securityAnswer, securityQuestion, questionList } = this.state;
+
+        return (
+            <div className={classes.root}>
+                <Grid container>
+                    <Grid item xs={12} className={classes.titleRow}>
+                        <span className={classes.title}>
+                            {this.getLabel('set-security-question')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+                            <Step key={this.getLabel('setting-problem')}>
+                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('setting-problem')}</StepLabel>
+                            </Step>
+                            <Step key={this.getLabel('confirm-answer')}>
+                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('confirm-answer')}</StepLabel>
+                            </Step>
+                            <Step key={this.getLabel('set-successfully')}>
+                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('set-successfully')}</StepLabel>
+                            </Step>
+                        </Stepper>
+                    </Grid>
                 </Grid>
+                {this.getStepContent()}
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',
@@ -479,7 +524,7 @@ export class SetSecurityQuestion extends Component {
                         message={this.state.snackMessage}
                     />
                 </Snackbar>
-            </div>
+            </div >
         );
     }
 }

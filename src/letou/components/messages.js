@@ -331,8 +331,11 @@ export const messages = {
         'select-question': 'Select Question',
         'set-security-question-text': 'Please set your security question',
         'security-question-set-error': 'Error occured while setting security question',
-        'security-question-set-success': 'You have successfully set your security question and answer.',
-           },
+        'security-question-set-success': 'Congratulations on your safety and your account is safer!',
+
+        'intimate-reminder': 'Intimate Reminder',
+        'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.'
+    },
     zh: {},
     vi: {},
     th: {}
