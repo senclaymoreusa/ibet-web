@@ -194,9 +194,13 @@ export class AccountInfo extends Component {
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
                         <Button variant="contained"
                             color="default"
-                            disabled={true}
+                            onClick={() => {
+                                this.props.callbackFromParent(
+                                    'set-withdrawal-password'
+                                );
+                            }}
                             className={classes.editButton}
-                            >{this.getLabel('reset-label')}</Button>
+                            >{this.getLabel('setup-now')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>

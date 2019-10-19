@@ -4,20 +4,16 @@ import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Create from '@material-ui/icons/Create';
 import Button from '@material-ui/core/Button';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { config } from '../../../../util_config';
 import axios from 'axios'
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -28,6 +24,9 @@ import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import StepConnector from '@material-ui/core/StepConnector';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputBase from '@material-ui/core/InputBase';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -65,6 +64,9 @@ const styles = () => ({
     },
     row: {
         padding: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
     },
     sendButton: {
         textTransform: 'capitalize',
@@ -76,7 +78,7 @@ const styles = () => ({
         textTransform: 'capitalize',
         fontSize: 12,
         whiteSpace: 'nowrap',
-        width: 140,
+        width: 240,
         backgroundColor: '#4DA9DF',
         color: '#fff',
         "&:hover": {
@@ -91,7 +93,7 @@ const styles = () => ({
         },
     },
     answerField: {
-        width: 140,
+        width: 240,
         marginRight: 20,
         fontSize: 12,
         fontWeight: 'normal',
@@ -113,8 +115,16 @@ const styles = () => ({
             border: 'solid 1px #717171',
         },
     },
-    messageDiv: {
-
+    select: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 36,
+        width: 240,
     },
 });
 
@@ -189,7 +199,7 @@ function customStepIcon(props) {
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
-       
+
     },
     active: {
         '& $line': {
@@ -247,6 +257,41 @@ LetouSnackbarContentWrapper.propTypes = {
     variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
 };
 
+const BootstrapInput = withStyles(theme => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing(3),
+        },
+    },
+    input: {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        padding: '10px 2px 10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}))(InputBase);
+
 export class SetSecurityQuestion extends Component {
 
     constructor(props) {
@@ -254,8 +299,9 @@ export class SetSecurityQuestion extends Component {
 
         this.state = {
             activeStep: 1,
-            username: '',
-            securityQuestion: '',
+            userId: '',
+            questionList: [],
+            securityQuestion: -1,
             securityAnswer: '',
             answerIsIncorrect: false,
 
@@ -264,7 +310,6 @@ export class SetSecurityQuestion extends Component {
             snackMessage: '',
         }
 
-        this.verifySecurityAnswer = this.verifySecurityAnswer.bind(this);
         this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
 
     }
@@ -274,7 +319,7 @@ export class SetSecurityQuestion extends Component {
         return formatMessage({ id: labelId });
     }
 
-    componentDidMount() {
+    async componentDidMount() {
 
         this.props.authCheckState()
             .then(res => {
@@ -287,38 +332,55 @@ export class SetSecurityQuestion extends Component {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
-        axios.get(API_URL + 'users/api/user/', config)
+
+        let currentComponent = this;
+
+        axios.get(API_URL + 'users/api/security-question/', config)
             .then(res => {
-                this.setState({ phone: res.data.phone });
-                this.setState({ username: res.data.username });
+                this.setState({ questionList: res.data });
+            }).catch(function (err) {
+                sendingLog(err);
+            });
+
+        await axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                currentComponent.setState({ userId: res.data.pk });
+
+                axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
+                    .then(res => {
+                        if (res.data.errorCode !== 105)
+                            this.setState({ securityQuestion: res.data });
+                    }).catch(function (err) {
+                        sendingLog(err);
+                    });
             }).catch(function (err) {
                 sendingLog(err);
             });
     }
 
-    verifySecurityAnswer() {
+    setSecurityAnswer() {
         let currentComponent = this;
 
-        currentComponent.setState({ snackType: 'error' });
-        currentComponent.setState({ snackMessage: currentComponent.getLabel('verification-data-incorrect') });
-        currentComponent.setState({ showSnackbar: true });
-
-        // axios.post(API_URL + `users/api/verifyactivationcode/`, {
-        //     code: this.state.verificationCode,
-        //     username: this.state.username,
-        // })
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             this.setState({ snackType: 'success' });
-        //             this.setState({ snackMessage: this.getLabel('verification-code-sent') });
-        //             this.setState({ showSnackbar: true });
-        //         }
-        //     }).catch(function (err) {
-        //         sendingLog(err);
-        //         currentComponent.setState({ snackType: 'error' });
-        //         currentComponent.setState({ snackMessage: currentComponent.getLabel('verification-data-incorrect') });
-        //         currentComponent.setState({ showSnackbar: true });
-        //     });
+        axios.post(API_URL + `users/api/user-security-question/`, {
+            question: currentComponent.state.securityQuestion,
+            answer: currentComponent.state.securityAnswer,
+            userId: currentComponent.state.userId
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    if (res.data.code === 1) {
+                        this.setState({ snackType: 'success' });
+                        this.setState({ snackMessage: this.getLabel('security-question-set-success') });
+                        this.setState({ showSnackbar: true });
+                        this.setState({ activeStep: 2 });
+                    }
+                }
+            }).catch(function (err) {
+                sendingLog(err);
+                currentComponent.setState({ snackType: 'error' });
+                currentComponent.setState({ snackMessage: currentComponent.getLabel('security-question-set-error') });
+                currentComponent.setState({ showSnackbar: true });
+            });
     }
 
     handleSnackbarClose = (event, reason) => {
@@ -331,7 +393,7 @@ export class SetSecurityQuestion extends Component {
 
     render() {
         const { classes } = this.props;
-        const { activeStep, securityQuestion, securityAnswer, answerIsIncorrect } = this.state;
+        const { activeStep, securityAnswer, securityQuestion, questionList } = this.state;
 
         return (
             <div className={classes.root}>
@@ -354,24 +416,35 @@ export class SetSecurityQuestion extends Component {
                             </Step>
                         </Stepper>
                     </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
+                    <Grid item xs={2} className={classes.row} style={{ verticalAlign: 'middle' }}>
+                        <span className={classes.label} >
                             {this.getLabel('security-question')}
                         </span>
                     </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            {this.state.securityQuestion}
-                        </span>
+                    <Grid item xs={10} className={classes.row}>
+                        <Select
+                            className={classes.select}
+                            value={securityQuestion}
+                            onChange={(event) => {
+                                this.setState({ securityQuestion: event.target.value });
+                            }}
+                            input={<BootstrapInput name="question" id="question-select" />}>
+                            <MenuItem key='none' value='-1' disabled>{this.getLabel('select-question')}</MenuItem>
+                            {
+                                questionList.map(item => (
+                                    <MenuItem key={item.question} value={item.value} >
+                                        {item.question}
+                                    </MenuItem>
+                                ))
+                            }
+                        </Select>
                     </Grid>
-                    <Grid item xs={3} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={3} className={classes.row}>
+                    <Grid item xs={2} className={classes.row}>
                         <span className={classes.label}>
                             {this.getLabel('answer-label')}
                         </span>
                     </Grid>
-                    <Grid item xs={9} className={classes.row}>
+                    <Grid item xs={10} className={classes.row}>
                         <TextField className={classes.answerField}
                             value={securityAnswer}
                             onChange={(event) => {
@@ -382,12 +455,12 @@ export class SetSecurityQuestion extends Component {
 
                             }}></TextField>
                     </Grid>
-                    <Grid item xs={3} className={classes.row}>
+                    <Grid item xs={2} className={classes.row}>
                     </Grid>
-                    <Grid item xs={9} className={classes.row}>
+                    <Grid item xs={10} className={classes.row}>
                         <Button variant="contained"
-                            disabled={securityAnswer.length === 0}
-                            onClick={this.verifySecurityAnswer}
+                            disabled={securityAnswer.length === 0 || securityQuestion === -1}
+                            onClick={this.setSecurityAnswer.bind(this)}
                             className={classes.nextButton}>{this.getLabel('next-step')}</Button>
                     </Grid>
                 </Grid>

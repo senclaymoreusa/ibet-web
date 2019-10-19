@@ -211,7 +211,7 @@ LetouSnackbarContentWrapper.propTypes = {
 };
 
 
-export class ResetPassword extends Component {
+export class SetWithdrawalPassword extends Component {
 
     constructor(props) {
         super(props);
@@ -240,13 +240,6 @@ export class ResetPassword extends Component {
         }
 
         this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
-    }
-
-    async passwordChanged(event) {
-        this.setState({ newPasswordInvalid: (event.target.value.length > 0 && event.target.value === this.state.newPassword) });
-        this.setState({ passwordSame: (event.target.value.length > 0 && event.target.value === this.state.newPassword) });
-
-        await this.setState({ password: event.target.value, passwordInvalid: false });
     }
 
     async newPasswordChanged(event) {
@@ -361,24 +354,23 @@ export class ResetPassword extends Component {
                 <form onSubmit={this.onFormSubmit.bind(this)} >
                     <Grid container>
                         <Grid item xs={12} className={classes.titleRow}>
-
                             <span className={classes.title}>
-                                {this.getLabel('reset-password')}
+                                {this.getLabel('set-withdrawal-password')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <span className={classes.label}>
+                                {this.getLabel('type-strong-password')}
                             </span>
                         </Grid>
                         <Grid item xs={12}>
                             <div className={classes.labelDiv}>
                                 <div className={classes.row}>
                                     <span className={classes.label}>
-                                        {this.getLabel('current-password')}
-                                    </span>
-                                </div>
-                                <div className={classes.row} style={{ marginTop: 10 }}>
-                                    <span className={classes.label}>
                                         {this.getLabel('new-password')}
                                     </span>
                                 </div>
-                                <div className={classes.row} style={{ marginTop: 10 }}>
+                                <div className={classes.row}>
                                     <span className={classes.label}>
                                         {this.getLabel('confirm-new-password')}
                                     </span>
@@ -387,32 +379,6 @@ export class ResetPassword extends Component {
                             <div className={classes.valueDiv}>
                                 <div className={classes.row}>
                                     <TextField className={classes.textField}
-                                        value={this.state.password}
-                                        onChange={this.passwordChanged.bind(this)}
-                                        type={this.state.showPassword ? '' : 'password'}
-                                        error={this.state.passwordInvalid}
-                                        helperText={this.state.passwordInvalid ? this.getLabel('incorrect-password') : ''}
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        size="small"
-                                                        disabled={this.state.password.length === 0}
-                                                        aria-label="Toggle password visibility"
-                                                        onClick={() => {
-                                                            this.setState(state => ({ showPassword: !state.showPassword }));
-                                                        }}
-                                                    >
-                                                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            ),
-                                        }} />
-                                </div>
-                                <div className={classes.row}>
-                                    <TextField className={classes.textField}
-                                        style={{ marginTop: 10 }}
                                         value={this.state.newPassword}
                                         onChange={this.newPasswordChanged.bind(this)}
                                         type={this.state.showNewPassword ? '' : 'password'}
@@ -474,13 +440,11 @@ export class ResetPassword extends Component {
                                 <div className={classes.row} style={{ paddingTop: 20 }}>
                                     <Button variant="contained"
                                         type="submit"
-                                        disabled={this.state.passwordInvalid
-                                            || this.state.password.length === 0
-                                            || this.state.newPasswordInvalid
+                                        disabled={this.state.newPasswordInvalid
                                             || this.state.newPassword.length === 0
                                             || this.state.confirmPasswordInvalid
                                             || this.state.confirmPassword.length === 0}
-                                        className={classes.nextButton}>{this.getLabel('next-step')}</Button>
+                                        className={classes.nextButton}>{this.getLabel('create-password')}</Button>
                                 </div>
                             </div>
                         </Grid>
@@ -512,4 +476,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(ResetPassword))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(SetWithdrawalPassword))));

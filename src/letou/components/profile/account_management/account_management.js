@@ -16,6 +16,8 @@ import ResetPassword from './reset_password';
 import BankCards from './bank_cards';
 import SetSecurityQuestion from './set_security_question';
 import JiufuPasswordSet from './jiufu_password_set';
+import SetWithdrawalPassword from './set_withdrawal_password';
+
 import { withStyles } from '@material-ui/core/styles';
 
 import PersonOutlineRounded from '@material-ui/icons/PersonOutlineRounded';
@@ -232,6 +234,7 @@ export class AccountManagement extends Component {
                             {contentValue === 'bank-cards' && <BankCards callbackFromParent={this.setPage} />}
                             {contentValue === 'security-question' && <SetSecurityQuestion callbackFromParent={this.setPage} />}
                             {contentValue === 'jiufu-temple' && <JiufuPasswordSet callbackFromParent={this.setPage} />}
+                            {contentValue === 'set-withdrawal-password' && <SetWithdrawalPassword callbackFromParent={this.setPage} />}
                         </div>
                     </Grid>
                 </Grid>

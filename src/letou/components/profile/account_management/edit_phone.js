@@ -465,8 +465,7 @@ export class EditPhone extends Component {
                     this.setState({ snackType: 'success' });
                     this.setState({ snackMessage: this.getLabel('verification-code-sent') });
                     this.setState({ showSnackbar: true });
-                    this.setState({ activeStep: 1 });
-
+                  
                     this.setState({ remainingTime: 180 });
 
                     this.timeIntervalID = setInterval(() => {
@@ -482,7 +481,6 @@ export class EditPhone extends Component {
                     this.setState({ snackType: 'warning' });
                     this.setState({ snackMessage: this.getLabel('reached-verification-limit') });
                     this.setState({ showSnackbar: true });
-                    this.setState({ activeStep: 1 });
                 }
             }).catch(function (err) {
                 sendingLog(err);
@@ -501,6 +499,8 @@ export class EditPhone extends Component {
                     this.setState({ snackType: 'success' });
                     this.setState({ snackMessage: this.getLabel('verification-code-sent') });
                     this.setState({ showSnackbar: true });
+                    this.setState({ activeStep: 1 });
+          
                 }
             }).catch(function (err) {
                 sendingLog(err);
