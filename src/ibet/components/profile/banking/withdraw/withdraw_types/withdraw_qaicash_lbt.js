@@ -339,8 +339,30 @@ class WithdrawQaicashLBT extends Component {
 
                             if (status === 'HELD') {
 
-                                currentComponent.props.callbackFromParent("success", data.status);
+                                
+                                const body = JSON.stringify({
+                                    type: 'withdraw',
+                                    username: user,
+                                    balance: amount,
+                                });
+                                console.log(body)
+                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                    .then(res => {
+                                        if (res.data === 'Failed') {
+                                            //this.setState({ error: true });
+                                            currentComponent.props.callbackFromParent("error", 'Transaction failed!');
+                                        } else if (res.data === 'The balance is not enough') {
+                                            //    // alert("cannot withdraw this amount")
+                                            currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
 
+                                        } else {
+                                            currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
+
+                                            // alert("your balance is updated")
+                                            // window.location.reload()
+                                        }
+                                    });
+                                currentComponent.props.callbackFromParent("success", data.status);
                             } else  {
 
                                 currentComponent.props.callbackFromParent("error", 'Please complete your withdraw payment!');
