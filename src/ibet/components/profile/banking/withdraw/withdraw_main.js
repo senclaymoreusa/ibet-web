@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
     authCheckState, AUTH_RESULT_FAIL,
-    hide_withdraw_main_menu,
-    show_withdraw_main_menu
-} from '../../../../../actions';
+    hide_withdraw_main_menu} from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
@@ -18,7 +16,7 @@ import WithdrawAmount from './withdraw_amount';
 import WithdrawQaicashLBT from './withdraw_types/withdraw_qaicash_lbt';
 import WithdrawQaicashBTC from './withdraw_types/withdraw_qaicash_btc';
 import WithdrawAsiapayBT from './withdraw_types/withdraw_asiapay_bt';
-const styles = theme => ({
+const styles = () => ({
     root: {
         width: '100%',
     },

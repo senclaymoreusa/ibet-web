@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Home from './components/home';
+import Register from './components/login-register/register';
 import live_casino from "./components/live_casino";
 import AboutUs from './components/member/about_us'
 import ForMember from './components/member/for_member'
@@ -53,6 +54,7 @@ import  Baijiale  from './components/member/game_baijiale';
 import  Lunpan  from './components/member/game_lunpan';
 import  Game21dian  from './components/member/game_21dian';
 
+import Profile from "./components/profile/profile"
 
 
 
@@ -63,6 +65,7 @@ const containerStyle = {
 const BaseRouter = () => (
     <div style={containerStyle}>
         <Route exact path="/" component={Home} />
+        <Route exact path="/register" component={Register} />
 
         <Route exact path="/live_casino" component={live_casino} />
         <Route exact path="/about_us" component={AboutUs} />
@@ -120,6 +123,7 @@ const BaseRouter = () => (
         <Route exact path="/member_rule6" component={member_rule6} />
 
 
+        <Route exact path="/p/:type?/:sub?" component={Profile} />
 
     </div>
 );

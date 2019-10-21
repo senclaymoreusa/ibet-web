@@ -3,7 +3,7 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { config } from '../../util_config';
-import PasswordStrengthMeter from './PasswordStrengthMeter';
+import PasswordStrengthMeter from '../../commons/PasswordStrengthMeter';
 import TopNavbar from "./top_navbar";
 import { NavLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
