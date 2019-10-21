@@ -53,6 +53,7 @@ import  Lunpan  from './components/member/game_lunpan';
 import  Game21dian  from './components/member/game_21dian';
 import  Virtual  from './components/member/virtual_sports';
 
+
 import AboutUsTh from './components/member_th/about_us'
 import ForMemberTh from './components/member_th/for_member'
 import ForPartnerTh from './components/partner_th/for_partner';
@@ -101,6 +102,9 @@ import  BaijialeTh  from './components/member_th/game_baijiale';
 import  LunpanTh  from './components/member_th/game_lunpan';
 import  Game21dianTh  from './components/member_th/game_21dian';
 import  VirtualTh  from './components/member_th/virtual_sports';
+
+import Profile from "./components/profile/profile"
+
 
 import AboutUsVn  from './components/member_vn/about_us'
 import ForMemberVn  from './components/member_vn/for_member'
@@ -260,6 +264,7 @@ const BaseRouter = () => (
         <Route exact path="/th/member_rule5" component={member_rule5Th} />
         <Route exact path="/th/member_rule6" component={member_rule6Th} />
 
+
         <Route exact path="/vn/about_us" component={AboutUsVn} />
         <Route exact path="/vn/contact_us" component={ContactUsVn} />
         <Route exact path="/vn/statement" component={StatementVn} />
@@ -308,6 +313,9 @@ const BaseRouter = () => (
         <Route exact path="/vn/member_rule4" component={member_rule4Vn} />
         <Route exact path="/vn/member_rule5" component={member_rule5Vn} />
         <Route exact path="/vn/member_rule6" component={member_rule6Vn} />
+
+        <Route exact path="/p/:type?/:sub?" component={Profile} />
+
 
     </div>
 );

@@ -157,6 +157,23 @@ export const messages = {
         'EV-platform': 'EV platform',
         'PT-platform': 'PT platform',
         'W88-platform': 'W88 platform',
+
+        'fortune-center': 'Fortune Center',
+        'transaction-record': 'Transaction Record',
+        'account-management': 'Account Management',
+        'sharing-plan': 'Sharing Plan',
+        'account-message':'Account Message',
+        'message-notification':'Message Notification',
+        'security-settings':'Security Settings',
+        'suggestions-feedback':'Suggections & Feedback',
+        'title-deposit':'Deposit',
+        'total-assets':'Total Assets',
+        'title-transfer':'Transfer',
+        'title-withdrawal':'Withdrawal',
+        
+
+
+
         'operation-license': 'Operation License',
         'seriea-sponsorship': 'Serie A Sponsorship',
         'esport-sponsorship': 'E-sport Sponsorship',
