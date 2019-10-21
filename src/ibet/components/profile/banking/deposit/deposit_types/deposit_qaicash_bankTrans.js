@@ -14,7 +14,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog  } from '../../../../../../actions';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -486,7 +486,7 @@ class DepositQaicashBT extends Component {
         }).catch(function (err) {  
             //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
         });
     }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../../actions';
+import { authCheckState, sendingLog  } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -193,7 +193,7 @@ export class DepositDetails extends Component {
             }).catch(function (err) {  
             //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
         });
     };
 
