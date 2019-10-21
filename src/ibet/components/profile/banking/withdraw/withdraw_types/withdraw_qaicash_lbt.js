@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState,sendingLog } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -297,17 +297,21 @@ class WithdrawQaicashLBT extends Component {
             },
             body: formBody
         }).then(function (res) {
-            return res.json();
+            if(res.ok){
+                return res.json();
+            }else{
+                currentComponent.props.callbackFromParent("error", "Transaction failed.");
+            }
         }).then(function (data) {
             let redirectUrl = data.paymentPageSession.paymentPageUrl;
             if (redirectUrl != null && main_wallet - amount >= 0) {
                 const mywin = window.open(redirectUrl, 'qaicash-checkout');
                 var timer = setInterval(function () {
-                    console.log('checking..')
+                    
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
-                            "trans_id": data.payoutTransaction.orderId,
+                            "order_id": data.payoutTransaction.orderId,
                         }
                         var formBody = [];
                         for (var pd in postData) {
@@ -316,20 +320,26 @@ class WithdrawQaicashLBT extends Component {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
-                        return fetch(API_URL + 'accounting/api/qaicash/confirm', {
+                        return fetch(API_URL + 'accounting/api/qaicash/payout_transaction', {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
                             },
                             body: formBody
                         }).then(function (res) {
-                            return res.json();
+                            if(res.status == 200){
+                                return res.json();
+                            }else{
+                                currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                return res.json();
+                            }
+                            
                         }).then(function (data) {
                             let status = data.status;
 
-                            if (status === 9) {
+                            if (status === 'HELD') {
 
-                                alert('Transaction is approved.');
+                                
                                 const body = JSON.stringify({
                                     type: 'withdraw',
                                     username: user,
@@ -342,17 +352,17 @@ class WithdrawQaicashLBT extends Component {
                                             //this.setState({ error: true });
                                             currentComponent.props.callbackFromParent("error", 'Transaction failed!');
                                         } else if (res.data === 'The balance is not enough') {
-                                        //    // alert("cannot withdraw this amount")
+                                            //    // alert("cannot withdraw this amount")
                                             currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
 
                                         } else {
                                             currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
-                                
+
                                             // alert("your balance is updated")
                                             // window.location.reload()
                                         }
                                     });
-
+                                currentComponent.props.callbackFromParent("success", data.status);
                             } else  {
 
                                 currentComponent.props.callbackFromParent("error", 'Please complete your withdraw payment!');
@@ -368,6 +378,9 @@ class WithdrawQaicashLBT extends Component {
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
                 //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
+        }).catch(err => {
+            currentComponent.props.callbackFromParent("error", err.returnMessage);
+            sendingLog(err);
         });
     }
 
@@ -406,7 +419,7 @@ class WithdrawQaicashLBT extends Component {
                             <Grid container>
                                 <Grid item xs={12} className={classes.cardTypeCell}>
                                     <Button className={classes.cardTypeButton} disabled>
-                                        Qaicash Lbt
+                                        Qaicash Local Bank Transfer
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} className={classes.detailRow}>

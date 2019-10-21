@@ -138,7 +138,7 @@ export class WithdrawMethod extends Component {
                                 <Button className={classes.addButton} onClick={() => { this.withdrawWith("qaicash_lbt") }}>
                                     Qaicash Lbt
                                 </Button>
-                                <Button className={classes.addButton} onClick={() => { this.withdrawWith("qaicash_btc") }}>
+                                <Button className={classes.addButton} disabled={true} onClick={() => { this.withdrawWith("qaicash_btc") }}>
                                     Qaicash BTC
                                 </Button>
                                 <Button className={classes.addButton} onClick={() => { this.withdrawWith("asiapay_bankTransfer") }}>

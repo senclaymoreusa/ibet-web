@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState , sendingLog } from '../../../../../../actions';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
@@ -290,7 +290,7 @@ class DepositQaicashUnionpay extends Component {
                 if (redirectUrl != null) {
                     const mywin = window.open(redirectUrl, 'qaicash-unionpay');
                     var timer = setInterval(function() {
-                        console.log('checking..');
+                        //console.log('checking..');
                         if (mywin.closed) {
                             clearInterval(timer);
                             var postData = {
@@ -322,7 +322,7 @@ class DepositQaicashUnionpay extends Component {
                                     return res.json();
                                 })
                                 .then(function(data) {
-                                    console.log(data.status);
+                                    //console.log(data.status);
                                     if (data.status === 0) {
                                         //alert('Transaction is approved.');
                                         const body = JSON.stringify({
@@ -333,7 +333,7 @@ class DepositQaicashUnionpay extends Component {
                                             balance:
                                                 currentComponent.state.amount
                                         });
-                                        console.log(body);
+                                        //console.log(body);
                                         axios
                                             .post(
                                                 API_URL +
@@ -381,7 +381,11 @@ class DepositQaicashUnionpay extends Component {
                     );
                     //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
                 }
-            });
+            }).catch(function (err) {  
+            //console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", err.message);
+            sendingLog(err);
+        });
     };
 
     render() {
