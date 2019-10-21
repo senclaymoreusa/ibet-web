@@ -302,8 +302,8 @@ class DepositQaicashAlipay extends Component {
             "language": "zh-Hans",
             "method": "ALIPAY",
         }
-        console.log(this.state.amount)
-        console.log(this.state.data.pk)
+        //console.log(this.state.amount)
+        //console.log(this.state.data.pk)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -321,13 +321,13 @@ class DepositQaicashAlipay extends Component {
             return res.json();
         }).then(function (data) {
             let redirectUrl = data.paymentPageSession.paymentPageUrl
-            console.log(redirectUrl)
+            //console.log(redirectUrl)
 
 
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Alipay');
                 var timer = setInterval(function () {
-                    console.log('checking..')
+                    //console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
@@ -351,7 +351,7 @@ class DepositQaicashAlipay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            console.log(data.status)
+                            //console.log(data.status)
                             if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
@@ -359,7 +359,7 @@ class DepositQaicashAlipay extends Component {
                                     username: currentComponent.state.data.username,
                                     balance: currentComponent.state.amount,
                                 });
-                                console.log(body)
+                                //console.log(body)
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {

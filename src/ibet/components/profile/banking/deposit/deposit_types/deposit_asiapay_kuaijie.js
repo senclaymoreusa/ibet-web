@@ -340,7 +340,7 @@ class DepositAsiapayQucikpay extends Component {
                                                 .username,
                                         balance: currentComponent.state.amount
                                     });
-                                    console.log(body);
+                                    //console.log(body);
                                     axios
                                         .post(
                                             API_URL +

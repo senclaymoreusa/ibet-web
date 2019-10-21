@@ -154,7 +154,7 @@ export class DepositDetails extends Component {
             userid: this.state.data.pk,
             order_id: bankOrderId.bankOrderId,
         };
-        console.log(postData)
+        //console.log(postData)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -179,7 +179,7 @@ export class DepositDetails extends Component {
                 }
             })
             .then(function(data) {
-                console.log(data)
+                //console.log(data)
                 if(data.StatusCode == "00001"){
                     
                     currentComponent.props.callbackFromParent('cancel',bankOrderId.bankOrderId);
@@ -207,9 +207,9 @@ export class DepositDetails extends Component {
         
         const { bankOrderId } = this.props;
         // const { order_id } = bankOrderId.order_id
-        console.log(this.props)
-        console.log(bankOrderId)
-        console.log(this.props.bankOrderId.order_id)
+        //console.log(this.props)
+        //console.log(bankOrderId)
+        //console.log(this.props.bankOrderId.order_id)
         
         
         return (

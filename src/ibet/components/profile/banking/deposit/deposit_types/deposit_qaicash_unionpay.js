@@ -290,7 +290,7 @@ class DepositQaicashUnionpay extends Component {
                 if (redirectUrl != null) {
                     const mywin = window.open(redirectUrl, 'qaicash-unionpay');
                     var timer = setInterval(function() {
-                        console.log('checking..');
+                        //console.log('checking..');
                         if (mywin.closed) {
                             clearInterval(timer);
                             var postData = {
@@ -322,7 +322,7 @@ class DepositQaicashUnionpay extends Component {
                                     return res.json();
                                 })
                                 .then(function(data) {
-                                    console.log(data.status);
+                                    //console.log(data.status);
                                     if (data.status === 0) {
                                         //alert('Transaction is approved.');
                                         const body = JSON.stringify({
@@ -333,7 +333,7 @@ class DepositQaicashUnionpay extends Component {
                                             balance:
                                                 currentComponent.state.amount
                                         });
-                                        console.log(body);
+                                        //console.log(body);
                                         axios
                                             .post(
                                                 API_URL +
@@ -382,7 +382,7 @@ class DepositQaicashUnionpay extends Component {
                     //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
                 }
             }).catch(function (err) {  
-            console.log('Request failed', err);
+            //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
             axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });

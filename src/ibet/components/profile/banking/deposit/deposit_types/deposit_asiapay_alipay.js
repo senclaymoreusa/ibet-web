@@ -308,9 +308,9 @@ class DepositAsiapayAlipay extends Component {
                 
             })
             .then(function(data) {
-                console.log(data);
+                //console.log(data);
                 let qrurl = data.qr;
-                console.log(qrurl);
+                //console.log(qrurl);
                 if (qrurl != null) {
                     const mywin = window.open(qrurl, 'asiapay-alipay');
                     var timer = setInterval(function() {
