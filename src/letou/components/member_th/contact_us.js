@@ -50,7 +50,7 @@ const styles = theme => ({
     }
 })
 
-export class ContactUs extends React.Component {
+export class ContactUsTh extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -70,10 +70,10 @@ export class ContactUs extends React.Component {
                     <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/th/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/th/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -83,12 +83,12 @@ export class ContactUs extends React.Component {
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">บริการแก่สมาชิกใช้   >
+                                <a href="/th/for_member">บริการแก่สมาชิกใช้   >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">เรื่องราวของLetou   >
+                                <a href="/th/for_member">เรื่องราวของLetou   >
                                     <i></i>
                                 </a>
                             </li>
@@ -133,11 +133,11 @@ export class ContactUs extends React.Component {
 }
 
 
-ContactUs.propTypes = {
+ContactUsTh.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(ContactUs))));
+})(ContactUsTh))));

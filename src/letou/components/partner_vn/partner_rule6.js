@@ -36,7 +36,7 @@ const styles = theme => ({
     }
 })
 
-export class MemberRuleSix extends React.Component {
+export class MemberRuleSixVn extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -56,10 +56,10 @@ export class MemberRuleSix extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -69,12 +69,12 @@ export class MemberRuleSix extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_partner">Dành cho Đối tác >
+                                <a href="/vn/for_partner">Dành cho Đối tác >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_partner">Giới Thiệu Về Letou>
+                                <a href="/vn/for_partner">Giới Thiệu Về Letou>
                                     <i></i>
                                 </a>
                             </li>
@@ -125,11 +125,11 @@ export class MemberRuleSix extends React.Component {
 }
 
 
-MemberRuleSix.propTypes = {
+MemberRuleSixVn.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(MemberRuleSix))));
+})(MemberRuleSixVn))));

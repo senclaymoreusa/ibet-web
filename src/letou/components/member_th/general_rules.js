@@ -36,7 +36,7 @@ const styles = theme => ({
     }
 })
 
-export class GeneralRules extends React.Component {
+export class GeneralRulesTh extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -56,10 +56,10 @@ export class GeneralRules extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/th/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/th/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -69,12 +69,12 @@ export class GeneralRules extends React.Component {
                     <div className="HelpCenterList">
                     <ul>
                             <li>
-                                <a href="/for_member">บริการแก่สมาชิกใช้  >
+                                <a href="/th/for_member">บริการแก่สมาชิกใช้  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">กติกากีฬา OW Sports Rules >
+                                <a href="/th/for_member">กติกากีฬา OW Sports Rules >
                                     <i></i>
                                 </a>
                             </li>
@@ -1282,7 +1282,7 @@ export class GeneralRules extends React.Component {
                             <br /> 2.2.74.1
                             <br /> คะแนนครึ่งแรกของการทำประตู / ครึ่งหลังของสกอร์หมายถึงการเดิมพันเพื่อคาดเดาว่าทีมเยือนจะทำคะแนนในครึ่งแรกและครึ่งหลังของการแข่งขัน
                             <br /> 2.2.71
-                            <Br/> 2.2.74.2
+                            <br/> 2.2.74.2
                             <br /> การเดิมพันจะเป็นโมฆะถ้าการแข่งขันถูกยกเลิกจนกว่าจะมีการกำหนดเดิมพันเรียบร้อยแล้ว
                             <br /> 2.2.75
                             <br /> เฉพาะ 15 นาที 1X2
@@ -3218,7 +3218,7 @@ export class GeneralRules extends React.Component {
                             <br /> 6.1.4.14
                             <br /> Colossus Bets ไม่รับผิดชอบต่อการพิมพ์ผิดพลาดในการส่งและ / หรือการประเมินผล รวมทั้ง (แต่ไม่ จำกัด เพียง) นาฬิกาใด
                             ๆ ที่นับจากจุดเริ่มต้นของการเดินต่อไปของการเล่นในพูลผลคะแนนสดและผลการแข่งขัน
-                            <Br /> 6.2
+                            <br /> 6.2
                             <br /> การจัดสระน้ำและการหักเงินที่เกี่ยวข้อง
                             <br /> 6.2.1
                             <br /> เดิมพันทั้งหมดเป็นเดิมพันในสระว่ายน้ำซึ่งเงินรางวัลจะถูกกำหนดโดยการอ้างถึงเงินเดิมพันและจำนวนรายการที่ถูกต้องในพูล
@@ -3399,11 +3399,11 @@ export class GeneralRules extends React.Component {
 }
 
 
-GeneralRules.propTypes = {
+GeneralRulesTh.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(GeneralRules))));
+})(GeneralRulesTh))));

@@ -36,7 +36,7 @@ const styles = theme => ({
     }
 })
 
-export class GameErbagang extends React.Component {
+export class GameErbagangTh extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -56,10 +56,10 @@ export class GameErbagang extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/th/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/th/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -69,12 +69,12 @@ export class GameErbagang extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">บริการแก่สมาชิกใช้ >
+                                <a href="/th/for_member">บริการแก่สมาชิกใช้ >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">กฎของคาสิโนสด >
+                                <a href="/th/for_member">กฎของคาสิโนสด >
                                     <i></i>
                                 </a>
                             </li>
@@ -132,11 +132,11 @@ export class GameErbagang extends React.Component {
 }
 
 
-GameErbagang.propTypes = {
+GameErbagangTh.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(GameErbagang))));
+})(GameErbagangTh))));

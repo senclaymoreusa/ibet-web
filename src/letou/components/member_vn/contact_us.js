@@ -50,7 +50,7 @@ const styles = theme => ({
     }
 })
 
-export class ContactUs extends React.Component {
+export class ContactUsVn extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -70,10 +70,10 @@ export class ContactUs extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -83,12 +83,12 @@ export class ContactUs extends React.Component {
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/vn/for_member">供会员使用  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">乐投品牌故事  >
+                                <a href="/vn/for_member">乐投品牌故事  >
                                     <i></i>
                                 </a>
                             </li>
@@ -130,11 +130,11 @@ export class ContactUs extends React.Component {
 }
 
 
-ContactUs.propTypes = {
+ContactUsVn.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(ContactUs))));
+})(ContactUsVn))));

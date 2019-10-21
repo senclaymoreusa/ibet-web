@@ -36,7 +36,7 @@ const styles = theme => ({
     }
 })
 
-export class GameRuleFive extends React.Component {
+export class GameRuleFiveVn extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -56,10 +56,10 @@ export class GameRuleFive extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -69,12 +69,12 @@ export class GameRuleFive extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">Dành cho Thành viên  >
+                                <a href="/vn/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">Luật chơi RNG >
+                                <a href="/vn/for_member">Luật chơi RNG >
                                     <i></i>
                                 </a>
                             </li>
@@ -109,11 +109,11 @@ export class GameRuleFive extends React.Component {
 }
 
 
-GameRuleFive.propTypes = {
+GameRuleFiveVn.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(GameRuleFive))));
+})(GameRuleFiveVn))));

@@ -36,7 +36,7 @@ const styles = theme => ({
     }
 })
 
-export class BetRuleFour extends React.Component {
+export class BetRuleFourVn extends React.Component {
     constructor(props) {
         super(props);
         
@@ -72,10 +72,10 @@ export class BetRuleFour extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -85,12 +85,12 @@ export class BetRuleFour extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">Dành cho Thành viên  >
+                                <a href="/vn/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">Luật chơi Thể thao >
+                                <a href="/vn/for_member">Luật chơi Thể thao >
                                     <i></i>
                                 </a>
                             </li>
@@ -1384,7 +1384,7 @@ export class BetRuleFour extends React.Component {
                                 Ví dụ, khi một Champion bị giết bởi tháp hoặc đội quân thiệt hại mà không có sự tham gia của một Champion của
                                 đối phương, điều này có thể không được đăng ký như một vụ giết người trên chương trình phát sóng, trong trường
                                 hợp đó nó không được coi là giết người vì mục đích giải quyết cược.
-                                <Br /> Đối với cược First Blood, số điểm phát sóng chính thức của API phải đăng ký giết người như First Blood. Trường
+                                <br /> Đối với cược First Blood, số điểm phát sóng chính thức của API phải đăng ký giết người như First Blood. Trường
                                 hợp, ví dụ, giết người bị từ chối bởi một đồng đội, nó có thể không được tính là First Blood (bất kể nó được
                                 đăng ký là giết người trên máy phát thanh truy cập truy cập), trong trường hợp nó sẽ không được tính là First
                                 Blood cho mục đích đặt cược đặt cược. Để tránh nghi ngờ, tất cả các thị trấn giết ngoài "First Blood" đều được
@@ -1436,11 +1436,11 @@ export class BetRuleFour extends React.Component {
 }
 
 
-BetRuleFour.propTypes = {
+BetRuleFourVn.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(BetRuleFour))));
+})(BetRuleFourVn))));

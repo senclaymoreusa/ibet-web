@@ -57,7 +57,7 @@ const styles = theme => ({
     
 })
 
-export class Statement extends React.Component {
+export class StatementVn extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -77,10 +77,10 @@ export class Statement extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -90,12 +90,12 @@ export class Statement extends React.Component {
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">Dành cho Đối tác >
+                                <a href="/vn/for_member">Dành cho Đối tác >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">Chia sẻ kế hoạch  >
+                                <a href="/vn/for_member">Chia sẻ kế hoạch  >
                                     <i></i>
                                 </a>
                             </li>
@@ -176,11 +176,11 @@ export class Statement extends React.Component {
 }
 
 
-Statement.propTypes = {
+StatementVn.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(Statement))));
+})(StatementVn))));

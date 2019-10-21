@@ -31,7 +31,7 @@ const styles = theme => ({
     }
 })
 
-export class AboutUs extends React.Component {
+export class AboutUsVn extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -51,10 +51,10 @@ export class AboutUs extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -64,12 +64,12 @@ export class AboutUs extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">Dành cho Thành viên  >
+                                <a href="/vn/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">Lịch sử LETOU  >
+                                <a href="/vn/for_member">Lịch sử LETOU  >
                                     <i></i>
                                 </a>
                             </li>
@@ -109,11 +109,11 @@ export class AboutUs extends React.Component {
 }
 
 
-AboutUs.propTypes = {
+AboutUsVn.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(AboutUs))));
+})(AboutUsVn))));

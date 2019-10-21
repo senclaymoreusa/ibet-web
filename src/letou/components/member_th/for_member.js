@@ -73,7 +73,7 @@ const styles = theme => ({
     
 })
 
-export class ForMember extends React.Component {
+export class ForMemberTh extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -96,10 +96,10 @@ export class ForMember extends React.Component {
                     <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/th/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/th/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -112,10 +112,10 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/about_us">
+                        <Link className={classes.list} href="/th/about_us">
                         <ListItemText classes={{primary:classes.listItemText}} >เกี่ยวกับLetou</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/contact_us">
+                        <Link className={classes.list} href="/th/contact_us">
                         <ListItemText classes={{primary:classes.listItemText}} >ติดต่อเรา</ListItemText>
                         </Link>
                     </List>
@@ -125,19 +125,19 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/statement">
+                        <Link className={classes.list} href="/th/statement">
                         <ListItemText classes={{primary:classes.listItemText}} >ข้อตกลงและเงื่อนไข</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/disclaimer">
+                        <Link className={classes.list} href="/th/disclaimer">
                         <ListItemText classes={{primary:classes.listItemText}} >เอกสารสละสิทธิ์</ListItemText>
                         </Link>
-                        <Link className={classes.list}  href="/privacy">
+                        <Link className={classes.list}  href="/th/privacy">
                         <ListItemText classes={{primary:classes.listItemText}} >การเก็บรวบรวมข้อมูล</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/safe_bet">
+                        <Link className={classes.list} href="/th/safe_bet">
                         <ListItemText classes={{primary:classes.listItemText}} >ความรับผิดชอบต่อผู้บริโภค</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/identity">
+                        <Link className={classes.list} href="/th/identity">
                         <ListItemText classes={{primary:classes.listItemText}} >การยืนยัน ID</ListItemText>
                         </Link>
                     </List>
@@ -147,7 +147,7 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/offer_terms">
+                        <Link className={classes.list} href="/th/offer_terms">
                         <ListItemText classes={{primary:classes.listItemText}} >ข้อตกลงและเงื่อนไขการส่งเสริมการขาย</ListItemText>
                         </Link>
                         
@@ -158,19 +158,19 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/rules">
+                        <Link className={classes.list} href="/th/rules">
                         <ListItemText classes={{primary:classes.listItemText}} primary="กติกาและกฎการเดิมพัน" />
                         </Link>
-                        <Link className={classes.list} href="/bet_rules2">
+                        <Link className={classes.list} href="/th/bet_rules2">
                         <ListItemText classes={{primary:classes.listItemText}} >การแนะนำแต้มต่อ</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/football_rules">
+                        <Link className={classes.list} href="/th/football_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >กฎเดิมพันฟุตบอล</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/bet_rules3">
+                        <Link className={classes.list} href="/th/bet_rules3">
                         <ListItemText classes={{primary:classes.listItemText}} >การนำเสนอแฮนดิแคปฟุตบอลที่ไม่ซ้ำกัน</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/bet_rules4">
+                        <Link className={classes.list} href="/th/bet_rules4">
                         <ListItemText classes={{primary:classes.listItemText}} >กีฬาอื่น ๆ</ListItemText>
                         </Link>
                         
@@ -183,16 +183,16 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/football_rules">
+                        <Link className={classes.list} href="/th/football_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >กติกาและกฎการเดิมพัน</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/general_rules">
+                        <Link className={classes.list} href="/th/general_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >การวางเดิมพันและกติกาการเดิมพันกีฬา</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/special_rules">
+                        <Link className={classes.list} href="/th/special_rules">
                         <ListItemText classes={{primary:classes.listItemText}} >กิจกรรมพิเศษกฎการเดิมพันและกฎระเบียบ</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/virtual_sports">
+                        <Link className={classes.list} href="/th/virtual_sports">
                         <ListItemText classes={{primary:classes.listItemText}} >กฎกติกาและกฎกติกาเสมือนจริง</ListItemText>
                         </Link>
                     </List>
@@ -202,38 +202,38 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/game_baijiale">
+                        <Link className={classes.list} href="/th/game_baijiale">
                         <ListItemText classes={{primary:classes.listItemText}} >บาคาร่า</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_lunpan">
+                        <Link className={classes.list} href="/th/game_lunpan">
                         <ListItemText classes={{primary:classes.listItemText}} >รูเล็ต</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_21dian">
+                        <Link className={classes.list} href="/th/game_21dian">
                         <ListItemText classes={{primary:classes.listItemText}} >แบล๊คแจ๊ค21</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_longhu">
+                        <Link className={classes.list} href="/th/game_longhu">
                         <ListItemText classes={{primary:classes.listItemText}} >มังกร เสือ</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_gubao">
+                        <Link className={classes.list} href="/th/game_gubao">
                         <ListItemText classes={{primary:classes.listItemText}} >ไฮโล</ListItemText>
                         </Link>
                         
-                        <Link className={classes.list} href="/game_erbagang">
+                        <Link className={classes.list} href="/th/game_erbagang">
                         <ListItemText classes={{primary:classes.listItemText}} >วิธีการเดิมพัน Pai gow</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_sangong">
+                        <Link className={classes.list} href="/th/game_sangong">
                         <ListItemText classes={{primary:classes.listItemText}} >3 รูปภาพ</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_wenzhoujiupai">
+                        <Link className={classes.list} href="/th/game_wenzhoujiupai">
                         <ListItemText classes={{primary:classes.listItemText}} >Wenzhou ไพ โกว</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_sedie">
+                        <Link className={classes.list} href="/th/game_sedie">
                         <ListItemText classes={{primary:classes.listItemText}} >วิธีการเดิมพัน Se Die</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_poker">
+                        <Link className={classes.list} href="/th/game_poker">
                         <ListItemText classes={{primary:classes.listItemText}} >เท็กซัสโฮลเด็มโป๊กเกอร์</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_niuniu">
+                        <Link className={classes.list} href="/th/game_niuniu">
                         <ListItemText classes={{primary:classes.listItemText}} >บลู บลู</ListItemText>
                         </Link>
                     </List>
@@ -245,28 +245,28 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/game_rule1">
+                        <Link className={classes.list} href="/th/game_rule1">
                         <ListItemText classes={{primary:classes.listItemText}} >Slot Machines</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_rule2">
+                        <Link className={classes.list} href="/th/game_rule2">
                         <ListItemText classes={{primary:classes.listItemText}} >เครื่องสล็อตคลาสสิก</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_rule3">
+                        <Link className={classes.list} href="/th/game_rule3">
                         <ListItemText classes={{primary:classes.listItemText}} >เกมส์โป๊กเกอร์</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_rule4">
+                        <Link className={classes.list} href="/th/game_rule4">
                         <ListItemText classes={{primary:classes.listItemText}} >Lottery Cards</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_rule5">
+                        <Link className={classes.list} href="/th/game_rule5">
                         <ListItemText classes={{primary:classes.listItemText}} >เกมหลายผู้เล่น</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_rule6">
+                        <Link className={classes.list} href="/th/game_rule6">
                         <ListItemText classes={{primary:classes.listItemText}} >Asian Games</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_rule7">
+                        <Link className={classes.list} href="/th/game_rule7">
                         <ListItemText classes={{primary:classes.listItemText}} >Arcade Games</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/game_rule8">
+                        <Link className={classes.list} href="/th/game_rule8">
                         <ListItemText classes={{primary:classes.listItemText}} >NetEnt</ListItemText>
                         </Link>
                     </List>
@@ -276,16 +276,16 @@ export class ForMember extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/lottery_rule1">
+                        <Link className={classes.list} href="/th/lottery_rule1">
                         <ListItemText classes={{primary:classes.listItemText}} >กติกาล๊อตโต้</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/lottery_rule2">
+                        <Link className={classes.list} href="/th/lottery_rule2">
                         <ListItemText classes={{primary:classes.listItemText}} >กติกา คีโน</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/lottery_rule3">
+                        <Link className={classes.list} href="/th/lottery_rule3">
                         <ListItemText classes={{primary:classes.listItemText}} > กติกา SSC</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/lottery_rule4">
+                        <Link className={classes.list} href="/th/lottery_rule4">
                         <ListItemText classes={{primary:classes.listItemText}} >กติกา PK10</ListItemText>
                         </Link>
                        
@@ -312,11 +312,11 @@ export class ForMember extends React.Component {
     }
 }
 
-ForMember.propTypes = {
+ForMemberTh.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(ForMember))));
+})(ForMemberTh))));

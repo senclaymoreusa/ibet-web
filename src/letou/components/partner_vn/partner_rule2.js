@@ -36,7 +36,7 @@ const styles = theme => ({
     }
 })
 
-export class MemberRuleTwo extends React.Component {
+export class MemberRuleTwoVn extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -56,10 +56,10 @@ export class MemberRuleTwo extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -69,12 +69,12 @@ export class MemberRuleTwo extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_partner">Dành cho Đối tác >
+                                <a href="/vn/for_partner">Dành cho Đối tác >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_partner">Chia sẻ kế hoạch >
+                                <a href="/vn/for_partner">Chia sẻ kế hoạch >
                                     <i></i>
                                 </a>
                             </li>
@@ -127,11 +127,11 @@ export class MemberRuleTwo extends React.Component {
 }
 
 
-MemberRuleTwo.propTypes = {
+MemberRuleTwoVn.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(MemberRuleTwo))));
+})(MemberRuleTwoVn))));

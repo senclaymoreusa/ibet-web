@@ -73,7 +73,7 @@ const styles = theme => ({
     
 })
 
-export class ForPartner extends React.Component {
+export class ForPartnerTh extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -99,10 +99,10 @@ export class ForPartner extends React.Component {
             <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/th/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/th/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -115,19 +115,19 @@ export class ForPartner extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/member_rule1">
+                        <Link className={classes.list} href="/th/member_rule1">
                         <ListItemText classes={{primary:classes.listItemText}} >โปรแกรมพันธมิตรของ LETOU international คืออะไร</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/member_rule2">
+                        <Link className={classes.list} href="/th/member_rule2">
                         <ListItemText classes={{primary:classes.listItemText}} >Affiliate Program</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/member_rule3">
+                        <Link className={classes.list} href="/th/member_rule3">
                         <ListItemText classes={{primary:classes.listItemText}} >ข้อผูกพันของ Affiliate</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/member_rule4">
+                        <Link className={classes.list} href="/th/member_rule4">
                         <ListItemText classes={{primary:classes.listItemText}} >โปรแกรมพาร์ทเนอร์นานาชาติ</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/member_rule5">
+                        <Link className={classes.list} href="/th/member_rule5">
                         <ListItemText classes={{primary:classes.listItemText}} >คำถามที่พบบ่อยเกี่ยวกับโปรแกรมพันธมิตร</ListItemText>
                         </Link>
                     </List>
@@ -142,7 +142,7 @@ export class ForPartner extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/member_rule6">
+                        <Link className={classes.list} href="/th/member_rule6">
                         <ListItemText classes={{primary:classes.listItemText}} >ข้อดีของ LETOU</ListItemText>
                         </Link>
                     </List>
@@ -169,11 +169,11 @@ export class ForPartner extends React.Component {
     }
 }
 
-ForPartner.propTypes = {
+ForPartnerTh.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(ForPartner))));
+})(ForPartnerTh))));
