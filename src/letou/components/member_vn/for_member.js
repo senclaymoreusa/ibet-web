@@ -154,7 +154,7 @@ export class ForMemberVn extends React.Component {
                     </List>
                 </div>
                 <Typography variant="h6" className={classes.title}>
-                >Luật chơi Thể thao
+                Luật chơi Thể thao
                 </Typography>
                 <div className={classes.demo}>
                     <List >

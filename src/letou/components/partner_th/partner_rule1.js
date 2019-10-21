@@ -92,7 +92,7 @@ export class MemberRuleOneTh extends React.Component {
                             ซึ่งจะเป็นถือเป็นการตัดสินที่สิ้นสุด
                             <br/> &nbsp;
                         </p>
-                        <h1 style="background: rgb(238, 238, 238); border: 1px solid rgb(204, 204, 204); padding: 5px 10px;">
+                        <h1>
                             <br/>
                             <strong>*** การคำนวณค่าคอมมิชชั่นโปร่งใสที่สุด ไม่มีค่าใช้จ่ายแอบแฝง ***
                                 <br/>
@@ -103,7 +103,7 @@ export class MemberRuleOneTh extends React.Component {
                         <p>
                             <br/>
                             <a href="https://affiliates.letou.com/th/login">
-                                <img alt="" src="https://i.imgur.com/Xtb0aiw.png" style="width: 400px; height: 89px;" />
+                                <img alt="" src="https://i.imgur.com/Xtb0aiw.png" />
                             </a>
                             <br/>
                             <br/>
@@ -126,7 +126,7 @@ export class MemberRuleOneTh extends React.Component {
                             </bold>
                             <br/> ​ค่าคอมมิชชั่นทั้งหมด: ค่าคอมมิชชั่นโดยตรง + 10%ของค่าคอมมิชชั่นของพันธมิตรย่อยชั้นแรก +10%*10%ของค่าคอมมิชชั่นของพันธมิตรย่อยชั้นสอง+10%*10**10%ของค่าคอมมิชชั่นของพันธมิตรย่อยชั้นสาม</p>
                         <p>
-                            <img alt="" src="https://i.imgur.com/C6UFUqk.png" style="width: 800px; height: 517px;" />
+                            <img alt="" src="https://i.imgur.com/C6UFUqk.png" style={{width: 800 + 'px', height: 517 + 'px'}} />
                             <br/> &nbsp;
                         </p>
                         <p>

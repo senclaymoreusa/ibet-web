@@ -166,58 +166,58 @@ export class MemberRuleOneVn extends React.Component {
                                 <tbody>
                                     <tr>
                                         <td class="Title">
-                                            <span style="color:#FF9300">D1 Hoa hồng </span>
+                                            <span style={{color:'#FF9300'}}>D1 Hoa hồng </span>
                                         </td>
                                         <td>
-                                            <span style="color:#FF9300">= 10000</span>
+                                            <span style={{color:'#FF9300'}}>= 10000</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="Title">
-                                            <span style="color:#FF9300">D2 Hoa hồng</span>
+                                            <span style={{color:'#FF9300'}}>D2 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style="color:#FF9300">=</span> Âm 10000</td>
+                                            <span style={{color:'#FF9300'}}>=</span> Âm 10000</td>
                                     </tr>
                                     <tr>
                                         <td class="Title">
-                                            <span style="color:#FF9300">D3 Hoa hồng</span>
+                                            <span style={{color:'#FF9300'}}>D3 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style="color:#FF9300">= 10000</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="Title">
-                                            <span style="color:#FF9300">D4 Hoa hồng</span>
-                                        </td>
-                                        <td>
-                                            <span style="color:#FF9300">=</span> Âm 10000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="Title">
-                                            <span style="color:#FF9300">C1 Hoa hồng</span>
-                                        </td>
-                                        <td>
-                                            <span style="color:#FF9300">=</span> Âm 10000
-                                            <span style="color:#FF9300">+ [(D1=10000)*10%] +</span> [(D2=Âm 10000)]
-                                            <span style="color:#FF9300">=</span> Âm 9000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="Title">
-                                            <span style="color:#FF9300">C2 Hoa hồng</span>
-                                        </td>
-                                        <td>
-                                            <span style="color:#FF9300">= 10000 + [(D3=10000*10%)] +</span> [(D4=Âm 10000)]
-                                            <span style="color:#FF9300">= 11000</span>
+                                            <span style={{color:'#FF9300'}}>= 10000</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="Title">
-                                            <span style="color:#FF9300">C3 Hoa hồng</span>
+                                            <span style={{color:'#FF9300'}}>D4 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style="color:#FF9300">= 10000</span>
+                                            <span style={{color:'#FF9300'}}>=</span> Âm 10000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Title">
+                                            <span style={{color:'#FF9300'}}>C1 Hoa hồng</span>
+                                        </td>
+                                        <td>
+                                            <span style={{color:'#FF9300'}}>=</span> Âm 10000
+                                            <span style={{color:'#FF9300'}}>+ [(D1=10000)*10%] +</span> [(D2=Âm 10000)]
+                                            <span style={{color:'#FF9300'}}>=</span> Âm 9000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Title">
+                                            <span style={{color:'#FF9300'}}>C2 Hoa hồng</span>
+                                        </td>
+                                        <td>
+                                            <span style={{color:'#FF9300'}}>= 10000 + [(D3=10000*10%)] +</span> [(D4=Âm 10000)]
+                                            <span style={{color:'#FF9300'}}>= 11000</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Title">
+                                            <span style={{color:'#FF9300'}}>C3 Hoa hồng</span>
+                                        </td>
+                                        <td>
+                                            <span style={{color:'#FF9300'}}>= 10000</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -225,14 +225,14 @@ export class MemberRuleOneVn extends React.Component {
                                     </tr>
                                     <tr>
                                         <td class="Title">
-                                            <span style="color:#FF9300">B1 Hoa hồng</span>
+                                            <span style={{color:'#FF9300'}}>B1 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style="color:#FF9300">= 10000 +</span> (C1 không nhận hoa hồng nếu giá trị là âm
-                                            <span style="color:#FF9300">+ C2*10% + C3*10% +</span> D1*10%*10%
-                                            <span style="color:#FF9300">+</span> D2*10%*10%
-                                            <span style="color:#FF9300">+ D3*10%*10% +</span> D4*10%*10%)
-                                            <span style="color:#FF9300">=</span> 12100</td>
+                                            <span style={{color:'#FF9300'}}>= 10000 +</span> (C1 không nhận hoa hồng nếu giá trị là âm
+                                            <span style={{color:'#FF9300'}}>+ C2*10% + C3*10% +</span> D1*10%*10%
+                                            <span style={{color:'#FF9300'}}>+</span> D2*10%*10%
+                                            <span style={{color:'#FF9300'}}>+ D3*10%*10% +</span> D4*10%*10%)
+                                            <span style={{color:'#FF9300'}}>=</span> 12100</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">(Nếu D4 hoa hồng là âm, C2 và B1 không đủ điều kiện nhận hoa hồng)</td>
@@ -240,66 +240,66 @@ export class MemberRuleOneVn extends React.Component {
                                     <tr>
                                         <td class="Title">&nbsp;</td>
                                         <td>
-                                            <span style="color:#FF9300">= 10000 +</span> 0
-                                            <span style="color:#FF9300">+ 10000*10% + 10000*10% +</span> 0
-                                            <span style="color:#FF9300">+</span> 0
-                                            <span style="color:#FF9300">+ 10000*10%*10% +</span> 0
-                                            <span style="color:#FF9300">= 12100</span>
+                                            <span style={{color:'#FF9300'}}>= 10000 +</span> 0
+                                            <span style={{color:'#FF9300'}}>+ 10000*10% + 10000*10% +</span> 0
+                                            <span style={{color:'#FF9300'}}>+</span> 0
+                                            <span style={{color:'#FF9300'}}>+ 10000*10%*10% +</span> 0
+                                            <span style={{color:'#FF9300'}}>= 12100</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="Title">&nbsp;</td>
                                         <td>
-                                            <span style="color:#FF9300">= 10000 +</span> 0
-                                            <span style="color:#FF9300">+ 1000 + 1000 +</span> 0
-                                            <span style="color:#FF9300">+</span> 0
-                                            <span style="color:#FF9300">+ 100 +</span> 0
-                                            <span style="color:#FF9300">= 12100</span>
+                                            <span style={{color:'#FF9300'}}>= 10000 +</span> 0
+                                            <span style={{color:'#FF9300'}}>+ 1000 + 1000 +</span> 0
+                                            <span style={{color:'#FF9300'}}>+</span> 0
+                                            <span style={{color:'#FF9300'}}>+ 100 +</span> 0
+                                            <span style={{color:'#FF9300'}}>= 12100</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="Title">
-                                            <span style="color:#FF9300">B2 Hoa hồng</span>
+                                            <span style={{color:'#FF9300'}}>B2 Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style="color:#FF9300">=</span> Âm 5000</td>
+                                            <span style={{color:'#FF9300'}}>=</span> Âm 5000</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">(Nếu hoa hồng C1 là âm, A không đủ điều kiện nhận hoa hồng D1 và D2)</td>
                                     </tr>
                                     <tr>
                                         <td class="Title">
-                                            <span style="color:#FF9300">A Hoa hồng</span>
+                                            <span style={{color:'#FF9300'}}>A Hoa hồng</span>
                                         </td>
                                         <td>
-                                            <span style="color:#FF9300">= 10000 + (B1*10% +</span> B2 negative
-                                            <span style="color:#FF9300">+ B3*10% +</span> C1 negative
-                                            <span style="color:#FF9300">+ C2*10%*10% +</span> C3*10%*10%
-                                            <span style="color:#FF9300">+</span> D1
-                                            <span style="color:#FF9300">+</span> D2
-                                            <span style="color:#FF9300">+ D3*10%*10% +</span> D40
-                                            <span style="color:#FF9300">) = 12100</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="Title">&nbsp;</td>
-                                        <td>
-                                            <span style="color:#FF9300">= 10000 + (10000*10% +</span> 0
-                                            <span style="color:#FF9300">+ 10000*10% +</span> 0
-                                            <span style="color:#FF9300">+ 10000*10%*10% +</span> 10000*10%*10%
-                                            <span style="color:#FF9300">+</span> 0
-                                            <span style="color:#FF9300">+</span> 0
-                                            <span style="color:#FF9300">+ 10000*10%*10%*10% +</span> 0
-                                            <span style="color:#FF9300">) = 12100</span>
+                                            <span style={{color:'#FF9300'}}>= 10000 + (B1*10% +</span> B2 negative
+                                            <span style={{color:'#FF9300'}}>+ B3*10% +</span> C1 negative
+                                            <span style={{color:'#FF9300'}}>+ C2*10%*10% +</span> C3*10%*10%
+                                            <span style={{color:'#FF9300'}}>+</span> D1
+                                            <span style={{color:'#FF9300'}}>+</span> D2
+                                            <span style={{color:'#FF9300'}}>+ D3*10%*10% +</span> D40
+                                            <span style={{color:'#FF9300'}}>) = 12100</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="Title">&nbsp;</td>
                                         <td>
-                                            <span style="color:#FF9300">= 10000 + ( 1000 + 0 + 1000 + 0 ) + 100 +</span> 100
-                                            <span style="color:#FF9300">+</span> 10
-                                            <span style="color:#FF9300">+</span> 0
-                                            <span style="color:#FF9300">)= 12100</span>
+                                            <span style={{color:'#FF9300'}}>= 10000 + (10000*10% +</span> 0
+                                            <span style={{color:'#FF9300'}}>+ 10000*10% +</span> 0
+                                            <span style={{color:'#FF9300'}}>+ 10000*10%*10% +</span> 10000*10%*10%
+                                            <span style={{color:'#FF9300'}}>+</span> 0
+                                            <span style={{color:'#FF9300'}}>+</span> 0
+                                            <span style={{color:'#FF9300'}}>+ 10000*10%*10%*10% +</span> 0
+                                            <span style={{color:'#FF9300'}}>) = 12100</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Title">&nbsp;</td>
+                                        <td>
+                                            <span style={{color:'#FF9300'}}>= 10000 + ( 1000 + 0 + 1000 + 0 ) + 100 +</span> 100
+                                            <span style={{color:'#FF9300'}}>+</span> 10
+                                            <span style={{color:'#FF9300'}}>+</span> 0
+                                            <span style={{color:'#FF9300'}}>)= 12100</span>
                                         </td>
                                     </tr>
                                 </tbody>
