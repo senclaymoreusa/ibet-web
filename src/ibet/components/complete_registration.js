@@ -150,7 +150,7 @@ class CompleteRegistration extends React.Component {
                             this.state.checkbox1,
                             this.props.signup_language
                         ).then(res => {
-                            axios.post(API_URL + 'users/api/generateactivationcode/', { 'username': this.props.signup_username })
+                            axios.post(API_URL + 'users/api/generateactivationcode/', { 'username': this.props.signup_username, 'type': '', })
                             this.props.hide_complete_registration();
                             this.props.show_phone_verification();
                         }).catch(err => {

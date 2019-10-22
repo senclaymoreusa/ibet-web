@@ -131,8 +131,7 @@ export const messages = {
 
         'Live-casino': 'Live casino',
         'ag-title': 'AG Extreme Square',
-        'ag-words':
-            "The world's first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.",
+        'ag-words': 'The world\'s first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.',
         'ag-baccarat': 'Baccarat',
         'ag-Jingmi': 'Jingmi Baccarat',
         'ag-Package': 'Package table baccarat',
@@ -239,6 +238,14 @@ export const messages = {
         'bank-card': 'Bank Card',
         'binding-card-number': 'Binding Card Number',
 
+        'operation-license': 'Operation License',
+        'seriea-sponsorship': 'Serie A Sponsorship',
+        'esport-sponsorship': 'E-sport Sponsorship',
+        'title-responsibility': 'Responsibility',
+        'about-us': 'About Us',
+        'login-help': 'Login Help',
+        'using-help': 'Using Help',
+        'maximum-gaming-platform': 'Maximum Gaming Platform',
         'title-login': 'Login',
         'title-register': 'Register',
         'user-name': 'Username',
@@ -270,7 +277,6 @@ export const messages = {
         'title-email': 'Email',
         'please-valid-email': 'Please enter a valid email',
         'referral-code': 'Invitaion/Referral Code',
-        'register-succes': "Congratulations! You've successfully registered.",
         'modify-phone': 'Modify Phone Number',
         'phone-verification': 'Phone Verification',
         'phone-settings': 'Phone Settings',
@@ -335,6 +341,7 @@ export const messages = {
 
         'intimate-reminder': 'Intimate Reminder',
         'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.'
+        'register-succes': 'Congratulations! You\'ve successfully registered.'
     },
     zh: {},
     vi: {},

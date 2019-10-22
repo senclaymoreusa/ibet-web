@@ -4,8 +4,11 @@ import { authCheckState } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { images } from '../../../../../util_config';
+import {config,images } from '../../../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -83,12 +86,26 @@ const styles = theme => ({
 export class DepositMethod extends Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            data: '',
+            qrcode: '',
+        }
         this.addVisaCard = this.addVisaCard.bind(this);
         this.addMasterCard = this.addMasterCard.bind(this);
         this.addBankAccount = this.addBankAccount.bind(this);
         this.addPaypal = this.addPaypal.bind(this);
         this.depositWith = this.depositWith.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ data: res.data });
+                this.setState({ currencyValue: res.data.currency });
+            });
     }
 
     addVisaCard(ev) {
@@ -109,6 +126,61 @@ export class DepositMethod extends Component {
 
     depositWith(ev) {
         this.props.callbackForPayment(ev);
+    }
+
+    handleClick = () => {
+        
+        var postData = {
+                user_id: this.state.data.pk,
+                method: "49",
+            };
+            var formBody = [];
+            for (var pd in postData) {
+                var encodedKey = encodeURIComponent(pd);
+                var encodedValue = encodeURIComponent(
+                    postData[pd]
+                );
+                formBody.push(encodedKey + '=' + encodedValue);
+            }
+            formBody = formBody.join('&');
+            return fetch(
+                API_URL +
+                    'accounting/api/asiapay/checkQrcode',
+                {
+                    method: 'POST',
+                    headers: {
+                        'content-type':
+                            'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: formBody
+                }
+            ).then(function(res){
+                //console.log(res)
+                if(res.ok){
+                    return res.json();
+                }
+            }).then(function(data){
+                let qrcode = data.qrcode;
+                var request_time = data.request_time;
+                var request_day = request_time.split('T')[0].replace(/-/g, "")
+                //console.log(request_day);
+                request_time = request_time.split('T')[1].split('.')[0];
+                //console.log(request_time);
+                var today = new Date();
+                var current_time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                var current_day = today.getFullYear()+''+(today.getMonth()+1)+''+today.getDate();
+                //console.log(current_day);
+                //console.log(current_time);
+                if(current_day == request_day){
+                    var time_diff = current_time - request_time;
+                }else if(current_day - 1 == request_day){
+                    //if(current_time + 24 - request_time <= 3)
+                }
+                
+                
+            })
+
+        
     }
 
     render() {
@@ -177,6 +249,7 @@ export class DepositMethod extends Component {
                                 </Button>
                                 <Button
                                     className={classes.addButton}
+                                    disabled={true}
                                     onClick={() => {
                                         this.depositWith('qaicash_btc');
                                     }}
@@ -185,6 +258,7 @@ export class DepositMethod extends Component {
                                 </Button>
                                 <Button
                                     className={classes.addButton}
+                                    disabled={true}
                                     onClick={() => {
                                         this.depositWith('paypal');
                                     }}
@@ -202,6 +276,14 @@ export class DepositMethod extends Component {
                                 <Button
                                     className={classes.addButton}
                                     onClick={() => {
+                                        this.depositWith('asia_bankTransfer');
+                                    }}
+                                >
+                                    Asiapay LBT
+                                </Button>
+                                <Button
+                                    className={classes.addButton}
+                                    onClick={() => {
                                         this.depositWith('asia_quickpay');
                                     }}
                                 >
@@ -209,15 +291,19 @@ export class DepositMethod extends Component {
                                 </Button>
                                 <Button
                                     className={classes.addButton}
+                                    
                                     onClick={() => {
                                         this.depositWith('asia_jdpay');
-                                    }}
+                                    }
+                                        //this.handleClick
+                                        
+                                    }
                                 >
                                     JD Pay
                                 </Button>
                                 <Button
                                     className={classes.addButton}
-                                    disabled={true}
+                                    // disabled={true}
                                     onClick={() => {
                                         this.depositWith('onlinepay');
                                     }}
