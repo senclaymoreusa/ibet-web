@@ -67,19 +67,28 @@ export class ContactUs extends React.Component {
             <IconHeader/>
             <Grid container className={classes.content}>
                 <Grid item xs={5} className={classes.infoSelect}>
-                    <InfoSelect/>
+                    <div className="HelpCenterLeftNav">
+                            <ul>
+                                <li>
+                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                </li>
+                                <li>
+                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                </li>
+                            </ul>
+                        </div>
                 </Grid>
                 
                 <Grid item xs={7} className={classes.detail}>
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/for_member">{this.getLabel('for-member')}  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">乐投品牌故事  >
+                                <a href="/for_member">{this.getLabel('story')} >
                                     <i></i>
                                 </a>
                             </li>
@@ -89,6 +98,7 @@ export class ContactUs extends React.Component {
                 联络我们
                 </Typography>
                 
+                
                 <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
                 客户服务  cs@letou.me
                 </Typography>
@@ -97,7 +107,7 @@ export class ContactUs extends React.Component {
                 </Typography>
                 <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
                 注册办公地址 Pareraweg 45, Curacao
-                </Typography>
+                </Typography> 
                 
                 </Grid>
             </Grid>

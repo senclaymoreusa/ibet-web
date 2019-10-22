@@ -23,11 +23,12 @@ const styles = theme => ({
     header : {
         fontSize: '24px',
         color: '#333333',
-        position: 'relative',
+        // position: 'relative',
         width: '100%',
         height: '75px',
         backgroundColor: '#f5f5f5',
         marginBottom: '50px',
+        marginTop: '20px',
         paddingLeft: 300,
         paddingTop: 20
       
@@ -47,7 +48,7 @@ export class IconHeader extends React.Component {
       const { classes } = this.props;
       return (
         <div >
-        <IconButton className={classes.logoHeader}>
+         <IconButton className={classes.logoHeader}>
              <img src={images.src + 'letou/letou-logo.png'} alt="LETOU" height="20" />
          </IconButton>
          <h2 className={classes.header}> {this.getLabel('help-title')}</h2>
