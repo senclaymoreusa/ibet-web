@@ -74,11 +74,6 @@ export const messages = {
         "aboutUs-detail-text-four": '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
 
 
-    },
-    zh: {
-        
-
-
         'Live-casino': 'Live casino',
         'ag-title': 'AG Extreme Square',
         'ag-words': 'The world\'s first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.',
@@ -291,7 +286,12 @@ export const messages = {
 
         'intimate-reminder': 'Intimate Reminder',
         'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
-        'register-succes': "Congratulations! You've successfully registered."
+        'register-succes': "Congratulations! You've successfully registered.",
+    },
+    zh: {
+        
+
+        
     },
 
     vi: {},
