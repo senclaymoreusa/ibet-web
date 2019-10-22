@@ -242,45 +242,26 @@ export class ResetPassword extends Component {
         this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
     }
 
-    async passwordChanged(event) {
+    passwordChanged(event) {
         this.setState({ newPasswordInvalid: (event.target.value.length > 0 && event.target.value === this.state.newPassword) });
         this.setState({ passwordSame: (event.target.value.length > 0 && event.target.value === this.state.newPassword) });
 
-        await this.setState({ password: event.target.value, passwordInvalid: false });
+        this.setState({ password: event.target.value, passwordInvalid: false });
     }
 
-    async newPasswordChanged(event) {
-        this.setState({ passwordSame: (event.target.value.length > 0 && this.state.password === event.target.value) });
-
+    newPasswordChanged(event) {
+        this.setState({ newPassword: event.target.value });
         let testedResult = zxcvbn(event.target.value);
 
         this.setState({ newPasswordInvalid: (testedResult.score !== 4) })
 
-        if (this.state.confirmPassword && (event.target.value !== this.state.confirmPassword)) {
-            this.setState({ confirmPasswordInvalid: true })
-        } else if (this.state.confirmPassword && (event.target.value === this.state.confirmPassword)) {
-            this.setState({ confirmPasswordInvalid: false })
-        }
-
-        if ((event.target.value.length < 8))
-            this.setState({ newPasswordInvalid: true })
-        else if (event.target.value.length > 0 && this.state.password === event.target.value)
-            this.setState({ newPasswordInvalid: true })
-        else
-            this.setState({ newPasswordInvalid: false })
-
-        this.setState({ passwordTooSimple: (event.target.value.length < 8) })
-
-        await this.setState({ newPassword: event.target.value });
+        this.setState({ confirmPasswordInvalid: (this.state.confirmPassword !== event.target.value) });
     }
 
-    async confirmPasswordChanged(event) {
-        if (event.target.value !== this.state.newPassword) {
-            this.setState({ confirmPasswordInvalid: true })
-        } else {
-            this.setState({ confirmPasswordInvalid: false })
-        }
-        await this.setState({ confirmPassword: event.target.value, passwordSame: false });
+    confirmPasswordChanged(event) {
+        this.setState({ confirmPassword: event.target.value });
+
+        this.setState({ confirmPasswordInvalid: (this.state.newPassword !== event.target.value) });
     }
 
     async onFormSubmit(event) {
@@ -350,9 +331,10 @@ export class ResetPassword extends Component {
         let newPasswordErrorMessage = '';
 
         if (this.state.newPasswordInvalid) {
-            if (this.state.passwordTooSimple)
-                newPasswordErrorMessage = this.getLabel('please-strong-password');
-            else if (this.state.passwordSame)
+
+            newPasswordErrorMessage = this.getLabel('please-strong-password');
+
+            if (this.state.passwordSame)
                 newPasswordErrorMessage = this.getLabel('old-new-same');
         }
 
@@ -371,16 +353,6 @@ export class ResetPassword extends Component {
                                 <div className={classes.row}>
                                     <span className={classes.label}>
                                         {this.getLabel('current-password')}
-                                    </span>
-                                </div>
-                                <div className={classes.row} style={{ marginTop: 10 }}>
-                                    <span className={classes.label}>
-                                        {this.getLabel('new-password')}
-                                    </span>
-                                </div>
-                                <div className={classes.row} style={{ marginTop: 10 }}>
-                                    <span className={classes.label}>
-                                        {this.getLabel('confirm-new-password')}
                                     </span>
                                 </div>
                             </div>
@@ -410,6 +382,17 @@ export class ResetPassword extends Component {
                                             ),
                                         }} />
                                 </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div className={classes.labelDiv}>
+                                <div className={classes.row} style={{ marginTop: 10 }}>
+                                    <span className={classes.label}>
+                                        {this.getLabel('new-password')}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className={classes.valueDiv}>
                                 <div className={classes.row}>
                                     <TextField className={classes.textField}
                                         style={{ marginTop: 10 }}
@@ -445,6 +428,17 @@ export class ResetPassword extends Component {
                                         <span className={classes.hintText}>{this.getLabel('register-hint4')}</span>
                                     </div>
                                 }
+                            </div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div className={classes.labelDiv}>
+                                <div className={classes.row} style={{ marginTop: 10 }}>
+                                    <span className={classes.label}>
+                                        {this.getLabel('confirm-new-password')}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className={classes.valueDiv}>
                                 <div className={classes.row}>
                                     <TextField className={classes.textField}
                                         style={{ marginTop: 10 }}
@@ -471,17 +465,19 @@ export class ResetPassword extends Component {
                                             ),
                                         }} />
                                 </div>
-                                <div className={classes.row} style={{ paddingTop: 20 }}>
-                                    <Button variant="contained"
-                                        type="submit"
-                                        disabled={this.state.passwordInvalid
-                                            || this.state.password.length === 0
-                                            || this.state.newPasswordInvalid
-                                            || this.state.newPassword.length === 0
-                                            || this.state.confirmPasswordInvalid
-                                            || this.state.confirmPassword.length === 0}
-                                        className={classes.nextButton}>{this.getLabel('next-step')}</Button>
-                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div className={classes.row} style={{ paddingTop: 20, paddingLeft: 210 }}>
+                                <Button variant="contained"
+                                    type="submit"
+                                    disabled={this.state.passwordInvalid
+                                        || this.state.password.length === 0
+                                        || this.state.newPasswordInvalid
+                                        || this.state.newPassword.length === 0
+                                        || this.state.confirmPasswordInvalid
+                                        || this.state.confirmPassword.length === 0}
+                                    className={classes.nextButton}>{this.getLabel('next-step')}</Button>
                             </div>
                         </Grid>
                     </Grid>
@@ -501,7 +497,7 @@ export class ResetPassword extends Component {
                         message={this.state.snackMessage}
                     />
                 </Snackbar>
-            </div>
+            </div >
         );
     }
 }

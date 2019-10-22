@@ -340,8 +340,8 @@ export const messages = {
         'security-question-set-success': 'Congratulations on your safety and your account is safer!',
 
         'intimate-reminder': 'Intimate Reminder',
-        'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.'
-        'register-succes': 'Congratulations! You\'ve successfully registered.'
+        'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
+        'register-succes': "Congratulations! You've successfully registered."
     },
     zh: {},
     vi: {},
