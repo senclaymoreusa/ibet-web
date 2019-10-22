@@ -374,7 +374,8 @@ class Phone_Verification extends React.Component {
                             .post(
                                 API_URL + 'users/api/generateactivationcode/',
                                 {
-                                    username: this.props.signup_username
+                                    username: this.props.signup_username,
+                                    type: '',
                                 }
                             )
                             .then(res => {
