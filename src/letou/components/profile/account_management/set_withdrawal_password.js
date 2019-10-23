@@ -408,6 +408,7 @@ export class SetWithdrawalPassword extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ userId: res.data.pk });
+                this.setState({ activeStep: res.data.withdraw_password ? 1 : 0 })
             })
     }
 

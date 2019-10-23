@@ -247,6 +247,7 @@ export const messages = {
         'last-login-time': 'Last Login Time',
         'security-question': 'Security Question',
         'you-have-set-question': 'You have set a security question.',
+        'you-have-set-password': 'You have set a withdrawal password.',
         'modify-label': 'Modify',
         'jiufu-password': 'Jiufu Temple APP login Password',
         'setting-label': 'Settings',
