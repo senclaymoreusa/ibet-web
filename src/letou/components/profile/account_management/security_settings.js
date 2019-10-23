@@ -56,6 +56,7 @@ export class SecuritySettings extends Component {
         this.state = {
             lastLoginTime: '',
             securityQuestionHasBeenset: false,
+            withdrawalPasswordHasBeenset: false,
         }
     }
 
@@ -98,13 +99,14 @@ export class SecuritySettings extends Component {
             .then(res => {
                 this.setState({ lastLoginTime: res.data.last_login_time });
                 this.setState({ securityQuestionHasBeenset: res.data.security_question ? true : false })
+                this.setState({ withdrawalPasswordHasBeenset: res.data.withdraw_password ? true : false })
             })
 
     }
 
     render() {
         const { classes } = this.props;
-        const { lastLoginTime, securityQuestionHasBeenset } = this.state;
+        const { lastLoginTime, securityQuestionHasBeenset, withdrawalPasswordHasBeenset } = this.state;
 
         return (
             <div className={classes.root}>
@@ -149,7 +151,7 @@ export class SecuritySettings extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {this.getLabel('password-you-need-withdrawing')}
+                            {securityQuestionHasBeenset ? this.getLabel('you-have-set-password') : this.getLabel('password-you-need-withdrawing')}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
@@ -161,7 +163,8 @@ export class SecuritySettings extends Component {
                                     'set-withdrawal-password'
                                 );
                             }}
-                        >{this.getLabel('setup-now')}</Button>
+                        >
+                            {securityQuestionHasBeenset ? this.getLabel('edit-label') : this.getLabel('setup-now')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
@@ -183,7 +186,7 @@ export class SecuritySettings extends Component {
                             }}
                             className={classes.editButton}
                         >
-                        {securityQuestionHasBeenset ? this.getLabel('edit-label') : this.getLabel('setup-now')}</Button>
+                            {securityQuestionHasBeenset ? this.getLabel('edit-label') : this.getLabel('setup-now')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label} style={{ wordBreak: 'break-all' }}>

@@ -351,7 +351,7 @@ export class EditPhone extends Component {
                     </Grid>
                     <Grid item xs={10} className={classes.row}>
                         <Button variant="contained"
-                            disabled={verificationCode.length === 0 || remainingTime > 0}
+                            disabled={verificationCode.length === 0 || remainingTime === 0}
                             onClick={this.verifyVerificationCode}
                             className={classes.button}>{this.getLabel('next-step')}</Button>
                     </Grid>

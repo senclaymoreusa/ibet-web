@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import Footer from "../footer";
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-import { authCheckState,AUTH_RESULT_FAIL } from '../../../actions';
+import {
+    authCheckState, 
+    AUTH_RESULT_FAIL, 
+    logout,
+    postLogout,
+} from '../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
@@ -10,15 +15,17 @@ import Tab from '@material-ui/core/Tab';
 import AppBar from "@material-ui/core/AppBar";
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-
+import Toolbar from '@material-ui/core/Toolbar';
 import AccountManagement from './account_management/account_management';
 import FortuneCenter from './fortune_center/fortune_center';
+import IconButton from '@material-ui/core/IconButton';
 import SharingPlan from './sharing_plan/sharing_plan';
+import Button from '@material-ui/core/Button';
 import TransactionRecord from './transaction_record/transaction_record';
-
+import { images } from '../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = () => ({
+const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
@@ -35,12 +42,39 @@ const styles = () => ({
     },
     appBar: {
         backgroundColor: '#3c3c3c',
+        color: '#fff',
+    },
+    firstRow: {
+        height: 32,
+        alignItems: 'center',
+        backgroundColor: '#3c3c3c',
+    },
+    firstBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        height: 32,
+        minHeight: 32,
+        maxWidth: 1400,
+        width: '100%',
+    },
+    grow: {
+        flexGrow: 1,
+    },
+    topLinkButton: {
+        margin: theme.spacing(1),
+        textTransform: 'capitalize',
+        cursor: 'pointer',
+        maxHeight: 32,
         color:'#fff',
-    }
+    },
+    logo: {
+        "&:hover": {
+            backgroundColor: "transparent",
+        }
+    },
 });
 
 const StyledTabs = withStyles({
-
     indicator: {
         display: "flex",
         justifyContent: "center",
@@ -177,6 +211,21 @@ export class Profile extends Component {
 
         return (
             <div className={classes.root}>
+                <AppBar position="static" className={classes.firstRow}>
+                    <Toolbar className={classes.firstBar}>
+                        <IconButton href='/' className={classes.logo}>
+                            <img src={images.src + 'letou/logo2.png'} alt="LETOU" height="24" />
+                        </IconButton>
+                        <div className={classes.grow} />
+                        {this.props.isAuthenticated ?
+                            <Button size="small" className={classes.topLinkButton} onClick={() => {
+                                this.props.logout()
+                                postLogout();
+                            }}>
+                                {this.getLabel('log-out')}</Button>
+                            : null}
+                    </Toolbar>
+                </AppBar>
                 <AppBar position="static" className={classes.appBar}>
                     <StyledTabs centered
                         value={this.props.match.params.type}
@@ -232,9 +281,12 @@ export class Profile extends Component {
 }
 
 const mapStateToProps = (state) => {
+    const { token } = state.auth;
     return {
-        lang: state.language.lang
+        isAuthenticated: (token !== null && token !== undefined),
+        error: state.auth.error,
+        lang: state.language.lang,
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Profile))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState,logout, postLogout,  })(Profile))));
