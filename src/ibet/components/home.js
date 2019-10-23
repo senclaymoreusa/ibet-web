@@ -109,7 +109,12 @@ export class Home extends Component {
               window.open(Game_URL)
           })
       }else{
-        alert('You have to login to play this game')
+        var URL = API_URL + 'users/api/api/generatefakeusergameurl/?game=' + item.name
+          axios.get(URL, config)
+          .then(res => {
+              var Game_URL = res.data.game_url
+              window.open(Game_URL)
+          })
       }
     }else{
       window.open(item.game_url)
