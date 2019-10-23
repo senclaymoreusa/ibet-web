@@ -4,15 +4,12 @@ import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Create from '@material-ui/icons/Create';
 import Button from '@material-ui/core/Button';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { config } from '../../../../util_config';
 import axios from 'axios'
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -28,6 +25,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
+import StepConnector from '@material-ui/core/StepConnector';
 
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
@@ -83,11 +81,32 @@ const styles = () => ({
         justifyContent: 'center',
         flexDirection: 'column'
     },
+    infoRow: {
+        padding: 8,
+    },
     nextButton: {
         textTransform: 'capitalize',
-        fontSize: 12,
+        fontSize: 15,
         whiteSpace: 'nowrap',
         width: 260,
+        backgroundColor: '#4DA9DF',
+        color: '#fff',
+        "&:hover": {
+            backgroundColor: '#57b9f2',
+            color: '#fff',
+
+        },
+        "&:focus": {
+            backgroundColor: '#57b9f2',
+            color: '#fff',
+
+        },
+    },
+    button: {
+        textTransform: 'capitalize',
+        fontSize: 15,
+        whiteSpace: 'nowrap',
+        minWidth: 140,
         backgroundColor: '#4DA9DF',
         color: '#fff',
         "&:hover": {
@@ -150,6 +169,17 @@ const styles = () => ({
         letterSpacing: 'normal',
         color: '#212121',
     },
+    largeLabel: {
+        marginTop: 8,
+        marginBottom: 12,
+        fontSize: 22,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        color: '#212121',
+        whiteSpace: 'nowrap',
+    },
 });
 
 const snackStyles = makeStyles(theme => ({
@@ -211,6 +241,70 @@ LetouSnackbarContentWrapper.propTypes = {
 };
 
 
+const ColorlibConnector = withStyles({
+    alternativeLabel: {
+
+    },
+    active: {
+        '& $line': {
+            backgroundColor: '#4DA9DF',
+        },
+    },
+    completed: {
+        '& $line': {
+            backgroundColor: '#4DA9DF',
+        },
+    },
+    line: {
+        height: 3,
+        border: 0,
+        backgroundColor: '#ccc',
+        borderRadius: 1,
+    },
+})(StepConnector);
+
+const customStepStyles = makeStyles({
+    root: {
+        zIndex: 1,
+        color: '#fff',
+        width: 26,
+        height: 26,
+        display: 'flex',
+        borderRadius: '50%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ccc',
+    },
+    active: {
+        backgroundColor: '#4DA9DF',
+    },
+    completed: {
+        backgroundColor: '#4DA9DF',
+    },
+});
+
+function customStepIcon(props) {
+    const classes = customStepStyles();
+    const { active, completed } = props;
+
+    return (
+        <div
+            className={clsx(classes.root, {
+                [classes.active]: active,
+                [classes.completed]: completed
+            })}
+        >
+            {props.icon}
+        </div>
+    );
+}
+
+customStepIcon.propTypes = {
+    active: PropTypes.bool,
+    completed: PropTypes.bool
+};
+
+
 export class SetWithdrawalPassword extends Component {
 
     constructor(props) {
@@ -240,64 +334,44 @@ export class SetWithdrawalPassword extends Component {
         }
 
         this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
+        this.setWithdrawalPassword = this.setWithdrawalPassword.bind(this);
     }
 
-    async newPasswordChanged(event) {
-        this.setState({ passwordSame: (event.target.value.length > 0 && this.state.password === event.target.value) });
+    newPasswordChanged(event) {
+        this.setState({ newPassword: event.target.value });
 
         let testedResult = zxcvbn(event.target.value);
 
         this.setState({ newPasswordInvalid: (testedResult.score !== 4) })
+        this.setState({ confirmPasswordInvalid: (event.target.value !== this.state.confirmPassword) })
 
-        if (this.state.confirmPassword && (event.target.value !== this.state.confirmPassword)) {
-            this.setState({ confirmPasswordInvalid: true })
-        } else if (this.state.confirmPassword && (event.target.value === this.state.confirmPassword)) {
-            this.setState({ confirmPasswordInvalid: false })
-        }
-
-        if ((event.target.value.length < 8))
-            this.setState({ newPasswordInvalid: true })
-        else if (event.target.value.length > 0 && this.state.password === event.target.value)
-            this.setState({ newPasswordInvalid: true })
-        else
-            this.setState({ newPasswordInvalid: false })
-
-        this.setState({ passwordTooSimple: (event.target.value.length < 8) })
-
-        await this.setState({ newPassword: event.target.value });
     }
 
-    async confirmPasswordChanged(event) {
-        if (event.target.value !== this.state.newPassword) {
-            this.setState({ confirmPasswordInvalid: true })
-        } else {
-            this.setState({ confirmPasswordInvalid: false })
-        }
-        await this.setState({ confirmPassword: event.target.value, passwordSame: false });
+    confirmPasswordChanged(event) {
+        this.setState({ confirmPassword: event.target.value });
+
+        this.setState({ confirmPasswordInvalid: (this.state.newPassword !== event.target.value) });
     }
 
-    async onFormSubmit(event) {
-        event.preventDefault();
+    setWithdrawalPassword() {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
-        await axios.post(API_URL + 'users/api/validateandresetpassword/',
+        axios.post(API_URL + 'users/api/setting-withdraw-password/',
             {
-                'username': this.state.username,
-                'current_password': this.state.password,
-                'new_password': this.state.newPassword
+                'userId': this.state.userId,
+                'withdrawPassword': this.state.newPassword
             }, config)
-            .then(res => {
+            .then(() => {
                 this.setState({ snackType: 'success' });
-                this.setState({ snackMessage: this.getLabel('password-reset-successful') });
+                this.setState({ snackMessage: this.getLabel('withdrawal-password-success') });
                 this.setState({ showSnackbar: true });
+                this.setState({ activeStep: 1 });
             }).catch(err => {
                 sendingLog(err);
-                if (err.response.status === 400)
-                    this.setState({ snackMessage: this.getLabel('wrong-password') });
-                else
-                    this.setState({ snackMessage: this.getLabel('password-update-failed') });
+               
+                this.setState({ snackMessage: this.getLabel('password-update-failed') });
 
                 this.setState({ snackType: 'error' });
                 this.setState({ showSnackbar: true });
@@ -333,31 +407,31 @@ export class SetWithdrawalPassword extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ phone: res.data.phone });
+                this.setState({ userId: res.data.pk });
             })
     }
 
-    render() {
+
+    getStepContent() {
+        let currentComponent = this;
+
         const { classes } = this.props;
+        const { activeStep } = this.state;
+
 
         let newPasswordErrorMessage = '';
 
         if (this.state.newPasswordInvalid) {
-            if (this.state.passwordTooSimple)
-                newPasswordErrorMessage = this.getLabel('please-strong-password');
-            else if (this.state.passwordSame)
+            newPasswordErrorMessage = this.getLabel('please-strong-password');
+
+            if (this.state.passwordSame)
                 newPasswordErrorMessage = this.getLabel('old-new-same');
         }
 
-        return (
-            <div className={classes.root}>
-                <form onSubmit={this.onFormSubmit.bind(this)} >
+        switch (activeStep) {
+            case 0:
+                return (
                     <Grid container>
-                        <Grid item xs={12} className={classes.titleRow}>
-                            <span className={classes.title}>
-                                {this.getLabel('set-withdrawal-password')}
-                            </span>
-                        </Grid>
                         <Grid item xs={12} className={classes.row}>
                             <span className={classes.label}>
                                 {this.getLabel('type-strong-password')}
@@ -439,7 +513,7 @@ export class SetWithdrawalPassword extends Component {
                                 </div>
                                 <div className={classes.row} style={{ paddingTop: 20 }}>
                                     <Button variant="contained"
-                                        type="submit"
+                                        onClick={currentComponent.setWithdrawalPassword}
                                         disabled={this.state.newPasswordInvalid
                                             || this.state.newPassword.length === 0
                                             || this.state.confirmPasswordInvalid
@@ -449,7 +523,92 @@ export class SetWithdrawalPassword extends Component {
                             </div>
                         </Grid>
                     </Grid>
-                </form>
+                );
+            case 1:
+                return (
+                    <Grid container>
+                        <Grid item xs={12} className={classes.infoRow}>
+                            <span className={classes.largeLabel}>
+                                {this.getLabel('withdrawal-password-success')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.infoRow}>
+                            <span className={classes.label}>
+                                {this.getLabel('withdrawal-password-completion')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.infoRow}>
+                            <Button variant="contained" className={classes.button}
+                                onClick={() => {
+                                    this.props.history.push('/p/fortune-center/withdrawal');
+                                }}>
+                                {this.getLabel('go-withdrawal')}
+                            </Button>
+                            <Button variant="contained" className={classes.button} style={{ marginLeft: 20 }}>
+                                {this.getLabel('go-bank-card')}
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} className={classes.infoRow}>
+                            <span className={classes.largeLabel}>
+                                {this.getLabel('change-mobile')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.infoRow}>
+                            <Button variant="contained" className={classes.button}>
+                                {this.getLabel('through-original')}
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} className={classes.infoRow}>
+                            <span className={classes.largeLabel}>
+                                {this.getLabel('intimate-reminder')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.infoRow}>
+                            <span className={classes.label}>
+                                {this.getLabel('intimate-reminder-text')}
+                            </span>
+                        </Grid>
+                    </Grid>
+                );
+            default:
+                return <div>
+                    <Button variant="contained" style={{ marginTop: 30 }}
+                        onClick={() => {
+                            this.props.callbackFromParent(
+                                'account-info'
+                            );
+                        }}
+                        className={classes.button}>{this.getLabel('back-acccount-settings')}</Button>
+                </div>;
+        }
+    }
+
+    render() {
+        const { classes } = this.props;
+
+        const { activeStep } = this.state;
+
+
+        return (
+            <div className={classes.root}>
+                <Grid container>
+                    <Grid item xs={12} className={classes.titleRow}>
+                        <span className={classes.title}>
+                            {this.getLabel('set-withdrawal-password')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+                            <Step key={this.getLabel('change-password')}>
+                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('change-password')}</StepLabel>
+                            </Step>
+                            <Step key={this.getLabel('set-successfully')}>
+                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('set-successfully')}</StepLabel>
+                            </Step>
+                        </Stepper>
+                    </Grid>
+                </Grid>
+                {this.getStepContent()}
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',

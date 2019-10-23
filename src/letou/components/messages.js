@@ -225,7 +225,7 @@ export const messages = {
         'modify-phone': 'Modify Phone Number',
         'phone-verification': 'Phone Verification',
         'phone-settings': 'Phone Settings',
-        'set-successfully': 'Set Successfully',
+        'set-successfully': 'Setting Successfully',
         'verification-code': 'Verification Code',
         'send-verification-code': 'Send Verification Code',
         'only-three-code':
@@ -287,11 +287,21 @@ export const messages = {
         'intimate-reminder': 'Intimate Reminder',
         'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
         'register-succes': "Congratulations! You've successfully registered.",
-    },
-    zh: {
+        'change-password': 'Change Password',
+        'withdrawal-password-success': 'The withdrawal password is set successfully.',
+        'withdrawal-password-completion':'Congratulations on the completion of the withdrawal password, please be sure to remember your withdrawal password, please do not provide your password to others.',
+        'go-withdrawal':'Go to Withdrawal',
+        'go-bank-card':'Go to set up bank card',
+        'change-mobile':'Change mobile number method',
+        'through-original':'Through the original mobile',
         
 
-        
+
+    },
+    zh: {
+
+
+
     },
 
     vi: {},
