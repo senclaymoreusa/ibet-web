@@ -199,7 +199,7 @@ export class Home extends Component {
                     localStorage.setItem("recent-games", JSON.stringify(array));
 
                   }}>
-                    <span onClick={(e) => this.game_url(e, item)}> 
+                    <span style ={{cursor: 'pointer'}} onClick={(e) => this.game_url(e, item)}> 
 
                       {
                         <img src={item.image_url} height="220" width="300" alt='Not available' />
