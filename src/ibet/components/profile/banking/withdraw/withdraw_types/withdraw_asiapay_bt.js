@@ -394,7 +394,7 @@ class WithdrawAsiapayBT extends Component {
                 //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
         }).catch(err => {
-            currentComponent.props.callbackFromParent("error", err.returnMessage);
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
             sendingLog(err);
         });
     }

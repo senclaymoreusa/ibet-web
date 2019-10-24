@@ -413,7 +413,7 @@ class DepositAsiapayAlipay extends Component {
                     }else{
                         currentComponent.props.callbackFromParent(
                                                         'error',
-                                                        'Something is wrong.'
+                                                        'Transaction failed.'
                                                     );
                     }
                     
@@ -425,7 +425,7 @@ class DepositAsiapayAlipay extends Component {
                 // console.log('Request failed', err);
                 currentComponent.props.callbackFromParent(
                     'error',
-                    "somerthu"
+                    "Something is wrong."
                 );
 
                 // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });

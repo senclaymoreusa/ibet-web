@@ -382,8 +382,8 @@ class DepositQaicashAlipay extends Component {
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
             }
         }).catch(function (err) {  
-            console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
         });
     }

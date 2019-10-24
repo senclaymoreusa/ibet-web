@@ -439,7 +439,7 @@ class DepositAsiapayOnlinePay extends Component {
                 }, 1000);
             }).catch(function (err) {  
             //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
             sendingLog(err);
         });
     };

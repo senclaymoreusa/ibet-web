@@ -354,8 +354,8 @@ class DepositAsiapayBitcoin extends Component {
                 
             }).catch(function (err) {  
             //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
+            sendingLog(err);
         });
     };
 

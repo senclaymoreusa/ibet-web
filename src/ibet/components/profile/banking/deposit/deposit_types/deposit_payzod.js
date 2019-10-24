@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -302,18 +302,21 @@ class DepositPayzod extends Component {
             "amount": amount
         };
 
-        var res = await axios.post(API_URL + 'accounting/api/payzod/deposit',
+        // var res = 
+        await axios.post(API_URL + 'accounting/api/payzod/deposit',
             postData,
-            config);
+            config).then(res => {
+                if (res.data) {
+                    currentComponent.setState({ showLinearProgressBar: false });
+                    this.setState({ qr_code: res.data });
+                }
+            }).catch(function(err){
+                currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                sendingLog(err);
+            });
 
-        currentComponent.setState({ showLinearProgressBar: false });
 
-        console.log("result of deposit: ");
-        console.log(res);
-
-        if (res.data) {
-            this.setState({ qr_code: res.data });
-        }
+        
     }
 
     render() {

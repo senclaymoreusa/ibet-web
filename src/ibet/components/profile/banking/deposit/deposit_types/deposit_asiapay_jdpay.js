@@ -415,7 +415,7 @@ class DepositAsiapayJDPay extends Component {
             //     currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
             // }
         }).catch(function (err) {
-            currentComponent.setState({ showLinearProgressBar: false });
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
 
             //console.log('Request failed', err);
 

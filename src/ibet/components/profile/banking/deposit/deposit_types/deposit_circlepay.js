@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog} from '../../../../../../actions';
 
 const
     crypto = require("crypto"),
@@ -349,6 +349,11 @@ class DepositCirclepay extends Component {
                 currentComponent.setState({ showLinearProgressBar: false });
 
 
+            }).catch(function (err) {  
+                //console.log('Request failed', err);
+                currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                sendingLog(err);
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             });
 
         // axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)

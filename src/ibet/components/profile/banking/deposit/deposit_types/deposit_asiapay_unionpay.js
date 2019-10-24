@@ -413,7 +413,7 @@ class DepositAsiapayUnionpay extends Component {
             // currentComponent.setState({ showLinearProgressBar: false });
 
         }).catch(err => {
-            currentComponent.props.callbackFromParent("error", err.returnMessage);
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
             // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             sendingLog(err);
         });

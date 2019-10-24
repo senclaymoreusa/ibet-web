@@ -380,8 +380,8 @@ class DepositQaicashBTC extends Component {
                 //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
         }).catch(function (err) {  
-            console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
         });
     }
