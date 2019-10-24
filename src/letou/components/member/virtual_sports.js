@@ -57,7 +57,7 @@ const styles = theme => ({
     
 })
 
-export class Statement extends React.Component {
+export class Virtual extends React.Component {
     
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -74,7 +74,16 @@ export class Statement extends React.Component {
             <IconHeader/>
             <Grid container className={classes.content}>
                 <Grid item xs={5} className={classes.infoSelect}>
-                    <InfoSelect/>
+                <div className="HelpCenterLeftNav">
+                            <ul>
+                                <li>
+                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                </li>
+                                <li>
+                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                </li>
+                            </ul>
+                        </div>
                 </Grid>
                 
                 <Grid item xs={7} className={classes.detail}>
@@ -240,11 +249,11 @@ export class Statement extends React.Component {
 }
 
 
-Statement.propTypes = {
+Virtual.propTypes = {
     classes: PropTypes.object.isRequired,
     callback: PropTypes.func,
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
     show_letou_announcements
-})(Statement))));
+})(Virtual))));

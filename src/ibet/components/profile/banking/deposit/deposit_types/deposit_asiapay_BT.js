@@ -12,21 +12,25 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
 import 'react-image-picker/dist/index.css';
+import InputBase from '@material-ui/core/InputBase';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Timer from 'react-compound-timer';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const bankList = [
-    { label: 'icbc', value: '1' },
-    { label: 'ccb', value: '2' },
-    { label: 'aboc', value: '3' },
-    { label: 'cmb', value: '4' },
-    { label: 'cgb', value: '6' },
-    { label: 'boc', value: '7' }
+    { label: '工商银行', value: '1' },
+    { label: '农业银行', value: '3'},
+    { label: '中国银行', value: '7' },
 ];
 
 const styles = theme => ({
@@ -207,12 +211,15 @@ const styles = theme => ({
     bankList: {
         width: '100%',
         height: 77
-    }
+    },
+    table: {
+        minWidth: 650,
+    },
 });
 
 const amounts = Object.freeze([100, 200, 500, 1000]);
 
-class DepositAsiapayBankcard extends Component {
+class DepositAsiapayBT extends Component {
     constructor(props) {
         super(props);
 
@@ -221,6 +228,7 @@ class DepositAsiapayBankcard extends Component {
         this.state = {
             amount: '',
             currency: '',
+            realname: '',
             error: false,
             data: '',
             type: '',
@@ -229,18 +237,19 @@ class DepositAsiapayBankcard extends Component {
             live_check_amount: false,
             button_disable: true,
             value: '',
-            size: 128,
-            fgColor: '#000000',
-            bgColor: '#ffffff',
-            level: 'L',
-            renderAs: 'svg',
-            includeMargin: false,
-            show_qrcode: false,
+            order_id: '',
+            BankName: '',
+            CardChName: '',
+            CardNumber: '',
+            CardBankName: '',
             bankid: '',
             image: null,
 
             amountFocused: false,
             amountInvalid: true,
+
+            realnameFocused: false,
+            realnameInvalid: true,
 
             currencyValue: 'RMB',
             showLinearProgressBar: false
@@ -249,7 +258,8 @@ class DepositAsiapayBankcard extends Component {
         this.onPick = this.onPick.bind(this);
 
         this.bankChanged = this.bankChanged.bind(this);
-
+        this.realnameChanged = this.realnameChanged.bind(this);
+        this.realnameFocused = this.realnameFocused.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -272,6 +282,15 @@ class DepositAsiapayBankcard extends Component {
             this.setState({ amountInvalid: false, amount: event.target.value });
         }
     };
+    realnameChanged = event => {
+        this.setState({ realname: event.target.value });
+        this.setState({ realnameFocused: true });
+        this.setState({ realnameInvalid: (event.target.value.length < 2) });
+    }
+    realnameFocused(event){
+        this.setState({ realnameFocused: true });
+    }
+
 
     amountFocused = () => {
         this.setState({ amountFocused: true });
@@ -294,8 +313,9 @@ class DepositAsiapayBankcard extends Component {
             amount: this.state.amount,
             userid: this.state.data.pk,
             currency: '0',
-            PayWay: '30', //online bank
-            method: this.state.bankid //银行卡
+            PayWay: '10', //网银转账
+            method: this.state.bankid, //银行卡
+            RealName : this.state.realname,
         };
 
         var formBody = [];
@@ -314,98 +334,34 @@ class DepositAsiapayBankcard extends Component {
             body: formBody
         })
             .then(function(res) {
-                currentComponent.setState({ showLinearProgressBar: false });
-                return res.json();
+                console.log(res)
+                if(res.status == 200){
+                    return res.json();
+                }else{
+                    currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                }
             })
             .then(function(data) {
-                let url = data.url;
-                let order_id = data.order_id;
-                const mywin = window.open(
-                    url + '?cid=BRANDCQNGHUA3&oid=' + order_id
-                );
-                var timer = setInterval(function() {
-                    console.log('checking..');
-                    if (mywin.closed) {
-                        clearInterval(timer);
-                        var postData = {
-                            order_id: data.oid,
-                            userid: 'n' + userid,
-                            CmdType: '01'
-                        };
-                        var formBody = [];
-                        for (var pd in postData) {
-                            var encodedKey = encodeURIComponent(pd);
-                            var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + '=' + encodedValue);
-                        }
-                        formBody = formBody.join('&');
-
-                        return fetch(
-                            API_URL + 'accounting/api/asiapay/orderStatus',
-                            {
-                                method: 'POST',
-                                headers: {
-                                    'content-type':
-                                        'application/x-www-form-urlencoded; charset=UTF-8'
-                                },
-                                body: formBody
-                            }
-                        )
-                            .then(function(res) {
-                                return res.json();
-                            })
-                            .then(function(data) {
-                                console.log(data.status);
-                                if (data.status === '001') {
-                                    //alert('Transaction is approved.');
-                                    const body = JSON.stringify({
-                                        type: 'add',
-                                        username:
-                                            currentComponent.state.data
-                                                .username,
-                                        balance: currentComponent.state.amount
-                                    });
-                                    console.log(body);
-                                    axios
-                                        .post(
-                                            API_URL +
-                                                `users/api/addorwithdrawbalance/`,
-                                            body,
-                                            config
-                                        )
-                                        .then(res => {
-                                            if (res.data === 'Failed') {
-                                                //currentComponent.setState({ error: true });
-                                                currentComponent.props.callbackFromParent(
-                                                    'error',
-                                                    'Transaction failed.'
-                                                );
-                                            } else if (
-                                                res.data ===
-                                                'The balance is not enough'
-                                            ) {
-                                                currentComponent.props.callbackFromParent(
-                                                    'error',
-                                                    'Cannot deposit this amount.'
-                                                );
-                                            } else {
-                                                currentComponent.props.callbackFromParent(
-                                                    'success',
-                                                    currentComponent.state
-                                                        .amount
-                                                );
-                                            }
-                                        });
-                                } else {
-                                    currentComponent.props.callbackFromParent(
-                                        'error',
-                                        data.StatusMsg
-                                    );
-                                }
-                            });
-                    }
-                }, 1000);
-            });
+                currentComponent.setState({ showLinearProgressBar: false });
+                console.log(data.order_id);
+                if(data.StatusMsg == 'OK'){
+                    
+                    // currentComponent.setState({ order_id: data.order_id});
+                    // currentComponent.setState({ CardNumber: data.CardNumber});
+                    // currentComponent.setState({ BankName: data.BankName});
+                    // currentComponent.setState({ CardChName: data.CardChName});
+                    // currentComponent.setState({ CardBankName: data.CardBankName});
+                    currentComponent.props.callbackFromParent('bank_transfer',data.order_id);
+                   
+                }else{
+                    currentComponent.props.callbackFromParent('error',data.StatusMsg);
+                }
+                
+            }).catch(function (err) {  
+            //console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", err.message);
+            sendingLog(err);
+        });
     };
 
     bankChanged = event => {
@@ -458,17 +414,20 @@ class DepositAsiapayBankcard extends Component {
                             }
                         >
                             <Grid container>
+                                
                                 <Grid item xs={12} className={classes.bankRow}>
                                     <Select
                                         className={classes.bankList}
                                         value={this.state.bankid}
                                         onChange={this.bankChanged}
+                                        
                                         inputProps={{
                                             name: 'bank',
                                             id: 'bank-simple',
                                             height: 77
                                         }}
                                     >
+        
                                         {bankList.map(bank => (
                                             <MenuItem
                                                 key={bank.label}
@@ -490,14 +449,15 @@ class DepositAsiapayBankcard extends Component {
                                     </Select>
                                     <div></div>
                                 </Grid>
+                                
                                 <Grid item xs={12}>
                                     {amounts.map((x, i) => {
                                         return (
                                             <Button
                                                 className={
-                                                    i === 0
+                                                    i == 0
                                                         ? classes.leftButton
-                                                        : i === 3
+                                                        : i == 3
                                                         ? classes.rightButton
                                                         : classes.middleButton
                                                 }
@@ -552,6 +512,19 @@ class DepositAsiapayBankcard extends Component {
                                         inputRef={this.amountInput}
                                     />
                                 </Grid>
+                                <Grid item xs={12} className={classes.detailRow}>
+                                    <TextField
+                                        onFocus={this.realnameFocused}
+                                        onChange={this.realnameChanged}
+                                        value={this.state.cardname}
+                                        className={classes.otherText}
+                                        placeholder="Card Holder Name"
+                                        helperText={(this.state.realnameInvalid && this.state.realnameFocused) ? 'Please enter a valid card holder name.' : ' '}
+                                        InputProps={{ disableUnderline: true }}
+                                        type="text"
+                                        error={( this.state.realnameFocused)}   
+                                    />
+                                </Grid>
                                 <Grid item xs={6} className={classes.amountRow}>
                                     <div className={classes.amountText}>
                                         <FormattedNumber
@@ -561,6 +534,7 @@ class DepositAsiapayBankcard extends Component {
                                         />
                                     </div>
                                 </Grid>
+                                
                                 <Grid
                                     item
                                     xs={6}
@@ -570,6 +544,7 @@ class DepositAsiapayBankcard extends Component {
                                         Total
                                     </span>
                                 </Grid>
+                                
                                 <Grid
                                     item
                                     xs={12}
@@ -579,8 +554,7 @@ class DepositAsiapayBankcard extends Component {
                                         className={classes.continueButton}
                                         onClick={this.handleClick}
                                         disabled={
-                                            this.state.amountInvalid ||
-                                            this.state.bankid === ''
+                                            this.state.amountInvalid || this.state.bankid === ''
                                         }
                                     >
                                         {continueMessage}
@@ -601,6 +575,51 @@ class DepositAsiapayBankcard extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                    {/* <div id="api-response" style={{textAlign: 'left', paddingLeft: 100, paddingRight: 100}}>
+                        {
+                            order_id?
+                            <>
+                                <p>尊贵的客户您好，请记录以下官方帐号信息及存款金额，并在3小时内以任意方式存款进该账号。超过存款时间或者存款金额不一致可能会导致无法正常上分。存款完成后，请保留存款回执，以便确认转账资讯。
+重要提醒：您每次获取的银行账号都可能会不同，请切勿使用过往保存的账号进行存款，若存入账号与本次获取账号不一致时将无法上分。</p>
+                                <Table className={classes.table}>
+                                    
+                                    <TableRow>
+                                        <TableCell align="right">订单编号</TableCell>
+                                        <TableCell align="right">{order_id}</TableCell>
+                                        <TableCell align="right">银行账号</TableCell>
+                                        <TableCell align="right">{CardNumber}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell align="right">银行</TableCell>
+                                        <TableCell align="right">{BankName}</TableCell>
+                                        <TableCell align="right">用户名</TableCell>
+                                        <TableCell align="right">{CardChName}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell align="right">分行名称</TableCell>
+                                        <TableCell align="right">{CardBankName}</TableCell>
+                                        <TableCell align="right">金额</TableCell>
+                                        <TableCell align="right">{this.state.amount}</TableCell>
+                                    </TableRow>
+                                </Table>
+                                
+                                <Timer
+                                    initialTime={10800000}
+                                    direction="backward"
+                                >
+                                    {() => (
+                                        <React.Fragment>
+                                            <Timer.Hours /> hours
+                                            <Timer.Minutes /> minutes
+                                            <Timer.Seconds /> seconds
+                                        </React.Fragment>
+                                    )}
+                                </Timer>
+                            </>
+                            : 
+                            <br/>
+                        }
+                    </div> */}
                 </form>
             </div>
         );
@@ -618,6 +637,6 @@ export default withStyles(styles)(
         connect(
             mapStateToProps,
             { authCheckState }
-        )(DepositAsiapayBankcard)
+        )(DepositAsiapayBT)
     )
 );
