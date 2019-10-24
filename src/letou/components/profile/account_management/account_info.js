@@ -111,7 +111,7 @@ export class AccountInfo extends Component {
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
-                            {this.getLabel('title-email')}
+                            {this.getLabel('email-label')}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>

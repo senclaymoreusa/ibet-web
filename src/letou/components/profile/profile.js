@@ -3,8 +3,8 @@ import Footer from "../footer";
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import {
-    authCheckState, 
-    AUTH_RESULT_FAIL, 
+    authCheckState,
+    AUTH_RESULT_FAIL,
     logout,
     postLogout,
 } from '../../../actions';
@@ -24,6 +24,13 @@ import Button from '@material-ui/core/Button';
 import TransactionRecord from './transaction_record/transaction_record';
 import { images } from '../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
+import Popper from '@material-ui/core/Popper';
+import Fade from '@material-ui/core/Fade';
+import Paper from '@material-ui/core/Paper';
+import Person from '@material-ui/icons/Person';
+import Smartphone from '@material-ui/icons/Smartphone';
+import Email from '@material-ui/icons/Email';
+
 
 const styles = theme => ({
     root: {
@@ -65,12 +72,15 @@ const styles = theme => ({
         textTransform: 'capitalize',
         cursor: 'pointer',
         maxHeight: 32,
-        color:'#fff',
+        color: '#fff',
     },
     logo: {
         "&:hover": {
             backgroundColor: "transparent",
         }
+    },
+    icon: {
+        margin: theme.spacing(2),
     },
 });
 
@@ -149,7 +159,10 @@ export class Profile extends Component {
 
         this.state = {
             urlPath: '',
-            tabValue: ''
+            tabValue: '',
+            content: '',
+            showProfileMenu: false,
+            anchorEl: null,
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -208,6 +221,7 @@ export class Profile extends Component {
 
     render() {
         const { classes } = this.props;
+        const { showProfileMenu, anchorEl } = this.state;
 
         return (
             <div className={classes.root}>
@@ -249,6 +263,14 @@ export class Profile extends Component {
                             }}
                         />
                         <StyledTab
+                            label="Profile"
+                            value="profile"
+                            onClick={(event) => {
+                                this.setState({ anchorEl: event.target });
+                                this.setState({ showProfileMenu: true });
+                            }}
+                        />
+                        <StyledTab
                             value="account-management"
                             label={this.getLabel('account-management')}
                             onClick={() => {
@@ -268,10 +290,42 @@ export class Profile extends Component {
                         />
                     </StyledTabs>
                 </AppBar>
+                <Popper id="porfile-popper" open={showProfileMenu} anchorEl={anchorEl} transition>
+                    {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Paper>
+                                <IconButton className={classes.icon}
+                                    onClick={(event) => {
+                                        this.handleCategoryChange('account-management/verify-name');
+                                        this.setState({ anchorEl: null });
+                                        this.setState({ showProfileMenu: false });
+                                    }}>
+                                    <Person />
+                                </IconButton>
+                                <IconButton className={classes.icon}
+                                    onClick={(event) => {
+                                        this.handleCategoryChange('account-management/verify-phone');
+                                        this.setState({ anchorEl: null });
+                                        this.setState({ showProfileMenu: false });
+                                    }}>
+                                    <Smartphone />
+                                </IconButton>
+                                <IconButton className={classes.icon}
+                                    onClick={(event) => {
+                                        this.handleCategoryChange('account-management/verify-email');
+                                        this.setState({ anchorEl: null });
+                                        this.setState({ showProfileMenu: false });
+                                    }}>
+                                    <Email />
+                                </IconButton>
+                            </Paper>
+                        </Fade>
+                    )}
+                </Popper>
                 <div className={classes.content}>
                     {this.state.tabValue === 'fortune-center' && <FortuneCenter />}
                     {this.state.tabValue === 'transaction-record' && <TransactionRecord />}
-                    {this.state.tabValue === 'account-management' && <AccountManagement />}
+                    {this.state.tabValue === 'account-management' && <AccountManagement activeContent={this.state.content} />}
                     {this.state.tabValue === 'sharing-plan' && <SharingPlan />}
                 </div>
                 <Footer />
@@ -289,4 +343,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState,logout, postLogout,  })(Profile))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, logout, postLogout, })(Profile))));

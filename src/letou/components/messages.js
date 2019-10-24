@@ -172,7 +172,6 @@ export const messages = {
         'total-assets': 'Total Assets',
         'title-transfer': 'Transfer',
         'title-withdrawal': 'Withdrawal',
-        'actual-name': 'Actual Name',
         'title-mail': 'Mail',
         'edit-label': 'Edit',
         'phone-label': 'Phone',
@@ -219,11 +218,10 @@ export const messages = {
         'register-hint4': 'Mix lower and uppercase',
         'phone-number': 'Phone Number',
         'please-valid-phone': 'Please enter a valid phone number',
-        'title-email': 'Email',
+        'email-label': 'Email',
         'please-valid-email': 'Please enter a valid email',
         'referral-code': 'Invitaion/Referral Code',
         'modify-phone': 'Modify Phone Number',
-        'phone-verification': 'Phone Verification',
         'phone-settings': 'Phone Settings',
         'set-successfully': 'Set Successfully',
         'verification-code': 'Verification Code',
@@ -288,11 +286,21 @@ export const messages = {
         'intimate-reminder': 'Intimate Reminder',
         'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
         'register-succes': "Congratulations! You've successfully registered.",
+        'name-verification': 'Name Verification',
+        'phone-verification': 'Phone Verification',
+        'email-verification': 'Email Verification',
+        'verify-name': 'Verify Name',
+        'actual-name': 'Actual Name',
+        'id-number': 'ID Card Number',
+        'verify-email': 'Verify Email',
+
+
+
     },
     zh: {
-        
 
-        
+
+
     },
 
     vi: {},
