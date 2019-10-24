@@ -122,7 +122,7 @@ export class BankCards extends Component {
                         <Button variant="contained"
                             color="default"
                             onClick={this.sendVerificationCode}
-                            className={classes.sendButton}>{this.getLabel('send-verification-code')}</Button>
+                            className={classes.sendButton}>{this.getLabel('send-code')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                     </Grid>

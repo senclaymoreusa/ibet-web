@@ -24,6 +24,17 @@ import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import StepConnector from '@material-ui/core/StepConnector';
 import { images } from '../../../../util_config';
+import Warning from '@material-ui/icons/Warning';
+import Email from '@material-ui/icons/Email';
+import Error from '@material-ui/icons/ErrorOutline';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Fab from '@material-ui/core/Fab';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import Info from '@material-ui/icons/InfoOutlined';
 
 const styles = () => ({
     root: {
@@ -46,16 +57,18 @@ const styles = () => ({
         color: '#999'
     },
     title: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 1.29,
         letterSpacing: -0.24,
         color: '#000',
+
     },
     titleRow: {
         paddingBottom: 12,
+        textAlign: 'center',
     },
     row: {
         padding: 20,
@@ -71,9 +84,27 @@ const styles = () => ({
     },
     nextButton: {
         textTransform: 'capitalize',
-        fontSize: 12,
+        fontSize: 15,
         whiteSpace: 'nowrap',
-        width: 340,
+        backgroundColor: '#4DA9DF',
+        color: '#fff',
+        "&:hover": {
+            backgroundColor: '#57b9f2',
+            color: '#fff',
+
+        },
+        "&:focus": {
+            backgroundColor: '#57b9f2',
+            color: '#fff',
+
+        },
+    },
+    backButton: {
+        textTransform: 'capitalize',
+        fontSize: 15,
+    },
+    fab: {
+        cursor: 'default',
         backgroundColor: '#4DA9DF',
         color: '#fff',
         "&:hover": {
@@ -88,8 +119,7 @@ const styles = () => ({
         },
     },
     textField: {
-        width: 340,
-        marginRight: 20,
+        minWidth: 260,
         fontSize: 12,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -267,6 +297,10 @@ export class VerifyEmail extends Component {
             email: '',
             emailInvalid: true,
             emailFocused: false,
+
+            verificationCode: '',
+
+
             showSnackbar: false,
             snackType: 'info',
             snackMessage: '',
@@ -320,7 +354,13 @@ export class VerifyEmail extends Component {
         //     });
     }
 
-    verifyEmail() {
+    sendVerificationCodeToEmail() {
+        this.setState({ activeStep: 1 });
+    }
+
+    verifyEmailWithCode() {
+        this.setState({ activeStep: 2 });
+
         //     let currentComponent = this;
 
         //     axios.post(API_URL + `users/api/user-security-question/`, {
@@ -354,23 +394,25 @@ export class VerifyEmail extends Component {
     }
 
     emailChanged(event) {
+        this.setState({ emailFocused: true });
+
         this.setState({ email: event.target.value });
-    
+
         let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)) {
-          this.setState({ emailInvalid: true })
+            this.setState({ emailInvalid: true })
         } else {
-          this.setState({ emailInvalid: false })
+            this.setState({ emailInvalid: false })
         }
-      }
+    }
 
     getStepContent() {
         const { classes } = this.props;
-        const { activeStep, email,emailInvalid } = this.state;
+        const { activeStep, email, emailInvalid, verificationCode } = this.state;
 
         switch (activeStep) {
             case 0:
-                return (<Grid container>
+                return (<Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
                     <Grid item xs={2} className={classes.row} style={{ verticalAlign: 'middle' }}>
                         <span className={classes.label} >
                             {this.getLabel('email-label')}
@@ -380,26 +422,87 @@ export class VerifyEmail extends Component {
                         <TextField className={classes.textField}
                             value={email}
                             onChange={(event) => { this.emailChanged(event) }}
-                            onFocus={() => {
-                                this.setState({ emailFocused: true });
-                              }}
                             error={this.state.emailInvalid && this.state.emailFocused}
                             helperText={(this.state.emailInvalid && this.state.emailFocused) ? this.getLabel('please-valid-email') : ' '}
                             InputProps={{
-                              disableUnderline: true,
-                            }}   
-                            ></TextField>
+                                disableUnderline: true,
+                                startAdornment: (<InputAdornment position="start">
+                                    <Email />
+                                </InputAdornment>)
+                            }} />
                     </Grid>
-                    <Grid item xs={2} className={classes.row}>
+                    <Grid item xs={12} className={classes.row} >
+                        <List>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <Info />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary={this.getLabel('only-three-code')} secondary="" />
+                            </ListItem>
+                        </List>
                     </Grid>
-                    <Grid item xs={10} className={classes.row}>
+                    <Grid item xs={12} className={classes.row}>
                         <Button variant="contained"
                             disabled={emailInvalid}
-                            onClick={this.verifyEmail.bind(this)}
+                            onClick={this.sendVerificationCodeToEmail.bind(this)}
                             className={classes.nextButton}>{this.getLabel('next-step')}</Button>
                     </Grid>
                 </Grid>);
             case 1:
+                return (
+                    <Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
+                        <Grid item xs={4} className={classes.row}>
+                            <span className={classes.label}>
+                                {this.getLabel('verification-code')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={8} className={classes.row} >
+                            <TextField className={classes.textField}
+                                value={verificationCode}
+                                onChange={(event) => {
+                                    this.setState({ verificationCode: event.target.value });
+                                }}
+                                InputProps={{
+                                    disableUnderline: true,
+
+                                }}></TextField>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <List>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <Email />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={this.getLabel('email-has-sent')} secondary="" />
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <Error />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={this.getLabel('not-get-email')} secondary={this.getLabel('check-in-spam')} />
+                                </ListItem>
+                            </List>
+                        </Grid>
+                        <Grid item xs={6} className={classes.row}>
+                            <Button variant="contained" color="default"
+                                onClick={() => { this.setState({ activeStep: 0 }) }}
+                                className={classes.backButton}>{this.getLabel('back-label')}</Button>
+                        </Grid>
+                        <Grid item xs={6} className={classes.row}>
+                            <Button variant="contained"
+                                disabled={verificationCode.length === 0}
+                                onClick={this.verifyEmailWithCode.bind(this)}
+                                className={classes.nextButton}>{this.getLabel('next-step')}</Button>
+                        </Grid>
+                    </Grid>
+                );
+            case 2:
                 return (
                     <Grid container>
                         <Grid item xs={12} className={classes.resultRow}>
@@ -418,9 +521,10 @@ export class VerifyEmail extends Component {
                 );
         }
     }
+
     render() {
         const { classes } = this.props;
-        const { activeStep} = this.state;
+        const { activeStep } = this.state;
 
         return (
             <div className={classes.root}>
@@ -434,6 +538,9 @@ export class VerifyEmail extends Component {
                         <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                             <Step key={this.getLabel('email-verification')}>
                                 <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('email-verification')}</StepLabel>
+                            </Step>
+                            <Step key={this.getLabel('enter-verification-code')}>
+                                <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('enter-verification-code')}</StepLabel>
                             </Step>
                             <Step key={this.getLabel('set-successfully')}>
                                 <StepLabel StepIconComponent={customStepIcon}>{this.getLabel('set-successfully')}</StepLabel>

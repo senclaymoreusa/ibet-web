@@ -225,7 +225,7 @@ export const messages = {
         'phone-settings': 'Phone Settings',
         'set-successfully': 'Set Successfully',
         'verification-code': 'Verification Code',
-        'send-verification-code': 'Send Verification Code',
+        'send-code': 'Send Code',
         'only-three-code':
             'Only three verification codes can be sent each day!',
         'next-step': 'Next Step',
@@ -293,6 +293,14 @@ export const messages = {
         'actual-name': 'Actual Name',
         'id-number': 'ID Card Number',
         'verify-email': 'Verify Email',
+        'verify-phone': 'Verify Phone',
+        'verify-name-message': 'You have verified you id and name successfully.',
+        'enter-verification-code': 'Enter Verification Code',
+        'email-has-sent': 'The email has been sent to your email.',
+        'not-get-email': 'Haven\'t received the email?',
+        'check-in-spam': 'Please check if it is in spam. If you haven\'t recieved it, go back and resend it.',
+        'back-label':'Back',
+
 
 
 

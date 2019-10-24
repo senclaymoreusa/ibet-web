@@ -28,7 +28,18 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import { images } from '../../../../util_config';
-
+import Checkbox from '@material-ui/core/Checkbox';
+import Country_Info from '../../../../commons/country_info';
+import FormControl from '@material-ui/core/FormControl';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Phone from '@material-ui/icons/Phone';
+import Warning from '@material-ui/icons/Warning';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import Info from '@material-ui/icons/InfoOutlined';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -53,7 +64,7 @@ const styles = () => ({
         color: '#999'
     },
     title: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -63,6 +74,8 @@ const styles = () => ({
     },
     titleRow: {
         paddingBottom: 12,
+        textAlign: 'center',
+
     },
     row: {
         padding: 20,
@@ -72,15 +85,15 @@ const styles = () => ({
     },
     sendButton: {
         textTransform: 'capitalize',
-        fontSize: 12,
+        fontSize: 15,
         whiteSpace: 'nowrap',
         width: 140,
     },
-    nextButton: {
+    button: {
         textTransform: 'capitalize',
-        fontSize: 12,
+        fontSize: 15,
         whiteSpace: 'nowrap',
-        width: 240,
+        minWidth: 140,
         backgroundColor: '#4DA9DF',
         color: '#fff',
         "&:hover": {
@@ -117,6 +130,41 @@ const styles = () => ({
             border: 'solid 1px #717171',
         },
     },
+    phoneField: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 44,
+        marginLeft: 10,
+        width: 240,
+        paddingTop: 6,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderRadius: 4,
+        border: 'solid 1px #e4e4e4',
+        "&:hover": {
+            border: 'solid 1px #717171',
+        },
+        "&:focus": {
+            border: 'solid 1px #717171',
+        },
+    },
+    select: {
+        fontSize: 14,
+        paddingLeft: 5,
+        height: 44,
+        width: 70,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#212121',
+    },
     resultRow: {
         paddingTop: 40,
         display: 'flex',
@@ -133,6 +181,7 @@ const styles = () => ({
         whiteSpace: 'nowrap'
     }
 });
+
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -271,11 +320,12 @@ const BootstrapInput = withStyles(theme => ({
     },
     input: {
         borderRadius: 4,
+        height: 20,
         position: 'relative',
         backgroundColor: theme.palette.background.paper,
         border: '1px solid #ced4da',
         fontSize: 16,
-        padding: '10px 2px 10px 12px',
+        padding: '10px 2px 10px 6px',
         transition: theme.transitions.create(['border-color', 'box-shadow']),
 
         fontFamily: [
@@ -305,9 +355,14 @@ export class VerifyPhone extends Component {
 
         this.state = {
             activeStep: 0,
+            username: '',
+            phoneCode: '',
 
-            actualName: '',
-            idNumber: '',
+            phone: '',
+            newPhone: '',
+            verificationCode: '',
+
+            allCountryName: Country_Info['Country_Info'],
 
             showSnackbar: false,
             snackType: 'info',
@@ -325,6 +380,13 @@ export class VerifyPhone extends Component {
 
     async componentDidMount() {
 
+        axios.get('https://ipapi.co/json/')
+            .then(res => {
+                this.setState({
+                    phoneCode: res.data.country_calling_code
+                })
+            })
+
         this.props.authCheckState()
             .then(res => {
                 if (res === 1) {
@@ -336,56 +398,48 @@ export class VerifyPhone extends Component {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
-
-        // let currentComponent = this;
-
-        // axios.get(API_URL + 'users/api/security-question/', config)
-        //     .then(res => {
-        //         this.setState({ questionList: res.data });
-        //     }).catch(function (err) {
-        //         sendingLog(err);
-        //     });
-
-        // await axios.get(API_URL + 'users/api/user/', config)
-        //     .then(res => {
-        //         currentComponent.setState({ userId: res.data.pk });
-        //         currentComponent.setState({ securityQuestion: res.data.security_question });
-        //         axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
-        //             .then(res => {
-        //                 if (res.data.errorCode !== 105)
-        //                     this.setState({ securityQuestion: res.data.value });
-        //             }).catch(function (err) {
-        //                 sendingLog(err);
-        //             });
-        //     }).catch(function (err) {
-        //         sendingLog(err);
-        //     });
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ username: res.data.username });
+            }).catch(function (err) {
+                sendingLog(err);
+            });
     }
 
-     verifyActualName() {
-    //     let currentComponent = this;
+    phoneChanged(event) {
+        if (event.target.value.length === 0)
+            this.setState({ phone: event.target.value });
 
-    //     axios.post(API_URL + `users/api/user-security-question/`, {
-    //         question: currentComponent.state.securityQuestion,
-    //         answer: currentComponent.state.securityAnswer,
-    //         userId: currentComponent.state.userId
-    //     })
-    //         .then(res => {
-    //             if (res.status === 200) {
-    //                 if (res.data.code === 1) {
-    //                     this.setState({ snackType: 'success' });
-    //                     this.setState({ snackMessage: this.getLabel('security-question-set-success') });
-    //                     this.setState({ showSnackbar: true });
-    //                     this.setState({ activeStep: 2 });
-    //                 }
-    //             }
-    //         }).catch(function (err) {
-    //             sendingLog(err);
-    //             currentComponent.setState({ snackType: 'error' });
-    //             currentComponent.setState({ snackMessage: currentComponent.getLabel('security-question-set-error') });
-    //             currentComponent.setState({ showSnackbar: true });
-    //         });
-     }
+        if (event.target.value.match(/^[0-9\b]+$/)) {
+            this.setState({ phone: event.target.value });
+            this.setState({ phoneInvalid: false });
+        } else {
+            this.setState({ phoneInvalid: true });
+        }
+    }
+
+    verifyPhone() {
+        let currentComponent = this;
+
+        axios.post(API_URL + `users/api/verifyactivationcode/`, {
+            code: this.state.verificationCode,
+            username: this.state.username,
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({ snackType: 'success' });
+                    this.setState({ snackMessage: this.getLabel('verification-code-sent') });
+                    this.setState({ showSnackbar: true });
+                    this.setState({ activeStep: 1 });
+
+                }
+            }).catch(function (err) {
+                sendingLog(err);
+                currentComponent.setState({ snackType: 'error' });
+                currentComponent.setState({ snackMessage: currentComponent.getLabel('verification-code-error') });
+                currentComponent.setState({ showSnackbar: true });
+            });
+    }
 
     handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -395,54 +449,118 @@ export class VerifyPhone extends Component {
         this.setState({ showSnackbar: false });
     }
 
+    sendVerificationCode() {
+        axios.post(API_URL + `users/api/generateactivationcode/`, {
+            type: 'change_member_phone_num',
+            username: this.state.username,
+        })
+            .then(res => {
+                if (res.status === 201) {
+                    this.setState({ snackType: 'success' });
+                    this.setState({ snackMessage: this.getLabel('verification-code-sent') });
+                    this.setState({ showSnackbar: true });
+
+                } if (res.data === 104) {
+                    this.setState({ snackType: 'warning' });
+                    this.setState({ snackMessage: this.getLabel('reached-verification-limit') });
+                    this.setState({ showSnackbar: true });
+                }
+            }).catch(function (err) {
+                sendingLog(err);
+            });
+    }
+
     getStepContent() {
         const { classes } = this.props;
-        const { activeStep, actualName, idNumber } = this.state;
+        const { activeStep, phone, verificationCode } = this.state;
 
         switch (activeStep) {
             case 0:
-                return (<Grid container>
-                    <Grid item xs={2} className={classes.row} style={{ verticalAlign: 'middle' }}>
-                        <span className={classes.label} >
-                            {this.getLabel('actual-name')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={10} className={classes.row}>
-                        <TextField className={classes.textField}
-                            value={actualName}
-                            onChange={(event) => {
-                                this.setState({ actualName: event.target.value });
-                            }}
-                            InputProps={{
-                                disableUnderline: true,
+                return (
+                    <Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
+                        <Grid item xs={4} className={classes.row}>
+                            <span className={classes.label}>
+                                {this.getLabel('phone-number')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={8} className={classes.row} style={{ display: 'flex', flexDirection: 'row' }}>
+                            <FormControl >
+                                <Select
+                                    className={classes.select}
+                                    onClick={() => {
+                                        this.setState({ formOpen: !this.state.formOpen })
+                                    }}
+                                    value={this.state.phoneCode}
+                                    onChange={(event) => {
+                                        this.setState({ phoneCode: event.target.value });
+                                    }}
+                                    input={<BootstrapInput name="country" id="country-customized-select" />}
+                                >
+                                    {this.state.allCountryName.map(item => (
+                                        <MenuItem key={item.name} value={item.code} >
+                                            {
+                                                this.state.formOpen ?
+                                                    <div> {item.name} {item.code} </div>
+                                                    :
+                                                    <div> {item.code} </div>
+                                            }
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                value={phone}
+                                className={classes.phoneField}
+                                placeholder={this.getLabel('phone-number')}
+                                onChange={(event) => { this.phoneChanged(event) }}
+                                InputProps={{
+                                    disableUnderline: true,
+                                    startAdornment: (<InputAdornment position="start">
+                                        <Phone />
+                                    </InputAdornment>)
+                                }} />
+                        </Grid>
+                        <Grid item xs={4} className={classes.row}>
+                            <span className={classes.label}>
+                                {this.getLabel('verification-code')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={8} className={classes.row} style={{ display: 'flex', flexDirection: 'row' }}>
+                            <TextField className={classes.textField}
+                                style={{ width: 140 }}
+                                value={verificationCode}
+                                onChange={(event) => {
+                                    this.setState({ verificationCode: event.target.value });
+                                }}
+                                InputProps={{
+                                    disableUnderline: true,
 
-                            }}></TextField>
+                                }}></TextField>
+                            <Button variant="contained"
+                                color="default"
+                                onClick={this.sendVerificationCode.bind(this)}
+                                className={classes.sendButton}>{this.getLabel('send-code')}</Button>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row} >
+                            <List>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <Info />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={this.getLabel('only-three-code')} secondary="" />
+                                </ListItem>
+                            </List>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <Button variant="contained"
+                                disabled={verificationCode.length === 0}
+                                onClick={this.verifyPhone.bind(this)}
+                                className={classes.button}>{this.getLabel('next-step')}</Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={2} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('id-number')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={10} className={classes.row}>
-                        <TextField className={classes.textField}
-                            value={idNumber}
-                            onChange={(event) => {
-                                this.setState({ idNumber: event.target.value });
-                            }}
-                            InputProps={{
-                                disableUnderline: true,
-
-                            }}></TextField>
-                    </Grid>
-                    <Grid item xs={2} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={10} className={classes.row}>
-                        <Button variant="contained"
-                            disabled={actualName === '' || idNumber === ''}
-                            onClick={this.verifyActualName.bind(this)}
-                            className={classes.nextButton}>{this.getLabel('next-step')}</Button>
-                    </Grid>
-                </Grid>);
+                );
             case 1:
                 return (
                     <Grid container>
@@ -484,8 +602,10 @@ export class VerifyPhone extends Component {
                             </Step>
                         </Stepper>
                     </Grid>
+                    <Grid item xs={12} >
+                        {this.getStepContent()}
+                    </Grid>
                 </Grid>
-                {this.getStepContent()}
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',

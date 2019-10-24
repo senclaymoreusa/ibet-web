@@ -6,6 +6,9 @@ import { IntlProvider } from 'react-intl';
 import { messages } from './components/messages';
 import { getLanguage } from '../actions/language';
 
+import './css/global.css';
+
+
 class LetouApp extends Component {
     constructor(props) {
         super(props);

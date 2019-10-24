@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -9,7 +9,6 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { config } from '../../../../util_config';
-import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -24,13 +23,10 @@ import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import StepConnector from '@material-ui/core/StepConnector';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import { images } from '../../../../util_config';
 
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = () => ({
     root: {
@@ -53,16 +49,18 @@ const styles = () => ({
         color: '#999'
     },
     title: {
-        fontSize: 18,
-        fontWeight: 'normal',
+        fontSize: 20,
+        fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 1.29,
         letterSpacing: -0.24,
-        color: '#000',
+        color: '#212121',
     },
     titleRow: {
         paddingBottom: 12,
+        textAlign: 'center',
+
     },
     row: {
         padding: 20,
@@ -72,15 +70,14 @@ const styles = () => ({
     },
     sendButton: {
         textTransform: 'capitalize',
-        fontSize: 12,
+        fontSize: 15,
         whiteSpace: 'nowrap',
         width: 140,
     },
     nextButton: {
         textTransform: 'capitalize',
-        fontSize: 12,
+        fontSize: 15,
         whiteSpace: 'nowrap',
-        width: 240,
         backgroundColor: '#4DA9DF',
         color: '#fff',
         "&:hover": {
@@ -95,8 +92,6 @@ const styles = () => ({
         },
     },
     textField: {
-        width: 240,
-        marginRight: 20,
         fontSize: 12,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -263,40 +258,6 @@ LetouSnackbarContentWrapper.propTypes = {
     variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
 };
 
-const BootstrapInput = withStyles(theme => ({
-    root: {
-        'label + &': {
-            marginTop: theme.spacing(3),
-        },
-    },
-    input: {
-        borderRadius: 4,
-        position: 'relative',
-        backgroundColor: theme.palette.background.paper,
-        border: '1px solid #ced4da',
-        fontSize: 16,
-        padding: '10px 2px 10px 12px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-        '&:focus': {
-            borderRadius: 4,
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        },
-    },
-}))(InputBase);
 
 export class VerifyActualName extends Component {
 
@@ -335,57 +296,38 @@ export class VerifyActualName extends Component {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
-
-
-        // let currentComponent = this;
-
-        // axios.get(API_URL + 'users/api/security-question/', config)
-        //     .then(res => {
-        //         this.setState({ questionList: res.data });
-        //     }).catch(function (err) {
-        //         sendingLog(err);
-        //     });
-
-        // await axios.get(API_URL + 'users/api/user/', config)
-        //     .then(res => {
-        //         currentComponent.setState({ userId: res.data.pk });
-        //         currentComponent.setState({ securityQuestion: res.data.security_question });
-        //         axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
-        //             .then(res => {
-        //                 if (res.data.errorCode !== 105)
-        //                     this.setState({ securityQuestion: res.data.value });
-        //             }).catch(function (err) {
-        //                 sendingLog(err);
-        //             });
-        //     }).catch(function (err) {
-        //         sendingLog(err);
-        //     });
     }
 
-     verifyActualName() {
-    //     let currentComponent = this;
+    verifyActualName() {
 
-    //     axios.post(API_URL + `users/api/user-security-question/`, {
-    //         question: currentComponent.state.securityQuestion,
-    //         answer: currentComponent.state.securityAnswer,
-    //         userId: currentComponent.state.userId
-    //     })
-    //         .then(res => {
-    //             if (res.status === 200) {
-    //                 if (res.data.code === 1) {
-    //                     this.setState({ snackType: 'success' });
-    //                     this.setState({ snackMessage: this.getLabel('security-question-set-success') });
-    //                     this.setState({ showSnackbar: true });
-    //                     this.setState({ activeStep: 2 });
-    //                 }
-    //             }
-    //         }).catch(function (err) {
-    //             sendingLog(err);
-    //             currentComponent.setState({ snackType: 'error' });
-    //             currentComponent.setState({ snackMessage: currentComponent.getLabel('security-question-set-error') });
-    //             currentComponent.setState({ showSnackbar: true });
-    //         });
-     }
+        this.setState({ snackType: 'success' });
+        this.setState({ snackMessage: this.getLabel('verify-name-message') });
+        this.setState({ showSnackbar: true });
+        this.setState({ activeStep: 1 });
+
+        //     let currentComponent = this;
+
+        //     axios.post(API_URL + `users/api/user-security-question/`, {
+        //         question: currentComponent.state.securityQuestion,
+        //         answer: currentComponent.state.securityAnswer,
+        //         userId: currentComponent.state.userId
+        //     })
+        //         .then(res => {
+        //             if (res.status === 200) {
+        //                 if (res.data.code === 1) {
+        //                     this.setState({ snackType: 'success' });
+        //                     this.setState({ snackMessage: this.getLabel('security-question-set-success') });
+        //                     this.setState({ showSnackbar: true });
+        //                     this.setState({ activeStep: 2 });
+        //                 }
+        //             }
+        //         }).catch(function (err) {
+        //             sendingLog(err);
+        //             currentComponent.setState({ snackType: 'error' });
+        //             currentComponent.setState({ snackMessage: currentComponent.getLabel('security-question-set-error') });
+        //             currentComponent.setState({ showSnackbar: true });
+        //         });
+    }
 
     handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -401,13 +343,13 @@ export class VerifyActualName extends Component {
 
         switch (activeStep) {
             case 0:
-                return (<Grid container>
-                    <Grid item xs={2} className={classes.row} style={{ verticalAlign: 'middle' }}>
+                return (<Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
+                    <Grid item xs={4} className={classes.row} style={{ verticalAlign: 'middle' }}>
                         <span className={classes.label} >
                             {this.getLabel('actual-name')}
                         </span>
                     </Grid>
-                    <Grid item xs={10} className={classes.row}>
+                    <Grid item xs={8} className={classes.row}>
                         <TextField className={classes.textField}
                             value={actualName}
                             onChange={(event) => {
@@ -418,12 +360,12 @@ export class VerifyActualName extends Component {
 
                             }}></TextField>
                     </Grid>
-                    <Grid item xs={2} className={classes.row}>
+                    <Grid item xs={4} className={classes.row}>
                         <span className={classes.label}>
                             {this.getLabel('id-number')}
                         </span>
                     </Grid>
-                    <Grid item xs={10} className={classes.row}>
+                    <Grid item xs={8} className={classes.row}>
                         <TextField className={classes.textField}
                             value={idNumber}
                             onChange={(event) => {
@@ -434,9 +376,7 @@ export class VerifyActualName extends Component {
 
                             }}></TextField>
                     </Grid>
-                    <Grid item xs={2} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={10} className={classes.row}>
+                    <Grid item xs={12} className={classes.row}>
                         <Button variant="contained"
                             disabled={actualName === '' || idNumber === ''}
                             onClick={this.verifyActualName.bind(this)}
@@ -484,8 +424,10 @@ export class VerifyActualName extends Component {
                             </Step>
                         </Stepper>
                     </Grid>
+                    <Grid item xs={12} >
+                        {this.getStepContent()}
+                    </Grid>
                 </Grid>
-                {this.getStepContent()}
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',
