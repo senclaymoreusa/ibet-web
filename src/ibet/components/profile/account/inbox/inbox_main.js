@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, handle_inbox_value, sendingLog } from '../../../../../actions';
+import { authCheckState, handle_inbox_value, sendingLog, logout, postLogout } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 
 import { images, config } from '../../../../../util_config';
@@ -181,13 +181,11 @@ export class InboxMain extends Component {
             .then(res => {
                 axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
                     .then(res => {
-                        console.log(res);
-                        // res.data.forEach(msg => {
-                        //     item = {};
-                        //     item["content"] = msg;
-                        //     item["is_deleted"] = false;
-                        //     Message.append
-                        // });
+                        if (res.data.errorCode) {
+                            this.props.logout();
+                            postLogout();
+                            return;
+                        }
                         this.setState({Messages: res.data});
                     }).catch(err => {
                         // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
@@ -203,6 +201,12 @@ export class InboxMain extends Component {
     deleteClicked(id) {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
+                if (res.data.errorCode) {
+                    this.props.logout();
+                    postLogout();
+                    return;
+                }
+
                 if(res.status === 200) {
                     this.setState({ showMessage: true });
                     let filteredList = this.state.Messages.filter(item => item.pk !== id);
@@ -320,4 +324,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, handle_inbox_value })(InboxMain)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, handle_inbox_value, logout })(InboxMain)));
