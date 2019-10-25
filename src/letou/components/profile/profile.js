@@ -28,7 +28,7 @@ import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import Person from '@material-ui/icons/Person';
-import Smartphone from '@material-ui/icons/Smartphone';
+import Smartphone from '@material-ui/icons/PhoneAndroid';
 import Email from '@material-ui/icons/Email';
 
 

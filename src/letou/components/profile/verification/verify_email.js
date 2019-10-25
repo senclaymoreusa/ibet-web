@@ -35,6 +35,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Info from '@material-ui/icons/InfoOutlined';
+import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 
 const styles = () => ({
     root: {
@@ -466,7 +467,9 @@ export class VerifyEmail extends Component {
                                 }}
                                 InputProps={{
                                     disableUnderline: true,
-
+                                    startAdornment: (<InputAdornment position="start">
+                                        <PlaylistAddCheck />
+                                    </InputAdornment>)
                                 }}></TextField>
                         </Grid>
                         <Grid item xs={12} className={classes.row}>

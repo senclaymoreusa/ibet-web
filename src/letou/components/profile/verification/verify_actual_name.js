@@ -25,6 +25,9 @@ import { TextField } from '@material-ui/core';
 import StepConnector from '@material-ui/core/StepConnector';
 import InputBase from '@material-ui/core/InputBase';
 import { images } from '../../../../util_config';
+import AccountBox from '@material-ui/icons/AccountBox';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import PictureInPicture from '@material-ui/icons/PictureInPicture';
 
 
 
@@ -357,8 +360,10 @@ export class VerifyActualName extends Component {
                             }}
                             InputProps={{
                                 disableUnderline: true,
-
-                            }}></TextField>
+                                startAdornment: (<InputAdornment position="start">
+                                    <AccountBox />
+                                </InputAdornment>)
+                            }} ></TextField>
                     </Grid>
                     <Grid item xs={4} className={classes.row}>
                         <span className={classes.label}>
@@ -373,8 +378,10 @@ export class VerifyActualName extends Component {
                             }}
                             InputProps={{
                                 disableUnderline: true,
-
-                            }}></TextField>
+                                startAdornment: (<InputAdornment position="start">
+                                    < PictureInPicture/>
+                                </InputAdornment>)
+                            }} ></TextField>
                     </Grid>
                     <Grid item xs={12} className={classes.row}>
                         <Button variant="contained"

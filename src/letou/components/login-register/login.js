@@ -148,7 +148,7 @@ const styles = () => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#fe0000',
-      },
+    },
 });
 
 export class Login extends React.Component {
@@ -173,7 +173,7 @@ export class Login extends React.Component {
             wrongPasswordError: false,
             userBlocked: false,
 
-            errorMessage:''
+            errorMessage: ''
         };
 
 
@@ -237,7 +237,7 @@ export class Login extends React.Component {
                 }
             })
             .catch(err => {
-                this.setState({errorMessage : err});
+                this.setState({ errorMessage: err });
 
                 sendingLog(err);
             });
@@ -280,12 +280,11 @@ export class Login extends React.Component {
                                 className={classes.usernameText}
                                 placeholder={this.getLabel('user-name')}
                                 onChange={(event) => {
+                                    this.setState({ usernameFocused: true });
+
                                     this.setState({ username: event.target.value });
                                     this.setState({ usernameInvalid: event.target.value.length === 0 });
 
-                                }}
-                                onFocus={() => {
-                                    this.setState({ usernameFocused: true });
                                 }}
                                 error={this.state.usernameInvalid && this.state.usernameFocused}
                                 helperText={(this.state.usernameInvalid && this.state.usernameFocused) ? this.getLabel('enter-valid-username') : ' '}
@@ -302,12 +301,10 @@ export class Login extends React.Component {
                                 className={classes.passwordText}
                                 placeholder={this.getLabel('password-text')}
                                 onChange={(event) => {
+                                    this.setState({ passwordFocused: true });
+
                                     this.setState({ password: event.target.value });
                                     this.setState({ passwordInvalid: event.target.value.length === 0 });
-
-                                }}
-                                onFocus={() => {
-                                    this.setState({ passwordFocused: true });
                                 }}
                                 error={this.state.passwordInvalid && this.state.passwordFocused}
                                 helperText={(this.state.passwordInvalid && this.state.passwordFocused) ? this.getLabel('enter-password') : ' '}
@@ -342,8 +339,8 @@ export class Login extends React.Component {
                         </Grid>
                     </form>
                     {this.state.errorMessage.length > 0 && <Grid item xs={12} style={{ paddingTop: 10 }}>
-                    <span className={classes.errorText}>{this.state.errorMessage}</span>
-                  </Grid>}
+                        <span className={classes.errorText}>{this.state.errorMessage}</span>
+                    </Grid>}
                     <Grid item xs={12} style={{ paddingTop: 10, textAlign: 'center' }}>
                         <Button className={classes.forgotButton}
                             onClick={() => {

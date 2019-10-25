@@ -32,7 +32,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Country_Info from '../../../../commons/country_info';
 import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Phone from '@material-ui/icons/Phone';
+import Phone from '@material-ui/icons/PhoneAndroid';
 import Warning from '@material-ui/icons/Warning';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -40,6 +40,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Info from '@material-ui/icons/InfoOutlined';
+import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -534,7 +535,9 @@ export class VerifyPhone extends Component {
                                 }}
                                 InputProps={{
                                     disableUnderline: true,
-
+                                    startAdornment: (<InputAdornment position="start">
+                                        <PlaylistAddCheck />
+                                    </InputAdornment>)
                                 }}></TextField>
                             <Button variant="contained"
                                 color="default"
