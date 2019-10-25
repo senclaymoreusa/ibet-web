@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState, handle_inbox_value, sendingLog, logout, postLogout } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
-
+import { errors } from '../../../../../ibet/components/errors'
 import { images, config } from '../../../../../util_config';
 import axios from 'axios';
 
@@ -130,7 +130,7 @@ export class InboxDetail extends Component {
 
         axios.post(API_URL + 'operation/api/read_message/' + this.props.message.pk, config)
             .then(res => {
-                if (res.data.errorCode) {
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
                     this.props.logout();
                     postLogout();
                     return;
@@ -150,7 +150,7 @@ export class InboxDetail extends Component {
     deleteClicked(id) {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
-                if (res.data.errorCode) {
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
                     this.props.logout();
                     postLogout();
                     return;
