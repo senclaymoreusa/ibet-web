@@ -181,6 +181,7 @@ export class InboxMain extends Component {
             .then(res => {
                 axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
                     .then(res => {
+                        console.log(res);
                         // res.data.forEach(msg => {
                         //     item = {};
                         //     item["content"] = msg;
@@ -268,7 +269,7 @@ export class InboxMain extends Component {
                                         </IconButton>,
                                     ]}
                                 /></Snackbar>
-                                {this.state.Messages.forEach(item => {
+                                {this.state.Messages.map(item => {
                                     if(!item.is_deleted) {
                                         if(!item.is_read) {
                                             return(

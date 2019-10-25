@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, handle_inbox_value } from '../../../../../actions';
+import { authCheckState, handle_inbox_value, sendingLog } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 
 import { images, config } from '../../../../../util_config';
@@ -133,13 +133,8 @@ export class InboxDetail extends Component {
                 if(res.status === 201) {
                     this.props.handle_inbox_value(this.props.inbox - 1);
                 }
-                else if(res.status === 200) {
-
-                }
-                else {
-                    console.log("bad request");
-                }
-
+            }).catch(err => {
+                sendingLog(err);
             })
     }
 
@@ -153,6 +148,8 @@ export class InboxDetail extends Component {
                 if(res.status === 200) {
                     this.props.callbackFromParent('inbox', true);
                 }
+            }).catch(err => {
+                sendingLog(err);
             })
     }
 
