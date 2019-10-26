@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InputMask from 'react-input-mask';
-import { authCheckState ,sendingLog} from '../../../../../../actions';
+import { authCheckState ,sendingLog, logout, postLogout } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -408,6 +408,11 @@ class DepositAstropay extends Component {
         );
         console.log('result of deposit: ');
         console.log(res);
+        if(res.data.errorCode){
+            currentComponent.props.logout();
+            postLogout();
+            return;
+        }
         if (res.data.response_msg.slice(0, 5) === '1|1|1') {
             const body = JSON.stringify({
                 type: 'add',
@@ -739,7 +744,7 @@ export default withStyles(styles)(
     injectIntl(
         connect(
             mapStateToProps,
-            { authCheckState }
+            { authCheckState, logout }
         )(DepositAstropay)
     )
 );

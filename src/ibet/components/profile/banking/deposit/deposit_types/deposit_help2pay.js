@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -374,8 +374,13 @@ class DepositHelp2pay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            if (res.ok) {
+        
+            if (res.status == 200) {
                 return res.text();
+            }else if(res.status == 401){
+                currentComponent.props.logout();
+                postLogout();
+                return;
             }
 
             currentComponent.setState({ showLinearProgressBar: false });
@@ -385,6 +390,11 @@ class DepositHelp2pay extends Component {
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
+            if(data.errorCode){
+                currentComponent.props.logout();
+                postLogout();
+                return;
+            }
             let newwin = window.open('');
             newwin.document.write(data);
             var timer = setInterval(function () {
@@ -412,8 +422,11 @@ class DepositHelp2pay extends Component {
                         body: pd
 
                     }).then(function (res) {
+                        
                         return res.text();
+
                     }).then(function (data) {
+                        
                         //console.log(data)
 
                         currentComponent.setState({ showLinearProgressBar: false });
@@ -615,4 +628,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositHelp2pay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositHelp2pay)));

@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { LinearProgress, Grid, Button, Select, MenuItem, TextField, InputBase } from '@material-ui/core';
 import InputMask from 'react-input-mask';
 
-import { authCheckState,sendingLog } from '../../../../../../actions';
+import { authCheckState,sendingLog, logout, postLogout } from '../../../../../../actions';
 import { func } from 'prop-types';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -499,9 +499,14 @@ class DepositScratchCard extends Component {
             config).then(res => {
                 console.log("result of deposit: ");
                 console.log(res);
-
+                if(res.data.errorCode){
+                    currentComponent.props.logout();
+                    postLogout();
+                    return;
+                }
                 if (res.status === 200) {
                     console.log("nice!");
+                    
                     if (res.data.status === 6) {
                         this.setState({
                             receive_response: true,
@@ -724,7 +729,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositScratchCard)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositScratchCard)));
 // const Tester = React.memo(function(({classnames, ...props})) {
 //     <InputMask {...props}/>
 // </InputMask>

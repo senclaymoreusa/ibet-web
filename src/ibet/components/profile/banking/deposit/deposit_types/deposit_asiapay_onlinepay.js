@@ -12,7 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState, sendingLog  } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout  } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
@@ -337,9 +337,11 @@ class DepositAsiapayOnlinePay extends Component {
             body: formBody
         })
             .then(function(res) {
+                
                 if(res.status == 200){
                     return res.text();
-                }else{
+                }
+                else{
                     currentComponent.props.callbackFromParent("error", "Transaction failed.");
                     return res.text();
 
@@ -387,6 +389,11 @@ class DepositAsiapayOnlinePay extends Component {
                                 return res.json();
                             })
                             .then(function(data) {
+                                if(data.errorCode){
+                                    currentComponent.props.logout();
+                                    postLogout();
+                                    return;
+                                }
                                 //console.log(data.status);
                                 if (data.status === '001') {
                                     //alert('Transaction is approved.');
@@ -672,7 +679,7 @@ export default withStyles(styles)(
     injectIntl(
         connect(
             mapStateToProps,
-            { authCheckState }
+            { authCheckState, logout}
         )(DepositAsiapayOnlinePay)
     )
 );
