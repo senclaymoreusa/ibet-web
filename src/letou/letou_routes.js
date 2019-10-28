@@ -55,6 +55,7 @@ import  Lunpan  from './components/member/game_lunpan';
 import  Game21dian  from './components/member/game_21dian';
 
 import Profile from "./components/profile/profile"
+import  Iovation  from './components/iovation';
 
 
 
@@ -124,6 +125,7 @@ const BaseRouter = () => (
 
 
         <Route exact path="/p/:type?/:sub?" component={Profile} />
+        <Route exact path="/iovation" component={Iovation} />
 
     </div>
 );
