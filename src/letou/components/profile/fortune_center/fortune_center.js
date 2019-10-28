@@ -127,6 +127,11 @@ export class FortuneCenter extends Component {
     }
 
     componentDidMount() {
+        const { activeContent } = this.props;
+
+        if (activeContent)
+            this.setState({ contentValue: activeContent });
+
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
@@ -142,16 +147,17 @@ export class FortuneCenter extends Component {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
 
-        
+
         if (parts.length > 3) {
             if (parts[1].length > 0) {
                 this.setState({ contentValue: parts[3] })
             }
 
             this.setState({ activeTab: parts[3] })
-        } else
+        } else {
             this.setState({ contentValue: 'total-assets' })
-            this.setState({ activeTab: 'total-assets'})
+            this.setState({ activeTab: 'total-assets' })
+        }
     }
 
 
@@ -177,7 +183,7 @@ export class FortuneCenter extends Component {
 
     render() {
         const { classes } = this.props;
-        const { contentValue,activeTab } = this.state;
+        const { contentValue, activeTab } = this.state;
 
         return (
             <div className={classes.root}>

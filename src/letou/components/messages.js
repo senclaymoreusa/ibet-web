@@ -299,11 +299,18 @@ export const messages = {
         'email-has-sent': 'The email has been sent to your email.',
         'not-get-email': 'Haven\'t received the email?',
         'check-in-spam': 'Please check if it is in spam. If you haven\'t recieved it, go back and resend it.',
-        'back-label':'Back',
-
-
-
-
+        'back-label': 'Back',
+        'transfer-label': 'Transfer',
+        'select-transfer': 'Select Wallets to Transfer',
+        'transfer-to-main': 'Transfer All to Main Wallet',
+        'from-label': 'From',
+        'to-label': 'To',
+        'valid-amount': 'Please enter a valid amount.',
+        'main-wallet': 'Main Wallet',
+        'amount-label': 'Amount',
+        'next-label': 'Next',
+        'empty-wallet-message': 'You cannot sent money from an empty wallet!!',
+        'invalid-transfer-value': 'You cannot transfer an amount more than you have in you wallet!!'
     },
     zh: {
 
