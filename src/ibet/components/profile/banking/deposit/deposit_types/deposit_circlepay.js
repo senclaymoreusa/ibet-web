@@ -219,8 +219,7 @@ class DepositCirclepay extends Component {
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({ currencyValue: res.data.currency });
+            this.setState({ data: res.data, currencyValue: 'VND' });
         });
     }
 
@@ -230,11 +229,9 @@ class DepositCirclepay extends Component {
             parseInt(event.target.value) > 100000000 ||
             parseInt(event.target.value) < 20000
         ) {
-            this.setState({ amount: 0 });
-            this.setState({ amountInvalid: true });
+            this.setState({ amount: 0, amountInvalid: true });
         } else {
-            this.setState({ amount: event.target.value });
-            this.setState({ amountInvalid: false });
+            this.setState({ amount: event.target.value, amountInvalid: false });
         }
     };
 
@@ -253,8 +250,8 @@ class DepositCirclepay extends Component {
 
         currentComponent.setState({ showLinearProgressBar: true });
 
-        const { data: userData } = this.state;
-        const { amount } = this.state;
+        const { data: userData, amount } = this.state;
+
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -436,30 +433,6 @@ class DepositCirclepay extends Component {
                                             </Button>
                                         );
                                     })}
-                                    {/* <Button
-                                        className={classes.leftButton}
-                                        onClick={this.firstOptionClicked}
-                                    >
-                                        {this.state.firstOption}
-                                    </Button>
-                                    <Button
-                                        className={classes.middleButton}
-                                        onClick={this.secondOptionClicked}
-                                    >
-                                        {this.state.secondOption}
-                                    </Button>
-                                    <Button
-                                        className={classes.middleButton}
-                                        onClick={this.thirdOptionClicked}
-                                    >
-                                        {this.state.thirdOption}
-                                    </Button>
-                                    <Button
-                                        className={classes.rightButton}
-                                        onClick={this.fourthOptionClicked}
-                                    >
-                                        {this.state.fourthOption}
-                                    </Button> */}
                                 </Grid>
                                 <Grid
                                     item
@@ -489,7 +462,7 @@ class DepositCirclepay extends Component {
                                                 </InputAdornment>
                                             ),
                                             inputProps: {
-                                                step: 10,
+                                                step: 1000,
                                                 min: 20000,
                                                 max: 100000000
                                             }
