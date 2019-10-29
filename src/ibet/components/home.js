@@ -109,7 +109,12 @@ export class Home extends Component {
               window.open(Game_URL)
           })
       }else{
-        alert('You have to login to play this game')
+        var URL = API_URL + 'users/api/generatefakeusergameurl/?game=' + item.name
+          axios.get(URL, config)
+          .then(res => {
+              var Game_URL = res.data.game_url
+              window.open(Game_URL)
+          })
       }
     }else{
       window.open(item.game_url)
@@ -194,7 +199,7 @@ export class Home extends Component {
                     localStorage.setItem("recent-games", JSON.stringify(array));
 
                   }}>
-                    <span onClick={(e) => this.game_url(e, item)}> 
+                    <span style ={{cursor: 'pointer'}} onClick={(e) => this.game_url(e, item)}> 
 
                       {
                         <img src={item.image_url} height="220" width="300" alt='Not available' />
