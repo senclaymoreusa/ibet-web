@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -36,6 +36,11 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Info from '@material-ui/icons/InfoOutlined';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
+import axios from 'axios'
+import Divider from '@material-ui/core/Divider';
+
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = () => ({
     root: {
@@ -294,7 +299,7 @@ export class VerifyEmail extends Component {
 
         this.state = {
             activeStep: 0,
-
+            username: '',
             email: '',
             emailInvalid: true,
             emailFocused: false,
@@ -330,29 +335,14 @@ export class VerifyEmail extends Component {
         config.headers["Authorization"] = `Token ${token}`;
 
 
-        // let currentComponent = this;
+        let currentComponent = this;
 
-        // axios.get(API_URL + 'users/api/security-question/', config)
-        //     .then(res => {
-        //         this.setState({ questionList: res.data });
-        //     }).catch(function (err) {
-        //         sendingLog(err);
-        //     });
-
-        // await axios.get(API_URL + 'users/api/user/', config)
-        //     .then(res => {
-        //         currentComponent.setState({ userId: res.data.pk });
-        //         currentComponent.setState({ securityQuestion: res.data.security_question });
-        //         axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
-        //             .then(res => {
-        //                 if (res.data.errorCode !== 105)
-        //                     this.setState({ securityQuestion: res.data.value });
-        //             }).catch(function (err) {
-        //                 sendingLog(err);
-        //             });
-        //     }).catch(function (err) {
-        //         sendingLog(err);
-        //     });
+        await axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                currentComponent.setState({ username: res.data.username });
+            }).catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     sendVerificationCodeToEmail() {
@@ -409,17 +399,27 @@ export class VerifyEmail extends Component {
 
     getStepContent() {
         const { classes } = this.props;
-        const { activeStep, email, emailInvalid, verificationCode } = this.state;
+        const { activeStep, email, emailInvalid, verificationCode, username } = this.state;
 
         switch (activeStep) {
             case 0:
                 return (<Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
-                    <Grid item xs={2} className={classes.row} style={{ verticalAlign: 'middle' }}>
+                    <Grid item xs={3} className={classes.row} style={{ verticalAlign: 'middle' }}>
+                        <span className={classes.label} >
+                            {this.getLabel('user-name')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={9} className={classes.row}>
+                        <span className={classes.value} >
+                            {username}
+                        </span>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row} style={{ verticalAlign: 'middle' }}>
                         <span className={classes.label} >
                             {this.getLabel('email-label')}
                         </span>
                     </Grid>
-                    <Grid item xs={10} className={classes.row}>
+                    <Grid item xs={9} className={classes.row}>
                         <TextField className={classes.textField}
                             value={email}
                             onChange={(event) => { this.emailChanged(event) }}
@@ -440,7 +440,7 @@ export class VerifyEmail extends Component {
                                         <Info />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={this.getLabel('only-three-code')} secondary="" />
+                                <ListItemText primary={this.getLabel('make-sure-email-recieve')} secondary="" />
                             </ListItem>
                         </List>
                     </Grid>
@@ -513,12 +513,17 @@ export class VerifyEmail extends Component {
                             <span className={classes.successLabel} style={{ marginTop: 30 }}>
                                 {this.getLabel('good-job')}
                             </span>
-                            <span className={classes.title} style={{ marginTop: 50 }}>
-                                {this.getLabel('intimate-reminder')}
+                            <span className={classes.label} style={{ marginTop: 50 }}>
+                                {this.getLabel('email-verification-success-message')}
                             </span>
                             <span className={classes.label} style={{ marginTop: 30 }}>
-                                {this.getLabel('intimate-reminder-text')}
+                                {this.getLabel('email-verification-bonus-text')}
                             </span>
+                            <Button variant="contained" style={{marginTop:30, marginBottom:50}}
+                                onClick={() => { 
+                                    this.props.history.push('/p/fortune-center/deposit');
+                                 }}
+                                className={classes.nextButton}>{this.getLabel('deposit-immediately')}</Button> 
                         </Grid>
                     </Grid>
                 );

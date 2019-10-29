@@ -229,8 +229,7 @@ export const messages = {
         'only-three-code':
             'Only three verification codes can be sent each day!',
         'next-step': 'Next Step',
-        'verification-code-sent':
-            'The verification code has been sent.',
+        'verification-code-sent': 'The verification code has been sent.',
         'reset-password': 'Reset Password',
         'reset-label': 'Reset',
         'current-password': 'Current Password',
@@ -284,7 +283,8 @@ export const messages = {
         'security-question-set-success': 'Congratulations on your safety and your account is safer!',
 
         'intimate-reminder': 'Intimate Reminder',
-        'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
+        'intimate-reminder-text':
+            'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
         'register-succes': "Congratulations! You've successfully registered.",
         'name-verification': 'Name Verification',
         'phone-verification': 'Phone Verification',
@@ -297,11 +297,22 @@ export const messages = {
         'verify-name-message': 'You have verified you id and name successfully.',
         'enter-verification-code': 'Enter Verification Code',
         'email-has-sent': 'The email has been sent to your email.',
-        'not-get-email': 'Haven\'t received the email?',
-        'check-in-spam': 'Please check if it is in spam. If you haven\'t recieved it, go back and resend it.',
-        'back-label':'Back',
-
-
+        'not-get-email': "Haven't received the email?",
+        'check-in-spam':
+            "Please check if it is in spam. If you haven't recieved it, go back and resend it.",
+        'back-label': 'Back',
+        'make-sure-email-recieve': 'Make sure that the email address you enter will receive the activation email in order for the email to take effect.',
+        'email-verification-success-message':
+            'Congratulation, you account is much safety email setting success',
+        'email-verification-bonus-text':
+            'Remind you that if you deposit more than 1, 000 yuan, you can receive a verification bonus.',
+        'deposit-immediately': 'Deposit Immediately',
+        'email-verified': 'Email has been verified',
+        'phone-verified': 'Phone has been verified',
+        'name-verified': 'Actual name has been verified',
+        'verify-name-asap':'Please verify your actual name asap',
+        'verify-phone-asap':'Please verify your phone asap',
+        'verify-email-asap':'Please verify your email asap',
 
 
     },

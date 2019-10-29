@@ -7,7 +7,11 @@ import {
     AUTH_RESULT_FAIL,
     logout,
     postLogout,
+    sendingLog
 } from '../../../actions';
+import { config } from '../../../util_config';
+import clsx from 'clsx';
+
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
@@ -30,6 +34,10 @@ import Paper from '@material-ui/core/Paper';
 import Person from '@material-ui/icons/Person';
 import Smartphone from '@material-ui/icons/PhoneAndroid';
 import Email from '@material-ui/icons/Email';
+import Tooltip from '@material-ui/core/Tooltip';
+import axios from 'axios'
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
 const styles = theme => ({
@@ -82,6 +90,9 @@ const styles = theme => ({
     icon: {
         margin: theme.spacing(2),
     },
+    verifiedIcon: {
+        color: "#4DA9DF",
+    }
 });
 
 const StyledTabs = withStyles({
@@ -163,6 +174,10 @@ export class Profile extends Component {
             content: '',
             showProfileMenu: false,
             anchorEl: null,
+
+            emailVerified: false,
+            phoneVerified: true,
+            nameVerified: false,
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -198,6 +213,17 @@ export class Profile extends Component {
             }
         })
 
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ username: res.data.username });
+            }).catch(function (err) {
+                sendingLog(err);
+            });
+
+
         this.setState({ urlPath: this.props.history.location.pathname });
 
         this.setContent();
@@ -221,7 +247,7 @@ export class Profile extends Component {
 
     render() {
         const { classes } = this.props;
-        const { showProfileMenu, anchorEl } = this.state;
+        const { showProfileMenu, anchorEl, nameVerified, phoneVerified, emailVerified } = this.state;
 
         return (
             <div className={classes.root}>
@@ -265,7 +291,7 @@ export class Profile extends Component {
                         <StyledTab
                             label="Profile"
                             value="profile"
-                            onClick={(event) => {
+                            onMouseEnter={(event) => {
                                 this.setState({ anchorEl: event.target });
                                 this.setState({ showProfileMenu: true });
                             }}
@@ -294,30 +320,57 @@ export class Profile extends Component {
                     {({ TransitionProps }) => (
                         <Fade {...TransitionProps} timeout={350}>
                             <Paper>
-                                <IconButton className={classes.icon}
-                                    onClick={(event) => {
-                                        this.handleCategoryChange('account-management/verify-name');
-                                        this.setState({ anchorEl: null });
-                                        this.setState({ showProfileMenu: false });
-                                    }}>
-                                    <Person />
-                                </IconButton>
-                                <IconButton className={classes.icon}
-                                    onClick={(event) => {
-                                        this.handleCategoryChange('account-management/verify-phone');
-                                        this.setState({ anchorEl: null });
-                                        this.setState({ showProfileMenu: false });
-                                    }}>
-                                    <Smartphone />
-                                </IconButton>
-                                <IconButton className={classes.icon}
-                                    onClick={(event) => {
-                                        this.handleCategoryChange('account-management/verify-email');
-                                        this.setState({ anchorEl: null });
-                                        this.setState({ showProfileMenu: false });
-                                    }}>
-                                    <Email />
-                                </IconButton>
+                                <Tooltip title={
+                                    nameVerified ? this.getLabel('name-verified') : this.getLabel('verify-name-asap')
+                                }>
+                                    <IconButton className={clsx({
+                                        [classes.icon]: true,
+                                        [classes.verifiedIcon]: nameVerified
+                                    })}
+                                        onClick={() => {
+                                            if (!nameVerified) {
+                                                this.handleCategoryChange('account-management/verify-name');
+                                                this.setState({ anchorEl: null });
+                                                this.setState({ showProfileMenu: false });
+                                            }
+                                        }}>
+                                        <Person />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title={
+                                    phoneVerified ? this.getLabel('phone-verified') : this.getLabel('verify-phone-asap')
+                                } >
+                                    <IconButton className={clsx({
+                                        [classes.icon]: true,
+                                        [classes.verifiedIcon]: phoneVerified
+                                    })}
+                                        onClick={() => {
+                                            if (!phoneVerified) {
+                                                this.handleCategoryChange('account-management/verify-phone');
+                                                this.setState({ anchorEl: null });
+                                                this.setState({ showProfileMenu: false });
+                                            }
+                                        }}>
+                                        <Smartphone />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title={
+                                    emailVerified ? this.getLabel('email-verified') : this.getLabel('verify-email-asap')
+                                }>
+                                    <IconButton className={clsx({
+                                        [classes.icon]: true,
+                                        [classes.verifiedIcon]: emailVerified
+                                    })}
+                                        onClick={() => {
+                                            if (!emailVerified) {
+                                                this.handleCategoryChange('account-management/verify-email');
+                                                this.setState({ anchorEl: null });
+                                                this.setState({ showProfileMenu: false });
+                                            }
+                                        }}>
+                                        <Email />
+                                    </IconButton>
+                                </Tooltip>
                             </Paper>
                         </Fade>
                     )}
