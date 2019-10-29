@@ -202,7 +202,7 @@ export class InboxMain extends Component {
     deleteClicked(id) {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
-                if (res.data.errorCode == errors.USER_IS_BLOCKED) {
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
                     this.props.logout();
                     postLogout();
                     return;
