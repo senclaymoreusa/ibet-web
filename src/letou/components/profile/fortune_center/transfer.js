@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -26,6 +26,10 @@ import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import Snackbar from '@material-ui/core/Snackbar';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Dialog from '@material-ui/core/Dialog';
 
 const styles = () => ({
     root: {
@@ -145,8 +149,67 @@ const styles = () => ({
         // display: 'flex',
         // flexDirection: 'row',
         // justifyContent: 'center'
-    }
+    },
+    paper: {
+        width: '80%',
+        maxHeight: 435,
+    },
 });
+
+
+function ConfirmationDialogRaw(props) {
+    const { onClose, open, ...other } = props;
+     const radioGroupRef = React.useRef(null);
+
+
+    const handleEntering = () => {
+        if (radioGroupRef.current != null) {
+            radioGroupRef.current.focus();
+        }
+    };
+
+    const handleCancel = () => {
+        onClose();
+    };
+
+    const handleOk = () => {
+        onClose('ok');
+    };
+
+    return (
+        <Dialog
+            disableBackdropClick
+            disableEscapeKeyDown
+            maxWidth="xs"
+            onEntering={handleEntering}
+            aria-labelledby="confirmation-dialog-title"
+            open={open}
+            {...other}
+        >
+            <DialogTitle id="confirmation-dialog-title">
+                <FormattedMessage id='transfer-to-main' defaultMessage='Transfer All to Main Wallet' />
+            </DialogTitle>
+            <DialogContent dividers>
+           <FormattedMessage id='are-u-sure-transfer' defaultMessage='Are you sure?' />
+          
+            </DialogContent>
+            <DialogActions>
+                <Button autoFocus onClick={handleCancel} color="primary">
+                    <FormattedMessage id='cancel-label' defaultMessage='Cancel' />
+                </Button>
+                <Button onClick={handleOk} color="primary">
+                    <FormattedMessage id='ok-label' defaultMessage='OK' />
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+}
+
+ConfirmationDialogRaw.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+};
+
 
 const walletStyles = makeStyles(() => ({
     root: {
@@ -386,10 +449,12 @@ export class Transfer extends Component {
             showSnackbar: false,
             snackType: 'info',
             snackMessage: '',
+
+            showConfirmationDialog: false
         }
 
         this.handleWalletClick = this.handleWalletClick.bind(this);
-
+        this.sendAllToMainWallet = this.sendAllToMainWallet.bind(this);
     }
     componentDidMount() {
 
@@ -401,6 +466,7 @@ export class Transfer extends Component {
             )
         }));
     }
+    
     sendClicked() {
         var randomColor = require('randomcolor');
 
@@ -431,7 +497,7 @@ export class Transfer extends Component {
         this.setState({ amount: '', amountInvalid: false, amountFocused: false });
     }
 
-    sendAllToMainWallet(){
+    sendAllToMainWallet() {
         let amount = 0;
 
         this.state.walletObjs.forEach(wallet => {
@@ -492,9 +558,16 @@ export class Transfer extends Component {
         }
     }
 
+    closeConfirmationDialog = newValue => {
+        this.setState({ showConfirmationDialog: false });
+
+        if (newValue)
+            this.sendAllToMainWallet();
+    }
+
     render() {
         const { classes } = this.props;
-        const { from, to, amount, walletObjs } = this.state;
+        const { from, to, amount, walletObjs, showConfirmationDialog } = this.state;
 
         let mainWalletObj = walletObjs.filter(item => item.isMain === true)[0];
 
@@ -537,7 +610,9 @@ export class Transfer extends Component {
                         </Grid>
                         <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
                             <Button href="#text-buttons" className={classes.allButton}
-                            onClick={this.sendAllToMainWallet.bind(this)}>
+                                onClick={() => {
+                                     this.setState({showConfirmationDialog: true});
+                                }}>
                                 {this.getLabel('transfer-to-main')}
                             </Button>
                         </Grid>
@@ -635,6 +710,15 @@ export class Transfer extends Component {
                         message={this.state.snackMessage}
                     />
                 </Snackbar>
+                <ConfirmationDialogRaw
+                    classes={{
+                        paper: classes.paper,
+                    }}
+                    id="ringtone-menu"
+                    keepMounted
+                    open={showConfirmationDialog}
+                    onClose={this.closeConfirmationDialog.bind(this)}
+                />
             </div>
         );
     }

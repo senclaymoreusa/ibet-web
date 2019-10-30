@@ -310,7 +310,11 @@ export const messages = {
         'amount-label': 'Amount',
         'next-label': 'Next',
         'empty-wallet-message': 'You cannot sent money from an empty wallet!!',
-        'invalid-transfer-value': 'You cannot transfer an amount more than you have in you wallet!!'
+        'invalid-transfer-value': 'You cannot transfer an amount more than you have in you wallet!!',
+        'ok-label': 'OK',
+        'cancel-label': 'Cancel',
+        'are-u-sure-transfer':'You are about to transfer all amount of money in your varius wallets to your main wallet. Are you sure?',
+        
     },
     zh: {
 
