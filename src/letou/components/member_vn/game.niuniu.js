@@ -99,7 +99,7 @@ export class GameNiuniuVn extends React.Component {
                             <br /> Người chia bài sẽ cho bạn thấy “Lá bài đầu tiên” khi mỗi trận đấu bắt đầu. Theo thứ hạng của “Lá đầu tiên” quyết định
                             vị trí chia bài. (bắt đầu từ người chia bài theo ngược chiều kim đồng hồ)
                             <br />
-                            <img src="http://i.imgur.com/sJzs2gw.jpg" />
+                            <img src="http://i.imgur.com/sJzs2gw.jpg" alt="" />
                             <br />
                             <br /> Trình tự chia bài: Theo ngược chiều kim đồng hồ
                             <br />

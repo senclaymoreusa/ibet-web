@@ -97,19 +97,19 @@ export class GameRuleOneTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>Marvel Jackpot</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>5-10 ไลน์ที่เล่น</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a>15-20 ไลน์เดิมพัน</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
                                 <a>25+ Play-lines</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
                                 <a>Multi-Spin</a>
                             </li>
                         </ul>
@@ -117,7 +117,7 @@ export class GameRuleOneTh extends React.Component {
                     </div>
                    
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>Marvel Jackpot</h2>
                             <h1>กติกา</h1>
                             <p>-คุณสามารถเลือกสกุลเงิน (เหรียญ) ได้โดยคลิกปุ่มเพื่อเปลี่ยนสกุลเงินที่มุมล่างซ้ายของหน้าจอ.
@@ -193,7 +193,7 @@ export class GameRuleOneTh extends React.Component {
                                 <br />
                                 <br /> - สัญลักษณ์ Scatter เป็นข้อยกเว้นสำหรับกฎเหล่านี้ ข้อมูลเพิ่มเติมเกี่ยวกับสัญลักษณ์ Scatter สามารถดูได้ที่ด้านล่าง</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>5-10 Play-lines</h2>
                             <h1>กติกา</h1>
                             <p>-คุณสามารถเลือกสกุลเงิน (เหรียญ) ได้โดยคลิกปุ่มเพื่อเปลี่ยนสกุลเงินที่มุมล่างซ้ายของหน้าจอ.
@@ -268,7 +268,7 @@ export class GameRuleOneTh extends React.Component {
                                 <br />
                                 <br /> - สัญลักษณ์ Scatter เป็นข้อยกเว้นสำหรับกฎเหล่านี้ ข้อมูลเพิ่มเติมเกี่ยวกับสัญลักษณ์ Scatter สามารถดูได้ที่ด้านล่าง</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <h2>15-20 Play-lines</h2>
                             &nbsp;
                             <h1>กติกา</h1>
@@ -346,7 +346,7 @@ export class GameRuleOneTh extends React.Component {
                                 <br />
                                 <br /> - สัญลักษณ์ Scatter เป็นข้อยกเว้นสำหรับกฎเหล่านี้ ข้อมูลเพิ่มเติมเกี่ยวกับสัญลักษณ์ Scatter สามารถดูได้ที่ด้านล่าง</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <h2>25+ Play-lines</h2>
                             <h1>กติกา</h1>
                             <p>- คุณสามารถเลือกสกุลเงิน (เหรียญ) ได้โดยคลิกปุ่มเพื่อเปลี่ยนสกุลเงินที่มุมล่างซ้ายของหน้าจอ..
@@ -420,7 +420,7 @@ export class GameRuleOneTh extends React.Component {
                                 <br />
                                 <br /> - สัญลักษณ์ Scatter เป็นข้อยกเว้นสำหรับกฎเหล่านี้ ข้อมูลเพิ่มเติมเกี่ยวกับสัญลักษณ์ Scatter สามารถดูได้ที่ด้านล่าง</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                         <h2>Multi-Spin</h2>
                             &nbsp;
                             <h1>กติกา</h1>

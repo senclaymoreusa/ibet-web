@@ -109,20 +109,20 @@ export class Identity extends React.Component {
 
                         <p>正面清晰：</p>
                             
-                            <img src="http://i.imgur.com/3OJMHCO.jpg"></img>
+                            <img src="http://i.imgur.com/3OJMHCO.jpg" alt = ""></img>
                         <p>正面不清晰：</p>
                            
-                            <img src="http://i.imgur.com/GBZgmPI.jpg"></img>
+                            <img src="http://i.imgur.com/GBZgmPI.jpg" alt = ""></img>
                         
 
                         <p>背面清晰： </p>
                             
-                            <img src="http://i.imgur.com/m33bGbm.jpg"></img>
+                            <img src="http://i.imgur.com/m33bGbm.jpg" alt = ""></img>
                        
 
                         <p>背面不清晰：</p>
                            
-                            <img src="http://i.imgur.com/uuWYLSQ.jpg"></img>
+                            <img src="http://i.imgur.com/uuWYLSQ.jpg" alt = ""></img>
                         
                     </div>
                 </Grid>

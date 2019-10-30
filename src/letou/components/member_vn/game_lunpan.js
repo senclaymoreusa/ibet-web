@@ -96,17 +96,17 @@ export class LunpanVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>Asian Roulette</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>International Roulette</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>Roulette Châu Á </h2>
                             <p>- Đây là trò chơi kiểu Châu Âu bao gồm 1 số 0 Roulette. Có 37 ô số riêng biệt có màu trên bàn xoay. Bao gồm 1 ô số màu
                                 xanh và các ô số còn lại trong bàn xoay từ số 1 đến 36. Từ số 1 đến số 10 và từ 19 đến 28, các số chẵn màu đen và
@@ -143,7 +143,7 @@ export class LunpanVn extends React.Component {
                                 Và sau đó, nhấp vào “Sure” để xác nhận cược của bạn.
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>Roulette Quốc tế</h2>
                             <p>- Trò chơi này là theo phong cách Châu Âu, Roulette chỉ có một số 0. Có 37 ô màu và đánh số trên bánh xe. Có một ô màu xanh
                                 lá cây được đánh số 0 và các ô khác được đánh số từ 1 đến 36. Trong khoảng số từ 1 đến 10 và 19 đến 28, số lẻ là màu
@@ -164,7 +164,7 @@ export class LunpanVn extends React.Component {
   const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated: (token !== null && token !== undefined),
+        isAuthenticated: (token != null && token != undefined),
         error: state.auth.error,
         lang: state.language.lang,
         showAnnouncements: state.general.show_letou_announcements,

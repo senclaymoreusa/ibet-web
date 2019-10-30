@@ -96,10 +96,10 @@ export class LotteryRuleThreeTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>วิธีการเดิมพันล็อตเตอรี่</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>วิธีการเดิมพัน SSC</a>
                             </li>
                         </ul>
@@ -107,7 +107,7 @@ export class LotteryRuleThreeTh extends React.Component {
                     </div>
               
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>SSC</h2>
                             &nbsp;
                             <p>SSC คือ สลากกินแบ่ง โดยจะเป็นการสุ่มชุดของตัวเลข จากตัวเลขสามหลัก หรือ ตัวเลขห้าหลัก
@@ -129,7 +129,7 @@ export class LotteryRuleThreeTh extends React.Component {
                                 .
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>วิธีการเดิมพัน SSC</h2>
                             &nbsp;
                             <h1>1. Big/ Small</h1>

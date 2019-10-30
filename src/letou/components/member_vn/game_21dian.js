@@ -96,17 +96,17 @@ export class Game21dianVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>Blackjack</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>Crazy Blackjack</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2> Blackjack </h2>
                             &nbsp;
                             <p> Mục đích của Blackjack là đạt được số điểm cáo hơn người chia bài, nhưng không quá 21. Tốt nhất là Blackjack – khi tổng giá
@@ -196,7 +196,7 @@ export class Game21dianVn extends React.Component {
                                 2:3 để thanh toán cho người chơi
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2> Crazy Blackjack </h2>
                             &nbsp;
                             <p> Giống như mục đích của những trò chơi Blackjack khác, Người chơi Crazy Blackjack cần phải đánh bại người chia bài bằng cách

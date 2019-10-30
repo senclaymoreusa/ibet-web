@@ -96,10 +96,10 @@ export class LotteryRuleTwoTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>แนะนำคีโน</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>กติกา คีโน</a>
                             </li>
                         </ul>
@@ -107,7 +107,7 @@ export class LotteryRuleTwoTh extends React.Component {
                     </div>
                     {/* <!-- please only edit HelperCenterDetail's contain --> */}
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>คีโน</h2>
                              &nbsp;
                             <p>คีโนเป็นเกมการพนันที่มีการจับสลากหมายเลขมักเล่นที่คาสิโนสมัยใหม่และยังมีบริการเป็นเกมลอตเตอรี่บางชนิด ชุดของ บิลเดิมพันคีโน
@@ -129,7 +129,7 @@ export class LotteryRuleTwoTh extends React.Component {
                                 / ราคา / คู่; จำนวนรวมคี่ / คู่ / ด้านบน / ดร๊าฟ / ดาวน์; PB; B / S &amp; O / E Parlay; B / S lx / ห้าองค์ประกอบ; ผสม
                                 Parlay / ไม่สามารถผสม Parlay; Chase &amp; Redouble เมื่อเทียบกับชุดเดียวขององค์กรที่ออก คีโน.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>KENO กติกา</h2>
                             &nbsp;
                             <h1>1. ใหญ่/เล็ก</h1>

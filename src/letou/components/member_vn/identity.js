@@ -98,13 +98,13 @@ export class IdentityVn extends React.Component {
                         <p>&nbsp;</p>
                         <h2>Xóa bỏ hình ảnh xác nhận (sử dụng chứng minh nhân dân thứ hai)</h2>
                         <p>Rõ ràng (trước)：<br />
-                        <img src="http://i.imgur.com/3OJMHCO.jpg" /></p>
+                        <img src="http://i.imgur.com/3OJMHCO.jpg" alt="" /></p>
                         <p>Mờ (trước)：<br />
-                        <img src="http://i.imgur.com/GBZgmPI.jpg" /></p>
+                        <img src="http://i.imgur.com/GBZgmPI.jpg"alt="" /></p>
                         <p>Rõ ràng (sau):<br />
-                        <img src="http://i.imgur.com/m33bGbm.jpg" /></p>
+                        <img src="http://i.imgur.com/m33bGbm.jpg" alt=""/></p>
                         <p>Mờ (sau):<br />
-                        <img src="http://i.imgur.com/uuWYLSQ.jpg" /></p>
+                        <img src="http://i.imgur.com/uuWYLSQ.jpg"alt="" /></p>
                         
                     </div>
                 </Grid>

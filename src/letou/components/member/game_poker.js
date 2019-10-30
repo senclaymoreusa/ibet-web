@@ -91,7 +91,7 @@ export class GamePoker extends React.Component {
                             </li><li> - 游戏规则
                             </li><li> 牌局开始，闲家在时限内下注并决定是否加注：
                             </li><li>
-                            <img src="http://i.imgur.com/d4G3e4O.png"></img>
+                            <img src="http://i.imgur.com/d4G3e4O.png" alt=""></img>
                             </li><li>
                             </li><li> 摊牌后，闲家与庄家以自己的2张底牌加上桌面5张公牌，共7张牌中取最大的5张牌型组合决定胜负。
                             </li><li>
@@ -103,13 +103,13 @@ export class GamePoker extends React.Component {
                             </li><li> - 赔率表
                             </li><li> 不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以波音厅为例：
                             </li><li>
-                            <img src=" http://i.imgur.com/qX4wJpQ.png"></img>
+                            <img src=" http://i.imgur.com/qX4wJpQ.png" alt=""></img>
                             </li><li>
                             </li><li> - 获胜组合
                             </li><li>
-                            <img src=" http://i.imgur.com/NNAVms4.png"></img>
+                            <img src=" http://i.imgur.com/NNAVms4.png" alt=""></img>
                             </li><li>
-                            <img src="http://i.imgur.com/5n5iQi0.png"></img></li>
+                            <img src="http://i.imgur.com/5n5iQi0.png" alt=""></img></li>
                             </ul>
                         </p>
                     </div>

@@ -96,17 +96,17 @@ export class LunpanTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>บริการแก่สมาชิกใช้</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>กฎของคาสิโนสด</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>รูเล็ตเอเชีย</h2>
                             <p>- กฎของ ยุโรเปี้ยนรูเล็ตสามารถนำไปใช้กับเอเชียนรูเล็ตได้ โดยเป้าหมายของเกมคือการทำนายที่ลูกบอลว่าจะตกอยู่ที่ไหนบนวงล้อรูเล็ต
                                 ซึ่งวงล้อรูเล็ตจะประกอบด้วยหมายเลข 0 ถึงหมายเลข 36.
@@ -146,7 +146,7 @@ export class LunpanTh extends React.Component {
                                 <br/>
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                             <h2> รูเล็ตนานาชาติ</h2>
                             &nbsp;
                             <p>- เป้าหมายของเกมนี้คือการทำนายที่ลูกบอลว่าจะตกอยู่ที่ไหนบนวงล้อรูเล็ต ซึ่งวงล้อรูเล็ตจะประกอบด้วยหมายเลข 0 ถึงหมายเลข 36

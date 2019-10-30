@@ -115,9 +115,9 @@ export class GamePokerTh extends React.Component {
                             <br/>
                             <br/> - Winning Combination
                             <br/>
-                            <img src=" http://i.imgur.com/NNAVms4.png"></img>
+                            <img src=" http://i.imgur.com/NNAVms4.png" alt=""></img>
                             <br/>
-                            <img src="http://i.imgur.com/5n5iQi0.png"></img>
+                            <img src="http://i.imgur.com/5n5iQi0.png" alt=""></img>
                         </p>
                     </div>
 

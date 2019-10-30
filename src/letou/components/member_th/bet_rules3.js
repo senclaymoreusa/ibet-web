@@ -97,25 +97,25 @@ export class BetRuleThreeTh extends React.Component {
                   
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>แฮนดิแคปเอเชีย</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>ผลสกอร์ที่ถูกต้อง</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a>การนับผลชนะ</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
                                 <a>ครึ่งเวลา/เต็มเวลา</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
                                 <a>การชนะเดิมพันในเวลา</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
                                 <a>Next</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
                                 <a>ประตูจากผู้เล่น</a>
                             </li>
                         </ul>
@@ -123,7 +123,7 @@ export class BetRuleThreeTh extends React.Component {
                     </div>
 
                     <div id="HelperCenterDetail" >
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <p>แฮนดิแคปเอเชีย</p>
                             <p>แฮนดิแค็ปเอเชีย (รวมถึงการเดิมพันครึ่งแรก / ครึ่งหลัง)</p>
                             <p>มีสองทางเลือกสำหรับทีมที่บ้านและทีมเยือนหากการแข่งขันถูกเล่นที่สถานที่กลางทีมบ้านและทีมเยือนที่มีความแตกต่างบนหน้าจอแสดงผลเป็นพื้นฐาน
@@ -172,7 +172,7 @@ export class BetRuleThreeTh extends React.Component {
                                 <br /> - แพ้ 1 แต้ม - การเดิมพันทั้งหมดในการเลือกนี้ถือเป็นโมฆะและคืนให้กับลูกค้า
                                 <br /> - แพ้ 2 หรือมากกว่า - การเดิมพันทั้งหมดในการเลือกนี้เป็นผู้แพ้</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <p>Asian Total</p>
                             <p>Asian Total (รวมการเดิมพันครึ่งแรก / ครึ่งหลัง)</p>
                             <p>การเดิมพันจะเป็นโมฆะถ้าการแข่งขันถูกยกเลิก เล่น 90 นาทีเท่านั้นพิเศษเวลาและการลงโทษไม่นับ</p>
@@ -239,7 +239,7 @@ export class BetRuleThreeTh extends React.Component {
                                 <br /> หากมีสองเป้าหมายครึ่งหนึ่งของการเดิมพันจะชนะและครึ่งหนึ่งจะได้รับการส่งคืน
                                 <br /> เดิมพันแพ้ถ้ามี 3 ประตูขึ้นไปในการแข่งขัน</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <p>European Handicap</p>
                             <p>แฮนดิแคปยุโรป (รวมถึงการเดิมพันครึ่งแรก / ครึ่งหลัง)</p>
                             <p>มีสามทางเลือกสำหรับทีมที่บ้านเสมอและทีมเยือนถ้าการแข่งขันถูกเล่นในสถานที่ที่เป็นกลางทีมบ้านและทีมเยือนที่มีความแตกต่างบนจอแสดงผลเป็นพื้นฐาน
@@ -352,7 +352,7 @@ export class BetRuleThreeTh extends React.Component {
                                 <br /> ผลการแข่งขัน 0: 2 - 2: 2, การเดิมพัน, การเดิมพัน
                                 <br /> ผลการแข่งขัน 0: 3 - 2: 3, แพ้ทีมในบ้าน, เดิมพันที่จะชนะ</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <p>ตลาดทั่วไป</p>
                             <p>โอกาสคู่ (รวมเงินเดิมพันครึ่งแรก / ครึ่งหลัง)</p>
                             <p>ทายผลสุดท้ายด้วยโอกาสคู่ สามารถเลือกเดิมพันได้:</p>
@@ -480,7 +480,7 @@ export class BetRuleThreeTh extends React.Component {
                             <p>X: ถ้าทั้งสองทีมเสมอกันเดิมพันตัวเลือกจะชนะ</p>
                             <p>2: ถ้าทีมเยือนชนะเดิมพันตัวเลือกจะชนะ</p>
                             </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                         <p>ตลาดการเตะมุม</p>
                             <p>เตะมุมรวม (รวมเดิมพันครึ่งแรก)</p>
                             <p>มุมรวมหมายถึงการเดิมพันที่กำหนดโดยจำนวนรวมของมุมในผลสุดท้ายของการแข่งขัน เล่น 90 นาทีเท่านั้นไม่มีเวลาเพิ่มพิเศษ ถ้ามุมรวมมากกว่าเส้นแบ่งเหนือ
@@ -540,7 +540,7 @@ export class BetRuleThreeTh extends React.Component {
                                 <br /> -Draw - การเดิมพันทั้งหมดในการเลือกนี้เป็นผู้ชนะ
                                 <br /> - แพ้ 3 หรือมากกว่า - การเดิมพันทั้งหมดในการเลือกนี้เป็นผู้แพ้</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                         <p>ตลาดการโดนใบเหลือง-แดง</p>
                             <p>จำนวนรวมของการโดนใบเหลือง-แดง (รวมการเดิมพันครึ่งแรก)</p>
                             <p>การเดิมพันที่กำหนดโดยจำนวนการจองในผลสุดท้ายของการแข่งขัน หากผลรวมเกินกว่าเส้นสูงกว่า / ต่ำกว่าเส้นที่กำหนดไว้แล้วผลที่ชนะจะจบลง
@@ -577,7 +577,7 @@ export class BetRuleThreeTh extends React.Component {
                                 การเดิมพันครึ่งแรกจะพิจารณาจากผลของครึ่งแรก
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                         <p>ตลาดในการเล่น</p>
                             <p>ในการเล่น - 3-way (เฉพาะ OT เท่านั้น)</p>
                             <p>1X2 (3way), เดิมพันที่ทีมชนะ การเดิมพันมีเฉพาะการทำงานล่วงเวลาเท่านั้น</p>

@@ -160,7 +160,7 @@ export class BetRuleFourTh extends React.Component {
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail" >
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <p>เทนนิส</p>
                             <p>สำคัญ</p>
                             <p>※กรณีเกษียณอายุและเดินผ่านผู้เล่นคนใด ๆ ที่ยังไม่ได้ลงเดิมพันถือเป็นโมฆะ
@@ -211,7 +211,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> คาดการณ์เกมสุดท้ายของทีม หากเกมมากกว่าเส้นแสดงโอเวอร์ / ภายใต้เส้นที่กำหนดไว้ล่วงหน้าผลลัพธ์ที่ได้จะสิ้นสุดลง
                                 ถ้าเกมนี้มีค่าน้อยกว่าเส้นแสดงการเปิด / ต่ำที่กำหนดไว้ล่วงหน้าผลชนะจะเป็น ต่ำ</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <p>บาสเกตบอล</p>
                             <p>สำคัญ</p>
                             <p>※ตลาดไม่พิจารณาการทำงานล่วงเวลายกเว้นที่ระบุไว้เป็นอย่างอื่น</p>
@@ -281,7 +281,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> เดิมพันชนะทีม:
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <p>อเมริกันฟุตบอล</p>
                             <p>สำคัญ</p>
                             <p>※ในกรณีที่มีความล่าช้า (ฝนตกมืด) ตลาดทั้งหมดยังคงมีปัญหาและการซื้อขายจะดำเนินต่อไปทันทีที่การแข่งขันยังคงดำเนินต่อไป</p>
@@ -342,7 +342,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> In-Play - ส่วนต่างที่ได้รับจากการเล่นฟุตบอลอเมริกันรวมทั้งการทำงานล่วงเวลา
                                 <br /> เมื่อจบเกมคะแนนของทีมในบ้านโดยหักคะแนนจากทีมเยือน เดิมพันนี้มีการทำงานล่วงเวลา สามารถเลือกเดิมพันได้</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <p>ฮอคกี้น้ำแข็ง</p>
                             <p>สำคัญ</p>
                             <p>※ทุกตลาด (ยกเว้นช่วงเวลาล่วงเวลาและตลาดยิงปืน) ถือเป็นเวลาปกติยกเว้นกรณีที่มีการกล่าวถึงในตลาด</p>
@@ -457,7 +457,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> In-Play - ทีมใดจะชนะการยิงลูกโทษ
                                 <br /> เดิมพันทีมที่ชนะการลงโทษ สามารถเดิมพันตัวเลือกคือทีมบ้านทีมเยือน</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                         <p>กีฬาเบสบอล</p>
                             <p>สำคัญ</p>
                             <p>※โอกาสพิเศษที่เป็นไปได้จะไม่ได้รับการพิจารณาในตลาดใด ๆ ยกเว้น "ใครเป็นผู้ชนะจุด X" และ "ทีมใดจะชนะการแข่งขันไปยัง
@@ -529,7 +529,7 @@ export class BetRuleFourTh extends React.Component {
                             <p>การเดิมพันทั้งหมดในตลาดเอเชียแฮนดิแคปอิน - เพลย์จะตัดสินตามเส้นคะแนนสำหรับส่วนที่เหลือของเกมหลังจากที่เดิมพันถูกสังหารแล้วคะแนนใด
                                 ๆ ก่อนวางเดิมพันจะถูกละเว้นสำหรับการชำระบัญชี มีการนับคะแนนเพลย์ออฟ</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                         <p>แฮนด์บอล</p>
                             <p>สำคัญ</p>
                             <p>※ทุกตลาด (ยกเว้นช่วงพักครึ่งครึ่งแรกที่ทำแต้ม X และทีมใดจะชนะการแข่งขันไปยัง X แต้ม) ถือว่าเป็นเวลาปกติเท่านั้น</p>
@@ -602,7 +602,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> X คือ: 10,15,20,25 ... เป็นต้น
                                 <br /> ในตอนท้ายของเกมไม่มีทีมใดได้รับแต้ม X แต้มต่อจะถือว่าถูกยกเลิก</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                         <p>วอลเลย์บอล</p>
                             <p>สำคัญ</p>
                             <p>※ในกรณีที่การจับคู่ไม่เสร็จสิ้นการตลาดที่ยังไม่ตัดสินใจทั้งหมดถือเป็นโมฆะ</p>
@@ -647,7 +647,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> ในตอนท้ายของเกมไม่มีทีมใดได้รับแต้ม X แต้มต่อจะถือว่าถูกยกเลิก</p>
                         </div>
                         
-                        <div className="centerDetail" hidden={this.state.current != 8}>
+                        <div className="centerDetail" hidden={this.state.current !== 8}>
                         <p>วอลเลย์บอลชายหาด</p>
                             <p>สำคัญ</p>
                             <p>※ในกรณีที่การจับคู่ไม่เสร็จสิ้นตลาดที่ไม่มีการตัดสินใจทั้งหมดถือเป็นโมฆะ</p>
@@ -690,7 +690,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> X คือ: 10,15,20,25 ... เป็นต้น
                                 <br /> ในตอนท้ายของเกมไม่มีทีมใดได้รับแต้ม X แต้มต่อจะถือว่าถูกยกเลิก</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 9}>
+                        <div className="centerDetail" hidden={this.state.current !== 9}>
                         <p>ฟุตซอล</p>
                             <p>สำคัญ</p>
                             <p>※ทุกตลาด (ยกเว้นอีเกิ้ล, ครึ่งปีแรก, โอเวอร์ไทม์และการยิงลูกโทษ) เป็นระยะเวลาปกติเท่านั้น</p>
@@ -709,7 +709,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> เดิมพันทั้งหมดในตลาด Handicap In-Play ของเอเชียจะตัดสินตามเส้นคะแนนสำหรับส่วนที่เหลือของเกม / ครึ่งหลังการวางเดิมพันเดิมพันใด
                                 ๆ ก็ตามก่อนที่จะมีการวางเดิมพันจะถูกละเว้นเพื่อการชำระบัญชี</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 10}>
+                        <div className="centerDetail" hidden={this.state.current !== 10}>
                         <p>แบดมินตัน</p>
                             <p>สำคัญ</p>
                             <p>※ในกรณีที่การจับคู่ไม่เสร็จสิ้นการตลาดที่ยังไม่ตัดสินใจทั้งหมดถือเป็นโมฆะ</p>
@@ -719,7 +719,7 @@ export class BetRuleFourTh extends React.Component {
                             <p>※หากผู้เล่น / ทีมแสดงผลไม่ถูกต้องเราขอสงวนสิทธิ์ในการยกเลิกการเดิมพัน</p>
                             <p>※หากผู้เล่นเกษียณตลาดที่ยังไม่ตัดสินใจทั้งหมดถือเป็นโมฆะ</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 11}>
+                        <div className="centerDetail" hidden={this.state.current !== 11}>
                         <p>รักบี้ยูเนี่ยน &amp; ลีก</p>
                             <p>สำคัญ</p>
                             <p>※ทุกตลาด (ยกเว้นอีเกิ้ล, ครึ่งปีแรก, โอเวอร์ไทม์และการยิงลูกโทษ) เป็นระยะเวลาปกติเท่านั้น</p>
@@ -797,7 +797,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> วาดและใต้ - เดิมพันจะชนะหากผลการแข่งขันที่ได้รับในการวาดและเป้าหมายทั้งหมดอยู่ต่ำกว่าเส้นที่กำหนดไว้ล่วงหน้า
                                 <br /> บ้านและที่อยู่ต่ำกว่า - เดิมพันชนะหากทีมในบ้านชนะและประตูรวมต่ำกว่าเส้นที่กำหนดไว้ล่วงหน้า</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 12}>
+                        <div className="centerDetail" hidden={this.state.current !== 12}>
                             <p>สำคัญ</p>
                             <p>※ในกรณีที่การจับคู่ไม่เสร็จสิ้นการตลาดที่ยังไม่ตัดสินใจทั้งหมดถือเป็นโมฆะ</p>
                             <p>กฎการชำระบัญชีและการยกเลิก</p>
@@ -806,7 +806,7 @@ export class BetRuleFourTh extends React.Component {
                             <p>※หากการแข่งขันไม่สมบูรณ์ตลาดที่ยังไม่ตัดสินใจทั้งหมดถือเป็นโมฆะ</p>
                             <p>※ Bullseye นับเป็นสีแดงเช็คเอาท์</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 13}>
+                        <div className="centerDetail" hidden={this.state.current !== 13}>
                             <p>สนุ๊กเกอร์</p>
                             <p>สำคัญ</p>
                             <p>※ในกรณีที่ผู้เล่นเกษียณหรือถูกตัดสิทธิในตลาดที่ไม่มีการตัดสินใจทั้งหมดถือเป็นโมฆะ</p>
@@ -815,7 +815,7 @@ export class BetRuleFourTh extends React.Component {
                             <p>※หากผู้เล่น / ทีมแสดงผลไม่ถูกต้องเราขอสงวนสิทธิ์ในการยกเลิกการเดิมพัน</p>
                             <p>※หากการแข่งขันไม่สมบูรณ์ตลาดที่ยังไม่ตัดสินใจทั้งหมดถือเป็นโมฆะ</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 14}>
+                        <div className="centerDetail" hidden={this.state.current !== 14}>
                             <p>ปิงปอง</p>
                             <p>สำคัญ</p>
                             <p>※ในกรณีที่การจับคู่ไม่เสร็จสิ้นการตลาดที่ยังไม่ตัดสินใจทั้งหมดถือเป็นโมฆะ</p>
@@ -828,14 +828,14 @@ export class BetRuleFourTh extends React.Component {
                             <p>จำนวนเซ็ทจะเกินขีด จำกัด ของจำนวนที่กำหนด
                                 <br /> จำนวนคะแนนที่กำหนดไว้อย่างน้อยหนึ่งทีมมากกว่า 11 คะแนน</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 15}>
+                        <div className="centerDetail" hidden={this.state.current !== 15}>
                             <p>กอล์ฟ</p>
                             <p>สำคัญ</p>
                             <p>※การเดิมพันทั้งหมดเป็นไปตามผลของการแข่งขันกอล์ฟอย่างเป็นทางการเพื่อการตั้งถิ่นฐาน</p>
                             <p>※หากผู้เล่นไม่ได้มีส่วนร่วมในการแข่งขันหรือรอบที่ระบุผู้เล่นเดิมพันทั้งหมดจะเป็นโมฆะ หากนักกอล์ฟในทัวร์นาเม้นท์และทางออกที่เฉพาะเจาะจงเปลี่ยนหรือตัดสิทธิเดิมพันทั้งหมดจะหมดลง</p>
                             <p>※หากการแข่งขันหรือรอบที่เฉพาะเจาะจงเลื่อนออกไปหรือระงับการเดิมพันทั้งหมดจะมีผลภายใน 48 ชั่วโมงหลังจากสิ้นสุดการแข่งขัน</p>
                         </div>
-                        <div className="centerDetail"hidden={this.state.current != 16}>
+                        <div className="centerDetail"hidden={this.state.current !== 16}>
                         <p>สำคัญ</p>
                             <p>※ทุกตลาดไม่พิจารณา super overs ยกเว้นที่ระบุไว้เป็นอย่างอื่น
                                 <br /> ※การลงโทษไม่ได้รับการพิจารณาในตลาดใด ๆ ที่มีการส่งมอบหรือรับมอบสินค้า
@@ -895,7 +895,7 @@ export class BetRuleFourTh extends React.Component {
                             <p>ในการเล่น - การเลิกจ้างต่อไป (จับ / ไม่ถูกจับ)</p>
                             <p>ตัวเลือกที่ใช้ได้คือ: ติดและไม่ติด หากไม่มี wickets อื่นตกเดิมพันทั้งหมดจะเป็นโมฆะ</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 17}>
+                        <div className="centerDetail" hidden={this.state.current !== 17}>
                         <p>ฟุตบอลลีกเสมือนจริง (VFL)</p>
                             <p>วิธีการเล่น</p>
                             <p>VFL ให้ประสบการณ์การพนันเงินจริง 24/7/365 กับฟุตบอลเสมือนจริง ลีกประกอบด้วย 16 ทีมและฤดูกาลทำงานอย่างต่อเนื่อง แต่ละฤดูกาลประกอบด้วย
@@ -928,7 +928,7 @@ export class BetRuleFourTh extends React.Component {
                                 การจำลองการจับคู่เกิดขึ้นผ่านการผสมผสานของ Artificial Intelligence และเครื่องกำเนิดตัวเลขสุ่มแบบอิสระ ในเวลาเดียวกันพารามิเตอร์ประสิทธิภาพของผู้เล่น
                                 VFL จะขึ้นอยู่กับนักฟุตบอลอาชีพ (เช่นในแง่ของจำนวนเป้าหมายฟิตเนสสถิติการจับคู่แบบต่อเนื่อง ฯลฯ )</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 18}>
+                        <div className="centerDetail" hidden={this.state.current !== 18}>
                         <p>E-Sports</p>
                             <p>กฎทั่วไป</p>
                             <p>●กรณีที่มีผู้เล่นสองคนหรือทีมที่เล่นเกมหรือแผนที่หลายรายการเช่น "ดีที่สุด 3" และไม่เล่นเกมหรือแผนที่มากกว่าหนึ่งเกมเนื่องจากผลของการแข่งขันถูกตัดสินแล้วเดิมพันในเกมที่ไม่ได้เล่น
@@ -972,7 +972,7 @@ export class BetRuleFourTh extends React.Component {
                                 แห่ง) เพราะต้องทำลายหอคอยอย่างน้อยหนึ่งชั้น 3 และ สองอาคาร nexus ได้รับรางวัลเกมปกติจากตำแหน่งที่</p>
                             <p>​</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 19}>
+                        <div className="centerDetail" hidden={this.state.current !== 19}>
                         <p>DOTA2</p>
                             <p>●สำหรับการเดิมพันที่เกี่ยวข้องกับเสาอาคารที่ถูกทำลายทั้งหมดจะถูกนับว่าถูกทำลายโดยทีมของฝ่ายตรงข้ามแม้ว่าจะมีการตีครั้งสุดท้ายจากเหล่าสมุน
                                 <br /> ●สำหรับการวางเดิมพันที่เกี่ยวข้องกับค่ายทหารค่ายที่ถูกทำลายทั้งหมดจะถูกนับว่าถูกทำลายโดยทีมฝ่ายตรงข้ามแม้ว่าจะมีการตีครั้งสุดท้ายจากเหล่าสมุน
@@ -995,7 +995,7 @@ export class BetRuleFourTh extends React.Component {
                                 <br /> IV ตัวอย่างเช่นถ้าทีมที่ชนะได้ทำลายหอคอยชั้น 1 และอาคาร 1 ชั้นแล้วจะถือว่าได้ทำลายหอคอยอีก 3 แห่ง (รวมเจ็ดแห่ง)
                                 เพราะต้องทำลายหอคอยอย่างน้อยหนึ่งชั้น 3 และ สองอาคารโบราณที่ได้รับรางวัลเกมปกติจากตำแหน่งที่</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 20}>
+                        <div className="centerDetail" hidden={this.state.current !== 20}>
                             <p>Counter Strike: GO</p>
                             <p>●การเดิมพันแผนที่ส่วนใหญ่จะขึ้นอยู่กับจำนวนรอบที่กำหนด (โดยปกติจะดีที่สุด 30) ยกเว้นรอบพิเศษที่เล่นในกรณีที่มีการจับรางวัล
                                 อย่างไรก็ตามหากผู้ชนะในแผนที่ได้รับการคัดเลือกโดยไม่ได้เลือก "วาด" ระบบจะตัดสินผลประโยชน์ของผู้ชนะโดยรวมของแผนที่รวมถึงเวลาพิเศษหากเล่น

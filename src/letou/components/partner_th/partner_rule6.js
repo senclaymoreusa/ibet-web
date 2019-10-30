@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -98,13 +96,13 @@ export class MemberRuleSixTh extends React.Component {
                             <br /> ให้ความอุดมสมบูรณ์ของเกมจากแพลตฟอร์มที่แตกต่างกันทั้งหมด
                             <br />
                             <br />
-                            <img src="http://i.imgur.com/dUnTJ3C.png" /> 
-                            <img src="http://i.imgur.com/2E0DHdC.png" />
-                            <img src="http://i.imgur.com/VFe5GuY.png" />
+                            <img src="http://i.imgur.com/dUnTJ3C.png" alt=""/> 
+                            <img src="http://i.imgur.com/2E0DHdC.png" alt=""/>
+                            <img src="http://i.imgur.com/VFe5GuY.png" alt=""/>
                             <br />
-                            <img src="http://i.imgur.com/5bJpJZr.png" />
-                            <img src="http://i.imgur.com/ddSTWzD.png" />
-                            <img src="http://i.imgur.com/IkaG8hp.png" />
+                            <img src="http://i.imgur.com/5bJpJZr.png" alt=""/>
+                            <img src="http://i.imgur.com/ddSTWzD.png" alt=""/>
+                            <img src="http://i.imgur.com/IkaG8hp.png" alt=""/>
                         </p>
                     </div>
 

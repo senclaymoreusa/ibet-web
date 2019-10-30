@@ -96,17 +96,17 @@ export class Game21dianTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>Blackjack21แต้ม</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>เครย์ซี่แบล็คแจ็ค</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>Blackjack</h2>
                             &nbsp;
                             <p>- เป้าหมายของแบล็คแจ๊คคือไพ่ทั้งหมดของคุณมีจำนวนเท่ากับ21แต้มหรือใกล้เคียงกับ 21 มากกว่าไพ่ของเจ้ามือ แต่ไม่เกิน 21แต้ม.
@@ -156,7 +156,7 @@ export class Game21dianTh extends React.Component {
                                 <br/>
                                 <br/> - ไพ่จะได้รับการแจกทีละใบต่อเทิร์นโดยเริ่มจากมือด้านขวาสุดและเคลื่อนที่ตามเข็มนาฬิกา เจ้ามือได้รับไพ่ทีหลังสุด เมื่อไพ่ถูกแจกแล้วแต่ละมือจะถูกเล่นแยกกันโดยเริ่มจากมือด้านขวาสุด</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>เครย์ซี่แบล็คแจ็ค</h2>
                             &nbsp;
                             <p>เครย์ซี่แบล็คแจ็ค มีกฎกติกาที่คล้ายกับแบล็คแจ็คแบบดั้งเดิม (Traditional Blackjack) ผู้เล่นจะเป็นผู้ชนะ แต่แต้มรวมของผู้เล่นมากกว่าไพ่ของเจ้ามือ

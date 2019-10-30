@@ -97,19 +97,19 @@ export class GameRuleOne extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>奇迹大奖</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>5-10条线</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a>15-20条线</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
                                 <a>25+条线</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
                                 <a>多旋转</a>
                             </li>
                         </ul>
@@ -117,7 +117,7 @@ export class GameRuleOne extends React.Component {
                     </div>
                    
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>奇迹大奖</h2>
                             &nbsp;
                             <h1>游戏玩法</h1>
@@ -173,7 +173,7 @@ export class GameRuleOne extends React.Component {
                                 <br />
                                 <br /> - 赢奖组合必须从最左边转轴开始，并且这些符号必须是连续的。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                             <h2>5-10条线</h2>
                             &nbsp;
                             <h1>游戏玩法</h1>
@@ -226,7 +226,7 @@ export class GameRuleOne extends React.Component {
                             &nbsp;
                             <p>- 赔率列在 “ 赔率表屏幕上。可能赢得的奖金金额计算方法：该赔付线赌注乘以赔率。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                             <h2>15-20条线</h2>
                             &nbsp;
                             <h1>游戏玩法</h1>
@@ -284,7 +284,7 @@ export class GameRuleOne extends React.Component {
                                 <br />
                                 <br /> - 赢奖组合必须从最左边转轴开始，并且这些符号必须是连续的。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                             <h2>25+条线</h2>
                             &nbsp;
                             <h1>游戏玩法</h1>
@@ -343,7 +343,7 @@ export class GameRuleOne extends React.Component {
                                 <br />
                                 <br /> - 赢奖组合必须从最左边转轴开始，并且这些符号必须是连续的。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                             <h2>多旋转</h2>
                             &nbsp;
                             <h1>游戏玩法</h1>

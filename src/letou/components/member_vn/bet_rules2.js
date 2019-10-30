@@ -97,17 +97,17 @@ export class BetRuleTwoVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>Điều khoản chung</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>Cược xiên</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>Những Điều Khoản Chung</h2>
                             <p>Cược Thắng (Outright)<br />
                             Cược Thắng (outright) nghĩa là đặt cược vào người thắng trong một trận thi đấu, một cuộc đua hoặc một cuộc đấu. Ví Dụ: Giải Liên Đoàn Bóng Đá hoặc Giải tranh cúp F1. Số vị trí chiến thắng sẽ được chỉ rõ trong tiêu đề của Thị trường. Nếu một đấu thủ/cầu thủ không bắt đầu một Sự kiện, cuộc đua hoặc trận đấu thì tất cả các khoản cược Thắng cho đấu thủ/cầu thủ đó sẽ vô hiệu trừ phi có quy định khác trong quy tắc cá cược thể thao cụ thể.. Thuật ngữ “Bất kỳ người chơi nào khác” hoặc “Bất kỳ đội nào khác sẽ ứng với tất cả các người/đội chơi chưa được nêu danh trong Thị trường.<br />
@@ -141,7 +141,7 @@ export class BetRuleTwoVn extends React.Component {
                             Tổng số bàn thắng là số lẻ hay chẵn, được xác định bằng tổng số kết quả bàn thắng chung cuộc của một giải đấu kể cả tổng số điểm ( tổng số bàn thắng, tổng số điểm,..) để xác định cược.<br />
                             Cược Lẻ và chẵn có nghĩa là đặt cược vào kết quả của hiệp đầu tiên và dựa vào điểm số của hiệp đầu tiên để quyết định. Nếu trận đấu bị hủy trong suốt hiệp đầu tiên, tất cả cược sẽ bị hủy. Nếu trận đấu bị hủy ở hiệp hai, tất cả cược tại Cược Hiệp Đầu Tiên sẽ có hiệu lực.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>Tùy chọn cược nhiều cược</h2>
                             <p>Người chơi có thể chọn bất kì khu vực để đăt cược xiên, tỷ lệ cược được nhân lên. Bạn không thể cược xiên với cùng trận đấu hoặc đối đầu trực tiếp.</p>
                             <div class="MarginBottom20 tableFontStyle">

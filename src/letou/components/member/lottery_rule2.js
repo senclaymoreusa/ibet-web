@@ -96,10 +96,10 @@ export class LotteryRuleTwo extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>快乐彩介绍</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>快乐彩规则</a>
                             </li>
                         </ul>
@@ -107,7 +107,7 @@ export class LotteryRuleTwo extends React.Component {
                     </div>
                     {/* <!-- please only edit HelperCenterDetail's contain --> */}
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>快乐彩</h2>
                             &nbsp;
                             <p>是依照北京、韩国、加拿大、澳洲、斯洛伐克、马耳他等国家或地区KENO的官方开奖结果所规划的游戏。由1至80的号码中随机摇出20个数字作为开奖号码，依这20个号码变化成各式不同的玩法，在根据猜中的号码个数或玩法可以获得不同等级的奖金。此游戏的开奖时间和相对应地区的KENO完全同步。
@@ -119,7 +119,7 @@ export class LotteryRuleTwo extends React.Component {
                                 <br /> LETOU的快乐彩（KENO）游戏是以北京、韩国、加拿大、澳洲、斯洛伐克、马耳他等各地区官方开奖号码为依据，对号码进行分类和组合，共有“大小”、“单双”、“奇偶”、“上下”、“五行”、“珠仔”和“大小单双过关”等七项，相对官方的单一玩法，LETOU的KENO游戏玩法更丰富，更高返奖更高赔率，中奖率更高，为LETOU用户提供更加刺激的体验。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                             <h2>快乐彩玩法與交易規則</h2>
                             &nbsp;
                             <h1>1.大小</h1>
