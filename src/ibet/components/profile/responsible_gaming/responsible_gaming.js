@@ -506,8 +506,8 @@ export class ResponsibleGaming extends Component {
                                 console.log(err);
                                 if (err.response.status === 403)
                                     this.setState({ isLocked: true });
-                                    sendingLog(err);
-                                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                                sendingLog(err);
+                                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                             })
                     })
             }
@@ -516,6 +516,9 @@ export class ResponsibleGaming extends Component {
 
     getActivityCheckValue() {
         let reminderText = localStorage.getItem('activityCheckReminder');
+        console.log('bu reminder text: '+reminderText);
+
+        let currentComponent = this;
 
         if (reminderText) {
             let reminderData = JSON.parse(reminderText);
@@ -532,26 +535,25 @@ export class ResponsibleGaming extends Component {
 
                             return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
                         }).then(res => {
-                            switch (res.data) {
+                            switch (res.data.activityOpt) {
                                 case 0:
-                                    this.setState({ activityReminderDuration: 5 })
+                                    currentComponent.setState({ activityReminderDuration: 5 })
                                     break;
                                 case 1:
-                                    this.setState({ activityReminderDuration: 30 })
+                                    currentComponent.setState({ activityReminderDuration: 30 })
                                     break;
                                 case 2:
-                                    this.setState({ activityReminderDuration: 60 })
+                                    currentComponent.setState({ activityReminderDuration: 60 })
                                     break;
-                                case 120:
-                                    this.setState({ activityReminderDuration: 120 })
+                                case 3:
+                                    currentComponent.setState({ activityReminderDuration: 120 })
                                     break;
                                 default:
-                                    this.setState({ activityReminderDuration: 60 })
+                                    currentComponent.setState({ activityReminderDuration: 60 })
                             }
                         }).catch(err => {
                             console.log(err);
                             sendingLog(err);
-                            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                         })
                 }
             })
@@ -621,7 +623,7 @@ export class ResponsibleGaming extends Component {
                     currentLossLimit: val,
                 };
             });
-        }     
+        }
     }
 
     depositLimitDurationClicked(val) {
@@ -943,6 +945,7 @@ export class ResponsibleGaming extends Component {
 
     saveActivityReminderClicked() {
         let duration = 2;
+        let currentComponent = this;
 
         switch (this.state.activityReminderDuration) {
             case 5:
@@ -970,15 +973,18 @@ export class ResponsibleGaming extends Component {
         }, config)
             .then(res => {
                 var reminderData = {
-                    "userId": this.state.userId,
+                    "userId": currentComponent.state.userId,
                     "startTime": new Date(),
-                    "duration": duration
+                    "duration": currentComponent.state.activityReminderDuration
                 }
+
+                localStorage.removeItem('activityCheckReminder');
+                console.log('save methodu icinde reminder text silindi');
 
                 localStorage.setItem('activityCheckReminder', JSON.stringify(reminderData));
 
-                this.setState({ messageText: "You have set your reminder." });
-                this.setState({ showMessage: true });
+                currentComponent.setState({ messageText: "You have set your reminder." });
+                currentComponent.setState({ showMessage: true });
             })
     }
 

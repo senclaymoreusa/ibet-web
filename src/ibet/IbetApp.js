@@ -46,6 +46,7 @@ class IbetApp extends Component {
         this.props.getLanguage();
         this.setState({ inbox: 0 });
 
+        this.checkIfReminderTime();
         setInterval(() => this.checkIfReminderTime(), 1000);
     }
 
@@ -64,7 +65,7 @@ class IbetApp extends Component {
 
     checkIfReminderTime() {
         var reminderText = localStorage.getItem('activityCheckReminder');
-
+        
         if (reminderText) {
             var reminderData = JSON.parse(reminderText);
 
@@ -89,10 +90,8 @@ class IbetApp extends Component {
     }
 
     setActivityReminder() {
-        let currentComponent = this;
-
         let reminderData = {
-            userId: currentComponent.state.userId,
+            userId: this.state.userId,
             startTime: new Date(),
             duration: 60
         };
@@ -112,7 +111,8 @@ class IbetApp extends Component {
                 );
             })
             .then(res => {
-                switch (res.data) {
+               
+                switch (res.data.activityOpt) {
                     case 0:
                         reminderData.duration = 5;
                         break;
@@ -122,7 +122,7 @@ class IbetApp extends Component {
                     case 2:
                         reminderData.duration = 60;
                         break;
-                    case 120:
+                    case 3:
                         reminderData.duration = 120;
                         break;
                     default:

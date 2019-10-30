@@ -219,6 +219,7 @@ export const logout = () => {
     localStorage.removeItem('facebookObj');
 
     localStorage.removeItem('activityCheckReminder');
+
     return {
         type: 'AUTH_LOGOUT'
     };
