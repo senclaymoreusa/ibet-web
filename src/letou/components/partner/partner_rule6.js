@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -96,13 +94,13 @@ export class MemberRuleSix extends React.Component {
                             <br /> 提供业内所有优质游戏平台，精彩时光，瞬间开启。
                             <br />
                             <br />
-                            <img src="http://i.imgur.com/dUnTJ3C.png"></img>
-                            <img src="http://i.imgur.com/2E0DHdC.png"></img>
-                            <img src="http://i.imgur.com/VFe5GuY.png"></img>
+                            <img src="http://i.imgur.com/dUnTJ3C.png" alt=""></img>
+                            <img src="http://i.imgur.com/2E0DHdC.png" alt=""></img>
+                            <img src="http://i.imgur.com/VFe5GuY.png" alt=""> </img>
                             <br />
-                            <img src="http://i.imgur.com/5bJpJZr.png"></img>
-                            <img src="http://i.imgur.com/ddSTWzD.png"></img>
-                            <img src="http://i.imgur.com/IkaG8hp.png"></img>
+                            <img src="http://i.imgur.com/5bJpJZr.png" alt=""></img>
+                            <img src="http://i.imgur.com/ddSTWzD.png" alt=""></img>
+                            <img src="http://i.imgur.com/IkaG8hp.png" alt=""></img>
                         </p>
                     </div>
 

@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -98,37 +96,37 @@ export class LotteryRuleOne extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
                                 <a>名词解释</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
                                 <a>香港六合彩</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
                                 <a>新加坡多多</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
                                 <a>中国七乐彩</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
                                 <a>新西兰乐透</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
                                 <a>德国乐透</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
                                 <a>英国国家乐透</a>
                             </li>
-                            <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
+                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
                                 <a>西班牙乐透</a>
                             </li>
-                            <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
+                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
                                 <a>南非国家乐透</a>
                             </li>
-                            <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
+                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
                                 <a>加拿大乐透</a>
                             </li>
-                            <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
+                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
                                 <a>美国纽约乐透</a>
                             </li>
                         </ul>

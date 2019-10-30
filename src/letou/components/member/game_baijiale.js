@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -98,40 +96,40 @@ export class Baijiale extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>免佣百家乐</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>传统百家乐</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a>超级百家乐</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
                                 <a>对子百家乐</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
                                 <a>14座甩牌百家乐</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
                                 <a>经典百家乐</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
                                 <a>包桌百家乐</a>
                             </li>
-                            <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
+                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
                                 <a>竞咪百家乐</a>
                             </li>
-                            <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
+                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
                                 <a>连环百家乐</a>
                             </li>
-                            <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
+                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
                                 <a>龙宝百家乐</a>
                             </li>
-                            <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
+                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
                                 <a>Playboy百家乐</a>
                             </li>
-                            <li className={this.state.current == 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
+                            <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
                                 <a>免佣点数百家乐</a>
                             </li>
                         </ul>
