@@ -244,6 +244,7 @@ export const authCheckState = () => {
             );
             if (expirationDate <= new Date()) {
                 dispatch(logout());
+                postLogout();
                 return Promise.resolve(AUTH_RESULT_FAIL);
             } else {
                 config.headers['Authorization'] = `Token ${token}`;
@@ -255,9 +256,11 @@ export const authCheckState = () => {
                             if (userStatus.data.errorCode === errors.USER_IS_BLOCKED) {
                                 dispatch(authFail(userStatus.errorMsg.detail[0]));
                                 dispatch(logout());
+                                postLogout();
                                 return Promise.resolve(AUTH_RESULT_FAIL);
                             } else if (res.data.block || !res.data.active) {
                                 dispatch(logout());
+                                postLogout();
                                 return Promise.resolve(AUTH_RESULT_FAIL);
                             } else {
                                 dispatch(authSuccess(token));
@@ -270,6 +273,7 @@ export const authCheckState = () => {
                     .catch(err => {
                         // dispatch(authFail(err.response.data.detail));
                         dispatch(logout());
+                        postLogout();
                         delete config.headers['Authorization'];
                         return Promise.resolve(AUTH_RESULT_FAIL);
                     });
