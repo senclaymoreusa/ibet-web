@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InputMask from 'react-input-mask';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout  } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -293,6 +293,11 @@ class DepositFgo extends Component {
         }).then(function (res) {
             return res.json();
         }).then(function (data) {
+            if(data.errorCode){
+                currentComponent.props.logout();
+                postLogout();
+                return;
+            }
             if (data.error_code === '00' && data.status === '0') {
                 currentComponent.props.callbackFromParent('error', data.message);
             } else if (data.error_code === '00' && data.status === '1') {
@@ -321,6 +326,11 @@ class DepositFgo extends Component {
 
             }
             // window.location.reload()
+        }).catch(function (err) {  
+            //console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
+            sendingLog(err);
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
@@ -493,4 +503,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositFgo)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositFgo)));
