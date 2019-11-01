@@ -429,7 +429,7 @@ class DepositCirclepay extends Component {
                                                     })
                                                 }
                                             >
-                                                {x}
+                                                {String(x / 1000) + 'K VND'}
                                             </Button>
                                         );
                                     })}
