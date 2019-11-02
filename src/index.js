@@ -25,10 +25,11 @@ addLocaleData(th);
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
 if (
-    window.location
-        .toString()
-        .toLowerCase()
-        .indexOf('asia') != -1 
+    // window.location
+    //     .toString()
+    //     .toLowerCase()
+    //     .indexOf('asia') != -1 
+    true
     
 ) {
     // console.log('using letou app');
