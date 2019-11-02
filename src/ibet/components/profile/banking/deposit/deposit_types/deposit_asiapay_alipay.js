@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog , logout, postLogout } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -309,6 +309,11 @@ class DepositAsiapayAlipay extends Component {
             })
             .then(function(data) {
                 //console.log(data);
+                if(data.errorCode){
+                    currentComponent.props.logout();
+                    postLogout();
+                    return;
+                }
                 let qrurl = data.qr;
                 //console.log(qrurl);
                 if (qrurl != null) {
@@ -413,7 +418,7 @@ class DepositAsiapayAlipay extends Component {
                     }else{
                         currentComponent.props.callbackFromParent(
                                                         'error',
-                                                        'Something is wrong.'
+                                                        'Transaction failed.'
                                                     );
                     }
                     
@@ -425,7 +430,7 @@ class DepositAsiapayAlipay extends Component {
                 // console.log('Request failed', err);
                 currentComponent.props.callbackFromParent(
                     'error',
-                    "somerthu"
+                    "Something is wrong."
                 );
 
                 // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
@@ -634,7 +639,7 @@ export default withStyles(styles)(
     injectIntl(
         connect(
             mapStateToProps,
-            { authCheckState }
+            { authCheckState, logout }
         )(DepositAsiapayAlipay)
     )
 );
