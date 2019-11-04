@@ -65,16 +65,19 @@ export class FGgame extends React.Component {
   componentDidMount() {
     this.props.authCheckState().then(res => {
         if (res === 1) {
-            this.props.history.push('/');
+          this.state.freegame = true
+        } else {
+          this.state.freegame = false
+          const token = localStorage.getItem('token');
+          config.headers['Authorization'] = `Token ${token}`;
+          axios.get(API_URL + 'users/api/user/', config).then(res => {
+              this.setState({ data: res.data });
+             
+          });
         }
     });
 
-    const token = localStorage.getItem('token');
-    config.headers['Authorization'] = `Token ${token}`;
-    axios.get(API_URL + 'users/api/user/', config).then(res => {
-        this.setState({ data: res.data });
-       
-    });
+   
     axios.get(API_URL + 'games/api/get_all_game?provider=1', config).then(res => {
       this.setState({ game: res.data.game });
      
@@ -136,8 +139,8 @@ export class FGgame extends React.Component {
 
     const { classes } = this.props;
     const items = this.state.game.map((item, key) => [
-      <img src="https://static.qichuangtou.com/Resources/V2_0/5/gamesImg/40008/wGamesImg_Berry_Burst7d046e04-3e59-4a15-968c-93a39e70ef6d.jpg" onClick={this.onClick.bind(this, item.description, false)}></img>,
-      <li key={item.id} onClick={this.onClick.bind(this, item.description, true)}>{item.name} </li>
+      <img src="https://static.qichuangtou.com/Resources/V2_0/5/gamesImg/40008/wGamesImg_Berry_Burst7d046e04-3e59-4a15-968c-93a39e70ef6d.jpg" onClick={this.onClick.bind(this, item.description, this.state.freegame)}></img>,
+      <li key={item.id} onClick={this.onClick.bind(this, item.description, this.state.freegame)}>{item.name} </li>
     ]
     
     );
