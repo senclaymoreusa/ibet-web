@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout  } from '../../../../../../actions';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -301,8 +301,8 @@ class DepositQaicashBTC extends Component {
             "language": "zh-Hans",
             "method": "BTC",
         }
-        console.log(this.state.amount)
-        console.log(this.state.data.pk)
+        //console.log(this.state.amount)
+        //console.log(this.state.data.pk)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -319,14 +319,19 @@ class DepositQaicashBTC extends Component {
         }).then(function (res) {
             return res.json();
         }).then(function (data) {
+            if(data.errorCode){
+                currentComponent.props.logout();
+                postLogout();
+                return;
+            }
             let redirectUrl = data.paymentPageSession.paymentPageUrl
-            console.log(redirectUrl)
+            //console.log(redirectUrl)
 
            
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-unionpay');
                 var timer = setInterval(function () {
-                    console.log('checking..')
+                    //console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
@@ -349,7 +354,7 @@ class DepositQaicashBTC extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            console.log(data.status)
+                            //console.log(data.status)
                             if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
@@ -357,7 +362,7 @@ class DepositQaicashBTC extends Component {
                                     username: currentComponent.state.data.username,
                                     balance: currentComponent.state.amount,
                                 });
-                                console.log(body)
+                                //console.log(body)
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {
@@ -379,6 +384,10 @@ class DepositQaicashBTC extends Component {
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
                 //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
+        }).catch(function (err) {  
+            
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
+            sendingLog(err);
         });
     }
 
@@ -494,4 +503,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositQaicashBTC)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositQaicashBTC)));

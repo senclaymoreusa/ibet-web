@@ -75,8 +75,8 @@ export class DepositNavBar extends Component {
                   JD Pay
               </Button>
             </Link>
-            <Link to="/deposit_asiapay_bankcard/" className={classes.Link}>
-              <Button variant="contained" color="secondary" id="nav.deposit_asiapay_bankcard" className={classes.button}>
+            <Link to="/deposit_asiapay_onlinepay/" className={classes.Link}>
+              <Button variant="contained" color="secondary" id="nav.deposit_asiapay_onlinepay" className={classes.button}>
                   在线支付
               </Button>
             </Link>

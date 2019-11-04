@@ -9,7 +9,12 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState } from '../../../../../../actions';
+import {
+    authCheckState,
+    sendingLog,
+    logout,
+    postLogout
+} from '../../../../../../actions';
 
 const crypto = require('crypto'),
     API_URL = process.env.REACT_APP_DEVELOP_API_URL,
@@ -302,8 +307,6 @@ class DepositCirclepay extends Component {
             '&token=' +
             hash;
 
-        window.open(postURL);
-
         let postData = {
             amount: amount,
             trans_id: transId
@@ -329,8 +332,23 @@ class DepositCirclepay extends Component {
                     );
                 } else {
                     console.log(res);
+                    if (res.data.errorCode) {
+                        currentComponent.props.logout();
+                        postLogout();
+                        return;
+                    }
+                    window.open(postURL);
                 }
                 currentComponent.setState({ showLinearProgressBar: false });
+            })
+            .catch(function(err) {
+                //console.log('Request failed', err);
+                currentComponent.props.callbackFromParent(
+                    'error',
+                    'Something is wrong.'
+                );
+                sendingLog(err);
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             });
 
         // axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
@@ -533,7 +551,7 @@ export default withStyles(styles)(
     injectIntl(
         connect(
             mapStateToProps,
-            { authCheckState }
+            { authCheckState, logout }
         )(DepositCirclepay)
     )
 );

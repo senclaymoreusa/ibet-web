@@ -20,6 +20,9 @@ import Announcements from "./announcements";
 import Login from "./login-register/login";
 import ForgotPassword from "./login-register/forgot_password";
 import NewReleases from '@material-ui/icons/NewReleases';
+import Fab from '@material-ui/core/Fab';
+import Person from '@material-ui/icons/Person';
+
 
 import {
     logout,
@@ -135,6 +138,15 @@ const styles = theme => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    profileIcon: {
+        margin: theme.spacing(1),
+        backgroundColor: '#F1941A',
+        height: 30,
+        width: 36,
+        "&:hover": {
+            backgroundColor: "#F1941A",
+        }
+    },
     paper: {
         position: 'absolute',
         padding: 0,
@@ -197,7 +209,7 @@ export class TopNavbar extends React.Component {
             <div className={classes.root}>
                 <AppBar position="static" className={classes.firstRow}>
                     <Toolbar className={classes.firstBar}>
-                        <Button size="small" className={classes.topLinkButton} target="_blank" href="/about_us">
+                        <Button size="small" className={classes.topLinkButton} target="_blank" href="/vn/about_us">
                             {this.getLabel('about-letou')}
                         </Button>
                         <Button size="small" className={classes.topLinkButton} target="_blank" href="https://affiliates.letou.com">
@@ -361,7 +373,16 @@ export class TopNavbar extends React.Component {
                         </Popper>
                         {this.props.isAuthenticated ?
                             this.state.showSoggedinStatus &&
-                            null : <div>
+                            <Fab color="primary" aria-label="add" className={classes.profileIcon} onClick={
+                                () => {
+                                    window.open(window.location.origin + "/p/fortune-center/deposit",
+                                        "Letou profile",
+                                        "resizable,scrollbars,status");
+                                    //this.props.history.push('/p/fortune-center/deposit')   
+                                }}>
+                                <Person />
+                            </Fab>
+                            : <div>
                                 <Button variant="contained" className={classes.secondRowButton}
                                     onClick={() => {
                                         this.props.history.push('/register')

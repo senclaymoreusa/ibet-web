@@ -96,7 +96,16 @@ export class ForPartner extends React.Component {
     
         <Grid container className={classes.content}>
             <Grid item xs={5} className={classes.infoSelect}>
-                <InfoSelect/>
+                    <div className="HelpCenterLeftNav">
+                            <ul>
+                                <li>
+                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                </li>
+                                <li>
+                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                </li>
+                            </ul>
+                        </div>
             </Grid>
             <Grid item xs={7} className={classes.detail}>
             <div className={classes.all}>

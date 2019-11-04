@@ -9,8 +9,10 @@ import blue from '@material-ui/core/colors/blue';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+
 import { images } from '../../../util_config';
 import { hide_deposit_amount, show_deposit } from '../../../actions';
+
 import WeChatIcon from '../images/WeChat.png';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
