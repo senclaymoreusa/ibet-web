@@ -315,6 +315,24 @@ export const messages = {
         'cancel-label': 'Cancel',
         'are-u-sure-transfer':'You are about to transfer all amount of money in your varius wallets to your main wallet. Are you sure?',
         
+
+
+
+
+        'local-bank':'Local Bank',
+         'bank-transfer':'Bank Transfer',
+        'quick-pay':'QuickPay',
+        'union-pay-qr':'UnionPay QR',
+        'ali-pay':'AliPay',
+        'we-chat-pay':'WeChatPay',
+        'jd-pay':'JDPay',
+        'bit-coin':'Bitcoin',
+        'astro-pay':'AstroPay',
+        'online-pay':'OnlinePay',
+        'add-favourite-deposit':'Add this to favorite deposit method',
+        'back-banking':'Back to Banking',
+        'bitcoin-placeholder':'Deposit ¥100 - ¥100,000',
+        
     },
     zh: {
 

@@ -65,6 +65,7 @@ export class DepositMain extends Component {
         if (msg) this.setState({ depositMessage: msg });
         
     };
+    
     setPageData = (page, data) => {
         this.props.hide_deposit_main_menu();
         this.setState({contentValue: page });
