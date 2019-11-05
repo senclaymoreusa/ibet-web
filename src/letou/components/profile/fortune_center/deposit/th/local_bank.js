@@ -13,6 +13,7 @@ import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
+import { withRouter } from 'react-router-dom';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -241,7 +242,7 @@ class LocalBankDeposit extends Component {
 
 
         this.handleClick = this.handleClick.bind(this);
-
+        this.cancelClicked = this.cancelClicked.bind(this);
         this.setAsFavourite = this.setAsFavourite.bind(this);
     }
 
@@ -396,6 +397,15 @@ class LocalBankDeposit extends Component {
         this.setState({ isFavourite: !this.state.isFavourite })
     }
 
+    cancelClicked() {
+        var url = this.props.history.location.pathname
+        var parts = url.split('/');
+        url = '/';
+        var path = parts.slice(1, 4).join('/');
+        url = url + path;
+        this.props.history.push(url);
+    }
+
     render() {
         const { classes } = this.props;
         const { showLinearProgressBar, isFavourite, amount, currency } = this.state;
@@ -473,7 +483,7 @@ class LocalBankDeposit extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.backClicked}
+                            onClick={this.cancelClicked}
                         >{this.getLabel('back-banking')}</Button>
                     </Grid>
                 </Grid>
@@ -488,4 +498,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(LocalBankDeposit)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(LocalBankDeposit))));

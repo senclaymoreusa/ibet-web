@@ -16,6 +16,12 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { config } from '../../../../../util_config';
 
+
+
+import Payzod from './th/payzod';
+import Astropay from './th/astro_pay';
+import Help2pay from './th/help2_pay';
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = () => ({
@@ -84,7 +90,7 @@ export class DepositMain extends Component {
 
         this.state = {
             urlPath: '',
-            contentValue: '',
+            contentValue: 'error',
             selectedType: '',
             userCountry: ''
         };
@@ -136,12 +142,12 @@ export class DepositMain extends Component {
         var parts = url.split('/');
 
 
-        if (parts.length > 4) {
-            if (parts[4].length > 0) {
-                this.setState({ contentValue: parts[4] })
-            }
-        } else
-            this.setState({ contentValue: '' })
+        // if (parts.length > 4) {
+        //     if (parts[4].length > 0) {
+        //         this.setState({ contentValue: parts[4] })
+        //     }
+        // } else
+        //     this.setState({ contentValue: '' })
     }
 
     setPage = (page, msg) => {
@@ -328,15 +334,43 @@ export class DepositMain extends Component {
                             <Button
                                 className={classes.addButton}
                                 onClick={() => {
-                                    this.depositWith('localbank');
+                                    this.depositWith('help2pay');
                                 }}
                             >
-                                <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
                             </Button>
                             <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'localbank'),
-                            })}>{this.getLabel('local-bank')}</span>
-                            {contentValue === 'localbank' && <div className={classes.selected} />}
+                                [classes.active]: (contentValue === 'help2pay'),
+                            })}>{this.getLabel('help-pay')}</span>
+                            {contentValue === 'help2pay' && <div className={classes.selected} />}
+                        </Grid>
+                        <Grid item xs={1} className={classes.methodColumn}>
+                            <Button
+                                className={classes.addButton}
+                                onClick={() => {
+                                    this.depositWith('payzod');
+                                }}
+                            >
+                                <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                            </Button>
+                            <span className={clsx(classes.title, {
+                                [classes.active]: (contentValue === 'payzod'),
+                            })}>{this.getLabel('payzod-pay')}</span>
+                            {contentValue === 'payzod' && <div className={classes.selected} />}
+                        </Grid>
+                        <Grid item xs={1} className={classes.methodColumn}>
+                            <Button
+                                className={classes.addButton}
+                                onClick={() => {
+                                    this.depositWith('astropay');
+                                }}
+                            >
+                                <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                            </Button>
+                            <span className={clsx(classes.title, {
+                                [classes.active]: (contentValue === 'astropay'),
+                            })}>{this.getLabel('astro-pay')}</span>
+                            {contentValue === 'astropay' && <div className={classes.selected} />}
                         </Grid>
                     </Grid>
                 );
@@ -370,9 +404,14 @@ export class DepositMain extends Component {
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
+                {contentValue === 'error' && (<DepositError callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />)}
                 {contentValue === 'success' && (<DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />)}
                 {contentValue === 'onlinepay' && (<DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
                 {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
+
+                {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
+                {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
+                {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
             </div >
         );
     }

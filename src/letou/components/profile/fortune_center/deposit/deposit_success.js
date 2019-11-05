@@ -1,99 +1,73 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { images } from '../../../../../util_config';
+import { withRouter } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
-        width: 925,
-        height: 688,
-        backgroundColor: '#ffffff',
-        border: 'solid 1px #979797',
-    },
-    backCell: {
-        paddingLeft: 10,
-        paddingTop: 20,
-        alignItems: 'left',
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        height: 80
-    },
-    titleCell: {
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        height: 80
-    },
-    title: {
-        fontSize: 18,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 0.64,
-        textAlign: 'center',
-        color: 'black',
-        marginTop: 28,
+        padding: 30
     },
     contentPaper: {
-
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 10,
         paddingBottom: 10,
-        margin: 20,
+        margin: 20
     },
     leftCell: {
         display: 'flex',
         alignItems: 'left',
         paddingTop: 5,
         paddingBottom: 5,
-        borderBottom: '1px solid #212121',
-
+        borderBottom: '1px solid #212121'
     },
     rightCell: {
         textAlign: 'right',
         paddingTop: 5,
         paddingBottom: 5,
-        borderBottom: '1px solid #212121',
-    },
-    button: {
-        width: 324,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#d8d8d8',
-        display: 'inline-block',
-        marginBottom: 23,
+        borderBottom: '1px solid #212121'
     },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 64,
+        paddingTop: 40
     },
     completeCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         paddingTop: 50,
-        paddingBottom: 50,
+        paddingBottom: 50
+    },
+    completeDiv: {
+        height: 160,
+        width: 160,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        borderRadius: 80,
+        backgroundColor: '#cffcea',
+        justifyContent: 'center'
     },
     successRow: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: '#eaeaea',
-        height: 170,
+        alignItems: 'center'
     },
-    successText: {
+    title: {
         fontSize: 40,
-        fontWeight: 'normal',
+        fontWeight: 800,
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 'normal',
@@ -101,42 +75,61 @@ const styles = theme => ({
         textAlign: 'center',
         color: '#292929',
         display: 'inline-block',
-        marginTop: 44,
+        marginTop: 44
     },
-    successDesc: {
-        fontSize: 24,
+    text: {
+        fontSize: 17,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: -0.24,
         textAlign: 'center',
         color: '#212121',
-        display: 'inline-block',
-        marginTop: 19
+        display: 'inline-block'
+    },
+    button: {
+        width: '100%',
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: '#4DA9DF',
+        color: '#fff',
+        "&:hover": {
+            backgroundColor: '#57b9f2',
+            color: '#fff'
+        },
+        "&:focus": {
+            backgroundColor: '#57b9f2',
+            color: '#fff'
+        },
+        textTransform: 'capitalize'
     }
 });
 
-
 export class DepositSuccess extends Component {
-
     constructor(props) {
         super(props);
 
-        this.doneClicked = this.doneClicked.bind(this);
+        this.gameLobbyClicked = this.gameLobbyClicked.bind(this);
         this.checkBalanceClicked = this.checkBalanceClicked.bind(this);
     }
 
-    doneClicked(ev) {
-        this.props.callbackFromParent('deposit_method');
+    gameLobbyClicked() {
+        this.props.history.push('/');
     }
 
-    checkBalanceClicked(ev) {
-        this.props.callbackFromParent('deposit_method');
+    checkBalanceClicked() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+        url = '/';
+        var path = parts.slice(1, 3).join('/');
+        url = url + path + '/total-assets';
+        this.props.history.push(url);
     }
 
-    componentDidMount() {
-
+    getLabel(labelId) {
+        const { formatMessage } = this.props.intl;
+        return formatMessage({ id: labelId });
     }
 
     render() {
@@ -145,26 +138,45 @@ export class DepositSuccess extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={12} className={classes.titleCell}>
-                        <span className={classes.title}>Deposit</span>
-                    </Grid>
+                <Grid container spacing={3} style={{ width: 700 }}>
                     <Grid item xs={12} className={classes.completeCell}>
-                        <img src={images.src + 'complete-icon.svg'}  alt=""/>
+                        <div className={classes.completeDiv}>
+                            <img src={images.src + 'letou/ok.svg'} alt="" />
+                        </div>
                     </Grid>
                     <Grid item xs={12} className={classes.successRow}>
-                        <span className={classes.successText}>Successful!</span>
-
-                        <span className={classes.successDesc}>
-                            Deposit {successMessage} completed
-                       </span>
+                        <span className={classes.title}>
+                            {this.getLabel('deposit-submitted')}
+                        </span>
                     </Grid>
-                    <Grid item xs={12} className={classes.buttonCell}>
-                        <Button className={classes.button} onClick={this.doneClicked}>
-                            Done
+                    <Grid
+                        item
+                        xs={12}
+                        className={classes.successRow}
+                        style={{ marginTop: 20, marginBottom: 50 }}
+                    >
+                        <span className={classes.text}>
+                            {this.getLabel('deposit-label')} {successMessage}{' '}
+                            {this.getLabel('submitted-label')}
+                        </span>
+                        <span className={classes.text}>
+                            {this.getLabel('check-transaction-status')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={6} className={classes.buttonCell}>
+                        <Button
+                            className={classes.button}
+                            onClick={this.checkBalanceClicked}
+                        >
+                            {this.getLabel('check-balance')}
                         </Button>
-                        <Button className={classes.button} onClick={this.checkBalanceClicked}>
-                            Check Balance
+                    </Grid>
+                    <Grid item xs={6} className={classes.buttonCell}>
+                        <Button
+                            className={classes.button}
+                            onClick={this.gameLobbyClicked}
+                        >
+                            {this.getLabel('back-games-lobby')}
                         </Button>
                     </Grid>
                 </Grid>
@@ -173,10 +185,10 @@ export class DepositSuccess extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
         lang: state.language.lang
-    }
-}
+    };
+};
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositSuccess)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(DepositSuccess))));
