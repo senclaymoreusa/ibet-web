@@ -139,7 +139,7 @@ export class FGgame extends React.Component {
 
     const { classes } = this.props;
     const items = this.state.game.map((item, key) => [
-      <img src="https://static.qichuangtou.com/Resources/V2_0/5/gamesImg/40008/wGamesImg_Berry_Burst7d046e04-3e59-4a15-968c-93a39e70ef6d.jpg" onClick={this.onClick.bind(this, item.description, this.state.freegame)}></img>,
+      <img src={item.image} onClick={this.onClick.bind(this, item.description, this.state.freegame)}></img>,
       <li key={item.id} onClick={this.onClick.bind(this, item.description, this.state.freegame)}>{item.name} </li>
     ]
     
