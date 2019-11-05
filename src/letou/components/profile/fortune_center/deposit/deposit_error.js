@@ -35,17 +35,6 @@ const styles = theme => ({
         paddingBottom: 10,
         margin: 20
     },
-    text: {
-        fontSize: 17,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 1.29,
-        letterSpacing: -0.24,
-        textAlign: 'center',
-        color: '#212121',
-        display: 'inline-block'
-    },
     button: {
         width: '100%',
         height: 44,
@@ -66,7 +55,7 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 64
+        paddingTop: 40
     },
     completeCell: {
         display: 'flex',
@@ -78,9 +67,7 @@ const styles = theme => ({
     errorRow: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: '#cdcdcd',
-        height: 170
+        alignItems: 'center'
     },
     errorText: {
         fontSize: 40,
@@ -94,17 +81,16 @@ const styles = theme => ({
         display: 'inline-block',
         marginTop: 44
     },
-    errorDesc: {
-        fontSize: 24,
+    text: {
+        fontSize: 17,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: -0.24,
         textAlign: 'center',
         color: '#212121',
-        display: 'inline-block',
-        marginTop: 19
+        display: 'inline-block'
     },
     alertIcon: {
         width: 66,
@@ -129,8 +115,13 @@ export class DepositError extends Component {
         var parts = url.split('/');
         url = '/';
         var path = parts.slice(1, 3).join('/');
-        url = url + path ;
+        url = url + path;
         this.props.history.push(url);
+    }
+
+    getLabel(labelId) {
+        const { formatMessage } = this.props.intl;
+        return formatMessage({ id: labelId });
     }
 
     render() {
@@ -139,22 +130,36 @@ export class DepositError extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={12} className={classes.titleCell}>
-                        <span className={classes.title}>Deposit</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.completeCell}>
-                        <img src={images.src + 'alert.svg'} className={classes.alertIcon}  alt=""/>
+                <Grid container spacing={3} style={{ width: 700 }}>
+                <Grid item xs={12} className={classes.completeCell}>
+                        <div className={classes.completeDiv}>
+                            <img src={images.src + 'letou/alert.svg'} alt="" />
+                        </div>
                     </Grid>
                     <Grid item xs={12} className={classes.errorRow}>
-                        <span className={classes.errorText}>Transaction Failed</span>
-                        <span className={classes.errorDesc}>
-                            {errorMessage}
+                        <span className={classes.title}>
+                            {this.getLabel('deposit-failed')}
                         </span>
                     </Grid>
-                    <Grid item xs={12} className={classes.buttonCell}>
-                        <Button className={classes.button} onClick={this.againClicked}>
-                            Try Again
+                    <Grid item xs={12} className={classes.errorRow} style={{ marginTop: 20, marginBottom: 50 }}>
+                        <span className={classes.text}>
+                            {this.getLabel('deposit-failed-text')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={6} className={classes.buttonCell}>
+                        <Button
+                            className={classes.button}
+                            onClick={this.tryAgainClicked}
+                        >
+                            {this.getLabel('try-again')}
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} className={classes.buttonCell}>
+                        <Button
+                            className={classes.button}
+                            onClick={this.cancelClicked}
+                        >
+                            {this.getLabel('cancel-label')}
                         </Button>
                     </Grid>
                 </Grid>

@@ -355,6 +355,7 @@ export const messages = {
         'check-balance': 'Check Balance',
         'back-games-lobby': 'Back to Games Lobby',
         'deposit-failed-text': 'Please check your details and try again or click cancel to return to deposit.',
+        'try-again': 'Try Again',
 
 
     },
