@@ -105,22 +105,11 @@ export class FGgame extends React.Component {
             this.setState({sessionKey: res.data.sessionKey });
             console.log("1 " +  this.state.sessionKey)
             
-            if (res.data.sessionKey != null) {
-                axios.get(API_URL + 'games/api/fg/sessionCheck?sessionKey=' + res.data.sessionKey)
-                .then(res => {
-                    if (res.data.alive == "true") {
-                        console.log(res.data.alive)
-                        window.open(GAME_URL + gameId+ "&playForReal=true&lang=en&sessionKey=" + this.state.sessionKey)
-                    } else {
-                        axios.get(API_URL + 'games/api/fg/login?pk=' + this.state.data.pk)
-                        .then(res => {
-                            console.log("2 " + res)
-                            window.open(GAME_URL + gameId + "&playForReal=true&lang=en&sessionKey=" + res.data.sessionKey)
-                        })
-                    
-                    }
-                })
-    
+            if (res.data.sessionKey != null && res.data.alive == "true") {
+               
+                console.log(res.data.alive)
+                window.open(GAME_URL + gameId+ "&playForReal=true&lang=en&sessionKey=" + this.state.sessionKey)
+                   
             } else {
                 axios.get(API_URL + 'games/api/fg/login?pk=' + this.state.data.pk)
                 .then(res => {
