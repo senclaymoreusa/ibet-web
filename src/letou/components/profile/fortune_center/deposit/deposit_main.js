@@ -91,7 +91,7 @@ export class DepositMain extends Component {
 
         this.state = {
             urlPath: '',
-            contentValue: 'thailocalbank',
+            contentValue: '',
             selectedType: '',
             userCountry: ''
         };
@@ -142,27 +142,19 @@ export class DepositMain extends Component {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
 
-
-        // if (parts.length > 4) {
-        //     if (parts[4].length > 0) {
-        //         this.setState({ contentValue: parts[4] })
-        //     }
-        // } else
-        //     this.setState({ contentValue: '' })
+        if (parts.length > 4) {
+            if (parts[4].length > 0) {
+                this.setState({ contentValue: parts[4] })
+            }
+        } else
+            this.setState({ contentValue: '' })
     }
 
     setPage = (page, msg) => {
-        // this.props.hide_deposit_main_menu();
-        // this.setState({ contentValue: page });
+        if (msg)
+            this.setState({ depositMessage: msg });
 
-        // if (msg) this.setState({ depositMessage: msg });
-
-    };
-
-    setPageData = (page, data) => {
-        // this.props.hide_deposit_main_menu();
-        // this.setState({ contentValue: page });
-        // if (data) this.setState({ order_id: data });
+        this.setState({ contentValue: page });
     };
 
     depositWith(paymentMethod) {
@@ -189,7 +181,7 @@ export class DepositMain extends Component {
     getAvailablePaymentMethods() {
         const { classes } = this.props;
         const { contentValue, userCountry } = this.state;
-        console.log(this.state.userCountry.toLowerCase())
+
         switch (userCountry.toLowerCase()) {
             case 'china':
                 return (
@@ -405,15 +397,15 @@ export class DepositMain extends Component {
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
-                {contentValue === 'error' && (<DepositError callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />)}
+                {contentValue === 'error' && (<DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
                 {contentValue === 'success' && (<DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />)}
-                {contentValue === 'onlinepay' && (<DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
-                {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
+                {contentValue === 'onlinepay' && (<DepositError callbackFromParent={this.setPage} />)}
+                {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} />)}
 
-                {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
-                {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
-                {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
-                {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
+                {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
+                {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} />)}
+                {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} />)}
+                {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} />)}
             </div >
         );
     }

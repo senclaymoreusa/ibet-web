@@ -305,9 +305,6 @@ class Astropay extends Component {
             currency: '',
             isFavourite: false,
         };
-
-        this.cancelClicked = this.cancelClicked.bind(this);
-
     }
 
     componentWillReceiveProps(props) {
@@ -622,7 +619,7 @@ class Astropay extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button variant="contained" className={classes.cancelButton}
-                            onClick={this.cancelClicked}
+                            onClick={this.cancelClicked.bind(this)}
                         >{this.getLabel('cancel-label')}</Button>
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>

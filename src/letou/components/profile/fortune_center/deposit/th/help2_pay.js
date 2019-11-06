@@ -391,7 +391,6 @@ class Help2pay extends Component {
         };
 
         this.handleClick = this.handleClick.bind(this);
-        this.cancelClicked = this.cancelClicked.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -589,8 +588,9 @@ class Help2pay extends Component {
         const { selectedBankOption, isFavourite, showLinearProgressBar, amount, currency } = this.state;
 
 
-        const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+        // const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
 
+        const filteredOptions = bank_options;
         return (
             <div className={classes.root} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}>
                 <Grid container className={classes.contentGrid} spacing={2}>
@@ -656,8 +656,8 @@ class Help2pay extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button variant="contained" className={classes.cancelButton}
-                            onClick={this.cancelClicked}
-                        >{this.getLabel('cancel-label')}</Button>
+                            onClick={this.cancelClicked.bind(this)}
+                            >{this.getLabel('cancel-label')}</Button>
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}

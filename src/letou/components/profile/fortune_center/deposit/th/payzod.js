@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../../actions';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import clsx from 'clsx';
 import NumberFormat from 'react-number-format';
@@ -17,6 +17,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withRouter } from 'react-router-dom';
+import Moment from 'react-moment';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -62,9 +63,7 @@ const styles = theme => ({
         width: '100%',
         height: 44,
         borderRadius: 22,
-
         textTransform: 'capitalize',
-
     },
     buttonCell: {
         display: 'flex',
@@ -297,26 +296,25 @@ NumberFormatCustom.propTypes = {
 
 
 class Payzod extends Component {
+    timeIntervalID = null;
+
     constructor(props) {
         super(props);
-
 
         this.state = {
             amount: '',
             amountFocused: false,
             amountInvalid: true,
-            currency: '',
+            currency: 'USD',
             showLinearProgressBar: false,
-            depositMethod: '',
             orderNumber: '',
             isFavourite: false,
-            activeStep: 0
+            activeStep: 0,
+            timeout: null,
+            timeIntervalID: null
         };
 
         this.handleClick = this.handleClick.bind(this);
-        this.setAsFavourite = this.setAsFavourite.bind(this);
-        this.cancelClicked = this.cancelClicked.bind(this);
-
     }
 
     componentWillReceiveProps(props) {
@@ -357,7 +355,7 @@ class Payzod extends Component {
         }
     };
 
-    async handleClick(event) {
+    handleClick = async event => {
         event.preventDefault();
 
         let currentComponent = this;
@@ -378,18 +376,47 @@ class Payzod extends Component {
             "amount": amount
         };
 
-        var res = await axios.post(API_URL + 'accounting/api/payzod/deposit',
-            postData,
-            config);
-
-        currentComponent.setState({ showLinearProgressBar: false });
-        this.setState({ activeStep: 1 });
-        console.log("result of deposit: ");
-        console.log(res);
+        var res = await axios
+            .post(API_URL + 'accounting/api/payzod/deposit', postData, config)
+            .catch(err => {
+                console.log(err.response);
+                sendingLog(err);
+            });
 
         if (res.data) {
             this.setState({ qrCode: res.data });
+
+            let time = new Date();
+            time.setHours(time.getHours() + 3);
+
+            this.setState({ timeout: time });
+
+            this.timeIntervalID = setInterval(() => {
+                if (this.state.timeout < new Date()) {
+                    clearInterval(this.timeIntervalID);
+                    this.timeIntervalID = null;
+
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        'Transaction failed due to timeout!'
+                    );
+                }
+            }, 1000);
+
+            axios.get(API_URL + 'accounting/api/transactions/get_transactions?userid=' + currentComponent.state.data.username, config)
+                .then(res => {
+                    console.log(res)
+                    if (res.data.results) {
+                        let transaction = res.data.results.filter((o) => o.amount === this.state.amount && o.method.includes('Payzod'))[0];
+                        this.setState({ orderNumber: transaction.transaction_id });
+                    }
+                })
+                .catch(err => {
+                    sendingLog(err);
+                });
         }
+
+        this.setState({ activeStep: 1 });
     }
 
     getLabel(labelId) {
@@ -412,7 +439,8 @@ class Payzod extends Component {
 
     getContent() {
         const { classes } = this.props;
-        const { activeStep, isFavourite, amount, currency, qrCode, depositMethod, orderNumber } = this.state;
+        const { activeStep, isFavourite, amount, currency, qrCode, orderNumber, timeout } = this.state;
+
 
         switch (activeStep) {
             case 0:
@@ -462,7 +490,7 @@ class Payzod extends Component {
                         </Grid>
                         <Grid item xs={6} className={classes.buttonCell}>
                             <Button variant="contained" className={classes.cancelButton}
-                                onClick={this.cancelClicked}
+                                onClick={this.cancelClicked.bind(this)}
                             >{this.getLabel('cancel-label')}</Button>
                         </Grid>
                         <Grid item xs={6} className={classes.buttonCell}>
@@ -481,23 +509,17 @@ class Payzod extends Component {
                                 <Grid item xs={12} className={classes.descCell} >
                                     <span className={classes.desc}>{this.getLabel('payzod-desc')}</span>
                                 </Grid>
-                                <Grid item xs={6} className={classes.row}>
-                                    <span className={classes.labelQr}>{this.getLabel('deposit-method')}</span>
-                                </Grid>
-                                <Grid item xs={6} className={classes.row}>
-                                    <span className={classes.value}>{depositMethod}</span>
-                                </Grid>
-                                <Grid item xs={6} className={classes.row}>
+                                <Grid item xs={4} className={classes.row}>
                                     <span className={classes.labelQr}>{this.getLabel('order-number')}</span>
                                 </Grid>
-                                <Grid item xs={6} className={classes.row}>
+                                <Grid item xs={8} className={classes.row}>
                                     <span className={classes.value}>{orderNumber}</span>
                                 </Grid>
-                                <Grid item xs={6} className={classes.row}>
+                                <Grid item xs={4} className={classes.row}>
                                     <span className={classes.labelQr}>{this.getLabel('timer-label')}</span>
                                 </Grid>
-                                <Grid item xs={6} className={classes.row}>
-                                    <span className={classes.timer}>03:59:53</span>
+                                <Grid item xs={8} className={classes.row}>
+                                    <Moment className={classes.timer} interval={1000} date={timeout} durationFromNow />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -521,11 +543,14 @@ class Payzod extends Component {
                                     null
                             }
                         </Grid>
+                        <Grid item xs={3}></Grid>
+                        <Grid item xs={6} style={{ marginTop: 50 }}>
+                            <Button variant="contained" className={classes.cancelButton}
+                                onClick={this.cancelClicked.bind(this)}
+                            >{this.getLabel('cancel-label')}</Button>
+                        </Grid>
+                        <Grid item xs={3}></Grid>
                     </Grid>
-                );
-            case 0:
-                return (
-                    <div></div>
                 );
         }
     }

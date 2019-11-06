@@ -131,7 +131,7 @@ export class DepositError extends Component {
         return (
             <div className={classes.root}>
                 <Grid container spacing={3} style={{ width: 700 }}>
-                <Grid item xs={12} className={classes.completeCell}>
+                    <Grid item xs={12} className={classes.completeCell}>
                         <div className={classes.completeDiv}>
                             <img src={images.src + 'letou/alert.svg'} alt="" />
                         </div>
@@ -143,7 +143,7 @@ export class DepositError extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.errorRow} style={{ marginTop: 20, marginBottom: 50 }}>
                         <span className={classes.text}>
-                            {this.getLabel('deposit-failed-text')}
+                            {errorMessage ? errorMessage : this.getLabel('deposit-failed-text')}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
