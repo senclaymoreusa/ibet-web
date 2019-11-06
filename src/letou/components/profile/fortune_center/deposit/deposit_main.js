@@ -18,6 +18,7 @@ import { config } from '../../../../../util_config';
 
 
 
+import ThaiLocalBank from './th/local_bank';
 import Payzod from './th/payzod';
 import Astropay from './th/astro_pay';
 import Help2pay from './th/help2_pay';
@@ -90,7 +91,7 @@ export class DepositMain extends Component {
 
         this.state = {
             urlPath: '',
-            contentValue: 'error',
+            contentValue: 'thailocalbank',
             selectedType: '',
             userCountry: ''
         };
@@ -320,15 +321,15 @@ export class DepositMain extends Component {
                             <Button
                                 className={classes.addButton}
                                 onClick={() => {
-                                    this.depositWith('localbank');
+                                    this.depositWith('thailocalbank');
                                 }}
                             >
                                 <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
                             </Button>
                             <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'localbank'),
+                                [classes.active]: (contentValue === 'thailocalbank'),
                             })}>{this.getLabel('local-bank')}</span>
-                            {contentValue === 'localbank' && <div className={classes.selected} />}
+                            {contentValue === 'thailocalbank' && <div className={classes.selected} />}
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
@@ -337,7 +338,7 @@ export class DepositMain extends Component {
                                     this.depositWith('help2pay');
                                 }}
                             >
-                                <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="32" />
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'help2pay'),
@@ -351,7 +352,7 @@ export class DepositMain extends Component {
                                     this.depositWith('payzod');
                                 }}
                             >
-                                <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                <img src={images.src + 'letou/payzod-1@3x.png'} alt="" height="36" />
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'payzod'),
@@ -409,6 +410,7 @@ export class DepositMain extends Component {
                 {contentValue === 'onlinepay' && (<DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
                 {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
 
+                {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
                 {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
                 {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
                 {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}

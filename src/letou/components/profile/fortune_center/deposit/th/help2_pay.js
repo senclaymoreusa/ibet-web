@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../../util_config';
+import { config, images } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -17,37 +17,33 @@ import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withRouter } from 'react-router-dom';
+import getSymbolFromCurrency from 'currency-symbol-map'
 
 const bank_options = [
     //tailand
-    { value: 'KKR', label: 'Karsikorn Bank (K-Bank)', link: '2' },
-    { value: 'BBL', label: 'Bangkok Bank', link: '2' },
-    { value: 'SCB', label: 'Siam Commercial Bank', link: '2' },
-    { value: 'KTB', label: 'Krung Thai Bank', link: '2' },
-    { value: 'BOA', label: 'Bank of Ayudhya (Krungsri)', link: '2' },
-    { value: 'GSB', label: 'Government Savings Bank', link: '2' },
-    { value: 'TMB', label: 'TMB Bank Public Company Limited', link: '2' },
-    { value: 'CIMBT', label: 'CIMB Thai', link: '2' },
-    { value: 'KNK', label: 'Kiatnakin Bank', link: '2' },
+    { value: 'KKR', label: 'Kasikorn Bank (K-Bank)', img: 'letou/kasikornbank.png', code: 'THB' },
+    { value: 'BBL', label: 'Bangkok Bank', img: 'letou/bangkok-bank.png', code: 'THB' },
+    { value: 'SCB', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 'THB' },
+    { value: 'KTB', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 'THB' },
+    { value: 'BOA', label: 'Bank of Ayudhya (Krungsri)', img: 'letou/bay.png', code: 'THB' },
+    { value: 'GSB', label: 'Government Savings Bank', img: 'letou/gov-saving.png', code: 'THB' },
+    { value: 'TMB', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 'THB' },
+    { value: 'CIMBT', label: 'CIMB Thai', img: 'letou/cimb.png', code: 'THB' },
+    { value: 'KNK', label: 'Kiatnakin Bank', img: 'letou/kiat.png', code: 'THB' },
     // vietnam
-    { value: 'TCB', label: 'Techcom Bank', link: '8' },
-    { value: 'SACOM', label: 'Sacom Bank', link: '8' },
-    { value: 'VCB', label: 'Vietcom Bank', link: '8' },
-    { value: 'ACB', label: 'Asia Commercial Bank', link: '8' },
-    { value: 'DAB', label: 'DongA Bank', link: '8' },
-    { value: 'VTB', label: 'Vietin Bank', link: '8' },
-    { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', link: '8' },
-    { value: 'EXIM', label: 'Eximbank Vietnam', link: '8' },
-];
-
-const currency_options = [
-    { value: '2', label: 'THB' },
-    { value: '8', label: 'VND' },
+    { value: 'TCB', label: 'Techcom Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'SACOM', label: 'Sacom Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'VCB', label: 'Vietcom Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'DAB', label: 'DongA Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'VTB', label: 'Vietin Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'EXIM', label: 'Eximbank Vietnam', img: 'letou/kiat.png', code: 'VND' },
 ];
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-const styles = () => ({
+const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
@@ -81,6 +77,9 @@ const styles = () => ({
         textAlign: 'center',
         color: 'black',
         marginTop: 28,
+    },
+    checkbox: {
+        margin: theme.spacing()
     },
     continueButton: {
         width: 324,
@@ -278,6 +277,16 @@ const styles = () => ({
         textAlign: 'center',
         paddingTop: 12,
     },
+    selectLabel: {
+        marginLeft: 10,
+        fontSize: 15,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+    }
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -294,7 +303,8 @@ const BootstrapInput = withStyles(theme => ({
         fontSize: 16,
         padding: '10px 2px 10px 12px',
         transition: theme.transitions.create(['border-color', 'box-shadow']),
-
+        display: 'flex',
+        flexDirection: 'row',
         fontFamily: [
             '-apple-system',
             'BlinkMacSystemFont',
@@ -376,6 +386,7 @@ class Help2pay extends Component {
             amountInvalid: true,
 
             currency: "THB",
+            currencyCode: 'THB',
             showLinearProgressBar: false,
         };
 
@@ -395,7 +406,8 @@ class Help2pay extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
-                this.setState({ currency: res.data.currency });
+                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                this.setState({ currencyCode: res.data.currency });
             });
     }
 
@@ -411,17 +423,26 @@ class Help2pay extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
-                this.setState({ currency: res.data.currency });
+                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                this.setState({ currencyCode: res.data.currency });
             });
     }
 
     amountChanged(event) {
-        if (event.target.value.length === 0 || parseInt(event.target.value) > 500000 || parseInt(event.target.value) < 500) {
-            this.setState({ amount: 0 });
-            this.setState({ amountInvalid: true });
+        this.setState({ amountFocused: true });
+
+        if (event.target.value.length === 0) {
+            this.setState({ amount: '', amountInvalid: true });
         } else {
-            this.setState({ amount: event.target.value });
-            this.setState({ amountInvalid: false });
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
+
+            if (re.test(event.target.value)) {
+                this.setState({ amount: event.target.value });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 500 || parseFloat(event.target.value) > 500000) });
+            }
+            else {
+                this.setState({ amountInvalid: true });
+            }
         }
     }
 
@@ -565,9 +586,10 @@ class Help2pay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { selectedCurrencyOption, selectedBankOption, isFavourite, showLinearProgressBar, amount, currency } = this.state;
+        const { selectedBankOption, isFavourite, showLinearProgressBar, amount, currency } = this.state;
 
-        const filteredOptions = bank_options.filter((o) => o.link === this.state.selectedCurrencyOption)
+
+        const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
 
         return (
             <div className={classes.root} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}>
@@ -575,30 +597,19 @@ class Help2pay extends Component {
                     <Grid item xs={12}>
                         <Select
                             className={classes.select}
-                            value={selectedCurrencyOption}
-                            onChange={this.handleCurrencyChange}
-                            input={<BootstrapInput name="currency" id="currency-select" />}>
-                            <MenuItem key='none' value='none' disabled>Select Currency</MenuItem>
-                            {
-                                currency_options.map(currency => (
-                                    <MenuItem key={currency.label} value={currency.value} >
-                                        {currency.label}
-                                    </MenuItem>
-                                ))
-                            }
-                        </Select>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Select
-                            className={classes.select}
                             value={selectedBankOption}
                             onChange={this.handleBankChange}
                             input={<BootstrapInput name="bank" id="bank-select" />}>
-                            <MenuItem key='none' value='none' disabled>Select Bank</MenuItem>
+                            <MenuItem key='none' value='none' disabled>
+                                <span className={classes.selectLabel}>{this.getLabel('choose-bank')}</span>
+                            </MenuItem>
                             {
                                 filteredOptions.map(bank => (
                                     <MenuItem key={bank.label} value={bank.value} >
-                                        {bank.label}
+                                        <div style={{ width: 100 }}>
+                                            <img src={images.src + bank.img} alt="" height="20" />
+                                        </div>
+                                        <span className={classes.selectLabel}>{bank.label}</span>
                                     </MenuItem>
                                 ))
                             }
@@ -624,9 +635,6 @@ class Help2pay extends Component {
                                 disableUnderline: true,
                                 inputComponent: NumberFormatCustom,
                                 inputProps: {
-                                    step: 10,
-                                    min: 200,
-                                    min: 950000,
                                     style: { textAlign: 'right' },
                                     currency: currency
                                 },
@@ -654,10 +662,9 @@ class Help2pay extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick}
-                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.selectedCurrencyOption === 'none'}
+                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
                         >{this.getLabel('next-label')}</Button>
                     </Grid>
-
                 </Grid>
             </div>
         )

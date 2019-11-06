@@ -26,14 +26,14 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding:30
+        padding: 30
     },
     contentGrid: {
         width: 430,
     },
-    qrGrid:{
-        paddingLeft:30,
-        paddingRight:30,
+    qrGrid: {
+        paddingLeft: 30,
+        paddingRight: 30,
     },
     contentRow: {
         paddingTop: 50,
@@ -222,8 +222,8 @@ const styles = theme => ({
     qrTittleCell: {
         height: 62,
         backgroundColor: '#f28f22',
-        borderTopLeftRadius:4,
-        borderTopRightRadius:4,
+        borderTopLeftRadius: 4,
+        borderTopRightRadius: 4,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -242,17 +242,17 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        borderBottomLeftRadius:4,
-        borderBottomRightRadius:4
+        borderBottomLeftRadius: 4,
+        borderBottomRightRadius: 4
     },
-    qrCell:{
+    qrCell: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    row:{
-        paddingTop:5,
-        paddingBottom:5,
+    row: {
+        paddingTop: 5,
+        paddingBottom: 5,
     },
 });
 
@@ -307,8 +307,8 @@ class Payzod extends Component {
             amountInvalid: true,
             currency: '',
             showLinearProgressBar: false,
-            depositMethod:'',
-            orderNumber:'',
+            depositMethod: '',
+            orderNumber: '',
             isFavourite: false,
             activeStep: 0
         };
@@ -339,16 +339,17 @@ class Payzod extends Component {
             });
     }
 
-    amountChanged = e => {
+    amountChanged(event) {
         this.setState({ amountFocused: true });
 
-        if (e.target.value.length === 0) {
+        if (event.target.value.length === 0) {
             this.setState({ amount: '', amountInvalid: true });
         } else {
             const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
-            if (re.test(e.target.value)) {
-                this.setState({ amount: e.target.value, amountInvalid: false });
+            if (re.test(event.target.value)) {
+                this.setState({ amount: event.target.value });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 500 || parseFloat(event.target.value) > 500000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -451,7 +452,7 @@ class Payzod extends Component {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={12} style={{marginBottom:50}}>
+                        <Grid item xs={12} style={{ marginBottom: 50 }}>
                             <FormControlLabel className={classes.checkbox}
                                 control={
                                     <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite() }} />

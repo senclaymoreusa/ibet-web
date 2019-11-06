@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../../util_config';
+import { config, images } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
-
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputBase from '@material-ui/core/InputBase';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -27,6 +28,7 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        padding: 30
     },
     contentGrid: {
         width: 430,
@@ -98,7 +100,7 @@ const styles = theme => ({
         marginLeft: 3,
     },
     detailRow: {
-        paddingBottom: 15
+        marginBottom: 3
     },
     button: {
         borderRadius: 4,
@@ -118,10 +120,19 @@ const styles = theme => ({
             opacity: 1
         },
     },
-    selected: {
-        opacity: 1,
+    select: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 44,
+        maxHeight:44,
+        width: '100%',
     },
-    amountText: {
+    detailText: {
         fontSize: 14,
         fontWeight: 500,
         fontStyle: 'normal',
@@ -155,6 +166,33 @@ const styles = theme => ({
     checkbox: {
         margin: theme.spacing()
     },
+    actionButton: {
+        width: '100%',
+        height: 44,
+        borderRadius: 22,
+        backgroundColor: '#4DA9DF',
+        color: '#fff',
+        "&:hover": {
+            backgroundColor: '#57b9f2',
+            color: '#fff',
+
+        },
+        "&:focus": {
+            backgroundColor: '#57b9f2',
+            color: '#fff',
+
+        },
+        textTransform: 'capitalize',
+
+    },
+    cancelButton: {
+        width: '100%',
+        height: 44,
+        borderRadius: 22,
+
+        textTransform: 'capitalize',
+
+    },
     label: {
         backgroundColor: '#f8f8f8',
         height: 42,
@@ -167,19 +205,77 @@ const styles = theme => ({
         textAlign: 'center',
         paddingTop: 12,
     },
+    selectLabel: {
+        marginLeft: 10,
+        fontSize: 15,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+    },
 });
+
+const bank_options = [
+    //tailand
+    { value: 'KKR', label: 'Kasikorn Bank (K-Bank)', img: 'letou/kasikornbank.png', code: 'THB' },
+    { value: 'BBL', label: 'Bangkok Bank', img: 'letou/bangkok-bank.png', code: 'THB' },
+    { value: 'SCB', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 'THB' },
+    { value: 'KTB', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 'THB' },
+    { value: 'BOA', label: 'Bank of Ayudhya (Krungsri)', img: 'letou/bay.png', code: 'THB' },
+    { value: 'GSB', label: 'Government Savings Bank', img: 'letou/gov-saving.png', code: 'THB' },
+    { value: 'TMB', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 'THB' },
+    { value: 'CIMBT', label: 'CIMB Thai', img: 'letou/cimb.png', code: 'THB' },
+    { value: 'KNK', label: 'Kiatnakin Bank', img: 'letou/kiat.png', code: 'THB' },
+ ];
+
+ const BootstrapInput = withStyles(theme => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing(3),
+        },
+    },
+    input: {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        padding: '10px 2px 10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        display: 'flex',
+        flexDirection: 'row',
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}))(InputBase);
 
 const CustomCheckbox = withStyles({
     root: {
-        color: '#4DA9DF',
+        color: '#21e496',
         '&$checked': {
-            color: '#4DA9DF',
+            color: '#21e496',
         },
     },
     checked: {},
 })(props => <Checkbox color="default" {...props} />);
 
-const amounts = Object.freeze([20, 50, 100, 250]);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
@@ -206,7 +302,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class LocalBankDeposit extends Component {
+class ThaiLocalBank extends Component {
     constructor(props) {
         super(props);
 
@@ -215,22 +311,9 @@ class LocalBankDeposit extends Component {
         this.state = {
             amount: '',
             currency: '',
-            error: false,
-            data: '',
-            type: '',
-            qaicash_error: false,
-            qaicash_error_msg: "",
-            live_check_amount: false,
-            button_disable: true,
-            value: "",
-            size: 128,
-            fgColor: '#000000',
-            bgColor: '#ffffff',
-            level: 'L',
-            renderAs: 'svg',
-            includeMargin: false,
-            show_qrcode: false,
-            bankid: '',
+            name: '',
+            bankAccountNumber: '',
+            bank:'none',
 
             amountFocused: false,
             amountInvalid: true,
@@ -240,13 +323,15 @@ class LocalBankDeposit extends Component {
             isFavourite: false,
         };
 
-
-        this.handleClick = this.handleClick.bind(this);
         this.cancelClicked = this.cancelClicked.bind(this);
-        this.setAsFavourite = this.setAsFavourite.bind(this);
     }
 
     componentWillReceiveProps(props) {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
@@ -257,6 +342,11 @@ class LocalBankDeposit extends Component {
     }
 
     componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
@@ -266,21 +356,33 @@ class LocalBankDeposit extends Component {
             });
     }
 
-    amountChanged = e => {
+    amountChanged(event) {
         this.setState({ amountFocused: true });
 
-        if (e.target.value.length === 0) {
+        if (event.target.value.length === 0) {
             this.setState({ amount: '', amountInvalid: true });
         } else {
-            const re = /^[0-9\b]+$/;
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
-            if (re.test(e.target.value)) {
-                this.setState({ amount: e.target.value, amountInvalid: false });
+            if (re.test(event.target.value)) {
+                this.setState({ amount: event.target.value });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 200 || parseFloat(event.target.value) > 950000) });
             }
             else {
                 this.setState({ amountInvalid: true });
             }
         }
+    };
+
+    bankAccountNumberChanged(event) {
+        this.setState({ bankAccountNumberFocused: true });
+
+        const re = /^[0-9\b]+$/;
+
+        if (re.test(event.target.value))
+            this.setState({ bankAccountNumber: event.target.value });
+        else if (event.target.value.length === 0)
+            this.setState({ bankAccountNumber: '' });
     };
 
     handleClick = () => {
@@ -381,10 +483,8 @@ class LocalBankDeposit extends Component {
             }
 
         }).catch(function (err) {
-            //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
             sendingLog(err);
-            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
@@ -408,36 +508,79 @@ class LocalBankDeposit extends Component {
 
     render() {
         const { classes } = this.props;
-        const { showLinearProgressBar, isFavourite, amount, currency } = this.state;
+        const { amount, currency, isFavourite, name, bankAccountNumber,bank } = this.state;
 
         return (
             <div className={classes.root}>
-                {showLinearProgressBar === true && <LinearProgress />}
-                <Grid container spacing={2} className={classes.contentGrid} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}>
-                    {amounts.map((x, i) => {
-                        return (
-                            <Grid item xs={3} key={i}>
-                                <Button
-                                    className={clsx({
-                                        [classes.button]: true,
-                                        [classes.selected]: (x === amount)
-                                    })}
-
-                                    onClick={() =>
-                                        this.setState({
-                                            amount: x,
-                                            amountInvalid: false,
-                                            amountFocused: false
-                                        })}>
-                                    {x}
-                                </Button>
-                            </Grid>
-                        );
-                    })}
+                <Grid container spacing={2} className={classes.contentGrid}>
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
-                            className={classes.amountText}
-                            placeholder={this.getLabel('bitcoin-placeholder')}
+                            className={classes.detailText}
+                            placeholder={this.getLabel('name-label')}
+                            onChange={(event) => {
+                                this.setState({ nameFocused: true });
+                                this.setState({ name: event.target.value });
+                            }}
+                            value={name}
+                            error={this.state.nameFocused && name.length === 0}
+                            helperText={(this.state.nameFocused && name.length === 0) ? this.getLabel('invalid-name') : ' '}
+                            InputProps={{
+                                disableUnderline: true,
+
+                                endAdornment: (
+                                    <InputAdornment position="end" >
+                                        <img src={images.src + 'letou/info-icon.svg'} alt="" height="20" />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
+                            placeholder={this.getLabel('bank-number')}
+                            onChange={this.bankAccountNumberChanged.bind(this)}
+                            value={bankAccountNumber}
+                            error={this.state.bankAccountNumberFocused && bankAccountNumber.length === 0}
+                            helperText={(this.state.bankAccountNumberFocused && bankAccountNumber.length === 0) ? this.getLabel('invalid-bank-number') : ' '}
+                            InputProps={{
+                                disableUnderline: true,
+                                endAdornment: (
+                                    <InputAdornment position="end" >
+                                        <img src={images.src + 'letou/info-icon.svg'} alt="" height="20" />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Select
+                            className={classes.select}
+                            placeholder={this.getLabel('bank-number')}
+                            value={bank}
+                            onChange={(event) => {
+                                this.setState({ bank: event.target.value });
+                            }}
+                            input={<BootstrapInput name="bank" id="bank-select" />}>
+                            <MenuItem  key='none' value='none' disabled>
+                                <span >{this.getLabel('choose-bank')}</span>
+                            </MenuItem>
+                            {
+                                bank_options.map(bank => (
+                                    <MenuItem key={bank.label} value={bank.value} >
+                                        <div style={{ width: 100 }}>
+                                            <img src={images.src + bank.img} alt="" height="20" />
+                                        </div>
+                                        <span >{bank.label}</span>
+                                    </MenuItem>
+                                ))
+                            }
+                        </Select>
+                    </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
+                            placeholder={this.getLabel('thai-localbank-placeholder')}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -467,24 +610,24 @@ class LocalBankDeposit extends Component {
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={() => { this.setAsFavourite() }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />
                     </Grid>
-                    <Grid item xs={12} className={classes.buttonCell}>
+                    <Grid item xs={6} className={classes.buttonCell}>
+                        <Button variant="contained" className={classes.cancelButton}
+                            onClick={this.cancelClicked}
+                        >{this.getLabel('cancel-label')}</Button>
+                    </Grid>
+                    <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick}
-                            disabled={this.state.amountInvalid}
+                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
                         >{this.getLabel('next-label')}</Button>
-                    </Grid>
-                    <Grid item xs={12} className={classes.buttonCell}>
-                        <Button className={classes.actionButton}
-                            onClick={this.cancelClicked}
-                        >{this.getLabel('back-banking')}</Button>
                     </Grid>
                 </Grid>
             </div>
@@ -498,4 +641,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(LocalBankDeposit))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(ThaiLocalBank))));

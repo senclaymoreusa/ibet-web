@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputMask from 'react-input-mask';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../../actions';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
@@ -19,7 +19,7 @@ import getSymbolFromCurrency from 'currency-symbol-map'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
-const styles = function () {
+const styles = theme => {
     return {
         root: {
             width: '100%',
@@ -55,6 +55,9 @@ const styles = function () {
             height: 44,
             borderRadius: 22,
             backgroundColor: '#d8d8d8'
+        },
+        checkbox: {
+            margin: theme.spacing()
         },
         backBankingButton: {
             width: 324,
@@ -308,6 +311,11 @@ class Astropay extends Component {
     }
 
     componentWillReceiveProps(props) {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
@@ -318,7 +326,12 @@ class Astropay extends Component {
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('token');
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
+         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
@@ -472,13 +485,11 @@ class Astropay extends Component {
 
     render() {
         const { classes } = this.props;
-
         const { amount, currency, isFavourite } = this.state;
 
 
         return (
             <div className={classes.root}>
-
                 <Grid container spacing={2} className={classes.contentGrid}>
                     <Grid
                         item
