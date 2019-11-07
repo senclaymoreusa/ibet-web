@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputMask from 'react-input-mask';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL, sendingLog } from '../../../../../../actions';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
@@ -253,7 +253,7 @@ function NumberFormatCustom(props) {
 
     return (
         <NumberFormat
-            {...other} 
+            {...other}
             getInputRef={inputRef}
             onValueChange={values => {
                 onChange({
@@ -328,7 +328,7 @@ class Astropay extends Component {
                 this.props.history.push('/')
             }
         })
-         const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
@@ -338,7 +338,7 @@ class Astropay extends Component {
     }
 
     amountChanged(event) {
-        
+
         this.setState({ amountFocused: true });
 
         if (event.target.value.length === 0) {
@@ -446,19 +446,19 @@ class Astropay extends Component {
                 .post(API_URL + 'users/api/addorwithdrawbalance/', body, config)
                 .then(res => {
                     if (res.data === 'Failed') {
-                        this.setState({ error: true });
+                        currentComponent.props.callbackFromParent('error');
                     } else if (res.data === 'The balance is not enough') {
-                        alert('cannot withdraw this amount');
+                        currentComponent.props.callbackFromParent('error', 'Cannot withdraw this amount');
                     } else {
-                        alert('your balance is updated');
-                        // window.location.reload();
+                        currentComponent.props.callbackFromParent("success");
                     }
+                }).catch(function (err) {
+                    currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                    sendingLog(err);
                 });
         } else {
-            this.setState({
-                error: true,
-                error_msg: res.data.response_msg.split('|')[3]
-            });
+            sendingLog(res.data.response_msg.split('|')[3]);
+            currentComponent.props.callbackFromParent("error", res.data.response_msg.split('|')[3]);
         }
     };
 

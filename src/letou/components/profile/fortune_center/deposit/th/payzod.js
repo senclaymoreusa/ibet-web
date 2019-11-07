@@ -557,11 +557,9 @@ class Payzod extends Component {
 
     render() {
         const { classes } = this.props;
-        const { showLinearProgressBar } = this.state;
 
         return (
-            <div className={classes.root} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}>
-                {showLinearProgressBar === true && <LinearProgress />}
+            <div className={classes.root}>
                 {this.getContent()}
             </div >
         );

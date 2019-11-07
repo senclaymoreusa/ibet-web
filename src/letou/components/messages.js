@@ -335,7 +335,7 @@ export const messages = {
         'back-banking': 'Back to Banking',
         'bitcoin-placeholder': 'Deposit ¥100 - ¥100,000',
         'payzod-placeholder': 'Deposit ฿500 - ฿500,000',
-        'payzod-desc': 'Please open the app, scan the QR code. Once you have completed the payment please click confirm below.',
+        'payzod-desc': 'Please open the app, scan the QR code. Once you have completed the payment please check your transaction history page.',
         'deposit-method': 'Deposit Method',
         'order-number': 'Order Number',
         'timer-label': 'Timer',

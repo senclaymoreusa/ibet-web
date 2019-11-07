@@ -129,7 +129,7 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
         height: 44,
-        maxHeight:44,
+        maxHeight: 44,
         width: '100%',
     },
     detailText: {
@@ -220,17 +220,13 @@ const styles = theme => ({
 const bank_options = [
     //tailand
     { value: 'KKR', label: 'Kasikorn Bank (K-Bank)', img: 'letou/kasikornbank.png', code: 'THB' },
-    { value: 'BBL', label: 'Bangkok Bank', img: 'letou/bangkok-bank.png', code: 'THB' },
     { value: 'SCB', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 'THB' },
     { value: 'KTB', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 'THB' },
     { value: 'BOA', label: 'Bank of Ayudhya (Krungsri)', img: 'letou/bay.png', code: 'THB' },
-    { value: 'GSB', label: 'Government Savings Bank', img: 'letou/gov-saving.png', code: 'THB' },
     { value: 'TMB', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 'THB' },
-    { value: 'CIMBT', label: 'CIMB Thai', img: 'letou/cimb.png', code: 'THB' },
-    { value: 'KNK', label: 'Kiatnakin Bank', img: 'letou/kiat.png', code: 'THB' },
- ];
+];
 
- const BootstrapInput = withStyles(theme => ({
+const BootstrapInput = withStyles(theme => ({
     root: {
         'label + &': {
             marginTop: theme.spacing(3),
@@ -313,7 +309,7 @@ class ThaiLocalBank extends Component {
             currency: '',
             name: '',
             bankAccountNumber: '',
-            bank:'none',
+            bank: 'none',
 
             amountFocused: false,
             amountInvalid: true,
@@ -322,7 +318,7 @@ class ThaiLocalBank extends Component {
 
             isFavourite: false,
         };
-   }
+    }
 
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
@@ -506,7 +502,7 @@ class ThaiLocalBank extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, currency, isFavourite, name, bankAccountNumber,bank } = this.state;
+        const { amount, currency, isFavourite, name, bankAccountNumber, bank } = this.state;
 
         return (
             <div className={classes.root}>
@@ -560,7 +556,7 @@ class ThaiLocalBank extends Component {
                                 this.setState({ bank: event.target.value });
                             }}
                             input={<BootstrapInput name="bank" id="bank-select" />}>
-                            <MenuItem  key='none' value='none' disabled>
+                            <MenuItem key='none' value='none' disabled>
                                 <span >{this.getLabel('choose-bank')}</span>
                             </MenuItem>
                             {
@@ -619,7 +615,7 @@ class ThaiLocalBank extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button variant="contained" className={classes.cancelButton}
                             onClick={this.cancelClicked.bind(this)}
-                            >{this.getLabel('cancel-label')}</Button>
+                        >{this.getLabel('cancel-label')}</Button>
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
