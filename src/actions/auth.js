@@ -251,24 +251,35 @@ export const authCheckState = () => {
 
                 return axios.get(API_URL + 'users/api/user/', config)
                     .then(res => {
-                        return axios.get(API_URL + 'users/api/check-user-status/?userId=' + res.data.pk, config)
-                        .then(userStatus => {
-                            if (userStatus.data.errorCode === errors.USER_IS_BLOCKED) {
-                                dispatch(authFail(userStatus.errorMsg.detail[0]));
-                                dispatch(logout());
-                                postLogout();
-                                return Promise.resolve(AUTH_RESULT_FAIL);
-                            } else if (res.data.block || !res.data.active) {
-                                dispatch(logout());
-                                postLogout();
-                                return Promise.resolve(AUTH_RESULT_FAIL);
-                            } else {
-                                dispatch(authSuccess(token));
-                                //dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime()) / 1000) );
-                                dispatch(checkAuthTimeout(3600));
-                                return Promise.resolve(AUTH_RESULT_SUCCESS);
-                            }
-                        })
+                        if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                            
+                            dispatch(authFail(res.data.errorMsg.detail[0]));
+                            dispatch(logout());
+                            return Promise.resolve(AUTH_RESULT_FAIL);
+                        } else if (res.data.block || !res.data.active) {
+                            dispatch(logout());
+                            return Promise.resolve(AUTH_RESULT_FAIL);
+                        } else {
+                            dispatch(authSuccess(token));
+                            dispatch(checkAuthTimeout(3600));
+                            return Promise.resolve(AUTH_RESULT_SUCCESS);
+                        }
+                        // return axios.get(API_URL + 'users/api/check-user-status/?userId=' + res.data.pk, config)
+                        // .then(userStatus => {
+                        //     if (userStatus.data.errorCode === errors.USER_IS_BLOCKED) {
+                        //         dispatch(authFail(userStatus.errorMsg.detail[0]));
+                        //         dispatch(logout());
+                        //         return Promise.resolve(AUTH_RESULT_FAIL);
+                        //     } else if (res.data.block || !res.data.active) {
+                        //         dispatch(logout());
+                        //         return Promise.resolve(AUTH_RESULT_FAIL);
+                        //     } else {
+                        //         dispatch(authSuccess(token));
+                        //         //dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime()) / 1000) );
+                        //         dispatch(checkAuthTimeout(3600));
+                        //         return Promise.resolve(AUTH_RESULT_SUCCESS);
+                        //     }
+                        // })
                     })
                     .catch(err => {
                         // dispatch(authFail(err.response.data.detail));

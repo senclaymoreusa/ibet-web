@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, handle_inbox_value } from '../../../../../actions';
+import { authCheckState, handle_inbox_value, sendingLog, logout, postLogout } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
-
+import { errors } from '../../../../../ibet/components/errors'
 import { images, config } from '../../../../../util_config';
 import axios from 'axios';
 
@@ -130,16 +130,16 @@ export class InboxDetail extends Component {
 
         axios.post(API_URL + 'operation/api/read_message/' + this.props.message.pk, config)
             .then(res => {
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                    this.props.logout();
+                    postLogout();
+                    return;
+                }
                 if(res.status === 201) {
                     this.props.handle_inbox_value(this.props.inbox - 1);
                 }
-                else if(res.status === 200) {
-
-                }
-                else {
-                    console.log("bad request");
-                }
-
+            }).catch(err => {
+                sendingLog(err);
             })
     }
 
@@ -150,9 +150,16 @@ export class InboxDetail extends Component {
     deleteClicked(id) {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                    this.props.logout();
+                    postLogout();
+                    return;
+                }
                 if(res.status === 200) {
                     this.props.callbackFromParent('inbox', true);
                 }
+            }).catch(err => {
+                sendingLog(err);
             })
     }
 
@@ -193,4 +200,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, handle_inbox_value })(InboxDetail)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, handle_inbox_value, logout })(InboxDetail)));
