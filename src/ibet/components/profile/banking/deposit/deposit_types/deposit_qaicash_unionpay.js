@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState , sendingLog } from '../../../../../../actions';
+import { authCheckState , sendingLog, logout, postLogout } from '../../../../../../actions';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
@@ -322,6 +322,11 @@ class DepositQaicashUnionpay extends Component {
                                     return res.json();
                                 })
                                 .then(function(data) {
+                                    if(data.errorCode){
+                                        currentComponent.props.logout();
+                                        postLogout();
+                                        return;
+                                    }
                                     //console.log(data.status);
                                     if (data.status === 0) {
                                         //alert('Transaction is approved.');
@@ -383,7 +388,7 @@ class DepositQaicashUnionpay extends Component {
                 }
             }).catch(function (err) {  
             //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
         });
     };
@@ -567,5 +572,5 @@ const mapStateToProps = state => {
 };
 
 export default withStyles(styles)(
-    injectIntl(connect(mapStateToProps, { authCheckState })(DepositQaicashUnionpay))
+    injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositQaicashUnionpay))
 );

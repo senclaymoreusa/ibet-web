@@ -259,7 +259,7 @@ export class live_casino extends React.Component {
                   </Grid>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a><span><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('Real-money')}</font></span></a>
+                    <a onClick={() => window.open("https://178.claymoreasia.com/wkpibet/newlayout/index.php", "ealive")}><span><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('Real-money')}</font></span></a>
                   </div>
                   </Grid>
                 </div>

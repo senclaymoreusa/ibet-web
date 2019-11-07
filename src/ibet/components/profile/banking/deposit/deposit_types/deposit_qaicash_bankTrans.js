@@ -14,7 +14,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
-import { authCheckState, sendingLog  } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout  } from '../../../../../../actions';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -453,6 +453,11 @@ class DepositQaicashBT extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
+                            if(data.errorCode){
+                                currentComponent.props.logout();
+                                postLogout();
+                                return;
+                            }
                             //console.log(data.status)
                             if (data.status === 0) {
                                 //alert('Transaction is approved.');
@@ -485,7 +490,7 @@ class DepositQaicashBT extends Component {
             }
         }).catch(function (err) {  
             //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
         });
     }
@@ -619,4 +624,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositQaicashBT)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositQaicashBT)));
