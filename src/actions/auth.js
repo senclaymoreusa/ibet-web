@@ -244,6 +244,7 @@ export const authCheckState = () => {
             );
             if (expirationDate <= new Date()) {
                 dispatch(logout());
+                postLogout();
                 return Promise.resolve(AUTH_RESULT_FAIL);
             } else {
                 config.headers['Authorization'] = `Token ${token}`;
@@ -283,6 +284,7 @@ export const authCheckState = () => {
                     .catch(err => {
                         // dispatch(authFail(err.response.data.detail));
                         dispatch(logout());
+                        postLogout();
                         delete config.headers['Authorization'];
                         return Promise.resolve(AUTH_RESULT_FAIL);
                     });
