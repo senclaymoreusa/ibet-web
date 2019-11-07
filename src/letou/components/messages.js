@@ -314,11 +314,6 @@ export const messages = {
         'ok-label': 'OK',
         'cancel-label': 'Cancel',
         'are-u-sure-transfer': 'You are about to transfer all amount of money in your varius wallets to your main wallet. Are you sure?',
-
-
-
-
-
         'local-bank': 'Local Bank',
         'bank-transfer': 'Bank Transfer',
         'quick-pay': 'QuickPay',
@@ -377,6 +372,8 @@ export const messages = {
         'bank-fee': '0 Fees | 200-200,000 vnd',
         'internet-fee': '0 Fees | 100-100,000 vnd',
         'momo-fee': '12% Fees | 200-15,000 vnd',
+        'enter-amount':'Enter Amount',
+        
     },
     zh: {
 
