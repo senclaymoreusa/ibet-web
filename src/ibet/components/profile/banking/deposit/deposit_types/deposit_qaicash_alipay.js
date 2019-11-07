@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState, sendingLog  } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -320,6 +320,11 @@ class DepositQaicashAlipay extends Component {
         }).then(function (res) {
             return res.json();
         }).then(function (data) {
+            if(data.errorCode){
+                currentComponent.props.logout();
+                postLogout();
+                return;
+            }
             let redirectUrl = data.paymentPageSession.paymentPageUrl
             //console.log(redirectUrl)
 
@@ -382,8 +387,8 @@ class DepositQaicashAlipay extends Component {
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
             }
         }).catch(function (err) {  
-            console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
         });
     }
@@ -500,4 +505,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositQaicashAlipay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout})(DepositQaicashAlipay)));

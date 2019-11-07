@@ -350,7 +350,11 @@ export class TopNavbar extends React.Component {
                             )}
                         </Popper>
                         <Button variant="contained" className={(dropdownMenu === 'games') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
-                            onMouseEnter={(event) => { this.openMainMenu(event, 'games'); }}>
+                            onMouseEnter={(event) => { this.openMainMenu(event, 'games'); }}
+                            onClick={(event) => {
+                                this.props.history.push('/game');
+
+                            }}>
                             {this.getLabel('nav-games')}
                         </Button>
                         <Button variant="contained" className={(dropdownMenu === 'offer') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
