@@ -346,7 +346,24 @@ export class VerifyEmail extends Component {
     }
 
     sendVerificationCodeToEmail() {
-        this.setState({ activeStep: 1 });
+        axios.post(API_URL + `users/api/generateactivationcode/`, {
+            type: 'change_member_email',
+            username: this.state.username,
+        })
+            .then(res => {
+                if (res.status === 201) {
+                    this.setState({ snackType: 'success' });
+                    this.setState({ snackMessage: this.getLabel('verification-code-sent') });
+                    this.setState({ showSnackbar: true });
+                    this.setState({ activeStep: 1 });
+                } if (res.data === 104) {
+                    this.setState({ snackType: 'warning' });
+                    this.setState({ snackMessage: this.getLabel('reached-verification-limit') });
+                    this.setState({ showSnackbar: true });
+                }
+            }).catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     verifyEmailWithCode() {
