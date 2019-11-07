@@ -306,7 +306,6 @@ class Payzod extends Component {
             amountFocused: false,
             amountInvalid: true,
             currency: 'USD',
-            showLinearProgressBar: false,
             orderNumber: '',
             isFavourite: false,
             activeStep: 0,
@@ -359,8 +358,6 @@ class Payzod extends Component {
         event.preventDefault();
 
         let currentComponent = this;
-
-        currentComponent.setState({ showLinearProgressBar: true });
 
         const { amount } = this.state;
         const token = localStorage.getItem('token');

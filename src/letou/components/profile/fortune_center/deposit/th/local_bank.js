@@ -314,8 +314,6 @@ class ThaiLocalBank extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            showLinearProgressBar: false,
-
             isFavourite: false,
         };
     }
@@ -382,7 +380,6 @@ class ThaiLocalBank extends Component {
     handleClick = () => {
         let currentComponent = this;
 
-        currentComponent.setState({ showLinearProgressBar: true });
         let userid = this.state.data.pk;
         var postData = {
             "amount": this.state.amount,
@@ -406,10 +403,6 @@ class ThaiLocalBank extends Component {
             },
             body: formBody
         }).then(function (res) {
-            //console.log(res);
-
-            currentComponent.setState({ showLinearProgressBar: false });
-
 
             return res.json();
 

@@ -300,8 +300,6 @@ class Astropay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            showLinearProgressBar: false,
-
             currency: '',
             isFavourite: false,
         };
@@ -411,8 +409,7 @@ class Astropay extends Component {
     handleClick = async event => {
         event.preventDefault();
         let currentComponent = this;
-        currentComponent.setState({ showLinearProgressBar: true });
-
+      
         const token = localStorage.getItem('token');
 
         if (!token) {

@@ -387,7 +387,6 @@ class Help2pay extends Component {
 
             currency: "THB",
             currencyCode: 'THB',
-            showLinearProgressBar: false,
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -458,8 +457,6 @@ class Help2pay extends Component {
     handleClick = () => {
         let currentComponent = this;
 
-        currentComponent.setState({ showLinearProgressBar: true });
-
         var orderid = this.state.order_id;
         var postData = {
             "amount": this.state.amount,
@@ -492,7 +489,6 @@ class Help2pay extends Component {
                 return res.text();
             }
 
-            currentComponent.setState({ showLinearProgressBar: false });
             currentComponent.props.callbackFromParent("error", "渠道维护中");
 
             //alert("渠道维护中");
@@ -502,19 +498,13 @@ class Help2pay extends Component {
             let newwin = window.open('');
             newwin.document.write(data);
             var timer = setInterval(function () {
-
-                currentComponent.setState({ showLinearProgressBar: false });
-
-                //console.log('checking..')
+             
                 if (newwin.closed) {
                     clearInterval(timer);
                     const pd = JSON.stringify({
                         order_id: orderid,
 
                     });
-
-                    currentComponent.setState({ showLinearProgressBar: true });
-
 
                     return fetch(API_URL + 'accounting/api/help2pay/deposit_status', {
                         method: 'POST',
@@ -530,11 +520,9 @@ class Help2pay extends Component {
                     }).then(function (data) {
                         //console.log(data)
 
-                        currentComponent.setState({ showLinearProgressBar: false });
 
                         if (data === '0') {
-                            currentComponent.setState({ showLinearProgressBar: true });
-
+                       
                             const body = JSON.stringify({
                                 type: 'add',
                                 username: this.state.data.username,
@@ -585,13 +573,13 @@ class Help2pay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { selectedBankOption, isFavourite, showLinearProgressBar, amount, currency } = this.state;
+        const { selectedBankOption, isFavourite, amount, currency } = this.state;
 
         console.log('code: ' + this.state.currencyCode)
         const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
 
         return (
-            <div className={classes.root} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}>
+            <div className={classes.root}>
                 <Grid container className={classes.contentGrid} spacing={2}>
                     <Grid item xs={12}>
                         <Select
