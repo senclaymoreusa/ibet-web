@@ -21,15 +21,15 @@ import getSymbolFromCurrency from 'currency-symbol-map'
 
 const bank_options = [
     //tailand
-    { value: 'KKR', label: 'Kasikorn Bank (K-Bank)', img: 'letou/kasikornbank.png', code: 'THB' },
-    { value: 'BBL', label: 'Bangkok Bank', img: 'letou/bangkok-bank.png', code: 'THB' },
-    { value: 'SCB', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 'THB' },
-    { value: 'KTB', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 'THB' },
-    { value: 'BOA', label: 'Bank of Ayudhya (Krungsri)', img: 'letou/bay.png', code: 'THB' },
-    { value: 'GSB', label: 'Government Savings Bank', img: 'letou/gov-saving.png', code: 'THB' },
-    { value: 'TMB', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 'THB' },
-    { value: 'CIMBT', label: 'CIMB Thai', img: 'letou/cimb.png', code: 'THB' },
-    { value: 'KNK', label: 'Kiatnakin Bank', img: 'letou/kiat.png', code: 'THB' },
+    { value: 'KKR', label: 'Kasikorn Bank (K-Bank)', img: 'letou/kasikornbank.png', code: 2 },
+    { value: 'BBL', label: 'Bangkok Bank', img: 'letou/bangkok-bank.png', code: 2 },
+    { value: 'SCB', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 2 },
+    { value: 'KTB', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 2 },
+    { value: 'BOA', label: 'Bank of Ayudhya (Krungsri)', img: 'letou/bay.png', code: 2 },
+    { value: 'GSB', label: 'Government Savings Bank', img: 'letou/gov-saving.png', code: 2 },
+    { value: 'TMB', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 2 },
+    { value: 'CIMBT', label: 'CIMB Thai', img: 'letou/cimb.png', code: 2 },
+    { value: 'KNK', label: 'Kiatnakin Bank', img: 'letou/kiat.png', code: 2 },
     // vietnam
     { value: 'TCB', label: 'Techcom Bank', img: 'letou/kiat.png', code: 'VND' },
     { value: 'SACOM', label: 'Sacom Bank', img: 'letou/kiat.png', code: 'VND' },
@@ -461,7 +461,7 @@ class Help2pay extends Component {
         var postData = {
             "amount": this.state.amount,
             "user_id": this.state.data.pk,
-            "currency": this.state.selectedCurrencyOption,
+            "currency": '2',
             "bank": this.state.selectedBankOption,
             "language": "en-Us",
             "order_id": orderid,
@@ -576,7 +576,8 @@ class Help2pay extends Component {
         const { selectedBankOption, isFavourite, amount, currency } = this.state;
 
         console.log('code: ' + this.state.currencyCode)
-        const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+        // const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+        const filteredOptions = bank_options.filter((o) => o.code === 2)
 
         return (
             <div className={classes.root}>
