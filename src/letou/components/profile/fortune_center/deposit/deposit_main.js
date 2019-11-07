@@ -16,12 +16,15 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { config } from '../../../../../util_config';
 
-
-
 import ThaiLocalBank from './th/local_bank';
 import Payzod from './th/payzod';
 import Astropay from './th/astro_pay';
 import Help2pay from './th/help2_pay';
+
+import FgoCard from './vn/fgo_card';
+import MomoPay from './vn/momo_pay';
+import CirclePay from './vn/circle_pay';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -374,15 +377,79 @@ export class DepositMain extends Component {
                             <Button
                                 className={classes.addButton}
                                 onClick={() => {
-                                    this.depositWith('banktransfer');
-                                }}
-                            >
+                                    this.depositWith('vietnamlocalbank');
+                                }}>
                                 <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
                             </Button>
                             <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'banktransfer'),
-                            })}>{this.getLabel('bank-transfer')}</span>
-                            {contentValue === 'banktransfer' && <div className={classes.selected} />}
+                                [classes.active]: (contentValue === 'vietnamlocalbank'),
+                            })}>{this.getLabel('local-bank')}</span>
+                            {contentValue === 'vietnamlocalbank' && <div className={classes.selected} />}
+                        </Grid>
+                        <Grid item xs={1} className={classes.methodColumn}>
+                            <Button
+                                className={classes.addButton}
+                                onClick={() => {
+                                    this.depositWith('circlepay');
+                                }}>
+                                <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                            </Button>
+                            <span className={clsx(classes.title, {
+                                [classes.active]: (contentValue === 'circlepay'),
+                            })}>{this.getLabel('circle-pay')}</span>
+                            {contentValue === 'circlepay' && <div className={classes.selected} />}
+                        </Grid>
+                        <Grid item xs={1} className={classes.methodColumn}>
+                            <Button
+                                className={classes.addButton}
+                                onClick={() => {
+                                    this.depositWith('help2pay');
+                                }}>
+                                <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="26" />
+                            </Button>
+                            <span className={clsx(classes.title, {
+                                [classes.active]: (contentValue === 'help2pay'),
+                            })}>{this.getLabel('help-pay')}</span>
+                            {contentValue === 'help2pay' && <div className={classes.selected} />}
+                        </Grid>
+                        <Grid item xs={1} className={classes.methodColumn}>
+                            <Button
+                                className={classes.addButton}
+                                onClick={() => {
+                                    this.depositWith('momopay');
+                                }}>
+                                <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                            </Button>
+                            <span className={clsx(classes.title, {
+                                [classes.active]: (contentValue === 'momopay'),
+                            })}>{this.getLabel('momo-pay')}</span>
+                            {contentValue === 'momopay' && <div className={classes.selected} />}
+                        </Grid>
+                        <Grid item xs={1} className={classes.methodColumn}>
+                            <Button
+                                className={classes.addButton}
+                                onClick={() => {
+                                    this.depositWith('scratchcard');
+                                }}>
+                                <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                            </Button>
+                            <span className={clsx(classes.title, {
+                                [classes.active]: (contentValue === 'scratchcard'),
+                            })}>{this.getLabel('scratch-card')}</span>
+                            {contentValue === 'scratchcard' && <div className={classes.selected} />}
+                        </Grid>
+                        <Grid item xs={1} className={classes.methodColumn}>
+                            <Button
+                                className={classes.addButton}
+                                onClick={() => {
+                                    this.depositWith('fgocard');
+                                }}>
+                                <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                            </Button>
+                            <span className={clsx(classes.title, {
+                                [classes.active]: (contentValue === 'fgocard'),
+                            })}>{this.getLabel('fgo-card')}</span>
+                            {contentValue === 'fgocard' && <div className={classes.selected} />}
                         </Grid>
                     </Grid>
                 );
@@ -406,6 +473,12 @@ export class DepositMain extends Component {
                 {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} />)}
                 {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} />)}
                 {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} />)}
+
+                {contentValue === 'circlepay' && (<CirclePay callbackFromParent={this.setPage} />)}
+                {contentValue === 'fgocard' && (<FgoCard callbackFromParent={this.setPage} />)}
+                {contentValue === 'vietnamlocalbank' && (<Help2pay callbackFromParent={this.setPage} />)}
+                {contentValue === 'momopay' && (<MomoPay callbackFromParent={this.setPage} />)}
+                {contentValue === 'scratchcard' && (<Help2pay callbackFromParent={this.setPage} />)}
             </div >
         );
     }

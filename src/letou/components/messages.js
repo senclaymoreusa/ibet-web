@@ -362,8 +362,21 @@ export const messages = {
         'bank-number': 'Bank Account Number',
         'invalid-name': 'Invalid name',
         'invalid-bank-number': 'Invalid bank account number',
-
-
+        'circle-pay': 'CirclePay',
+        'momo-pay': 'MoMo Pay',
+        'scratch-card': 'Scratch Card',
+        'fgo-card': 'F-Go Card',
+        'fgo-enter': 'Please enter the following and hit submit when done',
+        'fgo-ensure': 'Please ensure that you fill out the correct information from the scratch card',
+        'fgo-wrong': 'If you fill out the wrong information your deposit will fail',
+        'select-amount': 'Select Amount',
+        'serial-number': 'Serial Number',
+        'invalid-card-number': 'Invalid Card Number',
+        'invalid-serial-number': 'Invalid Serial Number',
+        'internet-banking': 'Internet Banking',
+        'bank-fee': '0 Fees | 200-200,000 vnd',
+        'internet-fee': '0 Fees | 100-100,000 vnd',
+        'momo-fee': '12% Fees | 200-15,000 vnd',
     },
     zh: {
 
