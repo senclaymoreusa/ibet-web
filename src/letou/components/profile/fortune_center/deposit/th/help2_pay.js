@@ -387,6 +387,7 @@ class Help2pay extends Component {
 
             currency: "THB",
             currencyCode: 'THB',
+            isFavourite: false,
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -406,6 +407,7 @@ class Help2pay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
+                this.setState({ isFavourite: res.data.favorite_payment_method === 'help2pay' });
             });
     }
 
@@ -423,6 +425,7 @@ class Help2pay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
+                this.setState({ isFavourite: res.data.favorite_payment_method === 'help2pay' });
             });
     }
 
@@ -498,7 +501,7 @@ class Help2pay extends Component {
             let newwin = window.open('');
             newwin.document.write(data);
             var timer = setInterval(function () {
-             
+
                 if (newwin.closed) {
                     clearInterval(timer);
                     const pd = JSON.stringify({
@@ -522,7 +525,7 @@ class Help2pay extends Component {
 
 
                         if (data === '0') {
-                       
+
                             const body = JSON.stringify({
                                 type: 'add',
                                 username: this.state.data.username,
@@ -558,8 +561,18 @@ class Help2pay extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavourite(event) {
+        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
+            user_id: this.state.data.pk,
+            payment: event.target.checked ? 'help2pay' : null,
+        })
+            .then(res => {
+                this.setState({ isFavourite: !this.state.isFavourite });
+                this.props.checkFavoriteMethod();
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     cancelClicked() {
@@ -637,7 +650,7 @@ class Help2pay extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={() => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />

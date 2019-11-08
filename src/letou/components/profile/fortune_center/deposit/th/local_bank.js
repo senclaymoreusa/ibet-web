@@ -330,6 +330,7 @@ class ThaiLocalBank extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                this.setState({ isFavourite: res.data.favorite_payment_method === 'thailocalbank' });
             });
     }
 
@@ -345,6 +346,7 @@ class ThaiLocalBank extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                this.setState({ isFavourite: res.data.favorite_payment_method === 'thailocalbank' });
             });
     }
 
@@ -480,9 +482,20 @@ class ThaiLocalBank extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavourite(event) {
+        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
+            user_id: this.state.data.pk,
+            payment: event.target.checked ? 'thailocalbank' : null,
+        })
+            .then(res => {
+                this.setState({ isFavourite: !this.state.isFavourite });
+                this.props.checkFavoriteMethod();
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
     }
+
 
     cancelClicked() {
         var url = this.props.history.location.pathname
@@ -600,7 +613,7 @@ class ThaiLocalBank extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={() => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />
