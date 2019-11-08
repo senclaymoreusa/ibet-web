@@ -558,8 +558,8 @@ class Help2pay extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavorite() {
+        this.setState({ isFavorite: !this.state.isFavorite })
     }
 
     cancelClicked() {
@@ -573,7 +573,7 @@ class Help2pay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { selectedBankOption, isFavourite, amount, currency } = this.state;
+        const { selectedBankOption, isFavorite, amount, currency } = this.state;
 
         console.log('code: ' + this.state.currencyCode)
         const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
@@ -636,7 +636,7 @@ class Help2pay extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={() => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={() => { this.setAsFavorite() }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />

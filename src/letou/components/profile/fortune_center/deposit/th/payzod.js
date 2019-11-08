@@ -307,7 +307,7 @@ class Payzod extends Component {
             amountInvalid: true,
             currency: 'USD',
             orderNumber: '',
-            isFavourite: false,
+            isFavorite: false,
             activeStep: 0,
             timeout: null,
             timeIntervalID: null
@@ -421,8 +421,8 @@ class Payzod extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavorite() {
+        this.setState({ isFavorite: !this.state.isFavorite })
     }
 
     cancelClicked() {
@@ -436,7 +436,7 @@ class Payzod extends Component {
 
     getContent() {
         const { classes } = this.props;
-        const { activeStep, isFavourite, amount, currency, qrCode, orderNumber, timeout } = this.state;
+        const { activeStep, isFavorite, amount, currency, qrCode, orderNumber, timeout } = this.state;
 
 
         switch (activeStep) {
@@ -480,7 +480,7 @@ class Payzod extends Component {
                         <Grid item xs={12} style={{ marginBottom: 50 }}>
                             <FormControlLabel className={classes.checkbox}
                                 control={
-                                    <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite() }} />
+                                    <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite() }} />
                                 }
                                 label={this.getLabel('add-favourite-deposit')}
                             />

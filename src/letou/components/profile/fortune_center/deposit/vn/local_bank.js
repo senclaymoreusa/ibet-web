@@ -218,12 +218,15 @@ const styles = theme => ({
 });
 
 const bank_options = [
-    //tailand
-    { value: 'KKR', label: 'Kasikorn Bank (K-Bank)', img: 'letou/kasikornbank.png', code: 'THB' },
-    { value: 'SCB', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 'THB' },
-    { value: 'KTB', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 'THB' },
-    { value: 'BOA', label: 'Bank of Ayudhya (Krungsri)', img: 'letou/bay.png', code: 'THB' },
-    { value: 'TMB', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 'THB' },
+ // vietnam
+    { value: 'TCB', label: 'Techcom Bank', img: 'letou/techcombank.png', code: 'VND' },
+    { value: 'SACOM', label: 'Sacom Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'VCB', label: 'Vietcom Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
+    { value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
+    { value: 'VTB', label: 'Vietin Bank', img: 'letou/vietinbank.png', code: 'VND' },
+    { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
+    { value: 'EXIM', label: 'Eximbank Vietnam', img: 'letou/kiat.png', code: 'VND' },
 ];
 
 const BootstrapInput = withStyles(theme => ({
@@ -314,7 +317,7 @@ class VietnamLocalBank extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            isFavourite: false,
+            isFavorite: false,
         };
     }
 
@@ -330,6 +333,7 @@ class VietnamLocalBank extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamlocalbank' });
             });
     }
 
@@ -345,6 +349,7 @@ class VietnamLocalBank extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamlocalbank' });
             });
     }
 
@@ -358,7 +363,7 @@ class VietnamLocalBank extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 200 || parseFloat(event.target.value) > 950000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 200 || parseFloat(event.target.value) > 100000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -480,8 +485,18 @@ class VietnamLocalBank extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavorite(event) {
+        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
+            user_id: this.state.data.pk,
+            payment: event.target.checked ? 'vietnamlocalbank' : null,
+        })
+            .then(res => {
+                this.setState({ isFavorite: !this.state.isFavorite });
+                this.props.checkFavoriteMethod();
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     cancelClicked() {
@@ -495,7 +510,7 @@ class VietnamLocalBank extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, currency, isFavourite, name, bankAccountNumber, bank } = this.state;
+        const { amount, currency, isFavorite, name, bankAccountNumber, bank } = this.state;
 
         return (
             <div className={classes.root}>
@@ -567,7 +582,7 @@ class VietnamLocalBank extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
-                            placeholder={this.getLabel('thai-localbank-placeholder')}
+                            placeholder={this.getLabel('vietnam-localbank-placeholder')}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -598,9 +613,9 @@ class VietnamLocalBank extends Component {
                         />
                     </Grid>
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
-                        <FormControlLabel className={classes.checkbox}
+                    <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={() => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite(event) }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />

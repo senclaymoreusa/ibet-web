@@ -314,7 +314,7 @@ class ThaiLocalBank extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            isFavourite: false,
+            isFavorite: false,
         };
     }
 
@@ -480,8 +480,8 @@ class ThaiLocalBank extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavorite() {
+        this.setState({ isFavorite: !this.state.isFavorite })
     }
 
     cancelClicked() {
@@ -495,7 +495,7 @@ class ThaiLocalBank extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, currency, isFavourite, name, bankAccountNumber, bank } = this.state;
+        const { amount, currency, isFavorite, name, bankAccountNumber, bank } = this.state;
 
         return (
             <div className={classes.root}>
@@ -600,7 +600,7 @@ class ThaiLocalBank extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={() => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={() => { this.setAsFavorite() }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />

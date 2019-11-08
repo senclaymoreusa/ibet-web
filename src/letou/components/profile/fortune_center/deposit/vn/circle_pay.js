@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../../util_config';
+import { config } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
-import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputBase from '@material-ui/core/InputBase';
-import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
@@ -287,42 +285,6 @@ const styles = theme => ({
     }
 });
 
-const BootstrapInput = withStyles(theme => ({
-    root: {
-        'label + &': {
-            marginTop: theme.spacing(3),
-        },
-    },
-    input: {
-        borderRadius: 4,
-        position: 'relative',
-        backgroundColor: theme.palette.background.paper,
-        border: '1px solid #ced4da',
-        fontSize: 16,
-        padding: '10px 2px 10px 12px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-        display: 'flex',
-        flexDirection: 'row',
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-        '&:focus': {
-            borderRadius: 4,
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        },
-    },
-}))(InputBase);
-
 const CustomCheckbox = withStyles({
     root: {
         color: '#21e496',
@@ -365,26 +327,23 @@ class CirclePay extends Component {
     constructor(props) {
         super(props);
 
-        this.amountInput = React.createRef();
-
         this.state = {
             urlPath: '',
             amount: '',
             error: false,
             data: '',
             type: '',
-            live_check_amount: false,
-            button_disable: false,
             value: "",
             selectedCurrencyOption: 'none',
             selectedBankOption: 'none',
-            order_id: "ibet" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
+            order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
 
             amountFocused: false,
             amountInvalid: true,
 
             currency: "THB",
             currencyCode: 'THB',
+            isFavorite: false,
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -404,6 +363,7 @@ class CirclePay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'circlepay' });
             });
     }
 
@@ -421,6 +381,7 @@ class CirclePay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'circlepay' });
             });
     }
 
@@ -434,7 +395,7 @@ class CirclePay extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 500 || parseFloat(event.target.value) > 500000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 100 || parseFloat(event.target.value) > 200000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -556,8 +517,18 @@ class CirclePay extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavorite(event) {
+        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
+            user_id: this.state.data.pk,
+            payment: event.target.checked ? 'circlepay' : null,
+        })
+            .then(() => {
+                this.setState({ isFavorite: !this.state.isFavorite });
+                this.props.checkFavoriteMethod();
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     cancelClicked() {
@@ -571,7 +542,7 @@ class CirclePay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { isFavourite, amount, currency } = this.state;
+        const { isFavorite, amount, currency } = this.state;
 
         return (
             <div className={classes.root}>
@@ -637,7 +608,7 @@ class CirclePay extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={() => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite(event) }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />

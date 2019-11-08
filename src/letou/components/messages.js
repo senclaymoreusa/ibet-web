@@ -378,6 +378,8 @@ export const messages = {
         'go-bank-card': 'Go to set up bank card',
         'change-mobile': 'Change mobile number method',
         'through-original': 'Through the original mobile',
+        'select-provider':'Select Provider',
+        'thai-localbank-placeholder': 'Deposit ₫200 - ₫100,000',
     },
     zh: {},
 

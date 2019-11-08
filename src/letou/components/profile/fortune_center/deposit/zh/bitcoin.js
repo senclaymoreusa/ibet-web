@@ -236,13 +236,13 @@ class BitcoinDeposit extends Component {
 
             showLinearProgressBar: false,
 
-            isFavourite: false,
+            isFavorite: false,
         };
 
 
         this.handleClick = this.handleClick.bind(this);
 
-        this.setAsFavourite = this.setAsFavourite.bind(this);
+        this.setAsFavorite = this.setAsFavorite.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -392,13 +392,13 @@ class BitcoinDeposit extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavorite() {
+        this.setState({ isFavorite: !this.state.isFavorite })
     }
 
     render() {
         const { classes } = this.props;
-        const { showLinearProgressBar, isFavourite, amount, currency } = this.state;
+        const { showLinearProgressBar, isFavorite, amount, currency } = this.state;
 
         return (
             <div className={classes.root}>
@@ -460,7 +460,7 @@ class BitcoinDeposit extends Component {
                     <Grid item xs={12}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite() }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />

@@ -307,7 +307,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-const amounts = Object.freeze([10, 20, 30, 50, 100, 200, 300, 500, 1000]);
+const amounts = Object.freeze(['50,000', '100,000', '200,000', '500,000', '1,000,000', '2,000,000']);
 
 
 class FgoCard extends Component {
@@ -318,6 +318,7 @@ class FgoCard extends Component {
             amount: 'none',
             cardNumber: '',
             serialNumber: '',
+            isFavorite: false,
         };
     }
 
@@ -327,6 +328,14 @@ class FgoCard extends Component {
                 this.props.history.push('/')
             }
         })
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ data: res.data });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'fgocard' });
+            });
     }
 
     componentDidMount() {
@@ -335,6 +344,14 @@ class FgoCard extends Component {
                 this.props.history.push('/')
             }
         })
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ data: res.data });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'fgocard' });
+            });
     }
 
 
@@ -418,8 +435,18 @@ class FgoCard extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavorite(event) {
+        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
+            user_id: this.state.data.pk,
+            payment: event.target.checked ? 'fgocard' : null,
+        })
+            .then(res => {
+                this.setState({ isFavorite: !this.state.isFavorite });
+                this.props.checkFavoriteMethod();
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     cancelClicked() {
@@ -433,7 +460,7 @@ class FgoCard extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, cardNumber, serialNumber } = this.state;
+        const { amount, cardNumber, serialNumber, isFavorite } = this.state;
 
         return (
             <div className={classes.root}>
@@ -441,7 +468,7 @@ class FgoCard extends Component {
                     <Grid item xs={12} className={classes.detailRow} style={{ marginBottom: 30 }}>
                         <span className={classes.info}>{this.getLabel('fgo-enter')}</span>
                     </Grid>
-                    {/* <Grid item xs={12}>
+                    <Grid item xs={12}>
                         <Select
                             className={classes.select}
                             placeholder={this.getLabel('select-amount')}
@@ -461,7 +488,7 @@ class FgoCard extends Component {
                                 ))
                             }
                         </Select>
-                    </Grid> */}
+                    </Grid>
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
@@ -513,11 +540,18 @@ class FgoCard extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick}
-                            //disabled={this.state.amount === 'none' || this.state.cardNumber.length === 0 || this.state.serialNumber.length === 0}
                             disabled={this.state.cardNumber.length === 0 || this.state.serialNumber.length === 0}
                         >{this.getLabel('deposit-label')}</Button>
                     </Grid>
-                    <Grid item xs={12} className={classes.detailRow} style={{ marginTop: 50, marginBottom: 30 }}>
+                    <Grid item xs={12} style={{ marginBottom: 30 }}>
+                        <FormControlLabel className={classes.checkbox}
+                            control={
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite(event) }} />
+                            }
+                            label={this.getLabel('add-favourite-deposit')}
+                        />
+                    </Grid>
+                    <Grid item xs={12} className={classes.detailRow} style={{ marginBottom: 30 }}>
                         <span className={classes.info}>{this.getLabel('fgo-ensure')}</span>
                     </Grid>
                     <Grid item xs={12} className={classes.detailRow}>

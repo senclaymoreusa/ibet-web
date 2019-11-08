@@ -301,7 +301,7 @@ class Astropay extends Component {
             amountInvalid: true,
 
             currency: '',
-            isFavourite: false,
+            isFavorite: false,
         };
     }
 
@@ -464,8 +464,8 @@ class Astropay extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavorite() {
+        this.setState({ isFavorite: !this.state.isFavorite })
     }
 
     cancelClicked() {
@@ -479,7 +479,7 @@ class Astropay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, currency, isFavourite } = this.state;
+        const { amount, currency, isFavorite } = this.state;
 
 
         return (
@@ -609,7 +609,7 @@ class Astropay extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={() => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={() => { this.setAsFavorite() }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />

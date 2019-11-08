@@ -356,16 +356,11 @@ class VietnamHelp2pay extends Component {
     constructor(props) {
         super(props);
 
-        this.amountInput = React.createRef();
-
         this.state = {
             urlPath: '',
             amount: '',
             error: false,
             data: '',
-            type: '',
-            live_check_amount: false,
-            button_disable: false,
             value: "",
             selectedCurrencyOption: 'none',
             selectedBankOption: 'none',
@@ -376,6 +371,7 @@ class VietnamHelp2pay extends Component {
 
             currency: "THB",
             currencyCode: 'THB',
+            isFavorite: false,
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -395,6 +391,7 @@ class VietnamHelp2pay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
     }
 
@@ -412,6 +409,7 @@ class VietnamHelp2pay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
     }
 
@@ -436,7 +434,6 @@ class VietnamHelp2pay extends Component {
     handleCurrencyChange = event => {
         this.setState({ selectedCurrencyOption: event.target.value });
         this.setState({ selectedBankOption: 'none' });
-
     };
 
     handleBankChange = event => {
@@ -487,7 +484,7 @@ class VietnamHelp2pay extends Component {
             let newwin = window.open('');
             newwin.document.write(data);
             var timer = setInterval(function () {
-             
+
                 if (newwin.closed) {
                     clearInterval(timer);
                     const pd = JSON.stringify({
@@ -511,7 +508,7 @@ class VietnamHelp2pay extends Component {
 
 
                         if (data === '0') {
-                       
+
                             const body = JSON.stringify({
                                 type: 'add',
                                 username: this.state.data.username,
@@ -547,8 +544,18 @@ class VietnamHelp2pay extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavourite() {
-        this.setState({ isFavourite: !this.state.isFavourite })
+    setAsFavorite(event) {
+        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
+            user_id: this.state.data.pk,
+            payment: event.target.checked ? 'vietnamhelp2pay' : null,
+        })
+            .then(res => {
+                this.setState({ isFavorite: !this.state.isFavorite });
+                this.props.checkFavoriteMethod();
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     cancelClicked() {
@@ -562,9 +569,8 @@ class VietnamHelp2pay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { selectedBankOption, isFavourite, amount, currency } = this.state;
+        const { selectedBankOption, isFavorite, amount, currency } = this.state;
 
-        console.log('code: ' + this.state.currencyCode)
         const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
 
         return (
@@ -625,7 +631,7 @@ class VietnamHelp2pay extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={() => { this.setAsFavourite() }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite(event) }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />
