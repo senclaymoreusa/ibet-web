@@ -133,29 +133,29 @@ export class live_casino extends React.Component {
         });
 }
   handleGDClick = () => {
-    let currencyConversion = {
-      '0': 'CNY',
-      '1': 'USD',
-      '2': 'THB',
-      '3': 'IDR',
-      '4': 'HKD',
-      '5': 'AUD',
-      '6': 'MYR',
-      '7': 'VND',
-      '8': 'MMK',
-      '9': 'XBT',
-      '10': 'EUR',
-      '11': 'NOK',
-      '12': 'GBP',
-    }
+    // let currencyConversion = {
+    //   '0': 'CNY',
+    //   '1': 'USD',
+    //   '2': 'THB',
+    //   '3': 'IDR',
+    //   '4': 'HKD',
+    //   '5': 'AUD',
+    //   '6': 'MYR',
+    //   '7': 'VND',
+    //   '8': 'MMK',
+    //   '9': 'XBT',
+    //   '10': 'EUR',
+    //   '11': 'NOK',
+    //   '12': 'GBP',
+    // }
     
     const token = localStorage.getItem('token');
     const code = 'IBPHtest';
     const accessKey = 'f66e9c36-22a0-4f0a-9521-c8d3ca4f021a';
     console.log(this.state.data)
     var currency = this.state.data.currency;
-    currency = currencyConversion[currency];
-    console.log(currency)
+    // currency = currencyConversion[currency];
+    // console.log(currency)
     const username = this.state.data.username;
     const key = sha256(code + token + accessKey + username + currency )
     
