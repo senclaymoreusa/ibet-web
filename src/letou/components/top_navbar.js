@@ -22,8 +22,8 @@ import ForgotPassword from "./login-register/forgot_password";
 import NewReleases from '@material-ui/icons/NewReleases';
 import Fab from '@material-ui/core/Fab';
 import Person from '@material-ui/icons/Person';
-
-
+import { config} from '../../util_config';
+import axios from 'axios';
 import {
     logout,
     postLogout,
@@ -35,6 +35,7 @@ import {
 
 import '../css/top_navbar.scss';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
         width: '100%',
@@ -164,11 +165,13 @@ export class TopNavbar extends React.Component {
         this.state = {
             anchorEl: null,
             dropdownMenu: 'none',
+            data:'',
 
             showSoggedinStatus: false,
         };
 
         this.getLabel = this.getLabel.bind(this);
+        this.handleOnebookClick = this.handleOnebookClick.bind(this);
     }
 
     closeMainMenu() {
@@ -198,8 +201,52 @@ export class TopNavbar extends React.Component {
             .then(() => {
                 this.setState({ showSoggedinStatus: true });
             })
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ data: res.data });
+                this.setState({ currencyValue: res.data.currency });
+                
+            });
     }
+    
+    handleOnebookClick() {
+        
+        var url = "";
+        if(this.state.data == ''){
+            url = 'http://sbtest.claymoreasia.com/NewIndex';
+            window.open(url, "onebook_url");
+        }else{
+            
+            var postData = {
+                "username": this.state.data.username
+            }
+            var formBody = [];
+            for (var pd in postData) {
+                var encodedKey = encodeURIComponent(pd);
+                var encodedValue = encodeURIComponent(postData[pd]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
 
+            return fetch(API_URL + 'games/api/onebook/login', {
+                method: "POST",
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                },
+                body: formBody
+            }).then(function (res){
+                return res.json();
+            }).then(function(data){
+                url = data.login_url;
+                window.open(url, "onebook_url")
+            });
+            
+        }
+        
+        
+    }
     render() {
         const { classes } = this.props;
         const { anchorEl, dropdownMenu } = this.state;
@@ -269,7 +316,13 @@ export class TopNavbar extends React.Component {
                                             <MenuList >
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-sports')}</MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('international-sports')}<NewReleases className={classes.newIcon} /></MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('sabah-sports')}</MenuItem>
+                                                <MenuItem  
+                                                    onClick={
+                                                        this.handleOnebookClick
+
+                                                    }>
+                                                    {this.getLabel('sabah-sports')}
+                                                </MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('sports-tutorial')}</MenuItem>
                                             </MenuList>
                                         </Paper>
