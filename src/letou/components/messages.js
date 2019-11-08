@@ -72,8 +72,6 @@ export const messages = {
         "aboutUs-detail-text-two": '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
         "aboutUs-detail-text-three": 'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
         "aboutUs-detail-text-four": '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
-
-
         'Live-casino': 'Live casino',
         'ag-title': 'AG Extreme Square',
         'ag-words': 'The world\'s first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.',
@@ -223,7 +221,7 @@ export const messages = {
         'referral-code': 'Invitaion/Referral Code',
         'modify-phone': 'Modify Phone Number',
         'phone-settings': 'Phone Settings',
-        'set-successfully': 'Set Successfully',
+        'set-successfully': 'Setting Successfully',
         'verification-code': 'Verification Code',
         'send-code': 'Send Code',
         'only-three-code':
@@ -373,13 +371,15 @@ export const messages = {
         'internet-fee': '0 Fees | 100-100,000 vnd',
         'momo-fee': '12% Fees | 200-15,000 vnd',
         'enter-amount':'Enter Amount',
-        
+        'change-password': 'Change Password',
+        'withdrawal-password-success': 'The withdrawal password is set successfully.',
+        'withdrawal-password-completion': 'Congratulations on the completion of the withdrawal password, please be sure to remember your withdrawal password, please do not provide your password to others.',
+        'go-withdrawal': 'Go to Withdrawal',
+        'go-bank-card': 'Go to set up bank card',
+        'change-mobile': 'Change mobile number method',
+        'through-original': 'Through the original mobile',
     },
-    zh: {
-
-
-
-    },
+    zh: {},
 
     vi: {},
 
