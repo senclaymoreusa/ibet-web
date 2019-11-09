@@ -12,7 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState,sendingLog } from '../../../../../../actions';
+import { authCheckState,sendingLog, logout, postLogout } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
@@ -339,6 +339,11 @@ class DepositAsiapayBitcoin extends Component {
                 }
             })
             .then(function(data) {
+                if(data.errorCode){
+                    currentComponent.props.logout();
+                    postLogout();
+                    return;
+                }
                 currentComponent.setState({ showLinearProgressBar: false });
                 //console.log(data);
                 if(data.StatusMsg == 'OK'){
@@ -354,8 +359,8 @@ class DepositAsiapayBitcoin extends Component {
                 
             }).catch(function (err) {  
             //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
+            sendingLog(err);
         });
     };
 
@@ -619,7 +624,7 @@ export default withStyles(styles)(
     injectIntl(
         connect(
             mapStateToProps,
-            { authCheckState }
+            { authCheckState, logout}
         )(DepositAsiapayBitcoin)
     )
 );

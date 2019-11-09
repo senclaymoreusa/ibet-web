@@ -9,7 +9,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { LinearProgress, Grid, Button, Select, MenuItem, TextField, InputBase } from '@material-ui/core';
 import InputMask from 'react-input-mask';
 
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState,sendingLog, logout, postLogout } from '../../../../../../actions';
+import { func } from 'prop-types';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -470,6 +471,8 @@ class DepositScratchCard extends Component {
     }
 
     async handleClick(event) {
+        let currentComponent = this;
+        currentComponent.setState({ showLinearProgressBar: true });
         event.preventDefault();
         const { serialNumber, pinNumber, amount, operator, data } = this.state;
 
@@ -490,52 +493,64 @@ class DepositScratchCard extends Component {
         };
         console.log(postData);
 
-        var res = await axios.post(API_URL + 'accounting/api/scratchcard/deposit',
+        //var res = 
+        await axios.post(API_URL + 'accounting/api/scratchcard/deposit',
             postData,
-            config)
-        console.log("result of deposit: ");
-        console.log(res);
-
-        if (res.status === 200) {
-            console.log("nice!");
-            if (res.data.status === 6) {
-                this.setState({
-                    receive_response: true,
-                    response_msg: "Deposit request is processing. Please check your transaction history for updates to your balance once we finish processing",
-                    error: false,
-                    error_msg: ""
-                });
-            }
-            else if (res.data.status === 1) {
-                const body = JSON.stringify({
-                    type: 'add',
-                    username: data.username || "",
-                    balance: amount,
-                });
-                axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
-                    .then(res => {
-                        if (res.data === 'Failed') {
-                            this.setState({ error: true });
-                        } else if (res.data === 'The balance is not enough') {
-                            alert("cannot withdraw this amount")
-                        } else {
-                            alert("your balance is updated")
-                            // window.location.reload();
-                        }
-                    });
-            }
-            else {
-                this.setState({
-                    error: true,
-                    error_msg: JSON.stringify(res.data.msg),
-                    receive_response: false,
-                    response_msg: ""
-                });
-            }
-        }
-        else {
-            this.setState({ error: true, error_msg: "Could not communicate with iBet servers. Error code: " + res.status });
-        }
+            config).then(res => {
+                console.log("result of deposit: ");
+                console.log(res);
+                if(res.data.errorCode){
+                    currentComponent.props.logout();
+                    postLogout();
+                    return;
+                }
+                if (res.status === 200) {
+                    console.log("nice!");
+                    
+                    if (res.data.status === 6) {
+                        this.setState({
+                            receive_response: true,
+                            response_msg: "Deposit request is processing. Please check your transaction history for updates to your balance once we finish processing",
+                            error: false,
+                            error_msg: ""
+                        });
+                    }
+                    else if (res.data.status === 1) {
+                        const body = JSON.stringify({
+                            type: 'add',
+                            username: data.username || "",
+                            balance: amount,
+                        });
+                        axios.post(API_URL + "users/api/addorwithdrawbalance/", body, config)
+                            .then(res => {
+                                if (res.data === 'Failed') {
+                                    this.setState({ error: true });
+                                } else if (res.data === 'The balance is not enough') {
+                                    alert("cannot withdraw this amount")
+                                } else {
+                                    alert("your balance is updated")
+                                    // window.location.reload();
+                                }
+                            });
+                    }
+                    else {
+                        this.setState({
+                            error: true,
+                            error_msg: JSON.stringify(res.data.msg),
+                            receive_response: false,
+                            response_msg: ""
+                        });
+                    }
+                    currentComponent.setState({ showLinearProgressBar: false });
+                }
+                else {
+                    this.setState({ error: true, error_msg: "Could not communicate with iBet servers. Error code: " + res.status });
+                }
+        }).catch(function(err){
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
+            sendingLog(err);
+        })
+        
     }
 
 
@@ -714,7 +729,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositScratchCard)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositScratchCard)));
 // const Tester = React.memo(function(({classnames, ...props})) {
 //     <InputMask {...props}/>
 // </InputMask>

@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import Footer from "../footer";
-
 import Typography from '@material-ui/core/Typography';
-
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../actions';
+import { authCheckState,AUTH_RESULT_FAIL } from '../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from "@material-ui/core/AppBar";
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import { createMuiTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-
 
 import AccountManagement from './account_management/account_management';
 import FortuneCenter from './fortune_center/fortune_center';
@@ -23,7 +18,7 @@ import TransactionRecord from './transaction_record/transaction_record';
 
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const styles = () => ({
     root: {
         width: '100%',
         display: 'flex',
@@ -126,11 +121,11 @@ export class Profile extends Component {
         this.handleTabChange = this.handleTabChange.bind(this);
     }
 
-    handleTabChange(event, newValue) {
+    handleTabChange(newValue) {
         this.setState({ tabValue: newValue })
     }
 
-    async handleCategoryChange(category, sub) {
+    async handleCategoryChange(category) {
         var url = this.state.urlPath;
         var parts = url.split('/');
 
@@ -150,11 +145,11 @@ export class Profile extends Component {
     }
 
     componentDidMount() {
-        // this.props.authCheckState().then(res => {
-        //     if (res === AUTH_RESULT_FAIL) {
-        //         this.props.history.push('/')
-        //     }
-        // })
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
 
         this.setState({ urlPath: this.props.history.location.pathname });
 

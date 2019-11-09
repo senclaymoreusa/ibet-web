@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config, images } from '../../../../../../util_config';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout  } from '../../../../../../actions';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -330,6 +330,11 @@ class DepositAsiapayQucikpay extends Component {
                                 }
                             })
                             .then(function(data) {
+                                if(data.errorCode){
+                                    currentComponent.props.logout();
+                                    postLogout();
+                                    return;
+                                }
                                 //console.log(data.status);
                                 if (data.status === '001') {
                                     //alert('Transaction is approved.');
@@ -383,17 +388,10 @@ class DepositAsiapayQucikpay extends Component {
                 }
                 
             })
-            .catch(err => {
-                //console.log(err);
-                // axios
-                //     .post(
-                //         API_URL + 'system/api/logstreamtos3/',
-                //         { line: err, source: 'Ibetweb' },
-                //         config
-                //     )
-                //     .then(res => {});
-                sendingLog(err);
-            });
+            .catch(function (err) {  
+                //console.log('Request failed', err);
+                currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                sendingLog(err);});
     };
 
     render() {
@@ -575,5 +573,5 @@ const mapStateToProps = state => {
 };
 
 export default withStyles(styles)(
-    injectIntl(connect(mapStateToProps, { authCheckState })(DepositAsiapayQucikpay))
+    injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositAsiapayQucikpay))
 );
