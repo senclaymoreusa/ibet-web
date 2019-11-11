@@ -43,7 +43,7 @@ const styles = theme => ({
     firstRow: {
         height: 32,
         alignItems: 'center',
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#f0f0f0',
     },
     firstBar: {
         paddingLeft: 0,
@@ -141,6 +141,7 @@ const styles = theme => ({
     },
     profileIcon: {
         margin: theme.spacing(1),
+        marginLeft:30,
         backgroundColor: '#F1941A',
         height: 30,
         width: 36,
@@ -435,14 +436,13 @@ export class TopNavbar extends React.Component {
                             this.state.showSoggedinStatus &&
                             <Fab color="primary" aria-label="add" className={classes.profileIcon} onClick={
                                 () => {
-                                    window.open(window.location.origin + "/p/fortune-center/deposit",
-                                        "Letou profile",
-                                        "resizable,scrollbars,status");
-                                    //this.props.history.push('/p/fortune-center/deposit')   
+                                    // window.open(window.location.origin + "/p/fortune-center/deposit",
+                                    //     "Letou profile",
+                                    //     "resizable,scrollbars,status"); 
+                                        this.props.history.push('/p/fortune-center/deposit')
                                 }}>
                                 <Person />
-                            </Fab>
-                            : <div>
+                            </Fab> : <div style={{marginLeft:20}}>
                                 <Button variant="contained" className={classes.secondRowButton}
                                     onClick={() => {
                                         this.props.history.push('/register')

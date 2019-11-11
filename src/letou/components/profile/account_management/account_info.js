@@ -8,8 +8,8 @@ import Create from '@material-ui/icons/Create';
 import Button from '@material-ui/core/Button';
 import { config } from '../../../../util_config';
 import axios from 'axios'
+
 import { withStyles } from '@material-ui/core/styles';
-import moment from "moment";
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -44,19 +44,21 @@ const styles = () => ({
         textTransform: 'capitalize',
         fontSize: 12,
         whiteSpace: 'nowrap',
-        minWidth: 140
+        minWidth:140
     }
 });
 
-export class SecuritySettings extends Component {
+export class AccountInfo extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            lastLoginTime: '',
-            securityQuestionHasBeenset: false,
-            withdrawalPasswordHasBeenset: false,
+            actualName: '',
+            email: '',
+            phone: '',
+            username: '',
+            registrationDate: '',
         }
     }
 
@@ -65,24 +67,8 @@ export class SecuritySettings extends Component {
         return formatMessage({ id: labelId });
     }
 
-    componentWillReceiveProps(prevProps) {
-        this.props.authCheckState()
-            .then(res => {
-                if (res === 1) {
-                    this.props.history.push('/');
-                }
-            })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ lastLoginTime: res.data.last_login_time });
-            })
-    }
-
     componentDidMount() {
+
         this.props.authCheckState()
             .then(res => {
                 if (res === 1) {
@@ -95,32 +81,84 @@ export class SecuritySettings extends Component {
 
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ lastLoginTime: res.data.last_login_time });
-                this.setState({ securityQuestionHasBeenset: res.data.security_question ? true : false })
-                this.setState({ withdrawalPasswordHasBeenset: res.data.withdraw_password ? true : false })
+                this.setState({ actualName: res.data.first_name });
+                this.setState({ email: res.data.email });
+                this.setState({ phone: res.data.phone });
+                this.setState({ username: res.data.username });
+                this.setState({ registrationDate: res.data.time_of_registration });
             })
-
     }
 
     render() {
         const { classes } = this.props;
-        const { lastLoginTime, securityQuestionHasBeenset, withdrawalPasswordHasBeenset } = this.state;
 
         return (
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
-                            {this.getLabel('last-login-time')}
+                            {this.getLabel('actual-name')}
                         </span>
                     </Grid>
-                    <Grid item xs={9} className={classes.row}>
+                    <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {moment(lastLoginTime).format('llll')}
+                            {this.state.actualName}
                         </span>
                     </Grid>
+                    <Grid item xs={3} className={classes.row}>
 
+                    </Grid>
+                    <Grid item xs={3} className={classes.row}>
+                        <span className={classes.label}>
+                            {this.getLabel('title-email')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={6} className={classes.row}>
+                        <span className={classes.value}>
+                            {this.state.email}
+                        </span>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
+                        <Button variant="contained"
+                            color="default"
+                            disabled={true}
+                            className={classes.editButton}
+                            >{this.getLabel('edit-label')}</Button>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row}>
+                        <span className={classes.label}>
+                            {this.getLabel('phone-label')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={6} className={classes.row}>
+                        <span className={classes.value}>
+                            {this.state.phone}
+                        </span>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
+                        <Button variant="contained"
+                            color="default"
+                            className={classes.editButton}
+                            onClick={() => {
+                                this.props.callbackFromParent(
+                                    'edit-phone'
+                                );
+                            }}
+                            >{this.getLabel('edit-label')}</Button>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row}>
+                        <span className={classes.label}>
+                            {this.getLabel('username-label')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={6} className={classes.row}>
+                        <span className={classes.value}>
+                            {this.state.username}
+                        </span>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
 
+                    </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
                             {this.getLabel('login-password')}
@@ -128,7 +166,7 @@ export class SecuritySettings extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {this.getLabel('password-you-need-login')}
+                        {this.getLabel('password-you-need-login')}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
@@ -140,7 +178,7 @@ export class SecuritySettings extends Component {
                                     'reset-password'
                                 );
                             }}
-                        >{this.getLabel('reset-label')}</Button>
+                           >{this.getLabel('reset-label')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
@@ -149,51 +187,46 @@ export class SecuritySettings extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {securityQuestionHasBeenset ? this.getLabel('you-have-set-password') : this.getLabel('password-you-need-withdrawing')}
+                        {this.getLabel('password-you-need-withdrawing')}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
                         <Button variant="contained"
                             color="default"
-                            className={classes.editButton}
                             onClick={() => {
                                 this.props.callbackFromParent(
                                     'set-withdrawal-password'
                                 );
                             }}
-                        >
-                            {securityQuestionHasBeenset ? this.getLabel('edit-label') : this.getLabel('setup-now')}</Button>
+                            className={classes.editButton}
+                            >{this.getLabel('setup-now')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
-                            {this.getLabel('security-question')}
+                            {this.getLabel('registration-time')}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {securityQuestionHasBeenset ? this.getLabel('you-have-set-question') : this.getLabel('set-security-question-text')}
+                            {this.state.registrationDate}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
                         <Button variant="contained"
                             color="default"
-                            onClick={() => {
-                                this.props.callbackFromParent(
-                                    'security-question'
-                                );
-                            }}
                             className={classes.editButton}
-                        >
-                            {securityQuestionHasBeenset ? this.getLabel('edit-label') : this.getLabel('setup-now')}</Button>
+                            target="_blank" 
+                            href='https://help.letou.com/cn/member_maintain/seq4.html'
+                            >{this.getLabel('gaming-responsibility')}</Button>
                     </Grid>
                     <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label} style={{ wordBreak: 'break-all' }}>
-                            {this.getLabel('jiufu-password')}
+                        <span className={classes.label}>
+                            {this.getLabel('bank-card')}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {this.getLabel('not-set')}
+                            Bind bank card
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row} style={{ textAlign: 'right' }}>
@@ -201,11 +234,11 @@ export class SecuritySettings extends Component {
                             color="default"
                             onClick={() => {
                                 this.props.callbackFromParent(
-                                    'jiufu-temple'
+                                    'bank-cards'
                                 );
                             }}
                             className={classes.editButton}
-                        >{this.getLabel('setting-label')}</Button>
+                            >{this.getLabel('binding-card-number')}</Button>
                     </Grid>
                 </Grid>
             </div>
@@ -219,4 +252,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(SecuritySettings))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(AccountInfo))));
