@@ -159,7 +159,7 @@ const styles = () => ({
 
 function ConfirmationDialogRaw(props) {
     const { onClose, open, ...other } = props;
-     const radioGroupRef = React.useRef(null);
+    const radioGroupRef = React.useRef(null);
 
 
     const handleEntering = () => {
@@ -190,8 +190,8 @@ function ConfirmationDialogRaw(props) {
                 <FormattedMessage id='transfer-to-main' defaultMessage='Transfer All to Main Wallet' />
             </DialogTitle>
             <DialogContent dividers>
-           <FormattedMessage id='are-u-sure-transfer' defaultMessage='Are you sure?' />
-          
+                <FormattedMessage id='are-u-sure-transfer' defaultMessage='Are you sure?' />
+
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleCancel} color="primary">
@@ -392,54 +392,63 @@ export class Transfer extends Component {
             walletObjs: [
                 {
                     title: 'OneWorks',
+                    code: 'oneworks',
                     value: 1000,
                     isMain: false,
                     color: ''
                 },
                 {
                     title: 'EA',
+                    code: 'ea',
                     value: 1000,
                     isMain: false,
                     color: ''
                 },
                 {
                     title: 'AG',
+                    code: 'ag',
                     value: 500,
                     isMain: false,
                     color: ''
                 },
                 {
                     title: 'OPUS',
+                    code: 'opus',
                     value: 500,
                     isMain: false,
                     color: ''
                 },
                 {
                     title: 'GPI',
+                    code: 'gpi',
                     value: 0,
                     isMain: false,
                     color: ''
                 },
                 {
                     title: 'BBIN',
+                    code: 'bbin',
                     value: 0,
                     isMain: false,
                     color: ''
                 },
                 {
                     title: 'PT',
+                    code: 'pt',
                     value: 400,
                     isMain: false,
                     color: ''
                 },
                 {
                     title: 'KY',
+                    code: 'ky',
                     value: 0,
                     isMain: false,
                     color: ''
                 },
                 {
                     title: 'Main Wallet',
+                    code: 'main',
                     value: 5000,
                     isMain: true,
                     color: ''
@@ -466,7 +475,7 @@ export class Transfer extends Component {
             )
         }));
     }
-    
+
     sendClicked() {
         var randomColor = require('randomcolor');
 
@@ -611,7 +620,7 @@ export class Transfer extends Component {
                         <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
                             <Button href="#text-buttons" className={classes.allButton}
                                 onClick={() => {
-                                     this.setState({showConfirmationDialog: true});
+                                    this.setState({ showConfirmationDialog: true });
                                 }}>
                                 {this.getLabel('transfer-to-main')}
                             </Button>
