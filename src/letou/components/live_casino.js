@@ -15,7 +15,7 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
-console.log("Line 15, process env URL = " + API_URL);
+//console.log("Line 15, process env URL = " + API_URL);
 
 document.body.style = 'background: #f1f1f1;';
 
@@ -152,7 +152,7 @@ export class live_casino extends React.Component {
     const token = localStorage.getItem('token');
     const code = 'IBPHtest';
     const accessKey = 'f66e9c36-22a0-4f0a-9521-c8d3ca4f021a';
-    console.log(this.state.data)
+    //console.log(this.state.data)
     var currency = this.state.data.currency;
     // currency = currencyConversion[currency];
     // console.log(currency)
@@ -349,8 +349,28 @@ export class live_casino extends React.Component {
                 </div>
               </div>
          
-              <div className="emptyHall">
-                
+              <div className="PgHall MarginLeft">
+                <div className="PgHallTitle Color3">{this.getLabel('gpi-title')}</div>
+                <div className="PgHallPic">
+                  <img src="https://www.178letou.com/static/styles/desktop/images/casino/gpi.jpg" style={{ opacity: 1 }}  alt="gpi" className="PgHallPicImg" />
+                </div>
+                <div className="PgHallArticle">
+                  <p>{this.getLabel('gpi-words')}</p>
+                  <ul>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Baccarat')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Qixi')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Dai')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Sangong')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Black')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Super')}</font></a></li>
+                    
+                  </ul>
+                  <Grid item xs={3} className={classes.PgHallBtn}>
+                  <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
+                    <a><span>{this.getLabel('Real-money')}</span></a>
+                  </div>
+                  </Grid>
+                </div>
               </div>
               <div className="emptyHall">
                 

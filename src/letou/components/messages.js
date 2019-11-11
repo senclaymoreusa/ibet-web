@@ -121,6 +121,7 @@ export const messages = {
         'bbin-Color': 'Color dish',
         'gpi-title': 'GPI Jin Yucheng',
         'gpi-words': 'Exclusive Super 98 Baccarat, innovative high odds, technical ability leading the industry.',
+        'gpi-Baccarat': 'Baccarat',
         'gpi-Qixi': 'Qixi Baccarat',
         'gpi-Dai': 'Dai siu Sic bo',
         'gpi-Sangong': 'Sangong',

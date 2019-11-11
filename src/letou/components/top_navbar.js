@@ -237,9 +237,12 @@ export class TopNavbar extends React.Component {
                 },
                 body: formBody
             }).then(function (res){
+                
                 return res.json();
             }).then(function(data){
+                //console.log(data);
                 url = data.login_url;
+                //console.log(url)
                 window.open(url, "onebook_url")
             });
             
