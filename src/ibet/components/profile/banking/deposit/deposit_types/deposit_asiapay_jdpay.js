@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Timer from 'react-compound-timer';
@@ -331,8 +331,8 @@ class DepositAsiapayJDPay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            //console.log(res);
-
+            //console.log(res.status);
+            
             currentComponent.setState({ showLinearProgressBar: false });
             if(res.status === 200){
                 return res.json();
@@ -346,6 +346,11 @@ class DepositAsiapayJDPay extends Component {
 
         }).then(function (data) {
             //console.log(data)
+            if(data.errorCode){
+                currentComponent.props.logout();
+                postLogout();
+                return;
+            }
             let qrurl = data.qr;
             //console.log(qrurl)
             if(qrurl != null){
@@ -415,7 +420,7 @@ class DepositAsiapayJDPay extends Component {
             //     currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
             // }
         }).catch(function (err) {
-            currentComponent.setState({ showLinearProgressBar: false });
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
 
             //console.log('Request failed', err);
 
@@ -559,4 +564,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositAsiapayJDPay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout})(DepositAsiapayJDPay)));

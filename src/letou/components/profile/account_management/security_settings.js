@@ -70,7 +70,6 @@ export class SecuritySettings extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
-                    window.location.reload()
                 }
             })
 
@@ -88,7 +87,6 @@ export class SecuritySettings extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
-                    window.location.reload()
                 }
             })
 
