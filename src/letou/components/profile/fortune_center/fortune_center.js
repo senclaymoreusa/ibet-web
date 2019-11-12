@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import DepositMain from './deposit/deposit_main';
 import TotalAssets from './total_assets';
 import Transfer from './transfer';
-import Withdrawal from './withdrawal';
+import WithdrawMain from './withdraw/withdraw_main';
 import { withStyles } from '@material-ui/core/styles';
 
 
@@ -78,7 +78,7 @@ const styles = theme => ({
     content: {
         flexGrow: 1,
         paddingLeft: 10,
-        paddingTop: 10,
+        //paddingTop: 10,
         paddingBottom: 10
     }
 });
@@ -218,7 +218,7 @@ export class FortuneCenter extends Component {
                             {contentValue === 'deposit' && <DepositMain />}
                             {contentValue === 'total-assets' && <TotalAssets />}
                             {contentValue === 'transfer' && <Transfer />}
-                            {contentValue === 'withdrawal' && <Withdrawal />}
+                            {contentValue === 'withdrawal' && <WithdrawMain />}
                         </div>
                     </Grid>
                 </Grid>
