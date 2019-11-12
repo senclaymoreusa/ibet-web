@@ -167,7 +167,7 @@ export class TopNavbar extends React.Component {
             anchorEl: null,
             dropdownMenu: 'none',
             data:'',
-
+            
             showSoggedinStatus: false,
         };
 
@@ -198,10 +198,27 @@ export class TopNavbar extends React.Component {
     }
 
     componentDidMount() {
-        this.props.authCheckState()
-            .then(() => {
-                this.setState({ showSoggedinStatus: true });
-            })
+        // this.props.authCheckState()
+        //     .then(() => {
+        //         this.setState({ showSoggedinStatus: true });
+        //     })
+        this.props.authCheckState().then(res => {
+            if (res != 1) {
+              
+            
+              const token = localStorage.getItem('token');
+              config.headers['Authorization'] = `Token ${token}`;
+              axios.get(API_URL + 'users/api/user/', config).then(res => {
+                  this.setState({ data: res.data });
+                 
+              });
+            }
+        });
+    
+        
+    }
+    
+    handleOnebookClick() {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
@@ -210,10 +227,6 @@ export class TopNavbar extends React.Component {
                 this.setState({ currencyValue: res.data.currency });
                 
             });
-    }
-    
-    handleOnebookClick() {
-        
         var url = "";
         if(this.state.data == ''){
             url = 'http://sbtest.claymoreasia.com/NewIndex';
