@@ -167,7 +167,7 @@ export class TopNavbar extends React.Component {
             anchorEl: null,
             dropdownMenu: 'none',
             data:'',
-            onebook: true,
+            
             showSoggedinStatus: false,
         };
 
@@ -205,7 +205,7 @@ export class TopNavbar extends React.Component {
         this.props.authCheckState().then(res => {
             if (res != 1) {
               
-              this.state.onebook = false
+            
               const token = localStorage.getItem('token');
               config.headers['Authorization'] = `Token ${token}`;
               axios.get(API_URL + 'users/api/user/', config).then(res => {
