@@ -582,7 +582,7 @@ class VietnamLocalBank extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
-                            placeholder={this.getLabel('vietnam-localbank-placeholder')}
+                            placeholder={this.getLabel('enter-amount')}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={

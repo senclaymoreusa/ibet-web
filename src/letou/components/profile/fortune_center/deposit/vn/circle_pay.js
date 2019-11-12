@@ -7,17 +7,24 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import {
+    authCheckState,
+    sendingLog,
+    AUTH_RESULT_FAIL,
+    postLogout
+} from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import InputBase from '@material-ui/core/InputBase';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withRouter } from 'react-router-dom';
-import getSymbolFromCurrency from 'currency-symbol-map'
+import getSymbolFromCurrency from 'currency-symbol-map';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const crypto = require('crypto'),
+    API_URL = process.env.REACT_APP_DEVELOP_API_URL,
+    CIRCLEPAY_DEPOSIT_URL = 'https://gateway.circlepay.ph/payment/',
+    USER_CODE = 297802061195;
 
 const styles = theme => ({
     root: {
@@ -28,20 +35,20 @@ const styles = theme => ({
         padding: 30
     },
     contentGrid: {
-        width: 430,
+        width: 430
     },
     contentRow: {
         paddingLeft: 263,
         paddingRight: 262,
         paddingTop: 50,
-        paddingBottom: 50,
+        paddingBottom: 50
     },
     cardTypeCell: {
         borderTop: '1px solid #d8d8d8',
         borderBottom: '1px solid #d8d8d8',
         height: 77,
         paddingTop: 15,
-        textAlign: 'center',
+        textAlign: 'center'
     },
     title: {
         fontSize: 18,
@@ -52,7 +59,7 @@ const styles = theme => ({
         letterSpacing: 0.64,
         textAlign: 'center',
         color: 'black',
-        marginTop: 28,
+        marginTop: 28
     },
     checkbox: {
         margin: theme.spacing()
@@ -61,37 +68,37 @@ const styles = theme => ({
         width: 324,
         height: 44,
         borderRadius: 22,
-        backgroundColor: '#d8d8d8',
+        backgroundColor: '#d8d8d8'
     },
     backBankingButton: {
         width: 324,
         height: 44,
         borderRadius: 22,
-        backgroundColor: '#d8d8d8',
+        backgroundColor: '#d8d8d8'
     },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 40,
+        paddingTop: 40
     },
     backButtonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 20,
+        paddingTop: 20
     },
     rememberCell: {
-        paddingTop: 20,
+        paddingTop: 20
     },
     cardTypeButton: {
         width: 72,
         height: 48,
         borderRadius: 4.8,
-        backgroundColor: '#f1f1f1',
+        backgroundColor: '#f1f1f1'
     },
     infoCell: {
-        paddingTop: 15,
+        paddingTop: 15
     },
     infoRow: {
         display: 'flex',
@@ -107,7 +114,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#4a4a4a',
+        color: '#4a4a4a'
     },
     infoValue: {
         display: 'inline-block',
@@ -118,7 +125,7 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#4a4a4a',
-        marginLeft: 3,
+        marginLeft: 3
     },
     detailRow: {
         paddingBottom: 15
@@ -131,7 +138,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 90,
-        height: 44,
+        height: 44
     },
     middleButton: {
         marginRight: 10,
@@ -140,7 +147,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 90,
-        height: 44,
+        height: 44
     },
     actionButton: {
         width: '100%',
@@ -148,26 +155,22 @@ const styles = theme => ({
         borderRadius: 22,
         backgroundColor: '#4DA9DF',
         color: '#fff',
-        "&:hover": {
+        '&:hover': {
             backgroundColor: '#57b9f2',
-            color: '#fff',
-
+            color: '#fff'
         },
-        "&:focus": {
+        '&:focus': {
             backgroundColor: '#57b9f2',
-            color: '#fff',
-
+            color: '#fff'
         },
-        textTransform: 'capitalize',
-
+        textTransform: 'capitalize'
     },
     cancelButton: {
         width: '100%',
         height: 44,
         borderRadius: 22,
 
-        textTransform: 'capitalize',
-
+        textTransform: 'capitalize'
     },
     rightButton: {
         marginLeft: 10,
@@ -177,7 +180,7 @@ const styles = theme => ({
         marginTop: 15,
         marginBottom: 15,
         width: 88,
-        height: 44,
+        height: 44
     },
     select: {
         fontSize: 14,
@@ -188,7 +191,7 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
         height: 44,
-        width: '100%',
+        width: '100%'
     },
     otherText: {
         fontSize: 14,
@@ -205,12 +208,12 @@ const styles = theme => ({
         width: 400,
         borderRadius: 4,
         border: 'solid 1px #e4e4e4',
-        "&:hover": {
-            border: 'solid 1px #717171',
+        '&:hover': {
+            border: 'solid 1px #717171'
         },
-        "&:focus": {
-            border: 'solid 1px #717171',
-        },
+        '&:focus': {
+            border: 'solid 1px #717171'
+        }
     },
     infoGrid: {
         width: 430,
@@ -228,7 +231,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 1.29,
         letterSpacing: -0.24,
-        color: '#212121',
+        color: '#212121'
     },
     fee: {
         fontSize: 13,
@@ -237,7 +240,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 1.83,
         letterSpacing: -0.17,
-        color: '#a1a1a1',
+        color: '#a1a1a1'
     },
     amountText: {
         fontSize: 14,
@@ -254,12 +257,12 @@ const styles = theme => ({
         width: '100%',
         borderRadius: 4,
         border: 'solid 1px #e4e4e4',
-        "&:hover": {
-            border: '1px solid #717171',
+        '&:hover': {
+            border: '1px solid #717171'
         },
-        "&:focus": {
-            border: '1px solid #717171',
-        },
+        '&:focus': {
+            border: '1px solid #717171'
+        }
     },
     label: {
         backgroundColor: '#f8f8f8',
@@ -271,7 +274,7 @@ const styles = theme => ({
         borderTopLeftRadius: 4,
         borderBottomLeftRadius: 4,
         textAlign: 'center',
-        paddingTop: 12,
+        paddingTop: 12
     },
     selectLabel: {
         marginLeft: 10,
@@ -281,7 +284,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#292929',
+        color: '#292929'
     }
 });
 
@@ -289,10 +292,10 @@ const CustomCheckbox = withStyles({
     root: {
         color: '#21e496',
         '&$checked': {
-            color: '#21e496',
-        },
+            color: '#21e496'
+        }
     },
-    checked: {},
+    checked: {}
 })(props => <Checkbox {...props} />);
 
 function NumberFormatCustom(props) {
@@ -310,7 +313,7 @@ function NumberFormatCustom(props) {
                 });
             }}
             thousandSeparator
-            decimalSeparator='.'
+            decimalSeparator="."
             decimalScale={2}
             fixedDecimalScale
             prefix={currency}
@@ -333,56 +336,67 @@ class CirclePay extends Component {
             error: false,
             data: '',
             type: '',
-            value: "",
+            value: '',
             selectedCurrencyOption: 'none',
             selectedBankOption: 'none',
-            order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
+            order_id:
+                'letou' +
+                new Date()
+                    .toISOString()
+                    .replace(/-/g, '')
+                    .replace('T', '')
+                    .replace(/:/g, '')
+                    .split('.')[0],
 
             amountFocused: false,
             amountInvalid: true,
 
-            currency: "THB",
+            currency: 'THB',
             currencyCode: 'THB',
-            isFavorite: false,
+            isFavorite: false
         };
-
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
+                this.props.history.push('/');
             }
-        })
+        });
 
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'circlepay' });
+        config.headers['Authorization'] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config).then(res => {
+            this.setState({ data: res.data });
+            this.setState({
+                currency: getSymbolFromCurrency(res.data.currency)
             });
+            this.setState({ currencyCode: res.data.currency });
+            this.setState({
+                isFavorite: res.data.favorite_payment_method === 'circlepay'
+            });
+        });
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
+                this.props.history.push('/');
             }
-        })
+        });
 
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'circlepay' });
+        config.headers['Authorization'] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config).then(res => {
+            this.setState({ data: res.data });
+            this.setState({
+                currency: getSymbolFromCurrency(res.data.currency)
             });
+            this.setState({ currencyCode: res.data.currency });
+            this.setState({
+                isFavorite: res.data.favorite_payment_method === 'circlepay'
+            });
+        });
     }
 
     amountChanged(event) {
@@ -395,121 +409,111 @@ class CirclePay extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 100 || parseFloat(event.target.value) > 200000) });
-            }
-            else {
+                this.setState({
+                    amountInvalid:
+                        parseFloat(event.target.value) < 20000 ||
+                        parseFloat(event.target.value) > 50000
+                });
+            } else {
                 this.setState({ amountInvalid: true });
             }
         }
     }
 
-    handleCurrencyChange = event => {
-        this.setState({ selectedCurrencyOption: event.target.value });
-        this.setState({ selectedBankOption: 'none' });
+    handleClick(event) {
+        event.preventDefault();
 
-    };
-
-    handleBankChange = event => {
-        this.setState({ selectedBankOption: event.target.value });
-    };
-
-    handleClick = () => {
         let currentComponent = this;
 
-        var orderid = this.state.order_id;
-        var postData = {
-            "amount": this.state.amount,
-            "user_id": this.state.data.pk,
-            "currency": this.state.selectedCurrencyOption,
-            "bank": this.state.selectedBankOption,
-            "language": "en-Us",
-            "order_id": orderid,
-        }
-        //console.log(orderid)
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
+        const { data: userData } = this.state;
+        const { amount } = this.state;
         const token = localStorage.getItem('token');
 
-        return fetch(API_URL + 'accounting/api/help2pay/deposit', {
-            method: 'POST',
-            withCredentials: true,
-            headers: {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'Authorization': 'Token ' + token
-            },
-            body: formBody
-        }).then(function (res) {
-            if (res.ok) {
-                return res.text();
-            }
+        if (!token) {
+            console.log('no token -- user is not logged in');
+        }
+        config.headers['Authorization'] = `Token ${token}`;
 
-            currentComponent.props.callbackFromParent("error", "渠道维护中");
+        let currDate = new Date();
+        let month =
+            currDate.getMonth() + 1 < 10
+                ? '0' + (currDate.getMonth() + 1)
+                : currDate.getMonth() + 1;
+        let date =
+            currDate.getDate() < 10
+                ? '0' + currDate.getDate()
+                : currDate.getDate();
+        let transId =
+            userData.username +
+            currDate.getFullYear() +
+            month +
+            date +
+            'T' +
+            currDate.getHours() +
+            currDate.getMinutes() +
+            currDate.getSeconds();
 
-            //alert("渠道维护中");
-            throw new Error('Something went wrong.');
+        const secret = 'Kiy4O3IAvPpHxXJ9ht1mBfZs';
 
-        }).then(function (data) {
-            let newwin = window.open('');
-            newwin.document.write(data);
-            var timer = setInterval(function () {
+        let secretMsg = 'jennyto@ibet.com' + transId + amount;
 
-                if (newwin.closed) {
-                    clearInterval(timer);
-                    const pd = JSON.stringify({
-                        order_id: orderid,
+        const hash = crypto
+            .createHmac('sha256', secret)
+            .update(secretMsg)
+            .digest('hex');
 
+        let postURL =
+            CIRCLEPAY_DEPOSIT_URL +
+            USER_CODE +
+            '/?partner_tran_id=' +
+            transId +
+            '&amount=' +
+            amount +
+            '&username=' +
+            userData.username +
+            '&token=' +
+            hash;
+
+        let postData = {
+            amount: amount,
+            trans_id: transId
+        };
+
+        axios
+            .post(
+                API_URL + 'accounting/api/circlepay/deposit',
+                postData,
+                config
+            )
+            .then(res => {
+                console.log('result of deposit: ');
+                console.log(res);
+                if (res.status !== 200) {
+                    this.setState({
+                        error: true,
+                        error_msg: JSON.stringify(res)
                     });
-
-                    return fetch(API_URL + 'accounting/api/help2pay/deposit_status', {
-                        method: 'POST',
-                        withCredentials: true,
-                        headers: {
-                            'content-type': 'application/json',
-                            'Authorization': 'Token ' + token
-                        },
-                        body: pd
-
-                    }).then(function (res) {
-                        return res.text();
-                    }).then(function (data) {
-                        //console.log(data)
-
-
-                        if (data === '0') {
-
-                            const body = JSON.stringify({
-                                type: 'add',
-                                username: this.state.data.username,
-                                balance: this.state.amount,
-                            });
-                            //console.log(body)
-                            axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                .then(res => {
-                                    if (res.data === 'Failed') {
-                                        currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                    } else if (res.data === 'The balance is not enough') {
-                                        currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                    } else {
-                                        currentComponent.props.callbackFromParent("success", "Transaction completed.");
-                                    }
-                                });
-                        } else {
-                            currentComponent.props.callbackFromParent("error", '渠道维护中');
-                        }
-                    });
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        JSON.stringify(res)
+                    );
+                } else {
+                    console.log(res);
+                    if (res.data.errorCode) {
+                        currentComponent.props.logout();
+                        postLogout();
+                        return;
+                    }
+                    window.open(postURL);
                 }
-            }, 1000);
-
-        }).catch(function (err) {
-            console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
-            sendingLog(err);
-        });
+            })
+            .catch(function(err) {
+                currentComponent.props.callbackFromParent(
+                    'error',
+                    'Something is wrong.'
+                );
+                sendingLog(err);
+            });
     }
 
     getLabel(labelId) {
@@ -518,21 +522,22 @@ class CirclePay extends Component {
     }
 
     setAsFavorite(event) {
-        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
-            payment: event.target.checked ? 'circlepay' : null,
-        })
+        axios
+            .post(API_URL + `users/api/favorite-payment-setting/`, {
+                user_id: this.state.data.pk,
+                payment: event.target.checked ? 'circlepay' : null
+            })
             .then(() => {
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 sendingLog(err);
             });
     }
 
     cancelClicked() {
-        var url = this.props.history.location.pathname
+        var url = this.props.history.location.pathname;
         var parts = url.split('/');
         url = '/';
         var path = parts.slice(1, 4).join('/');
@@ -577,7 +582,7 @@ class CirclePay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('enter-amount')}
+                            placeholder={this.getLabel('circlepay-placeholder')}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -586,7 +591,7 @@ class CirclePay extends Component {
                             }
                             helperText={
                                 this.state.amountInvalid &&
-                                    this.state.amountFocused
+                                this.state.amountFocused
                                     ? this.getLabel('valid-amount')
                                     : ' '
                             }
@@ -598,17 +603,26 @@ class CirclePay extends Component {
                                     currency: currency
                                 },
                                 startAdornment: (
-                                    <InputAdornment position="start" >
-                                        <span className={classes.label}>{this.getLabel('amount-label')}</span>
+                                    <InputAdornment position="start">
+                                        <span className={classes.label}>
+                                            {this.getLabel('amount-label')}
+                                        </span>
                                     </InputAdornment>
                                 )
                             }}
                         />
                     </Grid>
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
-                        <FormControlLabel className={classes.checkbox}
+                        <FormControlLabel
+                            className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite(event) }} />
+                                <CustomCheckbox
+                                    checked={isFavorite}
+                                    value="checkedA"
+                                    onClick={event => {
+                                        this.setAsFavorite(event);
+                                    }}
+                                />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />
@@ -616,26 +630,42 @@ class CirclePay extends Component {
                 </Grid>
                 <Grid container className={classes.contentGrid} spacing={2}>
                     <Grid item xs={6} className={classes.buttonCell}>
-                        <Button variant="contained" className={classes.cancelButton}
+                        <Button
+                            variant="contained"
+                            className={classes.cancelButton}
                             onClick={this.cancelClicked.bind(this)}
-                        >{this.getLabel('cancel-label')}</Button>
+                        >
+                            {this.getLabel('cancel-label')}
+                        </Button>
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
-                        <Button className={classes.actionButton}
-                            onClick={this.handleClick}
-                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
-                        >{this.getLabel('next-label')}</Button>
+                        <Button
+                            className={classes.actionButton}
+                            onClick={this.handleClick.bind(this)}
+                            disabled={this.state.amountInvalid}
+                        >
+                            {this.getLabel('next-label')}
+                        </Button>
                     </Grid>
                 </Grid>
             </div>
-        )
+        );
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        language: state.language.lang,
-    }
-}
+        language: state.language.lang
+    };
+};
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(CirclePay))));
+export default withStyles(styles)(
+    withRouter(
+        injectIntl(
+            connect(
+                mapStateToProps,
+                { authCheckState }
+            )(CirclePay)
+        )
+    )
+);

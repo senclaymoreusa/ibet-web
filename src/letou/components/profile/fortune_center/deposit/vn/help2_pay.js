@@ -20,14 +20,14 @@ import { withRouter } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map'
 
 const bank_options = [
-    { value: 'TCB', label: 'Techcom Bank', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'SACOM', label: 'Sacom Bank', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'VCB', label: 'Vietcom Bank', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'DAB', label: 'DongA Bank', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'VTB', label: 'Vietin Bank', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'EXIM', label: 'Eximbank Vietnam', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'TCB', label: 'Techcom Bank', img: 'letou/techcombank.png', code: 'VND' },
+    { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
+    { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
+    { value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
+    { value: 'EXIM', label: 'Eximbank Vietnam', img: 'letou/eximbank.png', code: 'VND' },
+    { value: 'SACOM', label: 'Sacom Bank', img: 'letou/sacombank.png', code: 'VND' },
+    { value: 'VCB', label: 'Vietcom Bank', img: 'letou/vietcombank.png', code: 'VND' },
+    { value: 'VTB', label: 'Vietin Bank', img: 'letou/vietinbank.png', code: 'VND' },
 ];
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -275,7 +275,11 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#292929',
-    }
+    },
+    bankIcon: {
+        height: 20,
+        maxWidth: 100
+    },
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -361,10 +365,8 @@ class VietnamHelp2pay extends Component {
             amount: '',
             error: false,
             data: '',
-            value: "",
-            selectedCurrencyOption: 'none',
             selectedBankOption: 'none',
-            order_id: "ibet" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
+            order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
 
             amountFocused: false,
             amountInvalid: true,
@@ -373,8 +375,6 @@ class VietnamHelp2pay extends Component {
             currencyCode: 'THB',
             isFavorite: false,
         };
-
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -423,7 +423,7 @@ class VietnamHelp2pay extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 500 || parseFloat(event.target.value) > 500000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300 || parseFloat(event.target.value) > 300000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -431,28 +431,22 @@ class VietnamHelp2pay extends Component {
         }
     }
 
-    handleCurrencyChange = event => {
-        this.setState({ selectedCurrencyOption: event.target.value });
-        this.setState({ selectedBankOption: 'none' });
-    };
-
     handleBankChange = event => {
         this.setState({ selectedBankOption: event.target.value });
     };
 
-    handleClick = () => {
+    handleClick() {
         let currentComponent = this;
 
-        var orderid = this.state.order_id;
         var postData = {
             "amount": this.state.amount,
             "user_id": this.state.data.pk,
-            "currency": this.state.selectedCurrencyOption,
+            "currency": '7',
             "bank": this.state.selectedBankOption,
             "language": "en-Us",
-            "order_id": orderid,
+            "order_id": this.state.order_id,
         }
-        //console.log(orderid)
+       
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -477,7 +471,6 @@ class VietnamHelp2pay extends Component {
 
             currentComponent.props.callbackFromParent("error", "渠道维护中");
 
-            //alert("渠道维护中");
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
@@ -488,7 +481,7 @@ class VietnamHelp2pay extends Component {
                 if (newwin.closed) {
                     clearInterval(timer);
                     const pd = JSON.stringify({
-                        order_id: orderid,
+                        order_id: currentComponent.state.order_id,
 
                     });
 
@@ -589,7 +582,7 @@ class VietnamHelp2pay extends Component {
                                 filteredOptions.map(bank => (
                                     <MenuItem key={bank.label} value={bank.value} >
                                         <div style={{ width: 100 }}>
-                                            <img src={images.src + bank.img} alt="" height="20" />
+                                            <img src={images.src + bank.img} alt="" className={classes.bankIcon} />
                                         </div>
                                         <span className={classes.selectLabel}>{bank.label}</span>
                                     </MenuItem>
@@ -600,7 +593,7 @@ class VietnamHelp2pay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('help2pay-placeholder')}
+                            placeholder={this.getLabel('vn-help2paypay-placeholder')}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -643,7 +636,7 @@ class VietnamHelp2pay extends Component {
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.handleClick}
+                            onClick={this.handleClick.bind(this)}
                             disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
                         >{this.getLabel('next-label')}</Button>
                     </Grid>
