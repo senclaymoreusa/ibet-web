@@ -5,8 +5,6 @@ import {
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
-import WithdrawSuccess from './withdraw_success';
-import WithdrawError from './withdraw_error';
 import { images } from '../../../../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -20,6 +18,10 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 
+import WithdrawSuccess from './withdraw_success';
+import WithdrawError from './withdraw_error';
+import VietnamLocalBank from './vn/local_bank';
+import MoneyPay from './vn/money_pay';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = () => ({
@@ -93,46 +95,18 @@ const styles = () => ({
 });
 
 const StyledTabs = withStyles({
-
     indicator: {
+        display: 'flex',
+        justifyContent: 'center',
         backgroundColor: 'transparent',
-        "& > div": {
-            width: "100%",
+        '& > div': {
+            width: '100%',
             backgroundColor: '#635ee7',
-        }
-    }
+        },
+    },
 })(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
 
 const StyledTab = withStyles(theme => ({
-    // root: {
-    //     textTransform: "capitalize",
-    //     color: "#474747",
-    //     opacity: 1,
-    //     fontWeight: theme.typography.fontWeightRegular,
-    //     fontSize: 16,
-    //     outline: 'none',
-    //     width: '16.6%',
-    //     minWidth: 280,
-    //     maxWidth: '16.6%',
-    //     height: '100%',
-    //    // borderBottom: '2px solid #d8d8d8',
-    //     whiteSpace: 'nowrap',
-    //     "&:focus": {
-    //         height: '100%',
-    //         backgroundColor: '#c5c5c5',
-    //         borderBottom: '2px solid #53abe0',
-    //     },
-    //     "&:hover": {
-    //         height: '100%',
-    //         backgroundColor: '#c5c5c5',
-    //         borderBottom: '2px solid #53abe0',
-    //     },
-    //     "&:selected": {
-    //         height: '100%',
-    //         backgroundColor: '#c5c5c5',
-    //         borderBottom: '2px solid #53abe0',
-    //     },
-    // }
     root: {
         textTransform: 'none',
         color: '#474747',
@@ -140,9 +114,22 @@ const StyledTab = withStyles(theme => ({
         fontSize: theme.typography.pxToRem(15),
         marginRight: theme.spacing(1),
         '&:focus': {
-          opacity: 1,
+            opacity: 1,
+            fontWeight: 800,
+            fontStretch: 'normal',
+            fontStyle: 'normal',
+            lineHeight: 1.38,
+            letterSpacing: - 0.06,
+            textAlign: 'center',
+            // color: '#252525',
+            backgroundColor: '#c5c5c5',
         },
-      },
+        '&:selected': {
+            height: '100%',
+            backgroundColor: '#c5c5c5',
+            //borderBottom: '2px solid #53abe0',
+        },
+    },
 }))(props => <Tab disableRipple {...props} />);
 
 function TabPanel(props) {
@@ -190,7 +177,7 @@ export class WithdrawMain extends Component {
         this.checkFavoriteMethod = this.checkFavoriteMethod.bind(this);
     }
 
-    handleTabChange(event, newValue) {
+    handleTabChange(newValue) {
         this.setState({ tabValue: newValue })
     }
 
@@ -565,7 +552,7 @@ export class WithdrawMain extends Component {
                 return <div></div>;
         }
     }
-    
+
     render() {
         const { classes } = this.props;
         const { tabValue } = this.state;
@@ -580,7 +567,7 @@ export class WithdrawMain extends Component {
                         value="localbank"
                         onClick={() => {
                             if (this.props.match.params.type !== 'localbank') {
-                                this.handleCategoryChange('localbank');
+                                this.handleTabChange('localbank');
                             }
                         }}
                     />
@@ -589,20 +576,16 @@ export class WithdrawMain extends Component {
                         value="moneypay"
                         onClick={() => {
                             if (this.props.match.params.type !== 'moneypay') {
-                                this.handleCategoryChange('moneypay');
+                                this.handleTabChange('moneypay');
                             }
                         }}
                     />
                 </StyledTabs>
                 <div className={classes.content}>
-                    {/* {this.state.tabValue === 'banking' && <Banking />}
-                    {this.state.tabValue === 'analysis' && <Analysis />} */}
+                    {this.state.tabValue === 'localbank' && <VietnamLocalBank />}
+                    {this.state.tabValue === 'moneypay' && <MoneyPay />}
                 </div>
-                {/* {this.getAvailablePaymentMethods()}
-                {contentValue === 'error' && (<WithdrawError callbackFromParent={this.setPage} errorMessage={this.state.withdrawMessage} />)}
-                {contentValue === 'success' && (<WithdrawSuccess callbackFromParent={this.setPage} successMessage={this.state.withdrawMessage} />)}
-                {contentValue === 'onlinepay' && (<WithdrawError callbackFromParent={this.setPage} />)} */}
-            </div >
+              </div >
         );
     }
 }

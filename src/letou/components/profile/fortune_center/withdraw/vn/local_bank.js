@@ -18,9 +18,6 @@ import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withRouter } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map'
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import IconButton from '@material-ui/core/IconButton';
 
 const bank_options = [
     { value: 'TCB', label: 'Techcom Bank', img: 'letou/techcombank.png', code: 'VND' },
@@ -173,15 +170,12 @@ const styles = theme => ({
 
         },
         textTransform: 'capitalize',
-
     },
     cancelButton: {
         width: '100%',
         height: 44,
         borderRadius: 22,
-
         textTransform: 'capitalize',
-
     },
     rightButton: {
         marginLeft: 10,
@@ -257,6 +251,18 @@ const styles = theme => ({
             border: '1px solid #717171',
         },
     },
+    label: {
+        backgroundColor: '#f8f8f8',
+        height: 42,
+        marginTop: -2,
+        marginLeft: -6,
+        width: 80,
+        color: '#212121',
+        borderTopLeftRadius: 4,
+        borderBottomLeftRadius: 4,
+        textAlign: 'center',
+        paddingTop: 12,
+    },
     detailText: {
         fontSize: 14,
         fontWeight: 500,
@@ -279,18 +285,6 @@ const styles = theme => ({
             border: '1px solid #717171',
         },
     },
-    label: {
-        backgroundColor: '#f8f8f8',
-        height: 42,
-        marginTop: -2,
-        marginLeft: -6,
-        width: 80,
-        color: '#212121',
-        borderTopLeftRadius: 4,
-        borderBottomLeftRadius: 4,
-        textAlign: 'center',
-        paddingTop: 12,
-    },
     selectLabel: {
         marginLeft: 10,
         fontSize: 15,
@@ -305,25 +299,6 @@ const styles = theme => ({
         height: 20,
         maxWidth: 100
     },
-    span: {
-        fontSize: 12,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 1.33,
-        letterSpacing: 'normal',
-        color: '#212121',
-    },
-    forgot: {
-        textTransform: 'capitalize',
-        fontSize: 12,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 1.33,
-        letterSpacing: 'normal',
-        color: '#53abe0',
-    }
 });
 
 const BootstrapInput = withStyles(theme => ({
@@ -362,7 +337,15 @@ const BootstrapInput = withStyles(theme => ({
     },
 }))(InputBase);
 
-
+const CustomCheckbox = withStyles({
+    root: {
+        color: '#21e496',
+        '&$checked': {
+            color: '#21e496',
+        },
+    },
+    checked: {},
+})(props => <Checkbox {...props} />);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
@@ -392,7 +375,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class MoneyPay extends Component {
+class VietnamLocalBank extends Component {
     constructor(props) {
         super(props);
 
@@ -407,8 +390,8 @@ class MoneyPay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            bankAccountNumber: '',
-            withdrawPassword: '',
+            bankAccountNumber:'',
+
             currency: "THB",
             currencyCode: 'THB',
             isFavorite: false,
@@ -469,6 +452,17 @@ class MoneyPay extends Component {
         }
     }
 
+    bankAccountNumberChanged(event) {
+        this.setState({ bankAccountNumberFocused: true });
+
+        const re = /^[0-9\b]+$/;
+
+        if (re.test(event.target.value))
+            this.setState({ bankAccountNumber: event.target.value });
+        else if (event.target.value.length === 0)
+            this.setState({ bankAccountNumber: '' });
+    };
+
     handleBankChange = event => {
         this.setState({ selectedBankOption: event.target.value });
     };
@@ -484,7 +478,7 @@ class MoneyPay extends Component {
             "language": "en-Us",
             "order_id": this.state.order_id,
         }
-
+       
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -575,32 +569,6 @@ class MoneyPay extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavorite(event) {
-        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
-            payment: event.target.checked ? 'vietnamhelp2pay' : null,
-        })
-            .then(res => {
-                this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
-    }
-
-
-    bankAccountNumberChanged(event) {
-        this.setState({ bankAccountNumberFocused: true });
-
-        const re = /^[0-9\b]+$/;
-
-        if (re.test(event.target.value))
-            this.setState({ bankAccountNumber: event.target.value });
-        else if (event.target.value.length === 0)
-            this.setState({ bankAccountNumber: '' });
-    };
-
     cancelClicked() {
         var url = this.props.history.location.pathname
         var parts = url.split('/');
@@ -608,10 +576,6 @@ class MoneyPay extends Component {
         var path = parts.slice(1, 4).join('/');
         url = url + path;
         this.props.history.push(url);
-    }
-
-    withdrawPasswordChanged(event) {
-        this.setState({ withdrawPassword: event.target.value });
     }
 
     render() {
@@ -646,26 +610,8 @@ class MoneyPay extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
-                            className={classes.detailText}
-                            placeholder={this.getLabel('bank-number')}
-                            onChange={this.bankAccountNumberChanged.bind(this)}
-                            value={bankAccountNumber}
-                            error={this.state.bankAccountNumberFocused && bankAccountNumber.length === 0}
-                            helperText={(this.state.bankAccountNumberFocused && bankAccountNumber.length === 0) ? this.getLabel('invalid-bank-number') : ' '}
-                            InputProps={{
-                                disableUnderline: true,
-                                endAdornment: (
-                                    <InputAdornment position="end" >
-                                        <img src={images.src + 'letou/info-icon.svg'} alt="" height="20" />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} className={classes.detailRow}>
-                        <TextField
                             className={classes.amountText}
-                            placeholder="₫300 - 300,000"
+                            placeholder={this.getLabel('vn-help2paypay-placeholder')}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -693,40 +639,23 @@ class MoneyPay extends Component {
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} style={{ textAlign: 'right', paddingTop: 0, marginTop: -10 }}>
-                        <span className={classes.span}>
-                            {this.getLabel('moneypay-daily-limit')}
-                        </span>
-                    </Grid>
                     <Grid item xs={12} className={classes.detailRow}>
-                        <TextField className={classes.detailText}
-                            value={this.state.withdrawalPassword}
-                            onChange={this.withdrawPasswordChanged.bind(this)}
-                            type={this.state.showWithdrawPassword ? '' : 'password'}
-                            // error={this.state.withdrawPasswordInvalid}
-                            // helperText={this.state.withdrawPasswordInvalid ? withdrawPasswordErrorMessage : ''}
+                        <TextField
+                            className={classes.detailText}
+                            placeholder={this.getLabel('bank-number')}
+                            onChange={this.bankAccountNumberChanged.bind(this)}
+                            value={bankAccountNumber}
+                            error={this.state.bankAccountNumberFocused && bankAccountNumber.length === 0}
+                            helperText={(this.state.bankAccountNumberFocused && bankAccountNumber.length === 0) ? this.getLabel('invalid-bank-number') : ' '}
                             InputProps={{
                                 disableUnderline: true,
                                 endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            size="small"
-                                            disabled={this.state.withdrawPassword.length === 0}
-                                            aria-label="Toggle password visibility"
-                                            onClick={() => {
-                                                this.setState(state => ({ showWithdrawPassword: !state.showWithdrawPassword }));
-                                            }}
-                                        >
-                                            {this.state.showNewPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
+                                    <InputAdornment position="end" >
+                                        <img src={images.src + 'letou/info-icon.svg'} alt="" height="20" />
                                     </InputAdornment>
                                 ),
-                            }} />
-                    </Grid>
-                    <Grid item xs={12} style={{ paddingTop: 0, marginBottom:30 }}>
-                        <Button className={classes.forgot}>
-                            {this.getLabel('forgot-password')}
-                        </Button>
+                            }}
+                        />
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button variant="contained" className={classes.cancelButton}
@@ -751,4 +680,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(MoneyPay))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(VietnamLocalBank))));

@@ -382,7 +382,8 @@ export const messages = {
         'circlepay-placeholder': 'Deposit ₫20,000 - ₫50,000',
         'vn-help2paypay-placeholder': 'Deposit ₫300 - ₫300,000',
         'money-pay': 'MoneyPay',
-
+        'moneypay-daily-limit': 'Daily Max Limit: ₫500,000',
+        
     },
     zh: {},
 
