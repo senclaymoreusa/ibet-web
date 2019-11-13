@@ -220,18 +220,20 @@ export class TopNavbar extends React.Component {
     
     handleOnebookClick() {
         
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currencyValue: res.data.currency });
-                
-            });
+        
         var url = "";
-        if(this.state.data == ''){
+        if(!this.props.isAuthenticated){
             url = 'http://sbtest.claymoreasia.com/NewIndex';
+            console.log(url)
             window.open(url, "onebook_url");
         }else{
-            
+            var token = localStorage.getItem('token');
+              config.headers['Authorization'] = `Token ${token}`;
+              axios.get(API_URL + 'users/api/user/', config).then(res => {
+                  this.setState({ data: res.data });
+                  this.setState({ currencyValue: res.data.currency });
+              });
+              console.log(this.state.data)
             var postData = {
                 "username": this.state.data.username
             }
