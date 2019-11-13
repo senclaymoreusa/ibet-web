@@ -55,7 +55,7 @@ import  Lunpan  from './components/member/game_lunpan';
 import  Game21dian  from './components/member/game_21dian';
 
 import Profile from "./components/profile/profile"
-import  Iovation  from './components/iovation';
+import  Iovation  from './components/iovation/test';
 
 
 
