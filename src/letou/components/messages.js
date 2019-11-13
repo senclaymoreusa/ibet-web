@@ -381,6 +381,7 @@ export const messages = {
         'select-provider': 'Select Provider',
         'circlepay-placeholder': 'Deposit ₫20,000 - ₫50,000',
         'vn-help2paypay-placeholder': 'Deposit ₫300 - ₫300,000',
+        'vn-localbank-placeholder': 'Deposit ₫200 - ₫100,000',
     },
     zh: {},
 

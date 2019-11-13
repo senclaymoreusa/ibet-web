@@ -205,7 +205,7 @@ const styles = theme => ({
 
 const providers = [
     { value: 'KKR', label: 'Mobifone', img: 'letou/mobifone.png' },
-    { value: 'SCB', label: 'Vettel', img: 'letou/vettel.svg' },
+    { value: 'SCB', label: 'Viettel', img: 'letou/vettel.svg' },
     { value: 'KTB', label: 'Vinaphone', img: 'letou/vinaphone.png' }
 ];
 
