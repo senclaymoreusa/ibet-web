@@ -50,7 +50,6 @@ export class BankCards extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
-                    window.location.reload()
                 }
             })
 

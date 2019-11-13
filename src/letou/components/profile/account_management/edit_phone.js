@@ -4,7 +4,6 @@ import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Create from '@material-ui/icons/Create';
 import Button from '@material-ui/core/Button';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -17,7 +16,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -355,16 +353,6 @@ export class EditPhone extends Component {
                             onClick={this.verifyVerificationCode}
                             className={classes.button}>{this.getLabel('next-step')}</Button>
                     </Grid>
-                    <Grid item xs={2} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={10} className={classes.row}>
-                        <FormControlLabel
-                            control={
-                                <CustomCheckbox checked={verificationCodeSent} readOnly={true} value="checkedA" />
-                            }
-                            label={this.getLabel('verification-code-sent')}
-                        />
-                    </Grid>
                 </Grid>);
             case 1:
                 return (
@@ -432,7 +420,6 @@ export class EditPhone extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
-                    window.location.reload()
                 }
             })
 
@@ -543,8 +530,10 @@ export class EditPhone extends Component {
                             </Step>
                         </Stepper>
                     </Grid>
+                    <Grid item xs={12}>
+                    {this.getStepContent()}
+                    </Grid>
                 </Grid>
-                {this.getStepContent()}
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',
