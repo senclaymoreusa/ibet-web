@@ -198,29 +198,28 @@ export class TopNavbar extends React.Component {
     }
 
     componentDidMount() {
-        // this.props.authCheckState()
-        //     .then(() => {
-        //         this.setState({ showSoggedinStatus: true });
-        //     })
-        this.props.authCheckState().then(res => {
-            if (res != 1) {
+        this.props.authCheckState()
+            .then(() => {
+                this.setState({ showSoggedinStatus: true });
+            })
+        // this.props.authCheckState().then(res => {
+        //     if (res != 1) {
               
             
-              const token = localStorage.getItem('token');
-              config.headers['Authorization'] = `Token ${token}`;
-              axios.get(API_URL + 'users/api/user/', config).then(res => {
-                  this.setState({ data: res.data });
+        //       const token = localStorage.getItem('token');
+        //       config.headers['Authorization'] = `Token ${token}`;
+        //       axios.get(API_URL + 'users/api/user/', config).then(res => {
+        //           this.setState({ data: res.data });
                  
-              });
-            }
-        });
+        //       });
+        //     }
+        // });
     
         
     }
     
     handleOnebookClick() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
+        
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
