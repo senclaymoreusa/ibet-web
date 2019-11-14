@@ -167,7 +167,7 @@ export class WithdrawMain extends Component {
             userCountry: '',
             favouriteMethod: '',
 
-            tabValue: 'moneypay'
+            tabValue: 'localbank'
         };
 
         this.handleTabChange = this.handleTabChange.bind(this);

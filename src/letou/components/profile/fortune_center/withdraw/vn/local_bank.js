@@ -15,19 +15,18 @@ import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withRouter } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map'
+import { Divider } from '@material-ui/core';
 
 const bank_options = [
-    { value: 'TCB', label: 'Techcom Bank', img: 'letou/techcombank.png', code: 'VND' },
     { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
     { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
     { value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
-    { value: 'EXIM', label: 'Eximbank Vietnam', img: 'letou/eximbank.png', code: 'VND' },
     { value: 'SACOM', label: 'Sacom Bank', img: 'letou/sacombank.png', code: 'VND' },
-    { value: 'VCB', label: 'Vietcom Bank', img: 'letou/vietcombank.png', code: 'VND' },
+    { value: 'TCB', label: 'Techcom Bank', img: 'letou/techombank.svg', code: 'VND' },
     { value: 'VTB', label: 'Vietin Bank', img: 'letou/vietinbank.png', code: 'VND' },
+    { value: 'VPB', label: 'VP Bank', img: 'letou/vp-bank.svg', code: 'VND' },
 ];
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -87,12 +86,7 @@ const styles = theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         paddingTop: 40,
-    },
-    backButtonCell: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingTop: 20,
+        marginTop: 30
     },
     rememberCell: {
         paddingTop: 20,
@@ -295,6 +289,15 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929',
     },
+    desc: {
+        fontSize: 12,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+    },
     bankIcon: {
         height: 20,
         maxWidth: 100
@@ -337,15 +340,6 @@ const BootstrapInput = withStyles(theme => ({
     },
 }))(InputBase);
 
-const CustomCheckbox = withStyles({
-    root: {
-        color: '#21e496',
-        '&$checked': {
-            color: '#21e496',
-        },
-    },
-    checked: {},
-})(props => <Checkbox {...props} />);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
@@ -390,8 +384,9 @@ class VietnamLocalBank extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            bankAccountNumber:'',
+            bankAccountNumber: '',
 
+            activeStep: 0,
             currency: "THB",
             currencyCode: 'THB',
             isFavorite: false,
@@ -478,7 +473,7 @@ class VietnamLocalBank extends Component {
             "language": "en-Us",
             "order_id": this.state.order_id,
         }
-       
+
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -587,7 +582,12 @@ class VietnamLocalBank extends Component {
         return (
             <div className={classes.root}>
                 <Grid container className={classes.contentGrid} spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span className={classes.selectLabel}>{this.getLabel('bank-account')}</span>
+                        <Divider style={{ marginTop: 10 }} />
+                        <span className={classes.desc} style={{ marginTop: 10, marginbottom: 20 }}>{this.getLabel('vn-local-withdraw-text')}</span>
+                    </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
                         <Select
                             className={classes.select}
                             value={selectedBankOption}
@@ -606,9 +606,14 @@ class VietnamLocalBank extends Component {
                                     </MenuItem>
                                 ))
                             }
+                            <MenuItem key='other' value='other'>
+                                <div style={{ width: 100 }}>
+                                </div>
+                                <span className={classes.selectLabel}>{this.getLabel('other-label')}</span>
+                            </MenuItem>
                         </Select>
                     </Grid>
-                    <Grid item xs={12} className={classes.detailRow}>
+                    {this.state.activeStep === 1 && <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
                             placeholder={this.getLabel('vn-help2paypay-placeholder')}
@@ -638,7 +643,7 @@ class VietnamLocalBank extends Component {
                                 )
                             }}
                         />
-                    </Grid>
+                    </Grid>}
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
@@ -657,7 +662,7 @@ class VietnamLocalBank extends Component {
                             }}
                         />
                     </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
+                    <Grid item xs={6} className={classes.buttonCell} >
                         <Button variant="contained" className={classes.cancelButton}
                             onClick={this.cancelClicked.bind(this)}
                         >{this.getLabel('cancel-label')}</Button>

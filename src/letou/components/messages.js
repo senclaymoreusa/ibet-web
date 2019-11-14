@@ -383,7 +383,10 @@ export const messages = {
         'vn-help2paypay-placeholder': 'Deposit ₫300 - ₫300,000',
         'money-pay': 'MoneyPay',
         'moneypay-daily-limit': 'Daily Max Limit: ₫500,000',
-        
+        'bank-account': 'Bank Account',
+        'vn-local-withdraw-text': 'Please select your bank below or add a new bank to make a withdrawal',
+        'other-label': 'Other',
+
     },
     zh: {},
 
