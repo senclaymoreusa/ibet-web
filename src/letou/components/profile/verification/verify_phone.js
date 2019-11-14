@@ -79,11 +79,17 @@ const styles = () => ({
         flexDirection: 'column',
         justifyContent: 'center'
     },
+    codeRow: {
+        padding: 20,
+        display: 'flex',
+        flexDirection: 'row',
+    },
     sendButton: {
         textTransform: 'capitalize',
         fontSize: 15,
         whiteSpace: 'nowrap',
         width: 140,
+        minWidth:140,
     },
     button: {
         textTransform: 'capitalize',
@@ -104,9 +110,8 @@ const styles = () => ({
         },
     },
     textField: {
-        width: 240,
-        marginRight: 20,
         fontSize: 12,
+        width:'100%',
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -436,22 +441,24 @@ export class VerifyPhone extends Component {
             case 0:
                 return (
                     <Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
-                        <Grid item xs={12} className={classes.row}>
+                        <Grid item xs={12} className={classes.codeRow}>
                             <PhoneInput
+                            style={{width:'100%'}}
                                 value={this.state.phone}
                                 onChange={(event) => {
                                     this.setState({ phone: event });
                                 }}
                             />
+                            <Button
+                                style={{ marginLeft: 20 }}
+                                variant="contained"
+                                color="default"
+                                onClick={this.sendVerificationCode.bind(this)}
+                                className={classes.sendButton}>{this.getLabel('send-code')}</Button>
                         </Grid>
-                        <Grid item xs={4} className={classes.row}>
-                            <span className={classes.label}>
-                                {this.getLabel('verification-code')}
-                            </span>
-                        </Grid>
-                        <Grid item xs={8} className={classes.row} style={{ display: 'flex', flexDirection: 'row' }}>
+                        <Grid item xs={12} className={classes.codeRow} >
                             <TextField className={classes.textField}
-                                style={{ width: 140 }}
+                                placeholder={this.getLabel('verification-code')}
                                 value={verificationCode}
                                 onChange={(event) => {
                                     this.setState({ verificationCode: event.target.value });
@@ -462,10 +469,13 @@ export class VerifyPhone extends Component {
                                         <PlaylistAddCheck />
                                     </InputAdornment>)
                                 }}></TextField>
-                            <Button variant="contained"
-                                color="default"
-                                onClick={this.sendVerificationCode.bind(this)}
-                                className={classes.sendButton}>{this.getLabel('send-code')}</Button>
+
+                            <Button style={{ marginLeft: 20 }}
+                                variant="contained"
+                                disabled={verificationCode.length === 0}
+                                onClick={this.verifyPhone.bind(this)}
+                                className={classes.button}>{this.getLabel('next-step')}</Button>
+
                         </Grid>
                         <Grid item xs={12} className={classes.row} >
                             <List>
@@ -480,10 +490,7 @@ export class VerifyPhone extends Component {
                             </List>
                         </Grid>
                         <Grid item xs={12} className={classes.row}>
-                            <Button variant="contained"
-                                disabled={verificationCode.length === 0}
-                                onClick={this.verifyPhone.bind(this)}
-                                className={classes.button}>{this.getLabel('next-step')}</Button>
+
                         </Grid>
                     </Grid>
                 );
