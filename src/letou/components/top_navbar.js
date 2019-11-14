@@ -166,8 +166,8 @@ export class TopNavbar extends React.Component {
         this.state = {
             anchorEl: null,
             dropdownMenu: 'none',
-            data:'',
-
+            
+            
             showSoggedinStatus: false,
         };
 
@@ -202,50 +202,65 @@ export class TopNavbar extends React.Component {
             .then(() => {
                 this.setState({ showSoggedinStatus: true });
             })
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currencyValue: res.data.currency });
-                
-            });
+        // this.props.authCheckState().then(res => {
+        //     if (res != 1) {
+              
+            
+        //       const token = localStorage.getItem('token');
+        //       config.headers['Authorization'] = `Token ${token}`;
+        //       axios.get(API_URL + 'users/api/user/', config).then(res => {
+        //           this.setState({ data: res.data });
+                 
+        //       });
+        //     }
+        // });
+    
+        
     }
     
     handleOnebookClick() {
         
+        
         var url = "";
-        if(this.state.data == ''){
+        if(!this.props.isAuthenticated){
             url = 'http://sbtest.claymoreasia.com/NewIndex';
+            
             window.open(url, "onebook_url");
         }else{
-            
-            var postData = {
-                "username": this.state.data.username
-            }
-            var formBody = [];
-            for (var pd in postData) {
-                var encodedKey = encodeURIComponent(pd);
-                var encodedValue = encodeURIComponent(postData[pd]);
-                formBody.push(encodedKey + "=" + encodedValue);
-            }
-            formBody = formBody.join("&");
-
-            return fetch(API_URL + 'games/api/onebook/login', {
-                method: "POST",
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                },
-                body: formBody
-            }).then(function (res){
+            let token = localStorage.getItem('token');
+            config.headers['Authorization'] = `Token ${token}`;
+            axios.get(API_URL + 'users/api/user/', config).then(res => {
+                let user_data = res.data
                 
-                return res.json();
-            }).then(function(data){
-                //console.log(data);
-                url = data.login_url;
-                //console.log(url)
-                window.open(url, "onebook_url")
+                var postData = {
+                    "username": user_data.username
+                }
+                var formBody = [];
+                for (var pd in postData) {
+                    var encodedKey = encodeURIComponent(pd);
+                    var encodedValue = encodeURIComponent(postData[pd]);
+                    formBody.push(encodedKey + "=" + encodedValue);
+                }
+                formBody = formBody.join("&");
+    
+                return fetch(API_URL + 'games/api/onebook/login', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: formBody
+                }).then(function (res){
+                    
+                    return res.json();
+                }).then(function(data){
+                    //console.log(data);
+                    url = data.login_url;
+                    //console.log(url)
+                    window.open(url, "onebook_url")
+                });
             });
+            
+            
             
         }
         
