@@ -70,3 +70,12 @@
 .HelpCenterSmNav ul li.Active a {
     color: #fff;
 }
+
+.columns {
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+    -webkit-column-gap:60px;
+    column-gap: 60px;
+    -moz-column-gap: 60px;
+    }

@@ -98,7 +98,7 @@ export class Home extends Component {
 
   game_url(event, item){
     event.preventDefault();
-    if (['SA', 'Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB Sports'].includes(item.name)){
+    if (['Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB Sports'].includes(item.name)){
       var token = localStorage.getItem('token')
       if (token){
           config.headers["Authorization"] = `Token ${token}`;
@@ -109,7 +109,25 @@ export class Home extends Component {
               window.open(Game_URL)
           })
       }else{
-        var URL = API_URL + 'users/api/generatefakeusergameurl/?game=' + item.name
+          var URL = API_URL + 'users/api/generatefakeusergameurl/?game=' + item.name
+          axios.get(URL, config)
+          .then(res => {
+              var Game_URL = res.data.game_url
+              window.open(Game_URL)
+          })
+      }
+    }else if (['AG'].includes(item.name)){
+      var token = localStorage.getItem('token')
+      if (token){
+          config.headers["Authorization"] = `Token ${token}`;
+          var URL = API_URL + 'users/api/generateagurl/' 
+          axios.get(URL, config)
+          .then(res => {
+              var Game_URL = res.data.game_url
+              window.open(Game_URL)
+          })
+      }else{
+          var URL = API_URL + 'users/api/generateagfakeuserurl/'
           axios.get(URL, config)
           .then(res => {
               var Game_URL = res.data.game_url
