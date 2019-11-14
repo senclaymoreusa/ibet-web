@@ -41,6 +41,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Info from '@material-ui/icons/InfoOutlined';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -357,13 +360,9 @@ export class VerifyPhone extends Component {
         this.state = {
             activeStep: 0,
             username: '',
-            phoneCode: '',
 
             phone: '',
-            newPhone: '',
             verificationCode: '',
-
-            allCountryName: Country_Info['Country_Info'],
 
             showSnackbar: false,
             snackType: 'info',
@@ -383,16 +382,13 @@ export class VerifyPhone extends Component {
 
         axios.get('https://ipapi.co/json/')
             .then(res => {
-                this.setState({
-                    phoneCode: res.data.country_calling_code
-                })
+                this.setState({ phoneCode: res.data.country_calling_code })
             })
 
         this.props.authCheckState()
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
-                    window.location.reload()
                 }
             })
 
@@ -402,6 +398,8 @@ export class VerifyPhone extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ username: res.data.username });
+                this.setState({ fetchedPhone: res.data.phone });
+                this.setState({ phone: res.data.phone });
             }).catch(function (err) {
                 sendingLog(err);
             });
@@ -409,7 +407,7 @@ export class VerifyPhone extends Component {
 
     phoneChanged(event) {
         if (event.target.value.length === 0)
-            this.setState({ phone: event.target.value });
+            this.setState({ phone: '' });
 
         if (event.target.value.match(/^[0-9\b]+$/)) {
             this.setState({ phone: event.target.value });
@@ -428,16 +426,18 @@ export class VerifyPhone extends Component {
         })
             .then(res => {
                 if (res.status === 200) {
-                    this.setState({ snackType: 'success' });
-                    this.setState({ snackMessage: this.getLabel('verification-code-sent') });
-                    this.setState({ showSnackbar: true });
-                    this.setState({ activeStep: 1 });
+                    currentComponent.setState({ snackType: 'success' });
+                    currentComponent.setState({ snackMessage: this.getLabel('phone-verification-success-message') });
+                    currentComponent.setState({ showSnackbar: true });
+                    currentComponent.setState({ activeStep: 1 });
+
+                    currentComponent.updatePhoneNumber();
 
                 }
             }).catch(function (err) {
                 sendingLog(err);
                 currentComponent.setState({ snackType: 'error' });
-                currentComponent.setState({ snackMessage: currentComponent.getLabel('verification-code-error') });
+                currentComponent.setState({ snackMessage: currentComponent.getLabel('phone-verification-error-message') });
                 currentComponent.setState({ showSnackbar: true });
             });
     }
@@ -454,6 +454,7 @@ export class VerifyPhone extends Component {
         axios.post(API_URL + `users/api/generateactivationcode/`, {
             type: 'change_member_phone_num',
             username: this.state.username,
+            phone: this.state.phone
         })
             .then(res => {
                 if (res.status === 201) {
@@ -479,47 +480,14 @@ export class VerifyPhone extends Component {
             case 0:
                 return (
                     <Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
-                        <Grid item xs={4} className={classes.row}>
-                            <span className={classes.label}>
-                                {this.getLabel('phone-number')}
-                            </span>
-                        </Grid>
-                        <Grid item xs={8} className={classes.row} style={{ display: 'flex', flexDirection: 'row' }}>
-                            <FormControl >
-                                <Select
-                                    className={classes.select}
-                                    onClick={() => {
-                                        this.setState({ formOpen: !this.state.formOpen })
-                                    }}
-                                    value={this.state.phoneCode}
-                                    onChange={(event) => {
-                                        this.setState({ phoneCode: event.target.value });
-                                    }}
-                                    input={<BootstrapInput name="country" id="country-customized-select" />}
-                                >
-                                    {this.state.allCountryName.map(item => (
-                                        <MenuItem key={item.name} value={item.code} >
-                                            {
-                                                this.state.formOpen ?
-                                                    <div> {item.name} {item.code} </div>
-                                                    :
-                                                    <div> {item.code} </div>
-                                            }
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <TextField
-                                value={phone}
-                                className={classes.phoneField}
-                                placeholder={this.getLabel('phone-number')}
-                                onChange={(event) => { this.phoneChanged(event) }}
-                                InputProps={{
-                                    disableUnderline: true,
-                                    startAdornment: (<InputAdornment position="start">
-                                        <Phone />
-                                    </InputAdornment>)
-                                }} />
+
+                        <Grid item xs={12} className={classes.row}>
+                            <PhoneInput
+                                value={this.state.phone}
+                                onChange={(event) => {
+                                    this.setState({ phone: event });
+                                }}
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.row}>
                             <span className={classes.label}>
@@ -583,6 +551,36 @@ export class VerifyPhone extends Component {
                 );
         }
     }
+
+    updatePhoneNumber() {
+        if (this.state.phone !== this.state.fetchedPhone) {
+            let currentComponent = this;
+
+            const token = localStorage.getItem('token');
+            config.headers["Authorization"] = `Token ${token}`;
+
+            axios.post(API_URL + `users/api/updateemail/`, {
+                old_email: this.state.fetchedEmail,
+                new_email: this.state.email
+            }, config)
+                .then(res => {
+                    if (res.data === 'Duplicate') {
+                        this.setState({ email_existed_error: true })
+                    } else {
+                        axios.get(API_URL + `users/api/sendemail/?case=change_email&to_email_address=${this.state.fetchedEmail}&email=${this.state.email}`, config)
+                            .then(res => {
+                                axios.get(API_URL + `users/api/sendemail/?case=change_email&to_email_address=${this.state.email}&&email=${this.state.email}`, config)
+                            })
+
+                        currentComponent.setState({ snackType: 'info' });
+                        currentComponent.setState({ snackMessage: currentComponent.getLabel('email-update-success') });
+                        currentComponent.setState({ showSnackbar: true });
+
+                    }
+                })
+        }
+    }
+
     render() {
         const { classes } = this.props;
         const { activeStep } = this.state;

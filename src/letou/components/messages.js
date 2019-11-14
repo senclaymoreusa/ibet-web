@@ -301,7 +301,11 @@ export const messages = {
         'back-label': 'Back',
         'make-sure-email-recieve': 'Make sure that the email address you enter will receive the activation email in order for the email to take effect.',
         'email-verification-success-message':
-            'Congratulation, you account is much safety email setting success',
+            'Congratulation, your account is much safe. Your email has been verified',
+        'email-verification-error-message': 'An error occured while verifying the email. Please try it again.',
+        'phone-verification-success-message':
+            'Congratulation, your account is much safe. Your phone has been verified',
+        'phone-verification-error-message': 'An error occured while verifying the phone. Please try it again.',
         'email-verification-bonus-text':
             'Remind you that if you deposit more than 1, 000 yuan, you can receive a verification bonus.',
         'deposit-immediately': 'Deposit Immediately',
@@ -318,6 +322,7 @@ export const messages = {
         'go-bank-card': 'Go to set up bank card',
         'change-mobile': 'Change mobile number method',
         'through-original': 'Through the original mobile',
+        'email-update-success': ' Your email address has been successfully updated.',
     },
     zh: {},
 
