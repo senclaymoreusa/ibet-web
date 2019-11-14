@@ -515,50 +515,41 @@ export class ResponsibleGaming extends Component {
     }
 
     getActivityCheckValue() {
-        let reminderText = localStorage.getItem('activityCheckReminder');
-        console.log('bu reminder text: '+reminderText);
-
         let currentComponent = this;
+        
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_SUCCESS) {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
 
-        console.log(reminderText);
-        if (reminderText) {
-            let reminderData = JSON.parse(reminderText);
-            this.setState({ activityReminderDuration: parseInt(reminderData.duration) })
-        } else {
-            this.props.authCheckState().then(res => {
-                if (res === AUTH_RESULT_SUCCESS) {
-                    const token = localStorage.getItem('token');
-                    config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        let userId = res.data.pk;
 
-                    axios.get(API_URL + 'users/api/user/', config)
-                        .then(res => {
-                            let userId = res.data.pk;
-
-                            return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
-                        }).then(res => {
-                            switch (res.data.activityOpt) {
-                                case 0:
-                                    currentComponent.setState({ activityReminderDuration: 5 })
-                                    break;
-                                case 1:
-                                    currentComponent.setState({ activityReminderDuration: 30 })
-                                    break;
-                                case 2:
-                                    currentComponent.setState({ activityReminderDuration: 60 })
-                                    break;
-                                case 3:
-                                    currentComponent.setState({ activityReminderDuration: 120 })
-                                    break;
-                                default:
-                                    currentComponent.setState({ activityReminderDuration: 60 })
-                            }
-                        }).catch(err => {
-                            console.log(err);
-                            sendingLog(err);
-                        })
-                }
-            })
-        }
+                        return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
+                    }).then(res => {
+                        switch (res.data.activityOpt) {
+                            case 0:
+                                currentComponent.setState({ activityReminderDuration: 5 })
+                                break;
+                            case 1:
+                                currentComponent.setState({ activityReminderDuration: 30 })
+                                break;
+                            case 2:
+                                currentComponent.setState({ activityReminderDuration: 60 })
+                                break;
+                            case 3:
+                                currentComponent.setState({ activityReminderDuration: 120 })
+                                break;
+                            default:
+                                currentComponent.setState({ activityReminderDuration: 60 })
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                        sendingLog(err);
+                    })
+            }
+        })
     }
 
     checkIfReminderTime() {
