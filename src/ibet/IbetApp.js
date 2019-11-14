@@ -36,8 +36,15 @@ class IbetApp extends Component {
 
         this.state = {
             lang: 'zh',
-            showActivityCheckReminder: false
+            showActivityCheckReminder: false,
+            reminderIntervalId: null
         };
+    }
+
+    componentWillReceiveProps(props) {
+        this.checkIfReminderTime();
+        var intervalId = setInterval(() => this.checkIfReminderTime(), 10000);
+        this.setState({ reminderIntervalId: intervalId });
     }
 
     componentDidMount() {
@@ -47,10 +54,13 @@ class IbetApp extends Component {
         this.setState({ inbox: 0 });
 
         this.checkIfReminderTime();
-        setInterval(() => this.checkIfReminderTime(), 1000);
+        var intervalId = setInterval(() => this.checkIfReminderTime(), 10000);
+        this.setState({ reminderIntervalId: intervalId });
     }
 
     componentWillUnmount() {
+        clearInterval(this.state.reminderIntervalId);
+
         window.removeEventListener(
             'beforeunload',
             this.handleWindowBeforeUnload
@@ -65,7 +75,7 @@ class IbetApp extends Component {
 
     checkIfReminderTime() {
         var reminderText = localStorage.getItem('activityCheckReminder');
-        
+
         if (reminderText) {
             var reminderData = JSON.parse(reminderText);
 
@@ -86,6 +96,8 @@ class IbetApp extends Component {
             }
         } else if (this.props.isAuthenticated) {
             this.setActivityReminder();
+        }else{
+            localStorage.removeItem('activityCheckReminder');
         }
     }
 
@@ -111,7 +123,7 @@ class IbetApp extends Component {
                 );
             })
             .then(res => {
-               
+
                 switch (res.data.activityOpt) {
                     case 0:
                         reminderData.duration = 5;

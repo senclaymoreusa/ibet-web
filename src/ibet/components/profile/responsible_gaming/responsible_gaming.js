@@ -520,6 +520,7 @@ export class ResponsibleGaming extends Component {
 
         let currentComponent = this;
 
+        console.log(reminderText);
         if (reminderText) {
             let reminderData = JSON.parse(reminderText);
             this.setState({ activityReminderDuration: parseInt(reminderData.duration) })
@@ -558,6 +559,82 @@ export class ResponsibleGaming extends Component {
                 }
             })
         }
+    }
+
+    checkIfReminderTime() {
+        var reminderText = localStorage.getItem('activityCheckReminder');
+
+        if (reminderText) {
+            var reminderData = JSON.parse(reminderText);
+
+            let now = new Date();
+
+            let milliseconds = Date.parse(reminderData.startTime);
+            let threshold = new Date(milliseconds);
+            let mins = threshold.getMinutes();
+            threshold.setMinutes(mins + parseInt(reminderData.duration));
+
+            if (threshold < now) {
+                this.setState({ showActivityCheckReminder: true });
+                reminderData.startTime = now;
+                localStorage.setItem(
+                    'activityCheckReminder',
+                    JSON.stringify(reminderData)
+                );
+            }
+        } else if (this.props.isAuthenticated) {
+            this.setActivityReminder();
+        }
+    }
+
+    setActivityReminder() {
+        let reminderData = {
+            userId: this.state.userId,
+            startTime: new Date(),
+            duration: 60
+        };
+
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        axios
+            .get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                let userId = res.data.pk;
+                reminderData.userId = userId;
+
+                return axios.get(
+                    API_URL + 'users/api/activity-check/?userId=' + userId,
+                    config
+                );
+            })
+            .then(res => {
+
+                switch (res.data.activityOpt) {
+                    case 0:
+                        reminderData.duration = 5;
+                        break;
+                    case 1:
+                        reminderData.duration = 30;
+                        break;
+                    case 2:
+                        reminderData.duration = 60;
+                        break;
+                    case 3:
+                        reminderData.duration = 120;
+                        break;
+                    default:
+                        reminderData.duration = 60;
+                }
+
+                localStorage.setItem(
+                    'activityCheckReminder',
+                    JSON.stringify(reminderData)
+                );
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     depositLimitChanged(ev) {
