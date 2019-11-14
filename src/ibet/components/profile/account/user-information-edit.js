@@ -193,9 +193,6 @@ const styles = theme => ({
             border: 'solid 1px #717171',
         },
     },
-    showIcon: {
-        fontSize: 20
-    },
     errorLabel: {
         color: '#f44336',
         fontSize: 12,

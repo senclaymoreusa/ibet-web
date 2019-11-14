@@ -22,8 +22,8 @@ import ForgotPassword from "./login-register/forgot_password";
 import NewReleases from '@material-ui/icons/NewReleases';
 import Fab from '@material-ui/core/Fab';
 import Person from '@material-ui/icons/Person';
-
-
+import { config} from '../../util_config';
+import axios from 'axios';
 import {
     logout,
     postLogout,
@@ -35,6 +35,7 @@ import {
 
 import '../css/top_navbar.scss';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
         width: '100%',
@@ -42,7 +43,7 @@ const styles = theme => ({
     firstRow: {
         height: 32,
         alignItems: 'center',
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#f0f0f0',
     },
     firstBar: {
         paddingLeft: 0,
@@ -140,6 +141,7 @@ const styles = theme => ({
     },
     profileIcon: {
         margin: theme.spacing(1),
+        marginLeft:30,
         backgroundColor: '#F1941A',
         height: 30,
         width: 36,
@@ -164,11 +166,13 @@ export class TopNavbar extends React.Component {
         this.state = {
             anchorEl: null,
             dropdownMenu: 'none',
-
+            
+            
             showSoggedinStatus: false,
         };
 
         this.getLabel = this.getLabel.bind(this);
+        this.handleOnebookClick = this.handleOnebookClick.bind(this);
     }
 
     closeMainMenu() {
@@ -198,8 +202,70 @@ export class TopNavbar extends React.Component {
             .then(() => {
                 this.setState({ showSoggedinStatus: true });
             })
+        // this.props.authCheckState().then(res => {
+        //     if (res != 1) {
+              
+            
+        //       const token = localStorage.getItem('token');
+        //       config.headers['Authorization'] = `Token ${token}`;
+        //       axios.get(API_URL + 'users/api/user/', config).then(res => {
+        //           this.setState({ data: res.data });
+                 
+        //       });
+        //     }
+        // });
+    
+        
     }
-
+    
+    handleOnebookClick() {
+        
+        
+        var url = "";
+        if(!this.props.isAuthenticated){
+            url = 'http://sbtest.claymoreasia.com/NewIndex';
+            
+            window.open(url, "onebook_url");
+        }else{
+            let token = localStorage.getItem('token');
+            config.headers['Authorization'] = `Token ${token}`;
+            axios.get(API_URL + 'users/api/user/', config).then(res => {
+                let user_data = res.data
+                
+                var postData = {
+                    "username": user_data.username
+                }
+                var formBody = [];
+                for (var pd in postData) {
+                    var encodedKey = encodeURIComponent(pd);
+                    var encodedValue = encodeURIComponent(postData[pd]);
+                    formBody.push(encodedKey + "=" + encodedValue);
+                }
+                formBody = formBody.join("&");
+    
+                return fetch(API_URL + 'games/api/onebook/login', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: formBody
+                }).then(function (res){
+                    
+                    return res.json();
+                }).then(function(data){
+                    //console.log(data);
+                    url = data.login_url;
+                    //console.log(url)
+                    window.open(url, "onebook_url")
+                });
+            });
+            
+            
+            
+        }
+        
+        
+    }
     render() {
         const { classes } = this.props;
         const { anchorEl, dropdownMenu } = this.state;
@@ -209,6 +275,7 @@ export class TopNavbar extends React.Component {
             <div className={classes.root}>
                 <AppBar position="static" className={classes.firstRow}>
                     <Toolbar className={classes.firstBar}>
+
                         <Button size="small" className={classes.topLinkButton} target="_blank" href="/iovation">
                             {this.getLabel('about-letou')}
                         </Button>
@@ -269,7 +336,13 @@ export class TopNavbar extends React.Component {
                                             <MenuList >
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-sports')}</MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('international-sports')}<NewReleases className={classes.newIcon} /></MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('sabah-sports')}</MenuItem>
+                                                <MenuItem  
+                                                    onClick={
+                                                        this.handleOnebookClick
+
+                                                    }>
+                                                    {this.getLabel('sabah-sports')}
+                                                </MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('sports-tutorial')}</MenuItem>
                                             </MenuList>
                                         </Paper>
@@ -349,7 +422,11 @@ export class TopNavbar extends React.Component {
                             )}
                         </Popper>
                         <Button variant="contained" className={(dropdownMenu === 'games') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
-                            onMouseEnter={(event) => { this.openMainMenu(event, 'games'); }}>
+                            onMouseEnter={(event) => { this.openMainMenu(event, 'games'); }}
+                            onClick={(event) => {
+                                this.props.history.push('/game');
+
+                            }}>
                             {this.getLabel('nav-games')}
                         </Button>
                         <Button variant="contained" className={(dropdownMenu === 'offer') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
@@ -375,14 +452,13 @@ export class TopNavbar extends React.Component {
                             this.state.showSoggedinStatus &&
                             <Fab color="primary" aria-label="add" className={classes.profileIcon} onClick={
                                 () => {
-                                    window.open(window.location.origin + "/p/fortune-center/deposit",
-                                        "Letou profile",
-                                        "resizable,scrollbars,status");
-                                    //this.props.history.push('/p/fortune-center/deposit')   
+                                    // window.open(window.location.origin + "/p/fortune-center/deposit",
+                                    //     "Letou profile",
+                                    //     "resizable,scrollbars,status"); 
+                                        this.props.history.push('/p/fortune-center/deposit')
                                 }}>
                                 <Person />
-                            </Fab>
-                            : <div>
+                            </Fab> : <div style={{marginLeft:20}}>
                                 <Button variant="contained" className={classes.secondRowButton}
                                     onClick={() => {
                                         this.props.history.push('/register')

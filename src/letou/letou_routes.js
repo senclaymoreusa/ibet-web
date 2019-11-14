@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import Home from './components/home';
 import Register from './components/login-register/register';
 import live_casino from "./components/live_casino";
+
 import AboutUs from './components/member/about_us'
 import ForMember from './components/member/for_member'
 import ForPartner from './components/partner/for_partner';
@@ -17,11 +18,9 @@ import  Rules  from './components/member/rules';
 import  FootballRules  from './components/member/football_rules';
 import  BetRules  from './components/member/bet_rules';
 import  GeneralRules  from './components/member/general_rules';
-
 import  GamePoker  from './components/member/game_poker';
 import  GameNiuniu  from './components/member/game.niuniu';
 import  GameRuleSix  from './components/member/game_rule6';
-
 import member_rule1 from './components/partner/partner_rule1';
 import member_rule2 from './components/partner/partner_rule2';
 import member_rule3 from './components/partner/partner_rule3';
@@ -42,7 +41,6 @@ import  LotteryRuleFour  from './components/member/lottery_rule4';
 import  GameRuleFour  from './components/member/game_rule4';
 import  GameSangong  from './components/member/game_sangong';
 import  GameRuleEight  from './components/member/game_rule8';
-import virtual_sports from './components/member/virtual_sports';
 import  LotteryRuleTwo  from './components/member/lottery_rule2';
 import  LotteryRuleThree  from './components/member/lottery_rule3';
 import  GameRuleThree  from './components/member/game_rule3';
@@ -53,10 +51,111 @@ import  BetRuleFour  from './components/member/bet_rules4';
 import  Baijiale  from './components/member/game_baijiale';
 import  Lunpan  from './components/member/game_lunpan';
 import  Game21dian  from './components/member/game_21dian';
+import  Virtual  from './components/member/virtual_sports';
+
+
+import AboutUsTh from './components/member_th/about_us'
+import ForMemberTh from './components/member_th/for_member'
+import ForPartnerTh from './components/partner_th/for_partner';
+import ContactUsTh from './components/member_th/contact_us';
+import  StatementTh  from './components/member_th/statement';
+import  DisclaimerTh  from './components/member_th/disclaimer';
+import  PrivacyTh from './components/member_th/privacy';
+import SafeBetTh  from './components/member_th/safe_bet';
+import  IdentityTh  from './components/member_th/identity';
+import  OfferTermsTh  from './components/member_th/offer_terms';
+import  RulesTh  from './components/member_th/rules';
+import  FootballRulesTh  from './components/member_th/football_rules';
+import  BetRulesTh  from './components/member_th/bet_rules';
+import  GeneralRulesTh  from './components/member_th/general_rules';
+import  GamePokerTh  from './components/member_th/game_poker';
+import  GameNiuniuTh  from './components/member_th/game.niuniu';
+import  GameRuleSixTh  from './components/member_th/game_rule6';
+import member_rule1Th from './components/partner_th/partner_rule1';
+import member_rule2Th from './components/partner_th/partner_rule2';
+import member_rule3Th from './components/partner_th/partner_rule3';
+import member_rule4Th from './components/partner_th/partner_rule4';
+import member_rule5Th from './components/partner_th/partner_rule5';
+import member_rule6Th from './components/partner_th/partner_rule6';
+import  LotteryRuleOneTh  from './components/member_th/lottery_rule1';
+import  GameSedieTh  from './components/member_th/game_sedie';
+import  GameErbagangTh  from './components/member_th/game_erbagang';
+import  SpecialRulesTh  from './components/member_th/special_rules';
+import  GameRuleTwoTh  from './components/member_th/game_rule2';
+import  GameWenzhoujiupaiTh  from './components/member_th/game_wenzhoujiupai';
+import  GameRuleFiveTh  from './components/member_th/game_rule5';
+import  GameLongHuTh  from './components/member_th/game_longhu';
+import  GameRuleSevenTh  from './components/member_th/game_rule7';
+import  GameGubaoTh  from './components/member_th/game_gubao';
+import  LotteryRuleFourTh  from './components/member_th/lottery_rule4';
+import  GameRuleFourTh  from './components/member_th/game_rule4';
+import  GameSangongTh  from './components/member_th/game_sangong';
+import  GameRuleEightTh  from './components/member_th/game_rule8';
+import  LotteryRuleTwoTh  from './components/member_th/lottery_rule2';
+import  LotteryRuleThreeTh  from './components/member_th/lottery_rule3';
+import  GameRuleThreeTh  from './components/member_th/game_rule3';
+import  GameRuleOneTh  from './components/member_th/game_rule1';
+import  BetRuleTwoTh  from './components/member_th/bet_rules2';
+import  BetRuleThreeTh  from './components/member_th/bet_rules3';
+import  BetRuleFourTh  from './components/member_th/bet_rules4';
+import  BaijialeTh  from './components/member_th/game_baijiale';
+import  LunpanTh  from './components/member_th/game_lunpan';
+import  Game21dianTh  from './components/member_th/game_21dian';
+import  VirtualTh  from './components/member_th/virtual_sports';
 
 import Profile from "./components/profile/profile"
 import  Iovation  from './components/iovation/test';
 
+
+import AboutUsVn  from './components/member_vn/about_us'
+import ForMemberVn  from './components/member_vn/for_member'
+import ForPartnerVn  from './components/partner_vn/for_partner';
+import ContactUsVn  from './components/member_vn/contact_us';
+import  StatementVn  from './components/member_vn/statement';
+import  DisclaimerVn  from './components/member_vn/disclaimer';
+import  PrivacyVn  from './components/member_vn/privacy';
+import SafeBetVn  from './components/member_vn/safe_bet';
+import  IdentityVn  from './components/member_vn/identity';
+import  OfferTermsVn  from './components/member_vn/offer_terms';
+import  RulesVn  from './components/member_vn/rules';
+import  FootballRulesVn  from './components/member_vn/football_rules';
+import  BetRulesVn  from './components/member_vn/bet_rules';
+import  GeneralRulesVn  from './components/member_vn/general_rules';
+import  GamePokerVn  from './components/member_vn/game_poker';
+import  GameNiuniuVn  from './components/member_vn/game.niuniu';
+import  GameRuleSixVn  from './components/member_vn/game_rule6';
+import member_rule1Vn from './components/partner_vn/partner_rule1';
+import member_rule2Vn from './components/partner_vn/partner_rule2';
+import member_rule3Vn from './components/partner_vn/partner_rule3';
+import member_rule4Vn from './components/partner_vn/partner_rule4';
+import member_rule5Vn from './components/partner_vn/partner_rule5';
+import member_rule6Vn from './components/partner_vn/partner_rule6';
+import  LotteryRuleOneVn  from './components/member_vn/lottery_rule1';
+import  GameSedieVn  from './components/member_vn/game_sedie';
+import  GameErbagangVn  from './components/member_vn/game_erbagang';
+import  SpecialRulesVn  from './components/member_vn/special_rules';
+import  GameRuleTwoVn  from './components/member_vn/game_rule2';
+import  GameWenzhoujiupaiVn  from './components/member_vn/game_wenzhoujiupai';
+import  GameRuleFiveVn  from './components/member_vn/game_rule5';
+import  GameLongHuVn  from './components/member_vn/game_longhu';
+import  GameRuleSevenVn  from './components/member_vn/game_rule7';
+import  GameGubaoVn  from './components/member_vn/game_gubao';
+import  LotteryRuleFourVn  from './components/member_vn/lottery_rule4';
+import  GameRuleFourVn  from './components/member_vn/game_rule4';
+import  GameSangongVn  from './components/member_vn/game_sangong';
+import  GameRuleEightVn  from './components/member_vn/game_rule8';
+import  LotteryRuleTwoVn  from './components/member_vn/lottery_rule2';
+import  LotteryRuleThreeVn  from './components/member_vn/lottery_rule3';
+import  GameRuleThreeVn  from './components/member_vn/game_rule3';
+import  GameRuleOneVn  from './components/member_vn/game_rule1';
+import  BetRuleTwoVn  from './components/member_vn/bet_rules2';
+import  BetRuleThreeVn  from './components/member_vn/bet_rules3';
+import  BetRuleFourVn  from './components/member_vn/bet_rules4';
+import  BaijialeVn  from './components/member_vn/game_baijiale';
+import  LunpanVn  from './components/member_vn/game_lunpan';
+import  Game21dianVn  from './components/member_vn/game_21dian';
+import  VirtualVn  from './components/member_vn/virtual_sports';
+import  FGgame  from './components/fggame';
 
 
 const containerStyle = {
@@ -67,8 +166,10 @@ const BaseRouter = () => (
     <div style={containerStyle}>
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
-
         <Route exact path="/live_casino" component={live_casino} />
+        <Route exact path="/game" component={FGgame} />
+
+
         <Route exact path="/about_us" component={AboutUs} />
         <Route exact path="/contact_us" component={ContactUs} />
         <Route exact path="/statement" component={Statement} />
@@ -85,14 +186,12 @@ const BaseRouter = () => (
         <Route exact path="/bet_rules2" component={BetRuleTwo} />
         <Route exact path="/bet_rules3" component={BetRuleThree} />
         <Route exact path="/bet_rules4" component={BetRuleFour} />
-
         <Route exact path="/general_rules" component={GeneralRules} />
         <Route exact path="/special_rules" component={SpecialRules} />
-        <Route exact path="/virtual_sports" component={virtual_sports} />
+        <Route exact path="/virtual_sports" component={Virtual} />
         <Route exact path="/game_baijiale" component={Baijiale} />
         <Route exact path="/game_lunpan" component={Lunpan} />
         <Route exact path="/game_21dian" component={Game21dian} />
-
         <Route exact path="/game_longhu" component={GameLongHu} />
         <Route exact path="/game_gubao" component={GameGubao} />
         <Route exact path="/game_erbagang" component={GameErbagang} />
@@ -102,10 +201,8 @@ const BaseRouter = () => (
         <Route exact path="/game_poker" component={GamePoker} />
         <Route exact path="/game_niuniu" component={GameNiuniu} />
         <Route exact path="/game_rule1" component={GameRuleOne} />
-
         <Route exact path="/game_rule2" component={GameRuleTwo} />
         <Route exact path="/game_rule3" component={GameRuleThree} />
-
         <Route exact path="/game_rule4" component={GameRuleFour} />
         <Route exact path="/game_rule5" component={GameRuleFive} />
         <Route exact path="/game_rule6" component={GameRuleSix} />
@@ -114,7 +211,6 @@ const BaseRouter = () => (
         <Route exact path="/lottery_rule1" component={LotteryRuleOne} />
         <Route exact path="/lottery_rule2" component={LotteryRuleTwo} />
         <Route exact path="/lottery_rule3" component={LotteryRuleThree} />
-
         <Route exact path="/lottery_rule4" component={LotteryRuleFour} />
         <Route exact path="/member_rule1" component={member_rule1} />
         <Route exact path="/member_rule2" component={member_rule2} />
@@ -123,9 +219,108 @@ const BaseRouter = () => (
         <Route exact path="/member_rule5" component={member_rule5} />
         <Route exact path="/member_rule6" component={member_rule6} />
 
+        <Route exact path="/th/about_us" component={AboutUsTh} />
+        <Route exact path="/th/contact_us" component={ContactUsTh} />
+        <Route exact path="/th/statement" component={StatementTh} />
+        <Route exact path="/th/disclaimer" component={DisclaimerTh} />
+        <Route exact path="/th/for_member" component={ForMemberTh} />
+        <Route exact path="/th/for_partner" component={ForPartnerTh} />
+        <Route exact path="/th/privacy" component={PrivacyTh} />
+        <Route exact path="/th/safe_bet" component={SafeBetTh} />
+        <Route exact path="/th/identity" component={IdentityTh} />
+        <Route exact path="/th/offer_terms" component={OfferTermsTh} />
+        <Route exact path="/th/rules" component={RulesTh} />
+        <Route exact path="/th/football_rules" component={FootballRulesTh} />
+        <Route exact path="/th/bet_rules" component={BetRulesTh} />
+        <Route exact path="/th/bet_rules2" component={BetRuleTwoTh} />
+        <Route exact path="/th/bet_rules3" component={BetRuleThreeTh} />
+        <Route exact path="/th/bet_rules4" component={BetRuleFourTh} />
+        <Route exact path="/th/general_rules" component={GeneralRulesTh} />
+        <Route exact path="/th/special_rules" component={SpecialRulesTh} />
+        <Route exact path="/th/virtual_sports" component={VirtualTh} />
+        <Route exact path="/th/game_baijiale" component={BaijialeTh} />
+        <Route exact path="/th/game_lunpan" component={LunpanTh} />
+        <Route exact path="/th/game_21dian" component={Game21dianTh} />
+        <Route exact path="/th/game_longhu" component={GameLongHuTh} />
+        <Route exact path="/th/game_gubao" component={GameGubaoTh} />
+        <Route exact path="/th/game_erbagang" component={GameErbagangTh} />
+        <Route exact path="/th/game_sangong" component={GameSangongTh} />
+        <Route exact path="/th/game_wenzhoujiupai" component={GameWenzhoujiupaiTh} />
+        <Route exact path="/th/game_sedie" component={GameSedieTh} />
+        <Route exact path="/th/game_poker" component={GamePokerTh} />
+        <Route exact path="/th/game_niuniu" component={GameNiuniuTh} />
+        <Route exact path="/th/game_rule1" component={GameRuleOneTh} />
+        <Route exact path="/th/game_rule2" component={GameRuleTwoTh} />
+        <Route exact path="/th/game_rule3" component={GameRuleThreeTh} />
+        <Route exact path="/th/game_rule4" component={GameRuleFourTh} />
+        <Route exact path="/th/game_rule5" component={GameRuleFiveTh} />
+        <Route exact path="/th/game_rule6" component={GameRuleSixTh} />
+        <Route exact path="/th/game_rule7" component={GameRuleSevenTh} />
+        <Route exact path="/th/game_rule8" component={GameRuleEightTh} />
+        <Route exact path="/th/lottery_rule1" component={LotteryRuleOneTh} />
+        <Route exact path="/th/lottery_rule2" component={LotteryRuleTwoTh} />
+        <Route exact path="/th/lottery_rule3" component={LotteryRuleThreeTh} />
+        <Route exact path="/th/lottery_rule4" component={LotteryRuleFourTh} />
+        <Route exact path="/th/member_rule1" component={member_rule1Th} />
+        <Route exact path="/th/member_rule2" component={member_rule2Th} />
+        <Route exact path="/th/member_rule3" component={member_rule3Th} />
+        <Route exact path="/th/member_rule4" component={member_rule4Th} />
+        <Route exact path="/th/member_rule5" component={member_rule5Th} />
+        <Route exact path="/th/member_rule6" component={member_rule6Th} />
+
+
+        <Route exact path="/vn/about_us" component={AboutUsVn} />
+        <Route exact path="/vn/contact_us" component={ContactUsVn} />
+        <Route exact path="/vn/statement" component={StatementVn} />
+        <Route exact path="/vn/disclaimer" component={DisclaimerVn} />
+        <Route exact path="/vn/for_member" component={ForMemberVn} />
+        <Route exact path="/vn/for_partner" component={ForPartnerVn} />
+        <Route exact path="/vn/privacy" component={PrivacyVn} />
+        <Route exact path="/vn/safe_bet" component={SafeBetVn} />
+        <Route exact path="/vn/identity" component={IdentityVn} />
+        <Route exact path="/vn/offer_terms" component={OfferTermsVn} />
+        <Route exact path="/vn/rules" component={RulesVn} />
+        <Route exact path="/vn/football_rules" component={FootballRulesVn} />
+        <Route exact path="/vn/bet_rules" component={BetRulesVn} />
+        <Route exact path="/vn/bet_rules2" component={BetRuleTwoVn} />
+        <Route exact path="/vn/bet_rules3" component={BetRuleThreeVn} />
+        <Route exact path="/vn/bet_rules4" component={BetRuleFourVn} />
+        <Route exact path="/vn/general_rules" component={GeneralRulesVn} />
+        <Route exact path="/vn/special_rules" component={SpecialRulesVn} />
+        <Route exact path="/vn/virtual_sports" component={VirtualVn} />
+        <Route exact path="/vn/game_baijiale" component={BaijialeVn} />
+        <Route exact path="/vn/game_lunpan" component={LunpanVn} />
+        <Route exact path="/vn/game_21dian" component={Game21dianVn} />
+        <Route exact path="/vn/game_longhu" component={GameLongHuVn} />
+        <Route exact path="/vn/game_gubao" component={GameGubaoVn} />
+        <Route exact path="/vn/game_erbagang" component={GameErbagangVn} />
+        <Route exact path="/vn/game_sangong" component={GameSangongVn} />
+        <Route exact path="/vn/game_wenzhoujiupai" component={GameWenzhoujiupaiVn} />
+        <Route exact path="/vn/game_sedie" component={GameSedieVn} />
+        <Route exact path="/vn/game_poker" component={GamePokerVn} />
+        <Route exact path="/vn/game_niuniu" component={GameNiuniuVn} />
+        <Route exact path="/vn/game_rule1" component={GameRuleOneVn} />
+        <Route exact path="/vn/game_rule2" component={GameRuleTwoVn} />
+        <Route exact path="/vn/game_rule3" component={GameRuleThreeVn} />
+        <Route exact path="/vn/game_rule4" component={GameRuleFourVn} />
+        <Route exact path="/vn/game_rule5" component={GameRuleFiveVn} />
+        <Route exact path="/vn/game_rule6" component={GameRuleSixVn} />
+        <Route exact path="/vn/game_rule7" component={GameRuleSevenVn} />
+        <Route exact path="/vn/game_rule8" component={GameRuleEightVn} />
+        <Route exact path="/vn/lottery_rule1" component={LotteryRuleOneVn} />
+        <Route exact path="/vn/lottery_rule2" component={LotteryRuleTwoVn} />
+        <Route exact path="/vn/lottery_rule3" component={LotteryRuleThreeVn} />
+        <Route exact path="/vn/lottery_rule4" component={LotteryRuleFourVn} />
+        <Route exact path="/vn/member_rule1" component={member_rule1Vn} />
+        <Route exact path="/vn/member_rule2" component={member_rule2Vn} />
+        <Route exact path="/vn/member_rule3" component={member_rule3Vn} />
+        <Route exact path="/vn/member_rule4" component={member_rule4Vn} />
+        <Route exact path="/vn/member_rule5" component={member_rule5Vn} />
+        <Route exact path="/vn/member_rule6" component={member_rule6Vn} />
 
         <Route exact path="/p/:type?/:sub?" component={Profile} />
         <Route exact path="/iovation" component={Iovation} />
+
 
     </div>
 );
