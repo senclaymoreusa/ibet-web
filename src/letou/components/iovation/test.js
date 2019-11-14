@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 
+
 import Grid from '@material-ui/core/Grid';
 
 import '../../css/help.css'
@@ -21,17 +22,17 @@ const styles = theme => ({
 
 export class Iovation extends React.Component {
   componentDidMount() {
-    const script = document.createElement("script");
-    // script.async = true;
-    script.src = "config.js";
-    script.lang = "javascript"
-    document.body.appendChild(script);
+    // const script = document.createElement("script");
+    // // script.async = true;
+    // script.src = "config.js";
+    // script.lang = "javascript"
+    // document.body.appendChild(script);
 
-    const script2 = document.createElement("script");
-    // script2.async = true;
-    script2.src = "iovation.js";
-    script2.lang = "javascript"
-    document.body.appendChild(script2);
+    // const script2 = document.createElement("script");
+    // // script2.async = true;
+    // script2.src = "iovation.js";
+    // script2.lang = "javascript"
+    // document.body.appendChild(script2);
   }
   // render() {
   //   return (
@@ -60,20 +61,15 @@ export class Iovation extends React.Component {
       return (
        
         <div className={classes.root}> 
-          <form method="POST" action="#">
+          {/* <form method="POST" action="#">
             <input type="submit"  name="Go first!" onClick={this.send_bb()}></input>
-          </form>
+          </form> */}
+          <h2>{window.IGLOO.getBlackbox()}</h2>
+          
           {/* <script type="text/javascript"> */}
             
 {/*            
-            <script
-            src="iovation.js"
-            language="javascript"
-            
-            />
-            <script
-            src="config.js"
-            language="javascript"
+        
            
             /> */}
 
