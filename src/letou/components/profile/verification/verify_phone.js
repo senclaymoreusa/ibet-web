@@ -24,16 +24,9 @@ import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import StepConnector from '@material-ui/core/StepConnector';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import { images } from '../../../../util_config';
-import Checkbox from '@material-ui/core/Checkbox';
-import Country_Info from '../../../../commons/country_info';
-import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Phone from '@material-ui/icons/PhoneAndroid';
-import Warning from '@material-ui/icons/Warning';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -43,7 +36,6 @@ import Info from '@material-ui/icons/InfoOutlined';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
-import { isValidPhoneNumber } from 'react-phone-number-input';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -316,41 +308,6 @@ LetouSnackbarContentWrapper.propTypes = {
     variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
 };
 
-const BootstrapInput = withStyles(theme => ({
-    root: {
-        'label + &': {
-            marginTop: theme.spacing(3),
-        },
-    },
-    input: {
-        borderRadius: 4,
-        height: 20,
-        position: 'relative',
-        backgroundColor: theme.palette.background.paper,
-        border: '1px solid #ced4da',
-        fontSize: 16,
-        padding: '10px 2px 10px 6px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-        '&:focus': {
-            borderRadius: 4,
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        },
-    },
-}))(InputBase);
 
 export class VerifyPhone extends Component {
 
@@ -423,6 +380,8 @@ export class VerifyPhone extends Component {
         axios.post(API_URL + `users/api/verifyactivationcode/`, {
             code: this.state.verificationCode,
             username: this.state.username,
+            type: 'change_member_phone_num',
+            phone: this.state.phone
         })
             .then(res => {
                 if (res.status === 200) {
@@ -430,9 +389,6 @@ export class VerifyPhone extends Component {
                     currentComponent.setState({ snackMessage: this.getLabel('phone-verification-success-message') });
                     currentComponent.setState({ showSnackbar: true });
                     currentComponent.setState({ activeStep: 1 });
-
-                    currentComponent.updatePhoneNumber();
-
                 }
             }).catch(function (err) {
                 sendingLog(err);
@@ -474,13 +430,12 @@ export class VerifyPhone extends Component {
 
     getStepContent() {
         const { classes } = this.props;
-        const { activeStep, phone, verificationCode } = this.state;
+        const { activeStep, verificationCode } = this.state;
 
         switch (activeStep) {
             case 0:
                 return (
                     <Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
-
                         <Grid item xs={12} className={classes.row}>
                             <PhoneInput
                                 value={this.state.phone}
@@ -549,35 +504,6 @@ export class VerifyPhone extends Component {
                         </Grid>
                     </Grid>
                 );
-        }
-    }
-
-    updatePhoneNumber() {
-        if (this.state.phone !== this.state.fetchedPhone) {
-            let currentComponent = this;
-
-            const token = localStorage.getItem('token');
-            config.headers["Authorization"] = `Token ${token}`;
-
-            axios.post(API_URL + `users/api/updateemail/`, {
-                old_email: this.state.fetchedEmail,
-                new_email: this.state.email
-            }, config)
-                .then(res => {
-                    if (res.data === 'Duplicate') {
-                        this.setState({ email_existed_error: true })
-                    } else {
-                        axios.get(API_URL + `users/api/sendemail/?case=change_email&to_email_address=${this.state.fetchedEmail}&email=${this.state.email}`, config)
-                            .then(res => {
-                                axios.get(API_URL + `users/api/sendemail/?case=change_email&to_email_address=${this.state.email}&&email=${this.state.email}`, config)
-                            })
-
-                        currentComponent.setState({ snackType: 'info' });
-                        currentComponent.setState({ snackMessage: currentComponent.getLabel('email-update-success') });
-                        currentComponent.setState({ showSnackbar: true });
-
-                    }
-                })
         }
     }
 

@@ -393,44 +393,13 @@ export class VerifyEmail extends Component {
                     currentComponent.setState({ snackMessage: this.getLabel('email-verification-success-message') });
                     currentComponent.setState({ showSnackbar: true });
                     currentComponent.setState({ activeStep: 2 });
-
-                    currentComponent.updateEmailAddress();
-                }
+          }
             }).catch(function (err) {
                 sendingLog(err);
                 currentComponent.setState({ snackType: 'error' });
                 currentComponent.setState({ snackMessage: currentComponent.getLabel('email-verification-error-message') });
                 currentComponent.setState({ showSnackbar: true });
             });
-    }
-
-    updateEmailAddress() {
-        if (this.state.email !== this.state.fetchedEmail) {
-            let currentComponent = this;
-
-            const token = localStorage.getItem('token');
-            config.headers["Authorization"] = `Token ${token}`;
-
-            axios.post(API_URL + `users/api/updateemail/`, {
-                old_email: this.state.fetchedEmail,
-                new_email: this.state.email
-            }, config)
-                .then(res => {
-                    if (res.data === 'Duplicate') {
-                        this.setState({ email_existed_error: true })
-                    } else {
-                        axios.get(API_URL + `users/api/sendemail/?case=change_email&to_email_address=${this.state.fetchedEmail}&email=${this.state.email}`, config)
-                            .then(res => {
-                                axios.get(API_URL + `users/api/sendemail/?case=change_email&to_email_address=${this.state.email}&&email=${this.state.email}`, config)
-                            })
-
-                        currentComponent.setState({ snackType: 'info' });
-                        currentComponent.setState({ snackMessage: currentComponent.getLabel('email-update-success') });
-                        currentComponent.setState({ showSnackbar: true });
-
-                    }
-                })
-        }
     }
 
     handleSnackbarClose = (event, reason) => {
