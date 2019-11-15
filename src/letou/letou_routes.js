@@ -154,7 +154,8 @@ import  BaijialeVn  from './components/member_vn/game_baijiale';
 import  LunpanVn  from './components/member_vn/game_lunpan';
 import  Game21dianVn  from './components/member_vn/game_21dian';
 import  VirtualVn  from './components/member_vn/virtual_sports';
-import  FGgame  from './components/fggame';
+import  GameLobby  from './components/game_lobby';
+import  GameDetail  from './components/game_detail';
 
 
 const containerStyle = {
@@ -166,8 +167,8 @@ const BaseRouter = () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/live_casino" component={live_casino} />
-        <Route exact path="/game" component={FGgame} />
-
+        <Route exact path="/game" component={GameLobby} />
+        <Route exact path="/game_detail/:id?" component={GameDetail} />
 
         <Route exact path="/about_us" component={AboutUs} />
         <Route exact path="/contact_us" component={ContactUs} />
