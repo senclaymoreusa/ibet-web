@@ -382,6 +382,7 @@ export const messages = {
         'circlepay-placeholder': 'Deposit ₫20,000 - ₫50,000',
         'vn-help2paypay-placeholder': 'Deposit ₫300 - ₫300,000',
         'vn-localbank-placeholder': 'Deposit ₫200 - ₫100,000',
+        'qr-will-needed':'Your QR code needs to be used once only, please ensure the amount you deposit matches what is on the QR code to avoid any issues.'
     },
     zh: {},
 

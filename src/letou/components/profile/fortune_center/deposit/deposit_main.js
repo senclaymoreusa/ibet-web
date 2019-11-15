@@ -28,6 +28,10 @@ import VietnamHelp2pay from './vn/help2_pay';
 import ScratchCard from './vn/scratch_card';
 import VietnamLocalBank from './vn/local_bank';
 
+import AliPay from './zh/ali_pay';
+import OnlinePay from './zh/online_pay';
+import Banktransfer from './zh/bank_transfer';
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = () => ({
@@ -213,23 +217,24 @@ export class DepositMain extends Component {
                             <Button
                                 className={classes.addButton}
                                 onClick={() => {
-                                    this.depositWith('banktransfer');
-                                }}
-                            >
+                                    this.depositWith('chinabanktransfer');
+                                }}>
                                 <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                {favouriteMethod === 'chinabanktransfer' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'banktransfer'),
+                                [classes.active]: (contentValue === 'chinabanktransfer'),
                             })}>{this.getLabel('bank-transfer')}</span>
-                            {contentValue === 'banktransfer' && <div className={classes.selected} />}
+                            {contentValue === 'chinabanktransfer' && <div className={classes.selected} />}
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
                                 className={classes.addButton}
                                 onClick={() => {
                                     this.depositWith('quickpay');
-                                }}
-                            ><img src={images.src + 'letou/unionpay.svg'} alt="" height="26" />
+                                }}>
+                                <img src={images.src + 'letou/unionpay.svg'} alt="" height="26" />
+                                {favouriteMethod === 'quickpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'quickpay'),
@@ -241,8 +246,9 @@ export class DepositMain extends Component {
                                 className={classes.addButton}
                                 onClick={() => {
                                     this.depositWith('unionpayqr');
-                                }}
-                            ><img src={images.src + 'letou/unionpayqr.svg'} alt="" height="26" />
+                                }}>
+                                <img src={images.src + 'letou/unionpayqr.svg'} alt="" height="26" />
+                                {favouriteMethod === 'unionpayqr' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'unionpayqr'),
@@ -254,8 +260,9 @@ export class DepositMain extends Component {
                                 className={classes.addButton}
                                 onClick={() => {
                                     this.depositWith('alipay');
-                                }}
-                            ><img src={images.src + 'letou/alipay@3x.png'} alt="" height="26" />
+                                }}>
+                                <img src={images.src + 'letou/alipay@3x.png'} alt="" height="26" />
+                                {favouriteMethod === 'alipay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'alipay'),
@@ -267,8 +274,9 @@ export class DepositMain extends Component {
                                 className={classes.addButton}
                                 onClick={() => {
                                     this.depositWith('onlinepay');
-                                }}
-                            ><img src={images.src + 'letou/onlinepay.svg'} alt="" height="26" />
+                                }}>
+                                <img src={images.src + 'letou/onlinepay.svg'} alt="" height="26" />
+                                {favouriteMethod === 'onlinepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'onlinepay'),
@@ -280,8 +288,9 @@ export class DepositMain extends Component {
                                 className={classes.addButton}
                                 onClick={() => {
                                     this.depositWith('wechatpay');
-                                }}
-                            ><img src={images.src + 'letou/wechatpay.svg'} alt="" height="40" />
+                                }}>
+                                <img src={images.src + 'letou/wechatpay.svg'} alt="" height="40" />
+                                {favouriteMethod === 'wechatpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'wechatpay'),
@@ -293,8 +302,9 @@ export class DepositMain extends Component {
                                 className={classes.addButton}
                                 onClick={() => {
                                     this.depositWith('jdpay');
-                                }}
-                            ><img src={images.src + 'letou/jdpay.svg'} alt="" height="28" />
+                                }}>
+                                <img src={images.src + 'letou/jdpay.svg'} alt="" height="28" />
+                                {favouriteMethod === 'jdpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'jdpay'),
@@ -306,8 +316,9 @@ export class DepositMain extends Component {
                                 className={classes.addButton}
                                 onClick={() => {
                                     this.depositWith('bitcoin');
-                                }}
-                            ><img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
+                                }}>
+                                <img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
+                                {favouriteMethod === 'bitcoin' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'bitcoin'),
@@ -319,8 +330,9 @@ export class DepositMain extends Component {
                                 className={classes.addButton}
                                 onClick={() => {
                                     this.depositWith('astropay');
-                                }}
-                            ><img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                }}>
+                                <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                {favouriteMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'astropay'),
@@ -492,20 +504,23 @@ export class DepositMain extends Component {
                 {this.getAvailablePaymentMethods()}
                 {contentValue === 'error' && (<DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
                 {contentValue === 'success' && (<DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />)}
-                {contentValue === 'onlinepay' && (<DepositError callbackFromParent={this.setPage} />)}
+
                 {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} />)}
+                {contentValue === 'alipay' && (<AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'onlinepay' && (<OnlinePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'chinabanktransfer' && (<Banktransfer callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
 
                 {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
                 {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} />)}
                 {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} />)}
                 {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} />)}
 
-                {contentValue === 'vietnamhelp2pay' && (<VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'circlepay' && (<CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'fgocard' && (<FgoCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'vietnamlocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'momopay' && (<MomoPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'scratchcard' && (<ScratchCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
+                {contentValue === 'vietnamhelp2pay' && (<VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'circlepay' && (<CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'fgocard' && (<FgoCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'vietnamlocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'momopay' && (<MomoPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'scratchcard' && (<ScratchCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
             </div >
         );
     }
