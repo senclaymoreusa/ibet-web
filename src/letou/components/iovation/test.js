@@ -22,17 +22,17 @@ const styles = theme => ({
 
 export class Iovation extends React.Component {
   componentDidMount() {
-    // const script = document.createElement("script");
-    // // script.async = true;
-    // script.src = "config.js";
-    // script.lang = "javascript"
-    // document.body.appendChild(script);
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "../src/letou/components/iovation/config.js";
+    script.lang = "javascript"
+    document.body.appendChild(script);
 
-    // const script2 = document.createElement("script");
-    // // script2.async = true;
-    // script2.src = "iovation.js";
-    // script2.lang = "javascript"
-    // document.body.appendChild(script2);
+    const script2 = document.createElement("script");
+    // script2.async = true;
+    script2.src = "../src/letou/components/iovation/iovation.js";
+    script2.lang = "javascript"
+    document.body.appendChild(script2);
   }
   // render() {
   //   return (
@@ -47,6 +47,8 @@ export class Iovation extends React.Component {
       // for illustration purposes, we are just going to do an alert here
       var bb = "";
       try {
+
+          console.log( window.IGLOO)
           bb = window.IGLOO.getBlackbox();
           alert( "bb: " + bb.blackbox );
       } catch (e) { 
@@ -61,10 +63,11 @@ export class Iovation extends React.Component {
       return (
        
         <div className={classes.root}> 
-          {/* <form method="POST" action="#">
-            <input type="submit"  name="Go first!" onClick={this.send_bb()}></input>
-          </form> */}
-          <h2>{window.IGLOO.getBlackbox()}</h2>
+          <form method="POST" action="#">
+            <input type="submit" name="Go first!" onclick={this.send_bb()}></input>
+          </form>
+                
+          {/* <h2>{window.IGLOO}</h2> */}
           
           {/* <script type="text/javascript"> */}
             
