@@ -386,6 +386,11 @@ export const messages = {
         'bank-account': 'Bank Account',
         'vn-local-withdraw-text': 'Please select your bank below or add a new bank to make a withdrawal',
         'other-label': 'Other',
+        'add-bank-account-text':'Please add bank account in order to make a withdrawal',
+        'add-bank-account':'Add Bank Account',
+        'create-withdrawal-password':'Create Withdrawal Password',
+        'create-withdrawal-password-text':'Please create a withdrawal password, this will need  to be entered every time you add a new bank account or payment method for security purposes.',
+        
 
     },
     zh: {},
