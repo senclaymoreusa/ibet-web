@@ -1,9 +1,7 @@
+window.io_global_object_name = "IGLOO"
 window.IGLOO = window.IGLOO || {
-    "enable_rip" : true,                 // Enable Real IP protection.
-    "enable_flash" : false,              // Disable flash
-    "install_flash" : false,             // Don't ask user to install flash
-    "loader" : {
-      "version" : "general5",            // Non-experimental 5.x updates
-      "fp_static" : false                // Don't load 1st party resources
-    }
-  };
+  "enable_flash" : false,
+  "loader" : {
+    "version" : "general5",
+    "subkey" : "QwEreVRr8gFXNtyZ9Kj7o1jIsfzTmmY8luU8lmTBfrQ"
+} };

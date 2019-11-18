@@ -211,9 +211,25 @@ export class Login extends React.Component {
         }
     }
 
+    getBlackbox() {
+        // console.log(window.IGLOO)
+        // console.log(typeof window.IGLOO.getBlackbox )
+        var bbData = window.IGLOO.getBlackbox();
+        if (bbData.finished) {
+          // clearTimeout(timeoutId);
+          var blackBoxString = bbData.blackbox;
+        //   console.log(blackBoxString)
+          axios.get(API_URL + 'users/api/login-device-info?bb=' + blackBoxString)
+            .then(res => {         
+            console.log(res.data)
+            })
+          // Your code to handle blackBoxString
+        }
+      }
+
     onFormSubmit(event) {
         event.preventDefault();
-
+        this.getBlackbox();
         this.props.authLogin(this.state.username, this.state.password)
             .then((response) => {
                 if (response.errorCode) {
