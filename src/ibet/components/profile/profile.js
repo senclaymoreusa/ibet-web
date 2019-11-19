@@ -40,8 +40,8 @@ const styles = theme => ({
     indicator: {
         backgroundColor: 'white',
     },
-    appBar:{
-        zIndex:0,
+    appBar: {
+        zIndex: 0,
     }
 });
 
@@ -68,23 +68,23 @@ const StyledTab = withStyles(theme => ({
         fontSize: 20,
         outline: 'none',
         width: '16.6%',
-        minWidth:280,
+        minWidth: 280,
         maxWidth: '16.6%',
-        height:'100%',
+        height: '100%',
         borderBottom: '2px solid #d8d8d8',
         whiteSpace: 'nowrap',
         "&:focus": {
-            height:'100%',
+            height: '100%',
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
         },
         "&:hover": {
-            height:'100%',
+            height: '100%',
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
         },
         "&:selected": {
-            height:'100%',
+            height: '100%',
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
         },
@@ -160,11 +160,12 @@ export class Profile extends Component {
 
     componentWillReceiveProps(props) {
         this.setState({ urlPath: this.props.history.location.pathname });
-    
+
         this.setContent();
     }
 
     componentDidMount() {
+        
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
@@ -200,7 +201,7 @@ export class Profile extends Component {
 
         return (
             <div className={classes.root}>
-                <TopNavbar currentMenu=''/>
+                <TopNavbar currentMenu='' />
                 <MuiThemeProvider theme={muiSubMenuBarTheme}>
                     <AppBar position="static" className={classes.appBar}>
                         <StyledTabs centered
@@ -251,7 +252,7 @@ export class Profile extends Component {
                                     }
                                 }}
                             />
-                             <StyledTab
+                            <StyledTab
                                 value="rewards"
                                 label={rewardsMessage}
                                 onClick={() => {
