@@ -25,7 +25,6 @@ import VietnamLocalBank from './vn/local_bank';
 import MoneyPay from './vn/money_pay';
 
 import BankAccounts from './zh/bank_accounts';
-import CreateWithdrawalPassword from '../create_withdrawal_password'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -282,8 +281,8 @@ export class WithdrawMain extends Component {
         switch (userCountry.toLowerCase()) {
             case 'china':
                 return (
-                    // <BankAccounts />
-                    <CreateWithdrawalPassword/>
+                     <BankAccounts />
+                    //<CreateWithdrawalPassword/>
                 );
             case 'thailand':
                 return (
