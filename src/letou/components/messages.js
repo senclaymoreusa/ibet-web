@@ -58,23 +58,31 @@ export const messages = {
         'casino-rules': 'Casino Rules',
         'video-game-rules': 'Video Game Rules',
         'world-lotto-rules': 'World Lotto Rules',
-        'footer-text1': 'Letou.com is one of Asia\'s leading online gaming groups, offering a wide selection of sports betting, live casinos, mini-games, digital lottery and more, and offers the industry\'s best dividends and returns.',
-        'footer-text2': 'Letou.com is operated by WK (Cyprus) Services Limited with the registered address. Gr. Xenopoulou, 17, 3106, Limassol, Cyprus which is a subsidiary of White Knight (Curacao) BV, established under the laws of Curacao, which has an Agreement with Curaçao eGaming for its gaming license. Curaçao eGaming\'s registration Number is 72819 and its registered address is at Pareraweg 45, Curacao.',
-        'footer-text3': 'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
-        'footer-text4': '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
+        'footer-text1':
+            "Letou.com is one of Asia's leading online gaming groups, offering a wide selection of sports betting, live casinos, mini-games, digital lottery and more, and offers the industry's best dividends and returns.",
+        'footer-text2':
+            "Letou.com is operated by WK (Cyprus) Services Limited with the registered address. Gr. Xenopoulou, 17, 3106, Limassol, Cyprus which is a subsidiary of White Knight (Curacao) BV, established under the laws of Curacao, which has an Agreement with Curaçao eGaming for its gaming license. Curaçao eGaming's registration Number is 72819 and its registered address is at Pareraweg 45, Curacao.",
+        'footer-text3':
+            'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
+        'footer-text4':
+            '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
 
-
-        "for-member": '供会员使用',
-        "story": '乐投品牌故事',
-        "for-partner": '供合作伙伴使用',
+        'for-member': '供会员使用',
+        story: '乐投品牌故事',
+        'for-partner': '供合作伙伴使用',
         'help-title': '我们在此竭诚服务',
-        "aboutUs-detail-text-one": 'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
-        "aboutUs-detail-text-two": '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
-        "aboutUs-detail-text-three": 'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
-        "aboutUs-detail-text-four": '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
+        'aboutUs-detail-text-one':
+            'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
+        'aboutUs-detail-text-two':
+            '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
+        'aboutUs-detail-text-three':
+            'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
+        'aboutUs-detail-text-four':
+            '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
         'Live-casino': 'Live casino',
         'ag-title': 'AG Extreme Square',
-        'ag-words': 'The world\'s first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.',
+        'ag-words':
+            "The world's first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.",
         'ag-baccarat': 'Baccarat',
         'ag-Jingmi': 'Jingmi Baccarat',
         'ag-Package': 'Package table baccarat',
@@ -124,7 +132,8 @@ export const messages = {
         'bbin-Texas': "Texas Hold'em",
         'bbin-Color': 'Color dish',
         'gpi-title': 'GPI Jin Yucheng',
-        'gpi-words': 'Exclusive Super 98 Baccarat, innovative high odds, technical ability leading the industry.',
+        'gpi-words':
+            'Exclusive Super 98 Baccarat, innovative high odds, technical ability leading the industry.',
         'gpi-Baccarat': 'Baccarat',
         'gpi-Qixi': 'Qixi Baccarat',
         'gpi-Dai': 'Dai siu Sic bo',
@@ -179,15 +188,6 @@ export const messages = {
         'registration-time': 'Registration Time',
         'bank-card': 'Bank Card',
         'binding-card-number': 'Binding Card Number',
-
-        'operation-license': 'Operation License',
-        'seriea-sponsorship': 'Serie A Sponsorship',
-        'esport-sponsorship': 'E-sport Sponsorship',
-        'title-responsibility': 'Responsibility',
-        'about-us': 'About Us',
-        'login-help': 'Login Help',
-        'using-help': 'Using Help',
-        'maximum-gaming-platform': 'Maximum Gaming Platform',
         'title-login': 'Login',
         'title-register': 'Register',
         'user-name': 'Username',
@@ -227,8 +227,7 @@ export const messages = {
         'only-three-code':
             'Only three verification codes can be sent each day!',
         'next-step': 'Next Step',
-        'verification-code-sent':
-            'The verification code has been sent.',
+        'verification-code-sent': 'The verification code has been sent.',
         'reset-password': 'Reset Password',
         'reset-label': 'Reset',
         'current-password': 'Current Password',
@@ -237,7 +236,8 @@ export const messages = {
         'password-not-match': 'Your password does not match.',
         'old-new-same': 'New password cannot be same as old password',
         'incorrect-password': 'Incorrect password. Please, try again.',
-        'password-reset-successful': 'You have successfully changed your password.',
+        'password-reset-successful':
+            'You have successfully changed your password.',
         'wrong-password': 'You entered a wrong password.',
         'password-update-failed': 'Password update failed',
         'last-login-time': 'Last Login Time',
@@ -248,19 +248,25 @@ export const messages = {
         'jiufu-password': 'Jiufu Temple APP login Password',
         'setting-label': 'Settings',
         'not-set': 'Not set',
-        'verification-code-error': 'You might enter an invalid verification code. Please try to send again.',
-        'reached-verification-limit': 'You have reached the verification code request limit. Please contact to our call center.',
-        'password-you-need-login': 'Password you need to enter when logging in to your account',
-        'password-you-need-withdrawing': 'Password to enter when withdrawing funds',
+        'verification-code-error':
+            'You might enter an invalid verification code. Please try to send again.',
+        'reached-verification-limit':
+            'You have reached the verification code request limit. Please contact to our call center.',
+        'password-you-need-login':
+            'Password you need to enter when logging in to your account',
+        'password-you-need-withdrawing':
+            'Password to enter when withdrawing funds',
         'setting-problem': 'Setting problem',
         'confirm-answer': 'Confirm the answer',
         'set-security-question': 'Set Security Question',
         'answer-label': 'Answer',
         'verification-data-incorrect': 'Verification data is incorrect.',
         'jiufu-password-title': 'Jiufu Temple App login password setting',
-        'jiufu-password-text': 'Create a secure password, use a combination of letters, numbers, and special characters to change or update your login password. For your convenience, the Jiufu Temple App password can be the same as the Letou website password.',
+        'jiufu-password-text':
+            'Create a secure password, use a combination of letters, numbers, and special characters to change or update your login password. For your convenience, the Jiufu Temple App password can be the same as the Letou website password.',
         'letou-login-password': 'Letou Login Password',
-        'suggestion-text': 'If you have any questions, please feel free to contact us.',
+        'suggestion-text':
+            'If you have any questions, please feel free to contact us.',
         'exclusive-support': 'Exclusive fost customer service experince',
         'domestic-line': 'Domestic Line',
         '24-hours': '24 hours a year',
@@ -269,7 +275,8 @@ export const messages = {
         'enter-code': 'Please enter code',
         'new-phone-number': 'New Phone Number',
         'set-new-phone': 'Set New Phone Number',
-        'phone-change-success': 'You have successfully changed your phone number.',
+        'phone-change-success':
+            'You have successfully changed your phone number.',
         'good-job': 'Good Job!',
         'back-acccount-settings': 'Back to Account Settings',
         'setup-now': 'Set up now',
@@ -278,11 +285,14 @@ export const messages = {
         'create-password': 'Create Password',
         'select-question': 'Select Question',
         'set-security-question-text': 'Please set your security question',
-        'security-question-set-error': 'Error occured while setting security question',
-        'security-question-set-success': 'Congratulations on your safety and your account is safer!',
+        'security-question-set-error':
+            'Error occured while setting security question',
+        'security-question-set-success':
+            'Congratulations on your safety and your account is safer!',
 
         'intimate-reminder': 'Intimate Reminder',
-        'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
+        'intimate-reminder-text':
+            'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
         'register-succes': "Congratulations! You've successfully registered.",
         'name-verification': 'Name Verification',
         'phone-verification': 'Phone Verification',
@@ -292,11 +302,13 @@ export const messages = {
         'id-number': 'ID Card Number',
         'verify-email': 'Verify Email',
         'verify-phone': 'Verify Phone',
-        'verify-name-message': 'You have verified you id and name successfully.',
+        'verify-name-message':
+            'You have verified you id and name successfully.',
         'enter-verification-code': 'Enter Verification Code',
         'email-has-sent': 'The email has been sent to your email.',
-        'not-get-email': 'Haven\'t received the email?',
-        'check-in-spam': 'Please check if it is in spam. If you haven\'t recieved it, go back and resend it.',
+        'not-get-email': "Haven't received the email?",
+        'check-in-spam':
+            "Please check if it is in spam. If you haven't recieved it, go back and resend it.",
         'back-label': 'Back',
         'transfer-label': 'Transfer',
         'select-transfer': 'Select Wallets to Transfer',
@@ -308,10 +320,12 @@ export const messages = {
         'amount-label': 'Amount',
         'next-label': 'Next',
         'empty-wallet-message': 'You cannot sent money from an empty wallet!!',
-        'invalid-transfer-value': 'You cannot transfer an amount more than you have in you wallet!!',
+        'invalid-transfer-value':
+            'You cannot transfer an amount more than you have in you wallet!!',
         'ok-label': 'OK',
         'cancel-label': 'Cancel',
-        'are-u-sure-transfer': 'You are about to transfer all amount of money in your varius wallets to your main wallet. Are you sure?',
+        'are-u-sure-transfer':
+            'You are about to transfer all amount of money in your varius wallets to your main wallet. Are you sure?',
         'local-bank': 'Local Bank',
         'bank-transfer': 'Bank Transfer',
         'quick-pay': 'QuickPay',
@@ -328,7 +342,8 @@ export const messages = {
         'back-banking': 'Back to Banking',
         'bitcoin-placeholder': 'Deposit ¥100 - ¥100,000',
         'payzod-placeholder': 'Deposit ฿500 - ฿500,000',
-        'payzod-desc': 'Please open the app, scan the QR code. Once you have completed the payment please check your transaction history page.',
+        'payzod-desc':
+            'Please open the app, scan the QR code. Once you have completed the payment please check your transaction history page.',
         'deposit-method': 'Deposit Method',
         'order-number': 'Order Number',
         'timer-label': 'Timer',
@@ -348,7 +363,8 @@ export const messages = {
         'check-transaction-status': 'Please check for transaction status.',
         'check-balance': 'Check Balance',
         'back-games-lobby': 'Back to Games Lobby',
-        'deposit-failed-text': 'Please check your details and try again or click cancel to return to deposit.',
+        'deposit-failed-text':
+            'Please check your details and try again or click cancel to return to deposit.',
         'try-again': 'Try Again',
         'choose-bank': 'Choose Bank',
         'name-label': 'Name',
@@ -360,8 +376,10 @@ export const messages = {
         'scratch-card': 'Scratch Card',
         'fgo-card': 'F-Go Card',
         'fgo-enter': 'Please enter the following and hit submit when done',
-        'fgo-ensure': 'Please ensure that you fill out the correct information from the scratch card',
-        'fgo-wrong': 'If you fill out the wrong information your deposit will fail',
+        'fgo-ensure':
+            'Please ensure that you fill out the correct information from the scratch card',
+        'fgo-wrong':
+            'If you fill out the wrong information your deposit will fail',
         'select-amount': 'Select Amount',
         'serial-number': 'Serial Number',
         'invalid-card-number': 'Invalid Card Number',
@@ -371,9 +389,30 @@ export const messages = {
         'internet-fee': '0 Fees | 100-100,000 vnd',
         'momo-fee': '12% Fees | 200-15,000 vnd',
         'enter-amount': 'Enter Amount',
+        'make-sure-email-recieve':
+            'Make sure that the email address you enter will receive the activation email in order for the email to take effect.',
+        'email-verification-success-message':
+            'Congratulation, your account is much safe. Your email has been verified',
+        'email-verification-error-message':
+            'An error occured while verifying the email. Please try it again.',
+        'phone-verification-success-message':
+            'Congratulation, your account is much safe. Your phone has been verified',
+        'phone-verification-error-message':
+            'An error occured while verifying the phone. Please try it again.',
+        'email-verification-bonus-text':
+            'Remind you that if you deposit more than 1, 000 yuan, you can receive a verification bonus.',
+        'deposit-immediately': 'Deposit Immediately',
+        'email-verified': 'Email has been verified',
+        'phone-verified': 'Phone has been verified',
+        'name-verified': 'Actual name has been verified',
+        'verify-name-asap': 'Please verify your actual name asap',
+        'verify-phone-asap': 'Please verify your phone asap',
+        'verify-email-asap': 'Please verify your email asap',
         'change-password': 'Change Password',
-        'withdrawal-password-success': 'The withdrawal password is set successfully.',
-        'withdrawal-password-completion': 'Congratulations on the completion of the withdrawal password, please be sure to remember your withdrawal password, please do not provide your password to others.',
+        'withdrawal-password-success':
+            'The withdrawal password is set successfully.',
+        'withdrawal-password-completion':
+            'Congratulations on the completion of the withdrawal password, please be sure to remember your withdrawal password, please do not provide your password to others.',
         'go-withdrawal': 'Go to Withdrawal',
         'go-bank-card': 'Go to set up bank card',
         'change-mobile': 'Change mobile number method',
@@ -382,6 +421,8 @@ export const messages = {
         'circlepay-placeholder': 'Deposit ₫20,000 - ₫50,000',
         'vn-help2paypay-placeholder': 'Deposit ₫300 - ₫300,000',
         'vn-localbank-placeholder': 'Deposit ₫200 - ₫100,000',
+        'email-update-success':
+            ' Your email address has been successfully updated.'
     },
     zh: {},
 

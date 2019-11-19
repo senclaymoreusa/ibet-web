@@ -24,14 +24,9 @@ import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import StepConnector from '@material-ui/core/StepConnector';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import { images } from '../../../../util_config';
-import Country_Info from '../../../../commons/country_info';
-import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Phone from '@material-ui/icons/PhoneAndroid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -39,6 +34,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Info from '@material-ui/icons/InfoOutlined';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -82,11 +79,17 @@ const styles = () => ({
         flexDirection: 'column',
         justifyContent: 'center'
     },
+    codeRow: {
+        padding: 20,
+        display: 'flex',
+        flexDirection: 'row',
+    },
     sendButton: {
         textTransform: 'capitalize',
         fontSize: 15,
         whiteSpace: 'nowrap',
         width: 140,
+        minWidth:140,
     },
     button: {
         textTransform: 'capitalize',
@@ -107,9 +110,8 @@ const styles = () => ({
         },
     },
     textField: {
-        width: 240,
-        marginRight: 20,
         fontSize: 12,
+        width:'100%',
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -311,41 +313,6 @@ LetouSnackbarContentWrapper.propTypes = {
     variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
 };
 
-const BootstrapInput = withStyles(theme => ({
-    root: {
-        'label + &': {
-            marginTop: theme.spacing(3),
-        },
-    },
-    input: {
-        borderRadius: 4,
-        height: 20,
-        position: 'relative',
-        backgroundColor: theme.palette.background.paper,
-        border: '1px solid #ced4da',
-        fontSize: 16,
-        padding: '10px 2px 10px 6px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-        '&:focus': {
-            borderRadius: 4,
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        },
-    },
-}))(InputBase);
 
 export class VerifyPhone extends Component {
 
@@ -355,13 +322,9 @@ export class VerifyPhone extends Component {
         this.state = {
             activeStep: 0,
             username: '',
-            phoneCode: '',
 
             phone: '',
-            newPhone: '',
             verificationCode: '',
-
-            allCountryName: Country_Info['Country_Info'],
 
             showSnackbar: false,
             snackType: 'info',
@@ -381,16 +344,13 @@ export class VerifyPhone extends Component {
 
         axios.get('https://ipapi.co/json/')
             .then(res => {
-                this.setState({
-                    phoneCode: res.data.country_calling_code
-                })
+                this.setState({ phoneCode: res.data.country_calling_code })
             })
 
         this.props.authCheckState()
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
-                    window.location.reload()
                 }
             })
 
@@ -400,6 +360,8 @@ export class VerifyPhone extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ username: res.data.username });
+                this.setState({ fetchedPhone: res.data.phone });
+                this.setState({ phone: res.data.phone });
             }).catch(function (err) {
                 sendingLog(err);
             });
@@ -407,7 +369,7 @@ export class VerifyPhone extends Component {
 
     phoneChanged(event) {
         if (event.target.value.length === 0)
-            this.setState({ phone: event.target.value });
+            this.setState({ phone: '' });
 
         if (event.target.value.match(/^[0-9\b]+$/)) {
             this.setState({ phone: event.target.value });
@@ -423,19 +385,20 @@ export class VerifyPhone extends Component {
         axios.post(API_URL + `users/api/verifyactivationcode/`, {
             code: this.state.verificationCode,
             username: this.state.username,
+            type: 'change_member_phone_num',
+            phone: this.state.phone
         })
             .then(res => {
                 if (res.status === 200) {
-                    this.setState({ snackType: 'success' });
-                    this.setState({ snackMessage: this.getLabel('verification-code-sent') });
-                    this.setState({ showSnackbar: true });
-                    this.setState({ activeStep: 1 });
-
+                    currentComponent.setState({ snackType: 'success' });
+                    currentComponent.setState({ snackMessage: this.getLabel('phone-verification-success-message') });
+                    currentComponent.setState({ showSnackbar: true });
+                    currentComponent.setState({ activeStep: 1 });
                 }
             }).catch(function (err) {
                 sendingLog(err);
                 currentComponent.setState({ snackType: 'error' });
-                currentComponent.setState({ snackMessage: currentComponent.getLabel('verification-code-error') });
+                currentComponent.setState({ snackMessage: currentComponent.getLabel('phone-verification-error-message') });
                 currentComponent.setState({ showSnackbar: true });
             });
     }
@@ -452,6 +415,7 @@ export class VerifyPhone extends Component {
         axios.post(API_URL + `users/api/generateactivationcode/`, {
             type: 'change_member_phone_num',
             username: this.state.username,
+            phone: this.state.phone
         })
             .then(res => {
                 if (res.status === 201) {
@@ -471,62 +435,30 @@ export class VerifyPhone extends Component {
 
     getStepContent() {
         const { classes } = this.props;
-        const { activeStep, phone, verificationCode } = this.state;
+        const { activeStep, verificationCode } = this.state;
 
         switch (activeStep) {
             case 0:
                 return (
                     <Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
-                        <Grid item xs={4} className={classes.row}>
-                            <span className={classes.label}>
-                                {this.getLabel('phone-number')}
-                            </span>
+                        <Grid item xs={12} className={classes.codeRow}>
+                            <PhoneInput
+                            style={{width:'100%'}}
+                                value={this.state.phone}
+                                onChange={(event) => {
+                                    this.setState({ phone: event });
+                                }}
+                            />
+                            <Button
+                                style={{ marginLeft: 20 }}
+                                variant="contained"
+                                color="default"
+                                onClick={this.sendVerificationCode.bind(this)}
+                                className={classes.sendButton}>{this.getLabel('send-code')}</Button>
                         </Grid>
-                        <Grid item xs={8} className={classes.row} style={{ display: 'flex', flexDirection: 'row' }}>
-                            <FormControl >
-                                <Select
-                                    className={classes.select}
-                                    onClick={() => {
-                                        this.setState({ formOpen: !this.state.formOpen })
-                                    }}
-                                    value={this.state.phoneCode}
-                                    onChange={(event) => {
-                                        this.setState({ phoneCode: event.target.value });
-                                    }}
-                                    input={<BootstrapInput name="country" id="country-customized-select" />}
-                                >
-                                    {this.state.allCountryName.map(item => (
-                                        <MenuItem key={item.name} value={item.code} >
-                                            {
-                                                this.state.formOpen ?
-                                                    <div> {item.name} {item.code} </div>
-                                                    :
-                                                    <div> {item.code} </div>
-                                            }
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <TextField
-                                value={phone}
-                                className={classes.phoneField}
-                                placeholder={this.getLabel('phone-number')}
-                                onChange={(event) => { this.phoneChanged(event) }}
-                                InputProps={{
-                                    disableUnderline: true,
-                                    startAdornment: (<InputAdornment position="start">
-                                        <Phone />
-                                    </InputAdornment>)
-                                }} />
-                        </Grid>
-                        <Grid item xs={4} className={classes.row}>
-                            <span className={classes.label}>
-                                {this.getLabel('verification-code')}
-                            </span>
-                        </Grid>
-                        <Grid item xs={8} className={classes.row} style={{ display: 'flex', flexDirection: 'row' }}>
+                        <Grid item xs={12} className={classes.codeRow} >
                             <TextField className={classes.textField}
-                                style={{ width: 140 }}
+                                placeholder={this.getLabel('verification-code')}
                                 value={verificationCode}
                                 onChange={(event) => {
                                     this.setState({ verificationCode: event.target.value });
@@ -537,10 +469,13 @@ export class VerifyPhone extends Component {
                                         <PlaylistAddCheck />
                                     </InputAdornment>)
                                 }}></TextField>
-                            <Button variant="contained"
-                                color="default"
-                                onClick={this.sendVerificationCode.bind(this)}
-                                className={classes.sendButton}>{this.getLabel('send-code')}</Button>
+
+                            <Button style={{ marginLeft: 20 }}
+                                variant="contained"
+                                disabled={verificationCode.length === 0}
+                                onClick={this.verifyPhone.bind(this)}
+                                className={classes.button}>{this.getLabel('next-step')}</Button>
+
                         </Grid>
                         <Grid item xs={12} className={classes.row} >
                             <List>
@@ -555,10 +490,7 @@ export class VerifyPhone extends Component {
                             </List>
                         </Grid>
                         <Grid item xs={12} className={classes.row}>
-                            <Button variant="contained"
-                                disabled={verificationCode.length === 0}
-                                onClick={this.verifyPhone.bind(this)}
-                                className={classes.button}>{this.getLabel('next-step')}</Button>
+
                         </Grid>
                     </Grid>
                 );
@@ -581,6 +513,7 @@ export class VerifyPhone extends Component {
                 );
         }
     }
+
     render() {
         const { classes } = this.props;
         const { activeStep } = this.state;
