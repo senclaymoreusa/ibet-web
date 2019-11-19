@@ -5,10 +5,6 @@ import {
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
-import { images } from '../../../../../util_config';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { config } from '../../../../../util_config';
@@ -18,13 +14,11 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 
-import WithdrawSuccess from './withdraw_success';
-import WithdrawError from './withdraw_error';
 
 import VietnamLocalBank from './vn/local_bank';
 import MoneyPay from './vn/money_pay';
 
-import BankAccounts from './zh/bank_accounts';
+import ChinaWithdraw from './zh/withdraw';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -275,14 +269,13 @@ export class WithdrawMain extends Component {
     }
 
     getAvailablePaymentMethods() {
-        const { classes } = this.props;
-        const { contentValue, userCountry, favouriteMethod, tabValue } = this.state;
+        const { userCountry, tabValue } = this.state;
 
         switch (userCountry.toLowerCase()) {
             case 'china':
                 return (
-                     <BankAccounts />
-                    //<CreateWithdrawalPassword/>
+                    //<BankAccounts />
+                    <ChinaWithdraw />
                 );
             case 'thailand':
                 return (
@@ -324,13 +317,11 @@ export class WithdrawMain extends Component {
 
     render() {
         const { classes } = this.props;
-        const { tabValue } = this.state;
 
         return (
             <div className={classes.root}>
                 <div className={classes.content}>
                     {this.getAvailablePaymentMethods()}
-
                 </div>
             </div >
         );

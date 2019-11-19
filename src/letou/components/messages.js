@@ -429,11 +429,25 @@ export const messages = {
         'withdraw-password-tooltip':
             'Please enter your 8 digit withdrawal password',
         'eight-characters-warning': 'Please use 8 characters for pin.',
-
+        'withdrawal-amount-allowed': '% based on the maximum withdrawal amount allowed by your bank.',
+        'confirm-label': 'Confirm',
+        'total-balance': 'Total Balance',
+        'withdrawal-balance': 'Withdrawal Balance',
+        'locked-balance': 'Locked Balance',
+        'free-withdrawals': 'Free Withdrawals Remaining',
+        'china-withdrawal-placeholder': 'Withdraw ¥100 - ¥100,00',
+        'fees-label': 'Fees',
+        'receive-amount': 'Receive Amount',
+        'china-withdrawal-message': 'Withdrawals over ¥10,000 are all free of charge. 1% charge fee on withdrawals under ¥10,000.',
+        'total-withdrawal-tooltip': 'This is your total balance across your main and other wallets',   
+        'withdrawal-tooltip':'This is your current balance in your main wallet, to increase this you need to first transfer your balance using the transfer  feature.',
+        'locked-balance-tooltip': 'This is related to a bonus and cannot be  withdrawn until condition fulfilled.',
+        'free-withdrawal-tooltip': 'Total number of free withdrawals remaining  for this period.',
+        
     },
     zh: {},
 
-    vi: {},
+
 
     th: {}
 };

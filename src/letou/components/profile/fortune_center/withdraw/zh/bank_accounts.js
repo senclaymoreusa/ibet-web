@@ -186,6 +186,7 @@ class BankAccounts extends Component {
         this.state = {
             activeStep: 0,
 
+            alreadyHaveWithdrawPassword: false,
             withdrawPassword: '',
             showWithdrawPassword: false,
             confirmWithdrawPassword: '',
@@ -202,15 +203,6 @@ class BankAccounts extends Component {
                 this.props.history.push('/');
             }
         });
-
-        // const token = localStorage.getItem('token');
-        // config.headers['Authorization'] = `Token ${token}`;
-        // axios.get(API_URL + 'users/api/user/', config).then(res => {
-        //     this.setState({
-        //         name:
-        //             res.data.first_name.trim() + ' ' + res.data.last_name.trim()
-        //     });
-        // });
     }
 
     componentDidMount() {
@@ -223,9 +215,15 @@ class BankAccounts extends Component {
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config).then(res => {
+            console.log(res.data);
             this.setState({
                 name:
                     res.data.first_name.trim() + ' ' + res.data.last_name.trim()
+            });
+
+            this.setState({
+                alreadyHaveWithdrawPassword:
+                    res.data.withdraw_password.length > 0
             });
         });
     }
@@ -235,8 +233,10 @@ class BankAccounts extends Component {
         return formatMessage({ id: labelId });
     }
 
-    addAccountClicked(event) {
-        this.setState({ activeStep: 1 });
+    addAccountClicked() {
+        if (this.state.alreadyHaveWithdrawPassword)
+            this.setState({ activeStep: 2 });
+        else this.setState({ activeStep: 1 });
     }
 
     cancelClicked() {
@@ -319,7 +319,15 @@ class BankAccounts extends Component {
                                 )}
                             </span>
                         </Grid>
-                        <Grid item xs={6} style={{ marginBottom: 40, display: 'flex', flexDirection: 'row' }}>
+                        <Grid
+                            item
+                            xs={6}
+                            style={{
+                                marginBottom: 40,
+                                display: 'flex',
+                                flexDirection: 'row'
+                            }}
+                        >
                             <TextField
                                 className={classes.passwordField}
                                 value={withdrawPassword}
@@ -352,10 +360,10 @@ class BankAccounts extends Component {
                                             >
                                                 {this.state
                                                     .showWithdrawPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
-                                                        <Visibility />
-                                                    )}
+                                                    <VisibilityOff />
+                                                ) : (
+                                                    <Visibility />
+                                                )}
                                             </IconButton>
                                         </InputAdornment>
                                     )
@@ -366,7 +374,8 @@ class BankAccounts extends Component {
                                     'eight-characters-warning'
                                 )}
                             >
-                                <img style={{ marginLeft: 5 }}
+                                <img
+                                    style={{ marginLeft: 5 }}
                                     src={images.src + 'letou/info-orange.svg'}
                                     alt=""
                                 />
@@ -389,18 +398,18 @@ class BankAccounts extends Component {
                                         <InputAdornment position="end">
                                             {withdrawPassword ===
                                                 confirmWithdrawPassword &&
-                                                confirmWithdrawPassword.length ===
+                                            confirmWithdrawPassword.length ===
                                                 8 ? (
-                                                    <img
-                                                        src={
-                                                            images.src +
-                                                            'letou/confirmation-ok.svg'
-                                                        }
-                                                        alt=""
-                                                    />
-                                                ) : (
-                                                    <span></span>
-                                                )}
+                                                <img
+                                                    src={
+                                                        images.src +
+                                                        'letou/confirmation-ok.svg'
+                                                    }
+                                                    alt=""
+                                                />
+                                            ) : (
+                                                <span></span>
+                                            )}
                                         </InputAdornment>
                                     )
                                 }}
@@ -544,10 +553,10 @@ class BankAccounts extends Component {
                                                 >
                                                     {this.state
                                                         .showWithdrawPassword ? (
-                                                            <VisibilityOff />
-                                                        ) : (
-                                                            <Visibility />
-                                                        )}
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
                                                 </Tooltip>
                                             </IconButton>
                                         </InputAdornment>
