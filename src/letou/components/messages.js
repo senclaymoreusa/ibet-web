@@ -323,6 +323,7 @@ export const messages = {
         'change-mobile': 'Change mobile number method',
         'through-original': 'Through the original mobile',
         'email-update-success': ' Your email address has been successfully updated.',
+        
     },
     zh: {},
 
