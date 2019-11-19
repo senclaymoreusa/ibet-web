@@ -13,7 +13,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
 
 var QRCode = require('qrcode.react');
 
@@ -369,6 +369,11 @@ class DepositAsiapayWechatpay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
+                            if(data.errorCode){
+                                currentComponent.props.logout();
+                                postLogout();
+                                return;
+                            }
                             //console.log(data.status)
                             if (data.status === "001") {
                                 //alert('Transaction is approved.');
@@ -399,9 +404,9 @@ class DepositAsiapayWechatpay extends Component {
                 currentComponent.props.callbackFromParent("error", data.StatusMsg);
             }
             
-               }).catch(function (err) {  
+        }).catch(function (err) {  
             //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
             sendingLog(err);
             // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
@@ -532,4 +537,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositAsiapayWechatpay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositAsiapayWechatpay)));

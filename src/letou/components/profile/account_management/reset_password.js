@@ -306,7 +306,6 @@ export class ResetPassword extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
-                    window.location.reload()
                 }
             })
 
@@ -325,7 +324,6 @@ export class ResetPassword extends Component {
         let newPasswordErrorMessage = '';
 
         if (this.state.newPasswordInvalid) {
-
             newPasswordErrorMessage = this.getLabel('please-strong-password');
 
             if (this.state.passwordSame)
@@ -337,7 +335,6 @@ export class ResetPassword extends Component {
                 <form onSubmit={this.onFormSubmit.bind(this)} >
                     <Grid container>
                         <Grid item xs={12} className={classes.titleRow}>
-
                             <span className={classes.title}>
                                 {this.getLabel('reset-password')}
                             </span>

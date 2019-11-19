@@ -72,8 +72,6 @@ export const messages = {
         "aboutUs-detail-text-two": '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
         "aboutUs-detail-text-three": 'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
         "aboutUs-detail-text-four": '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
-
-
         'Live-casino': 'Live casino',
         'ag-title': 'AG Extreme Square',
         'ag-words': 'The world\'s first six-card starter, the beauty anchor hotline teasing, winning opportunities will never miss.',
@@ -126,8 +124,8 @@ export const messages = {
         'bbin-Texas': "Texas Hold'em",
         'bbin-Color': 'Color dish',
         'gpi-title': 'GPI Jin Yucheng',
-        'gpi-words':
-            'Exclusive Super 98 Baccarat, innovative high odds, technical ability leading the industry.',
+        'gpi-words': 'Exclusive Super 98 Baccarat, innovative high odds, technical ability leading the industry.',
+        'gpi-Baccarat': 'Baccarat',
         'gpi-Qixi': 'Qixi Baccarat',
         'gpi-Dai': 'Dai siu Sic bo',
         'gpi-Sangong': 'Sangong',
@@ -223,14 +221,13 @@ export const messages = {
         'referral-code': 'Invitaion/Referral Code',
         'modify-phone': 'Modify Phone Number',
         'phone-settings': 'Phone Settings',
-        'set-successfully': 'Set Successfully',
+        'set-successfully': 'Setting Successfully',
         'verification-code': 'Verification Code',
         'send-code': 'Send Code',
         'only-three-code':
             'Only three verification codes can be sent each day!',
         'next-step': 'Next Step',
-        'verification-code-sent':
-            'The verification code has been sent.',
+        'verification-code-sent': 'The verification code has been sent.',
         'reset-password': 'Reset Password',
         'reset-label': 'Reset',
         'current-password': 'Current Password',
@@ -284,7 +281,8 @@ export const messages = {
         'security-question-set-success': 'Congratulations on your safety and your account is safer!',
 
         'intimate-reminder': 'Intimate Reminder',
-        'intimate-reminder-text': 'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
+        'intimate-reminder-text':
+            'After you have completed the security problem setting, if you have any questions, please contact online customer service or call 400-120-8588 for help.',
         'register-succes': "Congratulations! You've successfully registered.",
         'name-verification': 'Name Verification',
         'phone-verification': 'Phone Verification',
@@ -313,14 +311,37 @@ export const messages = {
         'invalid-transfer-value': 'You cannot transfer an amount more than you have in you wallet!!',
         'ok-label': 'OK',
         'cancel-label': 'Cancel',
-        'are-u-sure-transfer':'You are about to transfer all amount of money in your varius wallets to your main wallet. Are you sure?',
-        
+        'are-u-sure-transfer': 'You are about to transfer all amount of money in your varius wallets to your main wallet. Are you sure?',
+        'not-get-email': "Haven't received the email?",
+        'check-in-spam':
+            "Please check if it is in spam. If you haven't recieved it, go back and resend it.",
+        'back-label': 'Back',
+        'make-sure-email-recieve': 'Make sure that the email address you enter will receive the activation email in order for the email to take effect.',
+        'email-verification-success-message':
+            'Congratulation, your account is much safe. Your email has been verified',
+        'email-verification-error-message': 'An error occured while verifying the email. Please try it again.',
+        'phone-verification-success-message':
+            'Congratulation, your account is much safe. Your phone has been verified',
+        'phone-verification-error-message': 'An error occured while verifying the phone. Please try it again.',
+        'email-verification-bonus-text':
+            'Remind you that if you deposit more than 1, 000 yuan, you can receive a verification bonus.',
+        'deposit-immediately': 'Deposit Immediately',
+        'email-verified': 'Email has been verified',
+        'phone-verified': 'Phone has been verified',
+        'name-verified': 'Actual name has been verified',
+        'verify-name-asap': 'Please verify your actual name asap',
+        'verify-phone-asap': 'Please verify your phone asap',
+        'verify-email-asap': 'Please verify your email asap',
+        'change-password': 'Change Password',
+        'withdrawal-password-success': 'The withdrawal password is set successfully.',
+        'withdrawal-password-completion': 'Congratulations on the completion of the withdrawal password, please be sure to remember your withdrawal password, please do not provide your password to others.',
+        'go-withdrawal': 'Go to Withdrawal',
+        'go-bank-card': 'Go to set up bank card',
+        'change-mobile': 'Change mobile number method',
+        'through-original': 'Through the original mobile',
+        'email-update-success': ' Your email address has been successfully updated.',
     },
-    zh: {
-
-
-
-    },
+    zh: {},
 
     vi: {},
 
