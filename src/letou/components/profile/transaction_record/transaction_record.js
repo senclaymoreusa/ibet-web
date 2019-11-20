@@ -5,6 +5,15 @@ import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
+
+import BetDetails from './bet_details';
+import AccountDetails from './account_details';
+import Main from './analysis/main';
 
 const styles = theme => ({
     root: {
@@ -69,9 +78,74 @@ const styles = theme => ({
     }
 });
 
+const StyledTabs = withStyles({
+    indicator: {
+        display: 'flex',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        '& > div': {
+            width: '100%',
+            backgroundColor: '#635ee7'
+        }
+    }
+})(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
+
+const StyledTab = withStyles(theme => ({
+    root: {
+        textTransform: 'none',
+        color: '#474747',
+        fontWeight: theme.typography.fontWeightRegular,
+        fontSize: theme.typography.pxToRem(15),
+        marginRight: theme.spacing(1),
+        '&:focus': {
+            opacity: 1,
+            fontWeight: 800,
+            fontStretch: 'normal',
+            fontStyle: 'normal',
+            lineHeight: 1.38,
+            letterSpacing: -0.06,
+            textAlign: 'center',
+            // color: '#252525',
+            backgroundColor: '#c5c5c5'
+        },
+        '&:selected': {
+            height: '100%',
+            backgroundColor: '#c5c5c5'
+            //borderBottom: '2px solid #53abe0',
+        }
+    }
+}))(props => <Tab disableRipple {...props} />);
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <Typography
+            component="div"
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            <Box p={3}>{children}</Box>
+        </Typography>
+    );
+}
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired
+};
+
 export class TransactionRecord extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            tabValue: 'analysis'
+        };
     }
 
     getLabel(labelId) {
@@ -81,24 +155,61 @@ export class TransactionRecord extends Component {
 
     render() {
         const { classes } = this.props;
+        const { tabValue } = this.state;
 
         return (
             <div className={classes.root}>
                 <Grid container className={classes.mainGrid}>
                     <Grid item xs={12} className={classes.titleRow}>
                         <span className={classes.title}>
-                            {this.getLabel('transaction-record')}
+                            {this.getLabel('transaction-records')}
                         </span>
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            paddingTop: 20
-                        }}
-                    ></Grid>
+                    <Grid item xs={12} style={{ marginTop: 20 }}>
+                        <StyledTabs
+                            value={tabValue}
+                            onChange={this.handleTabChange}
+                        >
+                            <StyledTab
+                                label={this.getLabel('account-details')}
+                                value="account-details"
+                                onClick={() => {
+                                    if (
+                                        this.props.match.params.type !== 'account-details'
+                                    ) {
+                                        this.setState({ tabValue: 'account-details' });
+                                    }
+                                }}
+                            />
+                            <StyledTab
+                                label={this.getLabel('bet-details')}
+                                value="bet-details"
+                                onClick={() => {
+                                    if (
+                                        this.props.match.params.type !== 'bet-details'
+                                    ) {
+                                        this.setState({ tabValue: 'bet-details' });
+                                    }
+                                }}
+                            />
+                            <StyledTab
+                                label={this.getLabel('analysis-label')}
+                                value="analysis"
+                                onClick={() => {
+                                    if (
+                                        this.props.match.params.type !== 'analysis'
+                                    ) {
+                                        this.setState({ tabValue: 'analysis' });
+                                    }
+                                }}
+                            />
+                        </StyledTabs>
+                        <div className={classes.content}>
+                            {tabValue === 'account-details' && <AccountDetails />}
+                            {tabValue === 'bet-details' && <BetDetails />}
+                            {tabValue === 'analysis' && <Main />}
+                        </div>
+                    </Grid>
                 </Grid>
             </div>
         );

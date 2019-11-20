@@ -299,15 +299,15 @@ export class Profile extends Component {
                             }}
                         />
                         <StyledTab
-                            label={this.getLabel('transaction-record')}
-                            value="transaction-record"
+                            label={this.getLabel('transaction-records')}
+                            value="transaction-records"
                             onClick={() => {
                                 if (
                                     this.props.match.params.type !==
-                                    'transaction-record'
+                                    'transaction-records'
                                 ) {
                                     this.handleCategoryChange(
-                                        'transaction-record'
+                                        'transaction-records'
                                     );
                                 }
                             }}
@@ -452,7 +452,7 @@ export class Profile extends Component {
                     {this.state.tabValue === 'fortune-center' && (
                         <FortuneCenter />
                     )}
-                    {this.state.tabValue === 'transaction-record' && (
+                    {this.state.tabValue === 'transaction-records' && (
                         <TransactionRecord />
                     )}
                     {this.state.tabValue === 'account-management' && (

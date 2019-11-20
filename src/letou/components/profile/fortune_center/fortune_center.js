@@ -196,7 +196,7 @@ export class FortuneCenter extends Component {
                             <Button className={(activeTab === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                 onClick={(evt) => this.handleTabChange(evt, 'deposit')}>
                                 <FlightLandOutlined style={{ marginRight: 8 }} />
-                                {this.getLabel('title-deposit')}
+                                {this.getLabel('deposit-label')}
                             </Button>
                             <Button className={(activeTab === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                 onClick={(evt) => this.handleTabChange(evt, 'withdrawal')}>
