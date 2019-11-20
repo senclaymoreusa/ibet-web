@@ -104,7 +104,7 @@ import  Game21dianTh  from './components/member_th/game_21dian';
 import  VirtualTh  from './components/member_th/virtual_sports';
 
 import Profile from "./components/profile/profile"
-import  Iovation  from './components/iovation/test';
+
 
 
 import AboutUsVn  from './components/member_vn/about_us'
@@ -319,7 +319,7 @@ const BaseRouter = () => (
         <Route exact path="/vn/member_rule6" component={member_rule6Vn} />
 
         <Route exact path="/p/:type?/:sub?" component={Profile} />
-        <Route exact path="/iovation" component={Iovation} />
+      
 
 
     </div>
