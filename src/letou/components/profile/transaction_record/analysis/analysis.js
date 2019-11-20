@@ -182,7 +182,7 @@ const styles = () => ({
         borderLeftWidth: 1,
         borderTopWidth: 1,
         borderBottomWidth: 1,
-
+        color:'#cdcbcc',
         borderColor: '#e4e4e4',
     },
     rightTypeButton: {
@@ -196,14 +196,17 @@ const styles = () => ({
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderColor: '#e4e4e4',
+        color:'#cdcbcc',
     },
     activeLeft: {
         borderRightWidth: 1,
         borderColor: '#53abe0',
+        color: '#53abe0',
     },
     activeRight: {
         borderLeftWidth: 1,
         borderColor: '#53abe0',
+        color: '#53abe0',
     },
 });
 
@@ -609,7 +612,7 @@ export class Analysis extends Component {
                         <Button
                             className={classes.button}
                             onClick={() => {
-                                this.props.callbackFromParent('deposit');
+                                this.props.callbackFromParent('deposit-withdraw');
                             }}
                         >
                             <img
@@ -632,7 +635,7 @@ export class Analysis extends Component {
                         <Button
                             className={classes.button}
                             onClick={() => {
-                                this.props.callbackFromParent('withdraw');
+                                this.props.callbackFromParent('deposit-withdraw');
                             }}
                         >
                             <img
