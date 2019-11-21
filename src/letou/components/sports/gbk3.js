@@ -129,7 +129,7 @@ export class gbk3 extends React.Component {
         axios.get(URL, config)
         .then(res => {
             var Game_URL = res.data.game_url
-            console.log(Game_URL);
+            //console.log(Game_URL);
             // this.state.url =Game_URL
             this.setState({url : Game_URL});
         })
@@ -138,8 +138,8 @@ export class gbk3 extends React.Component {
         axios.get(URL, config)
         .then(res => {
             var Game_URL = res.data.game_url
-            console.log("fake");
-            console.log(Game_URL);
+            // console.log("fake");
+            // console.log(Game_URL);
             // return Game_URL;
             this.setState({url : Game_URL});
         })
