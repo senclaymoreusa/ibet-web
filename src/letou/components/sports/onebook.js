@@ -126,12 +126,14 @@ export class onebook extends React.Component {
 handleOnebookClick() {
 
     var Game_URL = "";
-    if(!this.props.isAuthenticated){
+    let currentComponent = this;
+    let token = localStorage.getItem('token');
+    if(!token){
         Game_URL = 'http://sbtest.claymoreasia.com/NewIndex';
-        this.setState({url : Game_URL});
+        currentComponent.setState({url : Game_URL});
         // window.open(url, "onebook_url");
     }else{
-        let token = localStorage.getItem('token');
+        
         config.headers['Authorization'] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config).then(res => {
             let user_data = res.data
@@ -161,7 +163,7 @@ handleOnebookClick() {
                 Game_URL = data.login_url;
                 //console.log(url)
                 // window.open(url, "onebook_url")
-                this.setState({url : Game_URL});
+                currentComponent.setState({url : Game_URL});
             });
         });
     }   
