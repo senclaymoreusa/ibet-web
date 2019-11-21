@@ -24,7 +24,7 @@ export class Main extends Component {
         super(props);
 
         this.state = {
-            contentValue: 'deposit-withdraw',
+            contentValue: 'main',
             id:''
         }
     }

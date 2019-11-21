@@ -143,8 +143,8 @@ const styles = () => ({
         marginLeft: 10
     },
     sportValue: {
-        fontSize: 30,
-        fontWeight: 600,
+        fontSize: 16,
+        fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 'normal',
@@ -153,8 +153,8 @@ const styles = () => ({
         color: '#6dd400',
     },
     slotsValue: {
-        fontSize: 30,
-        fontWeight: 600,
+        fontSize: 16,
+        fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 'normal',
@@ -163,8 +163,8 @@ const styles = () => ({
         color: '#ff0000',
     },
     casinoValue: {
-        fontSize: 30,
-        fontWeight: 600,
+        fontSize: 16,
+        fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 'normal',
@@ -182,7 +182,7 @@ const styles = () => ({
         borderLeftWidth: 1,
         borderTopWidth: 1,
         borderBottomWidth: 1,
-        color:'#cdcbcc',
+        color: '#cdcbcc',
         borderColor: '#e4e4e4',
     },
     rightTypeButton: {
@@ -196,7 +196,7 @@ const styles = () => ({
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderColor: '#e4e4e4',
-        color:'#cdcbcc',
+        color: '#cdcbcc',
     },
     activeLeft: {
         borderRightWidth: 1,
@@ -233,10 +233,6 @@ export class Analysis extends Component {
         this.goToNextMonth = this.goToNextMonth.bind(this);
         this.setChartLabels = this.setChartLabels.bind(this);
         this.setChartData = this.setChartData.bind(this);
-
-        this.goToSportsDailyAnalysis = this.goToSportsDailyAnalysis.bind(this);
-        this.goToSlotsDailyAnalysis = this.goToSlotsDailyAnalysis.bind(this);
-        this.goToCasinoDailyAnalysis = this.goToCasinoDailyAnalysis.bind(this);
     }
 
     goToPreviousMonth() {
@@ -351,18 +347,6 @@ export class Analysis extends Component {
         d.setMonth(newMonth);
 
         return d;
-    }
-
-    goToSportsDailyAnalysis() {
-        this.props.callbackFromParent(2);
-    }
-
-    goToSlotsDailyAnalysis() {
-        this.props.callbackFromParent(4);
-    }
-
-    goToCasinoDailyAnalysis() {
-        this.props.callbackFromParent(5);
     }
 
     getLabel(labelId) {

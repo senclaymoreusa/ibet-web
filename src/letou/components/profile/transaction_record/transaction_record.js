@@ -72,9 +72,10 @@ const styles = theme => ({
     },
     content: {
         flexGrow: 1,
-        paddingLeft: 10,
-        paddingTop: 10,
-        paddingBottom: 10
+        borderTop: 'solid 1px #efefef',
+        paddingTop: 20,
+        paddingBottom: 10,
+
     }
 });
 
@@ -82,10 +83,9 @@ const StyledTabs = withStyles({
     indicator: {
         display: 'flex',
         justifyContent: 'center',
-        backgroundColor: 'transparent',
         '& > div': {
             width: '100%',
-            backgroundColor: '#635ee7'
+            backgroundColor: '#53abe0'
         }
     }
 })(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
@@ -99,20 +99,18 @@ const StyledTab = withStyles(theme => ({
         marginRight: theme.spacing(1),
         '&:focus': {
             opacity: 1,
-            fontWeight: 800,
             fontStretch: 'normal',
             fontStyle: 'normal',
             lineHeight: 1.38,
             letterSpacing: -0.06,
             textAlign: 'center',
-            // color: '#252525',
-            backgroundColor: '#c5c5c5'
         },
-        '&:selected': {
+        '&:active': {
             height: '100%',
-            backgroundColor: '#c5c5c5'
-            //borderBottom: '2px solid #53abe0',
         }
+    },
+    selected: {
+        backgroundColor: 'rgba(228, 228, 228, 0.4)',
     }
 }))(props => <Tab disableRipple {...props} />);
 
