@@ -558,7 +558,7 @@ export class Register extends Component {
                       <TextField
                         value={this.state.email}
                         className={classes.registerField}
-                        placeholder={this.getLabel('title-email')}
+                        placeholder={this.getLabel('email-label')}
                         onChange={(event) => { this.emailChanged(event) }}
                         onFocus={() => {
                           this.setState({ emailFocused: true });
