@@ -459,6 +459,7 @@ const styles = theme => ({
     },
     profileMenuPopper: {
         width: 210,
+        zIndex:2020,
     },
     margin: {
         margin: 'auto',
@@ -1332,7 +1333,7 @@ export class TopNavbar extends React.Component {
                 </div>
                 <div className='overlay' style={searchBackgroundStyle}></div>
 
-                <Popper
+                <Popper style={{ zIndex:2020}}
                     anchorEl={anchorEl}
                     open={this.props.showLogin}
                 >
