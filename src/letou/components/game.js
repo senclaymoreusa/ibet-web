@@ -78,12 +78,17 @@ export class Games extends React.Component {
 
     //fg
     axios.get(API_URL + 'games/api/get_all_game?provider=FG', config).then(res => {
-      this.setState({ fggame: res.data.game });
+     
+      if (res.data.game != null) {
+        this.setState({ fggame: res.data.game });
+      }
      
     });
     //mg
     axios.get(API_URL + 'games/api/get_all_game?provider=MG', config).then(res => {
-      this.setState({ mggame: res.data.game });
+      if (res.data.game != null) {
+        this.setState({ mggame: res.data.game });
+      }
      
     });
   
