@@ -157,6 +157,7 @@ import  VirtualVn  from './components/member_vn/virtual_sports';
 import  FGgame  from './components/fggame';
 import  gbsports from './components/sports/gbsports';
 import  onebook from './components/sports/onebook';
+import  eonebook from './components/sports/eonebook';
 import  gblotto from './components/sports/gblotto';
 import  gbkeno from './components/sports/gbkeno';
 import  gbk3 from './components/sports/gbk3';
@@ -175,6 +176,7 @@ const BaseRouter = () => (
         <Route exact path="/game" component={FGgame} />
         <Route exact path='/gbsports' component={gbsports} />
         <Route exact path='/onebook' component={onebook} />
+        <Route exact path='/eonebook' component={eonebook} />
         <Route exact path='/gblotto' component={gblotto} />
         <Route exact path='/gbkeno' component={gbkeno} />
         <Route exact path='/gbk3' component={gbk3} />

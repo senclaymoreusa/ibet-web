@@ -387,7 +387,17 @@ export class TopNavbar extends React.Component {
                                             <MenuList>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-esports')}</MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-esports-pro')}<NewReleases className={classes.newIcon} /></MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('sabah-esports')}</MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        
+                                                        (e) => {
+                                                            this.props.history.push('/eonebook')
+                                                        }
+
+                                                    }>
+                                                
+                                                {this.getLabel('sabah-esports')}
+                                                </MenuItem>
                                             </MenuList>
                                         </Paper>
                                     </Fade>
