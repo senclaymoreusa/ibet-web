@@ -143,8 +143,8 @@ export class live_casino extends React.Component {
     
     
     var token = localStorage.getItem('token');
-    var code = 'IBPHtest';
-    var accessKey = 'f66e9c36-22a0-4f0a-9521-c8d3ca4f021a';
+    var code = process.env.GDCASINO_STAGING_CODE;
+    var accessKey = process.env.GDCASINO_STAGING_ACCESSKEY;
     //console.log(this.state.data)
     var currency = this.state.data.currency;
     // currency = currencyConversion[currency];
