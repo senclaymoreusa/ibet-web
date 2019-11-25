@@ -12,11 +12,12 @@ import sha256 from 'sha256';
 import { config} from '../../util_config';
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
+  gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
+  gdcasino_accessKey = process.env.REACT_APP_GDCASINO_STAGING_ACCESSKEY;
 
 //console.log("Line 15, process env URL = " + API_URL);
-
+console.log(gdcasino_code)
 document.body.style = 'background: #f1f1f1;';
 
 
@@ -143,21 +144,21 @@ export class live_casino extends React.Component {
     
     
     var token = localStorage.getItem('token');
-    var code = process.env.GDCASINO_STAGING_CODE;
-    var accessKey = process.env.GDCASINO_STAGING_ACCESSKEY;
+    var code = gdcasino_code;
+    var accessKey = gdcasino_accessKey;
     //console.log(this.state.data)
     var currency = this.state.data.currency;
     // currency = currencyConversion[currency];
     // console.log(currency)
     var username = this.state.data.username;
-    var key = sha256(code + token + accessKey + username + currency )
+    var key = sha256(gdcasino_code + token + gdcasino_accessKey + username + currency )
     
     var url = "";
     if(!token){
       this.props.history.push('/register');
     }else{
       
-      url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+      url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
       window.open(url, "gdcasino")
     }
     
