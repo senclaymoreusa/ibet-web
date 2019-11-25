@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -98,19 +96,19 @@ export class GameRuleOneVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>Marvel Jackpot</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>5-10 Hàng thanh toán</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a>15-20 Hàng thanh toán</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
                                 <a>25+ Hàng thanh toán</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
                                 <a>Luật chơi</a>
                             </li>
                         </ul>
@@ -118,7 +116,7 @@ export class GameRuleOneVn extends React.Component {
                     </div>
                    
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>Marvel Jackpot</h2>
                             <h1>Rules</h1>
                             <p>- Một mệnh giá đặt cược (giá trị đồng xu) có thể được chọn bằng cách nhấp vào nút “ Nhấp để Thay đổi” mệnh giá ở góc dưới
@@ -206,7 +204,7 @@ export class GameRuleOneVn extends React.Component {
                                 <br /> - Biểu tượng Scatter là một ngoại lệ đối với các quy tắc này. Thông tin thêm về biểu tượng Scatter có thể được tìm thấy
                                 bên dưới.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>5-10 Hàng thanh toán</h2>
                             &nbsp;
                             <h1>Luật chơi</h1>
@@ -295,7 +293,7 @@ export class GameRuleOneVn extends React.Component {
                                 <br /> - Biêu tượng Phân tán (Scatter symbol) là một ngoại lệ của luật chơi. Thông tin thêm về biểu tượng phân tán có thể tìm
                                 thấy bên dưới.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <h2>15-20 Hàng thanh toán</h2>
                             &nbsp;
                             <h1>Luật chơi</h1>
@@ -384,7 +382,7 @@ export class GameRuleOneVn extends React.Component {
                                 <br /> - Biêu tượng Phân tán (Scatter symbol) là một ngoại lệ của luật chơi. Thông tin thêm về biểu tượng phân tán có thể tìm
                                 thấy bên dưới.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <h2>25+ Hàng thanh toán </h2>
                             &nbsp;
                             <h1> Luật chơi </h1>
@@ -474,7 +472,7 @@ export class GameRuleOneVn extends React.Component {
                                 thấy bên dưới.</p>
                             Còn tiếp tục.
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                         <h2>Đa vòng quay</h2>
                             &nbsp;
                             <h1> Luật chơi </h1>

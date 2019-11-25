@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -98,17 +96,17 @@ export class Game21dian extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>21点</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>国际轮盘</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>21点</h2>
                             <p>游戏目的是取得越接近21点且不超过21点的点数，最终比庄家点数高即可获胜。黑杰克〔Blackjack〕为一张A和任一张点数为10的牌组合而成，点数总和一样是21点，但黑杰克〔Blackjack〕比一般点数总和为21点的牌还要大。
                                 <br />
@@ -156,7 +154,7 @@ export class Game21dian extends React.Component {
                                 <br /> - 牌面点数
                                 <br /> 点数大小：
                                 <br />
-                                <img src="http://i.imgur.com/Kwo93CF.png" />
+                                <img src="http://i.imgur.com/Kwo93CF.png" alt=""/>
                                 <br /> ※ A（软牌）只有在该局持牌点数和大于21点的情况下方可视为1点。
                                 <br />
                                 <br /> - 牌型大小
@@ -169,10 +167,10 @@ export class Game21dian extends React.Component {
                                 <br /> - 派彩
                                 <br /> 不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以波音厅为例：
                                 <br />
-                                <img src="http://i.imgur.com/Ela2eb8.png" />
+                                <img src="http://i.imgur.com/Ela2eb8.png" alt=""/>
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                             <h2>疯狂21点</h2>
                             <h1>【游戏规则】</h1>
                             <p>疯狂21点与传统的21点玩法相似，玩家想要赢得牌局，手上的牌点数必须比庄家的牌点数大，尽量接近21点但不可超过21点。游戏不需理会其他玩家的牌点数，玩家只与庄家的牌点数作对抗，所有玩家的牌均是牌面向上的。</p>

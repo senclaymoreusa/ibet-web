@@ -17,7 +17,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {
     show_letou_announcements
 } from '../../../actions';
-import { InfoSelect } from '../info_select';
 
 
 

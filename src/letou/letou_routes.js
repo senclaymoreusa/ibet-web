@@ -154,7 +154,6 @@ import  BaijialeVn  from './components/member_vn/game_baijiale';
 import  LunpanVn  from './components/member_vn/game_lunpan';
 import  Game21dianVn  from './components/member_vn/game_21dian';
 import  VirtualVn  from './components/member_vn/virtual_sports';
-import  FGgame  from './components/fggame';
 import  gbsports from './components/sports/gbsports';
 import  gbesports from './components/sports/gbesports';
 import  onebook from './components/sports/onebook';
@@ -164,6 +163,8 @@ import  gbkeno from './components/sports/gbkeno';
 import  gbk3 from './components/sports/gbk3';
 import  gbpk10 from './components/sports/gbpk10';
 import  gbssc from './components/sports/gbssc';
+import  Games  from './components/game';
+
 
 const containerStyle = {
     mineight: '100%'
@@ -174,7 +175,6 @@ const BaseRouter = () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/live_casino" component={live_casino} />
-        <Route exact path="/game" component={FGgame} />
         <Route exact path='/gbsports' component={gbsports} />
         <Route exact path='/gbesports' component={gbesports} />
         <Route exact path='/onebook' component={onebook} />
@@ -184,6 +184,8 @@ const BaseRouter = () => (
         <Route exact path='/gbk3' component={gbk3} />
         <Route exact path='/gbpk10' component={gbpk10} />
         <Route exact path='/gbssc' component={gbssc} />
+        <Route exact path="/game" component={Games} />
+
 
         <Route exact path="/about_us" component={AboutUs} />
         <Route exact path="/contact_us" component={ContactUs} />
