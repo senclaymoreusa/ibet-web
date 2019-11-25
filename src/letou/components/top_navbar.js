@@ -172,7 +172,7 @@ export class TopNavbar extends React.Component {
         };
 
         this.getLabel = this.getLabel.bind(this);
-        this.handleOnebookClick = this.handleOnebookClick.bind(this);
+        // this.handleOnebookClick = this.handleOnebookClick.bind(this);
     }
 
     closeMainMenu() {
@@ -218,54 +218,69 @@ export class TopNavbar extends React.Component {
         
     }
     
-    handleOnebookClick() {
-        
-        
-        var url = "";
-        if(!this.props.isAuthenticated){
-            url = 'http://sbtest.claymoreasia.com/NewIndex';
+    // handleOnebookClick() {
+
+    //     var url = "";
+    //     if(!this.props.isAuthenticated){
+    //         url = 'http://sbtest.claymoreasia.com/NewIndex';
             
-            window.open(url, "onebook_url");
-        }else{
-            let token = localStorage.getItem('token');
-            config.headers['Authorization'] = `Token ${token}`;
-            axios.get(API_URL + 'users/api/user/', config).then(res => {
-                let user_data = res.data
+    //         window.open(url, "onebook_url");
+    //     }else{
+    //         let token = localStorage.getItem('token');
+    //         config.headers['Authorization'] = `Token ${token}`;
+    //         axios.get(API_URL + 'users/api/user/', config).then(res => {
+    //             let user_data = res.data
                 
-                var postData = {
-                    "username": user_data.username
-                }
-                var formBody = [];
-                for (var pd in postData) {
-                    var encodedKey = encodeURIComponent(pd);
-                    var encodedValue = encodeURIComponent(postData[pd]);
-                    formBody.push(encodedKey + "=" + encodedValue);
-                }
-                formBody = formBody.join("&");
+    //             var postData = {
+    //                 "username": user_data.username
+    //             }
+    //             var formBody = [];
+    //             for (var pd in postData) {
+    //                 var encodedKey = encodeURIComponent(pd);
+    //                 var encodedValue = encodeURIComponent(postData[pd]);
+    //                 formBody.push(encodedKey + "=" + encodedValue);
+    //             }
+    //             formBody = formBody.join("&");
     
-                return fetch(API_URL + 'games/api/onebook/login', {
-                    method: "POST",
-                    headers: {
-                        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                    },
-                    body: formBody
-                }).then(function (res){
+    //             return fetch(API_URL + 'games/api/onebook/login', {
+    //                 method: "POST",
+    //                 headers: {
+    //                     'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    //                 },
+    //                 body: formBody
+    //             }).then(function (res){
                     
-                    return res.json();
-                }).then(function(data){
-                    //console.log(data);
-                    url = data.login_url;
-                    //console.log(url)
-                    window.open(url, "onebook_url")
-                });
-            });
-            
-            
-            
-        }
-        
-        
-    }
+    //                 return res.json();
+    //             }).then(function(data){
+    //                 //console.log(data);
+    //                 url = data.login_url;
+    //                 //console.log(url)
+    //                 window.open(url, "onebook_url")
+    //             });
+    //         });
+    //     }   
+    // }
+    // game_url(event, gamename){
+    //     event.preventDefault();
+    //     var token = localStorage.getItem('token')  
+    //     if (this.props.isAuthenticated){
+    //         config.headers["Authorization"] = `Token ${token}`;
+    //         var URL = API_URL + 'games/api/gb/generategameurl/?game=' + gamename
+    //         axios.get(URL, config)
+    //         .then(res => {
+    //             var Game_URL = res.data.game_url
+    //             window.open(Game_URL)
+    //         })
+    //     }else{
+    //         var URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename
+    //         axios.get(URL, config)
+    //         .then(res => {
+    //             var Game_URL = res.data.game_url
+    //             window.open(Game_URL)
+    //         })
+    //     }
+
+    // }
     render() {
         const { classes } = this.props;
         const { anchorEl, dropdownMenu } = this.state;
@@ -333,11 +348,22 @@ export class TopNavbar extends React.Component {
                                     <Fade {...TransitionProps} timeout={350}>
                                         <Paper id="menu-list-grow">
                                             <MenuList >
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-sports')}</MenuItem>
+                                                <MenuItem
+                                                    onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbsports')
+                                                        }
+                                                        
+                                                    }>
+                                                    {this.getLabel('letou-sports')}
+                                                </MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('international-sports')}<NewReleases className={classes.newIcon} /></MenuItem>
                                                 <MenuItem  
                                                     onClick={
-                                                        this.handleOnebookClick
+                                                        // this.handleOnebookClick
+                                                        (e) => {
+                                                            this.props.history.push('/onebook')
+                                                        }
 
                                                     }>
                                                     {this.getLabel('sabah-sports')}
@@ -359,9 +385,27 @@ export class TopNavbar extends React.Component {
                                     <Fade {...TransitionProps} timeout={350}>
                                         <Paper id="menu-list-grow">
                                             <MenuList>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-esports')}</MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        
+                                                        (e) => {
+                                                            this.props.history.push('/gbesports')
+                                                        }
+
+                                                    }>
+                                                {this.getLabel('letou-esports')}</MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-esports-pro')}<NewReleases className={classes.newIcon} /></MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('sabah-esports')}</MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        
+                                                        (e) => {
+                                                            this.props.history.push('/eonebook')
+                                                        }
+
+                                                    }>
+                                                
+                                                {this.getLabel('sabah-esports')}
+                                                </MenuItem>
                                             </MenuList>
                                         </Paper>
                                     </Fade>
@@ -408,11 +452,44 @@ export class TopNavbar extends React.Component {
                                     <Fade {...TransitionProps} timeout={350}>
                                         <Paper id="menu-list-grow">
                                             <MenuList>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('nav-lotto')}</MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('happy-color')}<NewReleases className={classes.newIcon} /></MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('time-color')}</MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('pick-up')}</MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('fast-3')}</MenuItem>
+                                                <MenuItem
+                                                 onClick={
+                                                    (e) => {
+                                                        this.props.history.push('/gblotto')
+                                                    }
+                                                    
+                                                    }>
+                                                {this.getLabel('nav-lotto')}
+                                                 </MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbkeno')
+                                                        }
+                                                        
+                                                        }>
+                                                    {this.getLabel('happy-color')}<NewReleases className={classes.newIcon} />
+                                                </MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbssc')
+                                                        }
+                                                        
+                                                        }>{this.getLabel('time-color')}
+                                                </MenuItem>
+                                                <MenuItem onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbpk10')
+                                                        }
+                                                        
+                                                        }>{this.getLabel('pick-up')}</MenuItem>
+                                                <MenuItem onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbk3')
+                                                        }
+                                                        
+                                                        }>{this.getLabel('fast-3')}</MenuItem>
 
                                             </MenuList>
                                         </Paper>
