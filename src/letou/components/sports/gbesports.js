@@ -104,71 +104,51 @@ const styles = theme => ({
 
 });
 
-export class onebook extends React.Component {
+export class gbesports extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      url : ""
+    //   url : ""
 
     };
 
     
   }
   componentDidMount() {
-    this.props.authCheckState()
-        .then(() => {
-            this.setState({ showSoggedinStatus: true });
-        })
-    this.handleOnebookClick();
+    // this.props.authCheckState()
+    //     .then(() => {
+    //         this.setState({ showSoggedinStatus: true });
+    //     })
+    this.game_url("GB ESports");
    
 }
-handleOnebookClick() {
-
-    var Game_URL = "";
-    let currentComponent = this;
-    let token = localStorage.getItem('token');
-    if(!token){
-        Game_URL = 'http://sbtest.claymoreasia.com/NewIndex';
-        console.log(Game_URL)
-        currentComponent.setState({url : Game_URL});
-        // window.open(url, "onebook_url");
+  game_url(gamename){
+    
+    var token = localStorage.getItem('token')  
+    if (token){
+        config.headers["Authorization"] = `Token ${token}`;
+        var URL = API_URL + 'games/api/gb/generategameurl/?game=' + gamename
+        axios.get(URL, config)
+        .then(res => {
+            var Game_URL = res.data.game_url
+            console.log(Game_URL);
+            // this.state.url =Game_URL
+            this.setState({url : Game_URL});
+        })
     }else{
-        
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            let user_data = res.data
-            
-            var postData = {
-                "username": user_data.username
-            }
-            var formBody = [];
-            for (var pd in postData) {
-                var encodedKey = encodeURIComponent(pd);
-                var encodedValue = encodeURIComponent(postData[pd]);
-                formBody.push(encodedKey + "=" + encodedValue);
-            }
-            formBody = formBody.join("&");
-
-            return fetch(API_URL + 'games/api/onebook/login', {
-                method: "POST",
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                },
-                body: formBody
-            }).then(function (res){
-                
-                return res.json();
-            }).then(function(data){
-                //console.log(data);
-                Game_URL = data.login_url;
-                console.log(Game_URL)
-                // window.open(url, "onebook_url")
-                currentComponent.setState({url : Game_URL});
-            });
-        });
-    }   
+        var URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename
+        axios.get(URL, config)
+        .then(res => {
+            var Game_URL = res.data.game_url
+            // console.log("fake");
+            // console.log(Game_URL);
+            // return Game_URL;
+            this.setState({url : Game_URL});
+        })
+    }
 }
+  
 
   render() {
 
@@ -203,4 +183,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(onebook))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(gbesports))));

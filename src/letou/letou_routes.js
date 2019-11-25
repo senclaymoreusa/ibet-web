@@ -156,6 +156,7 @@ import  Game21dianVn  from './components/member_vn/game_21dian';
 import  VirtualVn  from './components/member_vn/virtual_sports';
 import  FGgame  from './components/fggame';
 import  gbsports from './components/sports/gbsports';
+import  gbesports from './components/sports/gbesports';
 import  onebook from './components/sports/onebook';
 import  eonebook from './components/sports/eonebook';
 import  gblotto from './components/sports/gblotto';
@@ -175,6 +176,7 @@ const BaseRouter = () => (
         <Route exact path="/live_casino" component={live_casino} />
         <Route exact path="/game" component={FGgame} />
         <Route exact path='/gbsports' component={gbsports} />
+        <Route exact path='/gbesports' component={gbesports} />
         <Route exact path='/onebook' component={onebook} />
         <Route exact path='/eonebook' component={eonebook} />
         <Route exact path='/gblotto' component={gblotto} />

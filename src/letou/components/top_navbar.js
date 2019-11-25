@@ -385,7 +385,15 @@ export class TopNavbar extends React.Component {
                                     <Fade {...TransitionProps} timeout={350}>
                                         <Paper id="menu-list-grow">
                                             <MenuList>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-esports')}</MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        
+                                                        (e) => {
+                                                            this.props.history.push('/gbesports')
+                                                        }
+
+                                                    }>
+                                                {this.getLabel('letou-esports')}</MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-esports-pro')}<NewReleases className={classes.newIcon} /></MenuItem>
                                                 <MenuItem 
                                                     onClick={
