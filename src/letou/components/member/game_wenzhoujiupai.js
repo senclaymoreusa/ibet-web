@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -96,27 +94,27 @@ export class GameWenzhoujiupai extends React.Component {
                             </li><li> - 牌面点数
                             </li><li> 单张牌的大小顺序：
                             </li><li>
-                            <img src="http://i.imgur.com/cUz0rk3.jpg"></img>
+                            <img src="http://i.imgur.com/cUz0rk3.jpg" alt=""></img>
                             </li><li>
                             </li><li> 对牌的大小顺：
                             </li><li>
-                            <img src="http://i.imgur.com/u4t1D4t.jpg"></img>
+                            <img src="http://i.imgur.com/u4t1D4t.jpg" alt=""></img>
                             </li><li>
                             </li><li> 没有对牌的大小顺序：
                             </li><li> 若没有对牌，则以两牌点数之和的个位数来分胜负，最大是9，最小是0。
                             </li><li>
                             </li><li> 范例一：没对牌的组合方式
                             </li><li>
-                            <img src="http://i.imgur.com/X3BVwUg.jpg"></img>
+                            <img src="http://i.imgur.com/X3BVwUg.jpg" alt=""></img>
                             </li><li>
                             </li><li> 范例二：比点数时如遇到同点数，就以其中最大单张牌的级别来比较大小。
                             </li><li>
-                            <img src="http://i.imgur.com/FYHnwff.jpg "></img>
+                            <img src="http://i.imgur.com/FYHnwff.jpg " alt=""></img>
                         
                             </li><li>
                             </li><li> 范例三：「大鸡六」和「小鸡」不能变化点数
                             </li><li>
-                            <img src="http://i.imgur.com/nvfo5zm.jpg "></img>
+                            <img src="http://i.imgur.com/nvfo5zm.jpg " alt=""></img>
                             </li><li>
                             </li><li>
                             </li><li>

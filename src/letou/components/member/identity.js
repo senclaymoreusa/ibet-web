@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -111,20 +109,20 @@ export class Identity extends React.Component {
 
                         <p>正面清晰：</p>
                             
-                            <img src="http://i.imgur.com/3OJMHCO.jpg"></img>
+                            <img src="http://i.imgur.com/3OJMHCO.jpg" alt = ""></img>
                         <p>正面不清晰：</p>
                            
-                            <img src="http://i.imgur.com/GBZgmPI.jpg"></img>
+                            <img src="http://i.imgur.com/GBZgmPI.jpg" alt = ""></img>
                         
 
                         <p>背面清晰： </p>
                             
-                            <img src="http://i.imgur.com/m33bGbm.jpg"></img>
+                            <img src="http://i.imgur.com/m33bGbm.jpg" alt = ""></img>
                        
 
                         <p>背面不清晰：</p>
                            
-                            <img src="http://i.imgur.com/uuWYLSQ.jpg"></img>
+                            <img src="http://i.imgur.com/uuWYLSQ.jpg" alt = ""></img>
                         
                     </div>
                 </Grid>
