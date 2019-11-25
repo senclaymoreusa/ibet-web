@@ -130,7 +130,7 @@ handleOnebookClick() {
     let token = localStorage.getItem('token');
     if(!token){
         Game_URL = 'http://sbtest.claymoreasia.com/NewIndex';
-        console.log(Game_URL)
+        //console.log(Game_URL)
         currentComponent.setState({url : Game_URL});
         // window.open(url, "onebook_url");
     }else{
