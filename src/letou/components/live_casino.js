@@ -17,7 +17,7 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
   gdcasino_accessKey = process.env.REACT_APP_GDCASINO_STAGING_ACCESSKEY;
 
 //console.log("Line 15, process env URL = " + API_URL);
-console.log(gdcasino_code)
+//console.log(gdcasino_accessKey)
 document.body.style = 'background: #f1f1f1;';
 
 
@@ -144,8 +144,8 @@ export class live_casino extends React.Component {
     
     
     var token = localStorage.getItem('token');
-    var code = gdcasino_code;
-    var accessKey = gdcasino_accessKey;
+    // var code = gdcasino_code;
+    // var accessKey = gdcasino_accessKey;
     //console.log(this.state.data)
     var currency = this.state.data.currency;
     // currency = currencyConversion[currency];
