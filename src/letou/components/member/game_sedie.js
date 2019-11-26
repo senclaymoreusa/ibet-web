@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -86,7 +84,7 @@ export class GameSedie extends React.Component {
                         <p>- 派彩
                         <ul className={classes.helpCenterArticleColumn}>
                             <li> 不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以波音厅为例：
-                            <img src="http://i.imgur.com/ZIapZbA.png"></img>
+                            <img src="http://i.imgur.com/ZIapZbA.png" alt =  ""></img>
                             </li><li>
                             </li><li> 1.本游戏进行方式为最接近实境赌场之设置，若有发生特殊情形将依本公司公告之办法处理。
                             </li><li> 2.荷官在游戏进行中若不慎让碗、碟或钮扣掉落，将对象放回定位后，重新进行摇碟。

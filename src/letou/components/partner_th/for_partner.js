@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
@@ -15,16 +12,13 @@ import IconHeader from "../icon_header";
 
 import ListItemText from '@material-ui/core/ListItemText';
 
-import { config, images } from '../../../util_config';
-import IconButton from '@material-ui/core/IconButton';
 
 import {
     show_letou_announcements
 } from '../../../actions';
-import { InfoSelect } from '../info_select';
 
 
-const styles = theme => ({
+const styles = () => ({
     logoHeader: {
         height: '20px',
         padding: '10px'

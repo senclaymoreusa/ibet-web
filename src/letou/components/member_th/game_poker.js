@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -117,9 +115,9 @@ export class GamePokerTh extends React.Component {
                             <br/>
                             <br/> - Winning Combination
                             <br/>
-                            <img src=" http://i.imgur.com/NNAVms4.png"></img>
+                            <img src=" http://i.imgur.com/NNAVms4.png" alt=""></img>
                             <br/>
-                            <img src="http://i.imgur.com/5n5iQi0.png"></img>
+                            <img src="http://i.imgur.com/5n5iQi0.png" alt=""></img>
                         </p>
                     </div>
 

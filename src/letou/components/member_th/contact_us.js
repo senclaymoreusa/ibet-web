@@ -7,19 +7,14 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import TopNavbar from "../top_navbar";
 import IconHeader from "../icon_header";
-import { config, images } from '../../../util_config';
-import IconButton from '@material-ui/core/IconButton';
 
 import {
     show_letou_announcements
 } from '../../../actions';
-import { InfoSelect } from '../info_select';
 
 
-const styles = theme => ({
+const styles = () => ({
     logoHeader: {
         height: '20px',
         padding: '10px'

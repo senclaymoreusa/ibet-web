@@ -29,10 +29,10 @@ export const messages = {
         'texas-holdem': "Texas Hold'em",
         'games-lobby': 'Games Lobby',
         'nav-lotto': 'Lotto',
-        'happy-color': 'Happy Color',
-        'time-color': 'Time Color',
-        'pick-up': 'PK Pick Up',
-        'fast-3': 'Fast 3',
+        'happy-color': 'Keno',
+        'time-color': 'SSC',
+        'pick-up': 'PK10',
+        'fast-3': 'K3',
         'latest-offer': 'Latest Offer',
         'daily-discount': 'Daily Discount',
         'operation-license': 'Operation License',
@@ -40,6 +40,9 @@ export const messages = {
         'esport-sponsorship': 'E-sport Sponsorship',
         'title-responsibility': 'Responsibility',
         'title-partner': 'Partner',
+        'title-license': 'License',
+        'title-product': 'Products',
+        'payment-methods': 'Payment Methods',
         'about-us': 'About Us',
         'login-help': 'Login Help',
         'using-help': 'Using Help',
@@ -66,9 +69,8 @@ export const messages = {
             'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
         'footer-text4':
             '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
-
         'for-member': '供会员使用',
-        story: '乐投品牌故事',
+        'story': '乐投品牌故事',
         'for-partner': '供合作伙伴使用',
         'help-title': '我们在此竭诚服务',
         'aboutUs-detail-text-one':
@@ -422,7 +424,13 @@ export const messages = {
         'vn-help2paypay-placeholder': 'Deposit ₫300 - ₫300,000',
         'vn-localbank-placeholder': 'Deposit ₫200 - ₫100,000',
         'email-update-success':
-            ' Your email address has been successfully updated.'
+            ' Your email address has been successfully updated.',
+         'lang-thai': 'Thai',
+        'lang-vietnamese': 'Vietnamese',
+        'lang-english': 'English',
+        'lang-chinese': 'Chinese',
+
+
     },
     zh: {},
 

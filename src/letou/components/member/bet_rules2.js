@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -98,17 +96,17 @@ export class BetRuleTwo extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>一般盘口规则</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>混合过关与兑现功能</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>优胜冠军</h2>
 
                             <p>优胜冠军是指对一项赛事、比赛或锦标赛中的获胜者投注。例如：足球联赛或一个F1赛季冠军。赌盘标题中将标明详细内容。
@@ -160,7 +158,7 @@ export class BetRuleTwo extends React.Component {
                                 <br /> 如果赛事在上半场结束之前中止，全部上半场的投注将视为无效。相反的，如果赛事在上半场结束之后中止，则全部上半场的投注将视为有效。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                             <h2>混合过关</h2>
 
                             <p>玩家可选择任何地区的投注选项进行过关投注，混和过关的赔率固定为相乘。同一场赛事、优胜冠军不能互相串关。</p>
