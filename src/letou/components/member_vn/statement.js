@@ -71,10 +71,10 @@ export class StatementVn extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -84,12 +84,12 @@ export class StatementVn extends React.Component {
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/vn/for_member">Dành cho Đối tác >
+                                <a href="/vi/for_member">Dành cho Đối tác >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/vn/for_member">Chia sẻ kế hoạch  >
+                                <a href="/vi/for_member">Chia sẻ kế hoạch  >
                                     <i></i>
                                 </a>
                             </li>
