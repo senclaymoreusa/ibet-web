@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -98,37 +96,37 @@ export class LotteryRuleOne extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
                                 <a>名词解释</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
                                 <a>香港六合彩</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
                                 <a>新加坡多多</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
                                 <a>中国七乐彩</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
                                 <a>新西兰乐透</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
                                 <a>德国乐透</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
                                 <a>英国国家乐透</a>
                             </li>
-                            <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
+                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
                                 <a>西班牙乐透</a>
                             </li>
-                            <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
+                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
                                 <a>南非国家乐透</a>
                             </li>
-                            <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
+                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
                                 <a>加拿大乐透</a>
                             </li>
-                            <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
+                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
                                 <a>美国纽约乐透</a>
                             </li>
                         </ul>
@@ -136,7 +134,7 @@ export class LotteryRuleOne extends React.Component {
                     </div>
                     {/* <!-- please only edit HelperCenterDetail's contain --> */}
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1} >
+                        <div className="centerDetail" hidden={this.state.current !== 1} >
                             <h2>名词解释 </h2>
                             <h1>【特码】</h1>
                             <p>为乐透的玩法之一，指开奖时最后会开出的特别号，玩法为购买1~49其中一个号码，比对当期开奖之特别号，相同即算中奖。</p>
@@ -171,7 +169,7 @@ export class LotteryRuleOne extends React.Component {
                             <h1>【胆拖】</h1>
                             <p>连码的一种下注方式之一，以"胆"的号码为主要，"拖"的号码为次要，选择好胆与拖的号码后，将以胆为基础凑出组合，例如：选择1为胆，2、3、4为拖，2全中的下注只会产生3组，分别为[1、2]、[1、3]、[1、4]。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                             <h2>香港六合彩 </h2>
                             &nbsp;
                             <h1>【特码】</h1>
@@ -277,7 +275,7 @@ export class LotteryRuleOne extends React.Component {
                             &nbsp;
                             <p>将6个号码及特别号，全部相加后的总分数28~322分成六个区间，当期开奖的[总分]，符合所投注的[区间]时中奖。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                             <h2>新加坡多多</h2>
                             &nbsp;
                             <h1>【特码】</h1>
@@ -332,7 +330,7 @@ export class LotteryRuleOne extends React.Component {
                             &nbsp;
                             <p>将6个号码及特别号，全部相加后的总分数28~322分成六个区间，当期开奖的[总分]，符合所投注的[区间]时中奖。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                             <h2>中国七乐彩</h2>
                             &nbsp;
                             <h1>【特码】</h1>
@@ -350,7 +348,7 @@ export class LotteryRuleOne extends React.Component {
                                 <br /> - 单双：号码单数时为单，双数时为双。
                                 <br /> - 尾大小：个位数大于等于5时为尾大，个位数小于等于4时为尾小。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                             <h2>新西兰乐透</h2>
                             &nbsp;
                             <h1>【特码】</h1>
@@ -368,7 +366,7 @@ export class LotteryRuleOne extends React.Component {
                                 <br /> - 单双：号码单数时为单，双数时为双。
                                 <br /> - 尾大小：个位数大于等于5时为尾大，个位数小于等于4时为尾小。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                             <h2>德国乐透</h2>
                             &nbsp;
                             <h1>【特码】</h1>
@@ -379,7 +377,7 @@ export class LotteryRuleOne extends React.Component {
                             &nbsp;
                             <p>第1~6球其中1号相同即中奖。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                             <h2>英国国家乐透</h2>
                             &nbsp;
                             <h1>【特码】</h1>
@@ -434,7 +432,7 @@ export class LotteryRuleOne extends React.Component {
                             &nbsp;
                             <p>将6个号码及特别号，全部相加后的总分数28~322分成六个区间，当期开奖的[总分]，符合所投注的[区间]时中奖。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 8}>
+                        <div className="centerDetail" hidden={this.state.current !== 8}>
                             <h2>西班牙乐透</h2>
                             &nbsp;
                             <h1>【特码】</h1>
@@ -489,7 +487,7 @@ export class LotteryRuleOne extends React.Component {
                             &nbsp;
                             <p>将6个号码及特别号，全部相加后的总分数28~322分成六个区间，当期开奖的[总分]，符合所投注的[区间]时中奖。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 9}>
+                        <div className="centerDetail" hidden={this.state.current !== 9}>
                             <h2>南非国家乐透</h2>
                             &nbsp;
                             <h1>【特码】</h1>
@@ -557,7 +555,7 @@ export class LotteryRuleOne extends React.Component {
                             &nbsp;
                             <p>将6个号码及特别号，全部相加后的总分数28~322分成六个区间，当期开奖的[总分]，符合所投注的[区间]时中奖。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 10}>
+                        <div className="centerDetail" hidden={this.state.current !== 10}>
                             <h2>加拿大乐透</h2>
                             &nbsp;
                             <h1>【特码】</h1>
@@ -612,7 +610,7 @@ export class LotteryRuleOne extends React.Component {
                             &nbsp;
                             <p>将6个号码及特别号，全部相加后的总分数28~322分成六个区间，当期开奖的[总分]，符合所投注的[区间]时中奖。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 11}>
+                        <div className="centerDetail" hidden={this.state.current !== 11}>
                             <h2>美国纽约乐透</h2>
                             &nbsp;
                             <h1>【特码】</h1>

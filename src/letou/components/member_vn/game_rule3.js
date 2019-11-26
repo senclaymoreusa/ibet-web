@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -98,17 +96,17 @@ export class GameRuleThreeVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>Blackjack (Xì-zách)</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>Roulette</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2> Blackjack( Xì-zách) </h2>
                             &nbsp;
                             <p>- Mục tiêu của bài Blackjack là các lá bài của người chơi phải đạt tới gần 21 điểm so với bài của nhà Cái, nhưng không thể
@@ -172,7 +170,7 @@ export class GameRuleThreeVn extends React.Component {
                                 Nhà Cái sẽ là người nhận lá bài cuối cùng trong ván bài. Khi các lá bài đã được chia, từng người chơi sẽ chơi các lá
                                 bài riêng của mình, bắt đầu từ người chơi ngoài cùng bên phải.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>Roulette</h2>
                             &nbsp;
                             <h1>Americal Roulette</h1>
