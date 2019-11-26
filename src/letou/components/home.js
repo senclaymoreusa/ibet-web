@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Footer from "./footer";
 import TopNavbar from "./top_navbar";
+import BottomNavbar from './mobile/bottom_navbar';
 import { connect } from 'react-redux';
 import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
@@ -37,7 +38,9 @@ export class Home extends Component {
       <div className={classes.root}>
         <TopNavbar />
         <div className={classes.grow} />
-        <Footer />
+        {/* <Footer /> */}
+
+        <BottomNavbar/>
       </div>
     );
   }
