@@ -6,9 +6,11 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Home from '@material-ui/icons/Home';
+import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
+import Input from '@material-ui/icons/Input';
+import ContactSupport from '@material-ui/icons/ContactSupport';
+import MeetingRoom from '@material-ui/icons/MeetingRoom';
 
 import {
     logout,
@@ -22,6 +24,8 @@ import {
 const styles = theme => ({
     root: {
         width: '100%',
+        borderColor: '#80bdff',
+        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
     },
 });
 
@@ -51,11 +55,11 @@ export class BottomNavbar extends React.Component {
                 showLabels
                 className={classes.root}
             >
-                <BottomNavigationAction label={this.getLabel('home-label')} icon={<RestoreIcon />} />
-                <BottomNavigationAction label={this.getLabel('promotions-label')} icon={<FavoriteIcon />} />
-                <BottomNavigationAction label={this.getLabel('sign-up')} icon={<FavoriteIcon />} />
-                <BottomNavigationAction label={this.getLabel('support-label')} icon={<FavoriteIcon />} />
-                <BottomNavigationAction label={this.getLabel('log-in')} icon={<LocationOnIcon />} />
+                <BottomNavigationAction label={this.getLabel('home-label')} icon={<Home />} />
+                <BottomNavigationAction label={this.getLabel('promotions-label')} icon={<AssignmentTurnedIn />} />
+                <BottomNavigationAction label={this.getLabel('sign-up')} icon={<MeetingRoom />} />
+                <BottomNavigationAction label={this.getLabel('support-label')} icon={<ContactSupport />} />
+                <BottomNavigationAction label={this.getLabel('log-in')} icon={<Input />} />
             </BottomNavigation>
         );
     }

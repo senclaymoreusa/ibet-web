@@ -17,14 +17,31 @@ import { Button } from '@material-ui/core';
 import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
 import PhoneIcon from '@material-ui/icons/Phone';
 
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import Home from '@material-ui/icons/Home';
+import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
+import Input from '@material-ui/icons/Input';
+import ContactSupport from '@material-ui/icons/ContactSupport';
+import MeetingRoom from '@material-ui/icons/MeetingRoom';
+
 
 const styles = theme => ({
-  sectionDesktop: {
+  rootDesktop: {
     display: 'none',
     height: '100%',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
+    width: '100%',
+    paddingLeft: 24,
+    paddingRight: 24,
+    paddingTop: theme.spacing() * 2,
+    paddingBottom: theme.spacing() * 2,
+    backgroundColor: '#3c3c3c',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   sectionMobile: {
     display: 'flex',
@@ -173,7 +190,7 @@ const styles = theme => ({
     alignItems: "center",
     paddingRight: 30,
   },
-  partnerColumn: {
+  leftColumn: {
     display: 'flex',
     flexDirection: 'column',
     paddingRight: 30,
@@ -202,6 +219,10 @@ const styles = theme => ({
   responsibilityImage: {
     height: 40,
     marginLeft: 8
+  },
+  productImage: {
+    width: 120,
+    marginLeft: 15
   },
   partnerImage: {
     height: 45,
@@ -261,7 +282,7 @@ export class Footer extends React.Component {
     super(props);
 
     this.state = {
-
+      activeValue: 'home'
     };
 
     this.getLabel = this.getLabel.bind(this);
@@ -273,114 +294,265 @@ export class Footer extends React.Component {
 
   render() {
     let { classes } = this.props;
+    let phone = '';
+    let phoneLabel = '';
+
+    const { activeValue } = this.state;
+
+    
+    switch (this.props.lang) {
+      case 'en':
+        phone = 'tel:+864001208588';
+        phoneLabel = '400 120 8588';
+        break;
+      case 'zh-hans':
+        phone = 'tel:+864001208588';
+        phoneLabel = '400 120 8588';
+        break;
+      case 'zh':
+        phone = 'tel:+864001208588';
+        phoneLabel = '400 120 8588';
+        break;
+      case 'th':
+        phone = 'tel:+6620261262';
+        phoneLabel = '2026 1262';
+        break;
+      case 'vi':
+        phone = 'tel:+842444582028';
+        phoneLabel = '24 4458 2028';
+        break;
+      default:
+        phone = 'tel:+864001208588';
+        phoneLabel = '400 120 8588';
+        break;
+    }
 
     return (
-      <footer className={classes.root}>
-        <Grid container className={classes.mainGrid}>
-          <Grid item xs={12} className={classes.mainRow}>
-            <div className={classes.column}>
+      <div>
+        <footer className={classes.rootDesktop}>
+          <Grid container className={classes.mainGrid}>
+            <Grid item xs={12} className={classes.mainRow}>
+              {this.props.lang === 'zh' ?
+                <div className={classes.column}>
+                  <span className={classes.title}>{this.getLabel('operation-license')}</span>
+                  <Link target="_blank" href='https://validator.curacao-egaming.com/validate?domain=www.letou.com&seal_id=a5ea1be10398cd6ee2d6406f92d93ee05134bf59a960309e0cf88f47b97711fdfcab134d120d801335e0e95e7f9afe5c&stamp=6d5e24c75d974acc207e43ce395877ca'>
+                    <img src={images.src + 'letou/curacao_egaming.png'} alt="" height="64" width="64" className={classes.image} />
+                  </Link>
+                </div> : null
+              }
+
+              {this.props.lang === 'vi' ?
+                <div className={classes.column}>
+                  <span className={classes.title}>{this.getLabel('title-license')}</span>
+                  <Link target="_blank" href='https://validator.curacao-egaming.com/validate?domain=www.letou.com&seal_id=a5ea1be10398cd6ee2d6406f92d93ee05134bf59a960309e0cf88f47b97711fdfcab134d120d801335e0e95e7f9afe5c&stamp=6d5e24c75d974acc207e43ce395877ca'>
+                    <img src={images.src + 'letou/pagcor.png'} alt="" height="50" className={classes.image} />
+                  </Link>
+                </div> : null
+              }
+
+              {/* <div className={classes.column}>
               <span className={classes.title}>{this.getLabel('operation-license')}</span>
               <Link target="_blank" href='https://validator.curacao-egaming.com/validate?domain=www.letou.com&seal_id=a5ea1be10398cd6ee2d6406f92d93ee05134bf59a960309e0cf88f47b97711fdfcab134d120d801335e0e95e7f9afe5c&stamp=6d5e24c75d974acc207e43ce395877ca'>
                 <img src={images.src + 'letou/curacao_egaming.png'} alt="" height="64" width="64" className={classes.image} />
               </Link>
-            </div>
-            <div className={classes.column}>
-              <span className={classes.title}>{this.getLabel('seriea-sponsorship')}</span>
-              <Link target="_blank" href='https://www.inter.it/cn/news/2018/08/8/%E4%B9%90%E6%8A%95%E6%88%90%E4%B8%BA%E5%9B%BD%E9%99%85%E7%B1%B3%E5%85%B0%E8%B6%B3%E7%90%83%E4%BF%B1%E4%B9%90%E9%83%A8%E4%BA%9A%E6%B4%B2%E5%9C%B0%E5%8C%BA%E9%A6%96%E5%AE%B6%E7%BA%BF%E4%B8%8A%E5%A8%B1%E4%B9%90%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4.html'>
-                <img src={images.src + 'letou/intermilan_sponsor_1.png'} alt="" height="52" width="130" className={classes.image} />
-              </Link>
-            </div>
-            <div className={classes.column}>
-              <span className={classes.title}>{this.getLabel('esport-sponsorship')}</span>
-              <Link target="_blank" href='https://www.fnatic.com/teams/dota2'>
-                <img src={images.src + 'letou/fnatic_sponsor_1.png'} alt="" width="130" className={classes.image} style={{ marginTop: 16 }} />
-              </Link>
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.column}>
-              <span className={classes.title}>{this.getLabel('title-partner')}</span>
-              <div >
-                <Link target="_blank" href='/'>
-                  <img src={images.src + 'letou/icon_gamcare_1.png'} alt="" className={classes.responsibilityImage} />
-                </Link>
-                <Link target="_blank" href='https://help.letou.com/cn/member_maintain/seq4.html'>
-                  <img src={images.src + 'letou/icon_plus18_1.png'} alt="" className={classes.responsibilityImage} />
-                </Link>
-                <Link target="_blank" href='https://help.letou.com/cn/member_maintain/seq4.html'>
-                  <img src={images.src + 'letou/icon_no.png'} alt="" className={classes.responsibilityImage} />
+            </div> */}
+              <div className={classes.column}>
+                <span className={classes.title}>{this.getLabel('seriea-sponsorship')}</span>
+                <Link target="_blank" href='https://www.inter.it/cn/news/2018/08/8/%E4%B9%90%E6%8A%95%E6%88%90%E4%B8%BA%E5%9B%BD%E9%99%85%E7%B1%B3%E5%85%B0%E8%B6%B3%E7%90%83%E4%BF%B1%E4%B9%90%E9%83%A8%E4%BA%9A%E6%B4%B2%E5%9C%B0%E5%8C%BA%E9%A6%96%E5%AE%B6%E7%BA%BF%E4%B8%8A%E5%A8%B1%E4%B9%90%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4.html'>
+                  <img src={images.src + 'letou/intermilan_sponsor_1.png'} alt="" height="52" width="130" className={classes.image} />
                 </Link>
               </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} className={classes.mainRow} style={{ borderBottom: '1px solid #cdcbcc' }}>
-            <div className={classes.partnerColumn}>
-              <span className={classes.title}>{this.getLabel('title-partner')}</span>
-              <div >
-                <Link target="_blank" href='https://usa.visa.com/'>
-                  <img src={images.src + 'letou/icon_visa_1.png'} alt="" className={classes.partnerImage} />
-                </Link>
-                <Link target="_blank" href='https://www.mastercard.us/en-us.html'>
-                  <img src={images.src + 'letou/icon_mastercard_1.png'} alt="" className={classes.partnerImage} />
-                </Link>
-                <Link target="_blank" href='https://cn.unionpay.com/'>
-                  <img src={images.src + 'letou/item_union_1.png'} alt="" className={classes.partnerImage} />
-                </Link>
-                <Link target="_blank" href='https://pay.weixin.qq.com/index.php/core/home/login?return_url=%2F'>
-                  <img src={images.src + 'letou/item_wechat_1.png'} alt="" className={classes.partnerImage} />
-                </Link>
-                <Link target="_blank" href='https://www.alipay.com/'>
-                  <img src={images.src + 'letou/item_alipay_1.png'} alt="" className={classes.partnerImage} />
-                </Link>
-                <Link target="_blank" href='/'>
-                  <img src={images.src + 'letou/pay6-1.png'} alt="" className={classes.partnerImage} />
+              <div className={classes.column}>
+                <span className={classes.title}>{this.getLabel('esport-sponsorship')}</span>
+                <Link target="_blank" href='https://www.fnatic.com/teams/dota2'>
+                  <img src={images.src + 'letou/fnatic_sponsor_1.png'} alt="" width="130" className={classes.image} style={{ marginTop: 16 }} />
                 </Link>
               </div>
-            </div>
+              <div className={classes.grow} />
+              <div className={classes.column}>
+                <span className={classes.title}>{this.getLabel('title-partner')}</span>
+                <div >
+                  <Link target="_blank" href='/'>
+                    <img src={images.src + 'letou/icon_gamcare_1.png'} alt="" className={classes.responsibilityImage} />
+                  </Link>
+                  <Link target="_blank" href='https://help.letou.com/cn/member_maintain/seq4.html'>
+                    <img src={images.src + 'letou/icon_plus18_1.png'} alt="" className={classes.responsibilityImage} />
+                  </Link>
+                  <Link target="_blank" href='https://help.letou.com/cn/member_maintain/seq4.html'>
+                    <img src={images.src + 'letou/icon_no.png'} alt="" className={classes.responsibilityImage} />
+                  </Link>
+                </div>
+              </div>
+            </Grid>
+
+            <Grid item xs={12} className={classes.mainRow}>
+              <div className={classes.leftColumn}>
+                <span className={classes.title}>{this.getLabel('payment-methods')}</span>
+                <div >
+                  <Link target="_blank" href='https://usa.visa.com/'>
+                    <img src={images.src + 'letou/icon_visa_1.png'} alt="" className={classes.partnerImage} />
+                  </Link>
+                  <Link target="_blank" href='https://www.mastercard.us/en-us.html'>
+                    <img src={images.src + 'letou/icon_mastercard_1.png'} alt="" className={classes.partnerImage} />
+                  </Link>
+                  <Link target="_blank" href='/'>
+                    <img src={images.src + 'letou/localbanks_vn.png'} alt="" className={classes.partnerImage} />
+                  </Link>
+                  <Link target="_blank" href='/'>
+                    <img src={images.src + 'letou/scratchcards.png'} alt="" className={classes.partnerImage} />
+                  </Link>
+                  <Link target="_blank" href='/'>
+                    <img src={images.src + 'letou/helptopay_footer.png'} alt="" className={classes.partnerImage} />
+                  </Link>
+                </div>
+              </div>
+            </Grid>
+
+            {this.props.lang === 'vi' ?
+              <Grid item xs={12} className={classes.mainRow}>
+                <div className={classes.leftColumn}>
+                  <span className={classes.title}>{this.getLabel('title-product')}</span>
+                  <div >
+                    <Link target="_blank" href='/'>
+                      <img src={images.src + 'letou/oneworks.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/asiagaming.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/playtech.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/opusgaming.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/gameplay.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/microgaming.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/hkjockeyclub.png'} alt="" className={classes.productImage} />
+                    </Link>
+                  </div>
+                </div>
+              </Grid> : null
+            }
+            {this.props.lang === 'th' ?
+              <Grid item xs={12} className={classes.mainRow}>
+                <div className={classes.leftColumn}>
+                  <span className={classes.title}>{this.getLabel('title-product')}</span>
+                  <div >
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/asiagaming.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/entwinetech.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/playtech.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/opusgaming.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/evolutiongaming.png'} alt="" className={classes.productImage} />
+                    </Link>
+                    <Link target="_blank" href=''>
+                      <img src={images.src + 'letou/golddeluxe.png'} alt="" height="40" style={{ marginLeft: 15 }} />
+                    </Link>
+                  </div>
+                </div>
+              </Grid> : null
+            }
+            {this.props.lang === 'zh' ?
+              <Grid item xs={12} className={classes.mainRow} >
+                <div className={classes.leftColumn}>
+                  <span className={classes.title}>{this.getLabel('title-partner')}</span>
+                  <div >
+                    <Link target="_blank" href='https://usa.visa.com/'>
+                      <img src={images.src + 'letou/icon_visa_1.png'} alt="" className={classes.partnerImage} />
+                    </Link>
+                    <Link target="_blank" href='https://www.mastercard.us/en-us.html'>
+                      <img src={images.src + 'letou/icon_mastercard_1.png'} alt="" className={classes.partnerImage} />
+                    </Link>
+                    <Link target="_blank" href='https://cn.unionpay.com/'>
+                      <img src={images.src + 'letou/item_union_1.png'} alt="" className={classes.partnerImage} />
+                    </Link>
+                    <Link target="_blank" href='https://pay.weixin.qq.com/index.php/core/home/login?return_url=%2F'>
+                      <img src={images.src + 'letou/item_wechat_1.png'} alt="" className={classes.partnerImage} />
+                    </Link>
+                    <Link target="_blank" href='https://www.alipay.com/'>
+                      <img src={images.src + 'letou/item_alipay_1.png'} alt="" className={classes.partnerImage} />
+                    </Link>
+                    <Link target="_blank" href='/'>
+                      <img src={images.src + 'letou/pay6-1.png'} alt="" className={classes.partnerImage} />
+                    </Link>
+                  </div>
+                </div>
+              </Grid> : null
+            }
+            <Grid item xs={12} className={classes.mainRow} style={{ borderBottom: '1px solid #cdcbcc' }}></Grid>
+            <Grid item xs={12} className={classes.mainRow}>
+              <div className={classes.leftColumn}>
+                <span className={classes.title}>{this.getLabel('about-us')}</span>
+                <Link target="_blank" href='https://help.letou.com/cn/member_brand/seq1.html' className={classes.footerlink}>{this.getLabel('about-letou')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/member_maintain/seq4.html' className={classes.footerlink}>{this.getLabel('gaming-responsibility')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/member_maintain/seq2.html' className={classes.footerlink}>{this.getLabel('link-disclaimer')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/member_event/seq1.html' className={classes.footerlink}>{this.getLabel('terms-conditions')}</Link>
+              </div>
+              <div className={classes.leftColumn}>
+                <span className={classes.title}>{this.getLabel('login-help')}</span>
+                <Link target="_blank" href='https://letou.one/' className={classes.footerlink}>{this.getLabel('line-center')}</Link>
+                <Link target="_blank" href='/' className={classes.footerlink}>{this.getLabel('online-service')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/member_brand/seq2.html' className={classes.footerlink}>{this.getLabel('contact-us')}</Link>
+              </div>
+              <div className={classes.leftColumn}>
+                <span className={classes.title}>{this.getLabel('using-help')}</span>
+                <Link target="_blank" href='https://help.letou.com/cn/member_start_02/seq1.html' className={classes.footerlink}>{this.getLabel('deposit-process')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/member_start_04/seq1.html' className={classes.footerlink}>{this.getLabel('common-problem')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_rule_03' className={classes.footerlink}>{this.getLabel('sabah-sports-rules')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/member_rule_05/seq2.html' className={classes.footerlink}>{this.getLabel('happy-color-rules')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/member_rule_05/seq3.html' className={classes.footerlink}>{this.getLabel('timing-rules')}</Link>
+              </div>
+              <div className={classes.leftColumn} style={{ paddingTop: 32 }}>
+                <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_start_03' className={classes.footerlink}>{this.getLabel('withdrawal-process')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_rule_01' className={classes.footerlink}>{this.getLabel('sports-rules')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_rule_02' className={classes.footerlink}>{this.getLabel('casino-rules')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_rule_04' className={classes.footerlink}>{this.getLabel('video-game-rules')}</Link>
+                <Link target="_blank" href='https://help.letou.com/cn/member_rule_05/seq1.html' className={classes.footerlink}>{this.getLabel('world-lotto-rules')}</Link>
+              </div>
+              <div className={classes.grow} />
+              <div className={classes.column}>
+                <span className={classes.title}>{this.getLabel('maximum-gaming-platform')}</span>
+                <Button target="_blank" href='https://affiliates.letou.com/cn/' variant="contained" className={classes.partnerButton}><SupervisorAccount style={{ marginRight: 5 }} />{this.getLabel('become-partner')}</Button>
+                <Button href={phone} variant="contained" className={classes.phoneButton}>
+                  <PhoneIcon style={{ marginRight: 5 }} />
+                  {phoneLabel}
+                </Button>
+              </div>
+            </Grid>
+            <Grid item xs={12} className={classes.mainRow} style={{ borderBottom: '1px solid #cdcbcc' }}></Grid>
+            <Grid item xs={12} className={classes.textRow}>
+              <Typography className={classes.footerText}>{this.getLabel('footer-text1')}</Typography>
+              <Typography className={classes.footerText}>{this.getLabel('footer-text2')}</Typography>
+              <Typography className={classes.footerText}>{this.getLabel('footer-text3')}</Typography>
+              <Typography className={classes.footerText}>{this.getLabel('footer-text4')}</Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={12} className={classes.mainRow} style={{ borderBottom: '1px solid #cdcbcc' }}>
-            <div className={classes.partnerColumn}>
-              <span className={classes.title}>{this.getLabel('about-us')}</span>
-              <Link target="_blank" href='https://help.letou.com/cn/member_brand/seq1.html' className={classes.footerlink}>{this.getLabel('about-letou')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/member_maintain/seq4.html' className={classes.footerlink}>{this.getLabel('gaming-responsibility')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/member_maintain/seq2.html' className={classes.footerlink}>{this.getLabel('link-disclaimer')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/member_event/seq1.html' className={classes.footerlink}>{this.getLabel('terms-conditions')}</Link>
-            </div>
-            <div className={classes.partnerColumn}>
-              <span className={classes.title}>{this.getLabel('login-help')}</span>
-              <Link target="_blank" href='https://letou.one/' className={classes.footerlink}>{this.getLabel('line-center')}</Link>
-              <Link target="_blank" href='/' className={classes.footerlink}>{this.getLabel('online-service')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/member_brand/seq2.html' className={classes.footerlink}>{this.getLabel('contact-us')}</Link>
-            </div>
-            <div className={classes.partnerColumn}>
-              <span className={classes.title}>{this.getLabel('using-help')}</span>
-              <Link target="_blank" href='https://help.letou.com/cn/member_start_02/seq1.html' className={classes.footerlink}>{this.getLabel('deposit-process')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/member_start_04/seq1.html' className={classes.footerlink}>{this.getLabel('common-problem')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_rule_03' className={classes.footerlink}>{this.getLabel('sabah-sports-rules')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/member_rule_05/seq2.html' className={classes.footerlink}>{this.getLabel('happy-color-rules')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/member_rule_05/seq3.html' className={classes.footerlink}>{this.getLabel('timing-rules')}</Link>
-            </div>
-            <div className={classes.partnerColumn} style={{ paddingTop: 32 }}>
-              <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_start_03' className={classes.footerlink}>{this.getLabel('withdrawal-process')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_rule_01' className={classes.footerlink}>{this.getLabel('sports-rules')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_rule_02' className={classes.footerlink}>{this.getLabel('casino-rules')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/index.html?type=member_rule_04' className={classes.footerlink}>{this.getLabel('video-game-rules')}</Link>
-              <Link target="_blank" href='https://help.letou.com/cn/member_rule_05/seq1.html' className={classes.footerlink}>{this.getLabel('world-lotto-rules')}</Link>
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.column}>
-              <span className={classes.title}>{this.getLabel('maximum-gaming-platform')}</span>
-              <Button target="_blank" href='https://affiliates.letou.com/cn/' variant="contained" className={classes.partnerButton}><SupervisorAccount style={{ marginRight: 5 }} />{this.getLabel('become-partner')}</Button>
-              <Button href='tel:+864001208588' variant="contained" className={classes.phoneButton}><PhoneIcon style={{ marginRight: 5 }} />400 120 8588</Button>
-            </div>
-          </Grid>
-          <Grid item xs={12} className={classes.textRow}>
-            <Typography className={classes.footerText}>{this.getLabel('footer-text1')}</Typography>
-            <Typography className={classes.footerText}>{this.getLabel('footer-text2')}</Typography>
-            <Typography className={classes.footerText}>{this.getLabel('footer-text3')}</Typography>
-            <Typography className={classes.footerText}>{this.getLabel('footer-text4')}</Typography>
-          </Grid>
-        </Grid>
-      </footer >
+        </footer >
+        <BottomNavigation
+                value={activeValue}
+                showLabels
+                className={classes.rootMobile}
+            >
+                <BottomNavigationAction label={this.getLabel('home-label')} icon={<Home />} />
+                <BottomNavigationAction label={this.getLabel('promotions-label')} icon={<AssignmentTurnedIn />} />
+                <BottomNavigationAction label={this.getLabel('sign-up')} icon={<MeetingRoom />} />
+                <BottomNavigationAction label={this.getLabel('support-label')} icon={<ContactSupport />} />
+                <BottomNavigationAction label={this.getLabel('log-in')} icon={<Input />} />
+            </BottomNavigation>
+      </div>
     );
   }
 }

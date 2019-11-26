@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
-import { injectIntl } from 'react-intl';
+import { injectIntl, } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
@@ -12,6 +12,8 @@ import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
+import Flag from 'react-flagkit';
+import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Fade from '@material-ui/core/Fade';
@@ -22,11 +24,12 @@ import ForgotPassword from "./login-register/forgot_password";
 import NewReleases from '@material-ui/icons/NewReleases';
 import Fab from '@material-ui/core/Fab';
 import Person from '@material-ui/icons/Person';
-import { config} from '../../util_config';
+import { config } from '../../util_config';
 import axios from 'axios';
 import {
     logout,
     postLogout,
+    setLanguage,
     authCheckState,
     show_letou_announcements,
     show_letou_login,
@@ -141,7 +144,7 @@ const styles = theme => ({
     },
     profileIcon: {
         margin: theme.spacing(1),
-        marginLeft:30,
+        marginLeft: 30,
         backgroundColor: '#F1941A',
         height: 30,
         width: 36,
@@ -156,6 +159,33 @@ const styles = theme => ({
             outline: 'none'
         }
     },
+    langControl: {
+        minWidth: 140,
+    },
+    itemList: {
+        backgroundColor: '#fff',
+
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    listItem: {
+        borderRadius: 4,
+        "&:hover": {
+
+        },
+    },
+    listItemSelected: {
+        borderRadius: 4,
+        backgroundColor: '#cdcdcd',
+    },
+    listItemFlag: {
+        display: 'inline-block'
+    },
+    listItemText: {
+        marginLeft: 10,
+        color: '#212121',
+        display: 'inline-block'
+    },
 });
 
 export class TopNavbar extends React.Component {
@@ -165,14 +195,21 @@ export class TopNavbar extends React.Component {
 
         this.state = {
             anchorEl: null,
+            anchorElLang: null,
             dropdownMenu: 'none',
-            
-            
-            showSoggedinStatus: false,
+            showLoggedinStatus: false,
         };
 
         this.getLabel = this.getLabel.bind(this);
         // this.handleOnebookClick = this.handleOnebookClick.bind(this);
+    }
+
+    langMenuClicked(langValue) {
+        this.props.setLanguage(langValue)
+            .then(() => {
+                // localStorage.setItem("lang", lang);
+            });
+        this.setState({ anchorElLang: null });
     }
 
     closeMainMenu() {
@@ -193,29 +230,15 @@ export class TopNavbar extends React.Component {
     componentWillReceiveProps(props) {
         this.props.authCheckState()
             .then(() => {
-                this.setState({ showSoggedinStatus: true });
+                this.setState({ showLoggedinStatus: true });
             })
     }
 
     componentDidMount() {
         this.props.authCheckState()
             .then(() => {
-                this.setState({ showSoggedinStatus: true });
+                this.setState({ showLoggedinStatus: true });
             })
-        // this.props.authCheckState().then(res => {
-        //     if (res != 1) {
-              
-            
-        //       const token = localStorage.getItem('token');
-        //       config.headers['Authorization'] = `Token ${token}`;
-        //       axios.get(API_URL + 'users/api/user/', config).then(res => {
-        //           this.setState({ data: res.data });
-                 
-        //       });
-        //     }
-        // });
-    
-        
     }
     
     // handleOnebookClick() {
@@ -283,14 +306,90 @@ export class TopNavbar extends React.Component {
     // }
     render() {
         const { classes } = this.props;
-        const { anchorEl, dropdownMenu } = this.state;
+        const { anchorEl, anchorElLang, dropdownMenu } = this.state;
+
+        let flag = '';
+
+        switch (this.props.lang) {
+            case 'en':
+                flag = 'US';
+                break;
+            case 'zh-hans':
+                flag = 'CN';
+                break;
+            case 'zh':
+                flag = 'CN';
+                break;
+            case 'th':
+                flag = 'TH';
+                break;
+            case 'vi':
+                flag = 'VN';
+                break;
+            default:
+                flag = 'US';
+                break;
+        }
+
+        const LangDropdown = (
+            <div>
+                <Button aria-haspopup="true" onClick={event => {
+                    this.setState({ anchorElLang: event.currentTarget })
+                }}>
+                    <Flag country={flag} className={classes.listItemFlag} />
+                </Button>
+                <Menu
+                    id="simple-menu"
+                    anchorEl={anchorElLang}
+                    keepMounted
+                    open={Boolean(anchorElLang)}
+                    onClose={() => {
+                        this.setState({ anchorElLang: null })
+                    }}
+                >
+                    <MenuItem value={'en'} onClick={() => { this.langMenuClicked('en') }}
+                        selected={this.props.lang === 'en'}
+                        className={classes.listItem}>
+                        <Flag country="US" className={classes.listItemFlag} />
+                        <div className={classes.listItemText}>
+                            {this.getLabel('lang-english')}
+                        </div>
+                    </MenuItem>
+                    <MenuItem value={'zh'} onClick={() => { this.langMenuClicked('zh') }}
+                        selected={this.props.lang === 'zh-hans' || this.props.lang === 'zh'}
+                        className={classes.listItem}>
+                        <Flag country="CN" className={classes.listItemFlag} />
+                        <div className={classes.listItemText}>
+                            {this.getLabel('lang-chinese')}
+                        </div>
+                    </MenuItem>
+                    <MenuItem value={'th'} onClick={() => { this.langMenuClicked('th') }}
+                        selected={this.props.lang === 'th'}
+                        className={classes.listItem}>
+                        <Flag country="TH" className={classes.listItemFlag} />
+                        <div className={classes.listItemText}>
+                            {this.getLabel('lang-thai')}
+                        </div>
+                    </MenuItem>
+                    <MenuItem value={'vi'} onClick={() => { this.langMenuClicked('vi') }}
+                        selected={this.props.lang === 'vi'}
+                        className={classes.listItem}>
+                        <Flag country="VN" className={classes.listItemFlag} />
+                        <div className={classes.listItemText}>
+                            {this.getLabel('lang-vietnamese')}
+                        </div>
+                    </MenuItem>
+                </Menu>
+            </div>
+        );
 
         return (
 
             <div className={classes.root}>
                 <AppBar position="static" className={classes.firstRow}>
                     <Toolbar className={classes.firstBar}>
-                        <Button size="small" className={classes.topLinkButton} target="_blank" href="/th/about_us">
+                        {LangDropdown}
+                        <Button size="small" className={classes.topLinkButton} target="_blank" href="/vn/about_us">
                             {this.getLabel('about-letou')}
                         </Button>
                         <Button size="small" className={classes.topLinkButton} target="_blank" href="https://affiliates.letou.com">
@@ -322,7 +421,7 @@ export class TopNavbar extends React.Component {
                             {this.getLabel('online-service')}
                         </Button>
                         {this.props.isAuthenticated ?
-                            this.state.showSoggedinStatus &&
+                            this.state.showLoggedinStatus &&
                             <Button size="small" className={classes.topLinkButton}
                                 onClick={() => {
                                     this.props.logout()
@@ -335,7 +434,10 @@ export class TopNavbar extends React.Component {
                 <AppBar position="static" className={classes.secondRow}>
                     <Toolbar className={classes.secondBar}>
                         <IconButton href='/' className={classes.logo}>
-                            <img src={images.src + 'letou/letou-logo.png'} alt="LETOU" height="42" />
+                            <img src={images.src + 'letou/logo_' + this.props.lang + '.png'} alt="LETOU" height="42" />
+                        </IconButton>
+                        <IconButton target="_blank"  href='https://www.inter.it/en/news/2018/08/8/fc-internazionale-milano-announces-letou-as-first-asian-online-gaming-partner.html' className={classes.logo} >
+                            <img src={images.src + 'letou/inter_' + this.props.lang + '.png'} alt="Inter" height="42" />
                         </IconButton>
                         <div className={classes.grow} />
                         <Button variant="contained" className={(dropdownMenu === 'sports') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
@@ -358,7 +460,7 @@ export class TopNavbar extends React.Component {
                                                     {this.getLabel('letou-sports')}
                                                 </MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('international-sports')}<NewReleases className={classes.newIcon} /></MenuItem>
-                                                <MenuItem  
+                                                <MenuItem
                                                     onClick={
                                                         // this.handleOnebookClick
                                                         (e) => {
@@ -414,7 +516,7 @@ export class TopNavbar extends React.Component {
                         </Popper>
                         <Button variant="contained" className={(dropdownMenu === 'live-casino') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
                             onMouseEnter={(event) => { this.openMainMenu(event, 'live-casino'); }}
-                            onClick={(event) => {
+                            onClick={() => {
                                 this.props.history.push('/live_casino');
 
                             }}>
@@ -499,7 +601,7 @@ export class TopNavbar extends React.Component {
                         </Popper>
                         <Button variant="contained" className={(dropdownMenu === 'games') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
                             onMouseEnter={(event) => { this.openMainMenu(event, 'games'); }}
-                            onClick={(event) => {
+                            onClick={() => {
                                 this.props.history.push('/game');
 
                             }}>
@@ -525,16 +627,16 @@ export class TopNavbar extends React.Component {
                             )}
                         </Popper>
                         {this.props.isAuthenticated ?
-                            this.state.showSoggedinStatus &&
+                            this.state.showLoggedinStatus &&
                             <Fab color="primary" aria-label="add" className={classes.profileIcon} onClick={
                                 () => {
                                     // window.open(window.location.origin + "/p/fortune-center/deposit",
                                     //     "Letou profile",
                                     //     "resizable,scrollbars,status"); 
-                                        this.props.history.push('/p/fortune-center/deposit')
+                                    this.props.history.push('/p/fortune-center/deposit')
                                 }}>
                                 <Person />
-                            </Fab> : <div style={{marginLeft:20}}>
+                            </Fab> : <div style={{ marginLeft: 20 }}>
                                 <Button variant="contained" className={classes.secondRowButton}
                                     onClick={() => {
                                         this.props.history.push('/register')
@@ -592,5 +694,5 @@ TopNavbar.propTypes = {
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
-    logout, postLogout, authCheckState, show_letou_announcements, show_letou_login, show_letou_forgot_password
+    logout, postLogout, setLanguage, authCheckState, show_letou_announcements, show_letou_login, show_letou_forgot_password
 })(TopNavbar))));

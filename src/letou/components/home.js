@@ -25,7 +25,7 @@ const styles = theme => ({
   },
   grow: {
     flexGrow: 1,
-  },
+  }
 });
 
 export class Home extends Component {

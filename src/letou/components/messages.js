@@ -40,6 +40,9 @@ export const messages = {
         'esport-sponsorship': 'E-sport Sponsorship',
         'title-responsibility': 'Responsibility',
         'title-partner': 'Partner',
+        'title-license': 'License',
+        'title-product': 'Products',
+        'payment-methods': 'Payment Methods',
         'about-us': 'About Us',
         'login-help': 'Login Help',
         'using-help': 'Using Help',
@@ -341,6 +344,11 @@ export const messages = {
         'home-label': 'Home',
         'support-label':'Support',
         'promotions-label':'Promotions',
+        'lang-thai': 'Thai',
+        'lang-vietnamese': 'Vietnamese',
+        'lang-english': 'English',
+        'lang-chinese': 'Chinese',
+
     },
     zh: {},
 
