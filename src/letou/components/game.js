@@ -57,6 +57,7 @@ export class Games extends React.Component {
        sessionKey : null,
        fggame:[],
        mggame:[],
+	   qtgame:[],
     };
 
     this.getLabel = this.getLabel.bind(this);
@@ -92,7 +93,13 @@ export class Games extends React.Component {
      
     });
   
-
+    // get all qt games
+    axios.get(API_URL + 'games/api/get_all_game?provider=QTech', config).then(res => {
+      if (res.data.game != null) {
+        this.setState({ qtgame: res.data.game });
+      }
+      
+    });
   }
   providerSelect(index) {
     this.setState({
@@ -154,7 +161,32 @@ export class Games extends React.Component {
     }
   }
 
+  qtonClick(gameId, free) {
+    this.setState({
+      gameId: gameId,
+      freegame: free,
+      
+    })
 
+    if (free) {
+	    axios.post(API_URL + 'games/api/qt/game_launch?mode=demo&gameId=' + gameId, config).then(
+		res => {
+	      //console.log(res.data);
+	      if (res.data.url != null) {
+	        window.open( res.data.url );
+	      }
+	     
+	    });
+    } else {
+	    axios.post(API_URL + 'games/api/qt/game_launch?mode=real&gameId=' + gameId + '&playerId=' + this.state.data.username, config).then(
+		res => {
+	      if (res.data.url != null) {
+	        window.open( res.data.url );
+	      }
+	     
+	    });
+    }
+  }
 
 
 
@@ -168,6 +200,10 @@ export class Games extends React.Component {
     const mgitems = this.state.mggame.map((item, key) => [
       <img src={item.image} onClick={this.mgonClick.bind(this, item.description, this.state.freegame)}></img>,
       <li key={item.id} onClick={this.mgonClick.bind(this, item.description, this.state.freegame)}>{item.name} </li>
+    ]);
+    const qtitems = this.state.qtgame.map((item, key) => [
+      <img src={item.image} onClick={this.qtonClick.bind(this, item.description, this.state.freegame)}></img>,
+      <li key={item.id} onClick={this.qtonClick.bind(this, item.description, this.state.freegame)}>{item.name} </li>
     ]);
 
     return (
@@ -195,7 +231,9 @@ export class Games extends React.Component {
             <ul className="columns" hidden={this.state.current != 8}>
                   {fgitems}
             </ul>    
-
+            <ul className="columns" hidden={this.state.current != 9}>
+                  {qtitems}
+            </ul>
         </div>
         <Footer />
       </div>
