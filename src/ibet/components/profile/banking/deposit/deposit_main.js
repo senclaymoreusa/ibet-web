@@ -1,12 +1,11 @@
-import React, { Component, forwardRef, useRef, useImperativeHandle } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
     authCheckState,
-    hide_deposit_main_menu,
-    show_deposit_main_menu
-} from '../../../../../actions';
+    hide_deposit_main_menu} from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
+import DepositBankTransfer from './deposit_bankTransfer';
 import DepositSuccess from './deposit_success';
 import DepositError from './deposit_error';
 import DepositMethod from './deposit_method';
@@ -29,11 +28,12 @@ import DepositPayzod from './deposit_types/deposit_payzod';
 import DepositHelp2pay from './deposit_types/deposit_help2pay';
 import DepositFgo from './deposit_types/deposit_fgo';
 import DepositAstropay from './deposit_types/deposit_astropay';
-import DepositAsiapayBankcard from './deposit_types/deposit_asiapay_bankcard';
+import DepositAsiapayOnlinePay from './deposit_types/deposit_asiapay_onlinepay';
+import DepositAsiapayBT from './deposit_types/deposit_asiapay_BT'
 import DepositScratchCard from './deposit_types/deposit_scratchcard';
 import DepositPIQ from './deposit_types/deposit_piq';
 
-const styles = theme => ({
+const styles = () => ({
     root: {
         width: '100%'
     }
@@ -63,6 +63,12 @@ export class DepositMain extends Component {
         this.setState({ contentValue: page });
 
         if (msg) this.setState({ depositMessage: msg });
+        
+    };
+    setPageData = (page, data) => {
+        this.props.hide_deposit_main_menu();
+        this.setState({contentValue: page });
+        if (data) this.setState({order_id: data});
     };
 
     render() {
@@ -113,6 +119,9 @@ export class DepositMain extends Component {
                 {contentValue === 'paypal' && (
                     <DepositPaypal callbackFromParent={this.setPage} />
                 )}
+                {contentValue === 'asia_bankTransfer' && (
+                    <DepositAsiapayBT callbackFromParent={this.setPage} />
+                )}
                 {contentValue === 'asia_quickpay' && (
                     <DepositAsiapayQucikpay callbackFromParent={this.setPage} />
                 )}
@@ -140,7 +149,7 @@ export class DepositMain extends Component {
                     <DepositAstropay callbackFromParent={this.setPage} />
                 )}
                 {contentValue === 'onlinepay' && (
-                    <DepositAsiapayBankcard callbackFromParent={this.setPage} />
+                    <DepositAsiapayOnlinePay callbackFromParent={this.setPage} />
                 )}
                 {contentValue === 'scratchcard' && (
                     <DepositScratchCard callbackFromParent={this.setPage} />
@@ -158,6 +167,13 @@ export class DepositMain extends Component {
                     <DepositError
                         callbackFromParent={this.setPage}
                         errorMessage={this.state.depositMessage}
+                    />
+                )}
+                {contentValue === 'bank_transfer' && (
+                    <DepositBankTransfer
+                        callbackFromParent={this.setPageData}
+                        order_id={this.state.order_id}
+                        
                     />
                 )}
             </div>

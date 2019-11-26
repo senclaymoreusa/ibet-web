@@ -1,0 +1,96 @@
+.HelpCenterLeftNav ul{
+    
+    line-height: 40px;
+    border-left: 2px solid #E4E4E4;
+    font-size: 14px;
+    text-indent: 20px;
+    list-style-type: none;
+}
+
+.HelpCenterLeftNav ul li a {
+    color: #666666;
+    text-decoration: none;
+    cursor: pointer;
+    
+}
+
+.helpCenterArticleColumn ul {
+    list-style-type: none;
+   
+}
+
+.HelpCenterList ul  {
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+}
+
+.HelpCenterList ul li {
+    float: left;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.HelpCenterList ul li a {
+    color: #FF9F00;
+    font-size: 14px;
+    text-decoration: none;
+    list-style-type: none;
+}
+.HelpCenterSmNav {
+    margin-bottom: 30px;
+  
+}
+.HelpCenterSmNav ul {
+    overflow: hidden;
+}
+.HelpCenterSmNav ul li {
+    height: 35px;
+    font-size: 14px;
+    line-height: 35px;
+    background-color: #f5f5f5;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    display:block;
+}
+.HelpCenterSmNav ul li a {
+    display: block;
+    color: #333333;
+    text-decoration: none;
+    padding: 0 15px;
+    cursor: pointer;
+}
+.HelpCenterSmNav ul li.Active {
+    background-color: #FF9300;
+    border: 1px solid #FF9300;
+}
+.HelpCenterSmNav ul li.Active a {
+    color: #fff;
+}
+
+.columns {
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+    -webkit-column-gap:60px;
+    column-gap: 60px;
+    -moz-column-gap: 60px;
+    }
+
+.SecFilter li.active a, .SecFilter li:hover a {
+    background-color: #ffc412;
+    color: #3a3a3a;
+   
+}
+
+.SecFilter li a {
+    border: 1px solid #ffc412; 
+    color: #f99a00;
+    line-height: 26px;
+    min-width: 85px;
+    margin-right: 4px;
+    font-size: 14px;
+}

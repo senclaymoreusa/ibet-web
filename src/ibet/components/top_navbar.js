@@ -33,13 +33,13 @@ import {
     show_profile_menu,
     hide_profile_menu,
     handle_inbox_value,
+    sendingLog,
     show_mobile_main_menu,
     hide_mobile_main_menu
 } from '../../actions';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountMenu from './account_menu/account_menu';
 import Popper from '@material-ui/core/Popper';
@@ -49,19 +49,18 @@ import Collapse from '@material-ui/core/Collapse';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import { createMuiTheme } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import Login from './login_2.js';
-import Signup from './signup_2.js';
-import SignupEmail from './signup_email';
-import SignupDetail from './signup_detail';
-import SignupContact from './signup_contact';
-import SignupPhone from './signup_phone';
+import Login from './login.js';
+import Signup from './signup/signup_2.js';
+import SignupEmail from './signup/signup_email';
+import SignupDetail from './signup/signup_detail';
+import SignupContact from './signup/signup_contact';
+import SignupPhone from './signup/signup_phone';
 import CompleteRegistration from './complete_registration';
-import PhoneVerification from './signup_phone_verification';
+import PhoneVerification from './signup/signup_phone_verification';
 import OneClickFinish from './one_click_finish';
 import RegisterFinish from './register_finish';
-import ChangePassword from './change_password_new';
+// import ChangePassword from './unuse_files/change_password_new';
 import NewForgetPassword from './forget_password_new';
 import ForgetPasswordValidation from './forget_password_validation';
 import ReferUser from './refer_user';
@@ -128,7 +127,7 @@ const styles = theme => ({
         height: 45,
         [theme.breakpoints.down('sm')]: {
             height: 49,
-            minHeight:49,
+            minHeight: 49,
         },
         width: '100%',
         maxWidth: 1400
@@ -165,7 +164,7 @@ const styles = theme => ({
             display: 'flex',
         },
     },
-    logo:{
+    logo: {
         [theme.breakpoints.down('sm')]: {
             height: 20,
         }
@@ -460,6 +459,7 @@ const styles = theme => ({
     },
     profileMenuPopper: {
         width: 210,
+        zIndex:2020,
     },
     margin: {
         margin: 'auto',
@@ -693,7 +693,7 @@ export class TopNavbar extends React.Component {
         this.props.show_login()
     };
 
-    handleSignupMenuOpen = event => {
+    handleSignupMenuOpen = () => {
         this.setState({ username: '', password: '' })
 
         this.props.show_signup()
@@ -727,7 +727,6 @@ export class TopNavbar extends React.Component {
 
     onloginFormSubmit(event) {
         event.preventDefault();
-
         if (!this.state.username) {
             this.setState({ errorCode: errors.USERNAME_EMPTY_ERROR });
         } else if (!this.state.password) {
@@ -748,7 +747,8 @@ export class TopNavbar extends React.Component {
                 })
                 .catch(err => {
                     this.setState({ errorCode: err });
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
                 });
         }
     }
@@ -763,7 +763,7 @@ export class TopNavbar extends React.Component {
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-            .then((res) => {
+            .then(() => {
                 if (this._isMounted)
                     this.setState({ show_loggedin_status: true });
             })
@@ -788,7 +788,7 @@ export class TopNavbar extends React.Component {
         window.addEventListener("resize", this.handleResize);
 
         this.props.authCheckState()
-            .then((res) => {
+            .then(() => {
                 if (this._isMounted)
                     this.setState({ show_loggedin_status: true });
             })
@@ -958,7 +958,7 @@ export class TopNavbar extends React.Component {
         this.setState(() => ({ showSettingsProfileSubMenu: false }));
     };
 
-    sportsMenuItemClick = (event) => {
+    sportsMenuItemClick = () => {
         this.props.show_mobile_main_menu();
         this.setState(state => ({ showMobileSportsSubMenu: !state.showMobileSportsSubMenu }));
     };
@@ -968,7 +968,7 @@ export class TopNavbar extends React.Component {
     };
 
     render() {
-        const { anchorEl, mainTabValue, balance, balanceCurrency, anchorElLogin } = this.state;
+        const { anchorEl, mainTabValue, balance, balanceCurrency } = this.state;
         const { classes } = this.props;
 
         const ProfileMenu = (
@@ -1095,7 +1095,7 @@ export class TopNavbar extends React.Component {
                     <ListItem button className={classes.mobileMenuItem}
                         onClick={() => {
                             this.props.hide_mobile_main_menu();
-                            this.setState({showMobileSportsSubMenu: false});
+                            this.setState({ showMobileSportsSubMenu: false });
                             this.props.history.push('/liveCasino_type/live-casino/all')
                         }}>
                         <img src={images.src + 'mobile-live-casino.svg'} alt="" className={classes.mobileMenuIcon} />
@@ -1190,7 +1190,7 @@ export class TopNavbar extends React.Component {
                             </Drawer>
                         </div>
                         <IconButton href='/' className={classes.logoButton}>
-                            <img src={images.src + 'ibet_logo.svg'} alt="" className={classes.logo}/>
+                            <img src={images.src + 'ibet_logo.svg'} alt="" className={classes.logo} />
                         </IconButton>
                         <div className={classes.grow} />
                         {
@@ -1333,7 +1333,7 @@ export class TopNavbar extends React.Component {
                 </div>
                 <div className='overlay' style={searchBackgroundStyle}></div>
 
-                <Popper
+                <Popper style={{ zIndex:2020}}
                     anchorEl={anchorEl}
                     open={this.props.showLogin}
                 >
@@ -1428,23 +1428,24 @@ export class TopNavbar extends React.Component {
                     </Paper>
                 </Modal>
 
-                <Popper
+                {/* <Popper
                     open={this.props.showChangePassword}
                     style={{ position: 'absolute', top: 70, left: this.state.width > 380 ? this.state.width - 410 : 0 }}
                 >
                     <Paper>
                         <ChangePassword />
                     </Paper>
-                </Popper>
+                </Popper> */}
 
-                <Popper
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
                     open={this.props.showForgetPassword}
-                    style={{ position: 'absolute', top: this.state.height > 650 ? (this.state.height - 650) / 2 : 0, left: this.state.width > 662 ? (this.state.width - 662) / 2 : 0 }}
-                >
+                    className={classes.modal}>
                     <Paper>
                         <NewForgetPassword />
                     </Paper>
-                </Popper>
+                </Modal>
 
                 <Popper
                     open={this.props.showForgetPasswordValidation}
@@ -1634,7 +1635,6 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
-        inbox: state.inbox,
         showLogin: state.general.show_login,
         showSignup: state.general.show_signup,
         showSignupEmail: state.general.show_signup_email,

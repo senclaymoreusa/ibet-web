@@ -4,7 +4,8 @@ import {
     hide_complete_registration,
     show_signup_phone,
     show_phone_verification,
-    handle_signup_over18, authSignup
+    handle_signup_over18, authSignup,
+    sendingLog
 } from '../../actions';
 import { config, images } from '../../util_config';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -149,12 +150,13 @@ class CompleteRegistration extends React.Component {
                             this.state.checkbox1,
                             this.props.signup_language
                         ).then(res => {
-                            axios.post(API_URL + 'users/api/generateactivationcode/', { 'username': this.props.signup_username })
+                            axios.post(API_URL + 'users/api/generateactivationcode/', { 'username': this.props.signup_username, 'type': '', })
                             this.props.hide_complete_registration();
                             this.props.show_phone_verification();
                         }).catch(err => {
                             console.log(err.response);
-                            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                            sendingLog(err);
+                            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                         })
                     }}
                     style={{ backgroundColor: !this.state.checkbox1 ? '#ff8080' : 'red', fontSize: 15, height: 50, width: 320, marginLeft: 215, marginTop: 30, color: 'white', cursor: 'pointer', textAlign: 'center', border: 'none' }}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
 import { config, images } from '../../../../../../util_config';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout  } from '../../../../../../actions';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -252,7 +252,8 @@ class DepositAsiapayQucikpay extends Component {
             userid: user,
             currency: '0',
             PayWay: '30', // pop up window / new tab
-            method: '39' // 快捷支付
+            method: '39', // 快捷支付
+            RealName: this.state.data.last_name + this.state.data.first_name,
         };
 
         var formBody = [];
@@ -272,7 +273,7 @@ class DepositAsiapayQucikpay extends Component {
             body: formBody
         })
             .then(function(res) {
-                console.log(res);
+                // console.log(res);
 
                 currentComponent.setState({ showLinearProgressBar: false });
 
@@ -283,14 +284,18 @@ class DepositAsiapayQucikpay extends Component {
             })
             .then(function(data) {
                 currentComponent.setState({ showLinearProgressBar: false });
-                console.log(data);
+                //console.log(data);
                 // let url = data.url;
                 // let order_id = data.order_id;
                 // const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
-                let newwin = window.open('');
-                newwin.document.write(data);
-                var timer = setInterval(function() {
-                    console.log('checking..');
+                if(data.indexOf("其他错误|25") && data.includes("100309")){
+                    currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                }else{
+                    //console.log(data.StatusCode)
+                    let newwin = window.open('');
+                    newwin.document.write(data);
+                    var timer = setInterval(function() {
+                
                     if (newwin.closed) {
                         clearInterval(timer);
                         var postData = {
@@ -318,10 +323,19 @@ class DepositAsiapayQucikpay extends Component {
                             }
                         )
                             .then(function(res) {
-                                return res.json();
+                                if(res.status == 200){
+                                    return res.json();
+                                }else{
+                                    currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                }
                             })
                             .then(function(data) {
-                                console.log(data.status);
+                                if(data.errorCode){
+                                    currentComponent.props.logout();
+                                    postLogout();
+                                    return;
+                                }
+                                //console.log(data.status);
                                 if (data.status === '001') {
                                     //alert('Transaction is approved.');
                                     const body = JSON.stringify({
@@ -331,7 +345,7 @@ class DepositAsiapayQucikpay extends Component {
                                                 .username,
                                         balance: currentComponent.state.amount
                                     });
-                                    console.log(body);
+                                    //console.log(body);
                                     axios
                                         .post(
                                             API_URL +
@@ -369,19 +383,15 @@ class DepositAsiapayQucikpay extends Component {
                                     );
                                 }
                             });
-                    }
-                }, 1000);
+                        }
+                    }, 1000);
+                }
+                
             })
-            .catch(err => {
-                console.log(err);
-                axios
-                    .post(
-                        API_URL + 'system/api/logstreamtos3/',
-                        { line: err, source: 'Ibetweb' },
-                        config
-                    )
-                    .then(res => {});
-            });
+            .catch(function (err) {  
+                //console.log('Request failed', err);
+                currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                sendingLog(err);});
     };
 
     render() {
@@ -447,9 +457,9 @@ class DepositAsiapayQucikpay extends Component {
                                         return (
                                             <Button
                                                 className={
-                                                    i == 0
+                                                    i === 0
                                                         ? classes.leftButton
-                                                        : i == 3
+                                                        : i === 3
                                                         ? classes.rightButton
                                                         : classes.middleButton
                                                 }
@@ -563,5 +573,5 @@ const mapStateToProps = state => {
 };
 
 export default withStyles(styles)(
-    injectIntl(connect(mapStateToProps, { authCheckState })(DepositAsiapayQucikpay))
+    injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositAsiapayQucikpay))
 );

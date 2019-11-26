@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog , logout, postLogout } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -279,7 +279,8 @@ class DepositAsiapayAlipay extends Component {
             userid: this.state.data.pk,
             currency: '0',
             PayWay: '42', //qrcode
-            method: '41' //alipay
+            method: '41', //alipay
+            RealName: this.state.data.last_name + this.state.data.first_name,
         };
         var formBody = [];
         for (var pd in postData) {
@@ -297,20 +298,28 @@ class DepositAsiapayAlipay extends Component {
             body: formBody
         })
             .then(function(res) {
-                console.log(res);
-
+                //console.log(res);
                 currentComponent.setState({ showLinearProgressBar: false });
-
-                return res.json();
+                if(res.status == 200){
+                    return res.json();
+                }else{
+                    currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                }
+                
             })
             .then(function(data) {
-                console.log(data);
+                //console.log(data);
+                if(data.errorCode){
+                    currentComponent.props.logout();
+                    postLogout();
+                    return;
+                }
                 let qrurl = data.qr;
-                console.log(qrurl);
+                //console.log(qrurl);
                 if (qrurl != null) {
                     const mywin = window.open(qrurl, 'asiapay-alipay');
                     var timer = setInterval(function() {
-                        console.log('checking..');
+                        
                         if (mywin.closed) {
                             clearInterval(timer);
                             var postData = {
@@ -340,10 +349,15 @@ class DepositAsiapayAlipay extends Component {
                                 }
                             )
                                 .then(function(res) {
-                                    return res.json();
+                                    if(res.status == 200){
+                                        return res.json();
+                                    }else{
+                                        currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        
+                                    }
                                 })
                                 .then(function(data) {
-                                    console.log(data.status);
+                                    //console.log(data.status);
                                     if (data.status === '001') {
                                         //alert('Transaction is approved.');
                                         const body = JSON.stringify({
@@ -354,7 +368,7 @@ class DepositAsiapayAlipay extends Component {
                                             balance:
                                                 currentComponent.state.amount
                                         });
-                                        console.log(body);
+                                        //console.log(body);
                                         axios
                                             .post(
                                                 API_URL +
@@ -394,27 +408,33 @@ class DepositAsiapayAlipay extends Component {
                                 });
                         }
                     }, 1000);
+                }else{
+                    if(data.StatusCode == ('00005' || '100504' || '100505' || '00800' || '100803' || '000008' || '100305' || '100306' || '100307'
+                        || '100606' || '100608' || '100603' || '100604' || '100605' || '100901' || '100902' || '100803' || '00050' || '00003' || '00002')){
+                        currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        data.StatusMsg
+                                                    );
+                    }else{
+                        currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Transaction failed.'
+                                                    );
+                    }
+                    
                 }
-                // if (data.code == 'ERROR') {
-                //     currentComponent.props.callbackFromParent("error", data.message);
-                // }
-                // // else if(data.code == 'SUCCESS'){
-                // //     currentComponent.setState({ value: qrurl, show_qrcode: true });
-                // // }
-
-                // currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-
-                // currentComponent.setState({ showLinearProgressBar: false });
+                
             })
             .catch(function(err) {
                 // catch
-                console.log('Request failed', err);
+                // console.log('Request failed', err);
                 currentComponent.props.callbackFromParent(
                     'error',
-                    err.message
+                    "Something is wrong."
                 );
 
-                axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                sendingLog(err);
             });
     };
 
@@ -481,9 +501,9 @@ class DepositAsiapayAlipay extends Component {
                                         return (
                                             <Button
                                                 className={
-                                                    i == 0
+                                                    i === 0
                                                         ? classes.leftButton
-                                                        : i == 3
+                                                        : i === 3
                                                         ? classes.rightButton
                                                         : classes.middleButton
                                                 }
@@ -619,7 +639,7 @@ export default withStyles(styles)(
     injectIntl(
         connect(
             mapStateToProps,
-            { authCheckState }
+            { authCheckState, logout }
         )(DepositAsiapayAlipay)
     )
 );

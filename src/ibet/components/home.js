@@ -3,7 +3,7 @@ import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import ChatTool from "./chat_tool";
 import { connect } from 'react-redux';
-import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
+import { authCheckState, handle_referid, hide_landing_page, sendingLog } from '../../actions';
 import { FormattedMessage } from 'react-intl';
 import { config } from '../../util_config';
 
@@ -17,8 +17,7 @@ import '../css/home.css';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-
-console.log("Line 15, process env URL = " + API_URL);
+//console.log("Line 15, process env URL = " + API_URL);
 
 document.body.style = 'background: #f1f1f1;';
 
@@ -64,9 +63,7 @@ export class Home extends Component {
       this.props.handle_referid(referid);
     }
 
-
-    this.props.authCheckState()
-
+    this.props.authCheckState();
     var URL = API_URL + 'users/api/games/?term=game';
 
     await axios.get(URL, config)
@@ -97,6 +94,49 @@ export class Home extends Component {
   handle_expand() {
     this.setState({ sports: this.state.all_sports })
     this.setState({ expand: true })
+  }
+
+  game_url(event, item){
+    event.preventDefault();
+    if (['Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB Sports'].includes(item.name)){
+      var token = localStorage.getItem('token')
+      if (token){
+          config.headers["Authorization"] = `Token ${token}`;
+          var URL = API_URL + 'users/api/generategameurl/?game=' + item.name
+          axios.get(URL, config)
+          .then(res => {
+              var Game_URL = res.data.game_url
+              window.open(Game_URL)
+          })
+      }else{
+          var URL = API_URL + 'users/api/generatefakeusergameurl/?game=' + item.name
+          axios.get(URL, config)
+          .then(res => {
+              var Game_URL = res.data.game_url
+              window.open(Game_URL)
+          })
+      }
+    }else if (['AG'].includes(item.name)){
+      var token = localStorage.getItem('token')
+      if (token){
+          config.headers["Authorization"] = `Token ${token}`;
+          var URL = API_URL + 'users/api/generateagurl/' 
+          axios.get(URL, config)
+          .then(res => {
+              var Game_URL = res.data.game_url
+              window.open(Game_URL)
+          })
+      }else{
+          var URL = API_URL + 'users/api/generateagfakeuserurl/'
+          axios.get(URL, config)
+          .then(res => {
+              var Game_URL = res.data.game_url
+              window.open(Game_URL)
+          })
+      }
+    }else{
+      window.open(item.game_url)
+    }
   }
 
   render() {
@@ -177,7 +217,7 @@ export class Home extends Component {
                     localStorage.setItem("recent-games", JSON.stringify(array));
 
                   }}>
-                    <span onClick={() => { window.open(item.game_url) }}>
+                    <span style ={{cursor: 'pointer'}} onClick={(e) => this.game_url(e, item)}> 
 
                       {
                         <img src={item.image_url} height="220" width="300" alt='Not available' />

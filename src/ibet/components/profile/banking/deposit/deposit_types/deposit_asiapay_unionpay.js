@@ -9,11 +9,11 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout} from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-//var QRCode = require('qrcode.react');
+var QRCode = require('qrcode.react');
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -226,10 +226,10 @@ class DepositAsiapayUnionpay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 100,
-            secondOption: 200,
-            thirdOption: 500,
-            fourthOption: 1000,
+            firstOption: 200,
+            secondOption: 400,
+            thirdOption: 600,
+            fourthOption: 800,
             currencyValue: "USD",
             showLinearProgressBar: false,
         };
@@ -305,7 +305,7 @@ class DepositAsiapayUnionpay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+       
         var postData = {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
@@ -320,6 +320,7 @@ class DepositAsiapayUnionpay extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
+        //console.log(formBody)
         return fetch(API_URL + 'accounting/api/asiapay/deposit', {
             method: 'POST',
             headers: {
@@ -327,18 +328,29 @@ class DepositAsiapayUnionpay extends Component {
             },
             body: formBody
         }).then(function (res) {
-           console.log(res);
+           //console.log(res);
 
             currentComponent.setState({ showLinearProgressBar: false });
 
+            if(res.status == 200){
+                return res.json();
+            }else{
+                currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                return res.json();
+
+            }
             
-            return res.json();
         }).then(function (data) {
-            console.log(data)
+            if(data.errorCode){
+                currentComponent.props.logout();
+                postLogout();
+                return;
+            }
+            //console.log(data)
             let qrurl = data.qr;
-            console.log(qrurl)
+            //console.log(qrurl)
             if(qrurl != null){
-                this.setState({ qr_code: qrurl });
+                currentComponent.setState({ qr_code: qrurl });
                 // const mywin = window.open(qrurl, 'asiapay-alipay')
                 // var timer = setInterval(function () {
                 //     console.log('checking..')
@@ -392,6 +404,8 @@ class DepositAsiapayUnionpay extends Component {
                 //     }
                 // }, 1000);
                 
+            }else{
+                currentComponent.props.callbackFromParent("error", data.StatusMsg)
             }
             // let myqr = data.qr;
 
@@ -404,8 +418,9 @@ class DepositAsiapayUnionpay extends Component {
             // currentComponent.setState({ showLinearProgressBar: false });
 
         }).catch(err => {
-            currentComponent.props.callbackFromParent("error", err.returnMessage);
-            axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+            sendingLog(err);
         });
     }
 
@@ -465,7 +480,7 @@ class DepositAsiapayUnionpay extends Component {
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit 100 - 4000"
+                                        placeholder="Deposit 200 - 4000"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={this.state.amountInvalid && this.state.amountFocused}
@@ -475,7 +490,7 @@ class DepositAsiapayUnionpay extends Component {
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
                                             inputProps:{
                                                 step: 10,
-                                                min: 100,
+                                                min: 200,
                                                 max: 4000
                                             }
                                             }}
@@ -513,7 +528,8 @@ class DepositAsiapayUnionpay extends Component {
                         {
                             qr_code ? 
                             <>
-                                <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/>
+                                {/* <img alt="qr_code" src={`data:image/png;base64, ${qr_code}`} style={{width: "250px", height: "250px"}}/> */}
+                                <QRCode value = {{qr_code}}/>
                                 <p>Once you have scanned the QR code, please check your e-mail and transaction history to confirm that the deposit was successful.</p>
                             </>
                             : 
@@ -532,4 +548,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositAsiapayUnionpay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout })(DepositAsiapayUnionpay)));

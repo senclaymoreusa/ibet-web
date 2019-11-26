@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -215,10 +215,10 @@ class DepositQaicashAlipay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            firstOption: 300,
-            secondOption: 400,
-            thirdOption: 500,
-            fourthOption: 1000,
+            firstOption: 500,
+            secondOption: 800,
+            thirdOption: 1000,
+            fourthOption: 1500,
             currencyValue: "USD",
             showLinearProgressBar: false,
         };
@@ -273,7 +273,7 @@ class DepositQaicashAlipay extends Component {
     }
 
     amountChanged(event) {
-        if (event.target.value.length === 0 || parseInt(event.target.value) > 1500 || parseInt(event.target.value) < 300) {
+        if (event.target.value.length === 0 || parseInt(event.target.value) > 1500 || parseInt(event.target.value) < 500) {
             this.setState({ amount: 0 });
             this.setState({ amountInvalid: true });
         } else {
@@ -302,8 +302,8 @@ class DepositQaicashAlipay extends Component {
             "language": "zh-Hans",
             "method": "ALIPAY",
         }
-        console.log(this.state.amount)
-        console.log(this.state.data.pk)
+        //console.log(this.state.amount)
+        //console.log(this.state.data.pk)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -320,14 +320,19 @@ class DepositQaicashAlipay extends Component {
         }).then(function (res) {
             return res.json();
         }).then(function (data) {
+            if(data.errorCode){
+                currentComponent.props.logout();
+                postLogout();
+                return;
+            }
             let redirectUrl = data.paymentPageSession.paymentPageUrl
-            console.log(redirectUrl)
+            //console.log(redirectUrl)
 
 
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Alipay');
                 var timer = setInterval(function () {
-                    console.log('checking..')
+                    //console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
@@ -351,7 +356,7 @@ class DepositQaicashAlipay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            console.log(data.status)
+                            //console.log(data.status)
                             if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
@@ -359,7 +364,7 @@ class DepositQaicashAlipay extends Component {
                                     username: currentComponent.state.data.username,
                                     balance: currentComponent.state.amount,
                                 });
-                                console.log(body)
+                                //console.log(body)
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {
@@ -381,6 +386,10 @@ class DepositQaicashAlipay extends Component {
                 currentComponent.setState({ showLinearProgressBar: false });
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
             }
+        }).catch(function (err) {  
+            
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
+            sendingLog(err);
         });
     }
 
@@ -440,7 +449,7 @@ class DepositQaicashAlipay extends Component {
                                 <Grid item xs={12} className={classes.detailRow}>
                                     <TextField
                                         className={classes.otherText}
-                                        placeholder="Deposit 300 - 1500"
+                                        placeholder="Deposit 500 - 1500"
                                         onChange={this.amountChanged}
                                         onFocus={this.amountFocused}
                                         error={this.state.amountInvalid && this.state.amountFocused}
@@ -450,7 +459,7 @@ class DepositQaicashAlipay extends Component {
                                             endAdornment: <InputAdornment position="end">Other</InputAdornment>,
                                             inputProps:{
                                                 step: 10,
-                                                min: 300,
+                                                min: 500,
                                                 max: 1500
                                             }
                                         }}
@@ -496,4 +505,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(DepositQaicashAlipay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, logout})(DepositQaicashAlipay)));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-import { hide_user_profile, show_update_profile, authCheckState } from '../../../../actions';
+import { hide_user_profile, show_update_profile, authCheckState, sendingLog } from '../../../../actions';
 import { connect } from 'react-redux';
 import { config } from '../../../../util_config';
 import axios from 'axios'
@@ -192,9 +192,6 @@ const styles = theme => ({
         "&:focus": {
             border: 'solid 1px #717171',
         },
-    },
-    showIcon: {
-        fontSize: 20
     },
     errorLabel: {
         color: '#f44336',
@@ -496,8 +493,8 @@ class UserInformationEdit extends Component {
                     passwordChangeSuccess = true;
 
                 }).catch(err => {
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
                     if (err.response.status === 400)
                         alert('You entered a wrong password.')
                     else
@@ -538,8 +535,8 @@ class UserInformationEdit extends Component {
                     alert("Error occured while editting user information");
                     currentComponent.setState({ showLinearProgressBar: false });
 
-                    axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    sendingLog(err);
                 })
         }
     }

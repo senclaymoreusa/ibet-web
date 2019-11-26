@@ -6,28 +6,36 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
-import { config, images } from '../../util_config';
+import { images } from '../../util_config';
 import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Fade from '@material-ui/core/Fade';
-import clsx from 'clsx';
 import Modal from '@material-ui/core/Modal';
 import Announcements from "./announcements";
+import Login from "./login-register/login";
+import ForgotPassword from "./login-register/forgot_password";
 import NewReleases from '@material-ui/icons/NewReleases';
-
+import Fab from '@material-ui/core/Fab';
+import Person from '@material-ui/icons/Person';
+import { config} from '../../util_config';
+import axios from 'axios';
 import {
-    show_letou_announcements
+    logout,
+    postLogout,
+    authCheckState,
+    show_letou_announcements,
+    show_letou_login,
+    show_letou_forgot_password
 } from '../../actions';
 
 import '../css/top_navbar.scss';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
         width: '100%',
@@ -35,7 +43,7 @@ const styles = theme => ({
     firstRow: {
         height: 32,
         alignItems: 'center',
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#f0f0f0',
     },
     firstBar: {
         paddingLeft: 0,
@@ -112,6 +120,11 @@ const styles = theme => ({
             borderBottom: "5px solid #fff",
         }
     },
+    onSelectSecondRowDropdown: {
+        height: '100%',
+        borderRadius: 0,
+        boxShadow: 'none',
+    },
     logo: {
         "&:hover": {
             backgroundColor: "transparent",
@@ -126,6 +139,23 @@ const styles = theme => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    profileIcon: {
+        margin: theme.spacing(1),
+        marginLeft:30,
+        backgroundColor: '#F1941A',
+        height: 30,
+        width: 36,
+        "&:hover": {
+            backgroundColor: "#F1941A",
+        }
+    },
+    paper: {
+        position: 'absolute',
+        padding: 0,
+        "&:focus": {
+            outline: 'none'
+        }
+    },
 });
 
 export class TopNavbar extends React.Component {
@@ -136,12 +166,16 @@ export class TopNavbar extends React.Component {
         this.state = {
             anchorEl: null,
             dropdownMenu: 'none',
+            
+            
+            showSoggedinStatus: false,
         };
 
         this.getLabel = this.getLabel.bind(this);
+        // this.handleOnebookClick = this.handleOnebookClick.bind(this);
     }
 
-    closeMainMenu(event) {
+    closeMainMenu() {
         this.setState({ dropdownMenu: 'none' });
         this.setState({ anchorEl: null });
     }
@@ -156,8 +190,99 @@ export class TopNavbar extends React.Component {
         return formatMessage({ id: labelId });
     }
 
+    componentWillReceiveProps(props) {
+        this.props.authCheckState()
+            .then(() => {
+                this.setState({ showSoggedinStatus: true });
+            })
+    }
+
+    componentDidMount() {
+        this.props.authCheckState()
+            .then(() => {
+                this.setState({ showSoggedinStatus: true });
+            })
+        // this.props.authCheckState().then(res => {
+        //     if (res != 1) {
+              
+            
+        //       const token = localStorage.getItem('token');
+        //       config.headers['Authorization'] = `Token ${token}`;
+        //       axios.get(API_URL + 'users/api/user/', config).then(res => {
+        //           this.setState({ data: res.data });
+                 
+        //       });
+        //     }
+        // });
+    
+        
+    }
+    
+    // handleOnebookClick() {
+
+    //     var url = "";
+    //     if(!this.props.isAuthenticated){
+    //         url = 'http://sbtest.claymoreasia.com/NewIndex';
+            
+    //         window.open(url, "onebook_url");
+    //     }else{
+    //         let token = localStorage.getItem('token');
+    //         config.headers['Authorization'] = `Token ${token}`;
+    //         axios.get(API_URL + 'users/api/user/', config).then(res => {
+    //             let user_data = res.data
+                
+    //             var postData = {
+    //                 "username": user_data.username
+    //             }
+    //             var formBody = [];
+    //             for (var pd in postData) {
+    //                 var encodedKey = encodeURIComponent(pd);
+    //                 var encodedValue = encodeURIComponent(postData[pd]);
+    //                 formBody.push(encodedKey + "=" + encodedValue);
+    //             }
+    //             formBody = formBody.join("&");
+    
+    //             return fetch(API_URL + 'games/api/onebook/login', {
+    //                 method: "POST",
+    //                 headers: {
+    //                     'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    //                 },
+    //                 body: formBody
+    //             }).then(function (res){
+                    
+    //                 return res.json();
+    //             }).then(function(data){
+    //                 //console.log(data);
+    //                 url = data.login_url;
+    //                 //console.log(url)
+    //                 window.open(url, "onebook_url")
+    //             });
+    //         });
+    //     }   
+    // }
+    // game_url(event, gamename){
+    //     event.preventDefault();
+    //     var token = localStorage.getItem('token')  
+    //     if (this.props.isAuthenticated){
+    //         config.headers["Authorization"] = `Token ${token}`;
+    //         var URL = API_URL + 'games/api/gb/generategameurl/?game=' + gamename
+    //         axios.get(URL, config)
+    //         .then(res => {
+    //             var Game_URL = res.data.game_url
+    //             window.open(Game_URL)
+    //         })
+    //     }else{
+    //         var URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename
+    //         axios.get(URL, config)
+    //         .then(res => {
+    //             var Game_URL = res.data.game_url
+    //             window.open(Game_URL)
+    //         })
+    //     }
+
+    // }
     render() {
-        const { classes, showAnnouncements } = this.props;
+        const { classes } = this.props;
         const { anchorEl, dropdownMenu } = this.state;
 
         return (
@@ -165,7 +290,7 @@ export class TopNavbar extends React.Component {
             <div className={classes.root}>
                 <AppBar position="static" className={classes.firstRow}>
                     <Toolbar className={classes.firstBar}>
-                        <Button size="small" className={classes.topLinkButton} target="_blank" href="https://help.letou.com/cn/member_brand/seq1.html">
+                        <Button size="small" className={classes.topLinkButton} target="_blank" href="/th/about_us">
                             {this.getLabel('about-letou')}
                         </Button>
                         <Button size="small" className={classes.topLinkButton} target="_blank" href="https://affiliates.letou.com">
@@ -196,6 +321,15 @@ export class TopNavbar extends React.Component {
                         <Button size="small" className={classes.topLinkButton} target="_blank" href="https://www.letou.com/cn/chat">
                             {this.getLabel('online-service')}
                         </Button>
+                        {this.props.isAuthenticated ?
+                            this.state.showSoggedinStatus &&
+                            <Button size="small" className={classes.topLinkButton}
+                                onClick={() => {
+                                    this.props.logout()
+                                    postLogout();
+                                }}>
+                                {this.getLabel('log-out')}
+                            </Button> : null}
                     </Toolbar>
                 </AppBar>
                 <AppBar position="static" className={classes.secondRow}>
@@ -214,9 +348,26 @@ export class TopNavbar extends React.Component {
                                     <Fade {...TransitionProps} timeout={350}>
                                         <Paper id="menu-list-grow">
                                             <MenuList >
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-sports')}</MenuItem>
+                                                <MenuItem
+                                                    onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbsports')
+                                                        }
+                                                        
+                                                    }>
+                                                    {this.getLabel('letou-sports')}
+                                                </MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('international-sports')}<NewReleases className={classes.newIcon} /></MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('sabah-sports')}</MenuItem>
+                                                <MenuItem  
+                                                    onClick={
+                                                        // this.handleOnebookClick
+                                                        (e) => {
+                                                            this.props.history.push('/onebook')
+                                                        }
+
+                                                    }>
+                                                    {this.getLabel('sabah-sports')}
+                                                </MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('sports-tutorial')}</MenuItem>
                                             </MenuList>
                                         </Paper>
@@ -234,9 +385,27 @@ export class TopNavbar extends React.Component {
                                     <Fade {...TransitionProps} timeout={350}>
                                         <Paper id="menu-list-grow">
                                             <MenuList>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-esports')}</MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        
+                                                        (e) => {
+                                                            this.props.history.push('/gbesports')
+                                                        }
+
+                                                    }>
+                                                {this.getLabel('letou-esports')}</MenuItem>
                                                 <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('letou-esports-pro')}<NewReleases className={classes.newIcon} /></MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('sabah-esports')}</MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        
+                                                        (e) => {
+                                                            this.props.history.push('/eonebook')
+                                                        }
+
+                                                    }>
+                                                
+                                                {this.getLabel('sabah-esports')}
+                                                </MenuItem>
                                             </MenuList>
                                         </Paper>
                                     </Fade>
@@ -244,7 +413,11 @@ export class TopNavbar extends React.Component {
                             )}
                         </Popper>
                         <Button variant="contained" className={(dropdownMenu === 'live-casino') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
-                            onMouseEnter={(event) => { this.openMainMenu(event, 'live-casino'); }}>
+                            onMouseEnter={(event) => { this.openMainMenu(event, 'live-casino'); }}
+                            onClick={(event) => {
+                                this.props.history.push('/live_casino');
+
+                            }}>
                             {this.getLabel('nav-live-casino')}
                         </Button>
                         <Button variant="contained" className={(dropdownMenu === 'chess') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
@@ -279,11 +452,44 @@ export class TopNavbar extends React.Component {
                                     <Fade {...TransitionProps} timeout={350}>
                                         <Paper id="menu-list-grow">
                                             <MenuList>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('nav-lotto')}</MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('happy-color')}<NewReleases className={classes.newIcon} /></MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('time-color')}</MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('pick-up')}</MenuItem>
-                                                <MenuItem onClick={this.closeMainMenu.bind(this)}>{this.getLabel('fast-3')}</MenuItem>
+                                                <MenuItem
+                                                 onClick={
+                                                    (e) => {
+                                                        this.props.history.push('/gblotto')
+                                                    }
+                                                    
+                                                    }>
+                                                {this.getLabel('nav-lotto')}
+                                                 </MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbkeno')
+                                                        }
+                                                        
+                                                        }>
+                                                    {this.getLabel('happy-color')}<NewReleases className={classes.newIcon} />
+                                                </MenuItem>
+                                                <MenuItem 
+                                                    onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbssc')
+                                                        }
+                                                        
+                                                        }>{this.getLabel('time-color')}
+                                                </MenuItem>
+                                                <MenuItem onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbpk10')
+                                                        }
+                                                        
+                                                        }>{this.getLabel('pick-up')}</MenuItem>
+                                                <MenuItem onClick={
+                                                        (e) => {
+                                                            this.props.history.push('/gbk3')
+                                                        }
+                                                        
+                                                        }>{this.getLabel('fast-3')}</MenuItem>
 
                                             </MenuList>
                                         </Paper>
@@ -292,7 +498,11 @@ export class TopNavbar extends React.Component {
                             )}
                         </Popper>
                         <Button variant="contained" className={(dropdownMenu === 'games') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
-                            onMouseEnter={(event) => { this.openMainMenu(event, 'games'); }}>
+                            onMouseEnter={(event) => { this.openMainMenu(event, 'games'); }}
+                            onClick={(event) => {
+                                this.props.history.push('/game');
+
+                            }}>
                             {this.getLabel('nav-games')}
                         </Button>
                         <Button variant="contained" className={(dropdownMenu === 'offer') ? classes.activeSecondRowDropdown : classes.secondRowDropdown}
@@ -314,14 +524,51 @@ export class TopNavbar extends React.Component {
                                 </ClickAwayListener>
                             )}
                         </Popper>
-                        <Button variant="contained" className={classes.secondRowButton}>
-                            {this.getLabel('sign-up')}
-                        </Button>
-                        <Button variant="contained" className={classes.secondRowButton}>
-                            {this.getLabel('sign-in')}
-                        </Button>
+                        {this.props.isAuthenticated ?
+                            this.state.showSoggedinStatus &&
+                            <Fab color="primary" aria-label="add" className={classes.profileIcon} onClick={
+                                () => {
+                                    // window.open(window.location.origin + "/p/fortune-center/deposit",
+                                    //     "Letou profile",
+                                    //     "resizable,scrollbars,status"); 
+                                        this.props.history.push('/p/fortune-center/deposit')
+                                }}>
+                                <Person />
+                            </Fab> : <div style={{marginLeft:20}}>
+                                <Button variant="contained" className={classes.secondRowButton}
+                                    onClick={() => {
+                                        this.props.history.push('/register')
+                                    }}>
+                                    {this.getLabel('sign-up')}
+                                </Button>
+                                <Button variant="contained" className={classes.secondRowButton}
+                                    onClick={() => {
+                                        this.props.show_letou_login()
+                                    }}>
+                                    {this.getLabel('log-in')}
+                                </Button>
+                            </div>}
+
                     </Toolbar>
                 </AppBar>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.props.showLogin}
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
+                        <Login />
+                    </Paper>
+                </Modal>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.props.showForgotPassword}
+                    className={classes.modal}>
+                    <Paper className={classes.paper} >
+                        <ForgotPassword />
+                    </Paper>
+                </Modal>
             </div >
         );
     }
@@ -334,6 +581,8 @@ const mapStateToProps = (state) => {
         error: state.auth.error,
         lang: state.language.lang,
         showAnnouncements: state.general.show_letou_announcements,
+        showLogin: state.general.show_letou_login,
+        showForgotPassword: state.general.show_letou_forgot_password,
     }
 }
 
@@ -343,5 +592,5 @@ TopNavbar.propTypes = {
 };
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, {
-    show_letou_announcements
+    logout, postLogout, authCheckState, show_letou_announcements, show_letou_login, show_letou_forgot_password
 })(TopNavbar))));
