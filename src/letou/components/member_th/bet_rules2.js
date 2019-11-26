@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -98,17 +96,17 @@ export class BetRuleTwoTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>กฎทั่วไป</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>ตัวเลือกเดิมพันหลายรายการ</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>กฎทั่วไป</h2>
                             <p>ตรงไปตรงมา
                                 <br /> หมายถึงการเดิมพันผู้ชนะการแข่งขันการแข่งขันหรือการแข่งขัน ตัวอย่างเช่นฟุตบอลลีกหรือแชมป์ F1 Gamble ในชื่อระบุรายละเอียด
@@ -144,7 +142,7 @@ export class BetRuleTwoTh extends React.Component {
                                 หากการแข่งขันถูกยกเลิกในช่วงครึ่งหลังการเดิมพันครึ่งแรกทั้งหมดจะสมบูรณ์
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>ตัวเลือกเดิมพันหลายรายการ</h2>
                             <p>ผู้เล่นสามารถเลือกพื้นที่การเดิมพันได้คือ Parlay ราคาต่อคูณ คุณไม่สามารถจับคู่การแข่งขันเดียวกันหรือผู้ชนะทันที</p>
                             <div className="MarginBottom20 tableFontStyle">
