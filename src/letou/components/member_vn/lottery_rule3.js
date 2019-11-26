@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -98,10 +96,10 @@ export class LotteryRuleThreeVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>SSC Introduction</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>Luật Chơi SSC</a>
                             </li>
                         </ul>
@@ -109,7 +107,7 @@ export class LotteryRuleThreeVn extends React.Component {
                     </div>
               
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>SSC</h2>
                             &nbsp;
                             <p>SSC là trò chơi xổ số với những con số được xổ ra ngẫu nhiên gồm 3 hoặc 5 số.
@@ -128,7 +126,7 @@ export class LotteryRuleThreeVn extends React.Component {
                                 /> - Nối rồng: Biểu tượng "Lá cờ" xuất hiện cho 4 kết quả cược liên tiếp.
                                 <br /> - Hủy cược: Nếu kết quả không được công bố trong vòng 1 (một) giờ thì phiên cược đó xem như bị huỷ.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>Luật Chơi SSC</h2>
                             &nbsp;
                             <h1>1. Tài/Xỉu</h1>

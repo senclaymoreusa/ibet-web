@@ -12,11 +12,12 @@ import sha256 from 'sha256';
 import { config} from '../../util_config';
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
+  gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
+  gdcasino_accessKey = process.env.REACT_APP_GDCASINO_STAGING_ACCESSKEY;
 
 //console.log("Line 15, process env URL = " + API_URL);
-
+//console.log(gdcasino_accessKey)
 document.body.style = 'background: #f1f1f1;';
 
 
@@ -116,7 +117,7 @@ export class live_casino extends React.Component {
     };
 
     this.getLabel = this.getLabel.bind(this);
-    this.handleGDClick = this.handleGDClick.bind(this);
+    
   }
   getLabel(labelId) {
     const { formatMessage } = this.props.intl;
@@ -132,38 +133,32 @@ export class live_casino extends React.Component {
             
         });
 }
-  handleGDClick = () => {
-    // let currencyConversion = {
-    //   '0': 'CNY',
-    //   '1': 'USD',
-    //   '2': 'THB',
-    //   '3': 'IDR',
-    //   '4': 'HKD',
-    //   '5': 'AUD',
-    //   '6': 'MYR',
-    //   '7': 'VND',
-    //   '8': 'MMK',
-    //   '9': 'XBT',
-    //   '10': 'EUR',
-    //   '11': 'NOK',
-    //   '12': 'GBP',
-    // }
+  handleGDClick(view){
+    let direct_view = {
+      'Baccarat': 'N',
+      'Roulette': 'RN',
+      'SicBo': 'SB',
+      'BidmeBaccarat': 'BMB',
+      
+    }
     
-    const token = localStorage.getItem('token');
-    const code = 'IBPHtest';
-    const accessKey = 'f66e9c36-22a0-4f0a-9521-c8d3ca4f021a';
+    
+    var token = localStorage.getItem('token');
+    // var code = gdcasino_code;
+    // var accessKey = gdcasino_accessKey;
     //console.log(this.state.data)
     var currency = this.state.data.currency;
     // currency = currencyConversion[currency];
     // console.log(currency)
-    const username = this.state.data.username;
-    const key = sha256(code + token + accessKey + username + currency )
+    var username = this.state.data.username;
+    var key = sha256(gdcasino_code + token + gdcasino_accessKey + username + currency )
     
     var url = "";
-    if(this.state.data == ''){
+    if(!token){
       this.props.history.push('/register');
     }else{
-      url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&mode=real&PlayerGroup=default";
+      
+      url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
       window.open(url, "gdcasino")
     }
     
@@ -312,14 +307,14 @@ export class live_casino extends React.Component {
                 <div className="PgHallArticle">
                   <p>{this.getLabel('gd-words')}</p>
                   <ul>
-                    <li><a onClick={this.handleGDClick}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleGDClick("Baccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleGDClick("BidmeBaccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleGDClick("Roulette")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleGDClick("SicBo")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a onClick={this.handleGDClick}><span>{this.getLabel('Real-money')}</span></a>
+                    <a onClick={(e) => {this.handleGDClick("Baccarat")}}><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                   </Grid>
                 </div>
