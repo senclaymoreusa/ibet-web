@@ -295,20 +295,32 @@ export class Profile extends Component {
                                     'fortune-center'
                                 ) {
                                     this.handleCategoryChange('fortune-center');
+                                    this.setState({
+                                        anchorEl: null
+                                    });
+                                    this.setState({
+                                        showProfileMenu: false
+                                    });
                                 }
                             }}
                         />
                         <StyledTab
-                            label={this.getLabel('transaction-record')}
-                            value="transaction-record"
+                            label={this.getLabel('transaction-records')}
+                            value="transaction-records"
                             onClick={() => {
                                 if (
                                     this.props.match.params.type !==
-                                    'transaction-record'
+                                    'transaction-records'
                                 ) {
                                     this.handleCategoryChange(
-                                        'transaction-record'
+                                        'transaction-records'
                                     );
+                                    this.setState({
+                                        anchorEl: null
+                                    });
+                                    this.setState({
+                                        showProfileMenu: false
+                                    });
                                 }
                             }}
                         />
@@ -331,6 +343,12 @@ export class Profile extends Component {
                                     this.handleCategoryChange(
                                         'account-management'
                                     );
+                                    this.setState({
+                                        anchorEl: null
+                                    });
+                                    this.setState({
+                                        showProfileMenu: false
+                                    });
                                 }
                             }}
                         />
@@ -343,6 +361,12 @@ export class Profile extends Component {
                                     'sharing-plan'
                                 ) {
                                     this.handleCategoryChange('sharing-plan');
+                                    this.setState({
+                                        anchorEl: null
+                                    });
+                                    this.setState({
+                                        showProfileMenu: false
+                                    });
                                 }
                             }}
                         />
@@ -452,7 +476,7 @@ export class Profile extends Component {
                     {this.state.tabValue === 'fortune-center' && (
                         <FortuneCenter />
                     )}
-                    {this.state.tabValue === 'transaction-record' && (
+                    {this.state.tabValue === 'transaction-records' && (
                         <TransactionRecord />
                     )}
                     {this.state.tabValue === 'account-management' && (
