@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
     logout,
+    postLogout,
     handle_search,
     setLanguage,
     authCheckState,
@@ -27,7 +28,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Home from '@material-ui/icons/Home';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
-import Input from '@material-ui/icons/Input';
+import Person from '@material-ui/icons/Person';
 import ContactSupport from '@material-ui/icons/ContactSupport';
 import MeetingRoom from '@material-ui/icons/MeetingRoom';
 
@@ -55,6 +56,7 @@ const styles = theme => ({
     },
     rootMobile: {
         display: 'flex',
+        boxShadow:'0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
         [theme.breakpoints.up('md')]: {
             display: 'none'
         }
@@ -977,35 +979,68 @@ export class Footer extends React.Component {
                         </Grid>
                     </Grid>
                 </footer>
-                <BottomNavigation
-                    value={activeValue}
-                    showLabels
-                    className={classes.rootMobile}
-                >
-                    <BottomNavigationAction
-                        label={this.getLabel('home-label')}
-                        icon={<Home />}
-                    />
-                    <BottomNavigationAction
-                        label={this.getLabel('promotions-label')}
-                        icon={<AssignmentTurnedIn />}
-                    />
-                    <BottomNavigationAction
-                        label={this.getLabel('sign-up')}
-                        icon={<MeetingRoom />}
-                    />
-                    <BottomNavigationAction
-                        label={this.getLabel('support-label')}
-                        icon={<ContactSupport />}
-                    />
-                    <BottomNavigationAction
-                        label={this.getLabel('log-in')}
-                        icon={<Input />}
-                        onClick={() => {
-                            this.props.show_letou_mobile_login();
-                        }}
-                    />
-                </BottomNavigation>
+                {this.props.isAuthenticated ?
+                    <BottomNavigation
+                        value={activeValue}
+                        showLabels
+                        className={classes.rootMobile}
+                    >
+                        <BottomNavigationAction
+                            label={this.getLabel('home-label')}
+                            icon={<Home />}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('promotions-label')}
+                            icon={<AssignmentTurnedIn />}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('sign-up')}
+                            icon={<MeetingRoom />}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('support-label')}
+                            icon={<ContactSupport />}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('profile-label')}
+                            icon={<Person />}
+                            onClick={() => {
+                                this.props.logout();
+                                postLogout();
+                            }}
+                        />
+                    </BottomNavigation>
+                    :
+                    <BottomNavigation
+                        value={activeValue}
+                        showLabels
+                        className={classes.rootMobile}
+                    >
+                        <BottomNavigationAction
+                            label={this.getLabel('home-label')}
+                            icon={<Home />}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('promotions-label')}
+                            icon={<AssignmentTurnedIn />}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('title-deposit')}
+                            icon={<MeetingRoom />}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('news-label')}
+                            icon={<ContactSupport />}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('log-in')}
+                            icon={<Person />}
+                            onClick={() => {
+                                 this.props.show_letou_mobile_login();
+                            }}
+                        />
+                    </BottomNavigation>
+                }
                 <Modal
                     aria-labelledby="mobile-menu"
                     aria-describedby="mobile-menu-description"
@@ -1051,6 +1086,7 @@ export default withStyles(styles)(
         withRouter(
             connect(mapStateToProps, {
                 logout,
+                postLogout,
                 handle_search,
                 setLanguage,
                 authCheckState,

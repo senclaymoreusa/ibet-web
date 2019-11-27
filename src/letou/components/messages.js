@@ -357,7 +357,9 @@ export const messages = {
         'all-time': 'All Time',
         'pk-pick': 'PK Pick up',
         'latest-offers': 'Latest Offers',
-        'become-partner':'Become a Partner'
+        'become-partner':'Become a Partner',
+        'profile-label':'Profile',
+        'news-label':'News',
     },
     zh: {},
 

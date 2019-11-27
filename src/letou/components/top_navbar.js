@@ -22,7 +22,6 @@ import Announcements from './announcements';
 import Login from './login-register/login';
 import ForgotPassword from './login-register/forgot_password';
 import NewReleases from '@material-ui/icons/NewReleases';
-import clsx from 'clsx';
 import Clear from '@material-ui/icons/Clear';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -31,8 +30,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Dehaze from '@material-ui/icons/Dehaze';
 import Fab from '@material-ui/core/Fab';
 import Person from '@material-ui/icons/Person';
-import { config } from '../../util_config';
-import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 
 import {
@@ -49,7 +46,6 @@ import {
 
 import '../css/top_navbar.scss';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 const styles = theme => ({
     root: {
         width: '100%'
@@ -596,7 +592,7 @@ export class TopNavbar extends React.Component {
                                             <Paper id="menu-list-grow">
                                                 <MenuList>
                                                     <MenuItem
-                                                        onClick={e => {
+                                                        onClick={() => {
                                                             this.props.history.push(
                                                                 '/gbsports'
                                                             );
@@ -623,7 +619,7 @@ export class TopNavbar extends React.Component {
                                                     <MenuItem
                                                         onClick={
                                                             // this.handleOnebookClick
-                                                            e => {
+                                                            () => {
                                                                 this.props.history.push(
                                                                     '/onebook'
                                                                 );
@@ -681,7 +677,7 @@ export class TopNavbar extends React.Component {
                                             <Paper id="menu-list-grow">
                                                 <MenuList>
                                                     <MenuItem
-                                                        onClick={e => {
+                                                        onClick={() => {
                                                             this.props.history.push(
                                                                 '/gbesports'
                                                             );
@@ -706,7 +702,7 @@ export class TopNavbar extends React.Component {
                                                         />
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={e => {
+                                                        onClick={() => {
                                                             this.props.history.push(
                                                                 '/eonebook'
                                                             );
@@ -852,7 +848,7 @@ export class TopNavbar extends React.Component {
                                             <Paper id="menu-list-grow">
                                                 <MenuList>
                                                     <MenuItem
-                                                        onClick={e => {
+                                                        onClick={() => {
                                                             this.props.history.push(
                                                                 '/gblotto'
                                                             );
@@ -863,7 +859,7 @@ export class TopNavbar extends React.Component {
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={e => {
+                                                        onClick={() => {
                                                             this.props.history.push(
                                                                 '/gbkeno'
                                                             );
@@ -879,7 +875,7 @@ export class TopNavbar extends React.Component {
                                                         />
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={e => {
+                                                        onClick={() => {
                                                             this.props.history.push(
                                                                 '/gbssc'
                                                             );
@@ -890,7 +886,7 @@ export class TopNavbar extends React.Component {
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={e => {
+                                                        onClick={() => {
                                                             this.props.history.push(
                                                                 '/gbpk10'
                                                             );
@@ -901,7 +897,7 @@ export class TopNavbar extends React.Component {
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={e => {
+                                                        onClick={() => {
                                                             this.props.history.push(
                                                                 '/gbk3'
                                                             );
