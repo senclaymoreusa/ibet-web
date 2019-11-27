@@ -342,13 +342,22 @@ export const messages = {
         'email-update-success':
             ' Your email address has been successfully updated.',
         'home-label': 'Home',
-        'support-label':'Support',
-        'promotions-label':'Promotions',
+        'support-label': 'Support',
+        'promotions-label': 'Promotions',
         'lang-thai': 'Thai',
         'lang-vietnamese': 'Vietnamese',
         'lang-english': 'English',
         'lang-chinese': 'Chinese',
-
+        'back-home': 'Back Home',
+        'letousports-pro': 'Letousports Pro',
+        'small-game': 'Small Game',
+        'chess-label': 'Chess',
+        'happy-game': 'Happy Game',
+        'lotto-label': 'Lotto',
+        'all-time': 'All Time',
+        'pk-pick': 'PK Pick up',
+        'latest-offers': 'Latest Offers',
+        'become-partner':'Become a Partner'
     },
     zh: {},
 

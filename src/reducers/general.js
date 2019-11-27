@@ -44,6 +44,9 @@ const INITIAL_STATE = {
     show_letou_announcements: false,
     show_letou_login: false,
     show_letou_forgot_password: false,
+    show_letou_mobile_menu: false,
+    show_letou_mobile_login: false,
+    show_letou_mobile_signup: false,
 
     onc_click_username: '',
     one_click_password: '',
@@ -275,6 +278,18 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, show_letou_forgot_password: true };
         case 'HIDE_LETOU_FORGOT_PASSWORD':
             return { ...state, show_letou_forgot_password: false };
+        case 'SHOW_LETOU_MOBILE_MENU':
+            return { ...state, show_letou_mobile_menu: true };
+        case 'HIDE_LETOU_MOBILE_MENU':
+            return { ...state, show_letou_mobile_menu: false };
+        case 'SHOW_LETOU_MOBILE_LOGIN':
+            return { ...state, show_letou_mobile_login: true };
+        case 'HIDE_LETOU_MOBILE_LOGIN':
+            return { ...state, show_letou_mobile_login: false };
+        case 'SHOW_LETOU_MOBILE_SIGNUP':
+            return { ...state, show_letou_mobile_signup: true };
+        case 'HIDE_LETOU_MOBILE_SIGNUP':
+            return { ...state, show_letou_mobile_signup: false };
 
         default:
             return state;
