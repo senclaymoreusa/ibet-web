@@ -993,8 +993,8 @@ export class Footer extends React.Component {
                             label={this.getLabel('promotions-label')}
                             icon={<AssignmentTurnedIn />}
                         />
-                        <BottomNavigationAction
-                            label={this.getLabel('sign-up')}
+                          <BottomNavigationAction
+                            label={this.getLabel('title-deposit')}
                             icon={<MeetingRoom />}
                         />
                         <BottomNavigationAction
@@ -1024,9 +1024,12 @@ export class Footer extends React.Component {
                             label={this.getLabel('promotions-label')}
                             icon={<AssignmentTurnedIn />}
                         />
-                        <BottomNavigationAction
-                            label={this.getLabel('title-deposit')}
+                      <BottomNavigationAction
+                            label={this.getLabel('sign-up')}
                             icon={<MeetingRoom />}
+                            onClick={() => {
+                                this.props.show_letou_mobile_signup();
+                           }}
                         />
                         <BottomNavigationAction
                             label={this.getLabel('news-label')}
