@@ -73,7 +73,7 @@ const styles = () => ({
     },
     button: {
         textTransform: 'capitalize',
-        fontSize: 12,
+        fontSize: 15,
         whiteSpace: 'nowrap',
         minWidth: 140,
         backgroundColor: '#4DA9DF',
@@ -337,7 +337,7 @@ export class EditPhone extends Component {
                             className={classes.sendButton}>{
                                 ((this.timeIntervalID != 0 && this.state.remainingTime) > 0 ?
                                     this.getLabel('enter-code') + ' ' + this.state.remainingTime :
-                                    this.getLabel('send-verification-code'))
+                                    this.getLabel('send-code'))
                             }</Button>
                     </Grid>
                     <Grid item xs={2} className={classes.row}>
@@ -349,19 +349,9 @@ export class EditPhone extends Component {
                     </Grid>
                     <Grid item xs={10} className={classes.row}>
                         <Button variant="contained"
-                            disabled={verificationCode.length === 0 || remainingTime > 0}
+                            disabled={verificationCode.length === 0 || remainingTime === 0}
                             onClick={this.verifyVerificationCode}
                             className={classes.button}>{this.getLabel('next-step')}</Button>
-                    </Grid>
-                    <Grid item xs={2} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={10} className={classes.row}>
-                        <FormControlLabel
-                            control={
-                                <CustomCheckbox checked={verificationCodeSent} readOnly={true} value="checkedA" />
-                            }
-                            label={this.getLabel('verification-code-sent')}
-                        />
                     </Grid>
                 </Grid>);
             case 1:
@@ -540,8 +530,10 @@ export class EditPhone extends Component {
                             </Step>
                         </Stepper>
                     </Grid>
+                    <Grid item xs={12}>
+                    {this.getStepContent()}
+                    </Grid>
                 </Grid>
-                {this.getStepContent()}
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',

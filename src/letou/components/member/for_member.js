@@ -5,19 +5,18 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 import IconHeader from "../icon_header";
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import '../../css/help.css'
 import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 
 
 import {
     show_letou_announcements
 } from '../../../actions';
-import { InfoSelect } from '../info_select';
 
 
 

@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -93,19 +91,19 @@ export class GameGubao extends React.Component {
                             <li> - 当游戏结果出现围骰，投注（大／小 ）或（单／双）项目均作为输。</li></ul></p>
                         <h1>【派彩赔率】</h1>
                         <p></p>
-                            <img src="http://i.imgur.com/TsYw1Xt.png"></img>
+                            <img src="http://i.imgur.com/TsYw1Xt.png" alt=""></img>
                         
                         <p>下注在单一个点数：</p>
                             
-                            <img src="http://i.imgur.com/HO61AWk.png"></img>
+                            <img src="http://i.imgur.com/HO61AWk.png" alt=""></img>
                         
                         <p>3颗骰子点数总和： </p>
                            
-                            <img src="http://i.imgur.com/UmmvOkb.png"></img>
+                            <img src="http://i.imgur.com/UmmvOkb.png" alt=""></img>
                        
                         <p>3颗骰子点数总和：</p>
                            
-                            <img src="http://i.imgur.com/DTrEM5e.png"></img>
+                            <img src="http://i.imgur.com/DTrEM5e.png" alt=""></img>
                         
                     </div>
 

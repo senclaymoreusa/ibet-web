@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -101,7 +99,7 @@ export class GameNiuniuVn extends React.Component {
                             <br /> Người chia bài sẽ cho bạn thấy “Lá bài đầu tiên” khi mỗi trận đấu bắt đầu. Theo thứ hạng của “Lá đầu tiên” quyết định
                             vị trí chia bài. (bắt đầu từ người chia bài theo ngược chiều kim đồng hồ)
                             <br />
-                            <img src="http://i.imgur.com/sJzs2gw.jpg" />
+                            <img src="http://i.imgur.com/sJzs2gw.jpg" alt="" />
                             <br />
                             <br /> Trình tự chia bài: Theo ngược chiều kim đồng hồ
                             <br />
