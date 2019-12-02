@@ -28,9 +28,10 @@ if (
     window.location
         .toString()
         .toLowerCase()
-        .indexOf('asia') != -1
+        .indexOf('asia') == -1
 ) {
-        <Provider store={store}>
+    ReactDOM.render(
+         <Provider store={store}>
             <LetouApp />
         </Provider>,
         document.getElementById('root')
