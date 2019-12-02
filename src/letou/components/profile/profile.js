@@ -12,7 +12,7 @@ import {
 import { config } from '../../../util_config';
 import clsx from 'clsx';
 
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedNumber } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -70,17 +70,20 @@ const styles = theme => ({
         }
     },
     rootMobile: {
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
         }
     },
-
     content: {
         flexGrow: 1,
         paddingTop: 20,
         paddingBottom: 20
+    },
+    mobileContent: {
+        flexGrow: 1
     },
     indicator: {
         backgroundColor: 'white'
@@ -126,7 +129,6 @@ const styles = theme => ({
     profileLogo: {
         width: 64,
         height: 64,
-        border: '2px solid #f7f7f7',
         backgroundColor: '#d3d4d6',
         margin: '0 auto',
         borderRadius: 32,
@@ -149,6 +151,21 @@ const styles = theme => ({
         paddingRight: 10,
         paddingBottom: 5,
         display: 'inline'
+    },
+    mobileTabTitleButton: {
+        textTransform: 'capitalize',
+        color: 'white',
+        fontSize: 17,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: -0.24
+    },
+    column: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
     }
 });
 
@@ -276,7 +293,8 @@ export class Profile extends Component {
             .get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ username: res.data.username });
-                console.log(res.data)
+                this.setState({ mainWallet: res.data.main_wallet });
+                this.setState({ currency: res.data.currency });
             })
             .catch(function (err) {
                 sendingLog(err);
@@ -566,11 +584,17 @@ export class Profile extends Component {
                 </div>
                 <div className={classes.rootMobile}>
                     <Grid container className={classes.mobileHeader}>
-                        <Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 15 }}>
-                            <span className={classes.mobileUsername}>{this.state.username}</span>
+                        <Grid
+                            item
+                            xs={12}
+                            style={{ textAlign: 'center', paddingBottom: 15 }}
+                        >
+                            <span className={classes.mobileUsername}>
+                                {this.state.username}
+                            </span>
                         </Grid>
                         <Grid item xs={12}>
-                            <div className={classes.profileLogo}>
+                            <div className={classes.profileLogo} >
                                 <img
                                     src={
                                         images.src + 'letou/mymember-idimg.jpg'
@@ -578,172 +602,224 @@ export class Profile extends Component {
                                     alt="LETOU"
                                     height="64"
                                     width="64"
+                                    className={classes.profileLogo}
                                 />
                             </div>
                         </Grid>
-                        <Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 30, paddingTop: 30 }}>
+                        <Grid
+                            item
+                            xs={12}
+                            style={{
+                                textAlign: 'center',
+                                paddingBottom: 30,
+                                paddingTop: 30
+                            }}
+                        >
                             <div className={classes.masterAccount}>
-                                <span>{this.getLabel('master-account')} | </span>
+                                <span>
+                                    {this.getLabel('master-account')} {' | '}
+                                </span>
+                                <FormattedNumber
+                                    maximumFractionDigits={2}
+                                    value={this.state.mainWallet}
+                                    style={`currency`}
+                                    currency={this.state.currency}
+                                />
                             </div>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Button>deposit</Button>
+                        <Grid item xs={4} style={{ textAlign: 'center' }}>
+                            <Button className={classes.mobileTabTitleButton}>
+                                <div className={classes.column}>
+                                    <img
+                                        src={images.src + 'letou/deposit-icon.png'}
+                                        alt="LETOU"
+                                        height="20"
+                                    />
+                                    {this.getLabel('deposit-label')}
+                                </div>
+                            </Button>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Button>deposit</Button>
+                        <Grid item xs={4} style={{ textAlign: 'center' }}>
+                            <Button className={classes.mobileTabTitleButton}>
+                                <div className={classes.column}>
+                                    <img
+                                        src={
+                                            images.src + 'letou/withdrawal-icon.png'
+                                        }
+                                        alt="LETOU"
+                                        height="20"
+                                    />
+                                    {this.getLabel('title-withdrawal')}
+                                </div>
+                            </Button>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Button>deposit</Button>
-                        </Grid>
-                    </Grid>
-                    <Grid container>
-                        <Grid item xs={12}>
-                            <List
-                                style={{
-                                    overflow: 'auto'
-                                }}
-                            >
-                                <ListItem
-                                    button
-                                    onClick={() => {
-                                        // this.props.history.push('/');
-                                        // this.props.hide_letou_mobile_menu();
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <Subject />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={this.getLabel(
-                                            'transaction-records'
-                                        )}
+                        <Grid item xs={4} style={{ textAlign: 'center' }}>
+                            <Button className={classes.mobileTabTitleButton}>
+                                <div className={classes.column}>
+                                    <img
+                                        src={
+                                            images.src +
+                                            'letou/transfers-icon.png'
+                                        }
+                                        alt="LETOU"
+                                        height="20"
                                     />
-                                </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => {
-                                        // this.props.history.push('/gbsports');
-                                        // this.props.hide_letou_mobile_menu();
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <AccountBalance />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={this.getLabel(
-                                            'fortune-center'
-                                        )}
-                                    />
-                                </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => {
-                                        this.props.history.push('/');
-                                        this.props.hide_letou_mobile_menu();
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <PersonOutlineOutlined />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={this.getLabel('account-info')}
-                                    />
-                                </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => {
-                                        this.props.history.push('/');
-                                        this.props.hide_letou_mobile_menu();
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <Security />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={this.getLabel(
-                                            'security-settings'
-                                        )}
-                                    />
-                                </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => {
-                                        this.props.history.push('/');
-                                        this.props.hide_letou_mobile_menu();
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <Message />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={this.getLabel(
-                                            'message-notification'
-                                        )}
-                                    />
-                                </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => {
-                                        this.props.history.push('/');
-                                        this.props.hide_letou_mobile_menu();
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <HeadsetMic />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={this.getLabel(
-                                            'customer-service'
-                                        )}
-                                    />
-                                </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => {
-                                        this.props.history.push('/');
-                                        this.props.hide_letou_mobile_menu();
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <LiveHelp />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={this.getLabel('help-center')}
-                                    />
-                                </ListItem>
-                                <ListItem
-                                    button
-                                    onClick={() => {
-                                        this.props.history.push('/');
-                                        this.props.hide_letou_mobile_menu();
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <SettingsApplications />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={this.getLabel('set-up')}
-                                    />
-                                </ListItem>
-                            </List>
+                                    {this.getLabel('title-transfer')}
+                                </div>
+                            </Button>
                         </Grid>
                     </Grid>
+                    <div className={classes.mobileContent}>
+                        <Grid container>
+                            <Grid item xs={12}>
+                                <List
+                                    style={{
+                                        overflow: 'auto'
+                                    }}
+                                >
+                                    <ListItem
+                                        button
+                                        onClick={() => {
+                                            // this.props.history.push('/');
+                                            // this.props.hide_letou_mobile_menu();
+                                        }}
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar style={{backgroundColor:'#03dffc'}}>
+                                                <Subject />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={this.getLabel(
+                                                'transaction-records'
+                                            )}
+                                        />
+                                    </ListItem>
+                                    <ListItem
+                                        button
+                                        onClick={() => {
+                                            // this.props.history.push('/gbsports');
+                                            // this.props.hide_letou_mobile_menu();
+                                        }}
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar style={{backgroundColor:'#fcb503'}}>
+                                                <AccountBalance />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={this.getLabel(
+                                                'fortune-center'
+                                            )}
+                                        />
+                                    </ListItem>
+                                    <ListItem
+                                        button
+                                        onClick={() => {
+                                            // this.props.history.push('/');
+                                            // this.props.hide_letou_mobile_menu();
+                                        }}
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar style={{backgroundColor:'#fc6203'}}>
+                                                <PersonOutlineOutlined />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={this.getLabel('account-info')}
+                                        />
+                                    </ListItem>
+                                    <ListItem
+                                        button
+                                        onClick={() => {
+                                            // this.props.history.push('/');
+                                            // this.props.hide_letou_mobile_menu();
+                                        }}
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar style={{backgroundColor:'#0388fc'}}>
+                                                <Security />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={this.getLabel(
+                                                'security-settings'
+                                            )}
+                                        />
+                                    </ListItem>
+                                    <ListItem
+                                        button
+                                        onClick={() => {
+                                            this.props.history.push('/');
+                                            this.props.hide_letou_mobile_menu();
+                                        }}
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar style={{backgroundColor:'#4e03fc'}}>
+                                                <Message />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={this.getLabel(
+                                                'message-notification'
+                                            )}
+                                        />
+                                    </ListItem>
+                                    <ListItem
+                                        button
+                                        onClick={() => {
+                                            // this.props.history.push('/');
+                                            // this.props.hide_letou_mobile_menu();
+                                        }}
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar style={{backgroundColor:'#07db58'}}>
+                                                <HeadsetMic />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={this.getLabel(
+                                                'customer-service'
+                                            )}
+                                        />
+                                    </ListItem>
+                                    <ListItem
+                                        button
+                                        onClick={() => {
+                                            // this.props.history.push('/');
+                                            // this.props.hide_letou_mobile_menu();
+                                        }}
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar style={{backgroundColor:'#db07cd'}}>
+                                                <LiveHelp />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={this.getLabel('help-center')}
+                                        />
+                                    </ListItem>
+                                    <ListItem
+                                        button
+                                        onClick={() => {
+                                            // this.props.history.push('/');
+                                            // this.props.hide_letou_mobile_menu();
+                                        }}
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar style={{backgroundColor:'#e4f00e'}}>
+                                                <SettingsApplications />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={this.getLabel('set-up')}
+                                        />
+                                    </ListItem>
+                                </List>
+                            </Grid>
+                        </Grid>
+                    </div>
+                    <Footer />
                 </div>
             </div>
         );

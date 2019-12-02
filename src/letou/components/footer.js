@@ -1005,8 +1005,9 @@ export class Footer extends React.Component {
                             label={this.getLabel('profile-label')}
                             icon={<Person />}
                             onClick={() => {
-                                this.props.logout();
-                                postLogout();
+                                this.props.history.push(
+                                    '/p/'
+                                );
                             }}
                         />
                     </BottomNavigation>
