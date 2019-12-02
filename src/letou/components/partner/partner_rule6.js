@@ -54,10 +54,10 @@ export class MemberRuleSix extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -67,12 +67,12 @@ export class MemberRuleSix extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_partner">供合作伙伴使用  >
+                                <a href="/zh/for_partner">供合作伙伴使用  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_partner">品牌介绍 >
+                                <a href="/zh/for_partner">品牌介绍 >
                                     <i></i>
                                 </a>
                             </li>

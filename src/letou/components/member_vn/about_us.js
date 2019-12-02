@@ -50,10 +50,10 @@ export class AboutUsVn extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -63,12 +63,12 @@ export class AboutUsVn extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/vn/for_member">Dành cho Thành viên  >
+                                <a href="/vi/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/vn/for_member">Lịch sử LETOU  >
+                                <a href="/vi/for_member">Lịch sử LETOU  >
                                     <i></i>
                                 </a>
                             </li>

@@ -50,10 +50,10 @@ export class SafeBet extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -63,12 +63,12 @@ export class SafeBet extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/zh/for_member">供会员使用  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">维护账户安全  >
+                                <a href="/zh/for_member">维护账户安全  >
                                     <i></i>
                                 </a>
                             </li>
