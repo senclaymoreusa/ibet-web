@@ -411,6 +411,7 @@ export const messages = {
         'customer-service':'Customer Service',
         'help-center':'Help Center',
         'set-up':'Set Up',
+        'master-account':'Master Account',
     },
     zh: {},
 

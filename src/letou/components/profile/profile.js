@@ -71,6 +71,7 @@ const styles = theme => ({
     },
     rootMobile: {
         display: 'flex',
+        flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
         }
@@ -132,6 +133,23 @@ const styles = theme => ({
         backgroundSize: 'cover',
         backgroundPosition: 'center'
     },
+    mobileHeader: {
+        background: 'linear-gradient(to bottom, #59d8ff, #02aee3)',
+        paddingTop: 20,
+        paddingBottom: 20
+    },
+    mobileUsername: {
+        color: 'white'
+    },
+    masterAccount: {
+        backgroundColor: '#ffc412',
+        borderRadius: 13,
+        paddingTop: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 5,
+        display: 'inline'
+    }
 });
 
 const StyledTabs = withStyles({
@@ -258,6 +276,7 @@ export class Profile extends Component {
             .get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ username: res.data.username });
+                console.log(res.data)
             })
             .catch(function (err) {
                 sendingLog(err);
@@ -335,7 +354,9 @@ export class Profile extends Component {
                                         this.props.match.params.type !==
                                         'fortune-center'
                                     ) {
-                                        this.handleCategoryChange('fortune-center');
+                                        this.handleCategoryChange(
+                                            'fortune-center'
+                                        );
                                         this.setState({
                                             anchorEl: null
                                         });
@@ -401,7 +422,9 @@ export class Profile extends Component {
                                         this.props.match.params.type !==
                                         'sharing-plan'
                                     ) {
-                                        this.handleCategoryChange('sharing-plan');
+                                        this.handleCategoryChange(
+                                            'sharing-plan'
+                                        );
                                         this.setState({
                                             anchorEl: null
                                         });
@@ -426,7 +449,9 @@ export class Profile extends Component {
                                         title={
                                             nameVerified
                                                 ? this.getLabel('name-verified')
-                                                : this.getLabel('verify-name-asap')
+                                                : this.getLabel(
+                                                    'verify-name-asap'
+                                                )
                                         }
                                     >
                                         <IconButton
@@ -454,8 +479,12 @@ export class Profile extends Component {
                                     <Tooltip
                                         title={
                                             phoneVerified
-                                                ? this.getLabel('phone-verified')
-                                                : this.getLabel('verify-phone-asap')
+                                                ? this.getLabel(
+                                                    'phone-verified'
+                                                )
+                                                : this.getLabel(
+                                                    'verify-phone-asap'
+                                                )
                                         }
                                     >
                                         <IconButton
@@ -483,8 +512,12 @@ export class Profile extends Component {
                                     <Tooltip
                                         title={
                                             emailVerified
-                                                ? this.getLabel('email-verified')
-                                                : this.getLabel('verify-email-asap')
+                                                ? this.getLabel(
+                                                    'email-verified'
+                                                )
+                                                : this.getLabel(
+                                                    'verify-email-asap'
+                                                )
                                         }
                                     >
                                         <IconButton
@@ -521,23 +554,26 @@ export class Profile extends Component {
                             <TransactionRecord />
                         )}
                         {this.state.tabValue === 'account-management' && (
-                            <AccountManagement activeContent={this.state.content} />
+                            <AccountManagement
+                                activeContent={this.state.content}
+                            />
                         )}
-                        {this.state.tabValue === 'sharing-plan' && <SharingPlan />}
+                        {this.state.tabValue === 'sharing-plan' && (
+                            <SharingPlan />
+                        )}
                     </div>
                     <Footer />
                 </div>
                 <div className={classes.rootMobile}>
-                    <Grid container>
-                        <Grid item xs={12}>
-                            <span className={classes.mobileUsername}></span>
+                    <Grid container className={classes.mobileHeader}>
+                        <Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 15 }}>
+                            <span className={classes.mobileUsername}>{this.state.username}</span>
                         </Grid>
                         <Grid item xs={12}>
                             <div className={classes.profileLogo}>
                                 <img
                                     src={
-                                        images.src +
-                                        'letou/mymember-idimg.jpg'
+                                        images.src + 'letou/mymember-idimg.jpg'
                                     }
                                     alt="LETOU"
                                     height="64"
@@ -545,22 +581,26 @@ export class Profile extends Component {
                                 />
                             </div>
                         </Grid>
-                        <Grid item xs={12}>
-                            Total Account
-</Grid>
-                        <Grid item xs={4}>
-                            <Button >deposit</Button>
+                        <Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 30, paddingTop: 30 }}>
+                            <div className={classes.masterAccount}>
+                                <span>{this.getLabel('master-account')} | </span>
+                            </div>
                         </Grid>
                         <Grid item xs={4}>
-                            <Button >deposit</Button>
+                            <Button>deposit</Button>
                         </Grid>
                         <Grid item xs={4}>
-                            <Button >deposit</Button>
+                            <Button>deposit</Button>
                         </Grid>
+                        <Grid item xs={4}>
+                            <Button>deposit</Button>
+                        </Grid>
+                    </Grid>
+                    <Grid container>
                         <Grid item xs={12}>
                             <List
                                 style={{
-                                    overflow: 'auto',
+                                    overflow: 'auto'
                                 }}
                             >
                                 <ListItem
@@ -576,7 +616,9 @@ export class Profile extends Component {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={this.getLabel('transaction-records')}
+                                        primary={this.getLabel(
+                                            'transaction-records'
+                                        )}
                                     />
                                 </ListItem>
                                 <ListItem
@@ -592,7 +634,9 @@ export class Profile extends Component {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={this.getLabel('fortune-center')}
+                                        primary={this.getLabel(
+                                            'fortune-center'
+                                        )}
                                     />
                                 </ListItem>
                                 <ListItem
@@ -624,7 +668,9 @@ export class Profile extends Component {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={this.getLabel('security-settings')}
+                                        primary={this.getLabel(
+                                            'security-settings'
+                                        )}
                                     />
                                 </ListItem>
                                 <ListItem
@@ -716,10 +762,9 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState, logout, postLogout }
-            )(Profile)
+            connect(mapStateToProps, { authCheckState, logout, postLogout })(
+                Profile
+            )
         )
     )
 );
