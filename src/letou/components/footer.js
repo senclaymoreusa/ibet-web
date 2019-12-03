@@ -56,7 +56,10 @@ const styles = theme => ({
     },
     rootMobile: {
         display: 'flex',
-        boxShadow:'0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
+        width: '100%',
+        position: 'fixed',
+        bottom: 0,
+        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
         [theme.breakpoints.up('md')]: {
             display: 'none'
         }
@@ -993,7 +996,7 @@ export class Footer extends React.Component {
                             label={this.getLabel('promotions-label')}
                             icon={<AssignmentTurnedIn />}
                         />
-                          <BottomNavigationAction
+                        <BottomNavigationAction
                             label={this.getLabel('deposit-label')}
                             icon={<MeetingRoom />}
                         />
@@ -1025,12 +1028,12 @@ export class Footer extends React.Component {
                             label={this.getLabel('promotions-label')}
                             icon={<AssignmentTurnedIn />}
                         />
-                      <BottomNavigationAction
+                        <BottomNavigationAction
                             label={this.getLabel('sign-up')}
                             icon={<MeetingRoom />}
                             onClick={() => {
                                 this.props.show_letou_mobile_signup();
-                           }}
+                            }}
                         />
                         <BottomNavigationAction
                             label={this.getLabel('news-label')}
@@ -1040,7 +1043,7 @@ export class Footer extends React.Component {
                             label={this.getLabel('log-in')}
                             icon={<Person />}
                             onClick={() => {
-                                 this.props.show_letou_mobile_login();
+                                this.props.show_letou_mobile_login();
                             }}
                         />
                     </BottomNavigation>
