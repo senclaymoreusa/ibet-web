@@ -205,7 +205,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class AliPay extends Component {
+class WechatPay extends Component {
     constructor(props) {
         super(props);
 
@@ -245,7 +245,7 @@ class AliPay extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'alipay' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'wechatpay' });
             });
     }
 
@@ -256,7 +256,7 @@ class AliPay extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'alipay' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'wechatpay' });
             });
     }
 
@@ -289,7 +289,7 @@ class AliPay extends Component {
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
             user_id: this.state.data.pk,
-            payment: event.target.checked ? 'alipay' : null,
+            payment: event.target.checked ? 'wechatpay' : null,
         })
             .then(res => {
                 this.setState({ isFavorite: !this.state.isFavorite });
@@ -391,4 +391,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(AliPay)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(WechatPay)));

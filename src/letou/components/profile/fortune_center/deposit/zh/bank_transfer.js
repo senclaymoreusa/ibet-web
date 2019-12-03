@@ -22,6 +22,8 @@ import { authCheckState, sendingLog } from '../../../../../../actions';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const bank_options = [
+    { value: 'CGB', label: 'China Guangfa Bank', img: '../../../../images/cgb.png', code: 'RMB' },
+    { value: 'BOC', label: 'Bank of China', img: 'letou/boc.jpg', code: 'RMB' },
     { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
     { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
     { value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
@@ -194,7 +196,7 @@ const styles = theme => ({
     label: {
         backgroundColor: '#f8f8f8',
         height: 42,
-        marginTop: -2,
+        marginTop: 12,
         marginLeft: -6,
         width: 80,
         color: '#212121',

@@ -31,6 +31,10 @@ import VietnamLocalBank from './vn/local_bank';
 import AliPay from './zh/ali_pay';
 import OnlinePay from './zh/online_pay';
 import Banktransfer from './zh/bank_transfer';
+import WechatPay from './zh/wechat_pay';
+import QuickPay from './zh/quickpay';
+import UnionPayQr from './zh/unionpay_qr';
+import JDPay from './zh/jd_pay';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -509,6 +513,10 @@ export class DepositMain extends Component {
                 {contentValue === 'alipay' && (<AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
                 {contentValue === 'onlinepay' && (<OnlinePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
                 {contentValue === 'chinabanktransfer' && (<Banktransfer callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'wechatpay' && (<WechatPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'quickpay' && (<QuickPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'unionpayqr' && (<UnionPayQr callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'jdpay' && (<JDPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
 
                 {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
                 {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} />)}

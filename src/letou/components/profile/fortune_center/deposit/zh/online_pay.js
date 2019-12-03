@@ -194,7 +194,7 @@ const styles = theme => ({
     label: {
         backgroundColor: '#f8f8f8',
         height: 42,
-        marginTop: -2,
+        marginTop: 12,
         marginLeft: -6,
         width: 80,
         color: '#212121',
