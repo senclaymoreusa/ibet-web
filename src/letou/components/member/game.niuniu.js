@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -56,10 +54,10 @@ export class GameNiuniu extends React.Component {
                         <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -69,12 +67,12 @@ export class GameNiuniu extends React.Component {
                     <div class="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/zh/for_member">供会员使用  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/zh/for_member">娱乐场规则 >
                                     <i></i>
                                 </a>
                             </li>
@@ -93,33 +91,33 @@ export class GameNiuniu extends React.Component {
                             </li><li>
                             </li><li> 头牌：发牌员每局开始会先开“头牌”，依据头牌点数（从庄家方位逆时针方向算起）决定开牌位置。
                             </li><li>
-                            <img src="http://i.imgur.com/sJzs2gw.jpg"></img>
+                            <img src="http://i.imgur.com/sJzs2gw.jpg" alt=""></img>
                             </li><li>
                             </li><li> 开牌顺序：以逆时针方向开牌（如下）
                             </li><li>
-                            <img src="http://i.imgur.com/dJmqONC.png"></img>
+                            <img src="http://i.imgur.com/dJmqONC.png" alt=""></img>
                             </li><li>
                             </li><li> - 大小
                             </li><li> 在游戏中，如遇点数相同时，将从5张牌中挑选牌值最大的比牌，牌值大的一方获胜。如点数与牌值都相同时，最后再比花色大小。 详细大小比较请看下表说明。
                             </li><li>
                             </li><li> 牌型：
                             </li><li>
-                            <img src="http://i.imgur.com/kFgcRVR.png "></img>
+                            <img src="http://i.imgur.com/kFgcRVR.png " alt=""></img>
                             </li><li>
                             </li><li> 大小：
                             </li><li>
-                            <img src="http://i.imgur.com/sRZf7W7.png "></img>
+                            <img src="http://i.imgur.com/sRZf7W7.png " alt=""></img>
                             </li><li>
                             </li><li>
                             </li><li>
                             </li><li> - 派彩
                             </li><li> 不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以波音厅为例： 赢赔率：
                             </li><li>
-                            <img src="http://i.imgur.com/paep88b.png "></img>
+                            <img src="http://i.imgur.com/paep88b.png " alt=""></img>
                             </li><li>
                             </li><li> 输赔率：
                             </li><li>
-                            <img src="http://i.imgur.com/Hnj7FPY.png "></img></li></ul>
+                            <img src="http://i.imgur.com/Hnj7FPY.png " alt=""></img></li></ul>
                         </p>
                     </div>
 

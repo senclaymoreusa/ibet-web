@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -72,10 +70,10 @@ export class BetRuleFour extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -85,12 +83,12 @@ export class BetRuleFour extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/zh/for_member">供会员使用  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">体育规则 >
+                                <a href="/zh/for_member">体育规则 >
                                     <i></i>
                                 </a>
                             </li>
@@ -98,64 +96,64 @@ export class BetRuleFour extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>网球</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>篮球</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a>美式足球</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
                                 <a>冰上曲棍球</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
                                 <a>棒球</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
                                 <a>手球</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
                                 <a>排球</a>
                             </li>
-                            <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
+                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
                                 <a>沙滩排球</a>
                             </li>
-                            <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
+                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
                                 <a>室内足球</a>
                             </li>
-                            <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
+                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
                                 <a>羽毛球</a>
                             </li>
-                            <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
+                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
                                 <a>英式橄榄球联赛联盟</a>
                             </li>
-                            <li className={this.state.current == 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
+                            <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
                                 <a>飞镖</a>
                             </li>
-                            <li className={this.state.current == 13 ? "Active" : ""} onClick={this.onClick.bind(this,13)}>
+                            <li className={this.state.current === 13 ? "Active" : ""} onClick={this.onClick.bind(this,13)}>
                                 <a>斯诺克</a>
                             </li>
-                            <li className={this.state.current == 14 ? "Active" : ""} onClick={this.onClick.bind(this,14)}>
+                            <li className={this.state.current === 14 ? "Active" : ""} onClick={this.onClick.bind(this,14)}>
                                 <a>乒乓球</a>
                             </li>
-                            <li className={this.state.current == 15 ? "Active" : ""} onClick={this.onClick.bind(this,15)}>
+                            <li className={this.state.current === 15 ? "Active" : ""} onClick={this.onClick.bind(this,15)}>
                                 <a>高尔夫球镖</a>
                             </li>
-                            <li className={this.state.current == 16 ? "Active" : ""} onClick={this.onClick.bind(this,16)}>
+                            <li className={this.state.current === 16 ? "Active" : ""} onClick={this.onClick.bind(this,16)}>
                                 <a>板球</a>
                             </li>
-                            <li className={this.state.current == 17 ? "Active" : ""} onClick={this.onClick.bind(this,17)}>
+                            <li className={this.state.current === 17 ? "Active" : ""} onClick={this.onClick.bind(this,17)}>
                                 <a>虚拟足球联赛 (VFL)</a>
                             </li>
-                            <li className={this.state.current == 18 ? "Active" : ""} onClick={this.onClick.bind(this,18)}>
+                            <li className={this.state.current === 18 ? "Active" : ""} onClick={this.onClick.bind(this,18)}>
                                 <a>电子竞技</a>
                             </li>
-                            <li className={this.state.current == 19 ? "Active" : ""} onClick={this.onClick.bind(this,19)}>
+                            <li className={this.state.current === 19 ? "Active" : ""} onClick={this.onClick.bind(this,19)}>
                                 <a>刀塔</a>
                             </li>
-                            <li className={this.state.current == 20 ? "Active" : ""} onClick={this.onClick.bind(this,20)}>
+                            <li className={this.state.current === 20 ? "Active" : ""} onClick={this.onClick.bind(this,20)}>
                                 <a>反恐精英:全球攻势</a>
                             </li>
                         </ul>
