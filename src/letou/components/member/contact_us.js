@@ -65,10 +65,10 @@ export class ContactUs extends React.Component {
                     <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -78,12 +78,12 @@ export class ContactUs extends React.Component {
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">{this.getLabel('for-member')}  >
+                                <a href="/zh/for_member">{this.getLabel('for-member')}  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">{this.getLabel('story')} >
+                                <a href="/zh/for_member">{this.getLabel('story')} >
                                     <i></i>
                                 </a>
                             </li>
