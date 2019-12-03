@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
@@ -179,8 +180,7 @@ const styles = theme => ({
         display: 'flex',
         padding: theme.spacing(1),
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: 0
+        justifyContent: 'center'
     },
     profileIcon: {
         margin: theme.spacing(1),
@@ -457,7 +457,7 @@ export class TopNavbar extends React.Component {
                                 size="small"
                                 className={classes.topLinkButton}
                                 target="_blank"
-                                href="/vn/about_us"
+                                href={'/' + this.props.lang + '/about_us'}
                             >
                                 {this.getLabel('about-letou')}
                             </Button>
