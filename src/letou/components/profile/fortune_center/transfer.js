@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-
+import { config, images } from '../../../../util_config';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -16,7 +16,6 @@ import ArrowForward from '@material-ui/icons/ArrowForward';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ReactMinimalPieChart from 'react-minimal-pie-chart';
-import { images } from '../../../../util_config';
 import clsx from 'clsx';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
@@ -30,7 +29,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
+import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 const styles = () => ({
     root: {
         paddingLeft: 50,
@@ -465,15 +466,39 @@ export class Transfer extends Component {
         this.handleWalletClick = this.handleWalletClick.bind(this);
         this.sendAllToMainWallet = this.sendAllToMainWallet.bind(this);
     }
-    componentDidMount() {
+
+    async componentDidMount() {
 
         var randomColor = require('randomcolor');
 
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.value !== 0 ? Object.assign(obj, { color: randomColor({ luminosity: 'bright', hue: 'random' }) }) : Object.assign(obj, { color: '#d9d9d9' }))
-            )
-        }));
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        await axios
+            .get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ username: res.data.username });
+
+                axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + res.data.pk, config)
+                    .then(res => {
+                        if (res.status === 200) {
+                            this.setState({ walletObjs: res.data });
+
+                            this.setState(prevState => ({
+                                walletObjs: prevState.walletObjs.map(
+                                    obj => (obj.value !== 0 ? Object.assign(obj, { color: randomColor({ luminosity: 'bright', hue: 'random' }) }) : Object.assign(obj, { color: '#d9d9d9' }))
+                                )
+                            }));
+                        }
+                    }).catch(function (err) {
+                        sendingLog(err);
+                    });
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
+
+
     }
 
     sendClicked() {
