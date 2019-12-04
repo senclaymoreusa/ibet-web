@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -72,10 +70,10 @@ export class BetRuleThreeVn extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -85,12 +83,12 @@ export class BetRuleThreeVn extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/vn/for_member">Dành cho Thành viên  >
+                                <a href="/vi/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/vn/for_member">Luật chơi Thể thao >
+                                <a href="/vi/for_member">Luật chơi Thể thao >
                                     <i></i>
                                 </a>
                             </li>
@@ -99,25 +97,25 @@ export class BetRuleThreeVn extends React.Component {
                   
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>Cược chấp Châu Á</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>Bàn thắng hợp lệ</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a>Điểm thắng</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
                                 <a>Nửa hiệp / Cả hiệp</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
                                 <a>Cược phạt góc</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
                                 <a>Cược thẻ phạt</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
                                 <a>Bàn thắng hơn bất cứ cầu thủ nào</a>
                             </li>
                         </ul>
@@ -125,7 +123,7 @@ export class BetRuleThreeVn extends React.Component {
                     </div>
 
                     <div id="HelperCenterDetail" >
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2> Cược chấp Châu Á</h2>
                         <p>Cược chấp Châu Á (bao gồm cược hiệp 1 & cược hiệp 2)
                             <br />
@@ -202,7 +200,7 @@ export class BetRuleThreeVn extends React.Component {
                             <br /> - Thua chính xác 1 điểm - Tất cả cược cho lựa chọn này được hủy và hoàn trả lại cho khách hàng.
                             <br /> - Thua 2 hoặc hơn 2 điểm - Tất cả cược cho lựa chọn này thua.</p>
                     </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>Các cược châu Á</h2>
                         <p>Các cược châu Á (Bao gồm hiệp 1 và hiệp 2.)
                             <br />
@@ -290,7 +288,7 @@ export class BetRuleThreeVn extends React.Component {
                             
                         </p>
                     </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <h2>Cược Chấp Châu Âu</h2>
                         <p> Cược Chấp Châu Âu (Bao gồm cược hiệp 1 và hiệp 2)
                             <br />
@@ -454,7 +452,7 @@ export class BetRuleThreeVn extends React.Component {
                             <br /> Kết quả trận đấu 0:2 - 2:2, hòa, cược thua.
                             <br /> Kết quả trận đấu 0:3 - 2:3, đội chủ nhà thua, cược thắng.</p>
                     </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <h2>Thị trường chung</h2>
                         <p>Cơ hội nhân đôi (Bao gồm cược hiệp 1 và hiệp 2)
                             <br />
@@ -735,7 +733,7 @@ export class BetRuleThreeVn extends React.Component {
                             <br /> X: nếu hai đội hòa, cược cho lựa chọn này thắng.
                             <br /> 2: Nếu đội khách thắng, cược cho lựa chọn này thắng.</p>
                     </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                         <h2>Cược phạt góc</h2>
                         <p>Tổng số phạt góc (Bao gồm cược hiệp 1)
                             <br />
@@ -831,7 +829,7 @@ export class BetRuleThreeVn extends React.Component {
                             <br /> -Hòa - Tất cả cược cho lựa chọn này thắng.
                             <br /> - Thua bởi 3 điểm hoặc hơn - Tất cả cược cho lựa chọn này thua.</p>
                     </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                         <h2>Cược thẻ phạt</h2>
                         <p>Tổng số thẻ phạt (Bao gồm cược hiệp 1)
                             <br />
@@ -902,7 +900,7 @@ export class BetRuleThreeVn extends React.Component {
                             <br /> Cược số thẻ phạt chính xác của cả hai đội trong suôt trận đấu. Chỉ tính 90 phút thi đấu, hiệp phụ và đá luân
                             lưu không được tính. Cược hiệp 1 được xác định bằng kết quả quả hiệp 1.</p>
                     </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                         <h2>In-Play Markets</h2>
                         <p>In-Play - 3-way (Chỉ có trong thời gian thêm giờ!)
                             <br />

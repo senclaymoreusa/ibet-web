@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -56,10 +54,10 @@ export class GameSangong extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -69,12 +67,12 @@ export class GameSangong extends React.Component {
                     <div class="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/zh/for_member">供会员使用  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">娱乐场规则 >
+                                <a href="/zh/for_member">娱乐场规则 >
                                     <i></i>
                                 </a>
                             </li>
@@ -98,7 +96,7 @@ export class GameSangong extends React.Component {
                             </li><li> • 头牌：荷官每局开始会先开「头牌」，依据头牌点数〔从庄家方位逆时针方向算起〕决定开牌位置。
                             </li><li> • 开牌顺序：以逆时针方向开牌〔如下〕
                             </li><li>
-                            <img src="http://i.imgur.com/GRE2cCX.png "></img>
+                            <img src="http://i.imgur.com/GRE2cCX.png " alt=""></img>
                             </li><li>
                             </li><li>
                             </li><li>
@@ -112,11 +110,11 @@ export class GameSangong extends React.Component {
                             </li><li>
                             </li><li> • 基本的牌型大小：
                             </li><li>
-                            <img src="http://i.imgur.com/7zb3zUo.png"></img>
+                            <img src="http://i.imgur.com/7zb3zUo.png" alt=""></img>
                             </li><li>
                             </li><li> 「对牌以上」的定义：
                             </li><li>
-                            <img src="http://i.imgur.com/lsYfRbb.png"></img>
+                            <img src="http://i.imgur.com/lsYfRbb.png" alt=""></img>
                             </li><li>
                             </li><li> 注：「同花顺／顺子」最大牌型为「Q，K，A」，最小牌型为「A，2，3」，无「K，A，2」这个组合。
                             </li><li>
@@ -125,7 +123,7 @@ export class GameSangong extends React.Component {
                             </li><li> - 派彩
                             </li><li> 不同平台的同一游戏玩法，赔率可能不一样，具体以各游戏厅界面所展示的赔率为准。以下赔率以波音厅为例：
                             </li><li>
-                            <img src="http://i.imgur.com/M1WCXw5.png"></img>
+                            <img src="http://i.imgur.com/M1WCXw5.png" alt=""></img>
                             </li><li>
                             </li><li> 无抽水的设计，但下列两种状况有特殊赔率：
                             </li><li> 1. 投注「赢」，闲家以6点的任意牌型组合胜出，则获1赔0.5。
@@ -133,7 +131,7 @@ export class GameSangong extends React.Component {
                             </li><li>
                             </li><li> 对牌以上的赔率设定如下：
                             </li><li>
-                            <img src="http://i.imgur.com/JPVX1c8.png"></img></li>
+                            <img src="http://i.imgur.com/JPVX1c8.png" alt=""></img></li>
                             </ul>
                         </p>
                     </div>

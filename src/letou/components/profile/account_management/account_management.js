@@ -18,6 +18,11 @@ import SetSecurityQuestion from './set_security_question';
 import JiufuPasswordSet from './jiufu_password_set';
 import SetWithdrawalPassword from './set_withdrawal_password';
 
+import VerifyActualName from '../verification/verify_actual_name';
+import VerifyPhone from '../verification/verify_phone';
+import VerifyEmail from '../verification/verify_email';
+
+
 import { withStyles } from '@material-ui/core/styles';
 
 import PersonOutlineRounded from '@material-ui/icons/PersonOutlineRounded';
@@ -134,6 +139,11 @@ export class AccountManagement extends Component {
     }
 
     componentDidMount() {
+        const { activeContent } = this.props;
+
+        if (activeContent)
+            this.setState({ contentValue: activeContent });
+
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
@@ -235,6 +245,9 @@ export class AccountManagement extends Component {
                             {contentValue === 'security-question' && <SetSecurityQuestion callbackFromParent={this.setPage} />}
                             {contentValue === 'jiufu-temple' && <JiufuPasswordSet callbackFromParent={this.setPage} />}
                             {contentValue === 'set-withdrawal-password' && <SetWithdrawalPassword callbackFromParent={this.setPage} />}
+                            {contentValue === 'verify-name' && <VerifyActualName callbackFromParent={this.setPage} />}
+                            {contentValue === 'verify-phone' && <VerifyPhone callbackFromParent={this.setPage} />}
+                            {contentValue === 'verify-email' && <VerifyEmail callbackFromParent={this.setPage} />}
                         </div>
                     </Grid>
                 </Grid>
