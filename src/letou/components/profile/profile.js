@@ -41,6 +41,10 @@ import axios from 'axios';
 import MobileMainProfile from '../mobile/mobile_profile';
 import MobileAccountInfo from '../mobile/mobile_account_info';
 import SecuritySettings from './account_management/security_settings';
+import Deposit from './fortune_center/deposit';
+import Withdrawal from './fortune_center/withdrawal';
+import Transfer from './fortune_center/transfer';
+import TotalAssets from './fortune_center/total_assets';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -586,6 +590,22 @@ export class Profile extends Component {
                     {this.state.mobileContent === 'security-settings' && (
                         <SecuritySettings />
                     )}
+                    {this.state.mobileContent === 'fortune-center' && (
+                        <FortuneCenter />
+                    )}
+                     {this.state.mobileContent === 'deposit' && (
+                        <Deposit />
+                    )}
+                     {this.state.mobileContent === 'withdrawal' && (
+                        <Withdrawal />
+                    )}
+                     {this.state.mobileContent === 'transfer' && (
+                        <Transfer />
+                    )}
+                     {this.state.mobileContent === 'total-assets' && (
+                        <TotalAssets />
+                    )}
+
                     <div className={classes.grow} />
                     <Footer />
                 </div>
