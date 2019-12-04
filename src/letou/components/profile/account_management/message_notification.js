@@ -30,7 +30,7 @@ export class MessageNotification extends Component {
 
         return (
             <div className={classes.root}>
-                message notification page works!!
+                message notification page will be available later!!
             </div>
         );
     }

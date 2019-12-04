@@ -219,6 +219,7 @@ export const logout = () => {
     localStorage.removeItem('facebookObj');
 
     localStorage.removeItem('activityCheckReminder');
+
     return {
         type: 'AUTH_LOGOUT'
     };
@@ -244,32 +245,47 @@ export const authCheckState = () => {
             );
             if (expirationDate <= new Date()) {
                 dispatch(logout());
+                postLogout();
                 return Promise.resolve(AUTH_RESULT_FAIL);
             } else {
                 config.headers['Authorization'] = `Token ${token}`;
 
                 return axios.get(API_URL + 'users/api/user/', config)
                     .then(res => {
-                        return axios.get(API_URL + 'users/api/check-user-status/?userId=' + res.data.pk, config)
-                        .then(userStatus => {
-                            if (userStatus.data.errorCode === errors.USER_IS_BLOCKED) {
-                                dispatch(authFail(userStatus.errorMsg.detail[0]));
-                                dispatch(logout());
-                                return Promise.resolve(AUTH_RESULT_FAIL);
-                            } else if (res.data.block || !res.data.active) {
-                                dispatch(logout());
-                                return Promise.resolve(AUTH_RESULT_FAIL);
-                            } else {
-                                dispatch(authSuccess(token));
-                                //dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime()) / 1000) );
-                                dispatch(checkAuthTimeout(3600));
-                                return Promise.resolve(AUTH_RESULT_SUCCESS);
-                            }
-                        })
+                        if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                            
+                            dispatch(authFail(res.data.errorMsg.detail[0]));
+                            dispatch(logout());
+                            return Promise.resolve(AUTH_RESULT_FAIL);
+                        } else if (res.data.block || !res.data.active) {
+                            dispatch(logout());
+                            return Promise.resolve(AUTH_RESULT_FAIL);
+                        } else {
+                            dispatch(authSuccess(token));
+                            dispatch(checkAuthTimeout(3600));
+                            return Promise.resolve(AUTH_RESULT_SUCCESS);
+                        }
+                        // return axios.get(API_URL + 'users/api/check-user-status/?userId=' + res.data.pk, config)
+                        // .then(userStatus => {
+                        //     if (userStatus.data.errorCode === errors.USER_IS_BLOCKED) {
+                        //         dispatch(authFail(userStatus.errorMsg.detail[0]));
+                        //         dispatch(logout());
+                        //         return Promise.resolve(AUTH_RESULT_FAIL);
+                        //     } else if (res.data.block || !res.data.active) {
+                        //         dispatch(logout());
+                        //         return Promise.resolve(AUTH_RESULT_FAIL);
+                        //     } else {
+                        //         dispatch(authSuccess(token));
+                        //         //dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime()) / 1000) );
+                        //         dispatch(checkAuthTimeout(3600));
+                        //         return Promise.resolve(AUTH_RESULT_SUCCESS);
+                        //     }
+                        // })
                     })
                     .catch(err => {
                         // dispatch(authFail(err.response.data.detail));
                         dispatch(logout());
+                        postLogout();
                         delete config.headers['Authorization'];
                         return Promise.resolve(AUTH_RESULT_FAIL);
                     });

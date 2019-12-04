@@ -17,7 +17,7 @@ const styles = () => ({
 
 
 
-export class AccountMessage extends Component {
+export class AccountDetails extends Component {
 
     constructor(props) {
         super(props);
@@ -30,7 +30,7 @@ export class AccountMessage extends Component {
 
         return (
             <div className={classes.root}>
-               account message page works!!
+              account details page works!!
             </div>
         );
     }
@@ -42,4 +42,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(AccountMessage))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(AccountDetails))));

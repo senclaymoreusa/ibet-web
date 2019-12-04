@@ -70,3 +70,27 @@
 .HelpCenterSmNav ul li.Active a {
     color: #fff;
 }
+
+.columns {
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+    -webkit-column-gap:60px;
+    column-gap: 60px;
+    -moz-column-gap: 60px;
+    }
+
+.SecFilter li.active a, .SecFilter li:hover a {
+    background-color: #ffc412;
+    color: #3a3a3a;
+   
+}
+
+.SecFilter li a {
+    border: 1px solid #ffc412; 
+    color: #f99a00;
+    line-height: 26px;
+    min-width: 85px;
+    margin-right: 4px;
+    font-size: 14px;
+}

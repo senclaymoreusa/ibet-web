@@ -4,23 +4,17 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import TopNavbar from "../top_navbar";
 import IconHeader from "../icon_header";
 import '../../css/help.css'
-import { config, images } from '../../../util_config';
-import IconButton from '@material-ui/core/IconButton';
 
 import {
     show_letou_announcements
 } from '../../../actions';
-import { InfoSelect } from '../info_select';
 
 
-const styles = theme => ({
+const styles = () => ({
     logoHeader: {
         height: '20px',
         padding: '10px'
@@ -77,10 +71,10 @@ export class StatementVn extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -90,12 +84,12 @@ export class StatementVn extends React.Component {
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/vn/for_member">Dành cho Thành viên >
+                                <a href="/vi/for_member">Dành cho Thành viên >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/vn/for_member">Luật chơi thể thao OW  >
+                                <a href="/vi/for_member">Luật chơi thể thao OW  >
                                     <i></i>
                                 </a>
                             </li>

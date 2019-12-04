@@ -7,19 +7,14 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import TopNavbar from "../top_navbar";
 import IconHeader from "../icon_header";
-import { config, images } from '../../../util_config';
-import IconButton from '@material-ui/core/IconButton';
 
 import {
     show_letou_announcements
 } from '../../../actions';
-import { InfoSelect } from '../info_select';
 
 
-const styles = theme => ({
+const styles = () => ({
     logoHeader: {
         height: '20px',
         padding: '10px'
@@ -70,10 +65,10 @@ export class ContactUs extends React.Component {
                     <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -83,12 +78,12 @@ export class ContactUs extends React.Component {
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">{this.getLabel('for-member')}  >
+                                <a href="/zh/for_member">{this.getLabel('for-member')}  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">{this.getLabel('story')} >
+                                <a href="/zh/for_member">{this.getLabel('story')} >
                                     <i></i>
                                 </a>
                             </li>
