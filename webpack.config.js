@@ -11,6 +11,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.js$/,
+                exclude: [/node_modules/],
                 loader: 'file-loader?name=assets/[name].[ext]',
                 //include: [Path.join(__dirname, "src/assets")],
                 query: {
