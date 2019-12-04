@@ -41,7 +41,7 @@ import axios from 'axios';
 import MobileMainProfile from '../mobile/mobile_profile';
 import MobileAccountInfo from '../mobile/mobile_account_info';
 import SecuritySettings from './account_management/security_settings';
-import Deposit from './fortune_center/deposit';
+import DepositMain from './fortune_center/deposit/deposit_main';
 import Withdrawal from './fortune_center/withdrawal';
 import Transfer from './fortune_center/transfer';
 import TotalAssets from './fortune_center/total_assets';
@@ -594,7 +594,7 @@ export class Profile extends Component {
                         <FortuneCenter />
                     )}
                      {this.state.mobileContent === 'deposit' && (
-                        <Deposit />
+                        <DepositMain />
                     )}
                      {this.state.mobileContent === 'withdrawal' && (
                         <Withdrawal />
