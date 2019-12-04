@@ -287,7 +287,7 @@ const BaseRouter = () => (
         <Route exact path="/th/member_rule6" component={member_rule6Th} />
 
 
-<<<<<<< HEAD
+
         <Route exact path="/vn/about_us" component={AboutUsVn} />
         <Route exact path="/vn/contact_us" component={ContactUsVn} />
         <Route exact path="/vn/statement" component={StatementVn} />
@@ -340,7 +340,7 @@ const BaseRouter = () => (
         <Route exact path="/p/:type?/:sub?" component={Profile} />
       
 
-=======
+
         <Route exact path="/vi/about_us" component={AboutUsVn} />
         <Route exact path="/vi/contact_us" component={ContactUsVn} />
         <Route exact path="/vi/statement" component={StatementVn} />
@@ -389,7 +389,6 @@ const BaseRouter = () => (
         <Route exact path="/vi/member_rule4" component={member_rule4Vn} />
         <Route exact path="/vi/member_rule5" component={member_rule5Vn} />
         <Route exact path="/vi/member_rule6" component={member_rule6Vn} />
->>>>>>> cdaf07398071e7f1d4f637984f2371b5fb3f9c53
 
         <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
     </div>

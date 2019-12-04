@@ -253,17 +253,11 @@ export class Login extends React.Component {
                 });
            
             })
-<<<<<<< HEAD
+
           // Your code to handle blackBoxString
         }
         
-=======
-            .catch(err => {
-                this.setState({ errorMessage: err });
 
-                sendingLog(err);
-            });
->>>>>>> cdaf07398071e7f1d4f637984f2371b5fb3f9c53
     }
 
     getLabel(labelId) {
