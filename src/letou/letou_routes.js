@@ -285,57 +285,7 @@ const BaseRouter = () => (
         <Route exact path="/th/member_rule4" component={member_rule4Th} />
         <Route exact path="/th/member_rule5" component={member_rule5Th} />
         <Route exact path="/th/member_rule6" component={member_rule6Th} />
-
-
-
-        <Route exact path="/vn/about_us" component={AboutUsVn} />
-        <Route exact path="/vn/contact_us" component={ContactUsVn} />
-        <Route exact path="/vn/statement" component={StatementVn} />
-        <Route exact path="/vn/disclaimer" component={DisclaimerVn} />
-        <Route exact path="/vn/for_member" component={ForMemberVn} />
-        <Route exact path="/vn/for_partner" component={ForPartnerVn} />
-        <Route exact path="/vn/privacy" component={PrivacyVn} />
-        <Route exact path="/vn/safe_bet" component={SafeBetVn} />
-        <Route exact path="/vn/identity" component={IdentityVn} />
-        <Route exact path="/vn/offer_terms" component={OfferTermsVn} />
-        <Route exact path="/vn/rules" component={RulesVn} />
-        <Route exact path="/vn/football_rules" component={FootballRulesVn} />
-        <Route exact path="/vn/bet_rules" component={BetRulesVn} />
-        <Route exact path="/vn/bet_rules2" component={BetRuleTwoVn} />
-        <Route exact path="/vn/bet_rules3" component={BetRuleThreeVn} />
-        <Route exact path="/vn/bet_rules4" component={BetRuleFourVn} />
-        <Route exact path="/vn/general_rules" component={GeneralRulesVn} />
-        <Route exact path="/vn/special_rules" component={SpecialRulesVn} />
-        <Route exact path="/vn/virtual_sports" component={VirtualVn} />
-        <Route exact path="/vn/game_baijiale" component={BaijialeVn} />
-        <Route exact path="/vn/game_lunpan" component={LunpanVn} />
-        <Route exact path="/vn/game_21dian" component={Game21dianVn} />
-        <Route exact path="/vn/game_longhu" component={GameLongHuVn} />
-        <Route exact path="/vn/game_gubao" component={GameGubaoVn} />
-        <Route exact path="/vn/game_erbagang" component={GameErbagangVn} />
-        <Route exact path="/vn/game_sangong" component={GameSangongVn} />
-        <Route exact path="/vn/game_wenzhoujiupai" component={GameWenzhoujiupaiVn} />
-        <Route exact path="/vn/game_sedie" component={GameSedieVn} />
-        <Route exact path="/vn/game_poker" component={GamePokerVn} />
-        <Route exact path="/vn/game_niuniu" component={GameNiuniuVn} />
-        <Route exact path="/vn/game_rule1" component={GameRuleOneVn} />
-        <Route exact path="/vn/game_rule2" component={GameRuleTwoVn} />
-        <Route exact path="/vn/game_rule3" component={GameRuleThreeVn} />
-        <Route exact path="/vn/game_rule4" component={GameRuleFourVn} />
-        <Route exact path="/vn/game_rule5" component={GameRuleFiveVn} />
-        <Route exact path="/vn/game_rule6" component={GameRuleSixVn} />
-        <Route exact path="/vn/game_rule7" component={GameRuleSevenVn} />
-        <Route exact path="/vn/game_rule8" component={GameRuleEightVn} />
-        <Route exact path="/vn/lottery_rule1" component={LotteryRuleOneVn} />
-        <Route exact path="/vn/lottery_rule2" component={LotteryRuleTwoVn} />
-        <Route exact path="/vn/lottery_rule3" component={LotteryRuleThreeVn} />
-        <Route exact path="/vn/lottery_rule4" component={LotteryRuleFourVn} />
-        <Route exact path="/vn/member_rule1" component={member_rule1Vn} />
-        <Route exact path="/vn/member_rule2" component={member_rule2Vn} />
-        <Route exact path="/vn/member_rule3" component={member_rule3Vn} />
-        <Route exact path="/vn/member_rule4" component={member_rule4Vn} />
-        <Route exact path="/vn/member_rule5" component={member_rule5Vn} />
-        <Route exact path="/vn/member_rule6" component={member_rule6Vn} />
+       
 
         <Route exact path="/p/:type?/:sub?" component={Profile} />
       
