@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -72,10 +70,10 @@ export class LotteryRuleThree extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -85,12 +83,12 @@ export class LotteryRuleThree extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/zh/for_member">供会员使用  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">彩票规则 >
+                                <a href="/zh/for_member">彩票规则 >
                                     <i></i>
                                 </a>
                             </li>
@@ -98,10 +96,10 @@ export class LotteryRuleThree extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>时时彩介绍</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>时时彩规则</a>
                             </li>
                         </ul>
@@ -109,7 +107,7 @@ export class LotteryRuleThree extends React.Component {
                     </div>
               
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>时时彩</h2>
                             &nbsp;
                             <p>时时彩是从3个或5个位数中，随机摇出一组号码作为开奖结果的彩票游戏。
@@ -122,7 +120,7 @@ export class LotteryRuleThree extends React.Component {
                                 <br /> - 长龙提示：任何一种玩法中，开奖连续超过4次以上相同时，以”旗帜”标示
                                 <br /> - 取消注单：当开奖来源未公布某期开奖结果时，如在1小时之后仍未更新，我们会斟酌进行取消该期投注单</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                             <h2>时时彩玩法與交易規則</h2>
                             &nbsp;
                             <h1>1.大小</h1>

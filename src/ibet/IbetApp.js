@@ -36,8 +36,15 @@ class IbetApp extends Component {
 
         this.state = {
             lang: 'zh',
-            showActivityCheckReminder: false
+            showActivityCheckReminder: false,
+            reminderIntervalId: null
         };
+    }
+
+    componentWillReceiveProps(props) {
+        this.checkIfReminderTime();
+        var intervalId = setInterval(() => this.checkIfReminderTime(), 10000);
+        this.setState({ reminderIntervalId: intervalId });
     }
 
     componentDidMount() {
@@ -46,10 +53,14 @@ class IbetApp extends Component {
         this.props.getLanguage();
         this.setState({ inbox: 0 });
 
-        setInterval(() => this.checkIfReminderTime(), 1000);
+        this.checkIfReminderTime();
+        var intervalId = setInterval(() => this.checkIfReminderTime(), 10000);
+        this.setState({ reminderIntervalId: intervalId });
     }
 
     componentWillUnmount() {
+        clearInterval(this.state.reminderIntervalId);
+
         window.removeEventListener(
             'beforeunload',
             this.handleWindowBeforeUnload
@@ -85,14 +96,14 @@ class IbetApp extends Component {
             }
         } else if (this.props.isAuthenticated) {
             this.setActivityReminder();
+        }else{
+            localStorage.removeItem('activityCheckReminder');
         }
     }
 
     setActivityReminder() {
-        let currentComponent = this;
-
         let reminderData = {
-            userId: currentComponent.state.userId,
+            userId: this.state.userId,
             startTime: new Date(),
             duration: 60
         };
@@ -112,7 +123,8 @@ class IbetApp extends Component {
                 );
             })
             .then(res => {
-                switch (res.data) {
+
+                switch (res.data.activityOpt) {
                     case 0:
                         reminderData.duration = 5;
                         break;
@@ -122,7 +134,7 @@ class IbetApp extends Component {
                     case 2:
                         reminderData.duration = 60;
                         break;
-                    case 120:
+                    case 3:
                         reminderData.duration = 120;
                         break;
                     default:

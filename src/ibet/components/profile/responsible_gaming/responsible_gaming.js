@@ -506,8 +506,8 @@ export class ResponsibleGaming extends Component {
                                 console.log(err);
                                 if (err.response.status === 403)
                                     this.setState({ isLocked: true });
-                                    sendingLog(err);
-                                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                                sendingLog(err);
+                                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
                             })
                     })
             }
@@ -515,47 +515,117 @@ export class ResponsibleGaming extends Component {
     }
 
     getActivityCheckValue() {
-        let reminderText = localStorage.getItem('activityCheckReminder');
+        let currentComponent = this;
+        
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_SUCCESS) {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        let userId = res.data.pk;
+
+                        return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
+                    }).then(res => {
+                        switch (res.data.activityOpt) {
+                            case 0:
+                                currentComponent.setState({ activityReminderDuration: 5 })
+                                break;
+                            case 1:
+                                currentComponent.setState({ activityReminderDuration: 30 })
+                                break;
+                            case 2:
+                                currentComponent.setState({ activityReminderDuration: 60 })
+                                break;
+                            case 3:
+                                currentComponent.setState({ activityReminderDuration: 120 })
+                                break;
+                            default:
+                                currentComponent.setState({ activityReminderDuration: 60 })
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                        sendingLog(err);
+                    })
+            }
+        })
+    }
+
+    checkIfReminderTime() {
+        var reminderText = localStorage.getItem('activityCheckReminder');
 
         if (reminderText) {
-            let reminderData = JSON.parse(reminderText);
-            this.setState({ activityReminderDuration: parseInt(reminderData.duration) })
-        } else {
-            this.props.authCheckState().then(res => {
-                if (res === AUTH_RESULT_SUCCESS) {
-                    const token = localStorage.getItem('token');
-                    config.headers["Authorization"] = `Token ${token}`;
+            var reminderData = JSON.parse(reminderText);
 
-                    axios.get(API_URL + 'users/api/user/', config)
-                        .then(res => {
-                            let userId = res.data.pk;
+            let now = new Date();
 
-                            return axios.get(API_URL + 'users/api/activity-check/?userId=' + userId, config);
-                        }).then(res => {
-                            switch (res.data) {
-                                case 0:
-                                    this.setState({ activityReminderDuration: 5 })
-                                    break;
-                                case 1:
-                                    this.setState({ activityReminderDuration: 30 })
-                                    break;
-                                case 2:
-                                    this.setState({ activityReminderDuration: 60 })
-                                    break;
-                                case 120:
-                                    this.setState({ activityReminderDuration: 120 })
-                                    break;
-                                default:
-                                    this.setState({ activityReminderDuration: 60 })
-                            }
-                        }).catch(err => {
-                            console.log(err);
-                            sendingLog(err);
-                            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                        })
-                }
-            })
+            let milliseconds = Date.parse(reminderData.startTime);
+            let threshold = new Date(milliseconds);
+            let mins = threshold.getMinutes();
+            threshold.setMinutes(mins + parseInt(reminderData.duration));
+
+            if (threshold < now) {
+                this.setState({ showActivityCheckReminder: true });
+                reminderData.startTime = now;
+                localStorage.setItem(
+                    'activityCheckReminder',
+                    JSON.stringify(reminderData)
+                );
+            }
+        } else if (this.props.isAuthenticated) {
+            this.setActivityReminder();
         }
+    }
+
+    setActivityReminder() {
+        let reminderData = {
+            userId: this.state.userId,
+            startTime: new Date(),
+            duration: 60
+        };
+
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        axios
+            .get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                let userId = res.data.pk;
+                reminderData.userId = userId;
+
+                return axios.get(
+                    API_URL + 'users/api/activity-check/?userId=' + userId,
+                    config
+                );
+            })
+            .then(res => {
+
+                switch (res.data.activityOpt) {
+                    case 0:
+                        reminderData.duration = 5;
+                        break;
+                    case 1:
+                        reminderData.duration = 30;
+                        break;
+                    case 2:
+                        reminderData.duration = 60;
+                        break;
+                    case 3:
+                        reminderData.duration = 120;
+                        break;
+                    default:
+                        reminderData.duration = 60;
+                }
+
+                localStorage.setItem(
+                    'activityCheckReminder',
+                    JSON.stringify(reminderData)
+                );
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     depositLimitChanged(ev) {
@@ -621,7 +691,7 @@ export class ResponsibleGaming extends Component {
                     currentLossLimit: val,
                 };
             });
-        }     
+        }
     }
 
     depositLimitDurationClicked(val) {
@@ -943,6 +1013,7 @@ export class ResponsibleGaming extends Component {
 
     saveActivityReminderClicked() {
         let duration = 2;
+        let currentComponent = this;
 
         switch (this.state.activityReminderDuration) {
             case 5:
@@ -970,15 +1041,18 @@ export class ResponsibleGaming extends Component {
         }, config)
             .then(res => {
                 var reminderData = {
-                    "userId": this.state.userId,
+                    "userId": currentComponent.state.userId,
                     "startTime": new Date(),
-                    "duration": duration
+                    "duration": currentComponent.state.activityReminderDuration
                 }
+
+                localStorage.removeItem('activityCheckReminder');
+                console.log('save methodu icinde reminder text silindi');
 
                 localStorage.setItem('activityCheckReminder', JSON.stringify(reminderData));
 
-                this.setState({ messageText: "You have set your reminder." });
-                this.setState({ showMessage: true });
+                currentComponent.setState({ messageText: "You have set your reminder." });
+                currentComponent.setState({ showMessage: true });
             })
     }
 

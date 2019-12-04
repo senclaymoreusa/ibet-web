@@ -12,7 +12,6 @@ import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from "@material-ui/core/AppBar";
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
@@ -40,8 +39,8 @@ const styles = theme => ({
     indicator: {
         backgroundColor: 'white',
     },
-    appBar:{
-        zIndex:0,
+    appBar: {
+        zIndex: 0,
     }
 });
 
@@ -68,23 +67,23 @@ const StyledTab = withStyles(theme => ({
         fontSize: 20,
         outline: 'none',
         width: '16.6%',
-        minWidth:280,
+        minWidth: 280,
         maxWidth: '16.6%',
-        height:'100%',
+        height: '100%',
         borderBottom: '2px solid #d8d8d8',
         whiteSpace: 'nowrap',
         "&:focus": {
-            height:'100%',
+            height: '100%',
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
         },
         "&:hover": {
-            height:'100%',
+            height: '100%',
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
         },
         "&:selected": {
-            height:'100%',
+            height: '100%',
             backgroundColor: '#c5c5c5',
             borderBottom: '2px solid #ff0000',
         },
@@ -114,19 +113,19 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-const muiSubMenuBarTheme = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#d8d8d8',
-        },
-    },
-    appBar: {
-        height: 72,
-    },
-    typography: {
-        useNextVariants: true,
-    },
-});
+// const muiSubMenuBarTheme = createMuiTheme({
+//     palette: {
+//         primary: {
+//             main: '#d8d8d8',
+//         },
+//     },
+//     appBar: {
+//         height: 72,
+//     },
+//     typography: {
+//         useNextVariants: true,
+//     },
+// });
 
 export class Profile extends Component {
 
@@ -160,11 +159,12 @@ export class Profile extends Component {
 
     componentWillReceiveProps(props) {
         this.setState({ urlPath: this.props.history.location.pathname });
-    
+
         this.setContent();
     }
 
     componentDidMount() {
+        
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
@@ -200,8 +200,8 @@ export class Profile extends Component {
 
         return (
             <div className={classes.root}>
-                <TopNavbar currentMenu=''/>
-                <MuiThemeProvider theme={muiSubMenuBarTheme}>
+                <TopNavbar currentMenu='' />
+                {/* <MuiThemeProvider theme={muiSubMenuBarTheme}> */}
                     <AppBar position="static" className={classes.appBar}>
                         <StyledTabs centered
                             value={this.props.match.params.type}
@@ -251,7 +251,7 @@ export class Profile extends Component {
                                     }
                                 }}
                             />
-                             <StyledTab
+                            <StyledTab
                                 value="rewards"
                                 label={rewardsMessage}
                                 onClick={() => {
@@ -262,7 +262,7 @@ export class Profile extends Component {
                             />
                         </StyledTabs>
                     </AppBar>
-                </MuiThemeProvider>
+                {/* </MuiThemeProvider> */}
                 <div className={classes.content}>
                     {this.state.tabValue === 'banking' && <Banking />}
                     {this.state.tabValue === 'analysis' && <Analysis />}

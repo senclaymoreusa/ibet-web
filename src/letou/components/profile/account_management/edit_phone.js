@@ -73,7 +73,7 @@ const styles = () => ({
     },
     button: {
         textTransform: 'capitalize',
-        fontSize: 12,
+        fontSize: 15,
         whiteSpace: 'nowrap',
         minWidth: 140,
         backgroundColor: '#4DA9DF',
@@ -337,7 +337,7 @@ export class EditPhone extends Component {
                             className={classes.sendButton}>{
                                 ((this.timeIntervalID != 0 && this.state.remainingTime) > 0 ?
                                     this.getLabel('enter-code') + ' ' + this.state.remainingTime :
-                                    this.getLabel('send-verification-code'))
+                                    this.getLabel('send-code'))
                             }</Button>
                     </Grid>
                     <Grid item xs={2} className={classes.row}>
