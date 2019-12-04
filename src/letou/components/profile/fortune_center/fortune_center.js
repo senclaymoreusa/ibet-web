@@ -5,7 +5,12 @@ import { injectIntl, FormattedNumber } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
+<<<<<<< HEAD
 import Deposit from './deposit';
+=======
+
+import DepositMain from './deposit/deposit_main';
+>>>>>>> ae0fc8a514c5a3e454bd0fdfe3b4bac718067da6
 import TotalAssets from './total_assets';
 import Transfer from './transfer';
 import Withdrawal from './withdrawal';
@@ -235,6 +240,11 @@ export class FortuneCenter extends Component {
     }
 
     componentDidMount() {
+        const { activeContent } = this.props;
+
+        if (activeContent)
+            this.setState({ contentValue: activeContent });
+
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
@@ -454,6 +464,7 @@ export class FortuneCenter extends Component {
                             />
                             <span className={classes.label}>
                                 {this.getLabel('title-transfer')}
+<<<<<<< HEAD
                             </span>
                             <div className={classes.grow} />
                             <KeyboardArrowRight />
@@ -478,6 +489,16 @@ export class FortuneCenter extends Component {
                             <div className={classes.grow} />
                             <KeyboardArrowRight />
                         </Grid>
+=======
+                            </Button>
+                        </div>
+                        <div className={classes.content}>
+                            {contentValue === 'deposit' && <DepositMain />}
+                            {contentValue === 'total-assets' && <TotalAssets />}
+                            {contentValue === 'transfer' && <Transfer />}
+                            {contentValue === 'withdrawal' && <Withdrawal />}
+                        </div>
+>>>>>>> ae0fc8a514c5a3e454bd0fdfe3b4bac718067da6
                     </Grid>
                 </div>
             </div>
