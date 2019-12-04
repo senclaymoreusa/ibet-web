@@ -93,10 +93,10 @@ export class ForPartnerVn extends React.Component {
             <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -109,19 +109,19 @@ export class ForPartnerVn extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/vn/member_rule1">
+                        <Link className={classes.list} href="/vi/member_rule1">
                         <ListItemText classes={{primary:classes.listItemText}} >Chia sẻ kế hoạch</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/vn/member_rule2">
+                        <Link className={classes.list} href="/vi/member_rule2">
                         <ListItemText classes={{primary:classes.listItemText}} >Chương trình đại lý</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/vn/member_rule3">
+                        <Link className={classes.list} href="/vi/member_rule3">
                         <ListItemText classes={{primary:classes.listItemText}} >Điều kiện & Điều khoản</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/vn/member_rule4">
+                        <Link className={classes.list} href="/vi/member_rule4">
                         <ListItemText classes={{primary:classes.listItemText}} >Cách tính hoa hồng</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/vn/member_rule5">
+                        <Link className={classes.list} href="/vi/member_rule5">
                         <ListItemText classes={{primary:classes.listItemText}} >Hỏi đáp chương trình Đại lý LETOU</ListItemText>
                         </Link>
                     </List>
@@ -136,7 +136,7 @@ export class ForPartnerVn extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/vn/member_rule6">
+                        <Link className={classes.list} href="/vi/member_rule6">
                         <ListItemText classes={{primary:classes.listItemText}} >Lợi thế của LETOU</ListItemText>
                         </Link>
                     </List>
