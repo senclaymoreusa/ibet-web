@@ -33,3 +33,39 @@ export const hide_letou_forgot_password = () => {
         type: 'HIDE_LETOU_FORGOT_PASSWORD'
     };
 };
+
+export const show_letou_mobile_menu = () => {
+    return {
+        type: 'SHOW_LETOU_MOBILE_MENU'
+    };
+};
+
+export const hide_letou_mobile_menu = () => {
+    return {
+        type: 'HIDE_LETOU_MOBILE_MENU'
+    };
+};
+
+export const show_letou_mobile_login = () => {
+    return {
+        type: 'SHOW_LETOU_MOBILE_LOGIN'
+    };
+};
+
+export const hide_letou_mobile_login = () => {
+    return {
+        type: 'HIDE_LETOU_MOBILE_LOGIN'
+    };
+};
+
+export const show_letou_mobile_signup = () => {
+    return {
+        type: 'SHOW_LETOU_MOBILE_SIGNUP'
+    };
+};
+
+export const hide_letou_mobile_signup = () => {
+    return {
+        type: 'HIDE_LETOU_MOBILE_SIGNUP'
+    };
+};

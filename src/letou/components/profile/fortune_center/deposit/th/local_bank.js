@@ -330,7 +330,7 @@ class ThaiLocalBank extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavourite: res.data.favorite_payment_method === 'thailocalbank' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'thailocalbank' });
             });
     }
 
@@ -346,7 +346,7 @@ class ThaiLocalBank extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavourite: res.data.favorite_payment_method === 'thailocalbank' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'thailocalbank' });
             });
     }
 
@@ -488,7 +488,7 @@ class ThaiLocalBank extends Component {
             payment: event.target.checked ? 'thailocalbank' : null,
         })
             .then(res => {
-                this.setState({ isFavourite: !this.state.isFavourite });
+                this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
@@ -613,7 +613,7 @@ class ThaiLocalBank extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />
