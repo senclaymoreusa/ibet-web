@@ -423,7 +423,7 @@ class VietnamHelp2pay extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300 || parseFloat(event.target.value) > 300000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300000 || parseFloat(event.target.value) > 300000000) });
             }
             else {
                 this.setState({ amountInvalid: true });

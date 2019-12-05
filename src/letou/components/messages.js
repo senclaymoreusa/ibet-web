@@ -418,9 +418,9 @@ export const messages = {
         'change-mobile': 'Change mobile number method',
         'through-original': 'Through the original mobile',
         'select-provider': 'Select Provider',
-        'circlepay-placeholder': 'Deposit ₫20,000 - ₫50,000',
-        'vn-help2paypay-placeholder': 'Deposit ₫300 - ₫300,000',
-        'vn-localbank-placeholder': 'Deposit ₫200 - ₫100,000',
+        'circlepay-placeholder': 'Deposit ₫20,000 - ₫100,000,000',
+        'vn-help2paypay-placeholder': 'Deposit ₫300,000 - ₫300,000,000',
+        'vn-localbank-placeholder': 'Deposit ₫200,000 - ₫100,000,000',
         'email-update-success':
             ' Your email address has been successfully updated.',
         'lang-thai': 'Thai',
