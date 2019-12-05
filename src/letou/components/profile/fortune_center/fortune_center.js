@@ -307,7 +307,7 @@ export class FortuneCenter extends Component {
     render() {
         const { classes } = this.props;
         const { desktopContent, desktopTabValue } = this.state;
-        console.log(this.state.mainWallet)
+      
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>
