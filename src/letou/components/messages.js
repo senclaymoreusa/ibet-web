@@ -483,6 +483,7 @@ export const messages = {
         'verify-immediately': 'Verify Immediately',
         'pt-password-not-set': 'PT APP password is not set',
         'pt-password-desc': 'Regularly reset PT APP password, account is more secure',
+        'withdrawable-fund': 'Withdrawable Funds'
     },
     zh: {
         'help-title': '我们在此竭诚服务',

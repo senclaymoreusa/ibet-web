@@ -319,8 +319,9 @@ export class MobileMainProfile extends Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        // this.props.history.push('/gbsports');
-                                        // this.props.hide_letou_mobile_menu();
+                                        this.props.history.push(
+                                            '/p/fortune-center'
+                                        );
                                     }}
                                 >
                                     <ListItemAvatar>
