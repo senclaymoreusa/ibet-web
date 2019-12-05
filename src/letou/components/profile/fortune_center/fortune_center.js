@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
 
-import Deposit from './deposit';
+import DepositMain from './deposit/deposit_main';
 import TotalAssets from './total_assets';
 import Transfer from './transfer';
 import Withdrawal from './withdrawal';
@@ -215,7 +215,7 @@ export class FortuneCenter extends Component {
                             </Button>
                         </div>
                         <div className={classes.content}>
-                            {contentValue === 'deposit' && <Deposit />}
+                            {contentValue === 'deposit' && <DepositMain />}
                             {contentValue === 'total-assets' && <TotalAssets />}
                             {contentValue === 'transfer' && <Transfer />}
                             {contentValue === 'withdrawal' && <Withdrawal />}

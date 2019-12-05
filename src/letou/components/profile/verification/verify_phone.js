@@ -24,7 +24,6 @@ import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import StepConnector from '@material-ui/core/StepConnector';
-import InputBase from '@material-ui/core/InputBase';
 import { images } from '../../../../util_config';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import List from '@material-ui/core/List';
