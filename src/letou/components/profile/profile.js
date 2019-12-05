@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import Footer from '../footer';
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +13,7 @@ import {
 import { config } from '../../../util_config';
 import clsx from 'clsx';
 
-import { injectIntl, FormattedNumber } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -36,21 +37,10 @@ import Smartphone from '@material-ui/icons/PhoneAndroid';
 import Email from '@material-ui/icons/Email';
 import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
 
-import Subject from '@material-ui/icons/Subject';
-import AccountBalance from '@material-ui/icons/AccountBalance';
-import PersonOutlineOutlined from '@material-ui/icons/PersonOutlineOutlined';
-import Security from '@material-ui/icons/Security';
-import Message from '@material-ui/icons/Message';
-import HeadsetMic from '@material-ui/icons/HeadsetMic';
-import LiveHelp from '@material-ui/icons/LiveHelp';
-import SettingsApplications from '@material-ui/icons/SettingsApplications';
+import MobileMainProfile from '../mobile/mobile_profile';
+import MobileAccountInfo from '../mobile/mobile_account_info';
+import SecuritySettings from './account_management/security_settings';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -72,6 +62,7 @@ const styles = theme => ({
     rootMobile: {
         minHeight: '100vh',
         display: 'flex',
+        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
@@ -238,13 +229,16 @@ TabPanel.propTypes = {
 };
 
 export class Profile extends Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
         this.state = {
             urlPath: '',
-            tabValue: '',
-            content: '',
+            desktopTabValue: 'none',
+            desktopContent: '',
+            mobileContent: '',
             showProfileMenu: false,
             anchorEl: null,
 
@@ -256,12 +250,6 @@ export class Profile extends Component {
             mainWallet: 0.00,
             username: ''
         };
-
-        this.handleTabChange = this.handleTabChange.bind(this);
-    }
-
-    handleTabChange(newValue) {
-        this.setState({ tabValue: newValue });
     }
 
     async handleCategoryChange(category) {
@@ -278,12 +266,16 @@ export class Profile extends Component {
     }
 
     componentWillReceiveProps(props) {
-        this.setState({ urlPath: this.props.history.location.pathname });
+
+        if (this._isMounted)
+            this.setState({ urlPath: this.props.history.location.pathname });
 
         this.setContent();
     }
 
     componentDidMount() {
+        this._isMounted = true;
+
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
@@ -296,15 +288,18 @@ export class Profile extends Component {
         axios
             .get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ username: res.data.username });
-                this.setState({ mainWallet: res.data.main_wallet });
-                this.setState({ currency: res.data.currency });
+                if (this._isMounted) {
+                    this.setState({ username: res.data.username });
+                    this.setState({ mainWallet: res.data.main_wallet });
+                    this.setState({ currency: res.data.currency });
+                }
             })
             .catch(function (err) {
                 sendingLog(err);
             });
 
-        this.setState({ urlPath: this.props.history.location.pathname });
+        if (this._isMounted)
+            this.setState({ urlPath: this.props.history.location.pathname });
 
         this.setContent();
     }
@@ -314,8 +309,11 @@ export class Profile extends Component {
         var parts = url.split('/');
 
         if (parts.length >= 2) {
-            if (parts[1].length > 0) {
-                this.setState({ tabValue: parts[2] });
+            let path = parts[2];
+            this.setState({ mobileContent: parts[parts.length - 1] });
+            if (path.length > 0) {
+                if (this._isMounted)
+                    this.setState({ desktopTabValue: parts[2] });
             }
         }
     }
@@ -325,6 +323,10 @@ export class Profile extends Component {
         return formatMessage({ id: labelId });
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
         const { classes } = this.props;
         const {
@@ -332,7 +334,8 @@ export class Profile extends Component {
             anchorEl,
             nameVerified,
             phoneVerified,
-            emailVerified
+            emailVerified,
+            desktopTabValue
         } = this.state;
 
         return (
@@ -363,19 +366,12 @@ export class Profile extends Component {
                         </Toolbar>
                     </AppBar>
                     <AppBar position="static" className={classes.appBar}>
-                        <StyledTabs
-                            centered
-                            value={this.props.match.params.type}
-                            onChange={this.handleTabChange}
-                        >
+                        <StyledTabs centered value={desktopTabValue}>
                             <StyledTab
                                 label={this.getLabel('fortune-center')}
                                 value="fortune-center"
                                 onClick={() => {
-                                    if (
-                                        this.props.match.params.type !==
-                                        'fortune-center'
-                                    ) {
+                                    if (desktopTabValue !== 'fortune-center') {
                                         this.handleCategoryChange(
                                             'fortune-center'
                                         );
@@ -392,10 +388,7 @@ export class Profile extends Component {
                                 label={this.getLabel('transaction-records')}
                                 value="transaction-records"
                                 onClick={() => {
-                                    if (
-                                        this.props.match.params.type !==
-                                        'transaction-records'
-                                    ) {
+                                    if (desktopTabValue !== 'transaction-records') {
                                         this.handleCategoryChange(
                                             'transaction-records'
                                         );
@@ -420,10 +413,7 @@ export class Profile extends Component {
                                 value="account-management"
                                 label={this.getLabel('account-management')}
                                 onClick={() => {
-                                    if (
-                                        this.props.match.params.type !==
-                                        'account-management'
-                                    ) {
+                                    if (desktopTabValue !== 'account-management') {
                                         this.handleCategoryChange(
                                             'account-management'
                                         );
@@ -440,10 +430,7 @@ export class Profile extends Component {
                                 value="sharing-plan"
                                 label={this.getLabel('sharing-plan')}
                                 onClick={() => {
-                                    if (
-                                        this.props.match.params.type !==
-                                        'sharing-plan'
-                                    ) {
+                                    if (desktopTabValue !== 'sharing-plan') {
                                         this.handleCategoryChange(
                                             'sharing-plan'
                                         );
@@ -455,6 +442,15 @@ export class Profile extends Component {
                                         });
                                     }
                                 }}
+                            />
+                            <StyledTab
+                                style={{
+                                    width: 0,
+                                    minWidth: 0,
+                                    maxWidth: 0,
+                                    padding: 0
+                                }}
+                                value="none"
                             />
                         </StyledTabs>
                     </AppBar>
@@ -569,260 +565,32 @@ export class Profile extends Component {
                         )}
                     </Popper>
                     <div className={classes.content}>
-                        {this.state.tabValue === 'fortune-center' && (
+                        {this.state.desktopTabValue === 'fortune-center' && (
                             <FortuneCenter />
                         )}
-                        {this.state.tabValue === 'transaction-records' && (
+                        {this.state.desktopTabValue === 'transaction-records' && (
                             <TransactionRecord />
                         )}
-                        {this.state.tabValue === 'account-management' && (
+                        {this.state.desktopTabValue === 'account-management' && (
                             <AccountManagement
-                                activeContent={this.state.content}
+                                activeContent={this.state.desktopContent}
                             />
                         )}
-                        {this.state.tabValue === 'sharing-plan' && (
+                        {this.state.desktopTabValue === 'sharing-plan' && (
                             <SharingPlan />
                         )}
                     </div>
                     <Footer />
                 </div>
                 <div className={classes.rootMobile}>
-                    <Grid container className={classes.mobileHeader}>
-                        <Grid
-                            item
-                            xs={12}
-                            style={{ textAlign: 'center', paddingBottom: 15 }}
-                        >
-                            <span className={classes.mobileUsername}>
-                                {this.state.username}
-                            </span>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <div className={classes.profileLogo} >
-                                <img
-                                    src={
-                                        images.src + 'letou/mymember-idimg.jpg'
-                                    }
-                                    alt="LETOU"
-                                    height="64"
-                                    width="64"
-                                    className={classes.profileLogo}
-                                />
-                            </div>
-                        </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            style={{
-                                textAlign: 'center',
-                                paddingBottom: 30,
-                                paddingTop: 30
-                            }}
-                        >
-                            <div className={classes.masterAccount}>
-                                <span>
-                                    {this.getLabel('master-account')} {' | '}
-                                </span>
-                                <FormattedNumber
-                                    maximumFractionDigits={2}
-                                    value={this.state.mainWallet}
-                                    style={`currency`}
-                                    currency={this.state.currency}
-                                />
-                            </div>
-                        </Grid>
-                        <Grid item xs={4} style={{ textAlign: 'center' }}>
-                            <Button className={classes.mobileTabTitleButton}>
-                                <div className={classes.column}>
-                                    <img
-                                        src={images.src + 'letou/deposit-icon.png'}
-                                        alt="LETOU"
-                                        height="20"
-                                    />
-                                    {this.getLabel('deposit-label')}
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={4} style={{ textAlign: 'center' }}>
-                            <Button className={classes.mobileTabTitleButton}>
-                                <div className={classes.column}>
-                                    <img
-                                        src={
-                                            images.src + 'letou/withdrawal-icon.png'
-                                        }
-                                        alt="LETOU"
-                                        height="20"
-                                    />
-                                    {this.getLabel('title-withdrawal')}
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={4} style={{ textAlign: 'center' }}>
-                            <Button className={classes.mobileTabTitleButton}>
-                                <div className={classes.column}>
-                                    <img
-                                        src={
-                                            images.src +
-                                            'letou/transfers-icon.png'
-                                        }
-                                        alt="LETOU"
-                                        height="20"
-                                    />
-                                    {this.getLabel('title-transfer')}
-                                </div>
-                            </Button>
-                        </Grid>
-                    </Grid>
-                    <div className={classes.mobileContent}>
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <List
-                                    style={{
-                                        overflow: 'auto'
-                                    }}
-                                >
-                                    <ListItem
-                                        button
-                                        onClick={() => {
-                                            // this.props.history.push('/');
-                                            // this.props.hide_letou_mobile_menu();
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar style={{ backgroundColor: '#03dffc' }}>
-                                                <Subject />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={this.getLabel(
-                                                'transaction-records'
-                                            )}
-                                        />
-                                    </ListItem>
-                                    <ListItem
-                                        button
-                                        onClick={() => {
-                                            // this.props.history.push('/gbsports');
-                                            // this.props.hide_letou_mobile_menu();
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar style={{ backgroundColor: '#fcb503' }}>
-                                                <AccountBalance />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={this.getLabel(
-                                                'fortune-center'
-                                            )}
-                                        />
-                                    </ListItem>
-                                    <ListItem
-                                        button
-                                        onClick={() => {
-                                            // this.props.history.push('/');
-                                            // this.props.hide_letou_mobile_menu();
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar style={{ backgroundColor: '#fc6203' }}>
-                                                <PersonOutlineOutlined />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={this.getLabel('account-info')}
-                                        />
-                                    </ListItem>
-                                    <ListItem
-                                        button
-                                        onClick={() => {
-                                            // this.props.history.push('/');
-                                            // this.props.hide_letou_mobile_menu();
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar style={{ backgroundColor: '#0388fc' }}>
-                                                <Security />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={this.getLabel(
-                                                'security-settings'
-                                            )}
-                                        />
-                                    </ListItem>
-                                    <ListItem
-                                        button
-                                        onClick={() => {
-                                            // this.props.history.push('/');
-                                            // this.props.hide_letou_mobile_menu();
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar style={{ backgroundColor: '#4e03fc' }}>
-                                                <Message />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={this.getLabel(
-                                                'message-notification'
-                                            )}
-                                        />
-                                    </ListItem>
-                                    <ListItem
-                                        button
-                                        onClick={() => {
-                                            // this.props.history.push('/');
-                                            // this.props.hide_letou_mobile_menu();
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar style={{ backgroundColor: '#07db58' }}>
-                                                <HeadsetMic />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={this.getLabel(
-                                                'customer-service'
-                                            )}
-                                        />
-                                    </ListItem>
-                                    <ListItem
-                                        button
-                                        onClick={() => {
-                                            // this.props.history.push('/');
-                                            // this.props.hide_letou_mobile_menu();
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar style={{ backgroundColor: '#db07cd' }}>
-                                                <LiveHelp />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={this.getLabel('help-center')}
-                                        />
-                                    </ListItem>
-                                    <ListItem
-                                        button
-                                        onClick={() => {
-                                            // this.props.history.push('/');
-                                            // this.props.hide_letou_mobile_menu();
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar style={{ backgroundColor: '#e4f00e' }}>
-                                                <SettingsApplications />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={this.getLabel('set-up')}
-                                        />
-                                    </ListItem>
-                                </List>
-                            </Grid>
-                        </Grid>
-                    </div>
+                    {this.state.mobileContent === '' && <MobileMainProfile />}
+                    {this.state.mobileContent === 'account-management' && (
+                        <MobileAccountInfo />
+                    )}
+                    {this.state.mobileContent === 'security-settings' && (
+                        <SecuritySettings />
+                    )}
+                    <div className={classes.grow} />
                     <Footer />
                 </div>
             </div>
