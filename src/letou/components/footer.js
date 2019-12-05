@@ -994,7 +994,7 @@ export class Footer extends React.Component {
                             icon={<AssignmentTurnedIn />}
                         />
                           <BottomNavigationAction
-                            label={this.getLabel('title-deposit')}
+                            label={this.getLabel('deposit-label')}
                             icon={<MeetingRoom />}
                         />
                         <BottomNavigationAction
