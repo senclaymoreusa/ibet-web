@@ -994,7 +994,7 @@ export class Footer extends React.Component {
                             icon={<AssignmentTurnedIn />}
                         />
                           <BottomNavigationAction
-                            label={this.getLabel('title-deposit')}
+                            label={this.getLabel('deposit-label')}
                             icon={<MeetingRoom />}
                         />
                         <BottomNavigationAction
@@ -1005,8 +1005,9 @@ export class Footer extends React.Component {
                             label={this.getLabel('profile-label')}
                             icon={<Person />}
                             onClick={() => {
-                                this.props.logout();
-                                postLogout();
+                                this.props.history.push(
+                                    '/p/'
+                                );
                             }}
                         />
                     </BottomNavigation>

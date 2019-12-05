@@ -469,6 +469,10 @@ export const messages = {
         'latest-offers': 'Latest Offers',
         'profile-label': 'Profile',
         'news-label': 'News',
+        'customer-service':'Customer Service',
+        'help-center':'Help Center',
+        'set-up':'Set Up',
+        'master-account':'Master Account',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
