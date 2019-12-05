@@ -244,7 +244,11 @@ export class Profile extends Component {
 
             emailVerified: false,
             phoneVerified: false,
-            nameVerified: false
+            nameVerified: false,
+
+            currency: 'CNY',
+            mainWallet: 0.00,
+            username: ''
         };
     }
 
