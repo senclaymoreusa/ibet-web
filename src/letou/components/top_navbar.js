@@ -178,7 +178,7 @@ const styles = theme => ({
     },
     mobileModal: {
         display: 'flex',
-        padding: theme.spacing(1),
+        padding: 0,
         alignItems: 'center',
         justifyContent: 'center'
     },
