@@ -32,7 +32,6 @@
         "react-calendar": "^2.19.2",
         "react-chartjs-2": "^2.8.0",
         "react-circular-progressbar": "^2.0.3",
-        "react-compound-timer": "^1.1.15",
         "react-dom": "^16.12.0",
         "react-facebook-login": "^4.1.1",
         "react-flagkit": "^1.0.2",
