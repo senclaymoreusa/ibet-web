@@ -9,14 +9,10 @@ import { withRouter } from 'react-router-dom';
 import DepositMain from './deposit/deposit_main';
 import TotalAssets from './total_assets';
 import Transfer from './transfer';
-<<<<<<< HEAD
 import WithdrawMain from './withdraw/withdraw_main';
-=======
-import Withdrawal from './withdrawal';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
->>>>>>> 32e512bed9d4e170437039377b3b830677c56f8a
 import { withStyles } from '@material-ui/core/styles';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { config, images } from '../../../../util_config';
@@ -346,7 +342,7 @@ export class FortuneCenter extends Component {
                                 {desktopContent === 'deposit' && <DepositMain />}
                                 {desktopContent === 'total-assets' && <TotalAssets />}
                                 {desktopContent === 'transfer' && <Transfer />}
-                                {desktopContent === 'withdrawal' && <Withdrawal />}
+                                {desktopContent === 'withdrawal' && <WithdrawMain />}
                             </div>
                         </Grid>
                     </Grid>
