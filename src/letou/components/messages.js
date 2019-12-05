@@ -341,6 +341,7 @@ export const messages = {
         'add-favourite-deposit': 'Add this to favorite deposit method',
         'back-banking': 'Back to Banking',
         'bitcoin-placeholder': 'Deposit ¥100 - ¥100,000',
+        'alipay-placeholder': 'Deposit ¥500 - ¥5,000',
         'payzod-placeholder': 'Deposit ฿500 - ฿500,000',
         'payzod-desc':
             'Please open the app, scan the QR code. Once you have completed the payment please check your transaction history page.',
