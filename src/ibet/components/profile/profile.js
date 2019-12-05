@@ -12,7 +12,6 @@ import { withRouter } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from "@material-ui/core/AppBar";
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
@@ -114,19 +113,19 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-const muiSubMenuBarTheme = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#d8d8d8',
-        },
-    },
-    appBar: {
-        height: 72,
-    },
-    typography: {
-        useNextVariants: true,
-    },
-});
+// const muiSubMenuBarTheme = createMuiTheme({
+//     palette: {
+//         primary: {
+//             main: '#d8d8d8',
+//         },
+//     },
+//     appBar: {
+//         height: 72,
+//     },
+//     typography: {
+//         useNextVariants: true,
+//     },
+// });
 
 export class Profile extends Component {
 
@@ -202,7 +201,7 @@ export class Profile extends Component {
         return (
             <div className={classes.root}>
                 <TopNavbar currentMenu='' />
-                <MuiThemeProvider theme={muiSubMenuBarTheme}>
+                {/* <MuiThemeProvider theme={muiSubMenuBarTheme}> */}
                     <AppBar position="static" className={classes.appBar}>
                         <StyledTabs centered
                             value={this.props.match.params.type}
@@ -263,7 +262,7 @@ export class Profile extends Component {
                             />
                         </StyledTabs>
                     </AppBar>
-                </MuiThemeProvider>
+                {/* </MuiThemeProvider> */}
                 <div className={classes.content}>
                     {this.state.tabValue === 'banking' && <Banking />}
                     {this.state.tabValue === 'analysis' && <Analysis />}
