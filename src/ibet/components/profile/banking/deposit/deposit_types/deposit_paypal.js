@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { PayPalButton } from 'react-paypal-button-v2';
+// import { PayPalButton } from 'react-paypal-button-v2';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -383,7 +383,7 @@ class DepositPaypal extends Component {
                                 <Grid item xs={6} className={classes.amountRightRow}>
                                     <span className={classes.amountText}>Total</span>
                                 </Grid>
-                                <Grid item xs={12} className={classes.buttonCell}>
+                                {/* <Grid item xs={12} className={classes.buttonCell}>
                                     <PayPalButton style={{ width: '100%' }}
                                         disabled={this.state.amountInvalid}
                                         createOrder={function () {
@@ -474,7 +474,7 @@ class DepositPaypal extends Component {
                                             clientId: CLIENT.sandbox
                                         }}
                                     />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs={12} className={classes.buttonCell}>
                                     <Button className={classes.backBankingButton}
                                         onClick={this.backClicked}

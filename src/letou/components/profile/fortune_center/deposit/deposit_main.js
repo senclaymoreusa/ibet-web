@@ -34,7 +34,7 @@ const styles = () => ({
     root: {
         width: '100%'
     },
-    addButton: {
+    paymentButton: {
         width: 87,
         padding: 0,
         height: 58,
@@ -152,6 +152,15 @@ export class DepositMain extends Component {
         this.setContent();
     }
 
+    checkFavoriteMethod() {
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ favouriteMethod: res.data.favorite_payment_method });
+            });
+    }
+
     setContent() {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
@@ -211,7 +220,7 @@ export class DepositMain extends Component {
                     <Grid container className={classes.methodGrid} spacing={4}>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('banktransfer');
                                 }}
@@ -225,7 +234,7 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('quickpay');
                                 }}
@@ -238,7 +247,7 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('unionpayqr');
                                 }}
@@ -251,7 +260,7 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('alipay');
                                 }}
@@ -264,7 +273,7 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('onlinepay');
                                 }}
@@ -277,7 +286,7 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('wechatpay');
                                 }}
@@ -290,7 +299,7 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('jdpay');
                                 }}
@@ -303,7 +312,7 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('bitcoin');
                                 }}
@@ -316,7 +325,7 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('astropay');
                                 }}
@@ -334,12 +343,13 @@ export class DepositMain extends Component {
                     <Grid container className={classes.methodGrid} spacing={4}>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('thailocalbank');
                                 }}
                             >
                                 <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                {favouriteMethod === 'thailocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'thailocalbank'),
@@ -348,12 +358,13 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('help2pay');
                                 }}
                             >
                                 <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="32" />
+                                {favouriteMethod === 'help2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'help2pay'),
@@ -362,12 +373,13 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('payzod');
                                 }}
                             >
                                 <img src={images.src + 'letou/payzod-1@3x.png'} alt="" height="36" />
+                                {favouriteMethod === 'payzod' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'payzod'),
@@ -376,12 +388,13 @@ export class DepositMain extends Component {
                         </Grid>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('astropay');
                                 }}
                             >
                                 <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                {favouriteMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite}/>}
                             </Button>
                             <span className={clsx(classes.title, {
                                 [classes.active]: (contentValue === 'astropay'),
@@ -395,7 +408,7 @@ export class DepositMain extends Component {
                     <Grid container className={classes.methodGrid} spacing={4}>
                         <Grid item xs={1} className={classes.methodColumn}>
                             <Button
-                                className={classes.addButton}
+                                className={classes.paymentButton}
                                 onClick={() => {
                                     this.depositWith('vietnamlocalbank');
                                 }}>
@@ -495,17 +508,16 @@ export class DepositMain extends Component {
                 {contentValue === 'onlinepay' && (<DepositError callbackFromParent={this.setPage} />)}
                 {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} />)}
 
-                {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
-                {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} />)}
-                {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} />)}
-                {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} />)}
-
                 {contentValue === 'vietnamhelp2pay' && (<VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
                 {contentValue === 'circlepay' && (<CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
                 {contentValue === 'fgocard' && (<FgoCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
                 {contentValue === 'vietnamlocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
                 {contentValue === 'momopay' && (<MomoPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
                 {contentValue === 'scratchcard' && (<ScratchCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
+                {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
+                {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
+                {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
+                {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
             </div >
         );
     }

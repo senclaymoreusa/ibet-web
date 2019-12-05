@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
+
 import '../../css/help.css'
 
 import {

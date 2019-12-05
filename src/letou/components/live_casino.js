@@ -8,13 +8,16 @@ import { withStyles } from '@material-ui/core/styles';
 import '../css/banner.css';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
+import sha256 from 'sha256';
+import { config} from '../../util_config';
+import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
+  gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
+  gdcasino_accessKey = process.env.REACT_APP_GDCASINO_STAGING_ACCESSKEY;
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
-
-console.log("Line 15, process env URL = " + API_URL);
-
+//console.log("Line 15, process env URL = " + API_URL);
+//console.log(gdcasino_accessKey)
 document.body.style = 'background: #f1f1f1;';
 
 
@@ -108,17 +111,59 @@ export class live_casino extends React.Component {
     super(props);
 
     this.state = {
-
+      data: '',
+      currencyValue: '',
 
     };
 
     this.getLabel = this.getLabel.bind(this);
+    
   }
   getLabel(labelId) {
     const { formatMessage } = this.props.intl;
     return formatMessage({ id: labelId });
   }
-
+  componentDidMount() {
+    const token = localStorage.getItem('token');
+    config.headers["Authorization"] = `Token ${token}`;
+    axios.get(API_URL + 'users/api/user/', config)
+        .then(res => {
+            this.setState({ data: res.data });
+            this.setState({ currencyValue: res.data.currency });
+            
+        });
+}
+  handleGDClick(view){
+    let direct_view = {
+      'Baccarat': 'N',
+      'Roulette': 'RN',
+      'SicBo': 'SB',
+      'BidmeBaccarat': 'BMB',
+      
+    }
+    
+    
+    var token = localStorage.getItem('token');
+    // var code = gdcasino_code;
+    // var accessKey = gdcasino_accessKey;
+    //console.log(this.state.data)
+    var currency = this.state.data.currency;
+    // currency = currencyConversion[currency];
+    // console.log(currency)
+    var username = this.state.data.username;
+    var key = sha256(gdcasino_code + token + gdcasino_accessKey + username + currency )
+    
+    var url = "";
+    if(!token){
+      this.props.history.push('/register');
+    }else{
+      
+      url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+      window.open(url, "gdcasino")
+    }
+    
+    
+  }
 
 
   render() {
@@ -262,14 +307,14 @@ export class live_casino extends React.Component {
                 <div className="PgHallArticle">
                   <p>{this.getLabel('gd-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleGDClick("Baccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleGDClick("BidmeBaccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleGDClick("Roulette")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleGDClick("SicBo")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a><span>{this.getLabel('Real-money')}</span></a>
+                    <a onClick={(e) => {this.handleGDClick("Baccarat")}}><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                   </Grid>
                 </div>
@@ -299,8 +344,28 @@ export class live_casino extends React.Component {
                 </div>
               </div>
          
-              <div className="emptyHall">
-                
+              <div className="PgHall MarginLeft">
+                <div className="PgHallTitle Color3">{this.getLabel('gpi-title')}</div>
+                <div className="PgHallPic">
+                  <img src="https://www.178letou.com/static/styles/desktop/images/casino/gpi.jpg" style={{ opacity: 1 }}  alt="gpi" className="PgHallPicImg" />
+                </div>
+                <div className="PgHallArticle">
+                  <p>{this.getLabel('gpi-words')}</p>
+                  <ul>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Baccarat')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Qixi')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Dai')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Sangong')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Black')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Super')}</font></a></li>
+                    
+                  </ul>
+                  <Grid item xs={3} className={classes.PgHallBtn}>
+                  <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
+                    <a><span>{this.getLabel('Real-money')}</span></a>
+                  </div>
+                  </Grid>
+                </div>
               </div>
               <div className="emptyHall">
                 

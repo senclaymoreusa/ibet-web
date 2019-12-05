@@ -9,7 +9,7 @@ import { config } from '../../../../util_config';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import axios from 'axios'
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
