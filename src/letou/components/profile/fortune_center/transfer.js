@@ -458,15 +458,15 @@ export class Transfer extends Component {
                 'amount': this.state.amount
             }, config)
             .then(res => {
-                if(res.data.status_code === 1){
-                this.setState({ snackType: 'success' });
-                this.setState({ snackMessage: this.getLabel('transfer-successful') });
-                this.setState({ showSnackbar: true });
+                if (res.data.status_code === 1) {
+                    this.setState({ snackType: 'success' });
+                    this.setState({ snackMessage: this.getLabel('transfer-successful') });
+                    this.setState({ showSnackbar: true });
 
-                this.setState({ from: null });
-                this.setState({ to: null });
-                this.setState({ amount: '', amountInvalid: false, amountFocused: false });
-                }else if(res.data.status_code === 107){
+                    this.setState({ from: null });
+                    this.setState({ to: null });
+                    this.setState({ amount: '', amountInvalid: false, amountFocused: false });
+                } else if (res.data.status_code === 107) {
                     this.setState({ snackType: 'error' });
                     this.setState({ snackMessage: res.data.error_message });
                     this.setState({ showSnackbar: true });
