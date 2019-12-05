@@ -307,7 +307,7 @@ class Payzod extends Component {
             amountInvalid: true,
             currency: 'USD',
             orderNumber: '',
-            isFavourite: false,
+            isFavorite: false,
             activeStep: 0,
             timeout: null,
             timeIntervalID: null
@@ -323,7 +323,7 @@ class Payzod extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavourite: res.data.favorite_payment_method === 'payzod' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
             });
     }
 
@@ -334,7 +334,7 @@ class Payzod extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavourite: res.data.favorite_payment_method === 'payzod' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
             });
     }
 
@@ -429,7 +429,7 @@ class Payzod extends Component {
             payment: event.target.checked ? 'payzod' : null,
         })
             .then(res => {
-                this.setState({ isFavourite: !this.state.isFavourite });
+                this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
@@ -448,7 +448,7 @@ class Payzod extends Component {
 
     getContent() {
         const { classes } = this.props;
-        const { activeStep, isFavourite, amount, currency, qrCode, orderNumber, timeout } = this.state;
+        const { activeStep, isFavorite, amount, currency, qrCode, orderNumber, timeout } = this.state;
 
 
         switch (activeStep) {
@@ -492,7 +492,7 @@ class Payzod extends Component {
                         <Grid item xs={12} style={{ marginBottom: 50 }}>
                             <FormControlLabel className={classes.checkbox}
                                 control={
-                                    <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
+                                    <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
                                 }
                                 label={this.getLabel('add-favourite-deposit')}
                             />
