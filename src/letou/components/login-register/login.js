@@ -223,7 +223,7 @@ export class Login extends React.Component {
           var blackBoxString = bbData.blackbox;
           axios.get(API_URL + 'users/api/login-device-info?bb=' + blackBoxString)
             .then(res => {   
-                console.log(res.data)      
+                //console.log(res.data)      
                 this.props.authLogin(this.state.username, this.state.password, res.data)
                 .then((response) => {
                     if (response.errorCode) {
