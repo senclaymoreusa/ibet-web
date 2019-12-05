@@ -250,7 +250,11 @@ export class Profile extends Component {
 
             emailVerified: false,
             phoneVerified: false,
-            nameVerified: false
+            nameVerified: false,
+
+            currency: 'CNY',
+            mainWallet: 0.00,
+            username: ''
         };
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -685,7 +689,7 @@ export class Profile extends Component {
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar style={{backgroundColor:'#03dffc'}}>
+                                            <Avatar style={{ backgroundColor: '#03dffc' }}>
                                                 <Subject />
                                             </Avatar>
                                         </ListItemAvatar>
@@ -703,7 +707,7 @@ export class Profile extends Component {
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar style={{backgroundColor:'#fcb503'}}>
+                                            <Avatar style={{ backgroundColor: '#fcb503' }}>
                                                 <AccountBalance />
                                             </Avatar>
                                         </ListItemAvatar>
@@ -721,7 +725,7 @@ export class Profile extends Component {
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar style={{backgroundColor:'#fc6203'}}>
+                                            <Avatar style={{ backgroundColor: '#fc6203' }}>
                                                 <PersonOutlineOutlined />
                                             </Avatar>
                                         </ListItemAvatar>
@@ -737,7 +741,7 @@ export class Profile extends Component {
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar style={{backgroundColor:'#0388fc'}}>
+                                            <Avatar style={{ backgroundColor: '#0388fc' }}>
                                                 <Security />
                                             </Avatar>
                                         </ListItemAvatar>
@@ -750,12 +754,12 @@ export class Profile extends Component {
                                     <ListItem
                                         button
                                         onClick={() => {
-                                            this.props.history.push('/');
-                                            this.props.hide_letou_mobile_menu();
+                                            // this.props.history.push('/');
+                                            // this.props.hide_letou_mobile_menu();
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar style={{backgroundColor:'#4e03fc'}}>
+                                            <Avatar style={{ backgroundColor: '#4e03fc' }}>
                                                 <Message />
                                             </Avatar>
                                         </ListItemAvatar>
@@ -773,7 +777,7 @@ export class Profile extends Component {
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar style={{backgroundColor:'#07db58'}}>
+                                            <Avatar style={{ backgroundColor: '#07db58' }}>
                                                 <HeadsetMic />
                                             </Avatar>
                                         </ListItemAvatar>
@@ -791,7 +795,7 @@ export class Profile extends Component {
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar style={{backgroundColor:'#db07cd'}}>
+                                            <Avatar style={{ backgroundColor: '#db07cd' }}>
                                                 <LiveHelp />
                                             </Avatar>
                                         </ListItemAvatar>
@@ -807,7 +811,7 @@ export class Profile extends Component {
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar style={{backgroundColor:'#e4f00e'}}>
+                                            <Avatar style={{ backgroundColor: '#e4f00e' }}>
                                                 <SettingsApplications />
                                             </Avatar>
                                         </ListItemAvatar>
