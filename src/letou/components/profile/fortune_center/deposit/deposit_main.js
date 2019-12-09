@@ -7,6 +7,7 @@ import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import DepositSuccess from './deposit_success';
 import DepositError from './deposit_error';
+import DepositInprogress from './deposit_inprogress';
 import BitcoinDeposit from './zh/bitcoin';
 import { images } from '../../../../../util_config';
 import Grid from '@material-ui/core/Grid';
@@ -508,6 +509,7 @@ export class DepositMain extends Component {
                 {this.getAvailablePaymentMethods()}
                 {contentValue === 'error' && (<DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
                 {contentValue === 'success' && (<DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />)}
+                {contentValue === 'inprogress' && (<DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />)}
 
                 {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} />)}
                 {contentValue === 'alipay' && (<AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}

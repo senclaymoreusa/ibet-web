@@ -16,7 +16,7 @@ import NumberFormat from 'react-number-format';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -157,7 +157,7 @@ const styles = theme => ({
     label: {
         backgroundColor: '#f8f8f8',
         height: 42,
-        marginTop: 12,
+        marginTop: -2,
         marginLeft: -6,
         width: 80,
         color: '#212121',
@@ -278,7 +278,106 @@ class WechatPay extends Component {
     };
 
     handleClick() {
-    
+        let currentComponent = this;
+
+        currentComponent.setState({ showLinearProgressBar: true });
+
+        var postData = {
+            "amount": this.state.amount,
+            "user_id": this.state.data.pk,
+            "currency": "0",
+            "language": "zh-Hans",
+            "method": "WECHAT_PAY",
+        }
+        //console.log(this.state.amount)
+        //console.log(this.state.data.pk)
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        return fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        }).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            if(data.errorCode){
+                currentComponent.props.logout();
+                postLogout();
+                return;
+            }
+            let redirectUrl = data.paymentPageSession.paymentPageUrl
+            //console.log(redirectUrl)
+
+
+            if (redirectUrl != null) {
+                const mywin = window.open(redirectUrl, 'qaicash-Wechatpay');
+                var timer = setInterval(function () {
+                    //console.log('checking..')
+                    if (mywin.closed) {
+                        clearInterval(timer);
+                        var postData = {
+                            "trans_id": data.paymentPageSession.orderId
+                        }
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
+
+                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: formBody
+                        }).then(function (res) {
+                            return res.json();
+                        }).then(function (data) {
+                            //console.log(data.status)
+                            if (data.status === 0) {
+                                //alert('Transaction is approved.');
+                                const body = JSON.stringify({
+                                    type: 'add',
+                                    username: currentComponent.state.data.username,
+                                    balance: currentComponent.state.amount,
+                                });
+                                //console.log(body)
+                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                    .then(res => {
+                                        if (res.data === 'Failed') {
+                                            //currentComponent.setState({ error: true });
+                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        } else if (res.data === "The balance is not enough") {
+                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                        } else {
+                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                        }
+                                    });
+                            } else {
+                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
+                            }
+                        });
+                    }
+                }, 1000);
+            } else {
+                currentComponent.setState({ showLinearProgressBar: false });
+                currentComponent.props.callbackFromParent("error", data.returnMessage);
+                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+            }
+        }).catch(function (err) {  
+            //console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
+            sendingLog(err);
+        });
     }
 
     getLabel(labelId) {

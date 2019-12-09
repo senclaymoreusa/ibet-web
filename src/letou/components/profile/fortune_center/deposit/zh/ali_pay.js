@@ -157,7 +157,7 @@ const styles = theme => ({
     label: {
         backgroundColor: '#f8f8f8',
         height: 42,
-        marginTop: 12,
+        marginTop: -2,
         marginLeft: -6,
         width: 80,
         color: '#212121',
@@ -318,6 +318,7 @@ class AliPay extends Component {
 
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Alipay');
+                currentComponent.props.callbackFromParent("inprogress", 'Transaction in progress.');
                 var timer = setInterval(function () {
                     //console.log('checking..')
                     if (mywin.closed) {

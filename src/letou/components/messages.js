@@ -359,6 +359,7 @@ export const messages = {
         'cvv-invalid': 'CVV Invalid',
         'deposit-submitted': 'Deposit Submitted!',
         'deposit-failed': 'Deposit Failed!',
+        'deposit-inprogress': 'Deposit In!',
         'deposit-label': 'Deposit',
         'submitted-label': 'submitted',
         'check-transaction-status': 'Please check for transaction status.',
