@@ -16,7 +16,7 @@ import NumberFormat from 'react-number-format';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -277,9 +277,162 @@ class QuickPay extends Component {
         }
     };
 
-    handleClick() {
-    
-    }
+    handleClick = event => {
+        event.preventDefault();
+
+        let currentComponent = this;
+
+        currentComponent.setState({ showLinearProgressBar: true });
+        let userid = this.state.data.pk;
+        let amount = this.state.amount;
+        let user = this.state.data.pk;
+
+        let postData = {
+            amount: amount,
+            userid: user,
+            currency: '0',
+            PayWay: '30', // pop up window / new tab
+            method: '39', // 快捷支付
+            RealName: this.state.data.last_name + this.state.data.first_name,
+        };
+
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + '=' + encodedValue);
+        }
+        formBody = formBody.join('&');
+
+        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+            method: 'POST',
+            headers: {
+                'content-type':
+                    'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        })
+            .then(function(res) {
+                // console.log(res);
+
+                currentComponent.setState({ showLinearProgressBar: false });
+
+                // return res.json();
+                if (res.ok) {
+                    return res.text();
+                }
+            })
+            .then(function(data) {
+                currentComponent.setState({ showLinearProgressBar: false });
+                //console.log(data);
+                // let url = data.url;
+                // let order_id = data.order_id;
+                // const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
+                if(data.indexOf("其他错误|25") && data.includes("100309")){
+                    currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                }else{
+                    //console.log(data.StatusCode)
+                    let newwin = window.open('');
+                    newwin.document.write(data);
+                    var timer = setInterval(function() {
+                
+                    if (newwin.closed) {
+                        clearInterval(timer);
+                        var postData = {
+                            order_id: data.oid,
+                            userid: 'n' + userid,
+                            CmdType: '01'
+                        };
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + '=' + encodedValue);
+                        }
+                        formBody = formBody.join('&');
+
+                        return fetch(
+                            API_URL + 'accounting/api/asiapay/orderStatus',
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'content-type':
+                                        'application/x-www-form-urlencoded; charset=UTF-8'
+                                },
+                                body: formBody
+                            }
+                        )
+                            .then(function(res) {
+                                if(res.status == 200){
+                                    return res.json();
+                                }else{
+                                    currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                }
+                            })
+                            .then(function(data) {
+                                if(data.errorCode){
+                                    currentComponent.props.logout();
+                                    postLogout();
+                                    return;
+                                }
+                                //console.log(data.status);
+                                if (data.status === '001') {
+                                    //alert('Transaction is approved.');
+                                    const body = JSON.stringify({
+                                        type: 'add',
+                                        username:
+                                            currentComponent.state.data
+                                                .username,
+                                        balance: currentComponent.state.amount
+                                    });
+                                    //console.log(body);
+                                    axios
+                                        .post(
+                                            API_URL +
+                                                `users/api/addorwithdrawbalance/`,
+                                            body,
+                                            config
+                                        )
+                                        .then(res => {
+                                            if (res.data === 'Failed') {
+                                                //currentComponent.setState({ error: true });
+                                                currentComponent.props.callbackFromParent(
+                                                    'error',
+                                                    'Transaction failed.'
+                                                );
+                                            } else if (
+                                                res.data ===
+                                                'The balance is not enough'
+                                            ) {
+                                                currentComponent.props.callbackFromParent(
+                                                    'error',
+                                                    'Cannot deposit this amount.'
+                                                );
+                                            } else {
+                                                currentComponent.props.callbackFromParent(
+                                                    'success',
+                                                    currentComponent.state
+                                                        .amount
+                                                );
+                                            }
+                                        });
+                                } else {
+                                    currentComponent.props.callbackFromParent(
+                                        'error',
+                                        data.StatusMsg
+                                    );
+                                }
+                            });
+                        }
+                    }, 1000);
+                }
+                
+            })
+            .catch(function (err) {  
+                //console.log('Request failed', err);
+                currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                sendingLog(err);});
+    };
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;

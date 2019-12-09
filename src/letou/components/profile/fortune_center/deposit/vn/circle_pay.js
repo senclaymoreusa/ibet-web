@@ -412,7 +412,7 @@ class CirclePay extends Component {
                 this.setState({
                     amountInvalid:
                         parseFloat(event.target.value) < 20000 ||
-                        parseFloat(event.target.value) > 50000
+                        parseFloat(event.target.value) > 100000000
                 });
             } else {
                 this.setState({ amountInvalid: true });

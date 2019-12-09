@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -72,10 +70,10 @@ export class LotteryRuleOneVn extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -85,12 +83,12 @@ export class LotteryRuleOneVn extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/vn/for_member">Dành cho Thành viên >
+                                <a href="/vi/for_member">Dành cho Thành viên >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/vn/for_member">Luật chơi Sổ xố >
+                                <a href="/vi/for_member">Luật chơi Sổ xố >
                                     <i></i>
                                 </a>
                             </li>
@@ -98,37 +96,37 @@ export class LotteryRuleOneVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
                                 <a>Bảng chú giải</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
                                 <a>Xổ Số HK</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
                                 <a>Xổ Số Singaporean</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
                                 <a>Xổ Số Trung Quốc</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
                                 <a>Xổ Số New Zealand</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
                                 <a>Xổ Số Đức</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
                                 <a>Xổ Số British</a>
                             </li>
-                            <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
+                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
                                 <a>Xổ Số Spanish</a>
                             </li>
-                            <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
+                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
                                 <a>Xổ Số South African</a>
                             </li>
-                            <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
+                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
                                 <a>Xổ Số Canada</a>
                             </li>
-                            <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
+                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
                                 <a>Xổ Số American</a>
                             </li>
                         </ul>
@@ -136,7 +134,7 @@ export class LotteryRuleOneVn extends React.Component {
                     </div>
                     {/* <!-- please only edit HelperCenterDetail's contain --> */}
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1} >
+                        <div className="centerDetail" hidden={this.state.current !== 1} >
                         <h2>Bảng chú giải</h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -188,7 +186,7 @@ export class LotteryRuleOneVn extends React.Component {
                                 hợp dựa trên “Số Đặc Biệt”. Ví dụ: Người chơi chọn số 1 là số đặc biệt, chọn 2, 3 và 4, 5 là số ngẫu nhiên. Kết hợp chỉ
                                 có thể là [1,2],[1,3] và [1,4] nếu người chơi cược trúng cả 2.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                             <h2> Xổ số HK </h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -299,7 +297,7 @@ export class LotteryRuleOneVn extends React.Component {
                                 từ 28 điểm tới 322 điểm.</p>
                         </div>
 
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <h2> Xổ Số Singaporean </h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -372,7 +370,7 @@ export class LotteryRuleOneVn extends React.Component {
                             <p> Người chơi dự đoán tổng của bóng đặc biệt và bóng thường và kết quả sẽ rơi vào khoảng nào. Tổng điểm sẽ được chia ra 6 khoảng
                                 từ 28 điểm tới 322 điểm.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <h2> Xổ số Trung Quốc </h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -391,7 +389,7 @@ export class LotteryRuleOneVn extends React.Component {
                                 <br /> - Một Chữ Số Lớn/Nhỏ：nếu một chữ số bằng hoặc lớn hơn 5 sẽ là “”Một chữ số big; nếu một chữ số bằng hoặc nhỏ hơn 4 sẽ
                                 là “”Một chữ số nhỏ.””</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                         <h2> Xổ số Zealand Mới </h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -410,7 +408,7 @@ export class LotteryRuleOneVn extends React.Component {
                                 <br /> - Chữ số hàng đơn vị lớn/nhỏ：Nếu chữ số hàng đơn vị lớn hơn hoặc bằng 5, kết quả sẽ là “Chữ số hàng đơn vị lớn;”” Nếu
                                 chữ số hàng đơn vị nhỏ hơn hoặc bằng 4, kết quả sẽ là “Chữ số hàng đơn vị nhỏ.""</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                         <h2> Xổ số Đức </h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -421,7 +419,7 @@ export class LotteryRuleOneVn extends React.Component {
                             &nbsp;
                             <p> Người chơi thắng nếu số cược trùng với bóng bất kì từ bóng số 1 tới bóng số 6.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                         <h2>Xổ Số British</h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -481,7 +479,7 @@ export class LotteryRuleOneVn extends React.Component {
                             <p>Người chơi dự đoán tổng của bóng đặc biệt và bóng thường và kết quả sẽ rơi vào khoảng nào. Tổng điểm sẽ được chia ra 6 khoảng
                                 từ 28 điểm tới 322 điểm.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 8}>
+                        <div className="centerDetail" hidden={this.state.current !== 8}>
                         <h2>Xổ Số Spanish</h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -542,7 +540,7 @@ export class LotteryRuleOneVn extends React.Component {
                             <p>Người chơi dự đoán tổng của bóng đặc biệt và bóng thường và kết quả sẽ rơi vào khoảng nào. Tổng điểm sẽ được chia ra 6 khoảng
                                 từ 28 điểm tới 322 điểm.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 9}>
+                        <div className="centerDetail" hidden={this.state.current !== 9}>
                         <h2>Xổ Số South African</h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -604,7 +602,7 @@ export class LotteryRuleOneVn extends React.Component {
                             <p>Người chơi dự đoán tổng của bóng đặc biệt và bóng thường và kết quả sẽ rơi vào khoảng nào. Tổng điểm sẽ được chia ra 6 khoảng
                                 từ 28 điểm tới 322 điểm.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 10}>
+                        <div className="centerDetail" hidden={this.state.current !== 10}>
                         <h2> Xổ Số Canadian</h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>
@@ -679,7 +677,7 @@ export class LotteryRuleOneVn extends React.Component {
                             <p> Người chơi dự đoán tổng của bóng đặc biệt và bóng thường và kết quả sẽ rơi vào khoảng nào. Tổng điểm sẽ được chia ra 6 khoảng
                                 từ 28 điểm tới 322 điểm.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 11}>
+                        <div className="centerDetail" hidden={this.state.current !== 11}>
                         <h2> Xổ Số American </h2>
                             &nbsp;
                             <h1>【Số đặc biệt】</h1>

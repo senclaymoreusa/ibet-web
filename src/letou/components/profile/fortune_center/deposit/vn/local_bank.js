@@ -391,8 +391,8 @@ class VietnamLocalBank extends Component {
                 this.setState({ amount: event.target.value });
                 this.setState({
                     amountInvalid:
-                        parseFloat(event.target.value) < 200 ||
-                        parseFloat(event.target.value) > 100000
+                        parseFloat(event.target.value) < 200000 ||
+                        parseFloat(event.target.value) > 100000000
                 });
             } else {
                 this.setState({ amountInvalid: true });
