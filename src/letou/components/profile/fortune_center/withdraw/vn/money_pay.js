@@ -461,7 +461,7 @@ class MoneyPay extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300 || parseFloat(event.target.value) > 300000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 200 || parseFloat(event.target.value) > 50000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -575,21 +575,6 @@ class MoneyPay extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavorite(event) {
-        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
-            payment: event.target.checked ? 'vietnamhelp2pay' : null,
-        })
-            .then(res => {
-                this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
-    }
-
-
     bankAccountNumberChanged(event) {
         this.setState({ bankAccountNumberFocused: true });
 
@@ -665,7 +650,7 @@ class MoneyPay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder="₫300 - 300,000"
+                            placeholder="₫200 - 50,000"
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -700,7 +685,8 @@ class MoneyPay extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField className={classes.detailText}
-                            value={this.state.withdrawalPassword}
+                             placeholder={this.getLabel('withdrawal-password')}
+                             value={this.state.withdrawalPassword}
                             onChange={this.withdrawPasswordChanged.bind(this)}
                             type={this.state.showWithdrawPassword ? '' : 'password'}
                             // error={this.state.withdrawPasswordInvalid}
@@ -723,17 +709,17 @@ class MoneyPay extends Component {
                                 ),
                             }} />
                     </Grid>
-                    <Grid item xs={12} style={{ paddingTop: 0, marginBottom:30 }}>
+                    {/* <Grid item xs={12} style={{ paddingTop: 0, marginBottom: 30 }}>
                         <Button className={classes.forgot}>
                             {this.getLabel('forgot-password')}
                         </Button>
-                    </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
+                    </Grid> */}
+                    <Grid item xs={6} className={classes.buttonCell} style={{ marginTop: 30 }}>
                         <Button variant="contained" className={classes.cancelButton}
                             onClick={this.cancelClicked.bind(this)}
                         >{this.getLabel('cancel-label')}</Button>
                     </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
+                    <Grid item xs={6} className={classes.buttonCell} style={{ marginTop: 30 }}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick.bind(this)}
                             disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
