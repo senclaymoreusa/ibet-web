@@ -450,7 +450,7 @@ export class Transfer extends Component {
     }
 
     sendClicked() {
-        axios.get(API_URL + 'users/api/transfer/',
+        axios.post(API_URL + 'users/api/transfer/',
             {
                 'user_id': this.state.userId,
                 'from_wallet': this.state.from.code,
