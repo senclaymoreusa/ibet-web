@@ -301,7 +301,7 @@ class Astropay extends Component {
             amountInvalid: true,
 
             currency: '',
-            isFavourite: false,
+            isFavorite: false,
         };
     }
 
@@ -317,7 +317,7 @@ class Astropay extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavourite: res.data.favorite_payment_method === 'astropay' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'astropay' });
             });
     }
 
@@ -333,7 +333,7 @@ class Astropay extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavourite: res.data.favorite_payment_method === 'astropay' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'astropay' });
             });
     }
 
@@ -472,7 +472,7 @@ class Astropay extends Component {
             payment: event.target.checked ? 'astropay' : null,
         })
             .then(res => {
-                this.setState({ isFavourite: !this.state.isFavourite });
+                this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
@@ -494,7 +494,7 @@ class Astropay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, currency, isFavourite } = this.state;
+        const { amount, currency, isFavorite } = this.state;
 
 
         return (
@@ -624,7 +624,7 @@ class Astropay extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />
