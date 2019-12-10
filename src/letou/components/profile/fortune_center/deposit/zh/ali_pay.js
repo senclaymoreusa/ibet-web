@@ -318,14 +318,16 @@ class AliPay extends Component {
 
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Alipay');
-                currentComponent.props.callbackFromParent("inprogress", 'Transaction in progress.');
+                currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
                 var timer = setInterval(function () {
                     //console.log('checking..')
+                    console.log("data",data)
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
                             "trans_id": data.paymentPageSession.orderId
                         }
+                        
                         var formBody = [];
                         for (var pd in postData) {
                             var encodedKey = encodeURIComponent(pd);
@@ -333,7 +335,7 @@ class AliPay extends Component {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
-
+                        console.log("postData",postData)
 
                         return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
                             method: "POST",

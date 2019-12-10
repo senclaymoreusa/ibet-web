@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
-        width: '50%',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'left',
@@ -59,8 +59,8 @@ const styles = theme => ({
         margin: 20
     },
     button: {
-        width: '100%',
-        height: 44,
+        width: '50%',
+        height: 33,
         borderRadius: 22,
         backgroundColor: '#4DA9DF',
         color: '#fff',
@@ -138,7 +138,7 @@ export class DepositInprogress extends Component {
         var parts = url.split('/');
         url = '/';
         var path = parts.slice(1, 2).join('/');
-        url = url + path + "/transaction-record"
+        url = url + path + "/transaction-records"
         this.props.history.push(url);
     }
 
@@ -174,24 +174,24 @@ export class DepositInprogress extends Component {
                 <Grid container>
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
-                            {this.getLabel('actual-name')}
+                            {"Deposit Method"}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                        {this.getLabel('ali-pay')}
+                        {InprogressMessage["method"] ? InprogressMessage["method"] : this.getLabel('deposit-failed-text')}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row}></Grid>
 
                     <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
-                            {this.getLabel('email-label')}
+                            {this.getLabel('Order Number')}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                        {this.getLabel('ali-pay')}
+                        {InprogressMessage["trans_ID"] ? InprogressMessage["trans_ID"] : this.getLabel('deposit-failed-text')}
                         </span>
                     </Grid>
 
