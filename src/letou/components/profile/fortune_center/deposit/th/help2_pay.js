@@ -387,7 +387,7 @@ class Help2pay extends Component {
 
             currency: "THB",
             currencyCode: 'THB',
-            isFavourite: false,
+            isFavorite: false,
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -407,7 +407,7 @@ class Help2pay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavourite: res.data.favorite_payment_method === 'help2pay' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'help2pay' });
             });
     }
 
@@ -425,7 +425,7 @@ class Help2pay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavourite: res.data.favorite_payment_method === 'help2pay' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'help2pay' });
             });
     }
 
@@ -567,7 +567,7 @@ class Help2pay extends Component {
             payment: event.target.checked ? 'help2pay' : null,
         })
             .then(res => {
-                this.setState({ isFavourite: !this.state.isFavourite });
+                this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
@@ -586,7 +586,7 @@ class Help2pay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { selectedBankOption, isFavourite, amount, currency } = this.state;
+        const { selectedBankOption, isFavorite, amount, currency } = this.state;
 
         console.log('code: ' + this.state.currencyCode)
         // const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
@@ -650,7 +650,7 @@ class Help2pay extends Component {
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavourite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />
