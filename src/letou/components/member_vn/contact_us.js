@@ -64,10 +64,10 @@ export class ContactUsVn extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -77,12 +77,12 @@ export class ContactUsVn extends React.Component {
                 <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/vn/for_member">供会员使用  >
+                                <a href="/vi/for_member">供会员使用  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/vn/for_member">乐投品牌故事  >
+                                <a href="/vi/for_member">乐投品牌故事  >
                                     <i></i>
                                 </a>
                             </li>

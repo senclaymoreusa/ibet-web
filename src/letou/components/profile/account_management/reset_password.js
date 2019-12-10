@@ -4,15 +4,9 @@ import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Create from '@material-ui/icons/Create';
 import Button from '@material-ui/core/Button';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 import { config } from '../../../../util_config';
 import axios from 'axios'
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -276,7 +270,7 @@ export class ResetPassword extends Component {
                 'current_password': this.state.password,
                 'new_password': this.state.newPassword
             }, config)
-            .then(res => {
+            .then(() => {
                 this.setState({ snackType: 'success' });
                 this.setState({ snackMessage: this.getLabel('password-reset-successful') });
                 this.setState({ showSnackbar: true });

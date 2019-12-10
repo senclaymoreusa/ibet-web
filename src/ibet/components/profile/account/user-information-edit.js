@@ -21,8 +21,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import ReactPhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/dist/style.css'
+// import ReactPhoneInput from 'react-phone-input-2'
+// import 'react-phone-input-2/dist/style.css'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -619,7 +619,7 @@ class UserInformationEdit extends Component {
                                                 }}
                                             />
                                         </Grid>
-                                        <Grid item xs={12} style={{ paddingBottom: 20 }}>
+                                        {/* <Grid item xs={12} style={{ paddingBottom: 20 }}>
                                             <span className={classes.label}>Phone</span>
                                             <ReactPhoneInput defaultCountry={'us'}
                                                 className={classes.mandatoryText}
@@ -627,7 +627,7 @@ class UserInformationEdit extends Component {
                                                 onChange={this.phoneChanged}
                                                 onFocus={this.phoneFocused} />
                                             {(this.state.phoneInvalid && this.state.phoneFocused) ? <span className={classes.errorLabel}>Phone cannot be empty.</span> : null}
-                                        </Grid>
+                                        </Grid> */}
                                         <Grid item xs={12}>
                                             <span className={classes.label}>Member Since</span>
                                             <TextField
