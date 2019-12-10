@@ -287,7 +287,7 @@ const BaseRouter = () => (
         <Route exact path="/th/member_rule6" component={member_rule6Th} />
        
 
-        <Route exact path="/p/:type?/:sub?" component={Profile} />
+        
       
 
 
