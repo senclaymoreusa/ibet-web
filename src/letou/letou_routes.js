@@ -154,8 +154,6 @@ import  BaijialeVn  from './components/member_vn/game_baijiale';
 import  LunpanVn  from './components/member_vn/game_lunpan';
 import  Game21dianVn  from './components/member_vn/game_21dian';
 import  VirtualVn  from './components/member_vn/virtual_sports';
-import  GameLobby  from './components/game_lobby';
-import  GameDetail  from './components/game_detail';
 import  gbsports from './components/sports/gbsports';
 import  gbesports from './components/sports/gbesports';
 import  onebook from './components/sports/onebook';
@@ -166,6 +164,8 @@ import  gbk3 from './components/sports/gbk3';
 import  gbpk10 from './components/sports/gbpk10';
 import  gbssc from './components/sports/gbssc';
 import  Games  from './components/game';
+import GameLobby from './components/game_lobby';
+import GameDetail from './components/game_detail';
 
 
 const containerStyle = {
@@ -177,8 +177,6 @@ const BaseRouter = () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/live_casino" component={live_casino} />
-        <Route exact path="/game" component={GameLobby} />
-        <Route exact path="/game_detail/:id?" component={GameDetail} />
         <Route exact path='/gbsports' component={gbsports} />
         <Route exact path='/gbesports' component={gbesports} />
         <Route exact path='/onebook' component={onebook} />
@@ -188,8 +186,9 @@ const BaseRouter = () => (
         <Route exact path='/gbk3' component={gbk3} />
         <Route exact path='/gbpk10' component={gbpk10} />
         <Route exact path='/gbssc' component={gbssc} />
-        <Route exact path="/game" component={Games} />
-
+        {/* <Route exact path="/game" component={Games} /> */}
+        <Route exact path="/game/:provider?/:search?/" component={GameLobby} />
+        <Route exact path="/game_detail/:id" component={GameDetail} />
 
         <Route exact path="/zh/about_us" component={AboutUs} />
         <Route exact path="/zh/contact_us" component={ContactUs} />

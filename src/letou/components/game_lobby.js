@@ -13,6 +13,9 @@ import Grid from '@material-ui/core/Grid';
 import '../css/help.css'
 import Paper from '@material-ui/core/Paper';
 import { NavLink } from 'react-router-dom';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
 
 
 import placeholdimage from '../images/handsomecat.jpg';
@@ -48,27 +51,54 @@ const styles = theme => ({
     display: 'flex',
     
   },
-  
-
 
 });
+
+
+const AntTabs = withStyles({
+    root: {
+    borderBottom: '1px solid #e8e8e8',
+    },
+    indicator: {
+    backgroundColor: '#1890ff',
+    },
+    // indicator: {
+    //     display: "flex",
+    //     justifyContent: "center",
+    //     backgroundColor: "transparent",
+    //     "& > div": {
+    //         maxWidth: 100,
+    //         width: "100%",
+    //         backgroundColor: "white"
+    //     }
+    // }
+})(Tabs);
 
 export class GameLobby extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-       current: 0,
-       freegame: true,
-       data: '',
-       sessionKey : null,
-       games:[]
+        current: 0,
+        freegame: true,
+        data: '',
+        sessionKey : null,
+        
+        searchKey: '',
+        games:[],
+        providers: [],
     };
 
     this.getLabel = this.getLabel.bind(this);
+    this.providerSelect = this.providerSelect.bind(this);
+    this.handlechange = this.handlechange.bind(this);
   }
+
   componentDidMount() {
 
+    var { provider, search } = this.props.match.params;
+    console.log(provider, search)
+    console.log("component did mount again")
     if (!this.props.isAuthenticated) {
         this.state.freegame = true;
     } else {
@@ -81,10 +111,25 @@ export class GameLobby extends React.Component {
         });
     }
 
-    axios.get(API_URL + 'games/api/games/', config).then(res => {
+    // axios.get(API_URL + 'games/api/games/?provider=' + this.state.searchKey, config).then(res => {
+    //     console.log(res.data);
+    //     this.setState({ games: res.data });
+    // });
+
+    if (!provider) {
+        provider = '';
+    }
+
+    axios.get(API_URL + 'games/api/games/?provider=' + provider, config).then(res => {
         console.log(res.data);
         this.setState({ games: res.data });
     });
+    
+
+    axios.get(API_URL + 'games/api/providers/', config).then(res => {
+        console.log(res);
+        this.setState({ providers: res.data });
+    }); 
   }
 
   getLabel(labelId) {
@@ -92,14 +137,97 @@ export class GameLobby extends React.Component {
     return formatMessage({ id: labelId });
   }
 
+  providerSelect(index, provider) {
+        console.log("here " + provider);
+        if (provider === "All") {
+            this.setState({
+                current: 0,
+                searchKey: ""
+            })
+        } else {
+            this.setState({
+                current: index,
+                searchKey: provider
+            })
+            // this.props.history.push('/game/'+provider);
+        }
+  }
+
+  handlechange(event, newValue) {
+        this.setState({ value: newValue })
+    }
+
+  async handle_category_change(category, sub) {
+      console.log(category);
+    // const { sub } = this.props.match.params;
+    // var url = this.state.urlPath;
+    // var parts = url.split('/');
+    // // console.log("domainUrl: "  + domainUrl);
+    // if (parts.length >= 3) {
+    //     url = '/';
+    //     var path = parts.slice(1, 3).join('/');
+    //     url = url + path;
+    // }
+    // // console.log("sub: " + sub);
+    // // console.log("category: " + category);
+    // url = url + '/' + category;
+    // // this.setState({ api: url });
+    // // console.log("URL: " + url);
+    // this.props.history.push(url);
+}
 
   render() {
 
     const { classes } = this.props;
     return (
         <div className={classes.root}>
-        <TopNavbar />
-        <li style={{ marginLeft: 200, marginTop: 50}}> NETENT</li>
+            <TopNavbar />
+            <div className={classes.game}>
+            <Paper square>
+            {/* <li style={{ marginLeft: 200, marginTop: 50}}> NETENT</li> */}
+            {/* <ul className="SecFilter">
+                <li key={0} className={this.state.current == 0 ? "Active" : ""} onClick={this.providerSelect.bind(this, 0, "All")}><a>{ "ALL" }</a></li>
+                {
+                    this.state.providers.map((provider, index) => {
+                        return (
+                            <li key={index+1} className={this.state.current == index+1 ? "Active" : ""} onClick={this.providerSelect.bind(this, index, provider)}><a>{ provider }</a></li>
+                        )
+                    })
+                }
+            </ul> */}
+            {/* <AntTabs centered value={""} onChange={this.handlechange} style={{ backgroundColor: '#2d2d2d' }}>
+                <AntTabs label="All" 
+                onClick={() => {
+                    if (this.props.match.params.sub !== 'all') {
+                        this.handle_category_change('all');
+                    }
+                }}/> */}
+                {/* <Tab label="Active" /> */}
+                {/* <AntTabs label="Disabled" disabled />
+                <AntTabs label="Active" />
+            </AntTabs> */}
+                {/* <Tabs
+                    style={{ outline: 'none' }}
+                    // label={allMessage}
+                    value="all"
+                    onClick={() => {
+                        if (this.props.match.params.sub !== 'all') {
+                            this.handle_category_change('all');
+                        }
+                    }}
+                />
+                <Tabs
+                    style={{ outline: 'none' }}
+                    // label={rouletteMessage}
+                    value="roulette"
+                    onClick={() => {
+                        if (this.props.match.params.sub !== 'roulette') {
+                            this.handle_category_change('roulette');
+                        }
+                    }}
+                /> */}
+            </Paper>
+        </div>
         <div className={classes.game}>
 
             <Grid container item xs={12} sm={12} key="455">
@@ -112,7 +240,7 @@ export class GameLobby extends React.Component {
                                     <Paper style={{ margin: 15 }}>
                                         <NavLink to = {{ pathname: `/game_detail/${game.pk}`}} style={{ textDecoration: 'none' }}> 
                                             <div>
-                                                <img src={game.image_url} height = "200" width="100%" alt = 'Not available'/>
+                                                <img src={gameFields.image_url} height = "200" width="100%" alt = 'Not available'/>
                                                 
                                                 <br/>
 

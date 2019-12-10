@@ -5,6 +5,7 @@ import axios from 'axios';
 import { config } from '../../util_config';
 import { FormattedMessage } from 'react-intl';
 import Iframe from 'react-iframe';
+import { GAME_URLS } from '../../game_constant';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;
@@ -19,41 +20,52 @@ class GameDetail extends Component {
 
         this.state = {
             gameURL: '',
-            token: ''
+            token: '',
+            gameId: ''
         };
-
-        this.generateUrl = this.generateUrl.bind(this);
     }
-    
+
+
     componentDidMount() {
         const { id } = this.props.match.params;
         axios.get(API_URL + `games/api/games-detail/?id=${id}`, config)
         .then(res => {
             var data = res.data[0];
+            var providerName = data.provider.provider_name;
+            var gameId = data.smallgame_id
             data.categoryName = data.category_id.name;
             if (this.props.isAuthenticated) {
-                this.setState({gameURL: data.game_url});
-                let res = this.generateUrl(localStorage.getItem('token'));
-                this.setState({gameURL: res});
+                var gameUrl = GAME_URLS[providerName]["real"]
+                let token = localStorage.getItem('token');
+                gameUrl = gameUrl.replace("{token}", token)
+                gameUrl = gameUrl.replace("{lang}", "en")
+                gameUrl = gameUrl.replace("{gameId}", gameId)
+                this.setState({ gameURL: gameUrl});
+                // console.log("print: " + gameUrl);
             } else {
-                this.setState({gameURL: data.game_guest_url});
+                var gameUrl = GAME_URLS[providerName]["free"]
+                gameUrl = gameUrl.replace("{lang}", "en")
+                gameUrl = gameUrl.replace("{gameId}", gameId)
+                this.setState({ gameURL: gameUrl });
+                // console.log("print: " + gameUrl);
             }
         })
     }
 
 
-    generateUrl(token) {
-        String.prototype.format = function () {
-            var i = 0, args = arguments;
-            return this.replace(/{}/g, function () {
-                return typeof args[i] != 'undefined' ? args[i++] : '';
-            });
-        };
+    // generateUrl(url, gameId, token, lang) {
+    //     String.prototype.format = function () {
+    //         var i = 0, args = arguments;
+    //         return this.replace(/{}/g, function (gameId, token, lang) {
+    //             console.log(args[i]);
+    //             return typeof args[i] != 'undefined' ? args[i++] : '';
+    //         });
+    //     };
 
-        let res = this.state.gameURL.format(token);
-        return res;
+    //     let res = url.format(gameId, token, lang);
+    //     return res;
 
-    }
+    // }
 
   render() {
     return(
