@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 
 
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, handle_inbox_value, sendingLog, logout, postLogout } from '../../../../actions';
 import { injectIntl } from 'react-intl';
+import { errors } from '../../../../src/ibet/components/errors'
 import { withRouter } from 'react-router-dom';
+
+import { images, config } from '../../../../../util_config';
+import axios from 'axios';
+import moment from 'moment';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = () => ({
     root: {
@@ -37,27 +44,36 @@ const styles = () => ({
         width: 10,
         height: 60,
         borderTopLeftRadius: 6,
-        borderBottomLeftRadius:6,   
+        borderBottomLeftRadius: 6,   
         backgroundColor: '#53abe0',
     },
+    readMark: {
+        display: 'inline-block',
+        width: 10,
+        height: 60,
+        borderTopLeftRadius: 6,
+        borderBottomLeftRadius: 6,
+    },
     messageContainer: {
-        width: 310,
+        width: 550,
+        paddingTop: 6,
         paddingLeft: 43,
         flexDirection: "column",
         justify: "center",
         alignItems: "center",
     },
     subject: {
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 600,
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 1.5,
+        lineHeight: '20px',
         letterSpacing: 'normal',
+        color: '#f28f22',
     },
     message: {
         display: 'block',
-        width: 310,
+        width: 505,
         fontSize: 12,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -94,9 +110,77 @@ export class MessageNotification extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            Messages: [],
+            showMessage: false,
+            messageText: "Message deleted",
+            changed: false
+        }
+
+        this.detailClicked = this.detailClicked.bind(this);
+        this.deleteClicked = this.deleteClicked.bind(this);
+        this.closeNotificationClicked = this.closeNotificationClicked.bind(this);
     }
 
+    componentDidMount() {
+        this.props.authCheckState()
+            .then(res => {
+                if (res === 1) {
+                    window.location.reload();
+                }
+            })
 
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+        
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
+                    .then(res => {
+                        if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                            this.props.logout();
+                            postLogout();
+                            return;
+                        }
+                        this.setState({Messages: res.data});
+                    }).catch(err => {
+                        // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                        sendingLog(err);
+                    })
+            })
+    }
+
+    detailClicked(msg) {
+        this.props.callbackFromParent('inbox_detail', msg);
+    }
+
+    deleteClicked(id) {
+        axios.post(API_URL + 'operation/api/delete_message/' + id, config)
+            .then(res => {
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                    this.props.logout();
+                    postLogout();
+                    return;
+                }
+
+                if(res.status === 200) {
+                    this.setState({ showMessage: true });
+                    let filteredList = this.state.Messages.filter(item => item.pk !== id);
+                    this.setState({ Messages: filteredList});
+                    this.setState({ changed : !this.state.changed});
+                }
+
+            }).catch(err => {
+                //console.log("err: ", err);
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                sendingLog(err);
+            })
+    }
+
+    closeNotificationClicked() {
+        this.setState({ showMessage: false });
+    }
 
     render() {
         const { classes } = this.props;
@@ -129,7 +213,7 @@ export class MessageNotification extends Component {
                         <span className={classes.date}>07/12</span>
                     </Grid>
                     <Grid item xs={12} className={classes.notification}>
-                        <div className={classes.unreadMark}></div>
+                        <div className={classes.readMark}></div>
                         <div className={classes.messageContainer}>
                             <span className={classes.subject}>Hi</span>
                             <br/>
