@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState, handle_inbox_value, sendingLog, logout, postLogout } from '../../../../actions';
 import { injectIntl } from 'react-intl';
-// import { errors } from '../../../../ibet/components/errors'
+import { errors } from '../../errors';
 import { withRouter } from 'react-router-dom';
 
 import { images, config } from '../../../../util_config';
@@ -142,11 +142,11 @@ export class MessageNotification extends Component {
             .then(res => {
                 axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
                     .then(res => {
-                        // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                        //     this.props.logout();
-                        //     postLogout();
-                        //     return;
-                        // }
+                        if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                            this.props.logout();
+                            postLogout();
+                            return;
+                        }
                         this.setState({Messages: res.data});
                     }).catch(err => {
                         // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
@@ -162,11 +162,11 @@ export class MessageNotification extends Component {
     deleteClicked(id) {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
-                // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                //     this.props.logout();
-                //     postLogout();
-                //     return;
-                // }
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                    this.props.logout();
+                    postLogout();
+                    return;
+                }
 
                 if(res.status === 200) {
                     this.setState({ showMessage: true });
@@ -200,26 +200,6 @@ export class MessageNotification extends Component {
         return (
             <div className={classes.root}>
                 <Grid container>
-                    <Grid item xs={12} className={classes.notification}>
-                        <div className={classes.unreadMark}></div>
-                        <div className={classes.messageContainer}>
-                            <span className={classes.subject}>Hello</span>
-                            <br/>
-                            <span className={classes.message}>Bobby</span>
-                        </div>
-                        <Button className={classes.delete}>delete</Button>
-                        <span className={classes.date}>07/12</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.notification}>
-                        <div className={classes.readMark}></div>
-                        <div className={classes.messageContainer}>
-                            <span className={classes.subject}>Hi</span>
-                            <br/>
-                            <span className={classes.message}>Bobby</span>
-                        </div>
-                        <Button className={classes.delete}>delete</Button>
-                        <span className={classes.date}>07/10</span>
-                    </Grid>
                     {this.state.Messages.map(item => {
                         if(!item.is_deleted) {
                             if(!item.is_read) {
