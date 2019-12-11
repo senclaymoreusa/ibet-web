@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -26,7 +27,6 @@ import Paper from '@material-ui/core/Paper';
 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import Home from '@material-ui/icons/Home';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import Person from '@material-ui/icons/Person';
 import ContactSupport from '@material-ui/icons/ContactSupport';
@@ -59,7 +59,8 @@ const styles = theme => ({
         width: '100%',
         position: 'fixed',
         bottom: 0,
-        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
+        boxShadow:
+            '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
         [theme.breakpoints.up('md')]: {
             display: 'none'
         }
@@ -293,7 +294,7 @@ export class Footer extends React.Component {
         super(props);
 
         this.state = {
-            activeValue: 'home'
+            activeMenu: 'home'
         };
 
         this.getLabel = this.getLabel.bind(this);
@@ -303,12 +304,18 @@ export class Footer extends React.Component {
         return formatMessage({ id: labelId });
     }
 
+    getMobileFooterIconUrl(menu) {
+        if (this.state.activeMenu === menu)
+            return images.src + 'letou/' + menu + '-bottom-active.png';
+        else return images.src + 'letou/' + menu + '-bottom.png';
+    }
+
     render() {
         let { classes } = this.props;
         let phone = '';
         let phoneLabel = '';
-
-        const { activeValue } = this.state;
+        
+        const { activeMenu } = this.state;
 
         switch (this.props.lang) {
             case 'en':
@@ -982,19 +989,41 @@ export class Footer extends React.Component {
                         </Grid>
                     </Grid>
                 </footer>
-                {this.props.isAuthenticated ?
+                {this.props.isAuthenticated ? (
                     <BottomNavigation
-                        value={activeValue}
+                        value={activeMenu}
                         showLabels
                         className={classes.rootMobile}
                     >
                         <BottomNavigationAction
                             label={this.getLabel('home-label')}
-                            icon={<Home />}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl('home')}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
+                            onClick={() => {
+                                this.setState({ activeMenu: 'home' });
+                                this.props.history.push('/');
+                            }}
                         />
                         <BottomNavigationAction
                             label={this.getLabel('promotions-label')}
-                            icon={<AssignmentTurnedIn />}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl(
+                                        'promotion'
+                                    )}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
+                            onClick={() => {
+                                this.setState({ activeMenu: 'promotions' });
+                                this.props.history.push('/promotions');
+                            }}
                         />
                         <BottomNavigationAction
                             label={this.getLabel('deposit-label')}
@@ -1008,29 +1037,55 @@ export class Footer extends React.Component {
                             label={this.getLabel('profile-label')}
                             icon={<Person />}
                             onClick={() => {
-                                this.props.history.push(
-                                    '/p/'
-                                );
+                                this.props.history.push('/p/');
                             }}
                         />
                     </BottomNavigation>
-                    :
+                ) : (
                     <BottomNavigation
-                        value={activeValue}
+                        value={activeMenu}
                         showLabels
                         className={classes.rootMobile}
                     >
                         <BottomNavigationAction
                             label={this.getLabel('home-label')}
-                            icon={<Home />}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl('home')}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
+                            onClick={() => {
+                                this.props.history.push('/');
+                                this.setState({ activeMenu: 'home' });
+                            }}
                         />
                         <BottomNavigationAction
                             label={this.getLabel('promotions-label')}
-                            icon={<AssignmentTurnedIn />}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl(
+                                        'promotions'
+                                    )}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
+                            onClick={() => {
+                                this.props.history.push('/promotions');
+                                this.setState({ activeMenu: 'promotions' });
+                            }}
                         />
                         <BottomNavigationAction
-                            label={this.getLabel('sign-up')}
-                            icon={<MeetingRoom />}
+                            style={{paddingTop:0, paddingBottom:0}}
+                            icon={
+                                <img
+                                src={images.src + 'letou/signup-bottom-'+this.props.lang+'.png'}
+                                alt=""
+                                height="50"
+                            />
+                        }
                             onClick={() => {
                                 this.props.show_letou_mobile_signup();
                             }}
@@ -1047,7 +1102,7 @@ export class Footer extends React.Component {
                             }}
                         />
                     </BottomNavigation>
-                }
+                )}
                 <Modal
                     aria-labelledby="mobile-menu"
                     aria-describedby="mobile-menu-description"
