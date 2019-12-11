@@ -373,9 +373,13 @@ class BankTransfer extends Component {
         }
     };
 
+    handleBankChange = event => {
+        this.setState({ bank: event.target.value });
+    };
+
     handleClick() {
         let currentComponent = this;
-
+        
         currentComponent.setState({ showLinearProgressBar: true });
         
         var postData = {
@@ -384,9 +388,9 @@ class BankTransfer extends Component {
             "currency": "0",
             "language": "zh-Hans",
             "method": "BANK_TRANSFER",
-            "bank":this.state.selectedBankOption,
+            "bank":this.state.bank,
         }
-        //console.log(this.state.amount)
+        console.log(postData)
         //console.log(currentComponent.state.data.username)
         var formBody = [];
         for (var pd in postData) {
@@ -395,6 +399,7 @@ class BankTransfer extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
+        console.log(formBody)
         return  fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
             method: 'POST',
             headers: {
