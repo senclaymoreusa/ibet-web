@@ -460,12 +460,15 @@ export class Transfer extends Component {
             .then(res => {
                 if (res.data.status_code === 1) {
                     this.setState({ snackType: 'success' });
-                    this.setState({ snackMessage: this.getLabel('transfer-successful') });
+                    this.setState({ snackMessage: this.getLabel('transfer-successfull') });
                     this.setState({ showSnackbar: true });
 
                     this.setState({ from: null });
                     this.setState({ to: null });
                     this.setState({ amount: '', amountInvalid: false, amountFocused: false });
+
+                    this.getWalletsByUsername(this.state.userId);
+
                 } else if (res.data.status_code === 107) {
                     this.setState({ snackType: 'error' });
                     this.setState({ snackMessage: res.data.error_message });
@@ -477,17 +480,38 @@ export class Transfer extends Component {
     }
 
     sendAllToMainWallet() {
-        let amount = 0;
+        this.setState({ from: null });
+        this.setState({ to: null });
 
-        this.state.walletObjs.forEach(wallet => {
-            amount += wallet.value
+        let currentComponent = this;
+
+        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain == true)[0];
+        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain == false && parseFloat(item.amount) > 10.00);
+
+        walletsWithAmount.forEach(wallet => {
+
+            axios.post(API_URL + 'users/api/transfer/',
+                {
+                    'user_id': this.state.userId,
+                    'from_wallet': wallet.code,
+                    'to_wallet': mainWalletObj.code,
+                    'amount': wallet.amount
+                }, config)
+                .then(res => {
+                    if (res.data.status_code === 1) {
+                        if (walletsWithAmount[walletsWithAmount.length - 1].code === wallet.code) {
+                            currentComponent.getWalletsByUsername(currentComponent.state.userId);
+                        }
+                    } else if (res.data.status_code === 107) {
+                        this.setState({ snackType: 'error' });
+                        this.setState({ snackMessage: res.data.error_message });
+                        this.setState({ showSnackbar: true });
+                        return true;
+                    }
+                }).catch(err => {
+                    sendingLog(err);
+                });
         });
-
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.isMain === true ? Object.assign(obj, { value: amount }) : Object.assign(obj, { value: 0, color: '#d9d9d9' }))
-            )
-        }));
     }
 
     amountChanged = event => {
@@ -552,9 +576,9 @@ export class Transfer extends Component {
         const { classes } = this.props;
         const { from, to, amount, walletObjs, currency, showConfirmationDialog } = this.state;
 
-        let mainWalletObj = walletObjs.filter(item => item.isMain == 'true')[0];
+        let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
 
-        let otherWalletObjs = walletObjs.filter(item => item.isMain == 'false');
+        let otherWalletObjs = walletObjs.filter(item => item.isMain == false);
 
         let mainWallet = (
             mainWalletObj ?
