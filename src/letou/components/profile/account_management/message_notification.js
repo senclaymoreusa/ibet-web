@@ -4,15 +4,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState, handle_inbox_value, sendingLog, logout, postLogout } from '../../../../actions';
 import { injectIntl } from 'react-intl';
-import { errors } from '../../../../src/ibet/components/errors'
+// import { errors } from '../../../../ibet/components/errors'
 import { withRouter } from 'react-router-dom';
 
-import { images, config } from '../../../../../util_config';
+import { images, config } from '../../../../util_config';
 import axios from 'axios';
 import moment from 'moment';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Fade from '@material-ui/core/Fade';
+import IconButton from '@material-ui/core/IconButton';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -55,7 +59,7 @@ const styles = () => ({
         borderBottomLeftRadius: 6,
     },
     messageContainer: {
-        width: 550,
+        width: 750,
         paddingTop: 6,
         paddingLeft: 43,
         flexDirection: "column",
@@ -90,7 +94,7 @@ const styles = () => ({
         height: 30,
         borderRadius: 6,
         backgroundColor: '#f2f2f2',
-        marginLeft: 129,
+        marginLeft: 225,
         marginTop: 14,
     },
     date: {
@@ -138,11 +142,11 @@ export class MessageNotification extends Component {
             .then(res => {
                 axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
                     .then(res => {
-                        if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                            this.props.logout();
-                            postLogout();
-                            return;
-                        }
+                        // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                        //     this.props.logout();
+                        //     postLogout();
+                        //     return;
+                        // }
                         this.setState({Messages: res.data});
                     }).catch(err => {
                         // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
@@ -152,17 +156,17 @@ export class MessageNotification extends Component {
     }
 
     detailClicked(msg) {
-        this.props.callbackFromParent('inbox_detail', msg);
+        this.props.callbackFromParent('message-detail', msg);
     }
 
     deleteClicked(id) {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
-                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                    this.props.logout();
-                    postLogout();
-                    return;
-                }
+                // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                //     this.props.logout();
+                //     postLogout();
+                //     return;
+                // }
 
                 if(res.status === 200) {
                     this.setState({ showMessage: true });
@@ -185,19 +189,13 @@ export class MessageNotification extends Component {
     render() {
         const { classes } = this.props;
 
-        // return (
-        //     <div className={classes.root}>
-        //         message notification page will be available later!!
-        //     </div>
-        // );
+        const { Messages, showMessage, messageText } = this.state;
 
-        // const { Messages, showMessage, messageText } = this.state;
-
-        // Messages.forEach(message => {
-        //     let publish_on = moment(message.publish_on);
-        //     publish_on = publish_on.format('MM/DD');
-        //     message.publish_on = publish_on;
-        // });
+        Messages.forEach(message => {
+            let publish_on = moment(message.publish_on);
+            publish_on = publish_on.format('MM/DD');
+            message.publish_on = publish_on;
+        });
 
         return (
             <div className={classes.root}>
@@ -222,79 +220,114 @@ export class MessageNotification extends Component {
                         <Button className={classes.delete}>delete</Button>
                         <span className={classes.date}>07/10</span>
                     </Grid>
-                    {/* <Grid item xs={12} className={classes.titleCell}>
-                        <span className={classes.title}>Inbox</span>
-                            <Grid item xs={12} className={classes.content}>
-                                <Snackbar
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'center',
-                                    }}
-                                    open={showMessage}
-                                    onClose={this.closeNotificationClicked}
-                                    autoHideDuration={3000}
-                                    TransitionComponent={Fade}
-                                >
-                                <SnackbarContent
-                                    className={classes.deleteInfo}
-                                    aria-describedby="client-snackbar"
-                                    message={
-                                        <div>
-                                            <span id="client-snackbar" className={classes.deleteMessage}>
-                                                {messageText}
-                                            </span>
-                                        </div>
-                                    }
-                                    action={[
-                                        <IconButton
-                                            key="close"
-                                            aria-label="close"
-                                            color="inherit"
-                                            className={classes.close}
-                                            onClick={this.closeNotificationClicked}
-                                        >
-                                            <img src={images.src + 'close.svg'} className={classes.closeIcon} alt='Not available'/>
-                                        </IconButton>,
-                                    ]}
-                                /></Snackbar>
-                                {this.state.Messages.map(item => {
-                                    if(!item.is_deleted) {
-                                        if(!item.is_read) {
-                                            return(
-                                                <Grid container key={item.pk}>
-                                                    <Grid item xs={12} className={classes.notification}>
-                                                        <div className={classes.unreadMark}></div>
-                                                        <div className={classes.messageContainer} onClick={() => this.detailClicked(item)}>
-                                                            <span className={classes.subject}>{item.subject}</span>
-                                                            <br/>
-                                                            <span className={classes.message}>{item.content}</span>
-                                                        </div>
-                                                        <Button className={classes.delete} onClick={() => this.deleteClicked(item.pk)}>delete</Button>
-                                                        <span className={classes.date}>{item.publish_on}</span>
-                                                    </Grid>
-                                                </Grid>
-                                            )
-                                        } else {
-                                            return(
-                                                <Grid container key={item.pk}>
-                                                    <Grid item xs={12} className={classes.notification}>
-                                                        <div className={classes.readMark}></div>
-                                                        <div className={classes.messageContainer} onClick={() => this.detailClicked(item)}>
-                                                            <span className={classes.subject}>{item.subject}</span>
-                                                            <br/>
-                                                            <span className={classes.message}>{item.content}</span>
-                                                        </div>
-                                                        <Button className={classes.delete} onClick={() => this.deleteClicked(item.pk)}>delete</Button>
-                                                        <span className={classes.date}>{item.publish_on}</span>
-                                                    </Grid>
-                                                </Grid>
-                                            )
-                                        }
-                                    }
-                                })
+                    {this.state.Messages.map(item => {
+                        if(!item.is_deleted) {
+                            if(!item.is_read) {
+                                return(
+                                    <Grid container key={item.pk}>
+                                        <Grid item xs={12} className={classes.notification}>
+                                            <div className={classes.unreadMark}></div>
+                                            <div className={classes.messageContainer} onClick={() => this.detailClicked(item)}>
+                                                <span className={classes.subject}>{item.subject}</span>
+                                                <br/>
+                                                <span className={classes.message}>{item.content}</span>
+                                            </div>
+                                            <Button className={classes.delete} onClick={() => this.deleteClicked(item.pk)}>delete</Button>
+                                            <span className={classes.date}>{item.publish_on}</span>
+                                        </Grid>
+                                    </Grid>
+                                )
+                            } else {
+                                return(
+                                    <Grid container key={item.pk}>
+                                        <Grid item xs={12} className={classes.notification}>
+                                            <div className={classes.readMark}></div>
+                                            <div className={classes.messageContainer} onClick={() => this.detailClicked(item)}>
+                                                <span className={classes.subject}>{item.subject}</span>
+                                                <br/>
+                                                <span className={classes.message}>{item.content}</span>
+                                            </div>
+                                            <Button className={classes.delete} onClick={() => this.deleteClicked(item.pk)}>delete</Button>
+                                            <span className={classes.date}>{item.publish_on}</span>
+                                        </Grid>
+                                    </Grid>
+                                )
+                            }
+                        }
+                    })
+                    }
+                    {/* {
+                        <Grid item xs={12} className={classes.content}>
+                            <Snackbar
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'center',
+                                }}
+                                open={showMessage}
+                                onClose={this.closeNotificationClicked}
+                                autoHideDuration={3000}
+                                TransitionComponent={Fade}
+                            >
+                            <SnackbarContent
+                                className={classes.deleteInfo}
+                                aria-describedby="client-snackbar"
+                                message={
+                                    <div>
+                                        <span id="client-snackbar" className={classes.deleteMessage}>
+                                            {messageText}
+                                        </span>
+                                    </div>
                                 }
-                            </Grid>
-                    </Grid> */}
+                                action={[
+                                    <IconButton
+                                        key="close"
+                                        aria-label="close"
+                                        color="inherit"
+                                        className={classes.close}
+                                        onClick={this.closeNotificationClicked}
+                                    >
+                                        <img src={images.src + 'close.svg'} className={classes.closeIcon} alt='Not available'/>
+                                    </IconButton>,
+                                ]}
+                            /></Snackbar>
+                            {this.state.Messages.map(item => {
+                                if(!item.is_deleted) {
+                                    if(!item.is_read) {
+                                        return(
+                                            <Grid container key={item.pk}>
+                                                <Grid item xs={12} className={classes.notification}>
+                                                    <div className={classes.unreadMark}></div>
+                                                    <div className={classes.messageContainer} onClick={() => this.detailClicked(item)}>
+                                                        <span className={classes.subject}>{item.subject}</span>
+                                                        <br/>
+                                                        <span className={classes.message}>{item.content}</span>
+                                                    </div>
+                                                    <Button className={classes.delete} onClick={() => this.deleteClicked(item.pk)}>delete</Button>
+                                                    <span className={classes.date}>{item.publish_on}</span>
+                                                </Grid>
+                                            </Grid>
+                                        )
+                                    } else {
+                                        return(
+                                            <Grid container key={item.pk}>
+                                                <Grid item xs={12} className={classes.notification}>
+                                                    <div className={classes.readMark}></div>
+                                                    <div className={classes.messageContainer} onClick={() => this.detailClicked(item)}>
+                                                        <span className={classes.subject}>{item.subject}</span>
+                                                        <br/>
+                                                        <span className={classes.message}>{item.content}</span>
+                                                    </div>
+                                                    <Button className={classes.delete} onClick={() => this.deleteClicked(item.pk)}>delete</Button>
+                                                    <span className={classes.date}>{item.publish_on}</span>
+                                                </Grid>
+                                            </Grid>
+                                        )
+                                    }
+                                }
+                            })
+                            }
+                        </Grid>
+                    } */}
                 </Grid>
             </div>
         );
