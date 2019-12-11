@@ -15,6 +15,9 @@ import Paper from '@material-ui/core/Paper';
 import { NavLink } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 
 
@@ -50,6 +53,16 @@ const styles = theme => ({
     marginRight: 200,
     display: 'flex',
     
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+    margin: 200
+  },
+  titleBar: {
+    background:
+      'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
   },
 
 });
@@ -230,7 +243,7 @@ export class GameLobby extends React.Component {
         </div>
         <div className={classes.game}>
 
-            <Grid container item xs={12} sm={12} key="455">
+            {/* <Grid container item xs={12} sm={12} key="455">
                 {  
                     this.state.games.map((game, index) => {
                         var gameFields = game['fields'];
@@ -255,7 +268,23 @@ export class GameLobby extends React.Component {
                         )
                     })
                 }
-            </Grid>
+            </Grid> */}
+            <GridList className={classes.gridList} cols={5.5}>
+                {this.state.games.map(game => (
+                <GridListTile key={game['fields'].image}>
+                    <img src={game['fields'].image} alt='Not available' />
+                    <GridListTileBar
+                    title={game['fields'].name}
+                    classes={{
+                        root: classes.titleBar,
+                        title: classes.title,
+                    }}
+                   
+                    />
+                </GridListTile>
+                ))}
+            </GridList>
+
         </div>
         <Footer />
       </div>
