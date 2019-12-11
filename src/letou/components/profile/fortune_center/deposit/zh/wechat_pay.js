@@ -278,6 +278,7 @@ class WechatPay extends Component {
     };
 
     handleClick() {
+        //Qaicash
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
@@ -380,6 +381,117 @@ class WechatPay extends Component {
         });
     }
 
+    /*
+    handleClick = () => {
+        //asianpay
+        let currentComponent = this;
+        
+        currentComponent.setState({ showLinearProgressBar: true });
+        let userid = this.state.data.pk;
+        var postData = {
+            "amount": this.state.amount,
+            "userid": this.state.data.pk,
+            "currency": "0",
+            "PayWay": "30", //在线支付
+            "method": "38", //wechat
+        }
+        //console.log(this.state.data.pk)
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        }).then(function (res) {
+            //console.log(res);
+
+            currentComponent.setState({ showLinearProgressBar: false });
+
+            
+            return res.json();
+
+        }).then(function (data) {
+            //console.log(data)
+            let qrurl = data.qr;
+            //console.log(qrurl)
+            if(qrurl != null){
+                const mywin = window.open(qrurl, 'asiapay-wechatpay')
+                var timer = setInterval(function () {
+                    
+                    if (mywin.closed) {
+                        clearInterval(timer);
+                        var postData = {
+                            "order_id": data.oid,
+                            "userid": "n" + userid,
+                            "CmdType": "01",
+                        }
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
+
+                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: formBody
+                        }).then(function (res) {
+                            return res.json();
+                        }).then(function (data) {
+                            if(data.errorCode){
+                                currentComponent.props.logout();
+                                postLogout();
+                                return;
+                            }
+                            //console.log(data.status)
+                            if (data.status === "001") {
+                                //alert('Transaction is approved.');
+                                const body = JSON.stringify({
+                                    type: 'add',
+                                    username: currentComponent.state.data.username,
+                                    balance: currentComponent.state.amount,
+                                });
+                                //console.log(body)
+                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                    .then(res => {
+                                        if (res.data === 'Failed') {
+                                            //currentComponent.setState({ error: true });
+                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        } else if (res.data === "The balance is not enough") {
+                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                        } else {
+                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                        } });
+                            } else {
+                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                            }
+                        });
+                    }
+                }, 1000);
+                
+            }else{
+                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+            }
+            
+        }).catch(function (err) {  
+            //console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
+            sendingLog(err);
+            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+        });
+    }
+    */
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });

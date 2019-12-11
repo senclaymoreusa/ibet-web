@@ -220,11 +220,13 @@ export class DepositMain extends Component {
     }
 
     getAvailablePaymentMethods() {
+        
         const { classes } = this.props;
         const { contentValue, userCountry, favouriteMethod } = this.state;
 
         switch (userCountry.toLowerCase()) {
-            case 'china':
+            //case 'china':
+            case 'united states':
                 return (
                     <Grid container className={classes.methodGrid} spacing={4}>
                         <Grid item xs={1} className={classes.methodColumn}>
