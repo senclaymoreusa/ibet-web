@@ -22,22 +22,22 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         paddingLeft: 60,
-        marginTop: 52,
+        marginTop: 50,
         minHeight: 485,
         overflowY: 'scroll',
     },
     goBackIcon: {
         display: 'inline-block',
         width: 20,
-        height: 20,
-        marginLeft: 49,
+        height: 25,
+        marginLeft: 50,
         marginRight: 50,
     },
     title: {
         display: 'inline-block',
         width: 925,
         height: 25,
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -50,10 +50,10 @@ const styles = theme => ({
         display: 'inline-block',
         width: 20,
         height: 20,
-        marginRight: 49,
+        marginRight: 50,
     },
     subject: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 600,
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -157,14 +157,14 @@ export class MessageDetail extends Component {
         return (
             <div className={classes.root}>
                 <Grid container>
-                    <Grid item xs={12} className={classes.titleCell}>
+                    <Grid item xs={12}>
                         <span className={classes.goBackIcon} onClick={this.backClicked}>
-                            <img src={images.src + 'back.svg'} alt='Not available'/>
+                            <img src={images.src + 'back.png'} alt='Not available'/>
                         </span>
                         <span className={classes.title}>{this.props.message.subject}</span>
-                        <span className={classes.closeIcon} onClick={this.backClicked}>
+                        {/* <span className={classes.closeIcon} onClick={this.backClicked}>
                             <img src={images.src + 'close.svg'} className={classes.closeIcon} alt='Not available'/>
-                        </span>
+                        </span> */}
                     </Grid>
                     <Grid item xs={12} className={classes.content}>
                         {/* <span className={classes.subject}>{this.props.message.subject}</span> */}
