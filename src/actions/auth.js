@@ -29,7 +29,7 @@ export const authFail = error => {
     };
 };
 
-export const authLogin = (username, password) => {
+export const authLogin = (username, password, iovationData) => {
     return dispatch => {
         dispatch(authStart());
         return axios
@@ -37,7 +37,8 @@ export const authLogin = (username, password) => {
                 API_URL + 'users/api/login/',
                 {
                     username: username,
-                    password: password
+                    password: password,
+                    iovationData: iovationData
                 },
                 config
             )

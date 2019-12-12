@@ -299,6 +299,33 @@ export class Footer extends React.Component {
 
         this.getLabel = this.getLabel.bind(this);
     }
+
+    componentWillReceiveProps(props) {
+        this.setActiveMenuByPath();
+    }
+
+    componentDidMount() {
+        this.setActiveMenuByPath();
+    }
+
+    setActiveMenuByPath() {
+        var url = this.props.history.location.pathname;
+        var parts = url.split('/');
+
+        if (parts.length >= 2) {
+            let path = parts[1];
+
+            // eslint-disable-next-line prettier/prettier
+            this.setState({ activeMenu: (path == '') ? 'home' : path });
+        } else if (parts.length >= 3) {
+            let path = parts[2];
+
+            if (path === 'about_us') this.setState({ activeMenu: 'help' });
+        } else {
+            this.setState({ activeMenu: 'home' });
+        }
+    }
+
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
@@ -314,7 +341,7 @@ export class Footer extends React.Component {
         let { classes } = this.props;
         let phone = '';
         let phoneLabel = '';
-        
+
         const { activeMenu } = this.state;
 
         switch (this.props.lang) {
@@ -1014,7 +1041,7 @@ export class Footer extends React.Component {
                             icon={
                                 <img
                                     src={this.getMobileFooterIconUrl(
-                                        'promotion'
+                                        'promotions'
                                     )}
                                     alt=""
                                     height="20"
@@ -1030,8 +1057,14 @@ export class Footer extends React.Component {
                             icon={<MeetingRoom />}
                         />
                         <BottomNavigationAction
-                            label={this.getLabel('support-label')}
-                            icon={<ContactSupport />}
+                            label={this.getLabel('inbox-label')}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl('inbox')}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
                         />
                         <BottomNavigationAction
                             label={this.getLabel('profile-label')}
@@ -1073,30 +1106,53 @@ export class Footer extends React.Component {
                                 />
                             }
                             onClick={() => {
-                                this.props.history.push('/promotions');
                                 this.setState({ activeMenu: 'promotions' });
+                                this.props.history.push('/promotions');
                             }}
                         />
                         <BottomNavigationAction
-                            style={{paddingTop:0, paddingBottom:0}}
+                            style={{ paddingTop: 0, paddingBottom: 0 }}
                             icon={
                                 <img
-                                src={images.src + 'letou/signup-bottom-'+this.props.lang+'.png'}
-                                alt=""
-                                height="50"
-                            />
-                        }
+                                    src={
+                                        images.src +
+                                        'letou/signup-bottom-' +
+                                        this.props.lang +
+                                        '.png'
+                                    }
+                                    alt=""
+                                    height="50"
+                                />
+                            }
                             onClick={() => {
                                 this.props.show_letou_mobile_signup();
                             }}
                         />
                         <BottomNavigationAction
-                            label={this.getLabel('news-label')}
-                            icon={<ContactSupport />}
+                            label={this.getLabel('help-title')}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl('help')}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
+                            onClick={() => {
+                                this.props.history.push(
+                                    '/' + this.props.lang + '/about_us'
+                                );
+                                this.setState({ activeMenu: 'help' });
+                            }}
                         />
                         <BottomNavigationAction
                             label={this.getLabel('log-in')}
-                            icon={<Person />}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl('signin')}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
                             onClick={() => {
                                 this.props.show_letou_mobile_login();
                             }}

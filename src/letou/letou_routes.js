@@ -104,23 +104,23 @@ import VirtualTh from './components/member_th/virtual_sports';
 
 import Profile from './components/profile/profile';
 
-import AboutUsVn from './components/member_vn/about_us';
-import ForMemberVn from './components/member_vn/for_member';
-import ForPartnerVn from './components/partner_vn/for_partner';
-import ContactUsVn from './components/member_vn/contact_us';
-import StatementVn from './components/member_vn/statement';
-import DisclaimerVn from './components/member_vn/disclaimer';
-import PrivacyVn from './components/member_vn/privacy';
-import SafeBetVn from './components/member_vn/safe_bet';
-import IdentityVn from './components/member_vn/identity';
-import OfferTermsVn from './components/member_vn/offer_terms';
-import RulesVn from './components/member_vn/rules';
-import FootballRulesVn from './components/member_vn/football_rules';
-import BetRulesVn from './components/member_vn/bet_rules';
-import GeneralRulesVn from './components/member_vn/general_rules';
-import GamePokerVn from './components/member_vn/game_poker';
-import GameNiuniuVn from './components/member_vn/game.niuniu';
-import GameRuleSixVn from './components/member_vn/game_rule6';
+import AboutUsVn  from './components/member_vn/about_us'
+import ForMemberVn  from './components/member_vn/for_member'
+import ForPartnerVn  from './components/partner_vn/for_partner';
+import ContactUsVn  from './components/member_vn/contact_us';
+import  StatementVn  from './components/member_vn/statement';
+import  DisclaimerVn  from './components/member_vn/disclaimer';
+import  PrivacyVn  from './components/member_vn/privacy';
+import SafeBetVn  from './components/member_vn/safe_bet';
+import  IdentityVn  from './components/member_vn/identity';
+import  OfferTermsVn  from './components/member_vn/offer_terms';
+import  RulesVn  from './components/member_vn/rules';
+import  FootballRulesVn  from './components/member_vn/football_rules';
+import  BetRulesVn  from './components/member_vn/bet_rules';
+import  GeneralRulesVn  from './components/member_vn/general_rules';
+import  GamePokerVn  from './components/member_vn/game_poker';
+import  GameNiuniuVn  from './components/member_vn/game.niuniu';
+import  GameRuleSixVn  from './components/member_vn/game_rule6';
 import member_rule1Vn from './components/partner_vn/partner_rule1';
 import member_rule2Vn from './components/partner_vn/partner_rule2';
 import member_rule3Vn from './components/partner_vn/partner_rule3';
@@ -290,6 +290,10 @@ const BaseRouter = () => (
         <Route exact path="/th/member_rule4" component={member_rule4Th} />
         <Route exact path="/th/member_rule5" component={member_rule5Th} />
         <Route exact path="/th/member_rule6" component={member_rule6Th} />
+       
+
+        
+      
 
         <Route exact path="/vi/about_us" component={AboutUsVn} />
         <Route exact path="/vi/contact_us" component={ContactUsVn} />

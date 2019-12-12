@@ -72,7 +72,7 @@ export const messages = {
         'for-member': '供会员使用',
         'story': '乐投品牌故事',
         'for-partner': '供合作伙伴使用',
-        'help-title': '我们在此竭诚服务',
+        'help-title': 'Help',
         'aboutUs-detail-text-one':
             'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
         'aboutUs-detail-text-two':
@@ -505,7 +505,8 @@ export const messages = {
         'verify-immediately': 'Verify Immediately',
         'pt-password-not-set': 'PT APP password is not set',
         'pt-password-desc': 'Regularly reset PT APP password, account is more secure',
-        'withdrawable-fund': 'Withdrawable Funds'
+        'withdrawable-fund': 'Withdrawable Funds',
+        'inbox-label':'Inbox',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
