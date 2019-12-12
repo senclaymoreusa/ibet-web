@@ -119,7 +119,8 @@ export class MessageNotification extends Component {
             Messages: [],
             showMessage: false,
             messageText: "Message deleted",
-            changed: false
+            changed: false,
+            noMessage: null,
         }
 
         this.detailClicked = this.detailClicked.bind(this);
@@ -147,6 +148,10 @@ export class MessageNotification extends Component {
                             postLogout();
                             return;
                         }
+                        if(res.data.length == 0) {
+                            this.setState({noMessage: "You don't have any message yet"});
+                        }
+                        
                         this.setState({Messages: res.data});
                     }).catch(err => {
                         // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
@@ -200,6 +205,7 @@ export class MessageNotification extends Component {
         return (
             <div className={classes.root}>
                 <Grid container>
+                    {this.state.noMessage}
                     {this.state.Messages.map(item => {
                         if(!item.is_deleted) {
                             if(!item.is_read) {
