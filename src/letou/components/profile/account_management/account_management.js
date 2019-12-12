@@ -36,7 +36,24 @@ const styles = theme => ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        minHeight: '100vh'
+    },
+    rootDesktop: {
+        height: 92,
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+            flexDirection: 'column'
+        }
+    },
+    rootMobile: {
+        minHeight: '100vh',
+        display: 'flex',
+        backgroundColor: '#f2f3f5',
+        flexDirection: 'column',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
     },
     mainGrid: {
         maxWidth: 1400,
