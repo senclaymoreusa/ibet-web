@@ -36,6 +36,7 @@ import WechatPay from './zh/wechat_pay';
 import QuickPay from './zh/quickpay';
 import UnionPayQr from './zh/unionpay_qr';
 import JDPay from './zh/jd_pay';
+import Astropay_CH from './zh/astro_pay';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -345,15 +346,15 @@ export class DepositMain extends Component {
                             <Button
                                 className={classes.paymentButton}
                                 onClick={() => {
-                                    this.depositWith('astropay');
+                                    this.depositWith('astropay_ch');
                                 }}>
                                 <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
-                                {favouriteMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                {favouriteMethod === 'astropay_ch' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                             </Button>
                             <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'astropay'),
+                                [classes.active]: (contentValue === 'astropay_ch'),
                             })}>{this.getLabel('astro-pay')}</span>
-                            {contentValue === 'astropay' && <div className={classes.selected} />}
+                            {contentValue === 'astropay_ch' && <div className={classes.selected} />}
                         </Grid>
                     </Grid>
                 );
@@ -534,6 +535,7 @@ export class DepositMain extends Component {
                 {contentValue === 'quickpay' && (<QuickPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
                 {contentValue === 'unionpayqr' && (<UnionPayQr callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
                 {contentValue === 'jdpay' && (<JDPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'astropay_ch' && (<Astropay_CH callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
 
                 {contentValue === 'vietnamhelp2pay' && (<VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
                 {contentValue === 'circlepay' && (<CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}

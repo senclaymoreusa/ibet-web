@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { images } from '../../../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
+import Timer from 'react-compound-timer';
 
 const styles = theme => ({
     root: {
@@ -194,17 +195,46 @@ export class DepositInprogress extends Component {
                         {InprogressMessage["trans_ID"] ? InprogressMessage["trans_ID"] : this.getLabel('deposit-failed-text')}
                         </span>
                     </Grid>
-
+                    <Grid item xs={3} className={classes.row}></Grid>
+                    <Grid item xs={3} className={classes.row}>
+                        <span className={classes.label}>
+                            {this.getLabel('Order Number')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={6} className={classes.row}>
+                        <Timer
+                                    initialTime={180000}
+                                    direction="backward"
+                                >
+                                    {() => (
+                                        <React.Fragment>
+                                            <Timer.Minutes /> minutes
+                                            <Timer.Seconds /> seconds
+                                        </React.Fragment>
+                                    )}
+                        </Timer>
+                    </Grid>
+                    <Grid item xs={6} className={classes.row}>
+                        <span className={classes.value}>
+                        {"Please open the app, scan the QR code. Once you have completed the payment please click confirm below."}
+                        </span>
+                    </Grid>
+                    <Grid item xs={6} className={classes.row}>
+                        <span className={classes.label}>
+                            {""}
+                        </span>
+                    </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button
                             className={classes.button}
                             onClick={this.tryAgainClicked}
                         >
-                            {this.getLabel('try-again')}
+                            {"check transaction records"}
                         </Button>
                     </Grid>
 
                 </Grid>
+                
             </div>
         );
     }

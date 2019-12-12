@@ -178,7 +178,7 @@ const CustomCheckbox = withStyles({
     checked: {},
 })(props => <Checkbox {...props} />);
 
-const amounts = Object.freeze([20, 50, 100, 250]);
+const amounts = Object.freeze([200, 400, 600, 900]);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
@@ -454,7 +454,7 @@ class JDPay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('bitcoin-placeholder')}
+                            placeholder={"Deposit ¥200 - ¥900"}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={

@@ -178,7 +178,7 @@ const CustomCheckbox = withStyles({
     checked: {},
 })(props => <Checkbox {...props} />);
 
-const amounts = Object.freeze([20, 50, 100, 250]);
+const amounts = Object.freeze([500, 750, 1000, 1500]);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
@@ -319,6 +319,7 @@ class WechatPay extends Component {
 
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Wechatpay');
+                currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
                 var timer = setInterval(function () {
                     //console.log('checking..')
                     if (mywin.closed) {
@@ -541,7 +542,7 @@ class WechatPay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('bitcoin-placeholder')}
+                            placeholder={"Deposit ¥500 - ¥2,000"}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={

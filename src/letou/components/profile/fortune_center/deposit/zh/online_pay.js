@@ -265,7 +265,7 @@ const CustomCheckbox = withStyles({
     checked: {},
 })(props => <Checkbox {...props} />);
 
-const amounts = Object.freeze([20, 50, 100, 250]);
+const amounts = Object.freeze([100, 200, 500, 1000]);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;

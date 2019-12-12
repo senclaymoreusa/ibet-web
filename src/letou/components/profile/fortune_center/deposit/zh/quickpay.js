@@ -178,7 +178,7 @@ const CustomCheckbox = withStyles({
     checked: {},
 })(props => <Checkbox {...props} />);
 
-const amounts = Object.freeze([20, 50, 100, 250]);
+const amounts = Object.freeze([100, 200, 500, 1000]);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
@@ -483,7 +483,7 @@ class QuickPay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('bitcoin-placeholder')}
+                            placeholder={"Deposit ¥100 - ¥3,000"}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
