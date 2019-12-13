@@ -515,6 +515,17 @@ export class TopNavbar extends React.Component {
                             </Button>
                             {this.props.isAuthenticated
                                 ? this.state.showLoggedinStatus && (
+                                    <div>
+                                      <Button
+                                          size="small"
+                                          onClick={() => {
+                                              this.props.history.push('/p/account-management/message-notification')
+                                          }}
+                                      >
+                                          <div>
+                                              <img src={images.src + 'email.png'} alt="" />
+                                          </div>
+                                      </Button>
                                       <Button
                                           size="small"
                                           className={classes.topLinkButton}
@@ -525,6 +536,7 @@ export class TopNavbar extends React.Component {
                                       >
                                           {this.getLabel('log-out')}
                                       </Button>
+                                    </div>
                                   )
                                 : null}
                         </Toolbar>
