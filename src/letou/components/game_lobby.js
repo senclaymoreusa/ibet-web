@@ -18,6 +18,9 @@ import Tab from '@material-ui/core/Tab';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 
@@ -54,12 +57,12 @@ const styles = theme => ({
     display: 'flex',
     
   },
-  gridList: {
-    flexWrap: 'nowrap',
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)',
-    margin: 200
-  },
+//   gridList: {
+//     flexWrap: 'nowrap',
+//     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+//     transform: 'translateZ(0)',
+//     margin: 200
+//   },
   titleBar: {
     background:
       'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
@@ -190,7 +193,13 @@ export class GameLobby extends React.Component {
 }
 
   render() {
-
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+      };
     const { classes } = this.props;
     return (
         <div className={classes.root}>
@@ -269,7 +278,17 @@ export class GameLobby extends React.Component {
                     })
                 }
             </Grid> */}
+             {/* <Slider {...settings}>
+                <div>
+                    <h3>1</h3>
+                </div>
+                <div>
+                    <h3>2</h3>
+                </div>
+                
+            </Slider> */}
             <GridList className={classes.gridList} cols={5.5}>
+                {/* {for (let i = 0; i < 5; i++)} */}
                 {this.state.games.map(game => (
                 <GridListTile key={game['fields'].image}>
                     <img src={game['fields'].image} alt='Not available' />
@@ -284,6 +303,8 @@ export class GameLobby extends React.Component {
                 </GridListTile>
                 ))}
             </GridList>
+        
+           
 
         </div>
         <Footer />
