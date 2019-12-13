@@ -9,6 +9,7 @@ import { withRouter } from 'react-router-dom';
 
 import AccountInfo from './account_info';
 import MessageNotification from './message_notification';
+import MessageDetail from './message_detail';
 import SecuritySettings from './security_settings';
 import Suggestions from './suggestions';
 import EditPhone from './edit_phone';
@@ -218,6 +219,8 @@ export class AccountManagement extends Component {
                                 <PersonOutlineRounded style={{ marginRight: 8 }} />
                                 {this.getLabel('account-info')}
                             </Button>
+                            {/* <Button className={(contentValue === 'inbox' || contentValue === 'inbox_detail') ? classes.activeLeftPaneButton : classes.leftPaneButton} onClick={(evt) => this.handleTabChange(evt, 'inbox')}>Inbox</Button> */}
+
                             <Button className={(activeTab === 'message-notification') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                 onClick={(evt) => this.handleTabChange(evt, 'message-notification')}>
                                 <MessageOutlined style={{ marginRight: 8 }} />
@@ -236,7 +239,8 @@ export class AccountManagement extends Component {
                         </div>
                         <div className={classes.content}>
                             {contentValue === 'account-info' && <AccountInfo callbackFromParent={this.setPage} />}
-                            {contentValue === 'message-notification' && <MessageNotification />}
+                            {contentValue === 'message-notification' && <MessageNotification callbackFromParent={this.setMessageContent} />}
+                            {contentValue === 'message-detail' && <MessageDetail callbackFromParent={this.setPage} message={this.state.message} />}
                             {contentValue === 'security-settings' && <SecuritySettings callbackFromParent={this.setPage}/>}
                             {contentValue === 'suggestions' && <Suggestions />}
                             {contentValue === 'edit-phone' && <EditPhone callbackFromParent={this.setPage} />}
