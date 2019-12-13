@@ -378,6 +378,7 @@ class BankTransfer extends Component {
     };
 
     handleClick() {
+        /*
         let currentComponent = this;
         
         currentComponent.setState({ showLinearProgressBar: true });
@@ -408,7 +409,32 @@ class BankTransfer extends Component {
             body: formBody
         }).then(function (res) {
             return res.json();
-        }).then(function (data) {
+        */
+       // let currentComponent = this;
+       const token = localStorage.getItem('token');
+       if (!token) {
+           console.log('no token -- user is not logged in');
+       }
+       config.headers['Authorization'] = `Token ${token}`;
+       let userid = this.state.data.pk;
+       var postData = {
+           amount: this.state.amount,
+           userid: userid,
+           currency: 7,
+           real_name: this.state.name,
+           bank_acc_no: this.state.bankAccountNumber,
+           bank: this.state.bank,
+           type: 0 // 0 = deposit
+       };
+       return axios
+           .post(
+               API_URL + 'accounting/api/transactions/save_transaction',
+               postData,
+               config
+           )
+           .then((res, err) => {
+               console.log(res);
+        });/*then(function (data) {
             let redirectUrl = data.paymentPageSession.paymentPageUrl
             //console.log(redirectUrl)
 
@@ -478,7 +504,7 @@ class BankTransfer extends Component {
             //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
-        });
+        });*/
     }
 
     getLabel(labelId) {

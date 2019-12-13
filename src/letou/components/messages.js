@@ -425,8 +425,8 @@ export const messages = {
         'change-mobile': 'Change mobile number method',
         'through-original': 'Through the original mobile',
         'select-provider': 'Select Provider',
-        'circlepay-placeholder': 'Deposit ₫20,000 - ₫50,000',
-        'vn-localbank-placeholder': 'Deposit ₫200 - ₫100,000',
+        'circlepay-placeholder': 'Deposit ₫20,000 - ₫100,000,000',
+        'vn-localbank-placeholder': 'Deposit ₫200,000 - ₫100,000,000',
         'qr-will-needed':
             'Your QR code needs to be used once only, please ensure the amount you deposit matches what is on the QR code to avoid any issues.',
         'vn-help2paypay-placeholder': 'Deposit ₫300,000 - ₫300,000,000',
