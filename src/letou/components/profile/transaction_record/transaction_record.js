@@ -142,7 +142,7 @@ export class TransactionRecord extends Component {
         super(props);
 
         this.state = {
-            tabValue: 'analysis'
+            tabValue: 'account-details'
         };
     }
 
