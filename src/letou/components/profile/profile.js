@@ -356,16 +356,28 @@ export class Profile extends Component {
                             </IconButton>
                             <div className={classes.grow} />
                             {this.props.isAuthenticated ? (
-                                <Button
-                                    size="small"
-                                    className={classes.topLinkButton}
-                                    onClick={() => {
-                                        this.props.logout();
-                                        postLogout();
-                                    }}
-                                >
-                                    {this.getLabel('log-out')}
-                                </Button>
+                                <div>
+                                    <Button
+                                          size="small"
+                                          onClick={() => {
+                                              this.props.history.push('/p/account-management/message-notification')
+                                          }}
+                                      >
+                                          <div>
+                                              <img src={images.src + 'email2.png'} alt="" />
+                                          </div>
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
+                                            this.props.logout();
+                                            postLogout();
+                                        }}
+                                    >
+                                        {this.getLabel('log-out')}
+                                    </Button>
+                                </div>
                             ) : null}
                         </Toolbar>
                     </AppBar>
