@@ -13,45 +13,75 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
-        //alignItems: 'center',
+        alignItems: 'center',
         backgroundColor: theme.palette.background.paper,
     
       },
+      test: {
+          width:800
+      }
+
 })
+
+function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "red" }}
+        onClick={onClick}
+      />
+    );
+  }
+  
+  function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "red" }}
+        onClick={onClick}
+      />
+    );
+  }
 
 class SimpleSlider extends React.Component {
   render() {
     var settings = {
       dots: true,
-      infinite: true,
+      infinite: false,
       speed: 500,
       slidesToShow: 1,
-      slidesToScroll: 1
+      slidesToScroll: 1,
+      nextArrow: <SampleNextArrow />,
+      prevArrow: <SamplePrevArrow />
     };
     const { classes } = this.props;
     return (
     <div className={classes.root}>
         <TopNavbar />
-        <Slider {...settings}>
-            <div>
-            <h3>test1</h3>
-            </div>
-            <div>
-            <h3>test1test1test1test1test1test1test1</h3>
-            </div>
-            <div>
-            <h3>3</h3>
-            </div>
-            <div>
-            <h3>4</h3>
-            </div>
-            <div>
-            <h3>5</h3>
-            </div>
-            <div>
-            <h3>6</h3>
-            </div>
-        </Slider>
+        <div className={classes.test}>
+            <Slider {...settings}>
+                <div>
+                <h3>test1</h3>
+                </div>
+                <div>
+                <h3>test1test1test1test1test1test1test1</h3>
+                </div>
+                <div>
+                <h3>3</h3>
+                </div>
+                <div>
+                <h3>4</h3>
+                </div>
+                <div>
+                <h3>5</h3>
+                </div>
+                <div>
+                <h3>6</h3>
+                </div>
+            </Slider>
+        </div>
     </div>
     );
   }
