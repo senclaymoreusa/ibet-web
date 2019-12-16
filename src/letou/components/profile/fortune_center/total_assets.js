@@ -596,25 +596,28 @@ export class TotalAssets extends Component {
                 <Grid container>
                     <Grid item xs={12} className={classes.titleRow}>
                         <span className={classes.title} >
-                            {this.getLabel('transfer-label')}
+                            {this.getLabel('total_assets-label')}
                         </span>
                     </Grid>
                     <Grid item xs={7} className={classes.walletColumn}>
                         <Grid item xs={12} className={classes.row}>
+                            {/*
                             <span className={classes.boldText} >
                                 {this.getLabel('select-transfer')}
                             </span>
+                            */}
                         </Grid>
                         <Grid item xs={12} style={{ paddingBottom: 20 }}>
                             {mainWallet}
                         </Grid>
                         <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
-                            <Button href="#text-buttons" className={classes.allButton}
+                            {/*<Button href="#text-buttons" className={classes.allButton}
                                 onClick={() => {
                                      this.setState({showConfirmationDialog: true});
                                 }}>
                                 {this.getLabel('transfer-to-main')}
                             </Button>
+                            */}
                         </Grid>
                         <Grid item xs={12} style={{ paddingTop: 30 }}>
                             <Grid container spacing={2}>

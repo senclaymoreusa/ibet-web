@@ -317,6 +317,7 @@ export const messages = {
             "Please check if it is in spam. If you haven't recieved it, go back and resend it.",
         'back-label': 'Back',
         'transfer-label': 'Transfer',
+        'total_assets-label':'Total Assets',
         'select-transfer': 'Select Wallets to Transfer',
         'transfer-to-main': 'Transfer All to Main Wallet',
         'from-label': 'From',
