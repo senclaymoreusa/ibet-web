@@ -106,6 +106,7 @@ import  VirtualTh  from './components/member_th/virtual_sports';
 import Profile from "./components/profile/profile"
 
 
+
 import AboutUsVn  from './components/member_vn/about_us'
 import ForMemberVn  from './components/member_vn/for_member'
 import ForPartnerVn  from './components/partner_vn/for_partner';
@@ -284,6 +285,10 @@ const BaseRouter = () => (
         <Route exact path="/th/member_rule4" component={member_rule4Th} />
         <Route exact path="/th/member_rule5" component={member_rule5Th} />
         <Route exact path="/th/member_rule6" component={member_rule6Th} />
+       
+
+        
+      
 
 
         <Route exact path="/vi/about_us" component={AboutUsVn} />
