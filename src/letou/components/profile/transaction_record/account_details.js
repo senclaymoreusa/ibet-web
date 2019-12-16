@@ -11,7 +11,12 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import moment from 'moment';
-
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 import {
     MuiPickersUtilsProvider,
@@ -96,6 +101,24 @@ const styles = theme => ({
     }
 });
 
+const StyledTableCell = withStyles(theme => ({
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white
+    },
+    body: {
+        fontSize: 14
+    }
+}))(TableCell);
+
+const StyledTableRow = withStyles(theme => ({
+    root: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.background.default
+        }
+    }
+}))(TableRow);
+
 export class AccountDetails extends Component {
     constructor(props) {
         super(props);
@@ -103,8 +126,10 @@ export class AccountDetails extends Component {
         this.state = {
             startDate: moment(new Date()),
             endDate: moment(new Date()),
+            filterRange: '',
             filterType: 'all',
-            filterStatus: 'all'
+            filterStatus: 'all',
+            // rows:[]
         };
     }
 
@@ -113,12 +138,38 @@ export class AccountDetails extends Component {
         return formatMessage({ id: labelId });
     }
 
+    createData(number, time, typeoftrans, content, amount, statustrans) {
+        return { number, time, typeoftrans, content, amount, statustrans };
+    }
+      
+      
+
     render() {
         const { classes } = this.props;
-        const { startDate, endDate, filterType } = this.state;
+        const {
+            startDate,
+            endDate,
+            filterRange,
+            filterType,
+            filterStatus,
+        } = this.state;
         var today = moment(new Date());
 
-        console.log(today)
+         let rows = [
+            {'D191211150423435', new Date(), 'Deposit', '24', 40.0, 'Success'},
+            {'D191211150423435', new Date(), 'Deposit', '24', 40.0, 'Success'},
+            {'D191211150423435', new Date(), 'Deposit', '24', 400.0, 'Failed'},
+            {'D191211150423435', new Date(), 'Deposit', '24', 90.0, 'In Progress'},
+            {'D191211150423435', new Date(), 'Deposit', '24', 40.0, 'Cancelled'},
+            {'D191211150423435', new Date(), 'Deposit', '24', 20.0, 'Success'},
+            {'D191211150423435', new Date(), 'Deposit', '24', 650.0, 'Failed'},
+            {'D191211150423435', new Date(), 'Deposit', '24', 10.0, 'Success'},
+            {'D191211150423435', new Date(), 'Deposit', '24', 20.0, 'In Progress'},
+            {'D191211150423435', new Date(), 'Deposit', '24', 90.0, 'Success'},
+           
+          ];
+
+        console.log(today);
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>
@@ -132,13 +183,13 @@ export class AccountDetails extends Component {
                             </span>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
-                                     disableToolbar
-                                     variant="inline"
-                                     className={classes.date}
+                                    disableToolbar
+                                    variant="inline"
+                                    className={classes.date}
                                     margin="normal"
                                     id="start-date"
                                     format="MM/dd/yyyy"
-                                     value={startDate}
+                                    value={startDate}
                                     onChange={date => {
                                         this.setState({
                                             startDate: moment(date)
@@ -181,13 +232,25 @@ export class AccountDetails extends Component {
                                 className={clsx({
                                     [classes.filterButton]: true,
                                     [classes.active]:
-                                        startDate
+                                        filterRange === 'today' ||
+                                        (startDate
                                             .startOf('day')
                                             .isSame(today.startOf('day')) &&
-                                        endDate
-                                            .startOf('day')
-                                            .isSame(today.startOf('day'))
+                                            endDate
+                                                .startOf('day')
+                                                .isSame(today.startOf('day')))
                                 })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterRange: 'today'
+                                    });
+                                    this.setState({
+                                        startDate: moment(new Date())
+                                    });
+                                    this.setState({
+                                        endDate: moment(new Date())
+                                    });
+                                }}
                             >
                                 {this.getLabel('today-label')}
                             </Button>
@@ -196,27 +259,66 @@ export class AccountDetails extends Component {
                                 className={clsx({
                                     [classes.filterButton]: true,
                                     [classes.active]:
-                                        today
+                                        filterRange === 'oneweek' ||
+                                        (today
                                             .startOf('day')
                                             .diff(
                                                 startDate.startOf('day'),
                                                 'day'
-                                            ) &&
-                                        endDate
-                                            .startOf('day')
-                                            .isSame(today.startOf('day'))
+                                            ) === 7 &&
+                                            endDate
+                                                .startOf('day')
+                                                .isSame(today.startOf('day')))
                                 })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterRange: 'oneweek'
+                                    });
+                                    this.setState({
+                                        startDate: moment(new Date()).add(
+                                            'days',
+                                            -7
+                                        )
+                                    });
+                                    this.setState({
+                                        endDate: moment(new Date())
+                                    });
+                                }}
                             >
-                                {this.getLabel('this-week')}
+                                {this.getLabel('one-week')}
                             </Button>
                             <Button
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'all'
+                                    [classes.active]:
+                                        filterRange === 'onemonth' ||
+                                        (today
+                                            .startOf('day')
+                                            .diff(
+                                                startDate.startOf('day'),
+                                                'day'
+                                            ) === 30 &&
+                                            endDate
+                                                .startOf('day')
+                                                .isSame(today.startOf('day')))
                                 })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterRange: 'oneweek'
+                                    });
+                                    this.setState({
+                                        startDate: moment(new Date()).add(
+                                            'days',
+                                            -30
+                                        )
+                                    });
+                                    this.setState({
+                                        endDate: moment(new Date())
+                                    });
+                                }}
                             >
-                                {this.getLabel('this-month')}
+                                {this.getLabel('one-month')}
                             </Button>
                         </Grid>
                         <Grid item xs={12} className={classes.row}>
@@ -230,7 +332,7 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'game'
+                                    [classes.active]: filterType === 'all'
                                 })}
                                 onClick={() => {
                                     this.setState({
@@ -244,7 +346,7 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'game'
+                                    [classes.active]: filterType === 'deposit'
                                 })}
                                 onClick={() => {
                                     this.setState({
@@ -258,7 +360,7 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'game'
+                                    [classes.active]: filterType === 'withdraw'
                                 })}
                                 onClick={() => {
                                     this.setState({
@@ -272,7 +374,7 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'game'
+                                    [classes.active]: filterType === 'transfer'
                                 })}
                                 onClick={() => {
                                     this.setState({
@@ -286,7 +388,7 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'game'
+                                    [classes.active]: filterType === 'bonus'
                                 })}
                                 onClick={() => {
                                     this.setState({
@@ -309,11 +411,11 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'game'
+                                    [classes.active]: filterStatus === 'all'
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'all'
+                                        filterStatus: 'all'
                                     });
                                 }}
                             >
@@ -323,11 +425,11 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'game'
+                                    [classes.active]: filterStatus === 'success'
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'success'
+                                        filterStatus: 'success'
                                     });
                                 }}
                             >
@@ -337,11 +439,12 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'all'
+                                    [classes.active]:
+                                        filterStatus === 'cancelled'
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'cancelled'
+                                        filterStatus: 'cancelled'
                                     });
                                 }}
                             >
@@ -351,11 +454,11 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'game'
+                                    [classes.active]: filterStatus === 'failed'
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'failed'
+                                        filterStatus: 'failed'
                                     });
                                 }}
                             >
@@ -365,11 +468,12 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'game'
+                                    [classes.active]:
+                                        filterStatus === 'inprogress'
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'inprogress'
+                                        filterStatus: 'inprogress'
                                     });
                                 }}
                             >
@@ -377,6 +481,56 @@ export class AccountDetails extends Component {
                             </Button>
                         </Grid>
                     </Grid>
+                    <Paper className={classes.root}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell>
+                                        {this.getLabel('transaction-number')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('time-label')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('transaction-type')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('content-label')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('amount-label')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('status-label')}
+                                    </StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map(row => (
+                                    <StyledTableRow key={row.number}>
+                                        <StyledTableCell>
+                                            {row.number}
+                                        </StyledTableCell>
+                                        <StyledTableCell >
+                                            {row.time}
+                                        </StyledTableCell>
+                                        <StyledTableCell >
+                                            {row.typeoftrans}
+                                        </StyledTableCell>
+                                        <StyledTableCell >
+                                            {row.content}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="right">
+                                            {row.amount}
+                                        </StyledTableCell>
+                                        <StyledTableCell >
+                                            {row.statustrans}
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Paper>
                 </div>
                 <div className={classes.rootMobile}></div>
             </div>
