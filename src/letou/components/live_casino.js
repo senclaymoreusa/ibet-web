@@ -203,12 +203,15 @@ export class live_casino extends React.Component {
         
         window.open(data.url, "aggames");
       });
+    }else{
+      this.props.history.push('/register');
     }
   }
+  
   render() {
 
     const { classes } = this.props;
-
+    
     return (
       <div className={classes.root}>
         <TopNavbar />
@@ -246,7 +249,7 @@ export class live_casino extends React.Component {
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a onClick={(e) => {this.handleAGClick("lobby")}}><span>{this.getLabel('Real-money')}</span></a>
+                    <a onClick={(e) => {this.handleAGClick("lobby")}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                   </div>
                   </Grid>
                 </div>
@@ -265,7 +268,7 @@ export class live_casino extends React.Component {
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a><span>{this.getLabel('Real-money')}</span></a>
+                    <a><span>{(this.state.data) ? (this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now') : this.getLabel('Register-Now')}</span></a>
                   </div>
                   </Grid>
                 </div>
@@ -291,7 +294,7 @@ export class live_casino extends React.Component {
                   </Grid>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a onClick={() => window.open("https://178.claymoreasia.com/wkpibet/newlayout/index.php", "ealive")}><span><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('Real-money')}</font></span></a>
+                    <a onClick={() => window.open("https://178.claymoreasia.com/wkpibet/newlayout/index.php", "ealive")}><span><font style={{ verticalAlign: 'inherit' }}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</font></span></a>
                   </div>
                   </Grid>
                 </div>
@@ -310,7 +313,7 @@ export class live_casino extends React.Component {
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a onClick={() => window.open("https://666.claymoreasia.com/", "n2live")}><span>{this.getLabel('Real-money')}</span></a>
+                    <a onClick={() => window.open("https://666.claymoreasia.com/", "n2live")}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                   </div>
                   </Grid>
                 </div>
@@ -331,7 +334,7 @@ export class live_casino extends React.Component {
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a><span>{this.getLabel('Real-money')}</span></a>
+                    <a><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                   </div>
                   </Grid>
                 </div>
@@ -351,7 +354,7 @@ export class live_casino extends React.Component {
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a onClick={(e) => {this.handleGDClick("Baccarat")}}><span>{this.getLabel('Real-money')}</span></a>
+                    <a onClick={(e) => {this.handleGDClick("Baccarat")}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                   </div>
                   </Grid>
                 </div>
@@ -375,7 +378,7 @@ export class live_casino extends React.Component {
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a><span>{this.getLabel('Real-money')}</span></a>
+                    <a><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                   </div>
                   </Grid>
                 </div>
@@ -399,7 +402,7 @@ export class live_casino extends React.Component {
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a><span>{this.getLabel('Real-money')}</span></a>
+                    <a><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                   </div>
                   </Grid>
                 </div>

@@ -102,6 +102,7 @@ export const messages = {
         'ab-Vip': 'Vip hall',
         'ab-Jingmi': 'Jingmi Hall',
         'Real-money': 'Real money',
+        'Register-Now': 'Register Now',
         'EA-title': 'EA Ruibao Pavilion',
         'EA-words':
             'The longest operating platform in the industry, the operational experience of the sense of the scene, the original free-to-play game.',
