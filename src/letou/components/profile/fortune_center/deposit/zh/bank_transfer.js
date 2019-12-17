@@ -17,7 +17,8 @@ import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { withRouter } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -526,6 +527,15 @@ class BankTransfer extends Component {
             });
     }
 
+    backClicked() {
+        var url = this.props.history.location.pathname
+        var parts = url.split('/');
+        url = '/';
+        var path = parts.slice(1, 4).join('/');
+        url = url + path;
+        this.props.history.push(url);
+    }
+
     render() {
         const { classes } = this.props;
         const { isFavorite, amount, currency, bank } = this.state;
@@ -625,7 +635,7 @@ class BankTransfer extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.backClicked}
+                            onClick={this.backClicked.bind(this)}
                         >{this.getLabel('back-banking')}</Button>
                     </Grid>
                 </Grid>
@@ -640,4 +650,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(BankTransfer)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(BankTransfer))));
