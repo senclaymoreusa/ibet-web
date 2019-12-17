@@ -32,6 +32,8 @@ import Dehaze from '@material-ui/icons/Dehaze';
 import Fab from '@material-ui/core/Fab';
 import Person from '@material-ui/icons/Person';
 import Avatar from '@material-ui/core/Avatar';
+import axios from 'axios'
+import { config } from '../../util_config';
 
 import {
     logout,
@@ -46,6 +48,8 @@ import {
 } from '../../actions';
 
 import '../css/top_navbar.scss';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = theme => ({
     root: {
@@ -237,7 +241,8 @@ export class TopNavbar extends React.Component {
             anchorEl: null,
             anchorElLang: null,
             dropdownMenu: 'none',
-            showLoggedinStatus: false
+            showLoggedinStatus: false,
+            kyUrl: null
         };
 
         this.getLabel = this.getLabel.bind(this);
@@ -276,6 +281,26 @@ export class TopNavbar extends React.Component {
         this.props.authCheckState().then(() => {
             this.setState({ showLoggedinStatus: true });
         });
+    }
+
+    chessOptions(game_id) {
+        axios.post(API_URL + 'games/api/ky/games/', {s: 0, account: "Bobby", money: "0", KindID: game_id }, config)
+            .then(res => {
+                // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                //     this.props.logout();
+                //     postLogout();
+                //     return;
+                // }
+
+                if(res.status === 200) {
+                    this.setState({kyUrl: res.data.d.url});
+                }
+
+            }).catch(err => {
+                //console.log("err: ", err);
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                // sendingLog(err);
+            })
     }
 
     // handleOnebookClick() {
@@ -815,9 +840,8 @@ export class TopNavbar extends React.Component {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
-                                                            this.props.history.push(
-                                                                '/ky'
-                                                            );
+                                                            this.chessOptions(0);
+                                                            window.open(this.kyUrl, "kygamming");
                                                         }}
                                                     >
                                                         {this.getLabel(
