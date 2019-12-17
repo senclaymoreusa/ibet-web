@@ -23,14 +23,6 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'row',
     },
-    content: {
-        display: 'flex',
-        flexDirection: 'column',
-        paddingLeft: 60,
-        marginTop: 50,
-        minHeight: 485,
-        overflowY: 'scroll',
-    },
     goBackIcon: {
         display: 'inline-block',
         width: 20,
@@ -42,7 +34,7 @@ const styles = theme => ({
         display: 'inline-block',
         width: 925,
         height: 25,
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -50,6 +42,22 @@ const styles = theme => ({
         letterSpacing: 'normal',
         textAlign: 'left',
         color: "#212121",
+    },
+    delete: {
+        display: 'inline-block',
+        width: 60,
+        height: 30,
+        borderRadius: 6,
+        backgroundColor: '#f2f2f2',
+        marginLeft: 235,
+    },
+    content: {
+        display: 'flex',
+        flexDirection: 'column',
+        paddingLeft: 60,
+        marginTop: 50,
+        minHeight: 485,
+        overflowY: 'scroll',
     },
     closeIcon: {
         display: 'inline-block',
@@ -83,14 +91,6 @@ const styles = theme => ({
         fontStyle: 'normal',
         color: '#787878',
         marginTop: 13,
-    },
-    delete: {
-        display: 'inline-block',
-        width: 60,
-        height: 30,
-        borderRadius: 6,
-        backgroundColor: '#f2f2f2',
-        marginLeft: 235,
     },
     messageBody: {
         fontSize: 14,
@@ -149,7 +149,7 @@ export class MessageDetail extends Component {
                 //     return;
                 // }
                 if(res.status === 200) {
-                    this.props.callbackFromParent('inbox', true);
+                    this.props.callbackFromParent('message-notification', true);
                 }
             }).catch(err => {
                 sendingLog(err);
@@ -164,12 +164,12 @@ export class MessageDetail extends Component {
                 <Grid container>
                     <Grid item xs={12} className={classes.headbar}>
                         <span className={classes.goBackIcon} onClick={this.backClicked}>
-                            <img src={images.src + 'back.png'} alt='Not available'/>
+                            <img src={images.src + 'back2.svg'} alt='Not available'/>
                         </span>
                         <span className={classes.title}>{this.props.message.subject}</span>
-                        {/* <span className={classes.closeIcon} onClick={this.backClicked}>
-                            <img src={images.src + 'close.svg'} className={classes.closeIcon} alt='Not available'/>
-                        </span> */}
+                        <span className={classes.closeIcon} onClick={() => this.deleteClicked(this.props.message.pk)}>
+                            <img src={images.src + 'delete-btn.svg'} className={classes.closeIcon} alt='Not available'/>
+                        </span>
                     </Grid>
                     <Grid item xs={12} className={classes.content}>
                         {/* <span className={classes.subject}>{this.props.message.subject}</span> */}
