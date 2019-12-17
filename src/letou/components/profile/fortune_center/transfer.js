@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-
+import { config, images } from '../../../../util_config';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -16,7 +16,6 @@ import ArrowForward from '@material-ui/icons/ArrowForward';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ReactMinimalPieChart from 'react-minimal-pie-chart';
-import { images } from '../../../../util_config';
 import clsx from 'clsx';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
@@ -30,6 +29,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
+import axios from 'axios';
+import getSymbolFromCurrency from 'currency-symbol-map';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = () => ({
     root: {
@@ -145,21 +148,18 @@ const styles = () => ({
     },
     chartColumn: {
         paddingTop: 20,
-        paddingBottom: 20,
-        // display: 'flex',
-        // flexDirection: 'row',
-        // justifyContent: 'center'
+        paddingBottom: 20
     },
     paper: {
         width: '80%',
-        maxHeight: 435,
-    },
+        maxHeight: 435
+    }
 });
 
 
 function ConfirmationDialogRaw(props) {
     const { onClose, open, ...other } = props;
-     const radioGroupRef = React.useRef(null);
+    const radioGroupRef = React.useRef(null);
 
 
     const handleEntering = () => {
@@ -190,8 +190,8 @@ function ConfirmationDialogRaw(props) {
                 <FormattedMessage id='transfer-to-main' defaultMessage='Transfer All to Main Wallet' />
             </DialogTitle>
             <DialogContent dividers>
-           <FormattedMessage id='are-u-sure-transfer' defaultMessage='Are you sure?' />
-          
+                <FormattedMessage id='are-u-sure-transfer' defaultMessage='Are you sure?' />
+
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleCancel} color="primary">
@@ -229,6 +229,7 @@ const walletStyles = makeStyles(() => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#212121',
+        textTransform: 'uppercase'
     },
     amount: {
         fontSize: 13,
@@ -276,7 +277,7 @@ const variantIcon = {
 
 function LetouWallet(props) {
     const classes = walletStyles();
-    const { className, wallet, isMain, onClick, closeClick, ...other } = props;
+    const { className, wallet, currency, isMain, onClick, closeClick, ...other } = props;
 
     return (
         <Paper onClick={onClick}
@@ -288,10 +289,14 @@ function LetouWallet(props) {
             {...other}>
             <div className={classes.content}>
                 <Typography className={classes.amount}>
-                    {wallet.currency}{wallet.value}
+                    {currency}{wallet.amount}
                 </Typography>
                 <Typography className={classes.name}>
-                    {wallet.title}
+
+                    {wallet.isMain == 'true' ?
+                        <FormattedMessage id="main-wallet" defaultMessage="Main Wallet" />
+                        :
+                        wallet.code}
                 </Typography>
                 {(closeClick !== undefined) &&
                     <Button className={classes.close} onClick={closeClick}>
@@ -314,10 +319,9 @@ LetouWallet.propTypes = {
     className: PropTypes.string,
     onClick: PropTypes.func,
     closeClick: PropTypes.func,
-    wallet: PropTypes.object
+    wallet: PropTypes.object,
+    currency: PropTypes.string
 };
-
-
 
 const snackStyles = makeStyles(theme => ({
     success: {
@@ -388,63 +392,8 @@ export class Transfer extends Component {
             amount: '',
             amountInvalid: false,
             amountFocused: true,
-            currency: '$',
-            walletObjs: [
-                {
-                    title: 'OneWorks',
-                    value: 1000,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'EA',
-                    value: 1000,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'AG',
-                    value: 500,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'OPUS',
-                    value: 500,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'GPI',
-                    value: 0,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'BBIN',
-                    value: 0,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'PT',
-                    value: 400,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'KY',
-                    value: 0,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'Main Wallet',
-                    value: 5000,
-                    isMain: true,
-                    color: ''
-                }
-            ],
+            currency: 'CNY',
+            walletObjs: [],
 
             showSnackbar: false,
             snackType: 'info',
@@ -456,60 +405,113 @@ export class Transfer extends Component {
         this.handleWalletClick = this.handleWalletClick.bind(this);
         this.sendAllToMainWallet = this.sendAllToMainWallet.bind(this);
     }
-   
-    componentDidMount() {
 
-        var randomColor = require('randomcolor');
+    async componentDidMount() {
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
 
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.value !== 0 ? Object.assign(obj, { color: randomColor({ luminosity: 'bright', hue: 'random' }) }) : Object.assign(obj, { color: '#d9d9d9' }))
-            )
-        }));
+        await axios
+            .get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ userId: res.data.pk });
+                this.setState({ username: res.data.username });
+                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+
+                this.getWalletsByUsername(res.data.pk);
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
     }
-    
-    sendClicked() {
+
+    getWalletsByUsername(userId) {
         var randomColor = require('randomcolor');
 
-        let fromObj = this.state.from;
-        fromObj.color = (parseInt(fromObj.value) - parseInt(this.state.amount)) === 0 ? '#d9d9d9' : fromObj.color;
-        fromObj.value = parseInt(fromObj.value) - parseInt(this.state.amount);
+        axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({ walletObjs: res.data });
 
-        let toObj = this.state.to;
-        toObj.color = (parseInt(toObj.value) === 0) ? randomColor({ luminosity: 'bright', hue: 'random' }) : toObj.color;
-        toObj.value = parseInt(toObj.value) + parseInt(this.state.amount);
+                    this.setState(prevState => ({
+                        walletObjs: prevState.walletObjs.map(
+                            obj => (parseFloat(obj.amount) !== 0.00
+                                ?
+                                Object.assign(obj, { color: randomColor({ luminosity: 'bright', hue: 'random' }) })
+                                :
+                                Object.assign(obj, { color: '#d9d9d9' }))
+                        )
+                    }));
 
 
-        this.setState({ from: null });
-        this.setState({ to: null });
+                }
+            }).catch(function (err) {
+                sendingLog(err);
+            });
+    }
 
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.title === fromObj.title ? Object.assign(obj, fromObj) : obj)
-            )
-        }));
+    sendClicked() {
+        axios.post(API_URL + 'users/api/transfer/',
+            {
+                'user_id': this.state.userId,
+                'from_wallet': this.state.from.code,
+                'to_wallet': this.state.to.code,
+                'amount': this.state.amount
+            }, config)
+            .then(res => {
+                if (res.data.status_code === 1) {
+                    this.setState({ snackType: 'success' });
+                    this.setState({ snackMessage: this.getLabel('transfer-successfull') });
+                    this.setState({ showSnackbar: true });
 
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.title === toObj.title ? Object.assign(obj, toObj) : obj)
-            )
-        }));
+                    this.setState({ from: null });
+                    this.setState({ to: null });
+                    this.setState({ amount: '', amountInvalid: false, amountFocused: false });
 
-        this.setState({ amount: '', amountInvalid: false, amountFocused: false });
+                    this.getWalletsByUsername(this.state.userId);
+
+                } else if (res.data.status_code === 107) {
+                    this.setState({ snackType: 'error' });
+                    this.setState({ snackMessage: res.data.error_message });
+                    this.setState({ showSnackbar: true });
+                }
+            }).catch(err => {
+                sendingLog(err);
+            })
     }
 
     sendAllToMainWallet() {
-        let amount = 0;
+        this.setState({ from: null });
+        this.setState({ to: null });
 
-        this.state.walletObjs.forEach(wallet => {
-            amount += wallet.value
+        let currentComponent = this;
+
+        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain == true)[0];
+        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain == false && parseFloat(item.amount) > 10.00);
+
+        walletsWithAmount.forEach(wallet => {
+
+            axios.post(API_URL + 'users/api/transfer/',
+                {
+                    'user_id': this.state.userId,
+                    'from_wallet': wallet.code,
+                    'to_wallet': mainWalletObj.code,
+                    'amount': wallet.amount
+                }, config)
+                .then(res => {
+                    if (res.data.status_code === 1) {
+                        if (walletsWithAmount[walletsWithAmount.length - 1].code === wallet.code) {
+                            currentComponent.getWalletsByUsername(currentComponent.state.userId);
+                        }
+                    } else if (res.data.status_code === 107) {
+                        this.setState({ snackType: 'error' });
+                        this.setState({ snackMessage: res.data.error_message });
+                        this.setState({ showSnackbar: true });
+                        return true;
+                    }
+                }).catch(err => {
+                    sendingLog(err);
+                });
         });
-
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.isMain === true ? Object.assign(obj, { value: amount }) : Object.assign(obj, { value: 0, color: '#d9d9d9' }))
-            )
-        }));
     }
 
     amountChanged = event => {
@@ -518,13 +520,17 @@ export class Transfer extends Component {
         if (event.target.value.length === 0) {
             this.setState({ amount: '', amountInvalid: true });
         } else {
-            if (this.state.from !== null && this.state.from.value < event.target.value) {
-                this.setState({ snackType: 'error' });
-                this.setState({ snackMessage: this.getLabel('invalid-transfer-value') });
-                this.setState({ showSnackbar: true });
-                this.setState({ amountInvalid: true });
-            } else {
-                this.setState({ amount: event.target.value, amountInvalid: false });
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
+
+            if (re.test(event.target.value)) {
+                if (this.state.from !== null && this.state.from.value < event.target.value) {
+                    this.setState({ snackType: 'error' });
+                    this.setState({ snackMessage: this.getLabel('invalid-transfer-value') });
+                    this.setState({ showSnackbar: true });
+                    this.setState({ amountInvalid: true });
+                } else {
+                    this.setState({ amount: event.target.value, amountInvalid: false });
+                }
             }
         }
     };
@@ -543,11 +549,11 @@ export class Transfer extends Component {
     }
 
     handleWalletClick(id) {
-        let wallet = this.state.walletObjs.filter(item => item.title === id)[0];
+        let wallet = this.state.walletObjs.filter(item => item.code === id)[0];
 
         if (this.state.from === null) {
 
-            if (wallet.value > 0)
+            if (wallet.amount > 0)
                 this.setState({ from: wallet });
             else {
                 this.setState({ snackType: 'warning' });
@@ -568,26 +574,29 @@ export class Transfer extends Component {
 
     render() {
         const { classes } = this.props;
-        const { from, to, amount, walletObjs, showConfirmationDialog } = this.state;
+        const { from, to, amount, walletObjs, currency, showConfirmationDialog } = this.state;
 
-        let mainWalletObj = walletObjs.filter(item => item.isMain === true)[0];
+        let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
 
-        let otherWalletObjs = walletObjs.filter(item => item.isMain === false);
+        let otherWalletObjs = walletObjs.filter(item => item.isMain == false);
 
         let mainWallet = (
-            <LetouWallet wallet={mainWalletObj} onClick={() => { this.handleWalletClick(mainWalletObj.title) }} />
+            mainWalletObj ?
+                <LetouWallet wallet={mainWalletObj} currency={currency} onClick={() => { this.handleWalletClick(mainWalletObj.code) }} />
+                :
+                null
         );
 
         const fromWallet = (
             (from) ?
-                <LetouWallet wallet={from} closeClick={() => { this.setState(() => ({ from: null })) }} />
+                <LetouWallet wallet={from} currency={currency} closeClick={() => { this.setState(() => ({ from: null })) }} />
                 :
                 <Button className={classes.walletButton}>{this.getLabel('from-label')}</Button>
         );
 
         const toWallet = (
             (to) ?
-                <LetouWallet wallet={to} closeClick={() => { this.setState(() => ({ to: null })) }} />
+                <LetouWallet wallet={to} currency={currency} closeClick={() => { this.setState(() => ({ to: null })) }} />
                 :
                 <Button className={classes.walletButton}>{this.getLabel('to-label')}</Button>
         );
@@ -612,7 +621,7 @@ export class Transfer extends Component {
                         <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
                             <Button href="#text-buttons" className={classes.allButton}
                                 onClick={() => {
-                                     this.setState({showConfirmationDialog: true});
+                                    this.setState({ showConfirmationDialog: true });
                                 }}>
                                 {this.getLabel('transfer-to-main')}
                             </Button>
@@ -620,9 +629,9 @@ export class Transfer extends Component {
                         <Grid item xs={12} style={{ paddingTop: 30 }}>
                             <Grid container spacing={2}>
                                 {otherWalletObjs.map(walletObj => (
-                                    <Grid item xs={4} key={walletObj.title}>
-                                        <LetouWallet wallet={walletObj}
-                                            onClick={() => { this.handleWalletClick(walletObj.title) }} />
+                                    <Grid item xs={4} key={walletObj.code}>
+                                        <LetouWallet wallet={walletObj} currency={currency}
+                                            onClick={() => { this.handleWalletClick(walletObj.code) }} />
                                     </Grid>
                                 ))}
                                 <Grid item xs={12} style={{ paddingTop: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}>
@@ -673,7 +682,7 @@ export class Transfer extends Component {
                         </Grid>
                     </Grid>
                     <Grid item xs={5} className={classes.chartColumn}>
-                        <ReactMinimalPieChart
+                        {/* <ReactMinimalPieChart
                             animate={true}
                             animationDuration={500}
                             animationEasing="ease-out"
@@ -692,9 +701,8 @@ export class Transfer extends Component {
                             ratio={1}
                             rounded={false}
                             startAngle={0}
-                        />
+                        /> */}
                     </Grid>
-
                 </Grid>
                 <Snackbar
                     anchorOrigin={{

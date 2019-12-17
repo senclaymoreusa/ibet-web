@@ -18,9 +18,6 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const FGGAME_URL = "https://lsl.omegasys.eu/ps/game/GameContainer.action?platform=NETENT_CAS&brandId=524&gameId="
 const MGGAME_URL = "https://redirector3.valueactive.eu/Casino/Default.aspx?applicationid=4023&ul=en"
 
-
-console.log("Line 15, process env URL = " + API_URL);
-
 document.body.style = 'background: #f1f1f1;';
 
 
