@@ -21,6 +21,10 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Icon from '@material-ui/core/Icon';
+import ListSubheader from '@material-ui/core/ListSubheader';
+
+
 
 
 
@@ -45,7 +49,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
-    //alignItems: 'center',
+    alignItems: 'center',
     backgroundColor: theme.palette.background.paper,
 
   },
@@ -57,16 +61,25 @@ const styles = theme => ({
     display: 'flex',
     
   },
-//   gridList: {
-//     flexWrap: 'nowrap',
-//     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-//     transform: 'translateZ(0)',
-//     margin: 200
-//   },
+  test: {
+    width:1000,
+    margin:100
+
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+    margin: 200
+  },
   titleBar: {
     background:
       'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
   },
+  item: {
+    padding:10,
+
+  }
 
 });
 
@@ -89,6 +102,26 @@ const AntTabs = withStyles({
     //     }
     // }
 })(Tabs);
+
+function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, background: "red" }}
+        onClick={onClick}
+      />
+    );
+  }
+  
+function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
+            <Icon color="secondary"> + </Icon>
+        </button>
+    );
+  }
 
 export class GameLobby extends React.Component {
   constructor(props) {
@@ -147,7 +180,7 @@ export class GameLobby extends React.Component {
         this.setState({ providers: res.data });
     }); 
   }
-
+  
   getLabel(labelId) {
     const { formatMessage } = this.props.intl;
     return formatMessage({ id: labelId });
@@ -192,15 +225,38 @@ export class GameLobby extends React.Component {
     // this.props.history.push(url);
 }
 
+
   render() {
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1
-      };
+  
     const { classes } = this.props;
+    var settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 5,
+      slidesToScroll: 5,
+      nextArrow: <SampleNextArrow />,
+      prevArrow: <SamplePrevArrow />
+    };
+    const items = this.state.games.map((game, key) => [
+        <div className={classes.item}>
+            <GridListTile key={game['fields'].id}>
+                <img src={game['fields'].image_url} alt='Not available' width="200" height='200' />
+            <GridListTileBar
+            title={game['fields'].name}
+            subtitle={game['fields'].provider}
+
+            classes={{
+                root: classes.titleBar,
+                title: classes.title,
+            }}
+        
+            />
+            </GridListTile>
+        </div>
+      ]);
+   
+    
     return (
         <div className={classes.root}>
             <TopNavbar />
@@ -278,17 +334,8 @@ export class GameLobby extends React.Component {
                     })
                 }
             </Grid> */}
-             {/* <Slider {...settings}>
-                <div>
-                    <h3>1</h3>
-                </div>
-                <div>
-                    <h3>2</h3>
-                </div>
+            {/* <GridList className={classes.gridList} cols={5.5}>
                 
-            </Slider> */}
-            <GridList className={classes.gridList} cols={5.5}>
-                {/* {for (let i = 0; i < 5; i++)} */}
                 {this.state.games.map(game => (
                 <GridListTile key={game['fields'].image}>
                     <img src={game['fields'].image} alt='Not available' />
@@ -298,11 +345,18 @@ export class GameLobby extends React.Component {
                         root: classes.titleBar,
                         title: classes.title,
                     }}
-                   
+                
                     />
                 </GridListTile>
                 ))}
-            </GridList>
+            </GridList>  */}
+            <div className={classes.test}>
+                <Slider {...settings}>
+                
+                    {items}
+                </Slider> 
+            </div>
+           
         
            
 
