@@ -23,6 +23,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Icon from '@material-ui/core/Icon';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import Typography from '@material-ui/core/Typography';
 
 
 
@@ -32,6 +33,7 @@ import placeholdimage from '../images/handsomecat.jpg';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
 
 const GAME_URL = "https://lsl.omegasys.eu/ps/game/GameContainer.action?platform=NETENT_CAS&brandId=524&gameId="
 
@@ -55,15 +57,14 @@ const styles = theme => ({
   },
 
   game: {
-    marginTop: 20,
-    marginLeft: 200,
-    marginRight: 200,
+    // marginTop: 20,
+    // marginLeft: 200,
+    // marginRight: 200,
     display: 'flex',
     
   },
   test: {
-    width:1000,
-    margin:100
+    width:1300,
 
   },
   gridList: {
@@ -78,6 +79,7 @@ const styles = theme => ({
   },
   item: {
     padding:10,
+   
 
   }
 
@@ -117,9 +119,14 @@ function SampleNextArrow(props) {
 function SamplePrevArrow(props) {
     const { className, style, onClick } = props;
     return (
-        <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
-            <Icon color="secondary"> + </Icon>
-        </button>
+        // <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
+        //     <Icon color="secondary"> ^ </Icon>
+        // </button>
+      <div
+        className={className}
+        style={{ ...style, background: "red" }}
+        onClick={onClick}
+        />
     );
   }
 
@@ -233,15 +240,24 @@ export class GameLobby extends React.Component {
       dots: false,
       infinite: true,
       speed: 500,
-      slidesToShow: 5,
-      slidesToScroll: 5,
+      slidesToShow: 5.5,
+      slidesToScroll: 5.5,
       nextArrow: <SampleNextArrow />,
       prevArrow: <SamplePrevArrow />
     };
+    var gridTileStyle= {
+        position: 'relative',
+        float: 'left',
+        width: '100%',
+        minHeight: '200px',
+        minWidth: '200px',
+        overflow: 'hidden',
+        height: '100% !important'
+    }
     const items = this.state.games.map((game, key) => [
         <div className={classes.item}>
-            <GridListTile key={game['fields'].id}>
-                <img src={game['fields'].image_url} alt='Not available' width="200" height='200' />
+            <GridListTile key={game['fields'].id} {...gridTileStyle}>
+                <img src={game['fields'].image_url} alt='Not available' width='213px' height='213px' />
             <GridListTileBar
             title={game['fields'].name}
             subtitle={game['fields'].provider}
@@ -260,8 +276,8 @@ export class GameLobby extends React.Component {
     return (
         <div className={classes.root}>
             <TopNavbar />
-            <div className={classes.game}>
-            <Paper square>
+            {/* <div className={classes.game}>
+            <Paper square> */}
             {/* <li style={{ marginLeft: 200, marginTop: 50}}> NETENT</li> */}
             {/* <ul className="SecFilter">
                 <li key={0} className={this.state.current == 0 ? "Active" : ""} onClick={this.providerSelect.bind(this, 0, "All")}><a>{ "ALL" }</a></li>
@@ -304,9 +320,9 @@ export class GameLobby extends React.Component {
                         }
                     }}
                 /> */}
-            </Paper>
-        </div>
-        <div className={classes.game}>
+            {/* </Paper>
+        </div> */}
+        {/* <div className={classes.game}> */}
 
             {/* <Grid container item xs={12} sm={12} key="455">
                 {  
@@ -334,33 +350,96 @@ export class GameLobby extends React.Component {
                     })
                 }
             </Grid> */}
-            {/* <GridList className={classes.gridList} cols={5.5}>
-                
-                {this.state.games.map(game => (
-                <GridListTile key={game['fields'].image}>
-                    <img src={game['fields'].image} alt='Not available' />
-                    <GridListTileBar
-                    title={game['fields'].name}
-                    classes={{
-                        root: classes.titleBar,
-                        title: classes.title,
-                    }}
-                
-                    />
-                </GridListTile>
-                ))}
-            </GridList>  */}
-            <div className={classes.test}>
-                <Slider {...settings}>
-                
-                    {items}
-                </Slider> 
+           
+            <div > 
+                <Typography component="p" paragraph={true}>
+                    {this.getLabel('recommended')}
+                </Typography>
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {items}
+                    </Slider> 
+                </div>
+           
+           
+                <Typography component="p" paragraph={true}>
+                    {this.getLabel('top-games')}
+                </Typography>
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {items}
+                    </Slider> 
+                </div>
+          
+                <Typography component="p" paragraph={true}>
+                    {this.getLabel('slot-machine')}
+                </Typography>
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {items}
+                    </Slider> 
+                </div>
+
+                <Typography component="p" paragraph={true}>
+                    {this.getLabel('cumulative-award')}
+                </Typography>
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {/* {items} */}
+                    </Slider> 
+                </div>
+
+                <Typography component="p" paragraph={true}>
+                    {this.getLabel('table-games')}
+                </Typography>
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {/* {items} */}
+                    </Slider> 
+                </div>
+
+                <Typography component="p" paragraph={true}>
+                    {this.getLabel('scratch-card')}
+                </Typography>
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {/* {items} */}
+                    </Slider> 
+                </div>
+
+                <Typography component="p" paragraph={true}>
+                    {this.getLabel('gaming-room')}
+                </Typography>
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {/* {items} */}
+                    </Slider> 
+                </div>
+
+                <Typography component="p" paragraph={true}>
+                    {this.getLabel('video-poker')}
+                </Typography>
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {/* {items} */}
+                    </Slider> 
+                </div>
+
+                <Typography component="p" paragraph={true}>
+                    {this.getLabel('fishing-games')}
+                </Typography>
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {/* {items} */}
+                    </Slider> 
+                </div>
             </div>
+           
            
         
            
 
-        </div>
+        {/* </div> */}
         <Footer />
       </div>
       
