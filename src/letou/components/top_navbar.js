@@ -293,7 +293,9 @@ export class TopNavbar extends React.Component {
                 // }
 
                 if(res.status === 200) {
+                    console.log(res);
                     this.setState({kyUrl: res.data.d.url});
+                    window.open(this.state.kyUrl, "kaiyuan gaming");
                 }
 
             }).catch(err => {
@@ -821,18 +823,18 @@ export class TopNavbar extends React.Component {
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.chessOptions(830);
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'grab-cattle'
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.chessOptions(680);
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'texas-holdem'
@@ -841,7 +843,6 @@ export class TopNavbar extends React.Component {
                                                     <MenuItem
                                                         onClick={() => {
                                                             this.chessOptions(0);
-                                                            window.open(this.kyUrl, "kygamming");
                                                         }}
                                                     >
                                                         {this.getLabel(
