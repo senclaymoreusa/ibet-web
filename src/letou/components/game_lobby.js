@@ -17,6 +17,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from "@material-ui/core/AppBar";
 import FilterSearchBar from '../components/search_filter';
+// import SelectFieldExampleMultiSelect from '../../../src/ibet/components/filter_bar'
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -27,7 +28,6 @@ const GAME_URL = "https://lsl.omegasys.eu/ps/game/GameContainer.action?platform=
 // "wishmasteroct_not_mobile_sw","wildturkey_not_mobile_sw","whosthebride_not_mobile_sw","monkeys_not_mobile_sw","grandspinn_no_progressive_not_mobile_sw"]
 
 
-console.log("Line 15, process env URL = " + API_URL);
 
 document.body.style = 'background: #f1f1f1;';
 
@@ -71,8 +71,9 @@ const StyledTabs = withStyles({
         display: 'flex',
         justifyContent: 'center',
         '& > div': {
-            width: '70%',
-            backgroundColor: 'red'
+            width: '100%',
+            backgroundColor: '#53abe0',
+            
         }
     }
 })(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
@@ -80,30 +81,27 @@ const StyledTabs = withStyles({
 const StyledTab = withStyles(theme => ({
     root: {
         textTransform: "uppercase",
-        color: "#474747",
         opacity: 1,
         margin: 'auto',
-        fontWeight: theme.typography.fontWeightRegular,
+        fontWeight: theme.typography.fontWeightBold,
         // fontSize: 20,
+        color: '#6a6a6a',
         outline: 'none',
         height: '100%',
         borderBottom: '2px solid #d8d8d8',
         whiteSpace: 'nowrap',
         "&:focus": {
             height: '100%',
-            backgroundColor: '#c5c5c5',
-            // borderBottom: '2px solid #ff0000',
+            color: "#53abe0",
         },
         "&:hover": {
             height: '100%',
-            backgroundColor: '#c5c5c5',
-            // borderBottom: '2px solid #ff0000',
+            color: "#53abe0",
         },
         "&:selected": {
             height: '100%',
-            backgroundColor: '#c5c5c5',
-            // borderBottom: '2px solid #ff0000',
-        },
+            color: "#53abe0",
+        }
     }
 }))(props => <Tab disableRipple {...props} />);
 
@@ -136,32 +134,34 @@ export class GameLobby extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.category !== prevProps.match.params.category) {
+        var { category, search } = this.props.match.params;
+        if (this.props.match.params.category !== prevProps.match.params.category || (this.props.match.params.search !==  prevProps.match.params.search )) {
             var category = this.props.match.params.category;
-            // this.setState({isFilter: false});
-            console.log(this.state.isFilter);
+
+            if (category) {
+                this.setState({ value: category.toLowerCase() });
+            } else {
+                this.setState({ value: "all" });
+            }
             if (category && category != "all") {
                 axios.get(API_URL + 'games/api/games/?category=' + category, config).then(res => {
-                    // var gameArray = []
-                    // var chunk = 6;
-                    // for (var i = 0, j = res.data.length; i < j; i += chunk) {
-                    //     var tempArr = res.data.slice(i, i + chunk);
-                    //     gameArray.push(tempArr);
-                    // }
-                    // this.setState({ all_slots: gameArray });
                     this.generateGameList(res.data);
+                    this.setState({ isFilter: true });
                 });
             } else {
-                axios.get(API_URL + 'games/api/games/', config).then(res => {
-                    //     var gameArray = []
-                    // var chunk = 6;
-                    // for (var i = 0, j = res.data.length; i < j; i += chunk) {
-                    //     var tempArr = res.data.slice(i, i + chunk);
-                    //     gameArray.push(tempArr);
-                    // }
-                    // this.setState({ all_slots: gameArray });
-                    this.generateGameList(res.data);
-                });
+                if (this.props.match.params.search) {
+                    
+                    axios.get(API_URL + 'games/api/games/?' + this.props.match.params.search, config).then(res => {
+                        this.setState({isFilter: true})
+                        this.generateGameList(res.data);
+                    });
+                } else {
+                    axios.get(API_URL + 'games/api/games/').then(res => {
+                        this.generateGameList(res.data);
+                        this.setState({ isFilter: false });
+                    });
+                }
+                
             }
         }
     }
@@ -169,8 +169,6 @@ export class GameLobby extends React.Component {
     componentDidMount() {
 
         var { category, search } = this.props.match.params;
-        console.log(category, search)
-        console.log("component did mount again")
 
         if (category) {
             this.setState({ value: category.toLowerCase() });
@@ -193,36 +191,23 @@ export class GameLobby extends React.Component {
 
         if (category && category != "all") {
             axios.get(API_URL + 'games/api/games/?category=' + category, config).then(res => {
-                // console.log(res.data);
-                // var gameArray = []
-                // var chunk = 6;
-                // for (var i = 0, j = res.data.length; i < j; i += chunk) {
-                //     var tempArr = res.data.slice(i, i + chunk);
-                //     gameArray.push(tempArr);
-                // }
-                // this.setState({ all_slots: gameArray });
                 this.generateGameList(res.data);
-                // this.setState({ games: res.data });
+                this.setState({isFilter: true})
             });
         } else {
-            axios.get(API_URL + 'games/api/games/', config).then(res => {
-                // console.log(res.data);
-                // var gameArray = []
-                // var chunk = 6;
-                // for (var i = 0, j = res.data.length; i < j; i += chunk) {
-                //     var tempArr = res.data.slice(i, i + chunk);
-                //     gameArray.push(tempArr);
-                // }
-                // this.setState({ all_slots: gameArray });
-                this.generateGameList(res.data);
-            });
+            if (this.props.match.params.search) {
+                
+                axios.get(API_URL + 'games/api/games/?' + this.props.match.params.search, config).then(res => {
+                    this.setState({isFilter: true})
+                    this.generateGameList(res.data);
+                });
+            } else {
+                axios.get(API_URL + 'games/api/games/').then(res => {
+                    this.generateGameList(res.data);
+                });
+            }
+            
         }
-
-        axios.get(API_URL + 'games/api/filter/', config).then(res => {
-            this.setState({ providers: res.data['Providers'] });
-            this.setState({ filterOptions: res.data });
-        })
-
 
         axios.get(API_URL + 'games/api/games-category/').then(res => {
             this.setState({ categories: res.data });
@@ -230,14 +215,8 @@ export class GameLobby extends React.Component {
     }
 
     handleToUpdate(filterKey, filterValue) {
-        // this.handle_category_change('all');
-        // this.setState({
-        //     isFilter: true,
-        // })
-        // console.log(this.state.providerFilterStr)
         if (filterKey === 'providers') {
             var key = filterValue.join('+');
-            // console.log('providers: ' + key);
             this.setState({
                 value: 'all',
                 isFilter: true,
@@ -258,7 +237,6 @@ export class GameLobby extends React.Component {
 
     triggerGameData() {
         axios.get(API_URL + 'games/api/games/?provider=' + this.state.providerFilterStr + '&theme=' + this.state.themeFilterStr, config).then(res => {
-        //    console.log(res.data);
            this.generateGameList(res.data);
        });
    }
@@ -269,10 +247,6 @@ export class GameLobby extends React.Component {
     }
 
     async handle_category_change(category, sub) {
-        // if (category === 'all') {
-        //     this.setState({ isFilter: false});
-        // }
-        console.log(category);
         if (category !== 'all') {
             category = category.cateStr.toLowerCase();
         }
@@ -307,7 +281,7 @@ export class GameLobby extends React.Component {
     }
 
     renderGameElement(){
-        if(this.state.value === 'all' || !this.state.isFilter) {
+        if(!this.state.isFilter) {
             return (<div>YAYA</div>)
             
         } else {
@@ -353,7 +327,6 @@ export class GameLobby extends React.Component {
     render() {
 
         const { classes } = this.props;
-        // console.log(this.state.isFilter);
         var handleToUpdate  =  this.handleToUpdate;
         let tabs = (
             <StyledTabs centered
@@ -390,9 +363,8 @@ export class GameLobby extends React.Component {
                     <Paper style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
                         <AppBar position="static" color="default" style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
                             {(this.state.categories.length > 0) && tabs}
-                            {/* {tabs} */}
                         </AppBar>
-                        <FilterSearchBar providers={this.state.providers} filterOptions={this.state.filterOptions} handleToUpdate = {handleToUpdate.bind(this)} category={this.state.value} isFilter={this.state.isFilter}/>
+                        <FilterSearchBar />
                     </Paper>
 
 
@@ -400,73 +372,7 @@ export class GameLobby extends React.Component {
 
                 <div className={classes.game}>
                     {
-                        // if (this.state.value === 'all' && this.state.isFilter) {
-                        //     return 
-                        // }
-                        this.state.value === 'all' && this.state.isFilter? (
-
-                            // <Grid container item xs={12} sm={12} key="455">
-                            //     {  
-                            //         this.state.games.map((game, index) => {
-                            //             var gameFields = game['fields'];
-                            //             return (
-                            //                 // <Grid container item xs={12} sm={12} key={index}>
-                            //                     <Grid item xs={2} sm={2} key={game.pk}>
-                            //                         <Paper style={{ margin: 15 }}>
-                            //                             <NavLink to = {{ pathname: `/game_detail/${game.pk}`}} style={{ textDecoration: 'none' }}> 
-                            //                                 <div>
-                            //                                     <img src={gameFields.image_url} height = "200" width="100%" alt = 'Not available'/>
-
-                            //                                     <br/>
-
-                            //                                     <div className='game-title'> 
-                            //                                         {gameFields.name} 
-                            //                                     </div>
-                            //                                 </div>
-                            //                             </NavLink>
-                            //                         </Paper>
-                            //                     {/* </Grid> */}
-                            //                 </Grid>
-                            //             )
-                            //         })
-                            //     }
-                            // </Grid>
-                            // <div></div>
-                            <Grid container item xs={12} sm={12} key="455">
-                                {
-                                    this.state.all_slots.map((games, index) => {
-                                        return (
-                                            <Grid container item xs={12} sm={12} key={index}>
-                                                {
-                                                    games.map(game => {
-                                                        var gameFields = game['fields'];
-                                                        return (
-                                                            <Grid item xs={2} sm={2} key={game.pk}>
-                                                                <Paper style={{ margin: 15 }}>
-                                                                    <NavLink to={`/game_detail/${game.pk}`} style={{ textDecoration: 'none' }}>
-                                                                        <div>
-                                                                            <img src={gameFields.image_url} height="200" width="100%" alt='Not available' />
-
-                                                                            <br />
-
-                                                                            <div className='game-title'>
-                                                                                {gameFields.name}
-                                                                            </div>
-                                                                        </div>
-                                                                    </NavLink>
-                                                                </Paper>
-                                                            </Grid>
-                                                        )
-                                                    })
-                                                }
-                                            </Grid>
-                                        )
-                                    })
-                                }
-                            </Grid>
-                        )
-                            :
-                            (<div>YAYA</div>)
+                        this.renderGameElement()
                     }
                 </div>
 
