@@ -129,7 +129,7 @@ const styles = theme => {
             marginTop: 3
         },
         actionButton: {
-            width: '100%',
+            width: 324,
             height: 44,
             borderRadius: 22,
             backgroundColor: '#4DA9DF',
@@ -629,12 +629,7 @@ class Astropay_CH extends Component {
                             label={this.getLabel('add-favourite-deposit')}
                         />
                     </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
-                        <Button variant="contained" className={classes.cancelButton}
-                            onClick={this.cancelClicked.bind(this)}
-                        >{this.getLabel('cancel-label')}</Button>
-                    </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
+                    <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick}
                             disabled={
@@ -644,6 +639,13 @@ class Astropay_CH extends Component {
                                 this.state.cvvInvalid
                             }
                         >{this.getLabel('next-label')}</Button>
+                    </Grid>
+                    <Grid item xs={12} className={classes.buttonCell}>
+                        {/*<Button variant="contained" className={classes.cancelButton}
+                        */}
+                        <Button className={classes.actionButton}
+                            onClick={this.cancelClicked.bind(this)}
+                        >{this.getLabel('cancel-label')}</Button>
                     </Grid>
                 </Grid>
             </div >
