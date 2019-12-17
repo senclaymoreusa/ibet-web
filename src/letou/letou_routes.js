@@ -163,9 +163,9 @@ import  gbkeno from './components/sports/gbkeno';
 import  gbk3 from './components/sports/gbk3';
 import  gbpk10 from './components/sports/gbpk10';
 import  gbssc from './components/sports/gbssc';
-import  Games  from './components/game';
-import GameLobby from './components/game_lobby';
-import GameDetail from './components/game_detail';
+// import  Games  from './components/game';
+import GameLobby from './components/games/game_lobby';
+import GameDetail from './components/games/game_detail';
 
 
 const containerStyle = {

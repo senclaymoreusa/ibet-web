@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
+import { authCheckState, handle_referid, hide_landing_page } from '../../../actions';
 import { fade, withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -18,7 +18,7 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
-import { config } from '../../util_config';
+import { config } from '../../../util_config';
 import { withRouter } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import Divider from '@material-ui/core/Divider';
@@ -425,12 +425,14 @@ export class FilterSearchBar extends Component {
                     >
                     <Button onClick={() => {
                         this.setState({ showFilter: !this.state.showFilter,
+                            showSort: false,
                          });
                                     
                     }} 
                     style={this.state.showFilter ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}>Filter</Button>
                     <Button onClick={() => {
                         this.setState({ showSort: !this.state.showSort,
+                            showFilter: false,
                          });
                     }} style={this.state.showSort ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}>Sort</Button> 
                     </ButtonGroup>
@@ -466,45 +468,44 @@ export class FilterSearchBar extends Component {
                         })
                     }
                     </Grid>
-                </div>
-                
-                {
-                    this.state.showFilter || this.state.showSort ? 
-                    (<div>
-                        <Divider style={{ marginTop: 20}}/>
-                        <div style={{ marginTop: 20}}>
-                        {
-                            this.props.match.params.search ? (
-                            <Grid container item md={12} sm={12} xs={12} key={'566'}>
-                                <Grid item md={2} sm={2} xs={2} key={'123'} style={{color: "#6a6a6a", fontSize: 28, fontFamily: 'Gilroy', maxWidth: "12.6%"}}>
-                                    Filter results
-                                </Grid>
-                                <Grid item md={1} sm={1} xs={1} key={'333'} style={{ maxWidth: "12.6%"}}>
-                                    <Chip  icon={<SyncIcon />} style={{margin: 5, marginRight: 10}} key={'224'} label="Clear result" color="primary" onClick={(e) => this.handleClick(e)}/>
-                                </Grid>
-                                <Grid item md={1} sm={1} xs={1} key={'344'} style={{ maxWidth: "3.5%" }}>
-                                    <Divider orientation="vertical" />
-                                </Grid>
-                                <Grid item md={8} sm={8} xs={8} key={'234'} style={{maxWidth: 1000}}>
-                                    {
-                                        arr.map((item, index) => {
-                                            return (
-                                                <Chip style={{margin: 5}} key={index} label={item} onDelete={(e) => this.handleDelete(e, item)} color="primary" />
-                                            )
-                                        })
 
-                                    }
+                    {
+                        this.state.showFilter || this.state.showSort ? 
+                        (<div>
+                            <Divider style={{ marginTop: 20}}/>
+                            <div style={{ marginTop: 20}}>
+                            {
+                                this.props.match.params.search ? (
+                                <Grid container item md={12} sm={12} xs={12} key={'566'}>
+                                    <Grid item md={2} sm={2} xs={2} key={'123'} style={{color: "#6a6a6a", fontSize: 28, fontFamily: 'Gilroy', maxWidth: "12.6%"}}>
+                                        Filter results
+                                    </Grid>
+                                    <Grid item md={1} sm={1} xs={1} key={'333'} style={{ maxWidth: "12.6%"}}>
+                                        <Chip  icon={<SyncIcon />} style={{margin: 5, marginRight: 10}} key={'224'} label="Clear result" color="primary" onClick={(e) => this.handleClick(e)}/>
+                                    </Grid>
+                                    <Grid item md={1} sm={1} xs={1} key={'344'} style={{ maxWidth: "3.5%" }}>
+                                        <Divider orientation="vertical" />
+                                    </Grid>
+                                    <Grid item md={8} sm={8} xs={8} key={'234'} style={{maxWidth: 1000}}>
+                                        {
+                                            arr.map((item, index) => {
+                                                return (
+                                                    <Chip style={{margin: 5}} key={index} label={item} onDelete={(e) => this.handleDelete(e, item)} color="primary" />
+                                                )
+                                            })
+
+                                        }
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                            )
-                            : null
-                        }
-                        </div> 
-                    </div>)
-                    : 
-                    null
-                }
-                
+                                )
+                                : null
+                            }
+                            </div> 
+                        </div>)
+                        : 
+                        null
+                    }
+                </div>    
             </div>
         );
     }

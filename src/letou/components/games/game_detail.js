@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TopNavbar from "../../ibet/components/top_navbar";
 import axios from 'axios';
-import { config } from '../../util_config';
+import { config } from '../../../util_config';
 import { FormattedMessage } from 'react-intl';
 import Iframe from 'react-iframe';
-import { GAME_URLS } from '../../game_constant';
+import { GAME_URLS } from '../../../game_constant';
 
 
 //const API_URL = process.env.REACT_APP_REST_API;
