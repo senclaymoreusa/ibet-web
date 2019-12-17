@@ -13,10 +13,10 @@ import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
-
+import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -239,6 +239,11 @@ class AliPay extends Component {
     }
 
     componentWillReceiveProps(props) {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
@@ -250,6 +255,11 @@ class AliPay extends Component {
     }
 
     componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            }
+        })
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
@@ -577,10 +587,19 @@ class AliPay extends Component {
             });
     }
 
+    backClicked() {
+        var url = this.props.history.location.pathname
+        var parts = url.split('/');
+        url = '/';
+        var path = parts.slice(1, 4).join('/');
+        url = url + path;
+        this.props.history.push(url);
+    }
+
     render() {
         const { classes } = this.props;
         const { isFavorite, amount, currency } = this.state;
-
+        console.log(classes)
         return (
             <div className={classes.root}>
                 <Grid container spacing={2} className={classes.contentGrid}>
@@ -653,7 +672,7 @@ class AliPay extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.backClicked}
+                            onClick={this.backClicked.bind(this)}
                         >{this.getLabel('back-banking')}</Button>
                     </Grid>
                 </Grid>
@@ -668,4 +687,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(AliPay)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(AliPay))));

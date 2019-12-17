@@ -425,7 +425,7 @@ class UnionPayQr extends Component {
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
             user_id: this.state.data.pk,
-            payment: event.target.checked ? 'wechatpay' : null,
+            payment: event.target.checked ? 'unionpayqr' : null,
         })
             .then(res => {
                 this.setState({ isFavorite: !this.state.isFavorite });

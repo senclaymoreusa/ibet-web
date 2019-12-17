@@ -496,7 +496,7 @@ class Astropay_CH extends Component {
         const { classes } = this.props;
         const { amount, currency, isFavorite } = this.state;
 
-
+        console.log(classes)
         return (
             <div className={classes.root}>
                 <Grid container spacing={2} className={classes.contentGrid}>
