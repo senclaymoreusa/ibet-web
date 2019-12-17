@@ -456,6 +456,7 @@ export class Transfer extends Component {
         this.handleWalletClick = this.handleWalletClick.bind(this);
         this.sendAllToMainWallet = this.sendAllToMainWallet.bind(this);
     }
+   
     componentDidMount() {
 
         var randomColor = require('randomcolor');

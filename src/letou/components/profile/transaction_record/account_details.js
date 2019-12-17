@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -17,11 +18,19 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import axios from 'axios';
+import { config } from '../../../../util_config';
 
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker
 } from '@material-ui/pickers';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -82,6 +91,11 @@ const styles = theme => ({
             border: '1px solid #717171'
         }
     },
+    mobileRow: {
+        height: 60,
+        alignItems: 'center',
+        backgroundColor: '#fff'
+    },
     filterButton: {
         height: 44,
         marginRight: 20,
@@ -95,15 +109,58 @@ const styles = theme => ({
         marginBottom: 8,
         textTransform: 'capitalize'
     },
+    mobileFilterButton: {
+        height: 32,
+        fontSize: 14,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        marginTop: 16,
+        marginBottom: 8,
+        textTransform: 'capitalize',
+        '&:focus': {
+            backgroundColor: '#f28f22',
+            color: '#fff'
+        }
+    },
+    mobileBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        width: '100%'
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: -0.24,
+        color: '#000'
+    },
+    titleRow: {
+        borderBottom: '1px solid #4DA9DF',
+        paddingBottom: 12
+    },
     active: {
         backgroundColor: '#3c3c3c',
         color: '#fff'
+    },
+    mobileActive: {
+        backgroundColor: '#f28f22',
+        color: '#fff'
+    },
+    formControl: {
+        marginLeft: 20,
+        marginRight: 20,
+        width: '100%'
     }
 });
 
 const StyledTableCell = withStyles(theme => ({
     head: {
-        backgroundColor: theme.palette.common.black,
+        backgroundColor: '#3c3c3c',
         color: theme.palette.common.white
     },
     body: {
@@ -127,9 +184,10 @@ export class AccountDetails extends Component {
             startDate: moment(new Date()),
             endDate: moment(new Date()),
             filterRange: '',
-            filterType: 'all',
-            filterStatus: 'all',
-            // rows:[]
+            filterType: -1,
+            filterStatus: -1,
+            items: [],
+            userId: ''
         };
     }
 
@@ -138,11 +196,42 @@ export class AccountDetails extends Component {
         return formatMessage({ id: labelId });
     }
 
-    createData(number, time, typeoftrans, content, amount, statustrans) {
-        return { number, time, typeoftrans, content, amount, statustrans };
+    async componentDidMount() {
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        await axios.get(API_URL + 'users/api/user/', config).then(res => {
+            this.setState({ userId: res.data.pk });
+
+            this.getTransactions();
+        });
     }
-      
-      
+
+    getTransactions() {
+        let requestURL = `accounting/api/transactions/get_transactions?user_id=${this.state.userId}`;
+        let typeStr =
+            this.state.filterType !== -1
+                ? `&type=${this.state.filterType}`
+                : '';
+
+        let statusStr =
+            this.state.filterStatus !== -1
+                ? `&status=${this.state.filterStatus}`
+                : '';
+
+        let fromStr = `&time_from=${this.state.startDate.format('l')}`;
+        let toStr = `&time_to=${this.state.startDate.format('l')}`;
+
+        axios
+            .get(API_URL + requestURL + typeStr + statusStr + fromStr + toStr)
+            .then(res => {
+                if (res.status === 200)
+                    this.setState({ items: res.data.results });
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
+    }
 
     render() {
         const { classes } = this.props;
@@ -152,24 +241,10 @@ export class AccountDetails extends Component {
             filterRange,
             filterType,
             filterStatus,
+            items
         } = this.state;
         var today = moment(new Date());
 
-         let rows = [
-            {'D191211150423435', new Date(), 'Deposit', '24', 40.0, 'Success'},
-            {'D191211150423435', new Date(), 'Deposit', '24', 40.0, 'Success'},
-            {'D191211150423435', new Date(), 'Deposit', '24', 400.0, 'Failed'},
-            {'D191211150423435', new Date(), 'Deposit', '24', 90.0, 'In Progress'},
-            {'D191211150423435', new Date(), 'Deposit', '24', 40.0, 'Cancelled'},
-            {'D191211150423435', new Date(), 'Deposit', '24', 20.0, 'Success'},
-            {'D191211150423435', new Date(), 'Deposit', '24', 650.0, 'Failed'},
-            {'D191211150423435', new Date(), 'Deposit', '24', 10.0, 'Success'},
-            {'D191211150423435', new Date(), 'Deposit', '24', 20.0, 'In Progress'},
-            {'D191211150423435', new Date(), 'Deposit', '24', 90.0, 'Success'},
-           
-          ];
-
-        console.log(today);
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>
@@ -194,6 +269,7 @@ export class AccountDetails extends Component {
                                         this.setState({
                                             startDate: moment(date)
                                         });
+                                        this.getTransactions();
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -214,6 +290,7 @@ export class AccountDetails extends Component {
                                         this.setState({
                                             endDate: moment(date)
                                         });
+                                        this.getTransactions();
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -250,6 +327,7 @@ export class AccountDetails extends Component {
                                     this.setState({
                                         endDate: moment(new Date())
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('today-label')}
@@ -283,6 +361,7 @@ export class AccountDetails extends Component {
                                     this.setState({
                                         endDate: moment(new Date())
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('one-week')}
@@ -316,6 +395,7 @@ export class AccountDetails extends Component {
                                     this.setState({
                                         endDate: moment(new Date())
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('one-month')}
@@ -332,12 +412,13 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'all'
+                                    [classes.active]: filterType === -1
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'all'
+                                        filterType: -1
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('all-label')}
@@ -346,12 +427,13 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'deposit'
+                                    [classes.active]: filterType === 0
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'deposit'
+                                        filterType: 0
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('deposit-label')}
@@ -360,12 +442,13 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'withdraw'
+                                    [classes.active]: filterType === 1
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'withdraw'
+                                        filterType: 1
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('withdraw-label')}
@@ -374,12 +457,13 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'transfer'
+                                    [classes.active]: filterType === 2
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'transfer'
+                                        filterType: 2
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('transfer-label')}
@@ -388,15 +472,46 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterType === 'bonus'
+                                    [classes.active]: filterType === 3
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterType: 'bonus'
+                                        filterType: 3
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('bonus-label')}
+                            </Button>
+                            <Button
+                                variant="contained"
+                                className={clsx({
+                                    [classes.filterButton]: true,
+                                    [classes.active]: filterType === 4
+                                })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterType: 4
+                                    });
+                                    this.getTransactions();
+                                }}
+                            >
+                                {this.getLabel('adjustment-label')}
+                            </Button>
+                            <Button
+                                variant="contained"
+                                className={clsx({
+                                    [classes.filterButton]: true,
+                                    [classes.active]: filterType === 5
+                                })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterType: 5
+                                    });
+                                    this.getTransactions();
+                                }}
+                            >
+                                {this.getLabel('commission-label')}
                             </Button>
                         </Grid>
                         <Grid item xs={12} className={classes.row}>
@@ -411,12 +526,13 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterStatus === 'all'
+                                    [classes.active]: filterStatus === -1
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterStatus: 'all'
+                                        filterStatus: -1
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('all-label')}
@@ -425,15 +541,46 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]: filterStatus === 'success'
+                                    [classes.active]: filterStatus === 0
                                 })}
                                 onClick={() => {
                                     this.setState({
-                                        filterStatus: 'success'
+                                        filterStatus: 0
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('success-label')}
+                            </Button>
+                            <Button
+                                variant="contained"
+                                className={clsx({
+                                    [classes.filterButton]: true,
+                                    [classes.active]: filterStatus === 1
+                                })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterStatus: 1
+                                    });
+                                    this.getTransactions();
+                                }}
+                            >
+                                {this.getLabel('pending-label')}
+                            </Button>
+                            <Button
+                                variant="contained"
+                                className={clsx({
+                                    [classes.filterButton]: true,
+                                    [classes.active]: filterStatus === 2
+                                })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterStatus: 2
+                                    });
+                                    this.getTransactions();
+                                }}
+                            >
+                                {this.getLabel('fail-label')}
                             </Button>
                             <Button
                                 variant="contained"
@@ -446,42 +593,14 @@ export class AccountDetails extends Component {
                                     this.setState({
                                         filterStatus: 'cancelled'
                                     });
+                                    this.getTransactions();
                                 }}
                             >
                                 {this.getLabel('cancelled-label')}
                             </Button>
-                            <Button
-                                variant="contained"
-                                className={clsx({
-                                    [classes.filterButton]: true,
-                                    [classes.active]: filterStatus === 'failed'
-                                })}
-                                onClick={() => {
-                                    this.setState({
-                                        filterStatus: 'failed'
-                                    });
-                                }}
-                            >
-                                {this.getLabel('failed-label')}
-                            </Button>
-                            <Button
-                                variant="contained"
-                                className={clsx({
-                                    [classes.filterButton]: true,
-                                    [classes.active]:
-                                        filterStatus === 'inprogress'
-                                })}
-                                onClick={() => {
-                                    this.setState({
-                                        filterStatus: 'inprogress'
-                                    });
-                                }}
-                            >
-                                {this.getLabel('inprogress-label')}
-                            </Button>
                         </Grid>
                     </Grid>
-                    <Paper className={classes.root}>
+                    <Paper style={{ marginTop: 20 }}>
                         <Table className={classes.table}>
                             <TableHead>
                                 <TableRow>
@@ -506,25 +625,25 @@ export class AccountDetails extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map(row => (
-                                    <StyledTableRow key={row.number}>
+                                {items.map(row => (
+                                    <StyledTableRow key={row.transaction_id}>
                                         <StyledTableCell>
-                                            {row.number}
+                                            {row.transaction_id}
                                         </StyledTableCell>
-                                        <StyledTableCell >
-                                            {row.time}
+                                        <StyledTableCell>
+                                            {row.arrive_time.toDateString()}
                                         </StyledTableCell>
-                                        <StyledTableCell >
-                                            {row.typeoftrans}
+                                        <StyledTableCell>
+                                            {row.transaction_type}
                                         </StyledTableCell>
-                                        <StyledTableCell >
-                                            {row.content}
+                                        <StyledTableCell>
+                                            {row.method}
                                         </StyledTableCell>
                                         <StyledTableCell align="right">
                                             {row.amount}
                                         </StyledTableCell>
-                                        <StyledTableCell >
-                                            {row.statustrans}
+                                        <StyledTableCell>
+                                            {row.status}
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 ))}
@@ -532,7 +651,301 @@ export class AccountDetails extends Component {
                         </Table>
                     </Paper>
                 </div>
-                <div className={classes.rootMobile}></div>
+                <div className={classes.rootMobile}>
+                    <Grid container>
+                        <Grid
+                            item
+                            xs={6}
+                            className={classes.row}
+                            style={{ paddingTop: 10, paddingLeft: 20 }}
+                        >
+                            <span className={classes.label}>
+                                {this.getLabel('start-date')}
+                            </span>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={6}
+                            className={classes.row}
+                            style={{ paddingTop: 10 }}
+                        >
+                            <span className={classes.label}>
+                                {this.getLabel('end-date')}
+                            </span>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.row}
+                            style={{ paddingLeft: 20 }}
+                        >
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    className={classes.date}
+                                    margin="normal"
+                                    id="start-date"
+                                    format="MM/dd/yyyy"
+                                    value={startDate}
+                                    onChange={date => {
+                                        this.setState({
+                                            startDate: moment(date)
+                                        });
+                                        this.getTransactions();
+                                    }}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date'
+                                    }}
+                                    InputProps={{
+                                        disableUnderline: true
+                                    }}
+                                />
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    className={classes.date}
+                                    margin="normal"
+                                    id="end-date"
+                                    format="MM/dd/yyyy"
+                                    value={endDate}
+                                    onChange={date => {
+                                        this.setState({
+                                            endDate: moment(date)
+                                        });
+                                        this.getTransactions();
+                                    }}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date'
+                                    }}
+                                    InputProps={{
+                                        disableUnderline: true
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.row}
+                            style={{ justifyContent: 'center' }}
+                        >
+                            <Button
+                                className={clsx({
+                                    [classes.mobileFilterButton]: true,
+                                    [classes.mobileActive]:
+                                        filterRange === 'today' ||
+                                        (startDate
+                                            .startOf('day')
+                                            .isSame(today.startOf('day')) &&
+                                            endDate
+                                                .startOf('day')
+                                                .isSame(today.startOf('day')))
+                                })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterRange: 'today'
+                                    });
+                                    this.setState({
+                                        startDate: moment(new Date())
+                                    });
+                                    this.setState({
+                                        endDate: moment(new Date())
+                                    });
+                                    this.getTransactions();
+                                }}
+                            >
+                                {this.getLabel('today-label')}
+                            </Button>
+                            <Button
+                                className={clsx({
+                                    [classes.mobileFilterButton]: true,
+                                    [classes.mobileActive]:
+                                        filterRange === 'oneweek' ||
+                                        (today
+                                            .startOf('day')
+                                            .diff(
+                                                startDate.startOf('day'),
+                                                'day'
+                                            ) === 7 &&
+                                            endDate
+                                                .startOf('day')
+                                                .isSame(today.startOf('day')))
+                                })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterRange: 'oneweek'
+                                    });
+                                    this.setState({
+                                        startDate: moment(new Date()).add(
+                                            'days',
+                                            -7
+                                        )
+                                    });
+                                    this.setState({
+                                        endDate: moment(new Date())
+                                    });
+                                    this.getTransactions();
+                                }}
+                            >
+                                {this.getLabel('one-week')}
+                            </Button>
+                            <Button
+                                className={clsx({
+                                    [classes.mobileFilterButton]: true,
+                                    [classes.mobileActive]:
+                                        filterRange === 'onemonth' ||
+                                        (today
+                                            .startOf('day')
+                                            .diff(
+                                                startDate.startOf('day'),
+                                                'day'
+                                            ) === 30 &&
+                                            endDate
+                                                .startOf('day')
+                                                .isSame(today.startOf('day')))
+                                })}
+                                onClick={() => {
+                                    this.setState({
+                                        filterRange: 'oneweek'
+                                    });
+                                    this.setState({
+                                        startDate: moment(new Date()).add(
+                                            'days',
+                                            -30
+                                        )
+                                    });
+                                    this.setState({
+                                        endDate: moment(new Date())
+                                    });
+                                    this.getTransactions();
+                                }}
+                            >
+                                {this.getLabel('one-month')}
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        container
+                        style={{
+                            backgroundColor: '#fff',
+                            paddingBottom: 10,
+                            paddingTop: 10
+                        }}
+                    >
+                        <Grid item xs={12} className={classes.row}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">
+                                    {this.getLabel('type-label')}
+                                </InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={filterType}
+                                    onChange={event => {
+                                        this.setState({
+                                            filterType: event.target.value
+                                        });
+                                        this.getTransactions();
+                                    }}
+                                >
+                                    <MenuItem value={-1}>
+                                        {this.getLabel('all-label')}
+                                    </MenuItem>
+                                    <MenuItem value={0}>
+                                        {this.getLabel('deposit-label')}
+                                    </MenuItem>
+                                    <MenuItem value={1}>
+                                        {this.getLabel('withdraw-label')}
+                                    </MenuItem>
+                                    <MenuItem value={2}>
+                                        {this.getLabel('transfer-label')}
+                                    </MenuItem>
+                                    <MenuItem value={3}>
+                                        {this.getLabel('bonus-label')}
+                                    </MenuItem>
+                                    <MenuItem value={4}>
+                                        {this.getLabel('adjustment-label')}
+                                    </MenuItem>
+                                    <MenuItem value={5}>
+                                        {this.getLabel('commission-label')}
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.row}
+                            style={{ marginTop: 20 }}
+                        >
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">
+                                    {this.getLabel('status-label')}
+                                </InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={filterStatus}
+                                    onChange={event => {
+                                        this.setState({
+                                            filterStatus: event.target.value
+                                        });
+                                        this.getTransactions();
+                                    }}
+                                >
+                                    <MenuItem value={-1}>
+                                        {this.getLabel('all-label')}
+                                    </MenuItem>
+                                    <MenuItem value={0}>
+                                        {this.getLabel('success-label')}
+                                    </MenuItem>
+                                    <MenuItem value={1}>
+                                        {this.getLabel('pending-label')}
+                                    </MenuItem>
+                                    <MenuItem value={2}>
+                                        {this.getLabel('fail-label')}
+                                    </MenuItem>
+                                    <MenuItem value={3}>
+                                        {this.getLabel('cancelled-label')}
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+                    <Paper style={{ marginTop: 20 }}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell>
+                                        {this.getLabel('time-label')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('transaction-type')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('amount-label')}
+                                    </StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {items.map(row => (
+                                    <StyledTableRow key={row.transaction_id}>
+                                        <StyledTableCell>
+                                            {row.arrive_time.toDateString()}
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            {row.transaction_type}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="right">
+                                            {row.amount}
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </div>
             </div>
         );
     }
@@ -546,6 +959,10 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(AccountDetails))
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, sendingLog })(
+                AccountDetails
+            )
+        )
     )
 );

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
@@ -9,8 +10,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import BetDetails from './bet_details';
 import AccountDetails from './account_details';
 import Main from './analysis/main';
@@ -20,7 +24,26 @@ const styles = theme => ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        minHeight: '100vh',
+        alignItems: 'center',
+    },
+    rootDesktop: {
+        height: 92,
+        maxWidth: 1400,
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+            flexDirection: 'column'
+        }
+    },
+    rootMobile: {
+        minHeight: '100vh',
+        display: 'flex',
+        backgroundColor: '#f2f3f5',
+        flexDirection: 'column',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
     },
     mainGrid: {
         maxWidth: 1400
@@ -57,6 +80,16 @@ const styles = theme => ({
             backgroundColor: '#dfdfdf'
         }
     },
+    mobileRow: {
+        height: 60,
+        alignItems: 'center',
+        backgroundColor: '#fff'
+    },
+    mobileBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        width: '100%'
+    },
     title: {
         fontSize: 20,
         fontWeight: 'normal',
@@ -74,8 +107,7 @@ const styles = theme => ({
         flexGrow: 1,
         borderTop: 'solid 1px #efefef',
         paddingTop: 20,
-        paddingBottom: 10,
-
+        paddingBottom: 10
     }
 });
 
@@ -103,14 +135,14 @@ const StyledTab = withStyles(theme => ({
             fontStyle: 'normal',
             lineHeight: 1.38,
             letterSpacing: -0.06,
-            textAlign: 'center',
+            textAlign: 'center'
         },
         '&:active': {
-            height: '100%',
+            height: '100%'
         }
     },
     selected: {
-        backgroundColor: 'rgba(228, 228, 228, 0.4)',
+        backgroundColor: 'rgba(228, 228, 228, 0.4)'
     }
 }))(props => <Tab disableRipple {...props} />);
 
@@ -157,58 +189,157 @@ export class TransactionRecord extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container className={classes.mainGrid}>
-                    <Grid item xs={12} className={classes.titleRow}>
-                        <span className={classes.title}>
-                            {this.getLabel('transaction-records')}
-                        </span>
+                <div className={classes.rootDesktop}>
+                    <Grid container className={classes.mainGrid}>
+                        <Grid item xs={12} className={classes.titleRow}>
+                            <span className={classes.title}>
+                                {this.getLabel('transaction-records')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} style={{ marginTop: 20 }}>
+                            <StyledTabs
+                                value={tabValue}
+                                onChange={this.handleTabChange}
+                            >
+                                <StyledTab
+                                    label={this.getLabel('account-details')}
+                                    value="account-details"
+                                    onClick={() => {
+                                        if (
+                                            this.props.match.params.type !==
+                                            'account-details'
+                                        ) {
+                                            this.setState({
+                                                tabValue: 'account-details'
+                                            });
+                                        }
+                                    }}
+                                />
+                                <StyledTab
+                                    label={this.getLabel('bet-details')}
+                                    value="bet-details"
+                                    onClick={() => {
+                                        if (
+                                            this.props.match.params.type !==
+                                            'bet-details'
+                                        ) {
+                                            this.setState({
+                                                tabValue: 'bet-details'
+                                            });
+                                        }
+                                    }}
+                                />
+                                <StyledTab
+                                    label={this.getLabel('analysis-label')}
+                                    value="analysis"
+                                    onClick={() => {
+                                        if (
+                                            this.props.match.params.type !==
+                                            'analysis'
+                                        ) {
+                                            this.setState({
+                                                tabValue: 'analysis'
+                                            });
+                                        }
+                                    }}
+                                />
+                            </StyledTabs>
+                            <div className={classes.content}>
+                                {tabValue === 'account-details' && (
+                                    <AccountDetails />
+                                )}
+                                {tabValue === 'bet-details' && <BetDetails />}
+                                {tabValue === 'analysis' && <Main />}
+                            </div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} style={{ marginTop: 20 }}>
-                        <StyledTabs
-                            value={tabValue}
-                            onChange={this.handleTabChange}
-                        >
-                            <StyledTab
-                                label={this.getLabel('account-details')}
-                                value="account-details"
-                                onClick={() => {
-                                    if (
-                                        this.props.match.params.type !== 'account-details'
-                                    ) {
-                                        this.setState({ tabValue: 'account-details' });
-                                    }
-                                }}
-                            />
-                            <StyledTab
-                                label={this.getLabel('bet-details')}
-                                value="bet-details"
-                                onClick={() => {
-                                    if (
-                                        this.props.match.params.type !== 'bet-details'
-                                    ) {
-                                        this.setState({ tabValue: 'bet-details' });
-                                    }
-                                }}
-                            />
-                            <StyledTab
-                                label={this.getLabel('analysis-label')}
-                                value="analysis"
-                                onClick={() => {
-                                    if (
-                                        this.props.match.params.type !== 'analysis'
-                                    ) {
-                                        this.setState({ tabValue: 'analysis' });
-                                    }
-                                }}
-                            />
-                        </StyledTabs>
-                        <div className={classes.content}>
-                            {tabValue === 'account-details' && <AccountDetails />}
-                            {tabValue === 'bet-details' && <BetDetails />}
-                            {tabValue === 'analysis' && <Main />}
-                        </div>
-                    </Grid>
-                </Grid>
+                </div>
+                <div className={classes.rootMobile}>
+                    <AppBar position="static" className={classes.mobileRow}>
+                        <Toolbar className={classes.mobileBar}>
+                            <Grid container>
+                                <Grid item xs={3}>
+                                    <Button
+                                        className={classes.mobileMenuButton}
+                                        onClick={() => {
+                                            this.props.history.push('/p/');
+                                        }}
+                                    >
+                                        <ArrowBackIos style={{ width: 16 }} />
+                                        {this.getLabel('back-label')}
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    <span className={classes.title}>
+                                        {this.getLabel('transaction-records')}
+                                    </span>
+                                </Grid>
+                                <Grid item xs={3}></Grid>
+                            </Grid>
+                        </Toolbar>
+                    </AppBar>
+                    <StyledTabs
+                        variant="fullWidth"
+                        value={tabValue}
+                        onChange={this.handleTabChange}
+                    >
+                        <StyledTab
+                            label={this.getLabel('account-details')}
+                            value="account-details"
+                            onClick={() => {
+                                if (
+                                    this.props.match.params.type !==
+                                    'account-details'
+                                ) {
+                                    this.setState({
+                                        tabValue: 'account-details'
+                                    });
+                                }
+                            }}
+                        />
+                        <StyledTab
+                            label={this.getLabel('bet-details')}
+                            value="bet-details"
+                            onClick={() => {
+                                if (
+                                    this.props.match.params.type !==
+                                    'bet-details'
+                                ) {
+                                    this.setState({
+                                        tabValue: 'bet-details'
+                                    });
+                                }
+                            }}
+                        />
+                        <StyledTab
+                            label={this.getLabel('analysis-label')}
+                            value="analysis"
+                            onClick={() => {
+                                if (
+                                    this.props.match.params.type !== 'analysis'
+                                ) {
+                                    this.setState({
+                                        tabValue: 'analysis'
+                                    });
+                                }
+                            }}
+                        />
+                    </StyledTabs>
+                    <div className={classes.content}>
+                        {tabValue === 'account-details' && <AccountDetails />}
+                        {tabValue === 'bet-details' && <BetDetails />}
+                        {tabValue === 'analysis' && <Main />}
+                    </div>
+                </div>
             </div>
         );
     }
@@ -223,10 +354,7 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState }
-            )(TransactionRecord)
+            connect(mapStateToProps, { authCheckState })(TransactionRecord)
         )
     )
 );

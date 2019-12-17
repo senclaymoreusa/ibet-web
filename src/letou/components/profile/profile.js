@@ -45,6 +45,7 @@ import DepositMain from './fortune_center/deposit/deposit_main';
 import Withdrawal from './fortune_center/withdrawal';
 import Transfer from './fortune_center/transfer';
 import TotalAssets from './fortune_center/total_assets';
+import AccountDetails from './transaction_record/account_details';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -620,6 +621,9 @@ export class Profile extends Component {
                     )}
                      {this.state.mobileContent === 'total-assets' && (
                         <TotalAssets />
+                    )}
+                     {this.state.mobileContent === 'transaction-records' && (
+                        <TransactionRecord />
                     )}
 
                     <div className={classes.grow} />
