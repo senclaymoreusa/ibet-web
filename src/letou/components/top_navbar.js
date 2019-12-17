@@ -805,18 +805,18 @@ export class TopNavbar extends React.Component {
                                             <Paper id="menu-list-grow">
                                                 <MenuList>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.chessOptions(220);
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'fried-golden'
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.chessOptions(600);
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             '21-oclock'
@@ -833,7 +833,7 @@ export class TopNavbar extends React.Component {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
-                                                            this.chessOptions(680);
+                                                            this.chessOptions(620);
                                                         }}
                                                     >
                                                         {this.getLabel(

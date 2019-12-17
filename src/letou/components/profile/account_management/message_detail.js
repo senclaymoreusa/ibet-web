@@ -18,6 +18,11 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
     },
+    headbar: {
+        height: 25,
+        display: 'flex',
+        flexDirection: 'row',
+    },
     content: {
         display: 'flex',
         flexDirection: 'column',
@@ -157,7 +162,7 @@ export class MessageDetail extends Component {
         return (
             <div className={classes.root}>
                 <Grid container>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} className={classes.headbar}>
                         <span className={classes.goBackIcon} onClick={this.backClicked}>
                             <img src={images.src + 'back.png'} alt='Not available'/>
                         </span>
