@@ -132,7 +132,7 @@ export class live_casino extends React.Component {
             this.setState({ currencyValue: res.data.currency });
             
         });
-}
+  }
   handleGDClick(view){
     let direct_view = {
       'Baccarat': 'N',
@@ -165,7 +165,46 @@ export class live_casino extends React.Component {
     
   }
 
+  handleAGClick(view){
+    let direct_view = {
+      'lobby': '2',
+      'baccarat': '13',
+      'baozhuo_baccarat': '30',
+      'led_baozhuo_baccarat': '31',
+      'jingmi_baccarat': '5',
+      'Roulette': '26',
+      'sibo': '27',  
+    }
+    var token = localStorage.getItem('token')
+    if(token){
+      var postData = {
+        "username": this.state.data.username,
+        "actype" : '1',
+        "gameType": '0',
+      }
+      var formBody = [];
+      for (var pd in postData) {
+          var encodedKey = encodeURIComponent(pd);
+          var encodedValue = encodeURIComponent(postData[pd]);
+          formBody.push(encodedKey + "=" + encodedValue);
+      }
+      formBody = formBody.join("&");
 
+      return fetch(API_URL + 'games/api/ag/forward_game', {
+          method: "POST",
+          headers: {
+              'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          body: formBody
+      }).then(function (res){
+                
+        return res.json();
+      }).then(function(data){
+        
+        window.open(data.url, "aggames");
+      });
+    }
+  }
   render() {
 
     const { classes } = this.props;
@@ -197,26 +236,24 @@ export class live_casino extends React.Component {
 
                   <ul>
 
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Jingmi')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Package')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-led')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Internationalhall')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Flagshiphall')}</font></a></li>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-JingmiHall')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleAGClick("baccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleAGClick("jingmi_baccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Jingmi')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleAGClick("baozhuo_baccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Package')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleAGClick("led_baozhuo_baccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-led')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleAGClick("sibo")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                    <li><a onClick={(e) => {this.handleAGClick("Roulette")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                    
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a><span>{this.getLabel('Real-money')}</span></a>
+                    <a onClick={(e) => {this.handleAGClick("lobby")}}><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                   </Grid>
                 </div>
               </div>
 
               <div className="PgHall MarginLeft">
-                <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
+                <div className="PgHallTitle">{this.getLabel('ab-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ab.jpg" alt="ab" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('ab-words')}</p>
