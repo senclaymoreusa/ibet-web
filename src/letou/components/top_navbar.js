@@ -516,28 +516,36 @@ export class TopNavbar extends React.Component {
                             {this.props.isAuthenticated
                                 ? this.state.showLoggedinStatus && (
                                     <div>
-                                      <Button
-                                          size="small"
-                                          onClick={() => {
-                                              this.props.history.push('/p/account-management/message-notification')
-                                          }}
-                                      >
-                                          <div>
-                                              <img src={images.src + 'email.png'} alt="" />
-                                          </div>
-                                      </Button>
-                                      <Button
-                                          size="small"
-                                          className={classes.topLinkButton}
-                                          onClick={() => {
-                                              this.props.logout();
-                                              postLogout();
-                                          }}
-                                      >
-                                          {this.getLabel('log-out')}
-                                      </Button>
+                                        <Button
+                                            size="small"
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/p/account-management/message-notification'
+                                                );
+                                            }}
+                                        >
+                                            <div>
+                                                <img
+                                                    src={
+                                                        images.src +
+                                                        'email.png'
+                                                    }
+                                                    alt=""
+                                                />
+                                            </div>
+                                        </Button>
+                                        <Button
+                                            size="small"
+                                            className={classes.topLinkButton}
+                                            onClick={() => {
+                                                this.props.logout();
+                                                postLogout();
+                                            }}
+                                        >
+                                            {this.getLabel('log-out')}
+                                        </Button>
                                     </div>
-                                  )
+                                )
                                 : null}
                         </Toolbar>
                     </AppBar>
@@ -1015,29 +1023,29 @@ export class TopNavbar extends React.Component {
                                     </Fab>
                                 )
                             ) : (
-                                <div style={{ marginLeft: 20 }}>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.history.push(
-                                                '/register'
-                                            );
-                                        }}
-                                    >
-                                        {this.getLabel('sign-up')}
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.show_letou_login();
-                                        }}
-                                    >
-                                        {this.getLabel('log-in')}
-                                    </Button>
-                                </div>
-                            )}
+                                    <div style={{ marginLeft: 20 }}>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.secondRowButton}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/register'
+                                                );
+                                            }}
+                                        >
+                                            {this.getLabel('sign-up')}
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.secondRowButton}
+                                            onClick={() => {
+                                                this.props.show_letou_login();
+                                            }}
+                                        >
+                                            {this.getLabel('log-in')}
+                                        </Button>
+                                    </div>
+                                )}
                         </Toolbar>
                     </AppBar>
                     <Modal
@@ -1485,9 +1493,10 @@ export class TopNavbar extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const { token } = state.auth;
+    const { token, user } = state.auth;
     return {
         isAuthenticated: token !== null && token !== undefined,
+        user: user,
         error: state.auth.error,
         lang: state.language.lang,
         showAnnouncements: state.general.show_letou_announcements,

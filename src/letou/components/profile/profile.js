@@ -626,6 +626,9 @@ export class Profile extends Component {
                      {this.state.mobileContent === 'suggestions' && (
                         <Suggestions />
                     )}
+                     {this.state.mobileContent === 'transfer' && (
+                        <Transfer />
+                    )}
                     <div className={classes.grow} />
                     <Footer />
                 </div>

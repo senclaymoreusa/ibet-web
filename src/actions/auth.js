@@ -15,9 +15,10 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = token => {
+export const authSuccess = (user, token) => {
     return {
         type: 'AUTH_SUCCESS',
+        user: user,
         token: token
     };
 };
@@ -57,7 +58,7 @@ export const authLogin = (username, password, iovationData) => {
                 );
                 localStorage.setItem('token', token);
                 localStorage.setItem('expirationDate', expirationDate);
-                dispatch(authSuccess(token));
+                dispatch(authSuccess(res.data, token));
                 dispatch(checkAuthTimeout(3600));
                 return Promise.resolve(AUTH_RESULT_SUCCESS);
             })
@@ -97,7 +98,7 @@ export const FacebookauthLogin = (username, email) => {
                 );
                 localStorage.setItem('token', token);
                 localStorage.setItem('expirationDate', expirationDate);
-                dispatch(authSuccess(token));
+                dispatch(authSuccess(res.data, token));
                 dispatch(checkAuthTimeout(3600));
                 return Promise.resolve(AUTH_RESULT_SUCCESS);
             })
@@ -180,7 +181,7 @@ export const FacebookSignup = (username, email) => {
                 );
                 localStorage.setItem('token', token);
                 localStorage.setItem('expirationDate', expirationDate);
-                dispatch(authSuccess(token));
+                dispatch(authSuccess(res.data, token));
                 dispatch(checkAuthTimeout(3600));
                 return Promise.resolve();
             })
@@ -228,8 +229,8 @@ export const logout = () => {
 
 export const sendingLog = (err) => {
     return axios
-    .post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config)
-    .then(res => { });
+        .post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config)
+        .then(res => { });
 }
 
 export const authCheckState = () => {
@@ -254,7 +255,7 @@ export const authCheckState = () => {
                 return axios.get(API_URL + 'users/api/user/', config)
                     .then(res => {
                         if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                            
+
                             dispatch(authFail(res.data.errorMsg.detail[0]));
                             dispatch(logout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
@@ -262,7 +263,7 @@ export const authCheckState = () => {
                             dispatch(logout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
-                            dispatch(authSuccess(token));
+                            dispatch(authSuccess(res.data, token));
                             dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);
                         }

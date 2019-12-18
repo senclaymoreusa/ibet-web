@@ -511,7 +511,7 @@ export const messages = {
         'withdrawable-fund': 'Withdrawable Funds',
         'any-question-label':'If you have any suggestions, please feel free to contact us',
         'dedicated-line':'24-hour Domestic Dedicated Line',
-
+        'records-label':'Records',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
