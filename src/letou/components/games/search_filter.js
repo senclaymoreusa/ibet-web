@@ -5,11 +5,6 @@ import { fade, withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-// import FilterDropdown from '../components/filter_dropdown';
 import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -24,6 +19,7 @@ import { injectIntl } from 'react-intl';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import SyncIcon from '@material-ui/icons/Sync';
+import SearchBar from './search_autocomplete';
 
 
 
@@ -78,36 +74,6 @@ const styles = theme => ({
     // minWidth: 120,
     // maxWidth: 300,
   },
-
-    button: {
-        "&:active": {
-            backgroundColor: '#53abe0'
-        },
-    }
-//   search: {
-//     position: 'relative',
-//     borderRadius: theme.shape.borderRadius,
-//     backgroundColor: fade(theme.palette.common.white, 0.15),
-//     '&:hover': {
-//     backgroundColor: fade(theme.palette.common.white, 0.25),
-//     },
-//     marginRight: theme.spacing(2),
-//     marginLeft: 0,
-//     width: '100%',
-//     [theme.breakpoints.up('sm')]: {
-//     marginLeft: theme.spacing(3),
-//     width: 'auto',
-//     },
-// },
-// searchIcon: {
-//     width: theme.spacing(7),
-//     height: '100%',
-//     position: 'absolute',
-//     pointerEvents: 'none',
-//     display: 'flex',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-// },
 });
 
 const StyledButtonGroup = withStyles({
@@ -151,14 +117,10 @@ export class FilterSearchBar extends Component {
 
         };
 
-        // this.getLabel = this.getLabel.bind(this);
-        // this.generateGameList = this.generateGameList.bind(this);
-        // this.handleTabChange = this.handleTabChange.bind(this);
     }
 
     async componentDidMount() {
         var { category, search } = this.props.match.params;
-        // console.log(category, search);
 
         if (!search) {
             this.setState({ jackpotFilter: [] });
@@ -407,7 +369,6 @@ export class FilterSearchBar extends Component {
             this.redirectUrl();
         });
 
-        
     }
 
     render() {
@@ -436,16 +397,15 @@ export class FilterSearchBar extends Component {
                          });
                     }} style={this.state.showSort ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}>Sort</Button> 
                     </ButtonGroup>
-                        
-                    <div style={{float: 'right', border: '2px solid black', borderRadius: 9.3,}} >
-                        <InputBase
+
+                    <div style={{float: 'right', padding: 0}} >
+                        {/* <InputBase
                             className={classes.input}
                             placeholder="Search..."
                             inputProps={{ 'aria-label': 'search...'}}
-                        />
-                        <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                            <SearchIcon />
-                        </IconButton>
+                        /> */}
+                        <SearchBar onRef={actualChild => this.actualChild = actualChild}></SearchBar>
+                        {/* <Autocomplete style={{border: '2px solid black', borderRadius: 9.3}}/> */}
                     </div>
                 </div>
                 <div style={{display: this.state.showFilter ? 'block' : 'none', paddingTop: 40}}>

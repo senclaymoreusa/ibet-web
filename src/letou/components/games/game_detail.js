@@ -27,6 +27,7 @@ class GameDetail extends Component {
 
     componentDidMount() {
         const { id } = this.props.match.params;
+        console.log(id);
         axios.get(API_URL + `games/api/games-detail/?id=${id}`, config)
         .then(res => {
             var data = res.data[0];
