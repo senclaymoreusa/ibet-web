@@ -408,8 +408,9 @@ export class MobileMainProfile extends Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        // this.props.history.push('/');
-                                        // this.props.hide_letou_mobile_menu();
+                                        this.props.history.push(
+                                            '/p/account-management/suggestions'
+                                        );
                                     }}
                                 >
                                     <ListItemAvatar>

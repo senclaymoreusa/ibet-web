@@ -638,14 +638,14 @@ class Astropay_CH extends Component {
                                 this.state.expireDateInvalid ||
                                 this.state.cvvInvalid
                             }
-                        >{this.getLabel('next-label')}</Button>
+                        >{this.getLabel('deposit-label')}</Button>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         {/*<Button variant="contained" className={classes.cancelButton}
                         */}
                         <Button className={classes.actionButton}
                             onClick={this.cancelClicked.bind(this)}
-                        >{this.getLabel('cancel-label')}</Button>
+                        >{this.getLabel('back-banking')}</Button>
                     </Grid>
                 </Grid>
             </div >
