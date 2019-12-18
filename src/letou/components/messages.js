@@ -176,6 +176,7 @@ export const messages = {
         'message-notification': 'Message Notification',
         'security-settings': 'Security Settings',
         'suggestions-feedback': 'Suggections & Feedback',
+        'feedback-label': 'Feedback',
         'deposit-label': 'Deposit',
         'total-assets': 'Total Assets',
         'title-transfer': 'Transfer',
@@ -507,7 +508,10 @@ export const messages = {
         'verify-immediately': 'Verify Immediately',
         'pt-password-not-set': 'PT APP password is not set',
         'pt-password-desc': 'Regularly reset PT APP password, account is more secure',
-        'withdrawable-fund': 'Withdrawable Funds'
+        'withdrawable-fund': 'Withdrawable Funds',
+        'any-question-label':'If you have any suggestions, please feel free to contact us',
+        'dedicated-line':'24-hour Domestic Dedicated Line',
+
     },
     zh: {
         'help-title': '我们在此竭诚服务',
