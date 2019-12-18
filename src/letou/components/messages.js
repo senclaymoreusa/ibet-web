@@ -492,7 +492,8 @@ export const messages = {
         'scratch-card': 'Scratch Card',
         'gaming-room': 'Gaming Room',
         'video-poker': 'Video Poker',
-        'fishing-games': 'Fishing Games'
+        'fishing-games': 'Fishing Games',
+        'view-all': 'View All >'
     },
     zh: {
         'help-title': '我们在此竭诚服务',

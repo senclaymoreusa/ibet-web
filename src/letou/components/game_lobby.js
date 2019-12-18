@@ -24,6 +24,9 @@ import "slick-carousel/slick/slick-theme.css";
 import Icon from '@material-ui/core/Icon';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import Link from '@material-ui/core/Link';
 
 
 
@@ -36,6 +39,8 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
 const GAME_URL = "https://lsl.omegasys.eu/ps/game/GameContainer.action?platform=NETENT_CAS&brandId=524&gameId="
+
+const PROVIDER = {"14": "Betsoft", "16": "NETENT", "17": "MG"}
 
 // const gameList = ["imperialriches_mobile_html_sw","berryburst_not_mobile_sw","blackjack3_not_mobile_sw", "butterflystaxx2_not_mobile_sw","kingof3kingdoms_not_mobile_sw",
 // "wishmasteroct_not_mobile_sw","wildturkey_not_mobile_sw","whosthebride_not_mobile_sw","monkeys_not_mobile_sw","grandspinn_no_progressive_not_mobile_sw"]
@@ -80,7 +85,17 @@ const styles = theme => ({
   item: {
     padding:10,
    
-
+  },
+  text:{
+    fontFamily: 'Gilroy',
+    fontSize: '28px',
+    color: '#202020'
+  },
+  viewall: {
+    fontFamily: 'Gilroy',
+    fontSize: '17px',
+    color: '#f28f22',
+    padding:10
   }
 
 });
@@ -105,28 +120,22 @@ const AntTabs = withStyles({
     // }
 })(Tabs);
 
-function SampleNextArrow(props) {
+function NextArrow(props) {
     const { className, style, onClick } = props;
     return (
-      <div
-        className={className}
-        style={{ ...style, background: "red" }}
-        onClick={onClick}
-      />
+        <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
+            <ArrowForwardIosIcon style={{color: '#f28f22'}} fontSize="large">  </ArrowForwardIosIcon>
+        </button>
     );
   }
   
-function SamplePrevArrow(props) {
+function PrevArrow(props) {
     const { className, style, onClick } = props;
     return (
-        // <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
-        //     <Icon color="secondary"> ^ </Icon>
-        // </button>
-      <div
-        className={className}
-        style={{ ...style, background: "red" }}
-        onClick={onClick}
-        />
+        <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
+            <ArrowBackIosIcon style={{color: '#f28f22'}} fontSize="large">  </ArrowBackIosIcon>
+        </button>
+  
     );
   }
 
@@ -241,9 +250,13 @@ export class GameLobby extends React.Component {
       infinite: true,
       speed: 500,
       slidesToShow: 5.5,
-      slidesToScroll: 5.5,
-      nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />
+      slidesToScroll: 5,
+      swipeToSlide: true,
+    //   autoplay: true,
+    //   speed: 2000,
+    //   autoplaySpeed: 2000,
+      nextArrow: <NextArrow />,
+      prevArrow: <PrevArrow />
     };
     var gridTileStyle= {
         position: 'relative',
@@ -260,8 +273,8 @@ export class GameLobby extends React.Component {
                 <img src={game['fields'].image_url} alt='Not available' width='213px' height='213px' />
             <GridListTileBar
             title={game['fields'].name}
-            subtitle={game['fields'].provider}
-
+            subtitle={PROVIDER[game['fields'].provider]}
+            // titlePosition="top"
             classes={{
                 root: classes.titleBar,
                 title: classes.title,
@@ -352,9 +365,11 @@ export class GameLobby extends React.Component {
             </Grid> */}
            
             <div > 
-                <Typography component="p" paragraph={true}>
+                <Typography component="p" paragraph={true} className={classes.text}>
                     {this.getLabel('recommended')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
                 </Typography>
+
                 <div className={classes.test}>
                     <Slider {...settings}>
                         {items}
@@ -362,8 +377,9 @@ export class GameLobby extends React.Component {
                 </div>
            
            
-                <Typography component="p" paragraph={true}>
+                <Typography component="p" paragraph={true} className={classes.text}>
                     {this.getLabel('top-games')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
                 </Typography>
                 <div className={classes.test}>
                     <Slider {...settings}>
@@ -371,8 +387,9 @@ export class GameLobby extends React.Component {
                     </Slider> 
                 </div>
           
-                <Typography component="p" paragraph={true}>
+                <Typography component="p" paragraph={true} className={classes.text}>
                     {this.getLabel('slot-machine')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
                 </Typography>
                 <div className={classes.test}>
                     <Slider {...settings}>
@@ -380,8 +397,9 @@ export class GameLobby extends React.Component {
                     </Slider> 
                 </div>
 
-                <Typography component="p" paragraph={true}>
+                <Typography component="p" paragraph={true} className={classes.text}>
                     {this.getLabel('cumulative-award')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
                 </Typography>
                 <div className={classes.test}>
                     <Slider {...settings}>
@@ -389,8 +407,9 @@ export class GameLobby extends React.Component {
                     </Slider> 
                 </div>
 
-                <Typography component="p" paragraph={true}>
+                <Typography component="p" paragraph={true} className={classes.text}>
                     {this.getLabel('table-games')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
                 </Typography>
                 <div className={classes.test}>
                     <Slider {...settings}>
@@ -398,8 +417,9 @@ export class GameLobby extends React.Component {
                     </Slider> 
                 </div>
 
-                <Typography component="p" paragraph={true}>
+                <Typography component="p" paragraph={true} className={classes.text}>
                     {this.getLabel('scratch-card')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
                 </Typography>
                 <div className={classes.test}>
                     <Slider {...settings}>
@@ -407,8 +427,9 @@ export class GameLobby extends React.Component {
                     </Slider> 
                 </div>
 
-                <Typography component="p" paragraph={true}>
+                <Typography component="p" paragraph={true} className={classes.text}>
                     {this.getLabel('gaming-room')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
                 </Typography>
                 <div className={classes.test}>
                     <Slider {...settings}>
@@ -416,8 +437,9 @@ export class GameLobby extends React.Component {
                     </Slider> 
                 </div>
 
-                <Typography component="p" paragraph={true}>
+                <Typography component="p" paragraph={true} className={classes.text}>
                     {this.getLabel('video-poker')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
                 </Typography>
                 <div className={classes.test}>
                     <Slider {...settings}>
@@ -425,8 +447,9 @@ export class GameLobby extends React.Component {
                     </Slider> 
                 </div>
 
-                <Typography component="p" paragraph={true}>
+                <Typography component="p" paragraph={true} className={classes.text}>
                     {this.getLabel('fishing-games')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
                 </Typography>
                 <div className={classes.test}>
                     <Slider {...settings}>
