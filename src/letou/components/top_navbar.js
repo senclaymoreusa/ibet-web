@@ -284,25 +284,30 @@ export class TopNavbar extends React.Component {
     }
 
     chessOptions(game_id) {
-        axios.post(API_URL + 'games/api/ky/games/', {s: 0, account: "Bobby", money: "0", KindID: game_id }, config)
-            .then(res => {
-                // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                //     this.props.logout();
-                //     postLogout();
-                //     return;
-                // }
+        if(this.props.isAuthenticated) {
+            axios.post(API_URL + 'games/api/ky/games/', {s: 0, account: "Bobby", money: "0", KindID: game_id }, config)
+                .then(res => {
+                    // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                    //     this.props.logout();
+                    //     postLogout();
+                    //     return;
+                    // }
 
-                if(res.status === 200) {
-                    console.log(res);
-                    this.setState({kyUrl: res.data.d.url});
-                    window.open(this.state.kyUrl, "kaiyuan gaming");
-                }
+                    if(res.status === 200) {
+                        console.log(res);
+                        this.setState({kyUrl: res.data.d.url});
+                        window.open(this.state.kyUrl, "kaiyuan gaming");
+                    }
 
-            }).catch(err => {
-                //console.log("err: ", err);
-                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                // sendingLog(err);
-            })
+                }).catch(err => {
+                    //console.log("err: ", err);
+                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                    // sendingLog(err);
+                })
+        }
+        else {
+            alert("Please log in first");
+        }
     }
 
     // handleOnebookClick() {
