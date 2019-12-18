@@ -4,7 +4,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+// import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import axios from 'axios';
 import { config } from '../../../util_config';
@@ -157,7 +157,7 @@ class AutoComplete extends React.Component {
                 />
                 )}
             /> */}
-            <Autocomplete
+            {/* <Autocomplete
                 freeSolo
                 // options={top100Films.map(option => option.title)}
                 options={this.state.result}
@@ -183,7 +183,7 @@ class AutoComplete extends React.Component {
                     )}}
                 />
                 )}
-            />
+            /> */}
             </div>
         </div>
     );

@@ -17,17 +17,20 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from "@material-ui/core/AppBar";
 import FilterSearchBar from './search_filter';
-// import SelectFieldExampleMultiSelect from '../../../src/ibet/components/filter_bar'
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Typography from '@material-ui/core/Typography';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import Link from '@material-ui/core/Link';
+
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
-const GAME_URL = "https://lsl.omegasys.eu/ps/game/GameContainer.action?platform=NETENT_CAS&brandId=524&gameId="
-
-// const gameList = ["imperialriches_mobile_html_sw","berryburst_not_mobile_sw","blackjack3_not_mobile_sw", "butterflystaxx2_not_mobile_sw","kingof3kingdoms_not_mobile_sw",
-// "wishmasteroct_not_mobile_sw","wildturkey_not_mobile_sw","whosthebride_not_mobile_sw","monkeys_not_mobile_sw","grandspinn_no_progressive_not_mobile_sw"]
-
-
+const PROVIDER = {"14": "Betsoft", "16": "NETENT", "17": "MG"}
 
 document.body.style = 'background: #f1f1f1;';
 
@@ -64,7 +67,57 @@ const styles = theme => ({
         }
     },
 
+    test: {
+        width:1300,
+    
+    },
+    gridList: {
+        flexWrap: 'nowrap',
+        // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+        transform: 'translateZ(0)',
+        margin: 200
+    },
+    titleBar: {
+        background:
+            'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+    },
+    item: {
+        padding:10,
+    
+    },
+    text:{
+        fontFamily: 'Gilroy',
+        fontSize: '28px',
+        color: '#202020'
+    },
+    viewall: {
+        fontFamily: 'Gilroy',
+        fontSize: '17px',
+        color: '#f28f22',
+        padding:10
+    }
+    
+
 });
+
+function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
+            <ArrowForwardIosIcon style={{color: '#f28f22'}} fontSize="large">  </ArrowForwardIosIcon>
+        </button>
+    );
+  }
+  
+function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
+            <ArrowBackIosIcon style={{color: '#f28f22'}} fontSize="large">  </ArrowBackIosIcon>
+        </button>
+  
+    );
+  }
 
 const StyledTabs = withStyles({
     indicator: {
@@ -125,6 +178,7 @@ export class GameLobby extends React.Component {
             providerFilterStr: '',
             themeFilterStr: '',
             isFilter: false,
+            games:[],
         };
 
         this.getLabel = this.getLabel.bind(this);
@@ -273,6 +327,7 @@ export class GameLobby extends React.Component {
             gameArray.push(tempArr);
         }
         this.setState({ all_slots: gameArray });
+        this.setState({ games: games});
 
     }
 
@@ -281,8 +336,61 @@ export class GameLobby extends React.Component {
     }
 
     renderGameElement(){
+
+        const { classes } = this.props;
+        var settings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 5.5,
+        slidesToScroll: 5,
+        swipeToSlide: true,
+        //   autoplay: true,
+        //   speed: 2000,
+        //   autoplaySpeed: 2000,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />
+        };
+        var gridTileStyle= {
+            position: 'relative',
+            float: 'left',
+            width: '100%',
+            minheight: '200px',
+            minwidth: '200px',
+            overflow: 'hidden',
+            height: '100% !important'
+        }
+        const items = this.state.games.map((game, key) => [
+            <div className={classes.item}>
+                <GridListTile key={game['fields'].id} {...gridTileStyle}>
+                    <img src={game['fields'].image_url} alt='Not available' width='213px' height='213px' />
+                <GridListTileBar
+                title={game['fields'].name}
+                subtitle={PROVIDER[game['fields'].provider]}
+                // titlePosition="top"
+                classes={{
+                    root: classes.titleBar,
+                    title: classes.title,
+                }}
+            
+                />
+                </GridListTile>
+            </div>
+        ]);
+
         if(!this.state.isFilter) {
-            return (<div>YAYA</div>)
+            return (<div>
+                <Typography component="p" paragraph={true} className={classes.text}>
+                    {this.getLabel('recommended')}
+                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
+                </Typography>
+
+                <div className={classes.test}>
+                    <Slider {...settings}>
+                        {items}
+                    </Slider> 
+                </div>
+            </div>)
             
         } else {
             return (
