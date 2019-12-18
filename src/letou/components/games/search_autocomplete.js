@@ -172,23 +172,16 @@ class SearchResults extends React.Component {
 
 
     handleProvider = (e, provider) => {
-        console.log(provider);
-        // ('/game/all/provider=' + provider)
         var url = '/game/all/provider=' + provider;
         window.location.href = url;
     }
 
     handleGame = (e, game) => {
-        console.log('caonima');
-        console.log(game);
-        // ('/game/all/provider=' + provider)
         var url = `/game_detail/${game}`;
         window.location.href = url;
     }
 
     render() {
-        console.log(this.props.results);
-        console.log(this.props.providers);
         return (
             <div>
                 <MenuList>
@@ -211,62 +204,6 @@ class SearchResults extends React.Component {
                         </div>
                         : null
                 }
-                {
-                    this.props.providers.length > 0 ?
-                        <div>
-                            <div className={this.props.classes.resultMenuTitle} style={{color: 'black'}}>
-                                <FormattedMessage id="search.providers" defaultMessage='Providers' />
-                                {/* {this.props.activeMenu ? this.props.activeMenu : 'Games'} */}
-                            </div>
-                            {
-                                this.props.providers.slice(0,5).map(r => (
-                                    <MenuItem onMouseUp={(e) => this.handleProvider(e, r)} className={this.props.classes.resultMenuItem} key={getRandomNumber()}>
-                                        {r}
-                                        <SVG className="playIcon" width={24} />
-                                    </MenuItem>
-                                    )
-                                )
-                            }
-                        </div>
-                        : null
-                }
-                {/* {
-                    this.props.entireSite.length > 0 ?
-                        <div>
-                            <div className={this.props.classes.resultMenuTitle}>
-                                <FormattedMessage id="search.entire_site" defaultMessage='Entire Site' />
-                            </div>
-                            {
-                                this.props.entireSite.slice(0, 4).map(r => (
-                                    <MenuItem component={Link} to={`/game_detail/${r.pk}`} className={this.props.classes.resultMenuItem} key={getRandomNumber()} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                                        {r.fields.name}
-                                        <SVG className="playIcon" width={24} />
-                                        <Typography className="play-text">Play game</Typography>
-                                    </MenuItem>
-                                ))
-                            }
-                        </div>
-                        : null
-
-                } */}
-                {/* <div className={this.props.classes.resultMenuTitle}>
-                    <FormattedMessage id="search.quick_link" defaultMessage='Quick Links' />
-                </div>
-                <MenuItem className={this.props.classes.resultMenuItem} key={1} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                    777 Deluxe
-                    <SVG className="playIcon" width={24} />
-                    <Typography className="play-text">Play game</Typography>
-                </MenuItem>
-                <MenuItem className={this.props.classes.resultMenuItem} key={2} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                    21 Wilds
-                    <SVG className="playIcon" width={24} />
-                    <Typography className="play-text">Play game</Typography>
-                </MenuItem>
-                <MenuItem className={this.props.classes.resultMenuItem} key={3} onMouseEnter={this.handleOnEnter} onMouseLeave={this.handleOnLeave}>
-                    Reign of Gnomes
-                    <SVG className="playIcon" width={24} />
-                    <Typography className="play-text">Play game</Typography>
-                </MenuItem> */}
                 </MenuList>
             </div >
         );
