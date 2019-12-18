@@ -9,9 +9,9 @@ export const messages = {
         'sign-up': 'Sign up',
         'log-in': 'Sign in',
         'log-out': 'Sign out',
-        'nav-sports': 'Sports',
-        'nav-gaming': 'Gaming',
-        'nav-live-casino': 'Live Casino',
+        'sports-label': 'Sports',
+        'gaming-label': 'Gaming',
+        'live-casino': 'Live Casino',
         'nav-chess': 'Chess',
         'nav-lottery': 'Lottery',
         'nav-games': 'Games',
@@ -526,6 +526,8 @@ export const messages = {
         'content-label': 'Content',
         'start-date': 'Start Date',
         'end-date': 'End Date',
+        'e-games':'E-games',
+        'provider-label':'Provider'
     },
     zh: {
         'help-title': '我们在此竭诚服务',

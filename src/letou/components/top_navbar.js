@@ -583,7 +583,7 @@ export class TopNavbar extends React.Component {
                                     this.openMainMenu(event, 'sports');
                                 }}
                             >
-                                {this.getLabel('nav-sports')}
+                                {this.getLabel('sports-label')}
                             </Button>
                             <Popper
                                 open={dropdownMenu === 'sports'}
@@ -668,7 +668,7 @@ export class TopNavbar extends React.Component {
                                     this.openMainMenu(event, 'gaming');
                                 }}
                             >
-                                {this.getLabel('nav-gaming')}
+                                {this.getLabel('gaming-label')}
                             </Button>
                             <Popper
                                 open={dropdownMenu === 'gaming'}
@@ -744,7 +744,7 @@ export class TopNavbar extends React.Component {
                                     this.props.history.push('/live_casino');
                                 }}
                             >
-                                {this.getLabel('nav-live-casino')}
+                                {this.getLabel('live-casino')}
                             </Button>
                             <Button
                                 variant="contained"
@@ -1266,7 +1266,7 @@ export class TopNavbar extends React.Component {
                                     </ListItemAvatar>
                                     <ListItemText
                                         primary={this.getLabel(
-                                            'nav-live-casino'
+                                            'live-casino'
                                         )}
                                     />
                                 </ListItem>
