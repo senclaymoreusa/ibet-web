@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState, handle_inbox_value, sendingLog, logout, postLogout } from '../../../../actions';
 import { injectIntl } from 'react-intl';
-// import { errors } from '../../../../../ibet/components/errors'
+import { errors } from '../../errors';
 import { withRouter } from 'react-router-dom';
 import { images, config } from '../../../../util_config';
 import axios from 'axios';
@@ -18,13 +18,10 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const styles = theme => ({
     root: {
     },
-    content: {
+    headbar: {
+        height: 25,
         display: 'flex',
-        flexDirection: 'column',
-        paddingLeft: 60,
-        marginTop: 50,
-        minHeight: 485,
-        overflowY: 'scroll',
+        flexDirection: 'row',
     },
     goBackIcon: {
         display: 'inline-block',
@@ -37,7 +34,7 @@ const styles = theme => ({
         display: 'inline-block',
         width: 925,
         height: 25,
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -45,6 +42,22 @@ const styles = theme => ({
         letterSpacing: 'normal',
         textAlign: 'left',
         color: "#212121",
+    },
+    delete: {
+        display: 'inline-block',
+        width: 60,
+        height: 30,
+        borderRadius: 6,
+        backgroundColor: '#f2f2f2',
+        marginLeft: 235,
+    },
+    content: {
+        display: 'flex',
+        flexDirection: 'column',
+        paddingLeft: 60,
+        marginTop: 50,
+        minHeight: 485,
+        overflowY: 'scroll',
     },
     closeIcon: {
         display: 'inline-block',
@@ -79,14 +92,6 @@ const styles = theme => ({
         color: '#787878',
         marginTop: 13,
     },
-    delete: {
-        display: 'inline-block',
-        width: 60,
-        height: 30,
-        borderRadius: 6,
-        backgroundColor: '#f2f2f2',
-        marginLeft: 235,
-    },
     messageBody: {
         fontSize: 14,
         fontWeight: 17,
@@ -118,11 +123,11 @@ export class MessageDetail extends Component {
 
         axios.post(API_URL + 'operation/api/read_message/' + this.props.message.pk, config)
             .then(res => {
-                // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                //     this.props.logout();
-                //     postLogout();
-                //     return;
-                // }
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                    this.props.logout();
+                    postLogout();
+                    return;
+                }
                 if(res.status === 201) {
                     this.props.handle_inbox_value(this.props.inbox - 1);
                 }
@@ -138,13 +143,13 @@ export class MessageDetail extends Component {
     deleteClicked(id) {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
-                // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                //     this.props.logout();
-                //     postLogout();
-                //     return;
-                // }
+                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                    this.props.logout();
+                    postLogout();
+                    return;
+                }
                 if(res.status === 200) {
-                    this.props.callbackFromParent('inbox', true);
+                    this.props.callbackFromParent('message-notification', true);
                 }
             }).catch(err => {
                 sendingLog(err);
@@ -157,14 +162,14 @@ export class MessageDetail extends Component {
         return (
             <div className={classes.root}>
                 <Grid container>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} className={classes.headbar}>
                         <span className={classes.goBackIcon} onClick={this.backClicked}>
-                            <img src={images.src + 'back.png'} alt='Not available'/>
+                            <img src={images.src + 'back2.svg'} alt='Not available'/>
                         </span>
                         <span className={classes.title}>{this.props.message.subject}</span>
-                        {/* <span className={classes.closeIcon} onClick={this.backClicked}>
-                            <img src={images.src + 'close.svg'} className={classes.closeIcon} alt='Not available'/>
-                        </span> */}
+                        <span className={classes.closeIcon} onClick={() => this.deleteClicked(this.props.message.pk)}>
+                            <img src={images.src + 'delete-btn.svg'} className={classes.closeIcon} alt='Not available'/>
+                        </span>
                     </Grid>
                     <Grid item xs={12} className={classes.content}>
                         {/* <span className={classes.subject}>{this.props.message.subject}</span> */}
