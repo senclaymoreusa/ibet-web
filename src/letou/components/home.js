@@ -8,11 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-
-console.log("Line 15, process env URL = " + API_URL);
-
 document.body.style = 'background: #f1f1f1;';
-
 
 const styles = theme => ({
   root: {

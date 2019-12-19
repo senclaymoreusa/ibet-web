@@ -41,6 +41,7 @@ import axios from 'axios';
 import MobileMainProfile from '../mobile/mobile_profile';
 import MobileAccountInfo from '../mobile/mobile_account_info';
 import SecuritySettings from './account_management/security_settings';
+import Suggestions from './account_management/suggestions';
 import DepositMain from './fortune_center/deposit/deposit_main';
 import Withdrawal from './fortune_center/withdrawal';
 import Transfer from './fortune_center/transfer';
@@ -315,6 +316,7 @@ export class Profile extends Component {
         if (parts.length >= 2) {
             let path = parts[2];
             this.setState({ mobileContent: parts[parts.length - 1] });
+           
             if (path.length > 0) {
                 if (this._isMounted)
                     this.setState({ desktopTabValue: parts[2] });
@@ -356,16 +358,28 @@ export class Profile extends Component {
                             </IconButton>
                             <div className={classes.grow} />
                             {this.props.isAuthenticated ? (
-                                <Button
-                                    size="small"
-                                    className={classes.topLinkButton}
-                                    onClick={() => {
-                                        this.props.logout();
-                                        postLogout();
-                                    }}
-                                >
-                                    {this.getLabel('log-out')}
-                                </Button>
+                                <div>
+                                    <Button
+                                          size="small"
+                                          onClick={() => {
+                                              this.props.history.push('/p/account-management/message-notification')
+                                          }}
+                                      >
+                                          <div>
+                                              <img src={images.src + 'email2.png'} alt="" />
+                                          </div>
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
+                                            this.props.logout();
+                                            postLogout();
+                                        }}
+                                    >
+                                        {this.getLabel('log-out')}
+                                    </Button>
+                                </div>
                             ) : null}
                         </Toolbar>
                     </AppBar>
@@ -609,7 +623,9 @@ export class Profile extends Component {
                      {this.state.mobileContent === 'total-assets' && (
                         <TotalAssets />
                     )}
-
+                     {this.state.mobileContent === 'suggestions' && (
+                        <Suggestions />
+                    )}
                     <div className={classes.grow} />
                     <Footer />
                 </div>
