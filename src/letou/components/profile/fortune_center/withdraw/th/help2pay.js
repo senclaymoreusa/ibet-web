@@ -408,7 +408,7 @@ class Help2Pay extends Component {
 
             bankAccountNumber: '',
             bankAccountHolder: '',
-            
+
             activeStep: 0,
             currency: "THB",
             currencyCode: 'THB',
@@ -695,9 +695,10 @@ class Help2Pay extends Component {
                             InputProps={{
                                 disableUnderline: true,
                                 endAdornment: (
+                                    
                                     <InputAdornment position="end" >
-                                        <img src={images.src + 'letou/info-icon.svg'} alt="" height="20" />
                                     </InputAdornment>
+                                    
                                 ),
                             }}
                         />
