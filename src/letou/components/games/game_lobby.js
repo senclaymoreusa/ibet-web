@@ -217,8 +217,8 @@ export class GameLobby extends React.Component {
                 } else {
                     // console.log("herehree");
                     axios.get(API_URL + 'games/api/games/').then(res => {
-                        this.generateGameList(res.data);
-                        // this.generateGameBycategoryList(res.data);
+                        // this.generateGameList(res.data);
+                        this.generateGameBycategoryList(res.data);
                         this.setState({ isFilter: false });
                     });
                 }
@@ -268,9 +268,10 @@ export class GameLobby extends React.Component {
                     this.generateGameList(res.data);
                 });
             } else {
-                console.log("herehree");
+                // console.log("herehree");
                 axios.get(API_URL + 'games/api/games/').then(res => {
                     this.generateGameBycategoryList(res.data, this.state.categories);
+                    this.setState({isFilter: false});
                     // this.generateGameList(res.data);
                 });
             }
@@ -312,13 +313,11 @@ export class GameLobby extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    async handle_category_change(category, sub) {
+    handle_category_change(category, sub) {
         if (category !== 'all') {
             category = category.cateStr.toLowerCase();
         }
-        this.setState({ value: category,
-            isFilter: false
-         });
+        this.setState({ value: category });
         var url = this.state.urlPath;
         var parts = url.split('/');
         if (parts.length >= 2) {
@@ -373,9 +372,6 @@ export class GameLobby extends React.Component {
             slidesToShow: 5.5,
             slidesToScroll: 5,
             swipeToSlide: true,
-            //   autoplay: true,
-            //   speed: 2000,
-            //   autoplaySpeed: 2000,
             nextArrow: <NextArrow />,
             prevArrow: <PrevArrow />
         };
@@ -389,32 +385,12 @@ export class GameLobby extends React.Component {
             height: '100% !important'
         }
 
-        // const items = this.state.games.map((game, key) => [
-        //     <div className={classes.item}>
-        //         <GridListTile key={game['fields'].id} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
-        //             <img src={game['fields'].image_url} alt='Not available' width='213px' height='213px' />
-        //         <GridListTileBar
-        //         title={game['fields'].name}
-        //         subtitle={PROVIDER[game['fields'].provider]}
-        //         // titlePosition="top"
-        //         classes={{
-        //             root: classes.titleBar,
-        //             // imgFullWidth: classes.imgFullWidth,
-        //         }}
-            
-        //         />
-        //         </GridListTile>
-        //     </div>
-        // ]);
-
         if(!this.state.isFilter) {
             return (
                 <div className={classes.banner}>
                     {
                         Object.entries(this.state.games).map((value, index) => {
-                            // console.log(value);
                             if (value[0]) {
-                                // console.log(value[1]);
                                 return(
                                     <div key={index}>
                                         <Typography component="p" paragraph={true} className={classes.text}>
@@ -450,18 +426,6 @@ export class GameLobby extends React.Component {
                             }
                         })
                     }
-
-                    
-                    {/* <Typography component="p" paragraph={true} className={classes.text}>
-                        {this.getLabel('recommended')}
-                        <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
-                    </Typography>
-
-                    <div className={classes.test}>
-                        <Slider {...settings}>
-                            {items}
-                        </Slider> 
-                    </div> */}
                 </div>
             )
             
@@ -516,7 +480,9 @@ export class GameLobby extends React.Component {
                 > <StyledTab label="ALL"
                     value='all'
                     onClick={() => {
-                        this.handle_category_change('all');
+                        if (this.props.match.params.category !== 'all') {
+                            this.handle_category_change('all');                            
+                        }
                     }} />
                 {
                     this.state.categories.map((cate, index) => {
@@ -526,7 +492,11 @@ export class GameLobby extends React.Component {
                             <StyledTab key={index} label={cate}
                                 value={cateStr.toLowerCase()}
                                 onClick={() => {
-                                    this.handle_category_change({ cateStr });
+                                    var categoryStr = this.props.match.params.category;
+                                    var categoryStr = categoryStr.charAt(0).toUpperCase() + categoryStr.slice(1);
+                                    if (categoryStr !== cateStr) {
+                                        this.handle_category_change({ cateStr });
+                                    }
                                 }} />
                         )
                     })
