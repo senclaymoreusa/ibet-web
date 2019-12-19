@@ -285,7 +285,8 @@ export class TopNavbar extends React.Component {
 
     chessOptions(game_id) {
         if(!this.props.isAuthenticated) {
-
+            this.props.show_letou_login();
+            //this.props.showLogin
         }
         else {
             let token = localStorage.getItem('token');
