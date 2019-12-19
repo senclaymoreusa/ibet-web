@@ -81,6 +81,11 @@ const styles = theme => ({
         background:
             'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
     },
+
+    imgFullWidth: {
+        transform: 'none',
+
+    }, 
     item: {
         padding:10,
     
@@ -88,7 +93,7 @@ const styles = theme => ({
     text:{
         fontFamily: 'Gilroy',
         fontSize: '28px',
-        color: '#202020'
+        color: '#202020',
     },
     viewall: {
         fontFamily: 'Gilroy',
@@ -210,8 +215,10 @@ export class GameLobby extends React.Component {
                         this.generateGameList(res.data);
                     });
                 } else {
+                    // console.log("herehree");
                     axios.get(API_URL + 'games/api/games/').then(res => {
                         this.generateGameList(res.data);
+                        // this.generateGameBycategoryList(res.data);
                         this.setState({ isFilter: false });
                     });
                 }
@@ -241,6 +248,11 @@ export class GameLobby extends React.Component {
             });
         }
 
+        axios.get(API_URL + 'games/api/games-category/').then(res => {
+            // console.log(res.data);
+            this.setState({ categories: res.data });
+        })
+
         this.setState({ urlPath: this.props.history.location.pathname });
 
         if (category && category != "all") {
@@ -256,16 +268,16 @@ export class GameLobby extends React.Component {
                     this.generateGameList(res.data);
                 });
             } else {
+                console.log("herehree");
                 axios.get(API_URL + 'games/api/games/').then(res => {
-                    this.generateGameList(res.data);
+                    this.generateGameBycategoryList(res.data, this.state.categories);
+                    // this.generateGameList(res.data);
                 });
             }
             
         }
 
-        axios.get(API_URL + 'games/api/games-category/').then(res => {
-            this.setState({ categories: res.data });
-        })
+       
     }
 
     handleToUpdate(filterKey, filterValue) {
@@ -327,8 +339,23 @@ export class GameLobby extends React.Component {
             gameArray.push(tempArr);
         }
         this.setState({ all_slots: gameArray });
-        this.setState({ games: games});
 
+    }
+
+    generateGameBycategoryList(games) {
+        var categoriesList = this.state.categories;
+        
+        var gameMap = {}
+        for (var i = 0; i < categoriesList.length; i++) {
+            gameMap[categoriesList[i]] = [];
+        }
+        for (var i = 0; i < games.length; i++) {
+            var key = games[i]['fields']['category_name'];
+            if (key && key !== 'undefined') {
+                gameMap[key].push(games[i])
+            }
+        }
+        this.setState({ games: gameMap });
     }
 
     handleTabChange(event, newValue) {
@@ -338,18 +365,19 @@ export class GameLobby extends React.Component {
     renderGameElement(){
 
         const { classes } = this.props;
+
         var settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 5.5,
-        slidesToScroll: 5,
-        swipeToSlide: true,
-        //   autoplay: true,
-        //   speed: 2000,
-        //   autoplaySpeed: 2000,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />
+            dots: false,
+            infinite: false,
+            speed: 500,
+            slidesToShow: 5.5,
+            slidesToScroll: 5,
+            swipeToSlide: true,
+            //   autoplay: true,
+            //   speed: 2000,
+            //   autoplaySpeed: 2000,
+            nextArrow: <NextArrow />,
+            prevArrow: <PrevArrow />
         };
         var gridTileStyle= {
             position: 'relative',
@@ -360,37 +388,82 @@ export class GameLobby extends React.Component {
             overflow: 'hidden',
             height: '100% !important'
         }
-        const items = this.state.games.map((game, key) => [
-            <div className={classes.item}>
-                <GridListTile key={game['fields'].id} {...gridTileStyle}>
-                    <img src={game['fields'].image_url} alt='Not available' width='213px' height='213px' />
-                <GridListTileBar
-                title={game['fields'].name}
-                subtitle={PROVIDER[game['fields'].provider]}
-                // titlePosition="top"
-                classes={{
-                    root: classes.titleBar,
-                    title: classes.title,
-                }}
+
+        // const items = this.state.games.map((game, key) => [
+        //     <div className={classes.item}>
+        //         <GridListTile key={game['fields'].id} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
+        //             <img src={game['fields'].image_url} alt='Not available' width='213px' height='213px' />
+        //         <GridListTileBar
+        //         title={game['fields'].name}
+        //         subtitle={PROVIDER[game['fields'].provider]}
+        //         // titlePosition="top"
+        //         classes={{
+        //             root: classes.titleBar,
+        //             // imgFullWidth: classes.imgFullWidth,
+        //         }}
             
-                />
-                </GridListTile>
-            </div>
-        ]);
+        //         />
+        //         </GridListTile>
+        //     </div>
+        // ]);
 
         if(!this.state.isFilter) {
-            return (<div>
-                <Typography component="p" paragraph={true} className={classes.text}>
-                    {this.getLabel('recommended')}
-                    <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
-                </Typography>
+            return (
+                <div className={classes.banner}>
+                    {
+                        Object.entries(this.state.games).map((value, index) => {
+                            // console.log(value);
+                            if (value[0]) {
+                                // console.log(value[1]);
+                                return(
+                                    <div key={index}>
+                                        <Typography component="p" paragraph={true} className={classes.text}>
+                                            {value[0]}
+                                            <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
+                                        </Typography>
+                                        <div className={classes.test}>
+                                            <Slider {...settings}>
+                                            {
+                                                value[1].map( (game, index) => {
+                                                    return (
+                                                        <div className={classes.item} key={index}>
+                                                            <GridListTile key={game.pk} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
+                                                                <img src={game.fields.image_url} alt='Not available' width='213px' height='213px' />
+                                                            <GridListTileBar
+                                                                title={game.fields.name}
+                                                                // subtitle={PROVIDER[value['fields'].provider]}
+                                                                // titlePosition="top"
+                                                                classes={{
+                                                                    root: classes.titleBar,
+                                                                }}
+                                                            />
+                                                            </GridListTile>
+                                                        </div>
+                                                    )
+                                                }) 
+                                            }
+                                            </Slider>
+                                            
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        })
+                    }
 
-                <div className={classes.test}>
-                    <Slider {...settings}>
-                        {items}
-                    </Slider> 
+                    
+                    {/* <Typography component="p" paragraph={true} className={classes.text}>
+                        {this.getLabel('recommended')}
+                        <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
+                    </Typography>
+
+                    <div className={classes.test}>
+                        <Slider {...settings}>
+                            {items}
+                        </Slider> 
+                    </div> */}
                 </div>
-            </div>)
+            )
             
         } else {
             return (
