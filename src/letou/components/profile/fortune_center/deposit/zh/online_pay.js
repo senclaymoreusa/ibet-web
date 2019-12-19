@@ -23,20 +23,20 @@ import { authCheckState, sendingLog, logout, postLogout } from '../../../../../.
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const bank_options = [
-    { label: '工商银行', value: '1' },
+    { label: 'Industrial and Commercial Bank of China', value: '1' },
     // { label: '建设银行', value: '2' },
     // { label: '农业银行', value: '3' },
     // { label: '招商银行', value: '4' },
-    { label: '广发银行', value: '6' },
-    { label: '中国银行', value: '7' },
-    { label: '中国邮政储蓄银行', value: '9' },
-    { label: '中信银行', value: '10' },
+    { label: 'China Guangfa Bank', value: '6' },
+    { label: 'Bank of China', value: '7' },
+    { label: 'Postal Savings Bank of China', value: '9' },
+    { label: 'China CITIC Bank', value: '10' },
     // { label: '光大银行', value: '11' },
-    { label: '民生银行', value: '12' },
+    { label: 'China Minsheng Bank', value: '12' },
     // { label: '兴业银行', value: '16' },
     // { label: '华夏银行', value: '17' },
     // { label: '平安银行', value: '23' },
-    { label: '上海银行', value: '21' },
+    { label: 'Bank of Shanghai ', value: '21' },
     //{ value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
     //{ value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
     //{ value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
@@ -542,9 +542,13 @@ class OnlinePay extends Component {
                             {
                                 bank_options.map(bank => (
                                     <MenuItem key={bank.label} value={bank.value} >
+                                        {/*
                                         <div style={{ width: 100 }}>
+                                            
                                             <img src={images.src + bank.img} alt="" className={classes.bankIcon} />
+                                            
                                         </div>
+                                    */}
                                         <span className={classes.selectLabel}>{bank.label}</span>
                                     </MenuItem>
                                 ))

@@ -559,10 +559,11 @@ class BankTransfer extends Component {
                                 bank_options.map(bank => (
                                 
                                     <MenuItem key={bank.label} value={bank.value} >
+                                        {/*
                                         <div style={{ width: 100 }}>
                                             <img src={images.src + bank.img} alt="" className={classes.bankIcon} />
                                         </div>
-                                
+                                        */}
                                         <span className={classes.selectLabel}>{bank.label}</span>
                                     </MenuItem>
                                 
