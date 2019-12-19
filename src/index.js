@@ -13,7 +13,9 @@ import th from 'react-intl/locale-data/th';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+
 import reducers from './reducers';
 
 addLocaleData(en);
@@ -22,7 +24,13 @@ addLocaleData(fr);
 addLocaleData(vi);
 addLocaleData(th);
 
-const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+const loggerMiddleware = createLogger();
+
+const store = createStore(
+    reducers,
+    {},
+    applyMiddleware(thunkMiddleware, loggerMiddleware)
+);
 
 if (
     window.location

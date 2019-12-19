@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { config, images } from '../../../../util_config';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../actions';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -33,6 +33,7 @@ import axios from 'axios';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import getSymbolFromCurrency from 'currency-symbol-map';
 
@@ -192,6 +193,14 @@ const styles = theme => ({
     paper: {
         width: '80%',
         maxHeight: 435
+    },
+    progress: {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        marginTop: 20,
+        marginLeft: -20,
+        zIndex: 2
     }
 });
 
@@ -420,7 +429,8 @@ LetouSnackbarContentWrapper.propTypes = {
     variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
 };
 
-export class Transfer extends Component {
+class Transfer extends Component {
+    _isMounted = false;
 
     constructor(props) {
         super(props);
@@ -431,40 +441,45 @@ export class Transfer extends Component {
             amount: '',
             amountInvalid: false,
             amountFocused: true,
-            currency: 'CNY',
+            // currency: 'CNY',
             walletObjs: [],
-
             showSnackbar: false,
             snackType: 'info',
             snackMessage: '',
-
-            showConfirmationDialog: false
+            showConfirmationDialog: false,
+            loading: false
         }
 
         this.handleWalletClick = this.handleWalletClick.bind(this);
         this.sendAllToMainWallet = this.sendAllToMainWallet.bind(this);
     }
 
-    async componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
+    componentDidMount() {
+        this._isMounted = true;
 
-        await axios
-            .get(API_URL + 'users/api/user/', config)
+        this.props.authCheckState()
             .then(res => {
-                this.setState({ userId: res.data.pk });
-                this.setState({ username: res.data.username });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                if (res === AUTH_RESULT_FAIL) {
+                    sendingLog('authentication failure!!!');
+                } else {
+                    const { user } = this.props;
 
-                this.getWalletsByUsername(res.data.pk);
-            })
-            .catch(function (err) {
-                sendingLog(err);
+                    if (this._isMounted) {
+                        this.setState({ loading: true });
+                        this.setState({ currency: getSymbolFromCurrency(user.currency) });
+                        this.getWalletsByUsername(user.pk);
+                    }
+                }
             });
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     getWalletsByUsername(userId) {
         var randomColor = require('randomcolor');
+
 
         axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
             .then(res => {
@@ -483,7 +498,9 @@ export class Transfer extends Component {
 
 
                 }
+                this.setState({ loading: false });
             }).catch(function (err) {
+                this.setState({ loading: false });
                 sendingLog(err);
             });
     }
@@ -491,7 +508,7 @@ export class Transfer extends Component {
     sendClicked() {
         axios.post(API_URL + 'users/api/transfer/',
             {
-                'user_id': this.state.userId,
+                'user_id': this.props.user.pk,
                 'from_wallet': this.state.from.code,
                 'to_wallet': this.state.to.code,
                 'amount': this.state.amount
@@ -506,7 +523,7 @@ export class Transfer extends Component {
                     this.setState({ to: null });
                     this.setState({ amount: '', amountInvalid: false, amountFocused: false });
 
-                    this.getWalletsByUsername(this.state.userId);
+                    this.getWalletsByUsername(this.props.user.pk);
 
                 } else if (res.data.status_code === 107) {
                     this.setState({ snackType: 'error' });
@@ -531,7 +548,7 @@ export class Transfer extends Component {
 
             axios.post(API_URL + 'users/api/transfer/',
                 {
-                    'user_id': this.state.userId,
+                    'user_id': this.props.user.pk,
                     'from_wallet': wallet.code,
                     'to_wallet': mainWalletObj.code,
                     'amount': wallet.amount
@@ -539,7 +556,7 @@ export class Transfer extends Component {
                 .then(res => {
                     if (res.data.status_code === 1) {
                         if (walletsWithAmount[walletsWithAmount.length - 1].code === wallet.code) {
-                            currentComponent.getWalletsByUsername(currentComponent.state.userId);
+                            currentComponent.getWalletsByUsername(currentComponent.props.user.pk);
                         }
                     } else if (res.data.status_code === 107) {
                         this.setState({ snackType: 'error' });
@@ -612,8 +629,8 @@ export class Transfer extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const { from, to, amount, walletObjs, currency, showConfirmationDialog } = this.state;
+        const { classes, user } = this.props;
+        const { from, to, amount, walletObjs, currency, showConfirmationDialog, loading } = this.state;
 
         let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
 
@@ -642,7 +659,12 @@ export class Transfer extends Component {
 
         return (
             <div className={classes.root}>
-                <div className={classes.rootDesktop}>
+                {loading && <CircularProgress className={classes.progress} />}
+                <div className={classes.rootDesktop} style={
+                    loading === true
+                        ? { pointerEvents: 'none' }
+                        : { pointerEvents: 'all' }
+                }>
                     <Grid container>
                         <Grid item xs={12} className={classes.titleRow}>
                             <span className={classes.title} >
@@ -722,7 +744,7 @@ export class Transfer extends Component {
                             </Grid>
                         </Grid>
                         <Grid item xs={5} className={classes.chartColumn}>
-                            <ReactMinimalPieChart
+                            {/* <ReactMinimalPieChart
                                 animate={true}
                                 animationDuration={500}
                                 animationEasing="ease-out"
@@ -743,7 +765,7 @@ export class Transfer extends Component {
                                 ratio={1}
                                 rounded={false}
                                 startAngle={0}
-                            />
+                            /> */}
                         </Grid>
                     </Grid>
                 </div>
@@ -791,7 +813,7 @@ export class Transfer extends Component {
                     </AppBar>
                     <Grid>
                         <Grid item xs={12} className={classes.chartColumn}>
-                            <ReactMinimalPieChart
+                            {/* <ReactMinimalPieChart
                                 animate={true}
                                 animationDuration={500}
                                 animationEasing="ease-out"
@@ -812,7 +834,7 @@ export class Transfer extends Component {
                                 ratio={1}
                                 rounded={false}
                                 startAngle={0}
-                            />
+                            /> */}
                         </Grid>
                         <Grid item xs={7} className={classes.walletColumn}>
                             <Grid item xs={12} className={classes.row}>
@@ -918,8 +940,10 @@ export class Transfer extends Component {
 }
 
 const mapStateToProps = (state) => {
+    const { token, user } = state.auth;
     return {
-        lang: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
     }
 }
 

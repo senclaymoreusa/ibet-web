@@ -264,7 +264,7 @@ export const authCheckState = () => {
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
                             dispatch(authSuccess(res.data, token));
-                            dispatch(checkAuthTimeout(3600));
+                           dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);
                         }
                         // return axios.get(API_URL + 'users/api/check-user-status/?userId=' + res.data.pk, config)

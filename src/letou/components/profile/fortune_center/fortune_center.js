@@ -36,6 +36,7 @@ const styles = theme => ({
     },
     rootDesktop: {
         maxWidth: 1400,
+        width:'100%',
         height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
@@ -101,7 +102,7 @@ const styles = theme => ({
     },
     content: {
         flexGrow: 1,
-        paddingLeft: 10,
+        paddingLeft: 30,
         paddingTop: 10,
         paddingBottom: 10
     },

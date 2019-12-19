@@ -19,9 +19,7 @@ class LetouApp extends Component {
     }
 
     componentDidMount() {
-
         this.props.getLanguage();
-
     }
 
     render() {
