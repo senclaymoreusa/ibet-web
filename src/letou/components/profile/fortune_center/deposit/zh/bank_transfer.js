@@ -380,9 +380,35 @@ class BankTransfer extends Component {
     };
 
     handleClick() {
-        /*
+        {/*
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('no token -- user is not logged in');
+        }
+        config.headers['Authorization'] = `Token ${token}`;
+        let userid = this.state.data.pk;
+        var postData = {
+            amount: this.state.amount,
+            userid: userid,
+            currency: 7,
+            real_name: this.state.name,
+            bank_acc_no: this.state.bankAccountNumber,
+            bank: this.state.bank,
+            type: 0 // 0 = deposit
+        };
+        return axios
+            .post(
+                API_URL + 'accounting/api/transactions/save_transaction',
+                postData,
+                config
+            )
+            .then((res, err) => {
+                console.log(res);
+            });
+       */}
+        {
         let currentComponent = this;
-        
+
         currentComponent.setState({ showLinearProgressBar: true });
         
         var postData = {
@@ -391,9 +417,9 @@ class BankTransfer extends Component {
             "currency": "0",
             "language": "zh-Hans",
             "method": "BANK_TRANSFER",
-            "bank":this.state.bank,
+            "bank":this.state.selectedBankOption,
         }
-        console.log(postData)
+        //console.log(this.state.amount)
         //console.log(currentComponent.state.data.username)
         var formBody = [];
         for (var pd in postData) {
@@ -402,7 +428,6 @@ class BankTransfer extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        console.log(formBody)
         return  fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
             method: 'POST',
             headers: {
@@ -411,32 +436,7 @@ class BankTransfer extends Component {
             body: formBody
         }).then(function (res) {
             return res.json();
-        */
-       // let currentComponent = this;
-       const token = localStorage.getItem('token');
-       if (!token) {
-           console.log('no token -- user is not logged in');
-       }
-       config.headers['Authorization'] = `Token ${token}`;
-       let userid = this.state.data.pk;
-       var postData = {
-           amount: this.state.amount,
-           userid: userid,
-           currency: 7,
-           real_name: this.state.name,
-           bank_acc_no: this.state.bankAccountNumber,
-           bank: this.state.bank,
-           type: 0 // 0 = deposit
-       };
-       return axios
-           .post(
-               API_URL + 'accounting/api/transactions/save_transaction',
-               postData,
-               config
-           )
-           .then((res, err) => {
-               console.log(res);
-        });/*then(function (data) {
+        }).then(function (data) {
             let redirectUrl = data.paymentPageSession.paymentPageUrl
             //console.log(redirectUrl)
 
@@ -506,7 +506,8 @@ class BankTransfer extends Component {
             //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
-        });*/
+        });
+    }
     }
 
     getLabel(labelId) {
