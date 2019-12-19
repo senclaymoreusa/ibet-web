@@ -588,10 +588,9 @@ class Help2pay extends Component {
         const { classes } = this.props;
         const { selectedBankOption, isFavorite, amount, currency } = this.state;
 
-        console.log('code: ' + this.state.currencyCode)
         // const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
         const filteredOptions = bank_options.filter((o) => o.code === 2)
-
+        console.log(filteredOptions)
         return (
             <div className={classes.root}>
                 <Grid container className={classes.contentGrid} spacing={2}>

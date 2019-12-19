@@ -20,6 +20,27 @@ import getSymbolFromCurrency from 'currency-symbol-map'
 import { Divider } from '@material-ui/core';
 
 const bank_options = [
+    //tailand
+    { value: 'KKR', label: 'Kasikorn Bank (K-Bank)', img: 'letou/kasikornbank.png', code: 2 },
+    { value: 'BBL', label: 'Bangkok Bank', img: 'letou/bangkok-bank.png', code: 2 },
+    { value: 'SCB', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 2 },
+    { value: 'KTB', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 2 },
+    { value: 'BOA', label: 'Bank of Ayudhya (Krungsri)', img: 'letou/bay.png', code: 2 },
+    { value: 'GSB', label: 'Government Savings Bank', img: 'letou/gov-saving.png', code: 2 },
+    { value: 'TMB', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 2 },
+    { value: 'CIMBT', label: 'CIMB Thai', img: 'letou/cimb.png', code: 2 },
+    { value: 'KNK', label: 'Kiatnakin Bank', img: 'letou/kiat.png', code: 2 },
+    // vietnam
+    { value: 'TCB', label: 'Techcom Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'SACOM', label: 'Sacom Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'VCB', label: 'Vietcom Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'DAB', label: 'DongA Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'VTB', label: 'Vietin Bank', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/kiat.png', code: 'VND' },
+    { value: 'EXIM', label: 'Eximbank Vietnam', img: 'letou/kiat.png', code: 'VND' },
+];
+{/*
     { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
     { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
     { value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
@@ -28,6 +49,7 @@ const bank_options = [
     { value: 'VTB', label: 'Vietin Bank', img: 'letou/vietinbank.png', code: 'VND' },
     { value: 'VPB', label: 'VP Bank', img: 'letou/vp-bank.svg', code: 'VND' },
 ];
+*/}
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -385,7 +407,8 @@ class Help2Pay extends Component {
             amountInvalid: true,
 
             bankAccountNumber: '',
-
+            bankAccountHolder: '',
+            
             activeStep: 0,
             currency: "THB",
             currencyCode: 'THB',
@@ -457,6 +480,18 @@ class Help2Pay extends Component {
         else if (event.target.value.length === 0)
             this.setState({ bankAccountNumber: '' });
     };
+
+    bankAccountHolderChanged(event) {
+        this.setState({ bankAccountHolderFocused: true });
+
+        const re = /^[0-9\b]+$/;
+
+        if (re.test(event.target.value))
+            this.setState({ bankAccountHolder: event.target.value });
+        else if (event.target.value.length === 0)
+            this.setState({ bankAccountHolder: '' });
+    };
+
 
     handleBankChange = event => {
         this.setState({ selectedBankOption: event.target.value });
@@ -575,13 +610,15 @@ class Help2Pay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { selectedBankOption, bankAccountNumber, amount, currency } = this.state;
+        const { selectedBankOption, bankAccountNumber, amount, currency, bankAccountHolder } = this.state;
 
-        const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
-
+        //const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+        const filteredOptions = bank_options.filter((o) => o.code === 2)
+        console.log(filteredOptions)
         return (
             <div className={classes.root}>
                 <Grid container className={classes.contentGrid} spacing={2}>
+                    
                     <Grid item xs={12} style={{ display: 'flex', flexDirection: 'column' }}>
                         <span className={classes.selectLabel}>{this.getLabel('bank-account')}</span>
                         <Divider style={{ marginTop: 10 }} />
@@ -600,7 +637,9 @@ class Help2Pay extends Component {
                                 filteredOptions.map(bank => (
                                     <MenuItem key={bank.label} value={bank.value} >
                                         <div style={{ width: 100 }}>
-                                            <img src={images.src + bank.img} alt="" className={classes.bankIcon} />
+                                            <img src={images.src + bank.img} alt="" height="20" /> 
+                                            {/*className={classes.bankIcon} />
+                                            */}
                                         </div>
                                         <span className={classes.selectLabel}>{bank.label}</span>
                                     </MenuItem>
@@ -644,6 +683,25 @@ class Help2Pay extends Component {
                             }}
                         />
                     </Grid>}
+                    
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
+                            placeholder={this.getLabel('bank-holder')}
+                            onChange={this.bankAccountHolderChanged.bind(this)}
+                            value={bankAccountHolder}
+                            error={this.state.bankAccountHolderFocused && bankAccountHolder.length === 0}
+                            helperText={(this.state.bankAccountHolderFocused && bankAccountHolder.length === 0) ? this.getLabel('invalid-bank-number') : ' '}
+                            InputProps={{
+                                disableUnderline: true,
+                                endAdornment: (
+                                    <InputAdornment position="end" >
+                                        <img src={images.src + 'letou/info-icon.svg'} alt="" height="20" />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}

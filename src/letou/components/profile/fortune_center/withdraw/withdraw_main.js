@@ -278,8 +278,11 @@ export class WithdrawMain extends Component {
         const { classes } = this.props;
         const { contentValue, userCountry, favouriteMethod, tabValue } = this.state;
 
+        console.log(userCountry.toLocaleLowerCase())
         switch (userCountry.toLowerCase()) {
-            case 'china':
+            //case 'china':
+            
+            case 'thailand':
                 return (
                     <Grid container className={classes.methodGrid} spacing={4}>
                         {/* <Grid item xs={1} className={classes.methodColumn}>
@@ -402,7 +405,8 @@ export class WithdrawMain extends Component {
                         </Grid> */}
                     </Grid>
                 );
-            case 'thailand':
+            //case 'thailand':
+            case 'china':
                 return (
                     <StyledTabs
                         value={tabValue}

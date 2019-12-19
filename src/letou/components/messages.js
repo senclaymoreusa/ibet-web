@@ -377,6 +377,7 @@ export const messages = {
         'choose-bank': 'Choose Bank',
         'name-label': 'Name',
         'bank-number': 'Bank Account Number',
+        'bank-holder': 'Bank Account Holder',
         'invalid-name': 'Invalid name',
         'invalid-bank-number': 'Invalid bank account number',
         'circle-pay': 'CirclePay',
