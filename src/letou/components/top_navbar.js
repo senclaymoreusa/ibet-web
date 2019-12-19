@@ -44,10 +44,12 @@ import {
     show_letou_login,
     show_letou_forgot_password,
     show_letou_mobile_menu,
-    hide_letou_mobile_menu
+    hide_letou_mobile_menu,
+    sendingLog
 } from '../../actions';
 
 import '../css/top_navbar.scss';
+import { errors } from './errors';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -286,7 +288,6 @@ export class TopNavbar extends React.Component {
     chessOptions(game_id) {
         if(!this.props.isAuthenticated) {
             this.props.show_letou_login();
-            //this.props.showLogin
         }
         else {
             let token = localStorage.getItem('token');
@@ -297,11 +298,11 @@ export class TopNavbar extends React.Component {
                     console.log(user_name);
                     axios.post(API_URL + 'games/api/ky/games/', {s: 0, account: String(user_name), money: "0", KindID: String(game_id)}, config)
                     .then(res => {
-                        // if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                        //     this.props.logout();
-                        //     postLogout();
-                        //     return;
-                        // }
+                        if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                            this.props.logout();
+                            postLogout();
+                            return;
+                        }
     
                         if(res.status === 200) {
                             console.log(res);
@@ -310,12 +311,11 @@ export class TopNavbar extends React.Component {
                         }
     
                     }).catch(err => {
-                        console.log("err: ", err);
                         // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                        // sendingLog(err);
+                        sendingLog(err);
                     })
                 }).catch(err => {
-                    console.log(err);
+                    sendingLog(err);
                 })
         }
     }
