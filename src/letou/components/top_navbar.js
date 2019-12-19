@@ -295,7 +295,6 @@ export class TopNavbar extends React.Component {
             axios.get(API_URL + 'users/api/user/', config)
                 .then(res => {
                     let user_name = res.data.username;
-                    console.log(user_name);
                     axios.post(API_URL + 'games/api/ky/games/', {s: 0, account: String(user_name), money: "0", KindID: String(game_id)}, config)
                     .then(res => {
                         if (res.data.errorCode === errors.USER_IS_BLOCKED) {
@@ -305,7 +304,6 @@ export class TopNavbar extends React.Component {
                         }
     
                         if(res.status === 200) {
-                            console.log(res);
                             this.setState({kyUrl: res.data.d.url});
                             window.open(this.state.kyUrl, "kaiyuan gaming");
                         }
