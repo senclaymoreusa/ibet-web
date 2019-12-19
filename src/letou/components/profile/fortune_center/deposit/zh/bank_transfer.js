@@ -363,10 +363,11 @@ class BankTransfer extends Component {
         if (e.target.value.length === 0) {
             this.setState({ amount: '', amountInvalid: true });
         } else {
-            const re = /^[0-9\b]+$/;
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(e.target.value)) {
-                this.setState({ amount: e.target.value, amountInvalid: false });
+                this.setState({ amount: e.target.value });
+                this.setState({ amountInvalid: (parseFloat(e.target.value) < 100 || parseFloat(e.target.value) > 10000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -556,12 +557,15 @@ class BankTransfer extends Component {
                             </MenuItem>
                             {
                                 bank_options.map(bank => (
+                                
                                     <MenuItem key={bank.label} value={bank.value} >
                                         <div style={{ width: 100 }}>
                                             <img src={images.src + bank.img} alt="" className={classes.bankIcon} />
                                         </div>
+                                
                                         <span className={classes.selectLabel}>{bank.label}</span>
                                     </MenuItem>
+                                
                                 ))
                             }
                         </Select>

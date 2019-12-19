@@ -266,10 +266,11 @@ class AliPay extends Component {
         if (e.target.value.length === 0) {
             this.setState({ amount: '', amountInvalid: true });
         } else {
-            const re = /^[0-9\b]+$/;
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(e.target.value)) {
-                this.setState({ amount: e.target.value, amountInvalid: false });
+                this.setState({ amount: e.target.value });
+                this.setState({ amountInvalid: (parseFloat(e.target.value) < 500 || parseFloat(e.target.value) > 5000) });
             }
             else {
                 this.setState({ amountInvalid: true });
