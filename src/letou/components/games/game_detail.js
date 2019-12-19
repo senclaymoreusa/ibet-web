@@ -7,6 +7,8 @@ import Iframe from 'react-iframe';
 import { GAME_URLS } from '../../../game_constant';
 
 
+
+
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -21,33 +23,34 @@ class GameDetail extends Component {
             gameURL: '',
             token: '',
             gameId: '',
-
-            user: {},
         };
+
+        this.generateFGURL  = this.generateFGURL.bind(this);
+        this.generateQTURL  = this.generateQTURL.bind(this);
+
     }
 
 
     componentDidMount() {
         const { id } = this.props.match.params;
-        console.log(id);
+        // console.log(id);
+        const token = localStorage.getItem('token');
 
         axios.get(API_URL + `games/api/games-detail/?id=${id}`, config)
-        .then(res => {
-            // console.log(res);
+        .then(async res => {
             var data = res.data[0];
             var providerName = data.provider.provider_name;
-            var gameId = data.smallgame_id
+            var gameId = data.smallgame_id;
             data.categoryName = data.category_id.name;
-            if (this.props.isAuthenticated) {
-
-                const token = localStorage.getItem('token');
+            if (token) {                
                 config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ user: res.data });
+                await axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ user: res.data });                    
                 });
-
                 if (data.provider.provider_name == 'FG') {
-                    var gameUrl = this.generateFGRUL(gameId, providerName);
+                    this.generateFGURL(gameId, providerName);
+                } else if (data.provider.provider_name == 'QTech') {
+                    this.generateQTURL(gameId, true);
                 } else {
                     var gameUrl = GAME_URLS[providerName]["real"]
                     let token = localStorage.getItem('token');
@@ -57,90 +60,67 @@ class GameDetail extends Component {
                     this.setState({ gameURL: gameUrl});
 
                 }
-                // console.log("print: " + gameUrl);
             } else {
-                var gameUrl = GAME_URLS[providerName]["free"]
-                gameUrl = gameUrl.replace("{lang}", "en")
-                gameUrl = gameUrl.replace("{gameId}", gameId)
-                this.setState({ gameURL: gameUrl });
-                // console.log("print: " + gameUrl);
+                if (data.provider.provider_name == 'QTech') {
+                    this.generateQTURL(gameId, false);
+                } else {
+                    var gameUrl = GAME_URLS[providerName]["free"]
+                    gameUrl = gameUrl.replace("{lang}", "en")
+                    gameUrl = gameUrl.replace("{gameId}", gameId)
+                    this.setState({ gameURL: gameUrl });
+                }
             }
         })
     }
 
-    generateFGRUL(gameId, providerName) {
-        
+    generateFGURL(gameId, providerName) {
         axios.get(API_URL + 'games/api/fg/getSessionKey?pk=' + this.state.user.pk)
         .then(res => {
-            // this.setState({sessionKey: res.data.sessionKey });
             var gameUrl = GAME_URLS[providerName]["real"];
             gameUrl = gameUrl.replace("{lang}", "en");
             gameUrl = gameUrl.replace("{gameId}", gameId);
             if (res.data.sessionKey != null && res.data.alive == "true") {  
-                console.log(gameUrl + "&sessionKey=" + res.data.sessionKey);   
-                // window.open(gameUrl + "&sessionKey=" + res.data.sessionKey);
+                gameUrl = gameUrl + "&sessionKey=" + res.data.sessionKey;
+                this.setState({ gameURL: gameUrl});
                     
             } else {
                 axios.get(API_URL + 'games/api/fg/login?pk=' + this.state.user.pk)
                 .then(res => {
-                    console.log(gameUrl + "&sessionKey=" + res.data.sessionKey);   
-                    // window.open(FGGAME_URL + gameId + "&playForReal=true&lang=en&sessionKey=" + res.data.sessionKey)
+                    gameUrl = gameUrl + "&sessionKey=" + res.data.sessionKey;
+                    this.setState({ gameURL: gameUrl });
                     
                 })
             }
         })
     }
 
+    generateQTURL(gameId, free) {
 
-    // fgonClick(gameId, free) {
-    //     this.setState({
-    //       gameId: gameId,
-    //       freegame: free,
-          
-    //     })
-    //     if (free) {
-    //         window.open( FGGAME_URL + gameId + "&playForReal=false&lang=en")
-    //     } else {
-            
-    //         axios.get(API_URL + 'games/api/fg/getSessionKey?pk=' + this.state.data.pk)
-    //         .then(res => {
-    //             this.setState({sessionKey: res.data.sessionKey });
-               
-                
-    //             if (res.data.sessionKey != null && res.data.alive == "true") {     
-    //                 window.open(FGGAME_URL + gameId+ "&playForReal=true&lang=en&sessionKey=" + this.state.sessionKey)
-                       
-    //             } else {
-    //                 axios.get(API_URL + 'games/api/fg/login?pk=' + this.state.data.pk)
-    //                 .then(res => {
-    //                     window.open(FGGAME_URL + gameId + "&playForReal=true&lang=en&sessionKey=" + res.data.sessionKey)
-                        
-    //                 })
-    //             }
-    //         })
-           
-    //     }
-    // }
-    // generateUrl(url, gameId, token, lang) {
-    //     String.prototype.format = function () {
-    //         var i = 0, args = arguments;
-    //         return this.replace(/{}/g, function (gameId, token, lang) {
-    //             console.log(args[i]);
-    //             return typeof args[i] != 'undefined' ? args[i++] : '';
-    //         });
-    //     };
-
-    //     let res = url.format(gameId, token, lang);
-    //     return res;
-
-    // }
+        if (free) {
+            axios.post(API_URL + 'games/api/qt/game_launch?mode=demo&gameId=' + gameId, config).then(
+            res => {
+              if (res.data.url) {
+                    this.setState({gameURL: res.data.url})
+                }  
+            });
+        } else {
+            axios.post(API_URL + 'games/api/qt/game_launch?mode=real&gameId=' + gameId + '&playerId=' + this.state.user.username, config).then(
+            res => {
+                if (res.data.url) {
+                    this.setState({gameURL: res.data.url})
+                }
+            });
+        }
+        
+        
+    }
 
   render() {
     return(
       <div>
-          {/* <Iframe url={this.state.gameURL}
+          <Iframe url={this.state.gameURL}
             height={window.innerHeight}
-            width="100%"/> */}
+            width="100%"/>
       </div>
     )
   }
