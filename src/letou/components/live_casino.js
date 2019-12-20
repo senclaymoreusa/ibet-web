@@ -118,6 +118,7 @@ export class live_casino extends React.Component {
     const { formatMessage } = this.props.intl;
     return formatMessage({ id: labelId });
   }
+  
   componentDidMount() {
     const token = localStorage.getItem('token');
     config.headers["Authorization"] = `Token ${token}`;

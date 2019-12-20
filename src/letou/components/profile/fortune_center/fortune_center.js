@@ -1,30 +1,54 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../../actions';
-import { injectIntl } from 'react-intl';
+import { authCheckState, AUTH_RESULT_FAIL, sendingLog } from '../../../../actions';
+import { injectIntl, FormattedNumber } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
 
-import Deposit from './deposit';
+import DepositMain from './deposit/deposit_main';
 import TotalAssets from './total_assets';
 import Transfer from './transfer';
 import Withdrawal from './withdrawal';
+import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
-
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import { config, images } from '../../../../util_config';
+import axios from 'axios';
 
 import AccountBalanceOutlined from '@material-ui/icons/AccountBalanceOutlined';
 import FlightLandOutlined from '@material-ui/icons/FlightLandOutlined';
 import FlightTakeoffOutlined from '@material-ui/icons/FlightTakeoffOutlined';
 import LoopOutlined from '@material-ui/icons/LoopOutlined';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+
+
 const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        minHeight: '100vh'
+    },
+    rootDesktop: {
+        height: 92,
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+            flexDirection: 'column'
+        }
+    },
+    rootMobile: {
+        minHeight: '100vh',
+        display: 'flex',
+        backgroundColor: '#f2f3f5',
+        flexDirection: 'column',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
     },
     mainGrid: {
         maxWidth: 1400,
@@ -36,8 +60,6 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-    },
-    rightPane: {
     },
     leftPaneButton: {
         textTransform: 'capitalize',
@@ -80,6 +102,77 @@ const styles = theme => ({
         paddingLeft: 10,
         paddingTop: 10,
         paddingBottom: 10
+    },
+    mobileMenuButton: {
+        [theme.breakpoints.up('md')]: {
+            margin: theme.spacing(1)
+        },
+        textTransform: 'capitalize'
+    },
+    mobileBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        width: '100%'
+    },
+    grow: {
+        flexGrow: 1
+    },
+    mobileRow: {
+        height: 60,
+        alignItems: 'center',
+        backgroundColor: '#fff'
+    },
+    headerGrid: {
+        backgroundColor: '#0aadff',
+        paddingLeft: 20,
+        paddingBottom: 20,
+        paddingRight: 20,
+        paddingTop: 80
+    },
+    fund: {
+        fontSize: 30,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: -0.24,
+        color: '#fff',
+    },
+    identityGrid: {
+        backgroundColor: '#fff',
+        padding: 20
+    },
+    row: {
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingTop: 10,
+        paddingBottom: 10,
+        backgroundColor: 'white',
+        borderBottom: '1px solid #ddd',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    button: {
+        textTransform: 'capitalize',
+        backgroundColor: '#ff9202',
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        minHeight: 44,
+        width: '100%',
+        '&:focus': {
+            backgroundColor: '#f59d2a'
+        },
+        '&:hover': {
+            backgroundColor: '#f59d2a'
+        }
+    },
+    listImage: {
+        marginRight: 15
     }
 });
 
@@ -90,18 +183,20 @@ export class FortuneCenter extends Component {
 
         this.state = {
             urlPath: '',
-            contentValue: '',
-            activeTab: '',
+            desktopContent: '',
+            desktopTabValue: '',
             userInformationEditMessage: '',
             message: '',
+            mainWallet: 0,
+            currency: 'CNY'
         }
 
         this.handleTabChange = this.handleTabChange.bind(this);
     }
 
     handleTabChange(event, newValue) {
-        this.setState({ contentValue: newValue });
-        this.setState({ activeTab: newValue });
+        this.setState({ desktopContent: newValue });
+        this.setState({ desktopTabValue: newValue });
 
         var url = this.state.urlPath;
         var parts = url.split('/');
@@ -121,17 +216,50 @@ export class FortuneCenter extends Component {
             }
         })
 
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        axios
+            .get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ username: res.data.username });
+                this.setState({ mainWallet: res.data.main_wallet });
+                this.setState({ currency: res.data.currency });
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
+
         this.setState({ urlPath: this.props.history.location.pathname });
 
         this.initializeContent();
     }
 
     componentDidMount() {
+        const { activeContent } = this.props;
+
+        if (activeContent)
+            this.setState({ contentValue: activeContent });
+
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             }
         })
+
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        axios
+            .get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ username: res.data.username });
+                this.setState({ mainWallet: res.data.main_wallet });
+                this.setState({ currency: res.data.currency });
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -145,26 +273,26 @@ export class FortuneCenter extends Component {
 
         if (parts.length > 3) {
             if (parts[1].length > 0) {
-                this.setState({ contentValue: parts[3] })
+                this.setState({ desktopContent: parts[3] })
             }
 
-            this.setState({ activeTab: parts[3] })
+            this.setState({ desktopTabValue: parts[3] })
         } else {
-            this.setState({ contentValue: 'total-assets' })
-            this.setState({ activeTab: 'total-assets' })
+            this.setState({ desktopContent: 'total-assets' })
+            this.setState({ desktopTabValue: 'total-assets' })
         }
     }
 
 
     setContent = (page, msg) => {
-        this.setState({ contentValue: page });
+        this.setState({ desktopContent: page });
 
         if (msg)
             this.setState({ userInformationEditMessage: msg });
     }
 
     setMessageContent = (page, msg) => {
-        this.setState({ contentValue: page });
+        this.setState({ desktopContent: page });
 
         if (msg) {
             this.setState({ message: msg });
@@ -178,54 +306,198 @@ export class FortuneCenter extends Component {
 
     render() {
         const { classes } = this.props;
-        const { contentValue, activeTab } = this.state;
-
+        const { desktopContent, desktopTabValue } = this.state;
+      
         return (
             <div className={classes.root}>
-                <Grid container className={classes.mainGrid}>
-                    <Grid item xs={12} className={classes.titleRow}>
-                        <span className={classes.title}>{this.getLabel('fortune-center')}</span>
+                <div className={classes.rootDesktop}>
+                    <Grid container className={classes.mainGrid}>
+                        <Grid item xs={12} className={classes.titleRow}>
+                            <span className={classes.title}>{this.getLabel('fortune-center')}</span>
+                        </Grid>
+                        <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
+                            <div className={classes.leftPane}>
+                                <Button className={(desktopTabValue === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                    onClick={(evt) => this.handleTabChange(evt, 'total-assets')}>
+                                    <AccountBalanceOutlined style={{ marginRight: 8 }} />
+                                    {this.getLabel('total-assets')}
+                                </Button>
+                                <Button className={(desktopTabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                    onClick={(evt) => this.handleTabChange(evt, 'deposit')}>
+                                    <FlightLandOutlined style={{ marginRight: 8 }} />
+                                    {this.getLabel('deposit-label')}
+                                </Button>
+                                <Button className={(desktopTabValue === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                    onClick={(evt) => this.handleTabChange(evt, 'withdrawal')}>
+                                    <FlightTakeoffOutlined style={{ marginRight: 8 }} />
+                                    {this.getLabel('title-withdrawal')}
+                                </Button>
+                                <Button className={(desktopTabValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                    onClick={(evt) => this.handleTabChange(evt, 'transfer')}>
+                                    <LoopOutlined style={{ marginRight: 8 }} />
+                                    {this.getLabel('title-transfer')}
+                                </Button>
+                            </div>
+                            <div className={classes.content}>
+                                {desktopContent === 'deposit' && <DepositMain />}
+                                {desktopContent === 'total-assets' && <TotalAssets />}
+                                {desktopContent === 'transfer' && <Transfer />}
+                                {desktopContent === 'withdrawal' && <Withdrawal />}
+                            </div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
-                        <div className={classes.leftPane}>
-                            <Button className={(activeTab === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                onClick={(evt) => this.handleTabChange(evt, 'total-assets')}>
-                                <AccountBalanceOutlined style={{ marginRight: 8 }} />
-                                {this.getLabel('total-assets')}
+                </div>
+                <div className={classes.rootMobile}>
+                    <AppBar position="static" className={classes.mobileRow}>
+                        <Toolbar className={classes.mobileBar}>
+                            <Grid container>
+                                <Grid item xs={3}>
+                                    <Button
+                                        className={classes.mobileMenuButton}
+                                        onClick={() => {
+                                            this.props.history.push('/p/');
+                                        }}
+                                    >
+                                        <ArrowBackIos style={{ width: 16 }} />
+                                        {this.getLabel('back-label')}
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    <span className={classes.title}>
+                                        {this.getLabel('fortune-center')}
+                                    </span>
+                                </Grid>
+                                <Grid item xs={3}></Grid>
+                            </Grid>
+                        </Toolbar>
+                    </AppBar>
+                    <Grid container className={classes.headerGrid}>
+                        <Grid item xs={12}>
+                            <span className={classes.label} style={{ color: 'white' }}>
+                                {this.getLabel('withdrawable-fund')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} >
+                            <span className={classes.fund}>
+                                <FormattedNumber
+                                    maximumFractionDigits={2}
+                                    value={this.state.mainWallet}
+                                    style={`currency`}
+                                    currency={this.state.currency}
+                                />
+                            </span>
+                        </Grid>
+                    </Grid>
+                    <Grid container className={classes.identityGrid}>
+                        <Grid item xs={12} >
+                            <Button className={classes.button}
+                                onClick={() => {
+                                    this.props.history.push('/p/account-management')
+                                }}>
+                                {this.getLabel('compelete-dentity-info')}
                             </Button>
-                            <Button className={(activeTab === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                onClick={(evt) => this.handleTabChange(evt, 'deposit')}>
-                                <FlightLandOutlined style={{ marginRight: 8 }} />
+                        </Grid>
+                    </Grid>
+                    <Grid container style={{ marginTop: 15 }}>
+                        <Grid item xs={12} className={classes.row}
+                            onClick={() => {
+                                this.props.history.push(
+                                    '/p/fortune-center/deposit'
+                                );
+                            }}>
+                            <img
+                                src={images.src + 'letou/deposit-icon-blue.png'}
+                                alt=""
+                                width="22"
+                                className={classes.listImage}
+                            />
+                            <span className={classes.label}>
                                 {this.getLabel('deposit-label')}
-                            </Button>
-                            <Button className={(activeTab === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                onClick={(evt) => this.handleTabChange(evt, 'withdrawal')}>
-                                <FlightTakeoffOutlined style={{ marginRight: 8 }} />
+                            </span>
+                            <div className={classes.grow} />
+                            <KeyboardArrowRight />
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}
+                            onClick={() => {
+                                this.props.history.push(
+                                    '/p/fortune-center/withdrawal'
+                                );
+                            }}>
+                            <img
+                                src={images.src + 'letou/withdrawal-icon-orange.png'}
+                                alt=""
+                                width="22"
+                                className={classes.listImage}
+                            />
+                            <span className={classes.label}>
                                 {this.getLabel('title-withdrawal')}
-                            </Button>
-                            <Button className={(activeTab === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                onClick={(evt) => this.handleTabChange(evt, 'transfer')}>
-                                <LoopOutlined style={{ marginRight: 8 }} />
+                            </span>
+                            <div className={classes.grow} />
+                            <KeyboardArrowRight />
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}
+                            onClick={() => {
+                                this.props.history.push(
+                                    '/p/fortune-center/transfer'
+                                );
+                            }}
+                        >
+
+                            <img
+                                src={images.src + 'letou/transfers-icon-green.png'}
+                                alt=""
+                                width="22"
+                                className={classes.listImage}
+                            />
+                            <span className={classes.label}>
                                 {this.getLabel('title-transfer')}
-                            </Button>
-                        </div>
-                        <div className={classes.content}>
-                            {contentValue === 'deposit' && <Deposit />}
-                            {contentValue === 'total-assets' && <TotalAssets />}
-                            {contentValue === 'transfer' && <Transfer />}
-                            {contentValue === 'withdrawal' && <Withdrawal />}
-                        </div>
+                            </span>
+                            <div className={classes.grow} />
+                            <KeyboardArrowRight />
+                        </Grid>
                     </Grid>
-                </Grid>
+                    <Grid container style={{ marginTop: 15 }}>
+                        <Grid item xs={12} className={classes.row}
+                            onClick={() => {
+                                this.props.history.push(
+                                    '/p/fortune-center/total-assets'
+                                );
+                            }}>
+                            <img
+                                src={images.src + 'letou/total-icon.png'}
+                                alt=""
+                                width="22"
+                                className={classes.listImage}
+                            />
+                            <span className={classes.label}>
+                                {this.getLabel('total-assets')}
+                            </span>
+                            <div className={classes.grow} />
+                            <KeyboardArrowRight />
+                        </Grid>
+                    </Grid>
+                </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
+    const { token } = state.auth;
     return {
+        isAuthenticated: token !== null && token !== undefined,
+        error: state.auth.error,
         lang: state.language.lang
-    }
-}
+    };
+};
 
 export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(FortuneCenter))));

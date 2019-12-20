@@ -10,11 +10,11 @@ import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InputMask from 'react-input-mask';
-import { authCheckState ,sendingLog, logout, postLogout } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
-const styles = function(theme) {
+const styles = function (theme) {
     return {
         root: {
             width: 925,
@@ -408,7 +408,7 @@ class DepositAstropay extends Component {
         );
         console.log('result of deposit: ');
         console.log(res);
-        if(res.data.errorCode){
+        if (res.data.errorCode) {
             currentComponent.props.logout();
             postLogout();
             return;
@@ -430,7 +430,7 @@ class DepositAstropay extends Component {
                         alert('your balance is updated');
                         // window.location.reload();
                     }
-                }).catch(function (err) {  
+                }).catch(function (err) {
                     //console.log('Request failed', err);
                     currentComponent.props.callbackFromParent("error", "Something is wrong.");
                     sendingLog(err);
@@ -529,7 +529,7 @@ class DepositAstropay extends Component {
                                                 }
                                                 helperText={
                                                     this.state.numberInvalid &&
-                                                    this.state.numberFocused
+                                                        this.state.numberFocused
                                                         ? 'Please enter 16-digit card number.'
                                                         : ' '
                                                 }
@@ -566,7 +566,7 @@ class DepositAstropay extends Component {
                                                 helperText={
                                                     this.state
                                                         .expireDateInvalid &&
-                                                    this.state.expireDateFocused
+                                                        this.state.expireDateFocused
                                                         ? 'Invalid expiration card'
                                                         : ' '
                                                 }
@@ -597,7 +597,7 @@ class DepositAstropay extends Component {
                                                 }
                                                 helperText={
                                                     this.state.cvvInvalid &&
-                                                    this.state.cvvFocused
+                                                        this.state.cvvFocused
                                                         ? 'Invalid code'
                                                         : ' '
                                                 }
@@ -658,7 +658,7 @@ class DepositAstropay extends Component {
                                         }
                                         helperText={
                                             this.state.amountInvalid &&
-                                            this.state.amountFocused
+                                                this.state.amountFocused
                                                 ? 'Please enter a valid amount.'
                                                 : ' '
                                         }

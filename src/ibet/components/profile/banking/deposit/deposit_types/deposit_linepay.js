@@ -11,20 +11,6 @@ import { authCheckState, sendingLog } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
-console.log("Process.env is");
-console.log(process.env);
-
-
-// const CLIENT = {
-//     sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
-//     production: 'xxxXXX',
-// };
-
-// const
-//     LINEPAY_LOGO_URL = "https://scdn.line-apps.com/linepay/partner/images/logo/linepay_logo_119x39_v3.png",
-//     MIN_DEPOSIT = 200,
-//     MAX_DEPOSIT = 30000,
-//     CURRENCY = "THB"
 
 const styles = (theme) => ({
     root: {
