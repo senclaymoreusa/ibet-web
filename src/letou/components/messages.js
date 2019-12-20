@@ -320,6 +320,7 @@ export const messages = {
         'transfer-label': 'Transfer',
         'total_assets-label':'Total Assets',
         'select-transfer': 'Select Wallets to Transfer',
+        'tap-transfer': 'Tap Wallets to Transfer',
         'transfer-to-main': 'Transfer All to Main Wallet',
         'from-label': 'From',
         'to-label': 'To',
@@ -512,6 +513,8 @@ export const messages = {
         'any-question-label':'If you have any suggestions, please feel free to contact us',
         'dedicated-line':'24-hour Domestic Dedicated Line',
         'records-label':'Records',
+        'total-balance':'Total Balance',
+        
     },
     zh: {
         'help-title': '我们在此竭诚服务',

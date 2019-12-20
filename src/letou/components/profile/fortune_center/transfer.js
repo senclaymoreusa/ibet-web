@@ -188,7 +188,10 @@ const styles = theme => ({
     },
     chartColumn: {
         paddingTop: 20,
-        paddingBottom: 20
+        paddingBottom: 20,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     paper: {
         width: '80%',
@@ -204,6 +207,34 @@ const styles = theme => ({
     },
     mobileGrid: {
         padding: 20
+    },
+    balanceContainer: {
+        position: 'absolute',
+        left: '50%',
+        transform: 'translateX(-50%)',
+    },
+    balanceInnerContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        textAlign: 'center'
+    },
+    totalBalance: {
+        fontSize: 36,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+    },
+    text: {
+        fontSize: 16,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
     }
 });
 
@@ -444,8 +475,9 @@ class Transfer extends Component {
             amount: '',
             amountInvalid: false,
             amountFocused: true,
-            // currency: 'CNY',
+            currency: '',
             walletObjs: [],
+            totalBalance: 0,
             showSnackbar: false,
             snackType: 'info',
             snackMessage: '',
@@ -483,11 +515,16 @@ class Transfer extends Component {
     getWalletsByUsername(userId) {
         var randomColor = require('randomcolor');
 
+        let currentComponent = this;
 
         axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
             .then(res => {
                 if (res.status === 200) {
                     this.setState({ walletObjs: res.data });
+
+                    let total = res.data.reduce((totalBalance, wallet) => totalBalance + parseFloat(wallet.amount), 0);
+
+                    this.setState({ totalBalance: total });
 
                     this.setState(prevState => ({
                         walletObjs: prevState.walletObjs.map(
@@ -501,9 +538,9 @@ class Transfer extends Component {
 
 
                 }
-                this.setState({ loading: false });
+                currentComponent.setState({ loading: false });
             }).catch(function (err) {
-                this.setState({ loading: false });
+                currentComponent.setState({ loading: false });
                 sendingLog(err);
             });
     }
@@ -633,8 +670,7 @@ class Transfer extends Component {
 
     render() {
         const { classes } = this.props;
-        const { from, to, amount, walletObjs, currency, showConfirmationDialog, loading } = this.state;
-        var randomColor = require('randomcolor');
+        const { from, to, amount, walletObjs, currency, showConfirmationDialog, loading, totalBalance } = this.state;
 
         let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
 
@@ -757,19 +793,16 @@ class Transfer extends Component {
                                 data={walletObjs.map(function (item) {
                                     return {
                                         title: item.code,
-                                        value : parseFloat(item.amount),
+                                        value: parseFloat(item.amount),
                                         color: item.color
                                     };
                                 })}
-                                label={false}
-                                labelPosition={50}
-                                lengthAngle={360}
                                 lineWidth={15}
                                 onClick={undefined}
                                 onMouseOut={undefined}
                                 onMouseOver={undefined}
                                 paddingAngle={0}
-                                radius={20}
+                                radius={40}
                                 ratio={1}
                                 rounded={false}
                                 startAngle={0}
@@ -820,8 +853,8 @@ class Transfer extends Component {
                         </Toolbar>
                     </AppBar>
                     <Grid container className={classes.mobileGrid}>
-                        <Grid item xs={12} className={classes.chartColumn}>
-                        <ReactMinimalPieChart
+                        <Grid item xs={12} className={classes.chartColumn} style={{ marginTop: 20 }}>
+                            <ReactMinimalPieChart
                                 animate={true}
                                 animationDuration={500}
                                 animationEasing="ease-out"
@@ -830,31 +863,31 @@ class Transfer extends Component {
                                 data={walletObjs.map(function (item) {
                                     return {
                                         title: item.code,
-                                        value : parseFloat(item.amount),
+                                        value: parseFloat(item.amount),
                                         color: item.color
                                     };
                                 })}
-                                label={true}
-                                labelPosition={0}
-                                labelStyle={{
-                                    fontFamily: 'sans-serif',
-                                    fontSize: '15px'
-                                  }}
                                 lengthAngle={360}
                                 lineWidth={15}
                                 onClick={undefined}
                                 onMouseOut={undefined}
                                 onMouseOver={undefined}
                                 paddingAngle={0}
-                                radius={20}
+                                radius={40}
                                 ratio={1}
                                 rounded={false}
                                 startAngle={0}
                             />
+                            <div className={classes.balanceContainer}>
+                                <div className={classes.balanceInnerContainer}>
+                                    <span className={classes.totalBalance}>{currency}{totalBalance}</span>
+                                    <FormattedMessage id='total-balance' defaultMessage='Total Balance' />
+                                </div>
+                            </div>
                         </Grid>
-                        <Grid item xs={12} className={classes.row}>
+                        <Grid item xs={12} className={classes.row} style={{ textAlign: 'center' }}>
                             <span className={classes.boldText} >
-                                {this.getLabel('select-transfer')}
+                                {this.getLabel('tap-transfer')}
                             </span>
                         </Grid>
                         <Grid item xs={12} style={{ paddingBottom: 20 }}>
@@ -912,7 +945,7 @@ class Transfer extends Component {
                                             ),
                                         }} />
                                 </Grid>
-                                <Grid item xs={12} style={{ paddingTop: 40 , paddingBottom:60}}>
+                                <Grid item xs={12} style={{ paddingTop: 40, paddingBottom: 60 }}>
                                     <Button className={classes.nextButton}
                                         onClick={this.sendClicked.bind(this)}
                                         disabled={amount < 10 ||
