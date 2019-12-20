@@ -135,6 +135,7 @@ export class DepositMain extends Component {
             .then(res => {
                 this.setState({ userCountry: res.data.country });
                 this.setState({ favouriteMethod: res.data.favorite_payment_method });
+                //this.setState({contentValue: this.state.favouriteMethod });
             });
 
         this.setState({ urlPath: this.props.history.location.pathname });
@@ -155,7 +156,8 @@ export class DepositMain extends Component {
             .then(res => {
                 this.setState({ userCountry: res.data.country });
                 this.setState({ favouriteMethod: res.data.favorite_payment_method });
-                this.setState({ contentValue: res.data.favorite_payment_method });
+                this.setState({contentValue: this.state.favouriteMethod });
+                //this.setState({ contentValue: res.data.favorite_payment_method });
             });
 
         this.setState({ urlPath: this.props.history.location.pathname });
@@ -169,7 +171,8 @@ export class DepositMain extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ favouriteMethod: res.data.favorite_payment_method });
-                this.setState({ contentValue: res.data.favorite_payment_method });
+                this.setState({contentValue: this.state.favouriteMethod });
+                //this.setState({ contentValue: res.data.favorite_payment_method });
             });
     }
 
@@ -221,12 +224,12 @@ export class DepositMain extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ favouriteMethod: res.data.favorite_payment_method });
-                this.setState({ contentValue: res.data.favorite_payment_method });
             });
     }
 
     getAvailablePaymentMethods() {
-        
+
+
         const { classes } = this.props;
         const { contentValue, userCountry, favouriteMethod } = this.state;
         
@@ -524,7 +527,7 @@ export class DepositMain extends Component {
     render() {
         const { classes } = this.props;
         const { contentValue } = this.state;
-        
+
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
