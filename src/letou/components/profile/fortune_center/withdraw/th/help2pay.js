@@ -721,6 +721,40 @@ class Help2Pay extends Component {
                             }}
                         />
                     </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
+                            <TextField
+                                className={classes.amountText}
+                                placeholder={this.getLabel('help2pay-placeholder')}
+                                onChange={this.amountChanged.bind(this)}
+                                value={amount}
+                                error={
+                                    this.state.amountInvalid &&
+                                    this.state.amountFocused
+                                }
+                                helperText={
+                                    this.state.amountInvalid &&
+                                        this.state.amountFocused
+                                        ? this.getLabel('valid-amount')
+                                        : ' '
+                                }
+                                InputProps={{
+                                    disableUnderline: true,
+                                    inputComponent: NumberFormatCustom,
+                                    inputProps: {
+                                        step: 10,
+                                        min: 200,
+                                        min: 950000,
+                                        style: { textAlign: 'right' },
+                                        currency: currency
+                                    },
+                                    startAdornment: (
+                                        <InputAdornment position="start" >
+                                            <span className={classes.label}>{this.getLabel('amount-label')}</span>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
                     <Grid item xs={6} className={classes.buttonCell} >
                         <Button variant="contained" className={classes.cancelButton}
                             onClick={this.cancelClicked.bind(this)}

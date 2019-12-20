@@ -10,12 +10,15 @@ import Grid from '@material-ui/core/Grid';
 import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map'
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Divider } from '@material-ui/core';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
@@ -382,6 +385,7 @@ class ThaiLocalBank extends Component {
             amountInvalid: true,
 
             bankAccountNumber: '',
+            password: '',
 
             activeStep: 0,
             currency: "THB",
@@ -641,7 +645,7 @@ class ThaiLocalBank extends Component {
                             }}
                         />
                     </Grid>}
-                    <Grid item xs={12} className={classes.detailRow}>
+                    <Grid item xs={6} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
                             placeholder={this.getLabel('bank-number')}
@@ -655,6 +659,33 @@ class ThaiLocalBank extends Component {
                                     <InputAdornment position="end" >
                                         <img src={images.src + 'letou/info-icon.svg'} alt="" height="20" />
                                     </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={6} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
+                            placeholder={this.getLabel('password-text')}
+                            onChange={this.bankAccountNumberChanged.bind(this)}
+                            value={bankAccountNumber}
+                            error={this.state.bankAccountNumberFocused && bankAccountNumber.length === 0}
+                            helperText={(this.state.bankAccountNumberFocused && bankAccountNumber.length === 0) ? this.getLabel('invalid-bank-number') : ' '}
+                            InputProps={{
+                                disableUnderline: true,
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                            <IconButton
+                                                size="small"
+                                                //disabled={this.state.password.length === 0}
+                                                aria-label="Toggle password visibility"
+                                                onClick={() => {
+                                                    this.setState(state => ({ showPassword: !state.showPassword }))
+                                                }}
+                                            >
+                                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
                                 ),
                             }}
                         />
