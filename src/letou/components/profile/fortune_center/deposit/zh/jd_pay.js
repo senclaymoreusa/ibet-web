@@ -195,6 +195,9 @@ function NumberFormatCustom(props) {
                 });
             }}
             thousandSeparator
+            decimalSeparator='.'
+            decimalScale={2}
+            fixedDecimalScale
             prefix={currency}
         />
     );
