@@ -41,6 +41,7 @@ import axios from 'axios';
 import MobileMainProfile from '../mobile/mobile_profile';
 import MobileAccountInfo from '../mobile/mobile_account_info';
 import SecuritySettings from './account_management/security_settings';
+import Suggestions from './account_management/suggestions';
 import DepositMain from './fortune_center/deposit/deposit_main';
 import Withdrawal from './fortune_center/withdrawal';
 import Transfer from './fortune_center/transfer';
@@ -316,6 +317,7 @@ export class Profile extends Component {
         if (parts.length >= 2) {
             let path = parts[2];
             this.setState({ mobileContent: parts[parts.length - 1] });
+           
             if (path.length > 0) {
                 if (this._isMounted)
                     this.setState({ desktopTabValue: parts[2] });
@@ -626,6 +628,9 @@ export class Profile extends Component {
                         <TransactionRecord />
                     )}
 
+                     {this.state.mobileContent === 'suggestions' && (
+                        <Suggestions />
+                    )}
                     <div className={classes.grow} />
                     <Footer />
                 </div>
