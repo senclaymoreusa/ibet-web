@@ -8,20 +8,17 @@ import { getLanguage } from '../actions/language';
 
 import './css/global.css';
 
-
 class LetouApp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            lang: 'zh',
+            lang: 'zh'
         };
     }
 
     componentDidMount() {
-
         this.props.getLanguage();
-
     }
 
     render() {
@@ -48,9 +45,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default
-    connect(
-        mapStateToProps,
-        { getLanguage }
-    )(LetouApp)
-    ;
+export default connect(mapStateToProps, { getLanguage })(LetouApp);

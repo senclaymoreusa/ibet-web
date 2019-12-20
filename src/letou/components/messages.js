@@ -23,11 +23,11 @@ export const messages = {
         'letou-esports': 'Letou E-Sports',
         'letou-esports-pro': 'Letou E-Sports Pro',
         'sabah-esports': 'Sabah E-Sports',
-        'fried-golden': 'Fried Golden Flower',
-        '21-oclock': "21 o'clock",
-        'grab-cattle': 'Grab the Cattle',
-        'texas-holdem': "Texas Hold'em",
-        'games-lobby': 'Games Lobby',
+        'fried-golden': 'Golden Flower',
+        '21-oclock': "Black Jack",
+        'grab-cattle': 'Banker Bull-Bull',
+        'texas-holdem': "Texas Hold'em Poker",
+        'games-lobby': 'Hall',
         'nav-lotto': 'Lotto',
         'happy-color': 'Keno',
         'time-color': 'SSC',
@@ -72,7 +72,7 @@ export const messages = {
         'for-member': '供会员使用',
         story: '乐投品牌故事',
         'for-partner': '供合作伙伴使用',
-        'help-title': '我们在此竭诚服务',
+        'help-title': 'Help',
         'aboutUs-detail-text-one':
             'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
         'aboutUs-detail-text-two':
@@ -176,6 +176,7 @@ export const messages = {
         'message-notification': 'Message Notification',
         'security-settings': 'Security Settings',
         'suggestions-feedback': 'Suggections & Feedback',
+        'feedback-label': 'Feedback',
         'deposit-label': 'Deposit',
         'total-assets': 'Total Assets',
         'title-transfer': 'Transfer',
@@ -187,9 +188,11 @@ export const messages = {
         'login-password': 'Login Password',
         'set-login-password': 'Set Login Password',
         'modify-login-password': 'Modify Login Password',
-        'set-login-password-desc': 'Regularly reset your login password to make your account more secure',
+        'set-login-password-desc':
+            'Regularly reset your login password to make your account more secure',
         'withdrawal-password': 'Withdrawal Password',
-        'withdrawal-password-desc': 'Set withdrawal password, one more insurance for withdrawal',
+        'withdrawal-password-desc':
+            'Set withdrawal password, one more insurance for withdrawal',
         'registration-time': 'Registration Time',
         'bank-card': 'Bank Card',
         'binding-card-number': 'Binding Card Number',
@@ -294,7 +297,8 @@ export const messages = {
             'Error occured while setting security question',
         'security-question-set-success':
             'Congratulations on your safety and your account is safer!',
-        'security-question-desc': 'Important information to verify your identity to ensure information security',
+        'security-question-desc':
+            'Important information to verify your identity to ensure information security',
         'modify-security-issues': 'Modify security issues',
         'intimate-reminder': 'Intimate Reminder',
         'intimate-reminder-text':
@@ -503,7 +507,8 @@ export const messages = {
         'manage-bank-cards': 'Manage Bank Cards',
         'compelete-dentity-info': 'Complete Identity Information',
         'no-verification': 'No standard safety verification',
-        'be-sure-verifications': 'For your account security, please be sure to perform various security verifications',
+        'be-sure-verifications':
+            'For your account security, please be sure to perform various security verifications',
         'verify-immediately': 'Verify Immediately',
         'pt-password-not-set': 'PT APP password is not set',
         'pt-password-desc': 'Regularly reset PT APP password, account is more secure',
@@ -526,6 +531,10 @@ export const messages = {
         'content-label': 'Content',
         'start-date': 'Start Date',
         'end-date': 'End Date',
+          'inbox-label': 'Inbox',
+        'any-question-label':
+            'If you have any suggestions, please feel free to contact us',
+        'dedicated-line': '24-hour Domestic Dedicated Line'
     },
     zh: {
         'help-title': '我们在此竭诚服务',
