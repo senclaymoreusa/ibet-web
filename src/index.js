@@ -11,10 +11,18 @@ import fr from 'react-intl/locale-data/fr';
 import vi from 'react-intl/locale-data/vi';
 import th from 'react-intl/locale-data/th';
 
+import throttle from 'lodash/throttle';
+import { createLogger } from 'redux-logger';
+
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk';
-import reducers from './reducers';
+import thunkMiddleware from 'redux-thunk';
+import rootReducers from './reducers';
+
+import { loadState, saveState } from './localStorage';
+
+const persistentState = loadState();
+const loggerMiddleware = createLogger();
 
 addLocaleData(en);
 addLocaleData(zh);
@@ -22,13 +30,25 @@ addLocaleData(fr);
 addLocaleData(vi);
 addLocaleData(th);
 
-const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+const store = createStore(
+    rootReducers,
+    persistentState,
+    applyMiddleware(thunkMiddleware, loggerMiddleware)
+);
+
+store.subscribe(
+    throttle(() => {
+        saveState({
+            auth : store.getState().auth
+        });
+    }, 1000)
+);
 
 if (
     window.location
         .toString()
         .toLowerCase()
-        .indexOf('asia') != -1
+        .indexOf('asia') == -1
 ) {
     // console.log('using letou app');
     ReactDOM.render(
