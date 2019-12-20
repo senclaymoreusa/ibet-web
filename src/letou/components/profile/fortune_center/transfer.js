@@ -61,7 +61,7 @@ const styles = theme => ({
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
-        }
+        },
     },
     title: {
         fontSize: 20,
@@ -201,6 +201,9 @@ const styles = theme => ({
         marginTop: 20,
         marginLeft: -20,
         zIndex: 2
+    },
+    mobileGrid: {
+        padding: 20
     }
 });
 
@@ -629,8 +632,9 @@ class Transfer extends Component {
     }
 
     render() {
-        const { classes, user } = this.props;
+        const { classes } = this.props;
         const { from, to, amount, walletObjs, currency, showConfirmationDialog, loading } = this.state;
+        var randomColor = require('randomcolor');
 
         let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
 
@@ -744,14 +748,18 @@ class Transfer extends Component {
                             </Grid>
                         </Grid>
                         <Grid item xs={5} className={classes.chartColumn}>
-                            {/* <ReactMinimalPieChart
+                            <ReactMinimalPieChart
                                 animate={true}
                                 animationDuration={500}
                                 animationEasing="ease-out"
                                 cx={50}
                                 cy={50}
                                 data={walletObjs.map(function (item) {
-                                    return item.amount;
+                                    return {
+                                        title: item.code,
+                                        value : parseFloat(item.amount),
+                                        color: item.color
+                                    };
                                 })}
                                 label={false}
                                 labelPosition={50}
@@ -765,12 +773,12 @@ class Transfer extends Component {
                                 ratio={1}
                                 rounded={false}
                                 startAngle={0}
-                            /> */}
+                            />
                         </Grid>
                     </Grid>
                 </div>
                 <div className={classes.rootMobile}>
-                    <AppBar position="static" className={classes.mobileRow}>
+                    <AppBar position="fixed" className={classes.mobileRow}>
                         <Toolbar className={classes.mobileBar}>
                             <Grid container>
                                 <Grid item xs={3}>
@@ -811,19 +819,27 @@ class Transfer extends Component {
                             </Grid>
                         </Toolbar>
                     </AppBar>
-                    <Grid>
+                    <Grid container className={classes.mobileGrid}>
                         <Grid item xs={12} className={classes.chartColumn}>
-                            {/* <ReactMinimalPieChart
+                        <ReactMinimalPieChart
                                 animate={true}
                                 animationDuration={500}
                                 animationEasing="ease-out"
                                 cx={50}
                                 cy={50}
                                 data={walletObjs.map(function (item) {
-                                    return item.amount;
+                                    return {
+                                        title: item.code,
+                                        value : parseFloat(item.amount),
+                                        color: item.color
+                                    };
                                 })}
-                                label={false}
-                                labelPosition={50}
+                                label={true}
+                                labelPosition={0}
+                                labelStyle={{
+                                    fontFamily: 'sans-serif',
+                                    fontSize: '15px'
+                                  }}
                                 lengthAngle={360}
                                 lineWidth={15}
                                 onClick={undefined}
@@ -834,77 +850,75 @@ class Transfer extends Component {
                                 ratio={1}
                                 rounded={false}
                                 startAngle={0}
-                            /> */}
+                            />
                         </Grid>
-                        <Grid item xs={7} className={classes.walletColumn}>
-                            <Grid item xs={12} className={classes.row}>
-                                <span className={classes.boldText} >
-                                    {this.getLabel('select-transfer')}
-                                </span>
-                            </Grid>
-                            <Grid item xs={12} style={{ paddingBottom: 20 }}>
-                                {mainWallet}
-                            </Grid>
-                            <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
-                                <Button href="#text-buttons" className={classes.allButton}
-                                    onClick={() => {
-                                        this.setState({ showConfirmationDialog: true });
-                                    }}>
-                                    {this.getLabel('transfer-to-main')}
-                                </Button>
-                            </Grid>
-                            <Grid item xs={12} style={{ paddingTop: 30 }}>
-                                <Grid container spacing={2}>
-                                    {otherWalletObjs.map(walletObj => (
-                                        <Grid item xs={4} key={walletObj.code}>
-                                            <LetouWallet wallet={walletObj} currency={currency}
-                                                onClick={() => { this.handleWalletClick(walletObj.code) }} />
-                                        </Grid>
-                                    ))}
-                                    <Grid item xs={12} style={{ paddingTop: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}>
-                                        {fromWallet}
-                                        <div style={{ height: 60, width: 74, paddingTop: 18 }}>
-                                            <ArrowForward className={classes.arrow} />
-                                        </div>
-                                        {toWallet}
+                        <Grid item xs={12} className={classes.row}>
+                            <span className={classes.boldText} >
+                                {this.getLabel('select-transfer')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} style={{ paddingBottom: 20 }}>
+                            {mainWallet}
+                        </Grid>
+                        <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
+                            <Button href="#text-buttons" className={classes.allButton}
+                                onClick={() => {
+                                    this.setState({ showConfirmationDialog: true });
+                                }}>
+                                {this.getLabel('transfer-to-main')}
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} style={{ paddingTop: 30 }}>
+                            <Grid container spacing={2}>
+                                {otherWalletObjs.map(walletObj => (
+                                    <Grid item xs={4} key={walletObj.code}>
+                                        <LetouWallet wallet={walletObj} currency={currency}
+                                            onClick={() => { this.handleWalletClick(walletObj.code) }} />
                                     </Grid>
-                                    <Grid item xs={12} style={{ paddingTop: 20 }}>
-                                        <TextField className={classes.amountField}
-                                            value={amount}
-                                            placeholder="Minimum ¥10"
-                                            onChange={this.amountChanged.bind(this)}
-                                            error={
-                                                this.state.amountInvalid &&
+                                ))}
+                                <Grid item xs={12} style={{ paddingTop: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}>
+                                    {fromWallet}
+                                    <div style={{ height: 60, width: 74, paddingTop: 18 }}>
+                                        <ArrowForward className={classes.arrow} />
+                                    </div>
+                                    {toWallet}
+                                </Grid>
+                                <Grid item xs={12} style={{ paddingTop: 20 }}>
+                                    <TextField className={classes.amountField}
+                                        value={amount}
+                                        placeholder="Minimum ¥10"
+                                        onChange={this.amountChanged.bind(this)}
+                                        error={
+                                            this.state.amountInvalid &&
+                                            this.state.amountFocused
+                                        }
+                                        helperText={
+                                            this.state.amountInvalid &&
                                                 this.state.amountFocused
-                                            }
-                                            helperText={
-                                                this.state.amountInvalid &&
-                                                    this.state.amountFocused
-                                                    ? this.getLabel('valid-amount')
-                                                    : ' '
-                                            }
-                                            InputProps={{
-                                                disableUnderline: true,
-                                                inputProps: {
-                                                    step: 1,
-                                                    min: 10,
-                                                    style: { textAlign: 'right' }
-                                                },
-                                                startAdornment: (
-                                                    <InputAdornment position="start" >
-                                                        <span className={classes.label}>{this.getLabel('amount-label')}</span>
-                                                    </InputAdornment>
-                                                ),
-                                            }} />
-                                    </Grid>
-                                    <Grid item xs={12} style={{ paddingTop: 40 }}>
-                                        <Button className={classes.nextButton}
-                                            onClick={this.sendClicked.bind(this)}
-                                            disabled={amount < 10 ||
-                                                from === null || to === null}>
-                                            {this.getLabel('next-label')}
-                                        </Button>
-                                    </Grid>
+                                                ? this.getLabel('valid-amount')
+                                                : ' '
+                                        }
+                                        InputProps={{
+                                            disableUnderline: true,
+                                            inputProps: {
+                                                step: 1,
+                                                min: 10,
+                                                style: { textAlign: 'right' }
+                                            },
+                                            startAdornment: (
+                                                <InputAdornment position="start" >
+                                                    <span className={classes.label}>{this.getLabel('amount-label')}</span>
+                                                </InputAdornment>
+                                            ),
+                                        }} />
+                                </Grid>
+                                <Grid item xs={12} style={{ paddingTop: 40 , paddingBottom:60}}>
+                                    <Button className={classes.nextButton}
+                                        onClick={this.sendClicked.bind(this)}
+                                        disabled={amount < 10 ||
+                                            from === null || to === null}>
+                                        {this.getLabel('next-label')}
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Grid>
