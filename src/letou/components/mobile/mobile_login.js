@@ -229,8 +229,7 @@ export class MobileLogin extends React.Component {
           // clearTimeout(timeoutId);
           var blackBoxString = bbData.blackbox;
           axios.get(API_URL + 'users/api/login-device-info?bb=' + blackBoxString)
-            .then(res => {   
-                console.log(res.data)      
+            .then(res => {      
                 this.props.authLogin(this.state.username, this.state.password, res.data)
                 .then((response) => {
                     if (response.errorCode) {
