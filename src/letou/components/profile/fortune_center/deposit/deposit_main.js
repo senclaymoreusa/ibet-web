@@ -28,11 +28,37 @@ import VietnamHelp2pay from './vn/help2_pay';
 import ScratchCard from './vn/scratch_card';
 import VietnamLocalBank from './vn/local_bank';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
-const styles = () => ({
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+
+const styles = theme => ({
     root: {
-        width: '100%'
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+    },
+    rootDesktop: {
+        height: 92,
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+            flexDirection: 'column'
+        }
+    },
+    rootMobile: {
+        minHeight: '100vh',
+        display: 'flex',
+        backgroundColor: '#f2f3f5',
+        flexDirection: 'column',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
     },
     paymentButton: {
         width: 87,
@@ -94,6 +120,36 @@ const styles = () => ({
         bottom: 0
     },
 });
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <Typography
+            component="div"
+            role="tabpanel"
+            hidden={value !== index}
+            id={`scrollable-auto-tabpanel-${index}`}
+            aria-labelledby={`scrollable-auto-tab-${index}`}
+            {...other}
+        >
+            {value === index && <Box p={3}>{children}</Box>}
+        </Typography>
+    );
+}
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `scrollable-auto-tab-${index}`,
+        'aria-controls': `scrollable-auto-tabpanel-${index}`,
+    };
+}
 
 export class DepositMain extends Component {
     constructor(props) {
@@ -217,280 +273,329 @@ export class DepositMain extends Component {
         switch (userCountry.toLowerCase()) {
             case 'china':
                 return (
-                    <Grid container className={classes.methodGrid} spacing={4}>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('banktransfer');
-                                }}
-                            >
-                                <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'banktransfer'),
-                            })}>{this.getLabel('bank-transfer')}</span>
-                            {contentValue === 'banktransfer' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('quickpay');
-                                }}
-                            ><img src={images.src + 'letou/unionpay.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'quickpay'),
-                            })}>{this.getLabel('quick-pay')}</span>
-                            {contentValue === 'quickpay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('unionpayqr');
-                                }}
-                            ><img src={images.src + 'letou/unionpayqr.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'unionpayqr'),
-                            })}>{this.getLabel('union-pay-qr')}</span>
-                            {contentValue === 'unionpayqr' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('alipay');
-                                }}
-                            ><img src={images.src + 'letou/alipay@3x.png'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'alipay'),
-                            })}>{this.getLabel('ali-pay')}</span>
-                            {contentValue === 'alipay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('onlinepay');
-                                }}
-                            ><img src={images.src + 'letou/onlinepay.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'onlinepay'),
-                            })}>{this.getLabel('online-pay')}</span>
-                            {contentValue === 'onlinepay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('wechatpay');
-                                }}
-                            ><img src={images.src + 'letou/wechatpay.svg'} alt="" height="40" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'wechatpay'),
-                            })}>{this.getLabel('we-chat-pay')}</span>
-                            {contentValue === 'wechatpay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('jdpay');
-                                }}
-                            ><img src={images.src + 'letou/jdpay.svg'} alt="" height="28" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'jdpay'),
-                            })}>{this.getLabel('jd-pay')}</span>
-                            {contentValue === 'jdpay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('bitcoin');
-                                }}
-                            ><img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'bitcoin'),
-                            })}>{this.getLabel('bit-coin')}</span>
-                            {contentValue === 'bitcoin' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('astropay');
-                                }}
-                            ><img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'astropay'),
-                            })}>{this.getLabel('astro-pay')}</span>
-                            {contentValue === 'astropay' && <div className={classes.selected} />}
-                        </Grid>
-                    </Grid>
+                    <div>
+                        <div className={classes.rootDesktop}>
+                            <Grid container className={classes.methodGrid} spacing={4}>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('banktransfer');
+                                        }}
+                                    >
+                                        <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'banktransfer'),
+                                    })}>{this.getLabel('bank-transfer')}</span>
+                                    {contentValue === 'banktransfer' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('quickpay');
+                                        }}
+                                    ><img src={images.src + 'letou/unionpay.svg'} alt="" height="26" />
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'quickpay'),
+                                    })}>{this.getLabel('quick-pay')}</span>
+                                    {contentValue === 'quickpay' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('unionpayqr');
+                                        }}
+                                    ><img src={images.src + 'letou/unionpayqr.svg'} alt="" height="26" />
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'unionpayqr'),
+                                    })}>{this.getLabel('union-pay-qr')}</span>
+                                    {contentValue === 'unionpayqr' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('alipay');
+                                        }}
+                                    ><img src={images.src + 'letou/alipay@3x.png'} alt="" height="26" />
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'alipay'),
+                                    })}>{this.getLabel('ali-pay')}</span>
+                                    {contentValue === 'alipay' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('onlinepay');
+                                        }}
+                                    ><img src={images.src + 'letou/onlinepay.svg'} alt="" height="26" />
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'onlinepay'),
+                                    })}>{this.getLabel('online-pay')}</span>
+                                    {contentValue === 'onlinepay' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('wechatpay');
+                                        }}
+                                    ><img src={images.src + 'letou/wechatpay.svg'} alt="" height="40" />
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'wechatpay'),
+                                    })}>{this.getLabel('we-chat-pay')}</span>
+                                    {contentValue === 'wechatpay' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('jdpay');
+                                        }}
+                                    ><img src={images.src + 'letou/jdpay.svg'} alt="" height="28" />
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'jdpay'),
+                                    })}>{this.getLabel('jd-pay')}</span>
+                                    {contentValue === 'jdpay' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('bitcoin');
+                                        }}
+                                    ><img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'bitcoin'),
+                                    })}>{this.getLabel('bit-coin')}</span>
+                                    {contentValue === 'bitcoin' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('astropay');
+                                        }}
+                                    ><img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'astropay'),
+                                    })}>{this.getLabel('astro-pay')}</span>
+                                    {contentValue === 'astropay' && <div className={classes.selected} />}
+                                </Grid>
+                            </Grid>
+                        </div>
+                        <div className={classes.rootMobile}>
+                            <AppBar position="static" color="default">
+                                <Tabs
+                                    value={0}
+                                    indicatorColor="primary"
+                                    textColor="primary"
+                                    variant="scrollable"
+                                    scrollButtons="auto"
+                                    aria-label="scrollable auto tabs example"
+                                >
+                                    <Tab label="Item One" {...a11yProps(0)} />
+                                    <Tab label="Item Two" {...a11yProps(1)} />
+                                    <Tab label="Item Three" {...a11yProps(2)} />
+                                    <Tab label="Item Four" {...a11yProps(3)} />
+                                    <Tab label="Item Five" {...a11yProps(4)} />
+                                    <Tab label="Item Six" {...a11yProps(5)} />
+                                    <Tab label="Item Seven" {...a11yProps(6)} />
+                                </Tabs>
+                            </AppBar>
+                            <TabPanel value={value} index={0}>
+                                Item One
+                            </TabPanel>
+                            <TabPanel value={value} index={1}>
+                                Item Two
+                            </TabPanel>
+                            <TabPanel value={value} index={2}>
+                                Item Three
+                            </TabPanel>
+                            <TabPanel value={value} index={3}>
+                                Item Four
+                            </TabPanel>
+                            <TabPanel value={value} index={4}>
+                                Item Five
+                            </TabPanel>
+                            <TabPanel value={value} index={5}>
+                                Item Six
+                            </TabPanel>
+                            <TabPanel value={value} index={6}>
+                                Item Seven
+                            </TabPanel>
+                        </div>
+                    </div>
                 );
             case 'thailand':
                 return (
-                    <Grid container className={classes.methodGrid} spacing={4}>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('thailocalbank');
-                                }}
-                            >
-                                <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
-                                {favouriteMethod === 'thailocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'thailocalbank'),
-                            })}>{this.getLabel('local-bank')}</span>
-                            {contentValue === 'thailocalbank' && <div className={classes.selected} />}
+                    <div className={classes.rootDesktop}>
+                        <Grid container className={classes.methodGrid} spacing={4}>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.paymentButton}
+                                    onClick={() => {
+                                        this.depositWith('thailocalbank');
+                                    }}
+                                >
+                                    <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                    {favouriteMethod === 'thailocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'thailocalbank'),
+                                })}>{this.getLabel('local-bank')}</span>
+                                {contentValue === 'thailocalbank' && <div className={classes.selected} />}
+                            </Grid>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.paymentButton}
+                                    onClick={() => {
+                                        this.depositWith('help2pay');
+                                    }}
+                                >
+                                    <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="32" />
+                                    {favouriteMethod === 'help2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'help2pay'),
+                                })}>{this.getLabel('help-pay')}</span>
+                                {contentValue === 'help2pay' && <div className={classes.selected} />}
+                            </Grid>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.paymentButton}
+                                    onClick={() => {
+                                        this.depositWith('payzod');
+                                    }}
+                                >
+                                    <img src={images.src + 'letou/payzod-1@3x.png'} alt="" height="36" />
+                                    {favouriteMethod === 'payzod' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'payzod'),
+                                })}>{this.getLabel('payzod-pay')}</span>
+                                {contentValue === 'payzod' && <div className={classes.selected} />}
+                            </Grid>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.paymentButton}
+                                    onClick={() => {
+                                        this.depositWith('astropay');
+                                    }}
+                                >
+                                    <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                    {favouriteMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'astropay'),
+                                })}>{this.getLabel('astro-pay')}</span>
+                                {contentValue === 'astropay' && <div className={classes.selected} />}
+                            </Grid>
                         </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('help2pay');
-                                }}
-                            >
-                                <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="32" />
-                                {favouriteMethod === 'help2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'help2pay'),
-                            })}>{this.getLabel('help-pay')}</span>
-                            {contentValue === 'help2pay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('payzod');
-                                }}
-                            >
-                                <img src={images.src + 'letou/payzod-1@3x.png'} alt="" height="36" />
-                                {favouriteMethod === 'payzod' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'payzod'),
-                            })}>{this.getLabel('payzod-pay')}</span>
-                            {contentValue === 'payzod' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('astropay');
-                                }}
-                            >
-                                <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
-                                {favouriteMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite}/>}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'astropay'),
-                            })}>{this.getLabel('astro-pay')}</span>
-                            {contentValue === 'astropay' && <div className={classes.selected} />}
-                        </Grid>
-                    </Grid>
+                    </div>
                 );
             case 'vietnam':
                 return (
-                    <Grid container className={classes.methodGrid} spacing={4}>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.paymentButton}
-                                onClick={() => {
-                                    this.depositWith('vietnamlocalbank');
-                                }}>
-                                <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
-                                {favouriteMethod === 'vietnamlocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'vietnamlocalbank'),
-                            })}>{this.getLabel('local-bank')}</span>
-                            {contentValue === 'vietnamlocalbank' && <div className={classes.selected} />}
+                    <div className={classes.rootDesktop}>
+                        <Grid container className={classes.methodGrid} spacing={4}>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.paymentButton}
+                                    onClick={() => {
+                                        this.depositWith('vietnamlocalbank');
+                                    }}>
+                                    <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                    {favouriteMethod === 'vietnamlocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'vietnamlocalbank'),
+                                })}>{this.getLabel('local-bank')}</span>
+                                {contentValue === 'vietnamlocalbank' && <div className={classes.selected} />}
+                            </Grid>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.addButton}
+                                    onClick={() => {
+                                        this.depositWith('circlepay');
+                                    }}>
+                                    <img src={images.src + 'letou/circlepay.svg'} alt="" height="26" />
+                                    {favouriteMethod === 'circlepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'circlepay'),
+                                })}>{this.getLabel('circle-pay')}</span>
+                                {contentValue === 'circlepay' && <div className={classes.selected} />}
+                            </Grid>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.addButton}
+                                    onClick={() => {
+                                        this.depositWith('vietnamhelp2pay');
+                                    }}>
+                                    <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="26" />
+                                    {favouriteMethod === 'vietnamhelp2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'vietnamhelp2pay'),
+                                })}>{this.getLabel('help-pay')}</span>
+                                {contentValue === 'vietnamhelp2pay' && <div className={classes.selected} />}
+                            </Grid>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.addButton}
+                                    onClick={() => {
+                                        this.depositWith('momopay');
+                                    }}>
+                                    <img src={images.src + 'letou/momo.png'} alt="" height="26" />
+                                    {favouriteMethod === 'momopay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'momopay'),
+                                })}>{this.getLabel('momo-pay')}</span>
+                                {contentValue === 'momopay' && <div className={classes.selected} />}
+                            </Grid>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.addButton}
+                                    onClick={() => {
+                                        this.depositWith('scratchcard');
+                                    }}>
+                                    <img src={images.src + 'letou/scratchcard.svg'} alt="" height="26" />
+                                    {favouriteMethod === 'scratchcard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'scratchcard'),
+                                })}>{this.getLabel('scratch-card')}</span>
+                                {contentValue === 'scratchcard' && <div className={classes.selected} />}
+                            </Grid>
+                            <Grid item xs={1} className={classes.methodColumn}>
+                                <Button
+                                    className={classes.addButton}
+                                    onClick={() => {
+                                        this.depositWith('fgocard');
+                                    }}>
+                                    <img src={images.src + 'letou/fgocard.png'} alt="" height="26" />
+                                    {favouriteMethod === 'fgocard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                </Button>
+                                <span className={clsx(classes.title, {
+                                    [classes.active]: (contentValue === 'fgocard'),
+                                })}>{this.getLabel('fgo-card')}</span>
+                                {contentValue === 'fgocard' && <div className={classes.selected} />}
+                            </Grid>
                         </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.depositWith('circlepay');
-                                }}>
-                                <img src={images.src + 'letou/circlepay.svg'} alt="" height="26" />
-                                {favouriteMethod === 'circlepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'circlepay'),
-                            })}>{this.getLabel('circle-pay')}</span>
-                            {contentValue === 'circlepay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.depositWith('vietnamhelp2pay');
-                                }}>
-                                <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="26" />
-                                {favouriteMethod === 'vietnamhelp2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'vietnamhelp2pay'),
-                            })}>{this.getLabel('help-pay')}</span>
-                            {contentValue === 'vietnamhelp2pay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.depositWith('momopay');
-                                }}>
-                                <img src={images.src + 'letou/momo.png'} alt="" height="26" />
-                                {favouriteMethod === 'momopay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'momopay'),
-                            })}>{this.getLabel('momo-pay')}</span>
-                            {contentValue === 'momopay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.depositWith('scratchcard');
-                                }}>
-                                <img src={images.src + 'letou/scratchcard.svg'} alt="" height="26" />
-                                {favouriteMethod === 'scratchcard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'scratchcard'),
-                            })}>{this.getLabel('scratch-card')}</span>
-                            {contentValue === 'scratchcard' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.depositWith('fgocard');
-                                }}>
-                                <img src={images.src + 'letou/fgocard.png'} alt="" height="26" />
-                                {favouriteMethod === 'fgocard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'fgocard'),
-                            })}>{this.getLabel('fgo-card')}</span>
-                            {contentValue === 'fgocard' && <div className={classes.selected} />}
-                        </Grid>
-                    </Grid>
+                    </div>
                 );
             default:
                 return <div></div>;
@@ -508,15 +613,15 @@ export class DepositMain extends Component {
                 {contentValue === 'onlinepay' && (<DepositError callbackFromParent={this.setPage} />)}
                 {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} />)}
 
-                {contentValue === 'vietnamhelp2pay' && (<VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'circlepay' && (<CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'fgocard' && (<FgoCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'vietnamlocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'momopay' && (<MomoPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'scratchcard' && (<ScratchCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
+                {contentValue === 'vietnamhelp2pay' && (<VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'circlepay' && (<CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'fgocard' && (<FgoCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'vietnamlocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'momopay' && (<MomoPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'scratchcard' && (<ScratchCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
                 {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
             </div >
         );
