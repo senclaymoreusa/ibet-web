@@ -117,7 +117,7 @@ export class DepositError extends Component {
         var path = parts.slice(1, 5).join('/');
         url = url + path;
         this.props.history.push(url);
-        console.log("error",url)
+        //console.log("error",url)
     }
 
     getLabel(labelId) {
