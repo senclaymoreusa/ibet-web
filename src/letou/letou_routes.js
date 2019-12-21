@@ -154,6 +154,7 @@ import Game21dianVn from './components/member_vn/game_21dian';
 import VirtualVn from './components/member_vn/virtual_sports';
 import gbsports from './components/sports/gbsports';
 import gbesports from './components/sports/gbesports';
+import im from './components/sports/inplaymatrix';
 import onebook from './components/sports/onebook';
 import eonebook from './components/sports/eonebook';
 import gblotto from './components/sports/gblotto';
