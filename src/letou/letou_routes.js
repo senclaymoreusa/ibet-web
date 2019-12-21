@@ -176,6 +176,7 @@ const BaseRouter = () => (
         <Route exact path="/live_casino" component={live_casino} />
         <Route exact path="/gbsports" component={gbsports} />
         <Route exact path="/gbesports" component={gbesports} />
+        <Route exact path="/im" component={im} />
         <Route exact path="/onebook" component={onebook} />
         <Route exact path="/eonebook" component={eonebook} />
         <Route exact path="/gblotto" component={gblotto} />

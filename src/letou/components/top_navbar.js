@@ -739,9 +739,11 @@ export class TopNavbar extends React.Component {
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.props.history.push(
+                                                                '/im'
+                                                            );
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'letou-esports-pro'
