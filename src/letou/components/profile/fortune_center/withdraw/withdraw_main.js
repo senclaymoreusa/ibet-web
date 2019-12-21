@@ -21,7 +21,7 @@ import Typography from '@material-ui/core/Typography';
 import WithdrawSuccess from './withdraw_success';
 import WithdrawError from './withdraw_error';
 import VietnamLocalBank from './vn/local_bank';
-import ThaiLocalBank from './th/local_bank';
+//import ThaiLocalBank from './th/local_bank';
 import Help2Pay from './th/help2pay';
 
 import MoneyPay from './vn/money_pay';
@@ -171,7 +171,7 @@ export class WithdrawMain extends Component {
             userCountry: '',
             favouriteMethod: '',
 
-            tabValue: 'thailocalbank'
+            tabValue: 'help2pay'
         };
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -408,9 +408,11 @@ export class WithdrawMain extends Component {
             //case 'thailand':
             case 'china':
                 return (
+                    
                     <StyledTabs
                         value={tabValue}
                         onChange={this.handleTabChange}>
+                        {/*
                         <StyledTab
                             label={this.getLabel('local-bank')}
                             value="thailocalbank"
@@ -420,6 +422,7 @@ export class WithdrawMain extends Component {
                                 }
                             }}
                         />
+                        */}
                         <StyledTab
                             label={this.getLabel('help-pay')}
                             value="help2pay"
@@ -430,6 +433,8 @@ export class WithdrawMain extends Component {
                             }}
                         />
                     </StyledTabs>
+                    
+                    
                 );
             case 'vietnam':
                 return (
@@ -469,7 +474,9 @@ export class WithdrawMain extends Component {
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
                 <div className={classes.content}>
+                    {/*
                     {this.state.tabValue === 'thailocalbank' && <ThaiLocalBank />}
+                    */}
                     {this.state.tabValue === 'help2pay' && <Help2Pay />}
                     {this.state.tabValue === 'localbank' && <VietnamLocalBank />}
                     {this.state.tabValue === 'moneypay' && <MoneyPay />}
