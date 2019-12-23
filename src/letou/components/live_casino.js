@@ -123,15 +123,19 @@ export class live_casino extends React.Component {
     const { formatMessage } = this.props.intl;
     return formatMessage({ id: labelId });
   }
+  
   componentDidMount() {
     const token = localStorage.getItem('token');
-    config.headers["Authorization"] = `Token ${token}`;
-    axios.get(API_URL + 'users/api/user/', config)
-        .then(res => {
-            this.setState({ data: res.data });
-            this.setState({ currencyValue: res.data.currency });
-            
+    if (token) {
+        config.headers["Authorization"] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ data: res.data });
+                this.setState({ currencyValue: res.data.currency });
+                
         });
+    }
+
 }
   handleGDClick(view){
     let direct_view = {
