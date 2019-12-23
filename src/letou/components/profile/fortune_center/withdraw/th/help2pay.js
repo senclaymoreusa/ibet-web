@@ -405,12 +405,17 @@ class Help2Pay extends Component {
             data: '',
             selectedBankOption: 'none',
             order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
+            showPassword: false,
 
             amountFocused: false,
             amountInvalid: true,
 
             bankAccountNumber: '',
             bankAccountHolder: '',
+            withdrawpassword: '',
+
+            //withdrawpasswordFocused: false,
+            //withdrawpasswordInvalid: true,
 
             activeStep: 0,
             currency: "THB",
@@ -465,7 +470,7 @@ class Help2Pay extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300 || parseFloat(event.target.value) > 300000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 500 || parseFloat(event.target.value) > 500000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -486,14 +491,33 @@ class Help2Pay extends Component {
 
     bankAccountHolderChanged(event) {
         this.setState({ bankAccountHolderFocused: true });
-
+        {/*}
         const re = /^[0-9\b]+$/;
 
         if (re.test(event.target.value))
             this.setState({ bankAccountHolder: event.target.value });
         else if (event.target.value.length === 0)
             this.setState({ bankAccountHolder: '' });
+        */}
+        this.setState({ bankAccountHolder: event.target.value });
+        this.setState({ bankAccountHolderFocused: true });
+        //this.setState({ pinInvalid: (event.target.value.length < 2) });
     };
+
+    withdrawpasswordChanged(event) {
+        this.setState({ withdrawpasswordFocused: true });
+        {/*}
+        const re = /^[0-9]+(\.[0-9]{0,2})?$/;
+
+        if (re.test(event.target.value))
+            this.setState({ withdrawpassword: event.target.value });
+        else if (event.target.value.length === 0)
+            this.setState({ bwithdrawpassword: '' });
+        */}
+        this.setState({ withdrawpassword: event.target.value });
+        this.setState({ withdrawpasswordFocused: true });
+    };
+
 
 
     handleBankChange = event => {
@@ -591,7 +615,7 @@ class Help2Pay extends Component {
             }, 1000);
 
         }).catch(function (err) {
-            console.log('Request failed', err);
+            //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
             sendingLog(err);
         });
@@ -613,7 +637,7 @@ class Help2Pay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { selectedBankOption, bankAccountNumber, amount, currency, bankAccountHolder } = this.state;
+        const { selectedBankOption, bankAccountNumber, amount, currency, bankAccountHolder, withdrawpassword } = this.state;
 
         //const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
         const filteredOptions = bank_options.filter((o) => o.code === 2)
@@ -694,7 +718,7 @@ class Help2Pay extends Component {
                             onChange={this.bankAccountHolderChanged.bind(this)}
                             value={bankAccountHolder}
                             error={this.state.bankAccountHolderFocused && bankAccountHolder.length === 0}
-                            helperText={(this.state.bankAccountHolderFocused && bankAccountHolder.length === 0) ? this.getLabel('invalid-bank-number') : ' '}
+                            helperText={(this.state.bankAccountHolderFocused && bankAccountHolder.length === 0)}// ? this.getLabel('invalid-bank-number') : ' '}
                             InputProps={{
                                 disableUnderline: true,
                                 endAdornment: (
@@ -762,10 +786,10 @@ class Help2Pay extends Component {
                         <TextField
                             className={classes.detailText}
                             placeholder={this.getLabel('password-text')}
-                            onChange={this.bankAccountNumberChanged.bind(this)}
-                            value={bankAccountNumber}
-                            error={this.state.bankAccountNumberFocused && bankAccountNumber.length === 0}
-                            helperText={(this.state.bankAccountNumberFocused && bankAccountNumber.length === 0) ? this.getLabel('invalid-bank-number') : ' '}
+                            onChange={this.withdrawpasswordChanged.bind(this)}
+                            value={withdrawpassword}
+                            error={this.state.Focused && withdrawpassword.length === 0}
+                            helperText={(this.state.withdrawpasswordFocused && withdrawpassword.length === 0)}// ? this.getLabel('invalid-bank-number') : ' '}
                             InputProps={{
                                 disableUnderline: true,
                                 endAdornment: (
@@ -783,6 +807,7 @@ class Help2Pay extends Component {
                                         </InputAdornment>
                                 ),
                             }}
+                            //type={this.state.showPassword ? '' : 'withdrawpassword'}
                         />
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell} >
