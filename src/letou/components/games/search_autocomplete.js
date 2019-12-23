@@ -204,6 +204,25 @@ class SearchResults extends React.Component {
                         </div>
                         : null
                 }
+                {	
+                    this.props.providers.length > 0 ?	
+                        <div>	
+                            <div className={this.props.classes.resultMenuTitle} style={{color: 'black'}}>	
+                                <FormattedMessage id="search.providers" defaultMessage='Providers' />	
+                                {/* {this.props.activeMenu ? this.props.activeMenu : 'Games'} */}	
+                            </div>	
+                            {	
+                                this.props.providers.slice(0,5).map(r => (	
+                                    <MenuItem onMouseUp={(e) => this.handleProvider(e, r)} className={this.props.classes.resultMenuItem} key={getRandomNumber()}>	
+                                        {r}	
+                                        <SVG className="playIcon" width={24} />	
+                                    </MenuItem>	
+                                    )	
+                                )	
+                            }	
+                        </div>	
+                        : null	
+                }
                 </MenuList>
             </div >
         );

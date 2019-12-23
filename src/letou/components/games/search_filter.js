@@ -193,7 +193,7 @@ export class FilterSearchBar extends Component {
                     if (filterName === 'theme') {
                         this.setState({ themeFilter: filterValueList });
                     }
-                    if (filterName === 'Sort by') {
+                    if (filterName === 'Sort') {
                         this.setState({ sortFilter: filterValueList });
                     }
                 }

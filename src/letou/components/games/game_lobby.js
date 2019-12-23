@@ -28,7 +28,6 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Link from '@material-ui/core/Link';
 
 
-
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 const PROVIDER = {"14": "Betsoft", "16": "NETENT", "17": "MG"}
 
@@ -53,8 +52,8 @@ const styles = theme => ({
 
     game: {
         paddingTop: 20,
-        paddingLeft: '5%',
-        paddingRight: '5%',
+        paddingLeft: '8%',
+        paddingRight: '8%',
         display: 'flex',
     },
 
@@ -361,6 +360,11 @@ export class GameLobby extends React.Component {
         this.setState({ value: newValue })
     }
 
+    linkToCategory(category) {
+        var url = `/game/${category}`;
+        window.location.href = url;
+    }
+
     renderGameElement(){
 
         const { classes } = this.props;
@@ -379,10 +383,10 @@ export class GameLobby extends React.Component {
             position: 'relative',
             float: 'left',
             width: '100%',
-            minheight: '200px',
-            minwidth: '200px',
+            maxheight: '220px',
+            maxwidth: '220px',
             overflow: 'hidden',
-            height: '100% !important'
+            // height: '100% !important'
         }
 
         if(!this.state.isFilter) {
@@ -391,11 +395,16 @@ export class GameLobby extends React.Component {
                     {
                         Object.entries(this.state.games).map((value, index) => {
                             if (value[0]) {
+                                var valueArr = value[0].split(' ');
+                                var valueStr = valueArr.join('-');
+                                valueStr = valueStr.toLowerCase();
                                 return(
                                     <div key={index}>
                                         <Typography component="p" paragraph={true} className={classes.text}>
                                             {value[0]}
-                                            <Link href="#" className={classes.viewall}> {this.getLabel('view-all')} </Link>
+                                            <Link component="button" onClick={() => {
+                                                this.linkToCategory(valueStr);
+                                            }} className={classes.viewall}> {this.getLabel('view-all')} </Link>
                                         </Typography>
                                         <div className={classes.test}>
                                             <Slider {...settings}>
@@ -407,8 +416,6 @@ export class GameLobby extends React.Component {
                                                                 <img src={game.fields.image_url} alt='Not available' width='213px' height='213px' />
                                                             <GridListTileBar
                                                                 title={game.fields.name}
-                                                                // subtitle={PROVIDER[value['fields'].provider]}
-                                                                // titlePosition="top"
                                                                 classes={{
                                                                     root: classes.titleBar,
                                                                 }}
@@ -441,19 +448,21 @@ export class GameLobby extends React.Component {
                                         var gameFields = game['fields'];
                                         return (
                                             <Grid item xs={2} sm={2} key={game.pk}>
-                                                <Paper style={{ margin: 15 }}>
-                                                    <NavLink to={`/game_detail/${game.pk}`} style={{ textDecoration: 'none' }}>
-                                                        <div>
-                                                            <img src={gameFields.image_url} height="200" width="100%" alt='Not available' />
-
-                                                            <br />
-
-                                                            <div className='game-title'>
-                                                                {gameFields.name}
-                                                            </div>
-                                                        </div>
-                                                    </NavLink>
-                                                </Paper>
+                                                <NavLink to={`/game_detail/${game.pk}`} style={{ textDecoration: 'none' }}>
+                                                    <div className={classes.item} key={index}>
+                                                        <GridListTile key={game.pk} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
+                                                            <img src={gameFields.image_url} alt='Not available' style={{ 'width': '213px', 'height': '213px' }}/>
+                                                        <GridListTileBar
+                                                            title={gameFields.name}
+                                                            // subtitle={PROVIDER[value['fields'].provider]}
+                                                            // titlePosition="top"
+                                                            classes={{
+                                                                root: classes.titleBar,
+                                                            }}
+                                                        />
+                                                        </GridListTile>
+                                                    </div>
+                                                </NavLink>
                                             </Grid>
                                         )
                                     })
@@ -517,8 +526,6 @@ export class GameLobby extends React.Component {
                         </AppBar>
                         <FilterSearchBar />
                     </Paper>
-
-
                 </div>
 
                 <div className={classes.game}>
