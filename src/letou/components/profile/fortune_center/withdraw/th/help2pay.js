@@ -405,7 +405,8 @@ class Help2Pay extends Component {
             data: '',
             selectedBankOption: 'none',
             order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
-            showPassword: false,
+            
+            showwithdrawPassword: false,
 
             amountFocused: false,
             amountInvalid: true,
@@ -785,10 +786,11 @@ class Help2Pay extends Component {
                         <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
+                            value={this.state.withdrawpassword}
                             placeholder={this.getLabel('password-text')}
                             onChange={this.withdrawpasswordChanged.bind(this)}
-                            value={withdrawpassword}
-                            error={this.state.Focused && withdrawpassword.length === 0}
+                            type={this.state.showwithdrawPassword ? '' : 'password'}
+                            error={this.state.withdrawpasswordFocused && withdrawpassword.length === 0}
                             helperText={(this.state.withdrawpasswordFocused && withdrawpassword.length === 0)}// ? this.getLabel('invalid-bank-number') : ' '}
                             InputProps={{
                                 disableUnderline: true,
@@ -796,18 +798,18 @@ class Help2Pay extends Component {
                                     <InputAdornment position="end">
                                             <IconButton
                                                 size="small"
-                                                //disabled={this.state.password.length === 0}
+                                                disabled={this.state.withdrawpassword.length === 0}
                                                 aria-label="Toggle password visibility"
                                                 onClick={() => {
-                                                    this.setState(state => ({ showPassword: !state.showPassword }))
+                                                    this.setState(state => ({ showwithdrawPassword: !state.showwithdrawPassword }))
                                                 }}
                                             >
-                                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                {this.state.showwithdrawPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
                                         </InputAdornment>
                                 ),
                             }}
-                            //type={this.state.showPassword ? '' : 'withdrawpassword'}
+                            //
                         />
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell} >
