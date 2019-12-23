@@ -30,9 +30,8 @@ if (
         .toLowerCase()
         .indexOf('asia') == -1
 ) {
-    // console.log('using letou app');
     ReactDOM.render(
-        <Provider store={store}>
+         <Provider store={store}>
             <LetouApp />
         </Provider>,
         document.getElementById('root')
