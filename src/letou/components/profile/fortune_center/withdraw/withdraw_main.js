@@ -279,7 +279,7 @@ export class WithdrawMain extends Component {
         const { classes } = this.props;
         const { contentValue, userCountry, favouriteMethod, tabValue } = this.state;
 
-        console.log(userCountry.toLocaleLowerCase())
+        //console.log(userCountry.toLocaleLowerCase())
         switch (userCountry.toLowerCase()) {
             //case 'china':
             
