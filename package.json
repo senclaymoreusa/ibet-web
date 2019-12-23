@@ -46,7 +46,7 @@
         "react-input-mask": "^2.0.4",
         "react-intl": "^2.8.0",
         "react-minimal-pie-chart": "^6.0.0",
-        "react-moment": "^0.9.6",
+        "react-moment": "^0.9.7",
         "react-number-format": "^4.3.1",
         "react-phone-number-input": "^2.5.1",
         "react-redux": "^6.0.0",
