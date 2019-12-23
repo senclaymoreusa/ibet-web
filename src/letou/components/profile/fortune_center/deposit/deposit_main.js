@@ -215,8 +215,7 @@ export class DepositMain extends Component {
         const { contentValue, userCountry, favouriteMethod } = this.state;
 
         switch (userCountry.toLowerCase()) {
-            //case 'china':
-            case 'thailand':
+            case 'china':
                 return (
                     <Grid container className={classes.methodGrid} spacing={4}>
                         <Grid item xs={1} className={classes.methodColumn}>
@@ -340,7 +339,7 @@ export class DepositMain extends Component {
                     </Grid>
                 );
             //case 'thailand':
-            case 'china':
+            case 'united states':
                 return (
                     <Grid container className={classes.methodGrid} spacing={4}>
                         <Grid item xs={1} className={classes.methodColumn}>

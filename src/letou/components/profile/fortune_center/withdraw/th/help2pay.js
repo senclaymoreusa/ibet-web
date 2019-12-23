@@ -492,7 +492,7 @@ class Help2Pay extends Component {
 
     bankAccountHolderChanged(event) {
         this.setState({ bankAccountHolderFocused: true });
-        {/*}
+        {/*
         const re = /^[0-9\b]+$/;
 
         if (re.test(event.target.value))
@@ -531,10 +531,13 @@ class Help2Pay extends Component {
         var postData = {
             "amount": this.state.amount,
             "user_id": this.state.data.pk,
-            "currency": '7',
+            "currency": '2',
             "bank": this.state.selectedBankOption,
             "language": "en-Us",
             "order_id": this.state.order_id,
+            "withdrawPassword": this.state.withdrawpassword,
+            "toBankAccountName": this.state.bankAccountHolder,
+            "toBankAccountNumber": this.state.bankAccountNumber,
         }
 
         var formBody = [];
@@ -545,8 +548,14 @@ class Help2Pay extends Component {
         }
         formBody = formBody.join("&");
         const token = localStorage.getItem('token');
-
-        return fetch(API_URL + 'accounting/api/help2pay/deposit', {
+        {/*
+            path('api/help2pay/deposit', help2pay.SubmitDeposit.as_view(), name='Help2pay_Deposit'),
+            path('api/help2pay/deposit_result', help2pay.DepositResult.as_view(), name='Help2pay_deposit_result'),
+            path('api/help2pay/deposit_success', help2pay.depositFrontResult, name = 'Help2pay_deposit_sucess'),
+            path('api/help2pay/deposit_status', help2pay.depositStatus, name = 'Help2pay_deposit_status'),
+        */}
+        //console.log({formBody})
+        return fetch(API_URL + 'accounting/api/help2pay/submit_payout', {
             method: 'POST',
             withCredentials: true,
             headers: {
@@ -804,7 +813,7 @@ class Help2Pay extends Component {
                                                     this.setState(state => ({ showwithdrawPassword: !state.showwithdrawPassword }))
                                                 }}
                                             >
-                                                {this.state.showwithdrawPassword ? <VisibilityOff /> : <Visibility />}
+                                                {this.state.showwithdrawPassword ? <Visibility /> : <VisibilityOff />}
                                             </IconButton>
                                         </InputAdornment>
                                 ),
