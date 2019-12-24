@@ -159,7 +159,7 @@ export class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
-            iovationData: '',
+            // iovationData: '',
 
             name: '',
             email: '',
