@@ -6,14 +6,14 @@ import { FormattedMessage } from 'react-intl';
 import Iframe from 'react-iframe';
 import { GAME_URLS } from '../../../game_constant';
 
-
-
-
-//const API_URL = process.env.REACT_APP_REST_API;
-//const API_URL = 'http://52.9.147.67:8080/';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+var LUNCH_GAME_URL = '';
 
-
+if (process.env.REACT_APP_NODE_ENV === 'development') {
+    LUNCH_GAME_URL = GAME_URLS['dev'];
+} else {
+    LUNCH_GAME_URL = GAME_URLS['prod'];
+}
 class GameDetail extends Component {
 
     constructor(props) {
@@ -52,7 +52,7 @@ class GameDetail extends Component {
                 } else if (data.provider.provider_name == 'QTech') {
                     this.generateQTURL(gameId, true);
                 } else {
-                    var gameUrl = GAME_URLS[providerName]["real"]
+                    var gameUrl = LUNCH_GAME_URL[providerName]["real"]
                     let token = localStorage.getItem('token');
                     gameUrl = gameUrl.replace("{token}", token)
                     gameUrl = gameUrl.replace("{lang}", "en")
@@ -64,7 +64,7 @@ class GameDetail extends Component {
                 if (data.provider.provider_name == 'QTech') {
                     this.generateQTURL(gameId, false);
                 } else {
-                    var gameUrl = GAME_URLS[providerName]["free"]
+                    var gameUrl = LUNCH_GAME_URL[providerName]["free"]
                     gameUrl = gameUrl.replace("{lang}", "en")
                     gameUrl = gameUrl.replace("{gameId}", gameId)
                     this.setState({ gameURL: gameUrl });
@@ -76,7 +76,7 @@ class GameDetail extends Component {
     generateFGURL(gameId, providerName) {
         axios.get(API_URL + 'games/api/fg/getSessionKey?pk=' + this.state.user.pk)
         .then(res => {
-            var gameUrl = GAME_URLS[providerName]["real"];
+            var gameUrl = LUNCH_GAME_URL[providerName]["real"];
             gameUrl = gameUrl.replace("{lang}", "en");
             gameUrl = gameUrl.replace("{gameId}", gameId);
             if (res.data.sessionKey != null && res.data.alive == "true") {  

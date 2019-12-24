@@ -29,7 +29,6 @@ import Link from '@material-ui/core/Link';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-const PROVIDER = {"14": "Betsoft", "16": "NETENT", "17": "MG"}
 
 document.body.style = 'background: #f1f1f1;';
 
