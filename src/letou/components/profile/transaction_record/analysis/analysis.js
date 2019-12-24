@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../../actions';
@@ -11,17 +12,36 @@ import { config, images } from '../../../../../util_config';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
-const styles = () => ({
+const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh'
+        minHeight: '100vh',
+        alignItems: 'center',
+    },
+    rootDesktop: {
+        height: 92,
+        maxWidth: 1400,
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+            flexDirection: 'column'
+        }
+    },
+    rootMobile: {
+        minHeight: '100vh',
+        display: 'flex',
+        backgroundColor: '#f2f3f5',
+        flexDirection: 'column',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
     },
     grow: {
-        flexGrow: 1,
+        flexGrow: 1
     },
     prevLabel: {
         fontSize: 18,
@@ -32,7 +52,7 @@ const styles = () => ({
         letterSpacing: 0.64,
         textAlign: 'center',
         color: 'rgba(0, 0, 0, 0.5)',
-        marginLeft: 8,
+        marginLeft: 8
     },
     currentLabel: {
         fontSize: 18,
@@ -43,7 +63,7 @@ const styles = () => ({
         letterSpacing: 0.64,
         textAlign: 'center',
         color: '#212121',
-        marginTop: 8,
+        marginTop: 8
     },
     nextLabel: {
         fontSize: 18,
@@ -54,11 +74,11 @@ const styles = () => ({
         letterSpacing: 0.64,
         textAlign: 'center',
         color: 'rgba(0, 0, 0, 0.5)',
-        marginRight: 8,
+        marginRight: 8
     },
     titleContainer: {
         boxShadow: '0 0 4px 0 rgba(0, 0, 0, 0.1)',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#ffffff'
     },
     currentCell: {
         paddingTop: 20,
@@ -80,7 +100,7 @@ const styles = () => ({
         height: 80
     },
     titleButton: {
-        textTransform: 'capitalize',
+        textTransform: 'capitalize'
     },
     chartPane: {
         paddingLeft: 50,
@@ -91,7 +111,7 @@ const styles = () => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 30,
+        paddingTop: 30
     },
     titleLabel: {
         fontSize: 22,
@@ -101,14 +121,14 @@ const styles = () => ({
         lineHeight: 'normal',
         letterSpacing: 0.79,
         color: '#212121',
-        display: 'inline',
+        display: 'inline'
     },
     buttonsCell: {
         paddingLeft: 50,
         paddingRight: 50,
         paddingTop: 40,
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     titleValue: {
         fontSize: 22,
@@ -120,7 +140,7 @@ const styles = () => ({
         textAlign: 'center',
         color: '#6dd400',
         display: 'inline',
-        marginLeft: 4,
+        marginLeft: 4
     },
     button: {
         height: 75,
@@ -129,7 +149,7 @@ const styles = () => ({
         backgroundColor: '#ffffff',
         textTransform: 'capitalize',
         margin: 15,
-        padding: 14,
+        padding: 14
     },
     buttonText: {
         fontSize: 18,
@@ -150,7 +170,7 @@ const styles = () => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         textAlign: 'center',
-        color: '#6dd400',
+        color: '#6dd400'
     },
     slotsValue: {
         fontSize: 16,
@@ -160,7 +180,7 @@ const styles = () => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         textAlign: 'center',
-        color: '#ff0000',
+        color: '#ff0000'
     },
     casinoValue: {
         fontSize: 16,
@@ -170,7 +190,7 @@ const styles = () => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         textAlign: 'center',
-        color: '#000000',
+        color: '#000000'
     },
     leftTypeButton: {
         textTransform: 'capitalize',
@@ -183,7 +203,7 @@ const styles = () => ({
         borderTopWidth: 1,
         borderBottomWidth: 1,
         color: '#cdcbcc',
-        borderColor: '#e4e4e4',
+        borderColor: '#e4e4e4'
     },
     rightTypeButton: {
         textTransform: 'capitalize',
@@ -196,22 +216,33 @@ const styles = () => ({
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderColor: '#e4e4e4',
-        color: '#cdcbcc',
+        color: '#cdcbcc'
     },
     activeLeft: {
         borderRightWidth: 1,
         borderColor: '#53abe0',
-        color: '#53abe0',
+        color: '#53abe0'
     },
     activeRight: {
         borderLeftWidth: 1,
         borderColor: '#53abe0',
-        color: '#53abe0',
-    },
+        color: '#53abe0'
+    }
 });
 
-const monthNames = ["january", "february", "march", "april", "may", "june",
-    "july", "august", "september", "october", "november", "december"
+const monthNames = [
+    'january',
+    'february',
+    'march',
+    'april',
+    'may',
+    'june',
+    'july',
+    'august',
+    'september',
+    'october',
+    'november',
+    'december'
 ];
 
 export class Analysis extends Component {
@@ -360,7 +391,10 @@ export class Analysis extends Component {
 
         let prevMonth = this.getPreviusMonth(this.state.currentMonth);
         let prevText = monthNames[prevMonth.getMonth()];
-        let prevLabel = this.getLabel('month-' + prevText.toLowerCase()) + ' ' + prevMonth.getFullYear();
+        let prevLabel =
+            this.getLabel('month-' + prevText.toLowerCase()) +
+            ' ' +
+            prevMonth.getFullYear();
 
         let nextLabel = '';
         let today = new Date();
@@ -369,11 +403,17 @@ export class Analysis extends Component {
         } else {
             let nextMonth = this.getNextMonth(this.state.currentMonth);
             let nextText = monthNames[nextMonth.getMonth()];
-            nextLabel = this.getLabel('month-' + nextText.toLowerCase()) + ' ' + nextMonth.getFullYear();
+            nextLabel =
+                this.getLabel('month-' + nextText.toLowerCase()) +
+                ' ' +
+                nextMonth.getFullYear();
         }
 
         let currentText = monthNames[this.state.currentMonth.getMonth()];
-        let currentLabel = this.getLabel('month-' + currentText.toLowerCase()) + ' ' + this.state.currentMonth.getFullYear();
+        let currentLabel =
+            this.getLabel('month-' + currentText.toLowerCase()) +
+            ' ' +
+            this.state.currentMonth.getFullYear();
 
         const prevButton = (
             <Button
@@ -397,8 +437,6 @@ export class Analysis extends Component {
                 <img src={images.src + 'letou/next_step.svg'} alt="" />
             </Button>
         );
-
-
 
         const data = {
             labels: this.state.chartLabels,
@@ -442,7 +480,7 @@ export class Analysis extends Component {
             },
             tooltips: {
                 callbacks: {
-                    label: function (tooltipItem, data) {
+                    label: function(tooltipItem, data) {
                         return data['datasets'][0]['data'][
                             tooltipItem['index']
                         ];
@@ -479,26 +517,35 @@ export class Analysis extends Component {
                 </Grid>
                 <Grid container style={{ marginTop: 20 }}>
                     <Grid item xs={3}>
-                        <Button className={clsx({
-                            [classes.leftTypeButton]: true,
-                            [classes.activeLeft]: type === 'turnover'
-                        })}
+                        <Button
+                            className={clsx({
+                                [classes.leftTypeButton]: true,
+                                [classes.activeLeft]: type === 'turnover'
+                            })}
                             onClick={() => {
-                                this.setState({ type: 'turnover' })
-                            }}>{this.getLabel('turn-over')}</Button>
-                        <Button className={clsx({
-                            [classes.rightTypeButton]: true,
-                            [classes.activeRight]: type === 'deposit'
-                        })}
-                            onClick={() => {
-                                this.setState({ type: 'deposit' })
+                                this.setState({ type: 'turnover' });
                             }}
-                        >{this.getLabel('deposit-label')}</Button>
+                        >
+                            {this.getLabel('turn-over')}
+                        </Button>
+                        <Button
+                            className={clsx({
+                                [classes.rightTypeButton]: true,
+                                [classes.activeRight]: type === 'deposit'
+                            })}
+                            onClick={() => {
+                                this.setState({ type: 'deposit' });
+                            }}
+                        >
+                            {this.getLabel('deposit-label')}
+                        </Button>
                     </Grid>
                     <Grid item xs={6} className={classes.titleCell}>
                         <div>
                             <span className={classes.titleLabel}>
-                                {type === 'turnover' ? this.getLabel('turn-over') : this.getLabel('deposit-label')}
+                                {type === 'turnover'
+                                    ? this.getLabel('turn-over')
+                                    : this.getLabel('deposit-label')}
                             </span>
                             <div className={classes.titleValue}>
                                 <FormattedNumber
@@ -520,7 +567,9 @@ export class Analysis extends Component {
                         />
                     </Grid>
                     <Grid item xs={6} className={classes.buttonsCell}>
-                        <span className={classes.titleLabel}>{this.getLabel('bets-label')}</span>
+                        <span className={classes.titleLabel}>
+                            {this.getLabel('bets-label')}
+                        </span>
                         <Button
                             className={classes.button}
                             onClick={() => {
@@ -528,7 +577,9 @@ export class Analysis extends Component {
                             }}
                         >
                             <img
-                                src={images.src + 'letou/soccer_in_analysis.svg'}
+                                src={
+                                    images.src + 'letou/soccer_in_analysis.svg'
+                                }
                                 alt=""
                             />
                             <div className={classes.buttonText}>
@@ -570,11 +621,15 @@ export class Analysis extends Component {
                         <Button
                             className={classes.button}
                             onClick={() => {
-                                this.props.callbackFromParent('live-casino-bets');
+                                this.props.callbackFromParent(
+                                    'live-casino-bets'
+                                );
                             }}
                         >
                             <img
-                                src={images.src + 'letou/casino_in_analysis.svg'}
+                                src={
+                                    images.src + 'letou/casino_in_analysis.svg'
+                                }
                                 alt=""
                             />
                             <div className={classes.buttonText}>
@@ -592,11 +647,15 @@ export class Analysis extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={6} className={classes.buttonsCell}>
-                        <span className={classes.titleLabel}>{this.getLabel('banking-label')}</span>
+                        <span className={classes.titleLabel}>
+                            {this.getLabel('banking-label')}
+                        </span>
                         <Button
                             className={classes.button}
                             onClick={() => {
-                                this.props.callbackFromParent('deposit-withdraw');
+                                this.props.callbackFromParent(
+                                    'deposit-withdraw'
+                                );
                             }}
                         >
                             <img
@@ -619,7 +678,9 @@ export class Analysis extends Component {
                         <Button
                             className={classes.button}
                             onClick={() => {
-                                this.props.callbackFromParent('deposit-withdraw');
+                                this.props.callbackFromParent(
+                                    'deposit-withdraw'
+                                );
                             }}
                         >
                             <img
@@ -657,11 +718,6 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState }
-            )(Analysis)
-        )
+        injectIntl(connect(mapStateToProps, { authCheckState })(Analysis))
     )
 );
