@@ -164,7 +164,6 @@ import  gbssc from './components/sports/gbssc';
 // import  Games  from './components/game';
 import GameLobby from './components/games/game_lobby';
 import GameDetail from './components/games/game_detail';
-import AutoComplete from './components/games/autocomplete';
 
 import Promotion from './components/promotion';
 
@@ -189,7 +188,6 @@ const BaseRouter = () => (
         {/* <Route exact path="/game" component={Games} /> */}
         <Route exact path="/game/:category?/:search?/" component={GameLobby} />
         <Route exact path="/game_detail/:id" component={GameDetail} />
-        <Route exact path="/autocomplete" component={AutoComplete} />
 
         <Route exact path="/zh/about_us" component={AboutUs} />
         <Route exact path="/zh/contact_us" component={ContactUs} />
