@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState, AUTH_RESULT_FAIL
+    authCheckState, AUTH_RESULT_FAIL, sendingLog
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
@@ -23,7 +23,7 @@ import WithdrawError from './withdraw_error';
 import VietnamLocalBank from './vn/local_bank';
 //import ThaiLocalBank from './th/local_bank';
 import Help2Pay from './th/help2pay';
-//import CreateWithdrawPassword from './createwithdrawpassword';
+import CreateWithdraw from './createwithdraw';
 import MoneyPay from './vn/money_pay';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -170,6 +170,7 @@ export class WithdrawMain extends Component {
             selectedType: '',
             userCountry: '',
             favouriteMethod: '',
+            activeStep: 0,
 
             //tabValue: 'createwithdrawpassword'
             tabValue: ''
@@ -180,10 +181,23 @@ export class WithdrawMain extends Component {
         this.setPage = this.setPage.bind(this);
         this.withdrawWith = this.withdrawWith.bind(this);
         this.checkFavoriteMethod = this.checkFavoriteMethod.bind(this);
+
     }
 
     handleTabChange(newValue) {
         this.setState({ tabValue: newValue })
+    }
+
+    setWithdrawalPassword() {
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ userId: res.data.pk });
+                this.setState({ activeStep: res.data.withdraw_password ? 1 : 0 })
+            })
+
     }
 
     componentWillReceiveProps(props) {
@@ -470,19 +484,21 @@ export class WithdrawMain extends Component {
     render() {
         const { classes } = this.props;
         const { tabValue } = this.state;
-
+        console.log(this.state.activeStep)
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
+                {this.setWithdrawalPassword()}
                 <div className={classes.content}>
                     {/*
                     {this.state.tabValue === 'thailocalbank' && <ThaiLocalBank />}
                     
                     {this.state.tabValue === 'createwithdrawpassword' && <CreateWithdrawPassword />}
                     */}
-                    {this.state.tabValue === 'help2pay' && <Help2Pay />}
-                    {this.state.tabValue === 'localbank' && <VietnamLocalBank />}
-                    {this.state.tabValue === 'moneypay' && <MoneyPay />}
+                    {this.state.activeStep === 1 && <CreateWithdraw />}
+                    {this.state.activeStep === 0 && this.state.tabValue === 'help2pay' && <Help2Pay />}
+                    {this.state.activeStep === 0 && this.state.tabValue === 'localbank' && <VietnamLocalBank />}
+                    {this.state.activeStep === 0 && this.state.tabValue === 'moneypay' && <MoneyPay />}
                 </div>
             </div >
         );
