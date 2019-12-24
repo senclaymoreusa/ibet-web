@@ -578,7 +578,8 @@ class ThaiLocalBank extends Component {
         const { classes } = this.props;
         const { selectedBankOption, bankAccountNumber, amount, currency } = this.state;
 
-        const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+        //const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+        const filteredOptions = bank_options.filter((o) => o.code === "THB")
 
         return (
             <div className={classes.root}>
