@@ -403,13 +403,15 @@ class ThaiLocalBank extends Component {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
+        {/*
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
+                //this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
+        */}
     }
 
     componentDidMount() {
@@ -421,6 +423,7 @@ class ThaiLocalBank extends Component {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
+        {/*
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
@@ -428,6 +431,7 @@ class ThaiLocalBank extends Component {
                 this.setState({ currencyCode: res.data.currency });
                 this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
+        */}
     }
 
     amountChanged(event) {
@@ -484,6 +488,25 @@ class ThaiLocalBank extends Component {
         formBody = formBody.join("&");
         const token = localStorage.getItem('token');
 
+        const body = JSON.stringify({
+            type: 'withdraw',
+            username: this.state.data.username,
+            balance: this.state.amount,
+        });
+        //console.log(body)
+        {/*
+        axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+            .then(res => {
+                if (res.data === 'Failed') {
+                    currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                } else if (res.data === 'The balance is not enough') {
+                    currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                } else {
+                    currentComponent.props.callbackFromParent("success", "Transaction completed.");
+                }
+            });
+        */}
+        {/*
         return fetch(API_URL + 'accounting/api/help2pay/deposit', {
             method: 'POST',
             withCredentials: true,
@@ -557,7 +580,7 @@ class ThaiLocalBank extends Component {
             console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
             sendingLog(err);
-        });
+        });*/}
     }
 
     getLabel(labelId) {
@@ -577,7 +600,7 @@ class ThaiLocalBank extends Component {
     render() {
         const { classes } = this.props;
         const { selectedBankOption, bankAccountNumber, amount, currency } = this.state;
-
+        console.log(this.state.amountInvalid, this.state.selectedBankOption)
         //const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
         const filteredOptions = bank_options.filter((o) => o.code === "THB")
 
