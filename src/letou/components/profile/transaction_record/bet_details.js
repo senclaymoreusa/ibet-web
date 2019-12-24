@@ -213,7 +213,6 @@ const BootstrapInput = withStyles(theme => ({
     }
 }))(InputBase);
 
-
 export class BetDetails extends Component {
     constructor(props) {
         super(props);
@@ -244,6 +243,16 @@ export class BetDetails extends Component {
 
             // this.getTransactions();
         });
+
+        this.getProviders();
+    }
+
+    getProviders() {
+        axios
+            .get(API_URL + 'games/api/bets/getprovandcats', config)
+            .then(res => {
+                console.log(res.data)
+            });
     }
 
     getTransactions() {
@@ -441,7 +450,12 @@ export class BetDetails extends Component {
                                 {this.getLabel('one-month')}
                             </Button>
                         </Grid>
-                        <Grid item xs={12} className={classes.row} style={{paddingTop:10, paddingBottom:20}}>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.row}
+                            style={{ paddingTop: 10, paddingBottom: 20 }}
+                        >
                             <span
                                 className={classes.label}
                                 style={{ marginRight: 20 }}
@@ -454,7 +468,10 @@ export class BetDetails extends Component {
                                 </InputLabel> */}
                                 <Select
                                     input={
-                                        <BootstrapInput name="category" id="category-select" />
+                                        <BootstrapInput
+                                            name="category"
+                                            id="category-select"
+                                        />
                                     }
                                     id="category-select"
                                     value={filterCategory}
@@ -481,7 +498,7 @@ export class BetDetails extends Component {
                             </FormControl>
                             <span
                                 className={classes.label}
-                                style={{ marginRight: 20, marginLeft:20 }}
+                                style={{ marginRight: 20, marginLeft: 20 }}
                             >
                                 {this.getLabel('provider-label')}
                             </span>
@@ -490,8 +507,11 @@ export class BetDetails extends Component {
                                     {this.getLabel('type-label')}
                                 </InputLabel> */}
                                 <Select
-                                     input={
-                                        <BootstrapInput name="provider" id="provider-select" />
+                                    input={
+                                        <BootstrapInput
+                                            name="provider"
+                                            id="provider-select"
+                                        />
                                     }
                                     id="provider-select"
                                     value={filterProvider}
@@ -518,7 +538,7 @@ export class BetDetails extends Component {
                             </FormControl>
                             <span
                                 className={classes.label}
-                                style={{ marginRight: 20, marginLeft:20 }}
+                                style={{ marginRight: 20, marginLeft: 20 }}
                             >
                                 {this.getLabel('status-label')}
                             </span>
@@ -527,8 +547,11 @@ export class BetDetails extends Component {
                                     {this.getLabel('type-label')}
                                 </InputLabel> */}
                                 <Select
-                                     input={
-                                        <BootstrapInput name="status" id="status-select" />
+                                    input={
+                                        <BootstrapInput
+                                            name="status"
+                                            id="status-select"
+                                        />
                                     }
                                     id="status-select"
                                     value={filterStatus}
