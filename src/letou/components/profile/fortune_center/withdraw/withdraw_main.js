@@ -484,11 +484,10 @@ export class WithdrawMain extends Component {
     render() {
         const { classes } = this.props;
         const { tabValue } = this.state;
-        console.log(this.state.activeStep)
+        {this.setWithdrawalPassword()}
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
-                {this.setWithdrawalPassword()}
                 <div className={classes.content}>
                     {/*
                     {this.state.tabValue === 'thailocalbank' && <ThaiLocalBank />}

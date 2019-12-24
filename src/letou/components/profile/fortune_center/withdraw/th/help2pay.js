@@ -531,8 +531,8 @@ class Help2Pay extends Component {
         var postData = {
             "amount": this.state.amount,
             "user_id": this.state.data.pk,
-            "currency": '2',
-            "bank": this.state.selectedBankOption,
+            //"currency": '2',
+            //"bank": this.state.selectedBankOption,
             "language": "en-Us",
             "order_id": this.state.order_id,
             "withdrawPassword": this.state.withdrawpassword,
