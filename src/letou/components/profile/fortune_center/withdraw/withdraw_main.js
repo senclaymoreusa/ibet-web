@@ -21,7 +21,7 @@ import Typography from '@material-ui/core/Typography';
 import WithdrawSuccess from './withdraw_success';
 import WithdrawError from './withdraw_error';
 import VietnamLocalBank from './vn/local_bank';
-//import ThaiLocalBank from './th/local_bank';
+import ThaiLocalBank from './th/local_bank';
 import Help2Pay from './th/help2pay';
 import SetWithdrawalPassword from '../../account_management/set_withdrawal_password';
 import MoneyPay from './vn/money_pay';
@@ -427,7 +427,6 @@ export class WithdrawMain extends Component {
                     <StyledTabs
                         value={tabValue}
                         onChange={this.handleTabChange}>
-                        {/*
                         <StyledTab
                             label={this.getLabel('local-bank')}
                             value="thailocalbank"
@@ -437,7 +436,6 @@ export class WithdrawMain extends Component {
                                 }
                             }}
                         />
-                        */}
                         <StyledTab
                             label={this.getLabel('help-pay')}
                             value="help2pay"
@@ -489,9 +487,9 @@ export class WithdrawMain extends Component {
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
                 <div className={classes.content}>
-                    {/*
-                    {this.state.tabValue === 'thailocalbank' && <ThaiLocalBank />}
                     
+                    {this.state.tabValue === 'thailocalbank' && <ThaiLocalBank />}
+                    {/*
                     {this.state.tabValue === 'createwithdrawpassword' && <CreateWithdrawPassword />}
                     */}
                     {this.state.activeStep === 0 && <SetWithdrawalPassword />}

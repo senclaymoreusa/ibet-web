@@ -645,7 +645,7 @@ class ThaiLocalBank extends Component {
                             }}
                         />
                     </Grid>}
-                    <Grid item xs={6} className={classes.detailRow}>
+                    <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
                             placeholder={this.getLabel('bank-number')}
@@ -663,6 +663,7 @@ class ThaiLocalBank extends Component {
                             }}
                         />
                     </Grid>
+                    {/*}
                     <Grid item xs={6} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
@@ -690,6 +691,7 @@ class ThaiLocalBank extends Component {
                             }}
                         />
                     </Grid>
+                        */}
                     <Grid item xs={6} className={classes.buttonCell} >
                         <Button variant="contained" className={classes.cancelButton}
                             onClick={this.cancelClicked.bind(this)}
