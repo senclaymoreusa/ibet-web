@@ -20,8 +20,7 @@ import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import SyncIcon from '@material-ui/icons/Sync';
 import SearchBar from './search_autocomplete';
-
-
+import Menu from '@material-ui/core/Menu';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -114,8 +113,16 @@ export class FilterSearchBar extends Component {
             filterOptions: {},
             buttonColor: '',
             chips: [],
+            anchorEl: null,
+            sortFilter: [],
+            sortArr: [],
+            isSort: false,
 
         };
+
+        this.openMainMenu  = this.openMainMenu.bind(this);
+        this.closeMainMenu  = this.closeMainMenu.bind(this);
+        this.selectMenu = this.selectMenu.bind(this);
 
     }
 
@@ -147,7 +154,8 @@ export class FilterSearchBar extends Component {
                 if (filterName === 'theme') {
                     this.setState({ themeFilter: filterValueList });
                 }
-                if (filterName === 'Sort by') {
+                if (filterName === 'sort') {
+                    console.log(filterValueList);
                     this.setState({ sortFilter: filterValueList });
                 }
             }
@@ -157,9 +165,13 @@ export class FilterSearchBar extends Component {
         axios.get(API_URL + 'games/api/filter/', config).then(res => {
             this.setState({ providers: res.data['Providers'] });
             this.setState({ filterOptions: res.data });
+
+            Object.entries(this.state.filterOptions).map((value) => {
+                if (value[0] === 'Sort') {
+                    this.setState({ sortArr: value[1] }); 
+                }
+            })
         })
-
-
     }
 
 
@@ -193,7 +205,7 @@ export class FilterSearchBar extends Component {
                     if (filterName === 'theme') {
                         this.setState({ themeFilter: filterValueList });
                     }
-                    if (filterName === 'Sort') {
+                    if (filterName === 'sort') {
                         this.setState({ sortFilter: filterValueList });
                     }
                 }
@@ -225,9 +237,15 @@ export class FilterSearchBar extends Component {
             const themes = this.state.themeFilter.join('%2B');
             filterParts.push('theme=' + themes);
         }
+        // console.log(this.state.sortFilter.length);
+        if (this.state.sortFilter.length > 0) {
+            const sorts = this.state.sortFilter[0].toLowerCase();
+            filterParts.push('sort=' + sorts);
+        }
+        
         const filterUrl = filterParts.join('&');
         const finalUrl = baseUrl + '/' + filterUrl;
-
+        console.log(finalUrl);
         this.props.history.push(finalUrl);
     }
 
@@ -338,33 +356,74 @@ export class FilterSearchBar extends Component {
         }
     }
 
+    openMainMenu(event) {
+        this.setState({ anchorEl: event.currentTarget,
+            // showSort: !this.state.showSort,
+            showFilter: false
+        });
+    }
+
+    closeMainMenu(event) {
+        this.setState({ anchorEl: null,
+            showSort: !this.state.showSort,
+            showFilter: false 
+        });
+    }
+
+    selectMenu(event, selected) {
+        this.setState({ anchorEl: null,
+            showSort: false,
+            isSort: true,
+            sortFilter: [selected]
+            // showFilter: false 
+        }, () => {
+            this.redirectUrl()
+        });
+    }
+
+
     handleDelete = (e, name) => {
+        // console.log(name);
+        // console.log(this.state.sortFilter);
         if (this.state.providerFilter.includes(name)) {
             let idx = this.state.providerFilter.indexOf(name);
             this.state.providerFilter.splice(idx, 1);
-            this.setState({ providerFilter: this.state.providerFilter});
+            this.setState({ providerFilter: this.state.providerFilter}, () => {
+                this.redirectUrl();
+            });
         } else if (this.state.featuresFilter.includes(name)) {
             let idx = this.state.featuresFilter.indexOf(name);
             this.state.featuresFilter.splice(idx, 1);
-            this.setState({ featuresFilter: this.state.featuresFilter});
+            this.setState({ featuresFilter: this.state.featuresFilter}, () => {
+                this.redirectUrl();
+            });
         } else if (this.state.themeFilter.includes(name)) {
             let idx = this.state.themeFilter.indexOf(name);
             this.state.themeFilter.splice(idx, 1);
-            this.setState({ themeFilter: this.state.themeFilter});
+            this.setState({ themeFilter: this.state.themeFilter}, () => {
+                this.redirectUrl();
+            });
         } else if (this.state.jackpotFilter.includes(name)) {
             let idx = this.state.jackpotFilter.indexOf(name);
             this.state.jackpotFilter.splice(idx, 1);
-            this.setState({ jackpotFilter: this.state.jackpotFilter});
+            this.setState({ jackpotFilter: this.state.jackpotFilter}, () => {
+                this.redirectUrl();
+            });
+        } else {
+            this.setState({sortFilter: []}, () => {
+                this.redirectUrl();
+            });
         }
 
-        this.redirectUrl();
+        
     };
 
     handleClick = (e) => {
         this.setState({ providerFilter: [],
                     featuresFilter: [],
                     themeFilter: [],
-                    jackpotFilter: []      
+                    jackpotFilter: [],
+                    sortFilter: []   
         }, () => {
             this.redirectUrl();
         });
@@ -376,13 +435,14 @@ export class FilterSearchBar extends Component {
         var arr = this.state.providerFilter.concat(this.state.featuresFilter);
         arr = arr.concat(this.state.themeFilter);
         arr = arr.concat(this.state.jackpotFilter);
+        arr = arr.concat(this.state.sortFilter);
         return (
             <div>
                 <div style={{flexDirection:'row',justifyContent : 'space-between', paddingTop: 30}}>
                     <ButtonGroup
                     variant="outlined"
                     size="large"
-                    aria-label="large outlined secondary button group"
+                    // aria-label="large outlined secondary button group"
                     >
                     <Button onClick={() => {
                         this.setState({ showFilter: !this.state.showFilter,
@@ -391,12 +451,34 @@ export class FilterSearchBar extends Component {
                                     
                     }} 
                     style={this.state.showFilter ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}>Filter</Button>
-                    <Button onClick={() => {
+                    <Button
+                        aria-controls="simple-menu"
+                        onClick={this.openMainMenu}
+                        style={this.state.showSort ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}
+                    >
+                    Sort
+                    </Button>
+                    </ButtonGroup>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={this.state.anchorEl}
+                        // keepMounted
+                        open={Boolean(this.state.anchorEl)}
+                        onClose={this.closeMainMenu}
+                    >
+                    {   
+                        // console.log(this.state.sortArr)
+                        this.state.sortArr.map((item, index) => {
+                            // console.log(item);
+                            return (<MenuItem key={index} onClick={(e) => this.selectMenu(e, item)}>{item}</MenuItem>)
+                        })
+                    }
+                    </Menu>
+                    {/* <Button onClick={() => {
                         this.setState({ showSort: !this.state.showSort,
                             showFilter: false,
                          });
-                    }} style={this.state.showSort ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}>Sort</Button> 
-                    </ButtonGroup>
+                    }} style={this.state.showSort ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}>Sort</Button>  */}
 
                     <div style={{float: 'right', padding: 0}} >
                         {/* <InputBase
@@ -428,44 +510,43 @@ export class FilterSearchBar extends Component {
                         })
                     }
                     </Grid>
-
-                    {
-                        this.state.showFilter || this.state.showSort ? 
-                        (<div>
-                            <Divider style={{ marginTop: 20}}/>
-                            <div style={{ marginTop: 20}}>
-                            {
-                                this.props.match.params.search ? (
-                                <Grid container item md={12} sm={12} xs={12} key={'566'}>
-                                    <Grid item md={2} sm={2} xs={2} key={'123'} style={{color: "#6a6a6a", fontSize: 28, fontFamily: 'Gilroy', maxWidth: "12.6%"}}>
-                                        Filter results
-                                    </Grid>
-                                    <Grid item md={1} sm={1} xs={1} key={'333'} style={{ maxWidth: "12.6%"}}>
-                                        <Chip  icon={<SyncIcon />} style={{margin: 5, marginRight: 10}} key={'224'} label="Clear result" color="primary" onClick={(e) => this.handleClick(e)}/>
-                                    </Grid>
-                                    <Grid item md={1} sm={1} xs={1} key={'344'} style={{ maxWidth: "3.5%" }}>
-                                        <Divider orientation="vertical" />
-                                    </Grid>
-                                    <Grid item md={8} sm={8} xs={8} key={'234'} style={{maxWidth: 1000}}>
-                                        {
-                                            arr.map((item, index) => {
-                                                return (
-                                                    <Chip style={{margin: 5}} key={index} label={item} onDelete={(e) => this.handleDelete(e, item)} color="primary" />
-                                                )
-                                            })
-
-                                        }
-                                    </Grid>
+                </div>  
+                {
+                    arr.length > 0 ? 
+                    (<div>
+                        <Divider style={{ marginTop: 20}}/>
+                        <div style={{ marginTop: 20}}>
+                        {
+                            this.props.match.params.search ? (
+                            <Grid container item md={12} sm={12} xs={12} key={'566'}>
+                                <Grid item md={2} sm={2} xs={2} key={'123'} style={{color: "#6a6a6a", fontSize: 28, fontFamily: 'Gilroy', maxWidth: "12.6%"}}>
+                                    Filter results
                                 </Grid>
-                                )
-                                : null
-                            }
-                            </div> 
-                        </div>)
-                        : 
-                        null
-                    }
-                </div>    
+                                <Grid item md={1} sm={1} xs={1} key={'333'} style={{ maxWidth: "12.6%"}}>
+                                    <Chip  icon={<SyncIcon />} style={{margin: 5, marginRight: 10}} key={'224'} label="Clear result" color="primary" onClick={(e) => this.handleClick(e)}/>
+                                </Grid>
+                                <Grid item md={1} sm={1} xs={1} key={'344'} style={{ maxWidth: "3.5%" }}>
+                                    <Divider orientation="vertical" />
+                                </Grid>
+                                <Grid item md={8} sm={8} xs={8} key={'234'} style={{maxWidth: 1000}}>
+                                    {
+                                        arr.map((item, index) => {
+                                            return (
+                                                <Chip style={{margin: 5}} key={index} label={item} onDelete={(e) => this.handleDelete(e, item)} color="primary" />
+                                            )
+                                        })
+
+                                    }
+                                </Grid>
+                            </Grid>
+                            )
+                            : null
+                        }
+                        </div> 
+                    </div>)
+                    : 
+                    null
+                }  
             </div>
         );
     }

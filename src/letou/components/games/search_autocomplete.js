@@ -194,7 +194,7 @@ class SearchResults extends React.Component {
                             </div>
                             {
                                 this.props.results.slice(0,5).map(r => (
-                                    <MenuItem onMouseUp={(e) => this.handleGame(e, r.pk)} className={this.props.classes.resultMenuItem} key={getRandomNumber()}>
+                                    <MenuItem onMouseUp={(e) => this.handleGame(e, r.pk)} style={{ textTransform: 'capitalize'}} className={this.props.classes.resultMenuItem} key={getRandomNumber() }>
                                         {r.fields.name}
                                         <SVG className="playIcon" width={24} />
                                     </MenuItem>
@@ -212,12 +212,15 @@ class SearchResults extends React.Component {
                                 {/* {this.props.activeMenu ? this.props.activeMenu : 'Games'} */}	
                             </div>	
                             {	
-                                this.props.providers.slice(0,5).map(r => (	
-                                    <MenuItem onMouseUp={(e) => this.handleProvider(e, r)} className={this.props.classes.resultMenuItem} key={getRandomNumber()}>	
-                                        {r}	
+                                this.props.providers.slice(0,5).map(r => {
+                                    var providerName = r.toLowerCase(); 
+                                    return (	
+                                    <MenuItem onMouseUp={(e) => this.handleProvider(e, r)} style={{ textTransform: 'capitalize'}} className={this.props.classes.resultMenuItem} key={getRandomNumber()}>	
+                                        {providerName}
                                         <SVG className="playIcon" width={24} />	
                                     </MenuItem>	
-                                    )	
+                                    )
+                                }	
                                 )	
                             }	
                         </div>	

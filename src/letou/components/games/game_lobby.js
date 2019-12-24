@@ -451,7 +451,7 @@ export class GameLobby extends React.Component {
                                                 <NavLink to={`/game_detail/${game.pk}`} style={{ textDecoration: 'none' }}>
                                                     <div className={classes.item} key={index}>
                                                         <GridListTile key={game.pk} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
-                                                            <img src={gameFields.image_url} alt='Not available' style={{ 'width': '213px', 'height': '213px' }}/>
+                                                            <img src={gameFields.image_url} alt='Not available' style={{ 'width': '100%', 'height': '213px' }}/>
                                                         <GridListTileBar
                                                             title={gameFields.name}
                                                             // subtitle={PROVIDER[value['fields'].provider]}
