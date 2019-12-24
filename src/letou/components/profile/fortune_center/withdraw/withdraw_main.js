@@ -23,7 +23,7 @@ import WithdrawError from './withdraw_error';
 import VietnamLocalBank from './vn/local_bank';
 //import ThaiLocalBank from './th/local_bank';
 import Help2Pay from './th/help2pay';
-import CreateWithdraw from './createwithdraw';
+import SetWithdrawalPassword from '../../account_management/set_withdrawal_password';
 import MoneyPay from './vn/money_pay';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -495,10 +495,10 @@ export class WithdrawMain extends Component {
                     
                     {this.state.tabValue === 'createwithdrawpassword' && <CreateWithdrawPassword />}
                     */}
-                    {this.state.activeStep === 1 && <CreateWithdraw />}
-                    {this.state.activeStep === 0 && this.state.tabValue === 'help2pay' && <Help2Pay />}
-                    {this.state.activeStep === 0 && this.state.tabValue === 'localbank' && <VietnamLocalBank />}
-                    {this.state.activeStep === 0 && this.state.tabValue === 'moneypay' && <MoneyPay />}
+                    {this.state.activeStep === 0 && <SetWithdrawalPassword />}
+                    {this.state.activeStep === 1 && this.state.tabValue === 'help2pay' && <Help2Pay />}
+                    {this.state.activeStep === 1 && this.state.tabValue === 'localbank' && <VietnamLocalBank />}
+                    {this.state.activeStep === 1 && this.state.tabValue === 'moneypay' && <MoneyPay />}
                 </div>
             </div >
         );

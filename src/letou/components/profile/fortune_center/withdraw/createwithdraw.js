@@ -614,156 +614,94 @@ class CreateWithdraw extends Component {
         const { classes } = this.props;
         const { selectedBankOption, bankAccountNumber, amount, currency, bankAccountHolder, withdrawpassword } = this.state;
 
-        //const filteredOptions = bank_options.filter((o) => o.code === 2)
         return (
-            <div className={classes.root}>
-                <Grid container className={classes.contentGrid} spacing={2}>
-                    
-                    {this.state.activeStep === 1 && <Grid item xs={12} className={classes.detailRow}>
-                        <TextField
-                            className={classes.amountText}
-                            placeholder={this.getLabel('vn-help2paypay-placeholder')}
-                            onChange={this.amountChanged.bind(this)}
-                            value={amount}
-                            error={
-                                this.state.amountInvalid &&
-                                this.state.amountFocused
-                            }
-                            helperText={
-                                this.state.amountInvalid &&
-                                    this.state.amountFocused
-                                    ? this.getLabel('valid-amount')
-                                    : ' '
-                            }
-                            InputProps={{
-                                disableUnderline: true,
-                                inputComponent: NumberFormatCustom,
-                                inputProps: {
-                                    style: { textAlign: 'right' },
-                                    currency: currency
-                                },
-                                startAdornment: (
-                                    <InputAdornment position="start" >
-                                        <span className={classes.label}>{this.getLabel('amount-label')}</span>
-                                    </InputAdornment>
-                                )
-                            }}
-                        />
-                    </Grid>}
-                    
-                    <Grid item xs={12} className={classes.detailRow}>
-                        <TextField
-                            className={classes.detailText}
-                            placeholder={this.getLabel('bank-holder')}
-                            onChange={this.bankAccountHolderChanged.bind(this)}
-                            value={bankAccountHolder}
-                            error={this.state.bankAccountHolderFocused && bankAccountHolder.length === 0}
-                            helperText={(this.state.bankAccountHolderFocused && bankAccountHolder.length === 0)}// ? this.getLabel('invalid-bank-number') : ' '}
-                            InputProps={{
-                                disableUnderline: true,
-                                endAdornment: (
-                                    
-                                    <InputAdornment position="end" >
-                                    </InputAdornment>
-                                    
-                                ),
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} className={classes.detailRow}>
-                        <TextField
-                            className={classes.detailText}
-                            placeholder={this.getLabel('bank-number')}
-                            onChange={this.bankAccountNumberChanged.bind(this)}
-                            value={bankAccountNumber}
-                            error={this.state.bankAccountNumberFocused && bankAccountNumber.length === 0}
-                            helperText={(this.state.bankAccountNumberFocused && bankAccountNumber.length === 0) ? this.getLabel('invalid-bank-number') : ' '}
-                            InputProps={{
-                                disableUnderline: true,
-                                endAdornment: (
-                                    <InputAdornment position="end" >
-                                        <img src={images.src + 'letou/info-icon.svg'} alt="" height="20" />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} className={classes.detailRow}>
-                            <TextField
-                                className={classes.amountText}
-                                placeholder={this.getLabel('help2pay-placeholder')}
-                                onChange={this.amountChanged.bind(this)}
-                                value={amount}
-                                error={
-                                    this.state.amountInvalid &&
-                                    this.state.amountFocused
-                                }
-                                helperText={
-                                    this.state.amountInvalid &&
-                                        this.state.amountFocused
-                                        ? this.getLabel('valid-amount')
-                                        : ' '
-                                }
-                                InputProps={{
-                                    disableUnderline: true,
-                                    inputComponent: NumberFormatCustom,
-                                    inputProps: {
-                                        step: 10,
-                                        min: 200,
-                                        min: 950000,
-                                        style: { textAlign: 'right' },
-                                        currency: currency
-                                    },
-                                    startAdornment: (
-                                        <InputAdornment position="start" >
-                                            <span className={classes.label}>{this.getLabel('amount-label')}</span>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
+            <Grid container>
+                        <Grid item xs={12}>
+                            <div className={classes.labelDiv}>
+                                <div className={classes.row}>
+                                    <span className={classes.label}>
+                                        {this.getLabel('new-password')}
+                                    </span>
+                                </div>
+                                <div className={classes.row}>
+                                    <span className={classes.label}>
+                                        {this.getLabel('confirm-new-password')}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className={classes.valueDiv}>
+                                <div className={classes.row}>
+                                    <TextField className={classes.textField}
+                                        value={this.state.newPassword}
+                                        onChange={this.newPasswordChanged.bind(this)}
+                                        type={this.state.showNewPassword ? '' : 'password'}
+                                        //error={this.state.newPasswordInvalid}
+                                        helperText={this.state.newPasswordInvalid ? newPasswordErrorMessage : ''}
+                                        InputProps={{
+                                            disableUnderline: true,
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        size="small"
+                                                        disabled={this.state.newPassword.length === 0}
+                                                        aria-label="Toggle password visibility"
+                                                        onClick={() => {
+                                                            this.setState(state => ({ showNewPassword: !state.showNewPassword }));
+                                                        }}
+                                                    >
+                                                        {this.state.showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }} />
+                                </div>
+                                {/*
+                                    this.state.newPassword && <div className={classes.hintContainer}>
+                                        <PasswordStrengthMeter password={this.state.newPassword} style={{ width: 180 }} />
+                                        <span className={classes.hintText}>{this.getLabel('register-hint1')}</span>
+                                        <span className={classes.hintText}>{this.getLabel('register-hint2')}</span>
+                                        <span className={classes.hintText}>{this.getLabel('register-hint3')}</span>
+                                        <span className={classes.hintText}>{this.getLabel('register-hint4')}</span>
+                                    </div>
+                                */}
+                                <div className={classes.row}>
+                                    <TextField className={classes.textField}
+                                        style={{ marginTop: 10 }}
+                                        value={this.state.confirmPassword}
+                                        onChange={this.confirmPasswordChanged.bind(this)}
+                                        type={this.state.showConfirmPassword ? '' : 'password'}
+                                        error={this.state.confirmPasswordInvalid}
+                                        helperText={this.state.confirmPasswordInvalid ? this.getLabel('password-not-match') : ''}
+                                        InputProps={{
+                                            disableUnderline: true,
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        size="small"
+                                                        disabled={this.state.confirmPassword.length === 0}
+                                                        aria-label="Toggle password visibility"
+                                                        onClick={() => {
+                                                            this.setState(state => ({ showConfirmPassword: !state.showConfirmPassword }));
+                                                        }}
+                                                    >
+                                                        {this.state.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }} />
+                                </div>
+                                <div className={classes.row} style={{ paddingTop: 20 }}>
+                                    <Button variant="contained"
+                                        onClick={currentComponent.setWithdrawalPassword}
+                                        disabled={this.state.newPasswordInvalid
+                                            || this.state.newPassword.length === 0
+                                            || this.state.confirmPasswordInvalid
+                                            || this.state.confirmPassword.length === 0}
+                                        className={classes.nextButton}>{this.getLabel('create-password')}</Button>
+                                </div>
+                            </div>
                         </Grid>
-                        <Grid item xs={12} className={classes.detailRow}>
-                        <TextField
-                            className={classes.detailText}
-                            value={this.state.withdrawpassword}
-                            placeholder={this.getLabel('password-text')}
-                            onChange={this.withdrawpasswordChanged.bind(this)}
-                            type={this.state.showwithdrawPassword ? '' : 'password'}
-                            error={this.state.withdrawpasswordFocused && withdrawpassword.length === 0}
-                            helperText={(this.state.withdrawpasswordFocused && withdrawpassword.length === 0)}// ? this.getLabel('invalid-bank-number') : ' '}
-                            InputProps={{
-                                disableUnderline: true,
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                            <IconButton
-                                                size="small"
-                                                disabled={this.state.withdrawpassword.length === 0}
-                                                aria-label="Toggle password visibility"
-                                                onClick={() => {
-                                                    this.setState(state => ({ showwithdrawPassword: !state.showwithdrawPassword }))
-                                                }}
-                                            >
-                                                {this.state.showwithdrawPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                ),
-                            }}
-                            //
-                        />
                     </Grid>
-                    <Grid item xs={6} className={classes.buttonCell} >
-                        <Button variant="contained" className={classes.cancelButton}
-                            onClick={this.cancelClicked.bind(this)}
-                        >{this.getLabel('cancel-label')}</Button>
-                    </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
-                        <Button className={classes.actionButton}
-                            onClick={this.handleClick.bind(this)}
-                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
-                        >{this.getLabel('next-label')}</Button>
-                    </Grid>
-                </Grid>
-            </div>
         )
     }
 }
