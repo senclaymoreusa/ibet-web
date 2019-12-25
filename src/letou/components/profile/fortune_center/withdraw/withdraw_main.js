@@ -187,7 +187,8 @@ export class WithdrawMain extends Component {
     handleTabChange(newValue) {
         this.setState({ tabValue: newValue })
     }
-
+    
+    /*
     setWithdrawalPassword() {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
@@ -199,7 +200,7 @@ export class WithdrawMain extends Component {
             })
 
     }
-
+    */
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
