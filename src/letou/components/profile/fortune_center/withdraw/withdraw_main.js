@@ -487,22 +487,22 @@ export class WithdrawMain extends Component {
     render() {
         const { classes } = this.props;
         const { tabValue, activeStep } = this.state;
-        this.setWithdrawalPassword()
+        //this.setWithdrawalPassword()
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
                 <div className={classes.content}>
-                    {/*}
+
                     {this.state.activeStep === 0 && <SetWithdrawalPassword />}
                     {this.state.activeStep === 1 && this.state.tabValue === 'thailocalbank' && <ThaiLocalBank />}
                     {/*
                     {this.state.tabValue === 'createwithdrawpassword' && <CreateWithdrawPassword />}
-                    
+                    */}
                     
                     {this.state.activeStep === 1 && this.state.tabValue === 'help2pay' && <Help2Pay />}
                     {this.state.activeStep === 1 && this.state.tabValue === 'localbank' && <VietnamLocalBank />}
                     {this.state.activeStep === 1 && this.state.tabValue === 'moneypay' && <MoneyPay />}
-                        */}
+                        
                 </div>
             </div >
         );
