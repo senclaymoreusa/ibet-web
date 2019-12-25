@@ -516,13 +516,18 @@ export const messages = {
             'For your account security, please be sure to perform various security verifications',
         'verify-immediately': 'Verify Immediately',
         'pt-password-not-set': 'PT APP password is not set',
-        'pt-password-desc':
-            'Regularly reset PT APP password, account is more secure',
+        'pt-password-desc': 'Regularly reset PT APP password, account is more secure',
         'withdrawable-fund': 'Withdrawable Funds',
-        'inbox-label': 'Inbox',
-        'any-question-label':
-            'If you have any suggestions, please feel free to contact us',
-        'dedicated-line': '24-hour Domestic Dedicated Line'
+        'recommended': 'Recommended',
+        'top-games': 'Top Games',
+        'slot-machine': 'Slot Machine',
+        'cumulative-award': 'Cumulative Award',
+        'table-games': 'Table Games',
+        'scratch-card': 'Scratch Card',
+        'gaming-room': 'Gaming Room',
+        'video-poker': 'Video Poker',
+        'fishing-games': 'Fishing Games',
+        'view-all': 'View All >'
     },
     zh: {
         'help-title': '我们在此竭诚服务',
