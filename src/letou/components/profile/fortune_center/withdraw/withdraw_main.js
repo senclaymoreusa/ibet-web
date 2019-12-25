@@ -488,20 +488,21 @@ export class WithdrawMain extends Component {
         const { classes } = this.props;
         const { tabValue, activeStep } = this.state;
         //this.setWithdrawalPassword()
+        console.log(this.state.tabValue)
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
                 <div className={classes.content}>
 
-                    {this.state.activeStep === 0 && <SetWithdrawalPassword />}
-                    {this.state.activeStep === 1 && this.state.tabValue === 'thailocalbank' && <ThaiLocalBank />}
+                    {activeStep === 0 && <SetWithdrawalPassword />}
+                    {activeStep === 1 && tabValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
                     {/*
                     {this.state.tabValue === 'createwithdrawpassword' && <CreateWithdrawPassword />}
                     */}
-                    
-                    {this.state.activeStep === 1 && this.state.tabValue === 'help2pay' && <Help2Pay />}
-                    {this.state.activeStep === 1 && this.state.tabValue === 'localbank' && <VietnamLocalBank />}
-                    {this.state.activeStep === 1 && this.state.tabValue === 'moneypay' && <MoneyPay />}
+                    {activeStep === 1 && tabValue === 'success' && <WithdrawSuccess />}
+                    {activeStep === 1 && tabValue === 'help2pay' && <Help2Pay />}
+                    {activeStep === 1 && tabValue === 'localbank' && <VietnamLocalBank />}
+                    {activeStep === 1 && tabValue === 'moneypay' && <MoneyPay />}
                         
                 </div>
             </div >

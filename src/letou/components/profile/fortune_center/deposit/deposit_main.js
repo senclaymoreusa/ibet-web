@@ -500,7 +500,6 @@ export class DepositMain extends Component {
     render() {
         const { classes } = this.props;
         const { contentValue } = this.state;
-
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}

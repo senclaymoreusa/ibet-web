@@ -403,7 +403,7 @@ class ThaiLocalBank extends Component {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
-        {/*
+       
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
@@ -411,7 +411,7 @@ class ThaiLocalBank extends Component {
                 this.setState({ currencyCode: res.data.currency });
                 //this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
-        */}
+        
     }
 
     componentDidMount() {
@@ -423,15 +423,15 @@ class ThaiLocalBank extends Component {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
-        {/*
+        
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
+                //this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
-        */}
+       
     }
 
     amountChanged(event) {
@@ -493,8 +493,8 @@ class ThaiLocalBank extends Component {
             username: this.state.data.username,
             balance: this.state.amount,
         });
-        //console.log(body)
-        {/*
+        console.log("body",body)
+        console.log("config",config)
         axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
             .then(res => {
                 if (res.data === 'Failed') {
@@ -505,7 +505,7 @@ class ThaiLocalBank extends Component {
                     currentComponent.props.callbackFromParent("success", "Transaction completed.");
                 }
             });
-        */}
+        
         {/*
         return fetch(API_URL + 'accounting/api/help2pay/deposit', {
             method: 'POST',
@@ -687,6 +687,40 @@ class ThaiLocalBank extends Component {
                             }}
                         />
                     </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
+                            <TextField
+                                className={classes.amountText}
+                                placeholder={this.getLabel('help2pay-placeholder')}
+                                onChange={this.amountChanged.bind(this)}
+                                value={amount}
+                                error={
+                                    this.state.amountInvalid &&
+                                    this.state.amountFocused
+                                }
+                                helperText={
+                                    this.state.amountInvalid &&
+                                        this.state.amountFocused
+                                        ? this.getLabel('valid-amount')
+                                        : ' '
+                                }
+                                InputProps={{
+                                    disableUnderline: true,
+                                    inputComponent: NumberFormatCustom,
+                                    inputProps: {
+                                        step: 10,
+                                        min: 200,
+                                        min: 950000,
+                                        style: { textAlign: 'right' },
+                                        currency: currency
+                                    },
+                                    startAdornment: (
+                                        <InputAdornment position="start" >
+                                            <span className={classes.label}>{this.getLabel('amount-label')}</span>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
                     {/*}
                     <Grid item xs={6} className={classes.detailRow}>
                         <TextField
