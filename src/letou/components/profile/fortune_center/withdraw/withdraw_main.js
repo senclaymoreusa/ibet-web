@@ -233,6 +233,10 @@ export class WithdrawMain extends Component {
             .then(res => {
                 this.setState({ userCountry: res.data.country });
                 this.setState({ favouriteMethod: res.data.favorite_payment_method });
+                //
+                this.setState({ userId: res.data.pk });
+                this.setState({ activeStep: res.data.withdraw_password ? 1 : 0 })
+                //
             });
 
         this.setState({ urlPath: this.props.history.location.pathname });
@@ -481,21 +485,23 @@ export class WithdrawMain extends Component {
 
     render() {
         const { classes } = this.props;
-        const { tabValue } = this.state;
-        {this.setWithdrawalPassword()}
+        const { tabValue, activeStep } = this.state;
+        this.setWithdrawalPassword()
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
                 <div className={classes.content}>
+                    {/*}
                     {this.state.activeStep === 0 && <SetWithdrawalPassword />}
                     {this.state.activeStep === 1 && this.state.tabValue === 'thailocalbank' && <ThaiLocalBank />}
                     {/*
                     {this.state.tabValue === 'createwithdrawpassword' && <CreateWithdrawPassword />}
-                    */}
+                    
                     
                     {this.state.activeStep === 1 && this.state.tabValue === 'help2pay' && <Help2Pay />}
                     {this.state.activeStep === 1 && this.state.tabValue === 'localbank' && <VietnamLocalBank />}
                     {this.state.activeStep === 1 && this.state.tabValue === 'moneypay' && <MoneyPay />}
+                        */}
                 </div>
             </div >
         );
