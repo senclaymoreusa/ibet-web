@@ -460,14 +460,6 @@ class CreateWithdraw extends Component {
 
     bankAccountHolderChanged(event) {
         this.setState({ bankAccountHolderFocused: true });
-        {/*
-        const re = /^[0-9\b]+$/;
-
-        if (re.test(event.target.value))
-            this.setState({ bankAccountHolder: event.target.value });
-        else if (event.target.value.length === 0)
-            this.setState({ bankAccountHolder: '' });
-        */}
         this.setState({ bankAccountHolder: event.target.value });
         this.setState({ bankAccountHolderFocused: true });
         //this.setState({ pinInvalid: (event.target.value.length < 2) });
@@ -475,14 +467,6 @@ class CreateWithdraw extends Component {
 
     withdrawpasswordChanged(event) {
         this.setState({ withdrawpasswordFocused: true });
-        {/*}
-        const re = /^[0-9]+(\.[0-9]{0,2})?$/;
-
-        if (re.test(event.target.value))
-            this.setState({ withdrawpassword: event.target.value });
-        else if (event.target.value.length === 0)
-            this.setState({ bwithdrawpassword: '' });
-        */}
         this.setState({ withdrawpassword: event.target.value });
         this.setState({ withdrawpasswordFocused: true });
     };
@@ -517,7 +501,6 @@ class CreateWithdraw extends Component {
         formBody = formBody.join("&");
         const token = localStorage.getItem('token');
 
-        console.log({formBody})
         return fetch(API_URL + 'accounting/api/help2pay/submit_payout', {
             method: 'POST',
             withCredentials: true,
@@ -527,7 +510,6 @@ class CreateWithdraw extends Component {
             },
             body: formBody
         }).then(function (res) {
-            console.log(res)
             if (res.ok) {
                 return res.text();
             }
@@ -537,7 +519,6 @@ class CreateWithdraw extends Component {
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
-            console.log(data)
             let newwin = window.open('');
             newwin.document.write(data);
             var timer = setInterval(function () {
@@ -561,7 +542,6 @@ class CreateWithdraw extends Component {
                     }).then(function (res) {
                         return res.text();
                     }).then(function (data) {
-                        //console.log(data)
 
 
                         if (data === '0') {
@@ -571,7 +551,6 @@ class CreateWithdraw extends Component {
                                 username: this.state.data.username,
                                 balance: this.state.amount,
                             });
-                            //console.log(body)
                             axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                 .then(res => {
                                     if (res.data === 'Failed') {
@@ -590,7 +569,6 @@ class CreateWithdraw extends Component {
             }, 1000);
 
         }).catch(function (err) {
-            //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
             sendingLog(err);
         });
