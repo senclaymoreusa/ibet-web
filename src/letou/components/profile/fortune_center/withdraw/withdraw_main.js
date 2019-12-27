@@ -251,21 +251,25 @@ export class WithdrawMain extends Component {
 
         if (parts.length > 4) {
             if (parts[4].length > 0) {
-                this.setState({ contentValue: parts[4] })
+                //this.setState({ contentValue: parts[4] })
+                this.setState({ tabValue: parts[4] })
             }
         } else
-            this.setState({ contentValue: '' })
+            //this.setState({ contentValue: '' })
+            this.setState({ tabValue: '' })
     }
 
     setPage = (page, msg) => {
         if (msg)
             this.setState({ withdrawMessage: msg });
 
-        this.setState({ contentValue: page });
+        //this.setState({ contentValue: page });
+        this.setState({ tabValue: page });
     };
 
     withdrawWith(paymentMethod) {
-        this.setState({ contentValue: paymentMethod });
+        //this.setState({ contentValue: paymentMethod });
+        this.setState({ tabValue: paymentMethod });
 
         var url = this.state.urlPath;
         var parts = url.split('/');
@@ -487,21 +491,26 @@ export class WithdrawMain extends Component {
     render() {
         const { classes } = this.props;
         const { tabValue, activeStep } = this.state;
-        //this.setWithdrawalPassword()
-        console.log(this.state.tabValue)
+
+        console.log(this.authCheckState)
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
                 <div className={classes.content}>
 
                     {activeStep === 0 && <SetWithdrawalPassword />}
-                    {activeStep === 1 && tabValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
+
+                    {activeStep === 1 && tabValue === 'success' && <WithdrawSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
+                    {activeStep === 1 && tabValue === 'error' && <WithdrawError callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
+
+                    
                     {/*
                     {this.state.tabValue === 'createwithdrawpassword' && <CreateWithdrawPassword />}
                     */}
-                    {activeStep === 1 && tabValue === 'success' && <WithdrawSuccess />}
+
+                    {activeStep === 1 && tabValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
                     {activeStep === 1 && tabValue === 'help2pay' && <Help2Pay />}
-                    {activeStep === 1 && tabValue === 'localbank' && <VietnamLocalBank />}
+                    {activeStep === 1 && tabValue === 'vietnamelocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage}/>)}
                     {activeStep === 1 && tabValue === 'moneypay' && <MoneyPay />}
                         
                 </div>
