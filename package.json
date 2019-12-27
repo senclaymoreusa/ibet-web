@@ -50,12 +50,8 @@
         "react-phone-number-input": "^2.5.1",
         "react-redux": "^6.0.0",
         "react-router-dom": "^5.1.2",
-<<<<<<< HEAD
-        "react-scripts": "^3.3.0",
-=======
         "react-scripts": "^2.1.8",
         "react-slick": "^0.25.2",
->>>>>>> 1e67d26544110dbec4adae27c97a91efa132c436
         "reactstrap": "^7.1.0",
         "redux": "^4.0.4",
         "redux-logger": "^3.0.6",

@@ -69,12 +69,7 @@ export const messages = {
             'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
         'footer-text4':
             '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
-<<<<<<< HEAD
-        'for-member': '供会员使用',
-        story: '乐投品牌故事',
-=======
         'story': '乐投品牌故事',
->>>>>>> 1e67d26544110dbec4adae27c97a91efa132c436
         'for-partner': '供合作伙伴使用',
         'help-title': 'Help',
         'aboutUs-detail-text-one':
@@ -528,11 +523,6 @@ export const messages = {
             'For your account security, please be sure to perform various security verifications',
         'verify-immediately': 'Verify Immediately',
         'pt-password-not-set': 'PT APP password is not set',
-<<<<<<< HEAD
-        'pt-password-desc':
-            'Regularly reset PT APP password, account is more secure',
-        'withdrawable-fund': 'Withdrawable Funds'
-=======
         'pt-password-desc': 'Regularly reset PT APP password, account is more secure',
         'withdrawable-fund': 'Withdrawable Funds',
         'recommended': 'Recommended',
@@ -545,7 +535,6 @@ export const messages = {
         'video-poker': 'Video Poker',
         'fishing-games': 'Fishing Games',
         'view-all': 'View All >'
->>>>>>> 1e67d26544110dbec4adae27c97a91efa132c436
     },
     zh: {
         'help-title': '我们在此竭诚服务',
