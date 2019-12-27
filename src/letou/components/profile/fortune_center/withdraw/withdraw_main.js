@@ -172,7 +172,6 @@ export class WithdrawMain extends Component {
             favouriteMethod: '',
             activeStep: 0,
 
-            //tabValue: 'createwithdrawpassword'
             tabValue: ''
         };
 
@@ -248,8 +247,7 @@ export class WithdrawMain extends Component {
     setContent() {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
-        console.log("url",url)
-        console.log("parts",parts)
+
         if (parts.length > 4) {
             if (parts[4].length > 0) {
                 //this.setState({ contentValue: parts[4] })
@@ -442,6 +440,7 @@ export class WithdrawMain extends Component {
                             onClick={() => {
                                 if (this.props.match.params.type !== 'thailocalbank') {
                                     this.handleTabChange('thailocalbank');
+                                    this.withdrawWith('thailocalbank');
                                 }
                             }}
                         />
@@ -451,6 +450,7 @@ export class WithdrawMain extends Component {
                             onClick={() => {
                                 if (this.props.match.params.type !== 'help2pay') {
                                     this.handleTabChange('help2pay');
+                                    this.withdrawWith('help2pay');
                                 }
                             }}
                         />
@@ -469,7 +469,8 @@ export class WithdrawMain extends Component {
                             value="vietnamelocalbank"
                             onClick={() => {
                                 if (this.props.match.params.type !== 'vietnamelocalbank') {
-                                    this.handleTabChange('vietnamelocalbank');
+                                    this.handleTabChange('vietnamelocalbank');                                    
+                                    this.withdrawWith('vietnamelocalbank');
                                 }
                             }}
                         />
@@ -479,6 +480,7 @@ export class WithdrawMain extends Component {
                             onClick={() => {
                                 if (this.props.match.params.type !== 'moneypay') {
                                     this.handleTabChange('moneypay');
+                                    this.withdrawWith('moneypay');
                                 }
                             }}
                         />

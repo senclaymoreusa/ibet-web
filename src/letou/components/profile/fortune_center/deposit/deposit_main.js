@@ -164,8 +164,7 @@ export class DepositMain extends Component {
     setContent() {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
-        console.log("url",url)
-        console.log("parts",parts)
+
         if (parts.length > 4) {
             if (parts[4].length > 0) {
                 this.setState({ contentValue: parts[4] })
