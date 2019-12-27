@@ -303,9 +303,8 @@ export class WithdrawMain extends Component {
 
         //console.log(userCountry.toLocaleLowerCase())
         switch (userCountry.toLowerCase()) {
-            //case 'china':
-            
-            case 'thailand':
+            case 'china':
+            //case 'thailand':
                 return (
                     <Grid container className={classes.methodGrid} spacing={4}>
                         {/* <Grid item xs={1} className={classes.methodColumn}>
@@ -458,8 +457,8 @@ export class WithdrawMain extends Component {
                     
                     
                 );
-            //case 'vietnam':
-            case 'united states':
+            case 'vietnam':
+            //case 'united states':
                 return (
                     <StyledTabs
                         value={tabValue}
@@ -495,7 +494,6 @@ export class WithdrawMain extends Component {
         const { classes } = this.props;
         const { tabValue, activeStep } = this.state;
 
-        console.log(this.authCheckState)
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}

@@ -554,7 +554,7 @@ class Help2Pay extends Component {
             path('api/help2pay/deposit_success', help2pay.depositFrontResult, name = 'Help2pay_deposit_sucess'),
             path('api/help2pay/deposit_status', help2pay.depositStatus, name = 'Help2pay_deposit_status'),
         */}
-        console.log({formBody})
+        //console.log({formBody})
         return fetch(API_URL + 'accounting/api/help2pay/submit_payout', {
             method: 'POST',
             withCredentials: true,
@@ -564,7 +564,7 @@ class Help2Pay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            console.log(res)
+            //console.log(res)
             if (res.ok) {
                 return res.text();
             }
@@ -574,7 +574,7 @@ class Help2Pay extends Component {
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
-            console.log(data)
+            //console.log(data)
             let newwin = window.open('');
             newwin.document.write(data);
             var timer = setInterval(function () {
