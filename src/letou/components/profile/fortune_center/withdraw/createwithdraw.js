@@ -1,3 +1,4 @@
+{/*
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
@@ -633,15 +634,6 @@ class CreateWithdraw extends Component {
                                             ),
                                         }} />
                                 </div>
-                                {/*
-                                    this.state.newPassword && <div className={classes.hintContainer}>
-                                        <PasswordStrengthMeter password={this.state.newPassword} style={{ width: 180 }} />
-                                        <span className={classes.hintText}>{this.getLabel('register-hint1')}</span>
-                                        <span className={classes.hintText}>{this.getLabel('register-hint2')}</span>
-                                        <span className={classes.hintText}>{this.getLabel('register-hint3')}</span>
-                                        <span className={classes.hintText}>{this.getLabel('register-hint4')}</span>
-                                    </div>
-                                */}
                                 <div className={classes.row}>
                                     <TextField className={classes.textField}
                                         style={{ marginTop: 10 }}
@@ -691,3 +683,4 @@ const mapStateToProps = (state) => {
 }
 
 export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(CreateWithdraw))));
+*/}
