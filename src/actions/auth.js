@@ -29,7 +29,7 @@ export const authFail = error => {
     };
 };
 
-export const authLogin = (username, password) => {
+export const authLogin = (username, password, iovationData) => {
     return dispatch => {
         dispatch(authStart());
         return axios
@@ -37,15 +37,14 @@ export const authLogin = (username, password) => {
                 API_URL + 'users/api/login/',
                 {
                     username: username,
-                    password: password
+                    password: password,
+                    iovationData: iovationData
                 },
                 config
             )
             .then(res => {
                 if (res.data.errorCode) {
-                    // return Promise.resolve(AUTH_RESULT_FAIL);
-                    // dispatch(authFail(res.data.errorMsg));
-                    return Promise.resolve(res.data);
+                      return Promise.resolve(res.data);
                 }
                 const token = res.data.key;
                 if (!token || token === undefined) {
@@ -80,7 +79,6 @@ export const FacebookauthLogin = (username, email) => {
                 config
             )
             .then(res => {
-
                 if (res.data.errorCode) {
                     // return Promise.resolve(AUTH_RESULT_FAIL);
                     dispatch(authFail(res.data.errorMsg));
@@ -225,21 +223,24 @@ export const logout = () => {
     };
 };
 
-export const sendingLog = (err) => {
+export const sendingLog = err => {
     return axios
-    .post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config)
-    .then(res => { });
-}
+        .post(
+            API_URL + 'system/api/logstreamtos3/',
+            { line: err, source: 'Ibetweb' },
+            config
+        )
+        .then(res => {});
+};
 
 export const authCheckState = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
+
         if (!token || token === undefined) {
-            // check token first
             dispatch(logout());
             return Promise.resolve(AUTH_RESULT_FAIL);
-        } else {
-            // check token expiration time
+        } else {  
             const expirationDate = new Date(
                 localStorage.getItem('expirationDate')
             );
@@ -250,10 +251,10 @@ export const authCheckState = () => {
             } else {
                 config.headers['Authorization'] = `Token ${token}`;
 
-                return axios.get(API_URL + 'users/api/user/', config)
+                return axios
+                    .get(API_URL + 'users/api/user/', config)
                     .then(res => {
                         if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                            
                             dispatch(authFail(res.data.errorMsg.detail[0]));
                             dispatch(logout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
@@ -265,25 +266,8 @@ export const authCheckState = () => {
                             dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);
                         }
-                        // return axios.get(API_URL + 'users/api/check-user-status/?userId=' + res.data.pk, config)
-                        // .then(userStatus => {
-                        //     if (userStatus.data.errorCode === errors.USER_IS_BLOCKED) {
-                        //         dispatch(authFail(userStatus.errorMsg.detail[0]));
-                        //         dispatch(logout());
-                        //         return Promise.resolve(AUTH_RESULT_FAIL);
-                        //     } else if (res.data.block || !res.data.active) {
-                        //         dispatch(logout());
-                        //         return Promise.resolve(AUTH_RESULT_FAIL);
-                        //     } else {
-                        //         dispatch(authSuccess(token));
-                        //         //dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime()) / 1000) );
-                        //         dispatch(checkAuthTimeout(3600));
-                        //         return Promise.resolve(AUTH_RESULT_SUCCESS);
-                        //     }
-                        // })
                     })
-                    .catch(err => {
-                        // dispatch(authFail(err.response.data.detail));
+                    .catch(() => {
                         dispatch(logout());
                         postLogout();
                         delete config.headers['Authorization'];

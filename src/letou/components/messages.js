@@ -23,11 +23,11 @@ export const messages = {
         'letou-esports': 'Letou E-Sports',
         'letou-esports-pro': 'Letou E-Sports Pro',
         'sabah-esports': 'Sabah E-Sports',
-        'fried-golden': 'Fried Golden Flower',
-        '21-oclock': "21 o'clock",
-        'grab-cattle': 'Grab the Cattle',
-        'texas-holdem': "Texas Hold'em",
-        'games-lobby': 'Games Lobby',
+        'fried-golden': 'Golden Flower',
+        '21-oclock': "Black Jack",
+        'grab-cattle': 'Banker Bull-Bull',
+        'texas-holdem': "Texas Hold'em Poker",
+        'games-lobby': 'Hall',
         'nav-lotto': 'Lotto',
         'happy-color': 'Keno',
         'time-color': 'SSC',
@@ -69,10 +69,14 @@ export const messages = {
             'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
         'footer-text4':
             '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
+<<<<<<< HEAD
         'for-member': '供会员使用',
         story: '乐投品牌故事',
+=======
+        'story': '乐投品牌故事',
+>>>>>>> 1e67d26544110dbec4adae27c97a91efa132c436
         'for-partner': '供合作伙伴使用',
-        'help-title': '我们在此竭诚服务',
+        'help-title': 'Help',
         'aboutUs-detail-text-one':
             'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
         'aboutUs-detail-text-two':
@@ -176,6 +180,7 @@ export const messages = {
         'message-notification': 'Message Notification',
         'security-settings': 'Security Settings',
         'suggestions-feedback': 'Suggections & Feedback',
+        'feedback-label': 'Feedback',
         'deposit-label': 'Deposit',
         'total-assets': 'Total Assets',
         'title-transfer': 'Transfer',
@@ -320,6 +325,7 @@ export const messages = {
             "Please check if it is in spam. If you haven't recieved it, go back and resend it.",
         'back-label': 'Back',
         'transfer-label': 'Transfer',
+        'total_assets-label': 'Total Assets',
         'select-transfer': 'Select Wallets to Transfer',
         'transfer-to-main': 'Transfer All to Main Wallet',
         'from-label': 'From',
@@ -350,6 +356,7 @@ export const messages = {
         'add-favourite-deposit': 'Add this to favorite deposit method',
         'back-banking': 'Back to Banking',
         'bitcoin-placeholder': 'Deposit ¥100 - ¥100,000',
+        'alipay-placeholder': 'Deposit ¥500 - ¥5,000',
         'payzod-placeholder': 'Deposit ฿500 - ฿500,000',
         'payzod-desc':
             'Please open the app, scan the QR code. Once you have completed the payment please check your transaction history page.',
@@ -367,6 +374,8 @@ export const messages = {
         'cvv-invalid': 'CVV Invalid',
         'deposit-submitted': 'Deposit Submitted!',
         'deposit-failed': 'Deposit Failed!',
+        'deposit-inprogress': 'Deposit In!',
+        'deposit-label': 'Deposit',
         'submitted-label': 'submitted',
         'check-transaction-status': 'Please check for transaction status.',
         'check-balance': 'Check Balance',
@@ -434,6 +443,9 @@ export const messages = {
             'Please select your bank below or add a new bank to make a withdrawal',
         'other-label': 'Other',
         'circlepay-placeholder': 'Deposit ₫20,000 - ₫100,000,000',
+        'vn-localbank-placeholder': 'Deposit ₫200,000 - ₫100,000,000',
+        'qr-will-needed':
+            'Your QR code needs to be used once only, please ensure the amount you deposit matches what is on the QR code to avoid any issues.',
         'vn-help2paypay-placeholder': 'Deposit ₫300,000 - ₫300,000,000',
         'vn-localbank-placeholder': 'Deposit ₫200,000 - ₫100,000,000',
         'email-update-success':
@@ -504,6 +516,7 @@ export const messages = {
         'latest-offers': 'Latest Offers',
         'profile-label': 'Profile',
         'news-label': 'News',
+        'transfer-successfull': 'Transfer successfull',
         'customer-service': 'Customer Service',
         'help-center': 'Help Center',
         'set-up': 'Set Up',
@@ -515,9 +528,24 @@ export const messages = {
             'For your account security, please be sure to perform various security verifications',
         'verify-immediately': 'Verify Immediately',
         'pt-password-not-set': 'PT APP password is not set',
+<<<<<<< HEAD
         'pt-password-desc':
             'Regularly reset PT APP password, account is more secure',
         'withdrawable-fund': 'Withdrawable Funds'
+=======
+        'pt-password-desc': 'Regularly reset PT APP password, account is more secure',
+        'withdrawable-fund': 'Withdrawable Funds',
+        'recommended': 'Recommended',
+        'top-games': 'Top Games',
+        'slot-machine': 'Slot Machine',
+        'cumulative-award': 'Cumulative Award',
+        'table-games': 'Table Games',
+        'scratch-card': 'Scratch Card',
+        'gaming-room': 'Gaming Room',
+        'video-poker': 'Video Poker',
+        'fishing-games': 'Fishing Games',
+        'view-all': 'View All >'
+>>>>>>> 1e67d26544110dbec4adae27c97a91efa132c436
     },
     zh: {
         'help-title': '我们在此竭诚服务',
@@ -529,7 +557,7 @@ export const messages = {
             '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
         'aboutUs-detail-text-three':
             'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
-        'aboutUs-detail-text-four':
+        'aboutUs-detail-stext-four':
             '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
         story: '乐投品牌故事',
         'about-letou': '关于乐投'
