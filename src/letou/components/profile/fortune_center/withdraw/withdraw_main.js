@@ -248,7 +248,8 @@ export class WithdrawMain extends Component {
     setContent() {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
-
+        console.log("url",url)
+        console.log("parts",parts)
         if (parts.length > 4) {
             if (parts[4].length > 0) {
                 //this.setState({ contentValue: parts[4] })
@@ -429,8 +430,7 @@ export class WithdrawMain extends Component {
                         </Grid> */}
                     </Grid>
                 );
-            //case 'thailand':
-            case 'united states':
+            case 'thailand':
                 return (
                     
                     <StyledTabs
@@ -458,17 +458,18 @@ export class WithdrawMain extends Component {
                     
                     
                 );
-            case 'vietnam':
+            //case 'vietnam':
+            case 'united states':
                 return (
                     <StyledTabs
                         value={tabValue}
                         onChange={this.handleTabChange}>
                         <StyledTab
                             label={this.getLabel('local-bank')}
-                            value="localbank"
+                            value="vietnamelocalbank"
                             onClick={() => {
-                                if (this.props.match.params.type !== 'localbank') {
-                                    this.handleTabChange('localbank');
+                                if (this.props.match.params.type !== 'vietnamelocalbank') {
+                                    this.handleTabChange('vietnamelocalbank');
                                 }
                             }}
                         />

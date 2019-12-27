@@ -390,8 +390,8 @@ class VietnamLocalBank extends Component {
             password: '',
 
             activeStep: 0,
-            currency: "THB",
-            currencyCode: 'THB',
+            currency: "VND",
+            currencyCode: 'VND',
             isFavorite: false,
         };
     }
@@ -495,8 +495,6 @@ class VietnamLocalBank extends Component {
             username: this.state.data.username,
             balance: this.state.amount,
         });
-        console.log("body",body)
-        console.log("config",config)
         axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
             .then(res => {
                 if (res.data === 'Failed') {
@@ -602,9 +600,8 @@ class VietnamLocalBank extends Component {
     render() {
         const { classes } = this.props;
         const { selectedBankOption, bankAccountNumber, amount, currency } = this.state;
-        console.log(this.state.amountInvalid, this.state.selectedBankOption)
-        //const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
-        const filteredOptions = bank_options.filter((o) => o.code === "THB")
+
+        const filteredOptions = bank_options.filter((o) => o.code === "VND")
 
         return (
             <div className={classes.root}>
@@ -776,6 +773,7 @@ const mapStateToProps = (state) => {
 }
 
 export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(VietnamLocalBank))));
+
 {/*
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
