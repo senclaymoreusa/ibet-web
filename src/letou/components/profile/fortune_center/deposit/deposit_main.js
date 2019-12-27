@@ -338,8 +338,7 @@ export class DepositMain extends Component {
                         </Grid>
                     </Grid>
                 );
-            //case 'thailand':
-            case 'united states':
+            case 'thailand':
                 return (
                     <Grid container className={classes.methodGrid} spacing={4}>
                         <Grid item xs={1} className={classes.methodColumn}>
