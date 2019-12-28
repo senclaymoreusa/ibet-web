@@ -360,6 +360,7 @@ export const messages = {
         'timer-label': 'Timer',
         'placeholder-link': 'Placeholder Link',
         'thai-localbank-placeholder': 'Deposit ฿200 - ฿950,000',
+        'thai-localbank-placeholder-withdraw': 'Deposit ฿200 - ฿950,000',
         'astropay-placeholder': 'Deposit ฿10 - ฿500,000',
         'help2pay-placeholder': 'Deposit ฿500 - ฿500,000',
         'card-number': 'Card Number',
@@ -443,6 +444,7 @@ export const messages = {
             'Your QR code needs to be used once only, please ensure the amount you deposit matches what is on the QR code to avoid any issues.',
         'vn-help2paypay-placeholder': 'Deposit ₫300,000 - ₫300,000,000',
         'vn-localbank-placeholder': 'Deposit ₫200,000 - ₫100,000,000',
+        'vn-localbank-placeholder-withdraw': 'Deposit ₫200,000 - ₫100,000,000',
         'email-update-success':
             ' Your email address has been successfully updated.',
         'lang-thai': 'Thai',

@@ -426,7 +426,8 @@ export class WithdrawMain extends Component {
                         </Grid> */}
                     </Grid>
                 );
-            case 'thailand':
+            //case 'thailand':
+            case 'united states':
                 return (
                     
                     <StyledTabs
@@ -456,8 +457,8 @@ export class WithdrawMain extends Component {
                     
                     
                 );
-            //case 'vietnam':
-            case 'united states':
+            case 'vietnam':
+            //case 'united states':
                 return (
                     <StyledTabs
                         value={tabValue}
@@ -502,11 +503,6 @@ export class WithdrawMain extends Component {
 
                     {activeStep === 1 && tabValue === 'success' && <WithdrawSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
                     {activeStep === 1 && tabValue === 'error' && <WithdrawError callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
-
-                    
-                    {/*
-                    {this.state.tabValue === 'createwithdrawpassword' && <CreateWithdrawPassword />}
-                    */}
 
                     {activeStep === 1 && tabValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
                     {activeStep === 1 && tabValue === 'help2pay' && <Help2Pay />}

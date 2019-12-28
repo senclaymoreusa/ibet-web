@@ -444,7 +444,7 @@ class ThaiLocalBank extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300 || parseFloat(event.target.value) > 300000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 200 || parseFloat(event.target.value) > 950000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -525,7 +525,7 @@ class ThaiLocalBank extends Component {
         const { classes } = this.props;
         const { selectedBankOption, bankAccountNumber, amount, currency } = this.state;
 
-        
+
         const filteredOptions = bank_options.filter((o) => o.code === "THB")
 
         return (
@@ -565,7 +565,7 @@ class ThaiLocalBank extends Component {
                     {this.state.activeStep === 1 && <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('vn-help2paypay-placeholder')}
+                            placeholder={this.getLabel('thai-localbank-placeholder-withdraw')}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={

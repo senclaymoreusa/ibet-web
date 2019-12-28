@@ -446,7 +446,7 @@ class VietnamLocalBank extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300 || parseFloat(event.target.value) > 300000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 200000 || parseFloat(event.target.value) > 100000000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -613,7 +613,7 @@ class VietnamLocalBank extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                             <TextField
                                 className={classes.amountText}
-                                placeholder={this.getLabel('help2pay-placeholder')}
+                                placeholder={this.getLabel('vn-localbank-placeholder-withdraw')}
                                 onChange={this.amountChanged.bind(this)}
                                 value={amount}
                                 error={
@@ -681,7 +681,7 @@ class VietnamLocalBank extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick.bind(this)}
-                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
+                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.bankAccountNumber === ''}
                         >{this.getLabel('next-label')}</Button>
                     </Grid>
                 </Grid>
