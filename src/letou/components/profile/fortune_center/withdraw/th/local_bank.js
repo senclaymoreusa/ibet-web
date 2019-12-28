@@ -493,8 +493,7 @@ class ThaiLocalBank extends Component {
             username: this.state.data.username,
             balance: this.state.amount,
         });
-        console.log("body",body)
-        console.log("config",config)
+
         axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
             .then(res => {
                 if (res.data === 'Failed') {
@@ -506,81 +505,6 @@ class ThaiLocalBank extends Component {
                 }
             });
         
-        {/*
-        return fetch(API_URL + 'accounting/api/help2pay/deposit', {
-            method: 'POST',
-            withCredentials: true,
-            headers: {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'Authorization': 'Token ' + token
-            },
-            body: formBody
-        }).then(function (res) {
-            if (res.ok) {
-                return res.text();
-            }
-
-            currentComponent.props.callbackFromParent("error", "渠道维护中");
-
-            throw new Error('Something went wrong.');
-
-        }).then(function (data) {
-            let newwin = window.open('');
-            newwin.document.write(data);
-            var timer = setInterval(function () {
-
-                if (newwin.closed) {
-                    clearInterval(timer);
-                    const pd = JSON.stringify({
-                        order_id: currentComponent.state.order_id,
-
-                    });
-
-                    return fetch(API_URL + 'accounting/api/help2pay/deposit_status', {
-                        method: 'POST',
-                        withCredentials: true,
-                        headers: {
-                            'content-type': 'application/json',
-                            'Authorization': 'Token ' + token
-                        },
-                        body: pd
-
-                    }).then(function (res) {
-                        return res.text();
-                    }).then(function (data) {
-                        //console.log(data)
-
-
-                        if (data === '0') {
-
-                            const body = JSON.stringify({
-                                type: 'add',
-                                username: this.state.data.username,
-                                balance: this.state.amount,
-                            });
-                            //console.log(body)
-                            axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                .then(res => {
-                                    if (res.data === 'Failed') {
-                                        currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                    } else if (res.data === 'The balance is not enough') {
-                                        currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                    } else {
-                                        currentComponent.props.callbackFromParent("success", "Transaction completed.");
-                                    }
-                                });
-                        } else {
-                            currentComponent.props.callbackFromParent("error", '渠道维护中');
-                        }
-                    });
-                }
-            }, 1000);
-
-        }).catch(function (err) {
-            console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
-            sendingLog(err);
-        });*/}
     }
 
     getLabel(labelId) {
@@ -600,8 +524,8 @@ class ThaiLocalBank extends Component {
     render() {
         const { classes } = this.props;
         const { selectedBankOption, bankAccountNumber, amount, currency } = this.state;
-        console.log(this.state.amountInvalid, this.state.selectedBankOption)
-        //const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+
+        
         const filteredOptions = bank_options.filter((o) => o.code === "THB")
 
         return (

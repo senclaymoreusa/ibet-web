@@ -48,7 +48,7 @@ if (
     window.location
         .toString()
         .toLowerCase()
-        .indexOf('asia') != -1
+        .indexOf('asia') == -1
 ) {
     ReactDOM.render(
          <Provider store={store}>

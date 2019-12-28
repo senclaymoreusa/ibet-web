@@ -564,7 +564,7 @@ class MoneyPay extends Component {
             }, 1000);
 
         }).catch(function (err) {
-            console.log('Request failed', err);
+            //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
             sendingLog(err);
         });
