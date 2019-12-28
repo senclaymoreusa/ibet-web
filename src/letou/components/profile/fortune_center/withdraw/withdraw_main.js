@@ -426,8 +426,8 @@ export class WithdrawMain extends Component {
                         </Grid> */}
                     </Grid>
                 );
-            //case 'thailand':
-            case 'united states':
+            case 'thailand':
+            //case 'united states':
                 return (
                     
                     <StyledTabs
