@@ -170,7 +170,7 @@ export class WithdrawMain extends Component {
             selectedType: '',
             userCountry: '',
             favouriteMethod: '',
-            activeStep: 0,
+            activeStep: -1,
 
             tabValue: ''
         };
@@ -200,6 +200,7 @@ export class WithdrawMain extends Component {
 
     }
     */
+    /*
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -219,7 +220,28 @@ export class WithdrawMain extends Component {
 
         this.setContent();
     }
+    */
+   static getDerivedStateFromProps(props){
+       /*
+    const token = localStorage.getItem('token');
+    config.headers["Authorization"] = `Token ${token}`;
+    axios.get(API_URL + 'users/api/user/', config)
+        .then(res => {
+            return {
+                userCountry: res.data.country,
+                favouriteMethod: res.data.favorite_payment_method,
+            }
+            //this.setState({ userCountry: res.data.country });
+            //this.setState({ favouriteMethod: res.data.favorite_payment_method });
+        });
 
+    //this.setState({ urlPath: this.props.history.location.pathname });
+    */
+        return {
+            urlPath: props.history.location.pathname,
+        }
+   }
+   
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -505,9 +527,14 @@ export class WithdrawMain extends Component {
                     {activeStep === 1 && tabValue === 'error' && <WithdrawError callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
 
                     {activeStep === 1 && tabValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
+                    {/*}
                     {activeStep === 1 && tabValue === 'help2pay' && <Help2Pay />}
+                    */}
                     {activeStep === 1 && tabValue === 'vietnamelocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage}/>)}
+                    {/*
                     {activeStep === 1 && tabValue === 'moneypay' && <MoneyPay />}
+                    */}
+                    
                         
                 </div>
             </div >

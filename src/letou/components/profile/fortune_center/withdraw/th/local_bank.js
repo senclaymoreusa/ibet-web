@@ -379,7 +379,7 @@ class ThaiLocalBank extends Component {
             error: false,
             data: '',
             selectedBankOption: 'none',
-            order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
+            //order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
 
             amountFocused: false,
             amountInvalid: true,
@@ -393,7 +393,7 @@ class ThaiLocalBank extends Component {
             isFavorite: false,
         };
     }
-
+    /*
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -413,7 +413,7 @@ class ThaiLocalBank extends Component {
             });
         
     }
-
+    */
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -476,7 +476,7 @@ class ThaiLocalBank extends Component {
             "currency": '7',
             "bank": this.state.selectedBankOption,
             "language": "en-Us",
-            "order_id": this.state.order_id,
+            //"order_id": this.state.order_id,
         }
 
         var formBody = [];
@@ -519,6 +519,8 @@ class ThaiLocalBank extends Component {
         var path = parts.slice(1, 4).join('/');
         url = url + path;
         this.props.history.push(url);
+        let currentComponent = this;
+        currentComponent.props.callbackFromParent("");
     }
 
     render() {

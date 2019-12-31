@@ -414,7 +414,7 @@ class MoneyPay extends Component {
             isFavorite: false,
         };
     }
-
+    /*
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -432,7 +432,7 @@ class MoneyPay extends Component {
                 this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
     }
-
+    */
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -593,6 +593,8 @@ class MoneyPay extends Component {
         var path = parts.slice(1, 4).join('/');
         url = url + path;
         this.props.history.push(url);
+        let currentComponent = this;
+        currentComponent.props.callbackFromParent("");
     }
 
     withdrawPasswordChanged(event) {

@@ -424,7 +424,7 @@ class Help2Pay extends Component {
             isFavorite: false,
         };
     }
-
+    /*
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -442,7 +442,7 @@ class Help2Pay extends Component {
                 this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
     }
-
+    */
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -457,7 +457,7 @@ class Help2Pay extends Component {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
+                //this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
     }
 
@@ -645,6 +645,8 @@ class Help2Pay extends Component {
         var path = parts.slice(1, 4).join('/');
         url = url + path;
         this.props.history.push(url);
+        let currentComponent = this;
+        currentComponent.props.callbackFromParent("");
     }
 
     render() {
@@ -819,7 +821,6 @@ class Help2Pay extends Component {
                                         </InputAdornment>
                                 ),
                             }}
-                            //
                         />
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell} >
