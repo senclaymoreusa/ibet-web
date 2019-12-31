@@ -516,7 +516,7 @@ export class GameLobby extends React.Component {
             <div className={classes.rootDesktop}>
                 <TopNavbar />
                 <div className={classes.banner}>
-                    <img src="https://www.178letou.com/static/styles/desktop/images/game/jptbanner01.jpg"></img>
+                    <img src="https://d18z3w7mepzcqu.cloudfront.net/banner/jptbanner01.jpg"></img>
                 </div>
                 <div className={classes.banner}>
                     <Paper style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
