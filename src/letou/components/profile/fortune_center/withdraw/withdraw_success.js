@@ -146,7 +146,7 @@ export class WithdrawSuccess extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.successRow}>
                         <span className={classes.title}>
-                            {this.getLabel('deposit-submitted')}
+                            {this.getLabel('withdrawal-submitted')}
                         </span>
                     </Grid>
                     <Grid
@@ -156,7 +156,7 @@ export class WithdrawSuccess extends Component {
                         style={{ marginTop: 20, marginBottom: 50 }}
                     >
                         <span className={classes.text}>
-                            {this.getLabel('deposit-label')} {successMessage}{' '}
+                            {this.getLabel('withdrawal-label')} {successMessage}{' '}
                             {this.getLabel('submitted-label')}
                         </span>
                         <span className={classes.text}>

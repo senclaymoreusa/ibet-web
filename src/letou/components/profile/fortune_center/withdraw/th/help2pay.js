@@ -564,7 +564,6 @@ class Help2Pay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            //console.log(res)
             if (res.ok) {
                 return res.text();
             }
@@ -574,7 +573,6 @@ class Help2Pay extends Component {
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
-            //console.log(data)
             let newwin = window.open('');
             newwin.document.write(data);
             var timer = setInterval(function () {
@@ -614,7 +612,7 @@ class Help2Pay extends Component {
                                     if (res.data === 'Failed') {
                                         currentComponent.props.callbackFromParent("error", "Transaction failed.");
                                     } else if (res.data === 'The balance is not enough') {
-                                        currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                        currentComponent.props.callbackFromParent("error", "Cannot withdraw this amount.");
                                     } else {
                                         currentComponent.props.callbackFromParent("success", "Transaction completed.");
                                     }

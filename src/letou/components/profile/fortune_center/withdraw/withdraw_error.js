@@ -138,12 +138,12 @@ export class WithdrawError extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.errorRow}>
                         <span className={classes.title}>
-                            {this.getLabel('deposit-failed')}
+                            {this.getLabel('withdrawal-failed')}
                         </span>
                     </Grid>
                     <Grid item xs={12} className={classes.errorRow} style={{ marginTop: 20, marginBottom: 50 }}>
                         <span className={classes.text}>
-                            {errorMessage ? errorMessage : this.getLabel('deposit-failed-text')}
+                            {errorMessage ? errorMessage : this.getLabel('withdrawal-failed-text')}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
