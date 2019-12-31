@@ -155,7 +155,7 @@ export class FilterSearchBar extends Component {
                     this.setState({ themeFilter: filterValueList });
                 }
                 if (filterName === 'sort') {
-                    console.log(filterValueList);
+                    // console.log(filterValueList);
                     this.setState({ sortFilter: filterValueList });
                 }
             }
@@ -245,7 +245,7 @@ export class FilterSearchBar extends Component {
         
         const filterUrl = filterParts.join('&');
         const finalUrl = baseUrl + '/' + filterUrl;
-        console.log(finalUrl);
+        // console.log(finalUrl);
         this.props.history.push(finalUrl);
     }
 
