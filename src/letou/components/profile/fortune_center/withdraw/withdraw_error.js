@@ -112,11 +112,14 @@ export class WithdrawError extends Component {
 
     tryAgainClicked() {
         var url = this.props.history.location.pathname;
-        //var parts = url.split('/');
-        //url = '/';
+        var parts = url.split('/');
+        url = '/';
         //var path = parts.slice(1, 3).join('/');
         //url = url + path;
-        this.props.history.push(url);
+        //this.props.history.push(url);
+        var path = parts.slice(4);
+        let currentComponent = this;
+        currentComponent.props.callbackFromParent(parts[4]);
     }
 
     getLabel(labelId) {
