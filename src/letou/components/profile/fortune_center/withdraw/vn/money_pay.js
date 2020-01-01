@@ -402,7 +402,7 @@ class MoneyPay extends Component {
             error: false,
             data: '',
             selectedBankOption: 'none',
-            order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
+            order_id: '',//"letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
 
             amountFocused: false,
             amountInvalid: true,

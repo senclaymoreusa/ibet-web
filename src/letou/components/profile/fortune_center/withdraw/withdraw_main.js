@@ -527,9 +527,7 @@ export class WithdrawMain extends Component {
                     {activeStep === 1 && tabValue === 'error' && <WithdrawError callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
 
                     {activeStep === 1 && tabValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
-                    {/*}
                     {activeStep === 1 && tabValue === 'help2pay' && <Help2Pay />}
-                    */}
                     {activeStep === 1 && tabValue === 'vietnamelocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage}/>)}
                     {/*
                     {activeStep === 1 && tabValue === 'moneypay' && <MoneyPay />}

@@ -404,7 +404,7 @@ class Help2Pay extends Component {
             error: false,
             data: '',
             selectedBankOption: 'none',
-            order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
+            order_id: '',//"letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
             
             showwithdrawPassword: false,
 
@@ -567,7 +567,6 @@ class Help2Pay extends Component {
             if (res.ok) {
                 return res.text();
             }
-
             currentComponent.props.callbackFromParent("error", "渠道维护中");
 
             throw new Error('Something went wrong.');
@@ -597,8 +596,6 @@ class Help2Pay extends Component {
                         return res.text();
                     }).then(function (data) {
                         //console.log(data)
-
-
                         if (data === '0') {
 
                             const body = JSON.stringify({
