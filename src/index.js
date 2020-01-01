@@ -15,7 +15,7 @@ import throttle from 'lodash/throttle';
 import { createLogger } from 'redux-logger';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducers from './reducers';
 
@@ -30,10 +30,17 @@ addLocaleData(fr);
 addLocaleData(vi);
 addLocaleData(th);
 
+let middleware = [];
+if (process.env.REACT_APP_NODE_ENV === 'development') {
+  middleware = [...middleware, thunkMiddleware, loggerMiddleware];
+} else {
+  middleware = [...middleware, thunkMiddleware];
+}
+
 const store = createStore(
     rootReducers,
     persistentState,
-    applyMiddleware(thunkMiddleware, loggerMiddleware)
+    compose(applyMiddleware(...middleware))
 );
 
 store.subscribe(
@@ -48,7 +55,11 @@ if (
     window.location
         .toString()
         .toLowerCase()
-        .indexOf('asia') != -1
+        .indexOf('asia') != -1 || 
+    window.location
+        .toString()
+        .toLowerCase()
+        .indexOf('localhost') != -1
 ) {
     ReactDOM.render(
          <Provider store={store}>
