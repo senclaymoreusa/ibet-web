@@ -55,6 +55,12 @@ export const authLogin = (username, password, iovationData) => {
                 );
                 localStorage.setItem('token', token);
                 localStorage.setItem('expirationDate', expirationDate);
+
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        localStorage.setItem('userId', res.data.pk);
+                })
                 dispatch(authSuccess(token));
                 dispatch(checkAuthTimeout(3600));
                 return Promise.resolve(AUTH_RESULT_SUCCESS);
