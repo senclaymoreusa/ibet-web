@@ -539,7 +539,14 @@ export const messages = {
           'inbox-label': 'Inbox',
         'any-question-label':
             'If you have any suggestions, please feel free to contact us',
-        'dedicated-line': '24-hour Domestic Dedicated Line'
+        'dedicated-line': '24-hour Domestic Dedicated Line',
+        'bet-label':'Bet',
+        'win-label':'Win',
+        'biggest-win':'Biggest Win',
+        'bonuses-label':'Bonuses',
+
+
+
     },
     zh: {
         'help-title': '我们在此竭诚服务',

@@ -20,7 +20,10 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
-        alignItems: 'center'
+        alignItems: 'center',
+        [theme.breakpoints.down('md')]: {
+            paddingBottom: 70
+        }
     },
     main: {
         minHeight: '100vh',
@@ -30,6 +33,18 @@ const styles = theme => ({
         [theme.breakpoints.up('md')]: {
             maxWidth: 1400,
             backgroundColor: '#fff'
+        }
+    },
+    desktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex'
+        }
+    },
+    mobile: {
+        display: 'flex',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
         }
     },
     grow: {
@@ -72,10 +87,13 @@ const styles = theme => ({
         color: 'rgba(0, 0, 0, 0.5)',
         marginRight: 8
     },
-    titleContainer: {
+    barRow: {
+        display: 'flex',
+        flexDirection: 'row',
         [theme.breakpoints.up('md')]: {
             boxShadow: '0 0 4px 0 rgba(0, 0, 0, 0.1)',
-            backgroundColor: '#ffffff'
+            backgroundColor: '#ffffff',
+            marginBottom: 20
         }
     },
     currentCell: {
@@ -114,8 +132,10 @@ const styles = theme => ({
         }
     },
     chartPane: {
-        paddingLeft: 50,
-        paddingRight: 50,
+        [theme.breakpoints.up('md')]: {
+            paddingLeft: 50,
+            paddingRight: 50
+        },
         paddingTop: 40
     },
     titleCell: {
@@ -146,7 +166,7 @@ const styles = theme => ({
         flexDirection: 'column',
         [theme.breakpoints.down('md')]: {
             paddingLeft: 20,
-            paddingRight: 20,
+            paddingRight: 20
         }
     },
     titleValue: {
@@ -172,12 +192,12 @@ const styles = theme => ({
         [theme.breakpoints.up('md')]: {
             height: 75,
             marginBottom: 15,
-            padding: 14,
+            padding: 14
         }
     },
     buttonText: {
         [theme.breakpoints.down('md')]: {
-            fontSize: 14,
+            fontSize: 14
         },
         fontSize: 18,
         fontWeight: 'normal',
@@ -191,7 +211,7 @@ const styles = theme => ({
     },
     value: {
         [theme.breakpoints.down('md')]: {
-            fontSize: 14,
+            fontSize: 14
         },
         fontSize: 16,
         fontWeight: 500,
@@ -515,8 +535,8 @@ export class Analysis extends Component {
         return (
             <div className={classes.root}>
                 <div className={classes.main}>
-                    <Grid container className={classes.titleContainer}>
-                        <Grid item xs={12} className={classes.row}>
+                    <Grid container>
+                        <Grid item xs={12} className={classes.barRow}>
                             <div className={classes.prevCell}>{prevButton}</div>
                             <div className={classes.grow} />
                             <div className={classes.currentCell}>
@@ -527,9 +547,7 @@ export class Analysis extends Component {
                             <div className={classes.grow} />
                             <div className={classes.nextCell}>{nextButton}</div>
                         </Grid>
-                    </Grid>
-                    <Grid container style={{ marginTop: 20 }}>
-                        <Grid item xs={3}>
+                        <Grid item md={3} className={classes.desktop}>
                             <Button
                                 className={clsx({
                                     [classes.leftTypeButton]: true,
@@ -553,7 +571,7 @@ export class Analysis extends Component {
                                 {this.getLabel('deposit-label')}
                             </Button>
                         </Grid>
-                        <Grid item xs={6} className={classes.titleCell}>
+                        <Grid item xs={12} md={6} className={classes.titleCell}>
                             <div>
                                 <span className={classes.titleLabel}>
                                     {type === 'turnover'
@@ -570,14 +588,47 @@ export class Analysis extends Component {
                                 </div>
                             </div>
                         </Grid>
-                        <Grid item xs={3}></Grid>
+                        <Grid item md={3} className={classes.desktop}></Grid>
                         <Grid item xs={12} className={classes.chartPane}>
-                            {/* <Line
-                                data={data}
-                                width={825}
-                                height={240}
-                                options={options}
-                            /> */}
+                            <Line data={data} options={options} />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.mobile}
+                            style={{
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                marginTop: 20
+                            }}
+                        >
+                            <div>
+                                <Button
+                                    className={clsx({
+                                        [classes.leftTypeButton]: true,
+                                        [classes.activeLeft]:
+                                            type === 'turnover'
+                                    })}
+                                    onClick={() => {
+                                        this.setState({ type: 'turnover' });
+                                    }}
+                                >
+                                    {this.getLabel('turn-over')}
+                                </Button>
+                                <Button
+                                    className={clsx({
+                                        [classes.rightTypeButton]: true,
+                                        [classes.activeRight]:
+                                            type === 'deposit'
+                                    })}
+                                    onClick={() => {
+                                        this.setState({ type: 'deposit' });
+                                    }}
+                                >
+                                    {this.getLabel('deposit-label')}
+                                </Button>
+                            </div>
                         </Grid>
                         <Grid
                             item
