@@ -45,8 +45,6 @@ export const authLogin = (username, password, iovationData) => {
             )
             .then(res => {
                 if (res.data.errorCode) {
-                    // return Promise.resolve(AUTH_RESULT_FAIL);
-                    // dispatch(authFail(res.data.errorMsg));
                     return Promise.resolve(res.data);
                 }
                 const token = res.data.key;
@@ -82,7 +80,6 @@ export const FacebookauthLogin = (username, email) => {
                 config
             )
             .then(res => {
-
                 if (res.data.errorCode) {
                     // return Promise.resolve(AUTH_RESULT_FAIL);
                     dispatch(authFail(res.data.errorMsg));
@@ -151,7 +148,7 @@ export const authSignup = (
 
         return axios
             .post(API_URL + 'users/api/signup/', body, config)
-            .then(res => {
+            .then(() => {
                 // const token = res.data.key;
                 // const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
                 // localStorage.setItem('token', token);
@@ -204,11 +201,11 @@ export const postLogout = () => {
     const body = JSON.stringify({});
     return axios
         .post(API_URL + 'users/api/logout/', body, config)
-        .then(res => {
+        .then(() => {
             window.location.reload();
             // console.log(res);
         })
-        .catch(err => {
+        .catch(() => {
             window.location.reload();
             // console.log(err);
         });
@@ -227,21 +224,24 @@ export const logout = () => {
     };
 };
 
-export const sendingLog = (err) => {
+export const sendingLog = err => {
     return axios
-        .post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config)
-        .then(res => { });
-}
+        .post(
+            API_URL + 'system/api/logstreamtos3/',
+            { line: err, source: 'Ibetweb' },
+            config
+        )
+        .then(() => {});
+};
 
 export const authCheckState = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
+
         if (!token || token === undefined) {
-            // check token first
             dispatch(logout());
             return Promise.resolve(AUTH_RESULT_FAIL);
         } else {
-            // check token expiration time
             const expirationDate = new Date(
                 localStorage.getItem('expirationDate')
             );
@@ -252,10 +252,10 @@ export const authCheckState = () => {
             } else {
                 config.headers['Authorization'] = `Token ${token}`;
 
-                return axios.get(API_URL + 'users/api/user/', config)
+                return axios
+                    .get(API_URL + 'users/api/user/', config)
                     .then(res => {
                         if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-
                             dispatch(authFail(res.data.errorMsg.detail[0]));
                             dispatch(logout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
@@ -264,28 +264,11 @@ export const authCheckState = () => {
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
                             dispatch(authSuccess(res.data, token));
-                           dispatch(checkAuthTimeout(3600));
+                            dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);
                         }
-                        // return axios.get(API_URL + 'users/api/check-user-status/?userId=' + res.data.pk, config)
-                        // .then(userStatus => {
-                        //     if (userStatus.data.errorCode === errors.USER_IS_BLOCKED) {
-                        //         dispatch(authFail(userStatus.errorMsg.detail[0]));
-                        //         dispatch(logout());
-                        //         return Promise.resolve(AUTH_RESULT_FAIL);
-                        //     } else if (res.data.block || !res.data.active) {
-                        //         dispatch(logout());
-                        //         return Promise.resolve(AUTH_RESULT_FAIL);
-                        //     } else {
-                        //         dispatch(authSuccess(token));
-                        //         //dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime()) / 1000) );
-                        //         dispatch(checkAuthTimeout(3600));
-                        //         return Promise.resolve(AUTH_RESULT_SUCCESS);
-                        //     }
-                        // })
                     })
-                    .catch(err => {
-                        // dispatch(authFail(err.response.data.detail));
+                    .catch(() => {
                         dispatch(logout());
                         postLogout();
                         delete config.headers['Authorization'];
