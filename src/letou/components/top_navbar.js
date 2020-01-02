@@ -991,7 +991,7 @@ class TopNavbar extends React.Component {
                                     this.openMainMenu(event, 'games');
                                 }}
                                 onClick={() => {
-                                    this.props.history.push('/game');
+                                    this.props.history.push('/game/all');
                                 }}
                             >
                                 {this.getLabel('nav-games')}
