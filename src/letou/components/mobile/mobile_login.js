@@ -190,11 +190,6 @@ export class MobileLogin extends React.Component {
             }
         });
 
-        const remember_check = localStorage.getItem('remember_check');
-        if (remember_check) {
-            await this.setState({ check: true });
-        }
-
         const check = localStorage.getItem('one-click');
         if (check) {
             const username = localStorage.getItem('username');
@@ -235,21 +230,6 @@ export class MobileLogin extends React.Component {
                     if (response.errorCode) {
                         this.setState({ errorMessage: response.errorMsg.detail[0] });
                     } else {
-                        if (this.state.check) {
-                            localStorage.setItem('remember_password', this.state.password);
-                            localStorage.setItem('remember_check', 'checked')
-                            
-                            const token = localStorage.getItem('token');
-                            config.headers["Authorization"] = `Token ${token}`;
-                            axios.get(API_URL + 'users/api/user/', config)
-                                .then(res => {
-                                    localStorage.setItem('remember_username', res.data.username);
-                                })
-                        } else {
-                            localStorage.removeItem('remember_username');
-                            localStorage.removeItem('remember_password');
-                            localStorage.removeItem('remember_check');
-                        }
                         this.props.hide_letou_mobile_login();
     
                     }
