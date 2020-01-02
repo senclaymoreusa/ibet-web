@@ -722,9 +722,10 @@ class Transfer extends Component {
                             </Grid>
                             <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
                                 <Button href="#text-buttons" className={classes.allButton}
-                                    onClick={() => {
-                                        this.setState({ showConfirmationDialog: true });
-                                    }}>
+                                    // onClick={() => {
+                                    //     this.setState({ showConfirmationDialog: true });
+                                    // }}
+                                    >
                                     {this.getLabel('transfer-to-main')}
                                 </Button>
                             </Grid>
