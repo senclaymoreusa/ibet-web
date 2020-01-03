@@ -542,6 +542,16 @@ export const messages = {
         'any-question-label':
             'If you have any suggestions, please feel free to contact us',
         'dedicated-line': '24-hour Domestic Dedicated Line'
+        'recommended': 'Recommended',
+        'top-games': 'Top Games',
+        'slot-machine': 'Slot Machine',
+        'cumulative-award': 'Cumulative Award',
+        'table-games': 'Table Games',
+        'scratch-card': 'Scratch Card',
+        'gaming-room': 'Gaming Room',
+        'video-poker': 'Video Poker',
+        'fishing-games': 'Fishing Games',
+        'view-all': 'View All >'
     },
     zh: {
         'help-title': '我们在此竭诚服务',

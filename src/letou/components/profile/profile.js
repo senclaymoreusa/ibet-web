@@ -317,7 +317,7 @@ export class Profile extends Component {
         if (parts.length >= 2) {
             let path = parts[2];
             this.setState({ mobileContent: parts[parts.length - 1] });
-           
+
             if (path.length > 0) {
                 if (this._isMounted)
                     this.setState({ desktopTabValue: parts[2] });
@@ -350,7 +350,11 @@ export class Profile extends Component {
                 <div className={classes.rootDesktop}>
                     <AppBar position="static" className={classes.firstRow}>
                         <Toolbar className={classes.firstBar}>
-                            <IconButton href="/" className={classes.logo}>
+                            <IconButton
+                                onClick={() => {
+                                    this.props.history.push('/');
+                                }}
+                                className={classes.logo}>
                                 <img
                                     src={images.src + 'letou/logo2.png'}
                                     alt="LETOU"
@@ -361,14 +365,14 @@ export class Profile extends Component {
                             {this.props.isAuthenticated ? (
                                 <div>
                                     <Button
-                                          size="small"
-                                          onClick={() => {
-                                              this.props.history.push('/p/account-management/message-notification')
-                                          }}
-                                      >
-                                          <div>
-                                              <img src={images.src + 'email2.png'} alt="" />
-                                          </div>
+                                        size="small"
+                                        onClick={() => {
+                                            this.props.history.push('/p/account-management/message-notification')
+                                        }}
+                                    >
+                                        <div>
+                                            <img src={images.src + 'email2.png'} alt="" />
+                                        </div>
                                     </Button>
                                     <Button
                                         size="small"
@@ -612,16 +616,16 @@ export class Profile extends Component {
                     {this.state.mobileContent === 'fortune-center' && (
                         <FortuneCenter />
                     )}
-                     {this.state.mobileContent === 'deposit' && (
+                    {this.state.mobileContent === 'deposit' && (
                         <DepositMain />
                     )}
-                     {this.state.mobileContent === 'withdrawal' && (
+                    {this.state.mobileContent === 'withdrawal' && (
                         <Withdrawal />
                     )}
-                     {this.state.mobileContent === 'transfer' && (
+                    {this.state.mobileContent === 'transfer' && (
                         <Transfer />
                     )}
-                     {this.state.mobileContent === 'total-assets' && (
+                    {this.state.mobileContent === 'total-assets' && (
                         <TotalAssets />
                     )}
                      {this.state.mobileContent === 'transaction-records' && (

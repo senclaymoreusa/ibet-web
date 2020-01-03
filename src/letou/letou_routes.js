@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import Home from './components/home';
 import Register from './components/login-register/register';
 import live_casino from './components/live_casino';
@@ -104,69 +105,71 @@ import VirtualTh from './components/member_th/virtual_sports';
 
 import Profile from './components/profile/profile';
 
-import AboutUsVn  from './components/member_vn/about_us'
-import ForMemberVn  from './components/member_vn/for_member'
-import ForPartnerVn  from './components/partner_vn/for_partner';
-import ContactUsVn  from './components/member_vn/contact_us';
-import  StatementVn  from './components/member_vn/statement';
-import  DisclaimerVn  from './components/member_vn/disclaimer';
-import  PrivacyVn  from './components/member_vn/privacy';
-import SafeBetVn  from './components/member_vn/safe_bet';
-import  IdentityVn  from './components/member_vn/identity';
-import  OfferTermsVn  from './components/member_vn/offer_terms';
-import  RulesVn  from './components/member_vn/rules';
-import  FootballRulesVn  from './components/member_vn/football_rules';
-import  BetRulesVn  from './components/member_vn/bet_rules';
-import  GeneralRulesVn  from './components/member_vn/general_rules';
-import  GamePokerVn  from './components/member_vn/game_poker';
-import  GameNiuniuVn  from './components/member_vn/game.niuniu';
-import  GameRuleSixVn  from './components/member_vn/game_rule6';
+import AboutUsVn from './components/member_vn/about_us';
+import ForMemberVn from './components/member_vn/for_member';
+import ForPartnerVn from './components/partner_vn/for_partner';
+import ContactUsVn from './components/member_vn/contact_us';
+import StatementVn from './components/member_vn/statement';
+import DisclaimerVn from './components/member_vn/disclaimer';
+import PrivacyVn from './components/member_vn/privacy';
+import SafeBetVn from './components/member_vn/safe_bet';
+import IdentityVn from './components/member_vn/identity';
+import OfferTermsVn from './components/member_vn/offer_terms';
+import RulesVn from './components/member_vn/rules';
+import FootballRulesVn from './components/member_vn/football_rules';
+import BetRulesVn from './components/member_vn/bet_rules';
+import GeneralRulesVn from './components/member_vn/general_rules';
+import GamePokerVn from './components/member_vn/game_poker';
+import GameNiuniuVn from './components/member_vn/game.niuniu';
+import GameRuleSixVn from './components/member_vn/game_rule6';
 import member_rule1Vn from './components/partner_vn/partner_rule1';
 import member_rule2Vn from './components/partner_vn/partner_rule2';
 import member_rule3Vn from './components/partner_vn/partner_rule3';
 import member_rule4Vn from './components/partner_vn/partner_rule4';
 import member_rule5Vn from './components/partner_vn/partner_rule5';
 import member_rule6Vn from './components/partner_vn/partner_rule6';
-import LotteryRuleOneVn from './components/member_vn/lottery_rule1';
-import GameSedieVn from './components/member_vn/game_sedie';
-import GameErbagangVn from './components/member_vn/game_erbagang';
-import SpecialRulesVn from './components/member_vn/special_rules';
-import GameRuleTwoVn from './components/member_vn/game_rule2';
-import GameWenzhoujiupaiVn from './components/member_vn/game_wenzhoujiupai';
-import GameRuleFiveVn from './components/member_vn/game_rule5';
-import GameLongHuVn from './components/member_vn/game_longhu';
-import GameRuleSevenVn from './components/member_vn/game_rule7';
-import GameGubaoVn from './components/member_vn/game_gubao';
-import LotteryRuleFourVn from './components/member_vn/lottery_rule4';
-import GameRuleFourVn from './components/member_vn/game_rule4';
-import GameSangongVn from './components/member_vn/game_sangong';
-import GameRuleEightVn from './components/member_vn/game_rule8';
-import LotteryRuleTwoVn from './components/member_vn/lottery_rule2';
-import LotteryRuleThreeVn from './components/member_vn/lottery_rule3';
-import GameRuleThreeVn from './components/member_vn/game_rule3';
-import GameRuleOneVn from './components/member_vn/game_rule1';
-import BetRuleTwoVn from './components/member_vn/bet_rules2';
-import BetRuleThreeVn from './components/member_vn/bet_rules3';
-import BetRuleFourVn from './components/member_vn/bet_rules4';
-import BaijialeVn from './components/member_vn/game_baijiale';
-import LunpanVn from './components/member_vn/game_lunpan';
-import Game21dianVn from './components/member_vn/game_21dian';
-import VirtualVn from './components/member_vn/virtual_sports';
-import gbsports from './components/sports/gbsports';
-import gbesports from './components/sports/gbesports';
-import onebook from './components/sports/onebook';
-import eonebook from './components/sports/eonebook';
-import gblotto from './components/sports/gblotto';
-import gbkeno from './components/sports/gbkeno';
-import gbk3 from './components/sports/gbk3';
-import gbpk10 from './components/sports/gbpk10';
-import gbssc from './components/sports/gbssc';
-import Games from './components/game';
+import  LotteryRuleOneVn  from './components/member_vn/lottery_rule1';
+import  GameSedieVn  from './components/member_vn/game_sedie';
+import  GameErbagangVn  from './components/member_vn/game_erbagang';
+import  SpecialRulesVn  from './components/member_vn/special_rules';
+import  GameRuleTwoVn  from './components/member_vn/game_rule2';
+import  GameWenzhoujiupaiVn  from './components/member_vn/game_wenzhoujiupai';
+import  GameRuleFiveVn  from './components/member_vn/game_rule5';
+import  GameLongHuVn  from './components/member_vn/game_longhu';
+import  GameRuleSevenVn  from './components/member_vn/game_rule7';
+import  GameGubaoVn  from './components/member_vn/game_gubao';
+import  LotteryRuleFourVn  from './components/member_vn/lottery_rule4';
+import  GameRuleFourVn  from './components/member_vn/game_rule4';
+import  GameSangongVn  from './components/member_vn/game_sangong';
+import  GameRuleEightVn  from './components/member_vn/game_rule8';
+import  LotteryRuleTwoVn  from './components/member_vn/lottery_rule2';
+import  LotteryRuleThreeVn  from './components/member_vn/lottery_rule3';
+import  GameRuleThreeVn  from './components/member_vn/game_rule3';
+import  GameRuleOneVn  from './components/member_vn/game_rule1';
+import  BetRuleTwoVn  from './components/member_vn/bet_rules2';
+import  BetRuleThreeVn  from './components/member_vn/bet_rules3';
+import  BetRuleFourVn  from './components/member_vn/bet_rules4';
+import  BaijialeVn  from './components/member_vn/game_baijiale';
+import  LunpanVn  from './components/member_vn/game_lunpan';
+import  Game21dianVn  from './components/member_vn/game_21dian';
+import  VirtualVn  from './components/member_vn/virtual_sports';
+import  gbsports from './components/sports/gbsports';
+import  gbesports from './components/sports/gbesports';
+import  onebook from './components/sports/onebook';
+import  eonebook from './components/sports/eonebook';
+import  gblotto from './components/sports/gblotto';
+import  gbkeno from './components/sports/gbkeno';
+import  gbk3 from './components/sports/gbk3';
+import  gbpk10 from './components/sports/gbpk10';
+import  gbssc from './components/sports/gbssc';
+// import  Games  from './components/game';
+import GameLobby from './components/games/game_lobby';
+import GameDetail from './components/games/game_detail';
 
 import Promotion from './components/promotion';
 
 const containerStyle = {
-    mineight: '100%'
+    minHeight: '100%'
 };
 
 const BaseRouter = () => (
@@ -174,16 +177,18 @@ const BaseRouter = () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/live_casino" component={live_casino} />
-        <Route exact path="/gbsports" component={gbsports} />
-        <Route exact path="/gbesports" component={gbesports} />
-        <Route exact path="/onebook" component={onebook} />
-        <Route exact path="/eonebook" component={eonebook} />
-        <Route exact path="/gblotto" component={gblotto} />
-        <Route exact path="/gbkeno" component={gbkeno} />
-        <Route exact path="/gbk3" component={gbk3} />
-        <Route exact path="/gbpk10" component={gbpk10} />
-        <Route exact path="/gbssc" component={gbssc} />
-        <Route exact path="/game" component={Games} />
+        <Route exact path='/gbsports' component={gbsports} />
+        <Route exact path='/gbesports' component={gbesports} />
+        <Route exact path='/onebook' component={onebook} />
+        <Route exact path='/eonebook' component={eonebook} />
+        <Route exact path='/gblotto' component={gblotto} />
+        <Route exact path='/gbkeno' component={gbkeno} />
+        <Route exact path='/gbk3' component={gbk3} />
+        <Route exact path='/gbpk10' component={gbpk10} />
+        <Route exact path='/gbssc' component={gbssc} />
+        {/* <Route exact path="/game" component={Games} /> */}
+        <Route exact path="/game/:category?/:search?/" component={GameLobby} />
+        <Route exact path="/game_detail/:id" component={GameDetail} />
 
         <Route exact path="/zh/about_us" component={AboutUs} />
         <Route exact path="/zh/contact_us" component={ContactUs} />
@@ -290,10 +295,6 @@ const BaseRouter = () => (
         <Route exact path="/th/member_rule4" component={member_rule4Th} />
         <Route exact path="/th/member_rule5" component={member_rule5Th} />
         <Route exact path="/th/member_rule6" component={member_rule6Th} />
-       
-
-        
-      
 
         <Route exact path="/vi/about_us" component={AboutUsVn} />
         <Route exact path="/vi/contact_us" component={ContactUsVn} />
