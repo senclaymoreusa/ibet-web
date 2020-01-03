@@ -223,43 +223,47 @@ export class MobileLogin extends React.Component {
 
     onFormSubmit(event) {
         event.preventDefault();
-
-        this.props
-            .authLogin(this.state.username, this.state.password)
-            .then(response => {
-                if (response.errorCode) {
-                    this.setState({
-                        errorMessage: response.errorMsg.detail[0]
-                    });
-                } else {
-                    if (this.state.check) {
-                        localStorage.setItem(
-                            'remember_password',
-                            this.state.password
-                        );
-                        localStorage.setItem('remember_check', 'checked');
-
-                        axios
-                            .get(API_URL + 'users/api/user/', config)
-                            .then(res => {
-                                localStorage.setItem(
-                                    'remember_username',
-                                    res.data.username
-                                );
-                            });
+       
+        var bbData = window.IGLOO.getBlackbox();
+        if (bbData.finished) {
+          // clearTimeout(timeoutId);
+          var blackBoxString = bbData.blackbox;
+          axios.get(API_URL + 'users/api/login-device-info?bb=' + blackBoxString)
+            .then(res => {      
+                this.props.authLogin(this.state.username, this.state.password, res.data)
+                .then((response) => {
+                    if (response.errorCode) {
+                        this.setState({ errorMessage: response.errorMsg.detail[0] });
                     } else {
-                        localStorage.removeItem('remember_username');
-                        localStorage.removeItem('remember_password');
-                        localStorage.removeItem('remember_check');
+                        if (this.state.check) {
+                            localStorage.setItem('remember_password', this.state.password);
+                            localStorage.setItem('remember_check', 'checked')
+                            
+                            const token = localStorage.getItem('token');
+                            config.headers["Authorization"] = `Token ${token}`;
+                            axios.get(API_URL + 'users/api/user/', config)
+                                .then(res => {
+                                    localStorage.setItem('remember_username', res.data.username);
+                                })
+                        } else {
+                            localStorage.removeItem('remember_username');
+                            localStorage.removeItem('remember_password');
+                            localStorage.removeItem('remember_check');
+                        }
+                        this.props.hide_letou_mobile_login();
+    
                     }
-                    this.props.hide_letou_mobile_login();
-                }
+                })
+                .catch(err => {
+                    this.setState({errorMessage : err});
+    
+                    sendingLog(err);
+                });
+           
             })
-            .catch(err => {
-                this.setState({ errorMessage: err });
 
-                sendingLog(err);
-            });
+          // Your code to handle blackBoxString
+        }
     }
 
     getLabel(labelId) {

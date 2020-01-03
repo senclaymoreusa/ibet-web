@@ -225,8 +225,10 @@ export class AccountDetails extends Component {
         axios
             .get(API_URL + requestURL + typeStr + statusStr + fromStr + toStr)
             .then(res => {
-                if (res.status === 200)
+                if (res.status === 200) {
                     this.setState({ items: res.data.results });
+                    console.log(res.data.results);
+                }
             })
             .catch(err => {
                 sendingLog(err);
@@ -258,6 +260,7 @@ export class AccountDetails extends Component {
                             </span>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
+                                    autoOk={true}
                                     disableToolbar
                                     variant="inline"
                                     className={classes.date}
@@ -279,6 +282,7 @@ export class AccountDetails extends Component {
                                     }}
                                 />
                                 <KeyboardDatePicker
+                                    autoOk={true}
                                     disableToolbar
                                     variant="inline"
                                     className={classes.date}
@@ -631,7 +635,9 @@ export class AccountDetails extends Component {
                                             {row.transaction_id}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row.arrive_time.toDateString()}
+                                            {moment(row.request_time).format(
+                                                'llll'
+                                            )}
                                         </StyledTableCell>
                                         <StyledTableCell>
                                             {row.transaction_type}
@@ -932,7 +938,9 @@ export class AccountDetails extends Component {
                                 {items.map(row => (
                                     <StyledTableRow key={row.transaction_id}>
                                         <StyledTableCell>
-                                            {row.arrive_time.toDateString()}
+                                            {moment(row.request_time).format(
+                                                'llll'
+                                            )}
                                         </StyledTableCell>
                                         <StyledTableCell>
                                             {row.transaction_type}

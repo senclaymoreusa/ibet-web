@@ -159,7 +159,7 @@ export class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
-            iovationData: '',
+            // iovationData: '',
 
             name: '',
             email: '',
@@ -232,7 +232,8 @@ export class Login extends React.Component {
                         if (this.state.check) {
                             localStorage.setItem('remember_password', this.state.password);
                             localStorage.setItem('remember_check', 'checked')
-    
+                            const token = localStorage.getItem('token');
+                            config.headers["Authorization"] = `Token ${token}`;
                             axios.get(API_URL + 'users/api/user/', config)
                                 .then(res => {
                                     localStorage.setItem('remember_username', res.data.username);
