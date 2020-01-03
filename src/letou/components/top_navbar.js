@@ -250,6 +250,10 @@ class TopNavbar extends React.Component {
         // this.handleOnebookClick = this.handleOnebookClick.bind(this);
     }
 
+    componentDidMount() {
+        this.props.authCheckState();
+    }
+
     langMenuClicked(langValue) {
         this.props.setLanguage(langValue).then(() => {
             // localStorage.setItem("lang", lang);

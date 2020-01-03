@@ -15,11 +15,17 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (user, token) => {
+export const authSuccess = token => {
     return {
         type: 'AUTH_SUCCESS',
-        user: user,
         token: token
+    };
+};
+
+export const authGetUser = user => {
+    return {
+        type: 'AUTH_GET_USER',
+        user: user
     };
 };
 
@@ -56,7 +62,19 @@ export const authLogin = (username, password, iovationData) => {
                 );
                 localStorage.setItem('token', token);
                 localStorage.setItem('expirationDate', expirationDate);
-                dispatch(authSuccess(res.data, token));
+
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    let userData = {
+                        userId: res.data.pk,
+                        currency: res.data.currency
+                    };
+
+                    dispatch(authGetUser(userData));
+                });
+
+                dispatch(authSuccess(token));
                 dispatch(checkAuthTimeout(3600));
                 return Promise.resolve(AUTH_RESULT_SUCCESS);
             })
@@ -95,7 +113,7 @@ export const FacebookauthLogin = (username, email) => {
                 );
                 localStorage.setItem('token', token);
                 localStorage.setItem('expirationDate', expirationDate);
-                dispatch(authSuccess(res.data, token));
+                dispatch(authSuccess(token));
                 dispatch(checkAuthTimeout(3600));
                 return Promise.resolve(AUTH_RESULT_SUCCESS);
             })
@@ -178,7 +196,7 @@ export const FacebookSignup = (username, email) => {
                 );
                 localStorage.setItem('token', token);
                 localStorage.setItem('expirationDate', expirationDate);
-                dispatch(authSuccess(res.data, token));
+                dispatch(authSuccess(token));
                 dispatch(checkAuthTimeout(3600));
                 return Promise.resolve();
             })
@@ -231,7 +249,7 @@ export const sendingLog = err => {
             { line: err, source: 'Ibetweb' },
             config
         )
-        .then(() => {});
+        .then(() => { });
 };
 
 export const authCheckState = () => {
@@ -263,7 +281,14 @@ export const authCheckState = () => {
                             dispatch(logout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
-                            dispatch(authSuccess(res.data, token));
+                            let userData = {
+                                userId: res.data.pk,
+                                currency: res.data.currency
+                            };
+
+                            dispatch(authGetUser(userData));
+
+                            dispatch(authSuccess(token));
                             dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);
                         }

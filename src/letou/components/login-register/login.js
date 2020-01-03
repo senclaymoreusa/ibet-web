@@ -195,16 +195,17 @@ export class Login extends React.Component {
     }
 
     async componentDidMount() {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_SUCCESS) {
-                this.props.history.push('/');
-            }
-        });
+        // this.props.authCheckState()
+        //     .then(res => {
+        //         if (res === AUTH_RESULT_SUCCESS) {
+        //             this.props.history.push('/');
+        //         }
+        //     });
 
-        const remember_check = localStorage.getItem('remember_check');
-        if (remember_check) {
-            await this.setState({ check: true });
-        }
+        // const remember_check = localStorage.getItem('remember_check');
+        // if (remember_check) {
+        //     await this.setState({ check: true })
+        // }
 
         const check = localStorage.getItem('one-click');
         if (check) {
@@ -259,36 +260,6 @@ export class Login extends React.Component {
                                     errorMessage: response.errorMsg.detail[0]
                                 });
                             } else {
-                                if (this.state.check) {
-                                    localStorage.setItem(
-                                        'remember_password',
-                                        this.state.password
-                                    );
-                                    localStorage.setItem(
-                                        'remember_check',
-                                        'checked'
-                                    );
-
-                                    axios
-                                        .get(
-                                            API_URL + 'users/api/user/',
-                                            config
-                                        )
-                                        .then(res => {
-                                            localStorage.setItem(
-                                                'remember_username',
-                                                res.data.username
-                                            );
-                                        });
-                                } else {
-                                    localStorage.removeItem(
-                                        'remember_username'
-                                    );
-                                    localStorage.removeItem(
-                                        'remember_password'
-                                    );
-                                    localStorage.removeItem('remember_check');
-                                }
                                 this.props.hide_letou_login();
                             }
                         })
@@ -298,7 +269,6 @@ export class Login extends React.Component {
                             sendingLog(err);
                         });
                 });
-
             // Your code to handle blackBoxString
         }
     }
