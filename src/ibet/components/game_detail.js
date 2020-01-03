@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TopNavbar from './top_navbar';
+import TopNavbar from '../../ibet/components/top_navbar';
 import axios from 'axios';
 import { config } from '../../util_config';
 import { FormattedMessage } from 'react-intl';
