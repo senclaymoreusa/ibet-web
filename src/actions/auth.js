@@ -195,25 +195,44 @@ export const FacebookSignup = (username, email) => {
 };
 
 export const checkAuthTimeout = expirationTime => {
+    const token = localStorage.getItem('token');
     return dispatch => {
         setTimeout(() => {
-            dispatch(logout());
+            axios
+            .post(API_URL + 'users/api/logout/?token=' + token, config)
+            .then(res => {
+                // console.log(res);
+                dispatch(logout());
+                window.location.reload();
+                // console.log(res);
+            })
+            .catch(err => {
+                dispatch(logout());
+                // console.log(err);
+                window.location.reload();
+                // console.log(err);
+            });
+            
         }, expirationTime * 1000);
     };
 };
 
 export const postLogout = () => {
-    const body = JSON.stringify({});
-    return axios
-        .post(API_URL + 'users/api/logout/', body, config)
-        .then(res => {
-            window.location.reload();
-            // console.log(res);
-        })
-        .catch(err => {
-            window.location.reload();
-            // console.log(err);
-        });
+    return dispatch => {
+        const token = localStorage.getItem('token');
+        const body = JSON.stringify({});
+        axios.post(API_URL + 'users/api/logout/?token=' + token, body, config)
+            .then(res => {
+                dispatch(logout());
+                window.location.reload();
+                // console.log(res);
+            })
+            .catch(err => {
+                dispatch(logout());
+                window.location.reload();
+                // console.log(err);
+            });
+        }
 };
 
 export const logout = () => {
@@ -251,8 +270,8 @@ export const authCheckState = () => {
                 localStorage.getItem('expirationDate')
             );
             if (expirationDate <= new Date()) {
-                dispatch(logout());
-                postLogout();
+                // postLogout();
+                dispatch(postLogout());
                 return Promise.resolve(AUTH_RESULT_FAIL);
             } else {
                 config.headers['Authorization'] = `Token ${token}`;
@@ -262,10 +281,10 @@ export const authCheckState = () => {
                     .then(res => {
                         if (res.data.errorCode === errors.USER_IS_BLOCKED) {
                             dispatch(authFail(res.data.errorMsg.detail[0]));
-                            dispatch(logout());
+                            dispatch(postLogout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else if (res.data.block || !res.data.active) {
-                            dispatch(logout());
+                            dispatch(postLogout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
                             dispatch(authSuccess(token));
@@ -274,8 +293,9 @@ export const authCheckState = () => {
                         }
                     })
                     .catch(() => {
-                        dispatch(logout());
-                        postLogout();
+                        // dispatch(logout());
+                        // postLogout();
+                        dispatch(postLogout());
                         delete config.headers['Authorization'];
                         return Promise.resolve(AUTH_RESULT_FAIL);
                     });
