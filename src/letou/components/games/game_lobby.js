@@ -51,9 +51,7 @@ const styles = theme => ({
 
     game: {
         paddingTop: 20,
-        paddingLeft: '8%',
-        paddingRight: '8%',
-        display: 'flex',
+        margin: 'auto',
     },
 
     rootDesktop: {
