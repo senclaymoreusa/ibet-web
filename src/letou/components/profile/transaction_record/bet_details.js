@@ -3,7 +3,11 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import {
+    authCheckState,
+    sendingLog,
+    AUTH_RESULT_FAIL
+} from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -146,7 +150,10 @@ const styles = theme => ({
     },
     active: {
         backgroundColor: '#3c3c3c',
-        color: '#fff'
+        color: '#fff',
+        '&:hover': {
+            color: '#000',
+        },
     },
     mobileActive: {
         backgroundColor: '#f28f22',
@@ -225,10 +232,10 @@ export class BetDetails extends Component {
             categories: [],
             filterCategory: -1,
 
-            filterStatus: 1,
+            filterStatus: 'open',
 
             providers: [],
-            filterProvider: '',
+            filterProvider: -1,
 
             items: [],
             userId: ''
@@ -240,17 +247,15 @@ export class BetDetails extends Component {
         return formatMessage({ id: labelId });
     }
 
-    async componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        await axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ userId: res.data.pk });
-
-            // this.getTransactions();
+    componentDidMount() {
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                sendingLog('authentication failure!!!');
+            } else {
+                this.getTransactions();
+                this.fillDropDowns();
+            }
         });
-
-        this.fillDropDowns();
     }
 
     fillDropDowns() {
@@ -271,25 +276,43 @@ export class BetDetails extends Component {
     }
 
     getTransactions() {
-        let requestURL = `accounting/api/transactions/get_transactions?user_id=${this.state.userId}`;
-        let typeStr =
-            this.state.filterCategory !== -1
-                ? `&type=${this.state.filterCategory}`
-                : '';
+        const { user } = this.props;
+
+        let requestURL = `games/api/bets/getall?userid=${user.userId}`;
 
         let statusStr =
             this.state.filterStatus !== -1
                 ? `&status=${this.state.filterStatus}`
                 : '';
 
-        let fromStr = `&time_from=${this.state.startDate.format('l')}`;
-        let toStr = `&time_to=${this.state.startDate.format('l')}`;
+        let providerStr =
+            this.state.filterProvider !== -1
+                ? `&provider=${this.state.filterProvider}`
+                : '';
+
+        let categoryStr =
+            this.state.filterCategory !== -1
+                ? `&category=${this.state.filterCategory}`
+                : '';
+
+        let startStr = `&start=${this.state.startDate.format('YYYY/MM/DD')}`;
+        let endStr = `&end=${this.state.endDate.format('YYYY/MM/DD')}`;
 
         axios
-            .get(API_URL + requestURL + typeStr + statusStr + fromStr + toStr)
+            .get(
+                API_URL +
+                    requestURL +
+                    statusStr +
+                    providerStr +
+                    categoryStr +
+                    startStr +
+                    endStr
+            )
             .then(res => {
-                if (res.status === 200)
+                if (res.status === 200) {
                     this.setState({ items: res.data.results });
+                    console.log(res.data.results);
+                }
             })
             .catch(err => {
                 sendingLog(err);
@@ -480,9 +503,6 @@ export class BetDetails extends Component {
                                 {this.getLabel('category-label')}
                             </span>
                             <FormControl className={classes.formControl}>
-                                {/* <InputLabel id="category-label">
-                                    {this.getLabel('type-label')}
-                                </InputLabel> */}
                                 <Select
                                     input={
                                         <BootstrapInput
@@ -496,9 +516,14 @@ export class BetDetails extends Component {
                                         this.setState({
                                             filterCategory: event.target.value
                                         });
-                                        //this.getTransactions();
+                                        this.getTransactions();
                                     }}
                                 >
+                                    <MenuItem key={-1} value={-1} disabled>
+                                        <span className={classes.selectLabel}>
+                                            {this.getLabel('choose-category')}
+                                        </span>
+                                    </MenuItem>
                                     {categories.map(categoryItem => (
                                         <MenuItem
                                             key={categoryItem.category_id}
@@ -516,9 +541,6 @@ export class BetDetails extends Component {
                                 {this.getLabel('provider-label')}
                             </span>
                             <FormControl className={classes.formControl}>
-                                {/* <InputLabel id="category-label">
-                                    {this.getLabel('type-label')}
-                                </InputLabel> */}
                                 <Select
                                     input={
                                         <BootstrapInput
@@ -532,13 +554,18 @@ export class BetDetails extends Component {
                                         this.setState({
                                             filterProvider: event.target.value
                                         });
-                                        //this.getTransactions();
+                                        this.getTransactions();
                                     }}
                                 >
+                                    <MenuItem key={-1} value={-1} disabled>
+                                        <span className={classes.selectLabel}>
+                                            {this.getLabel('choose-provider')}
+                                        </span>
+                                    </MenuItem>
                                     {providers.map(providerItem => (
                                         <MenuItem
-                                            key={providerItem.provider_id}
-                                            value={providerItem.provider_id}
+                                            key={providerItem.id}
+                                            value={providerItem.id}
                                         >
                                             {providerItem.provider_name}
                                         </MenuItem>
@@ -552,9 +579,6 @@ export class BetDetails extends Component {
                                 {this.getLabel('status-label')}
                             </span>
                             <FormControl className={classes.formControl}>
-                                {/* <InputLabel id="category-label">
-                                    {this.getLabel('type-label')}
-                                </InputLabel> */}
                                 <Select
                                     input={
                                         <BootstrapInput
@@ -568,13 +592,18 @@ export class BetDetails extends Component {
                                         this.setState({
                                             filterStatus: event.target.value
                                         });
-                                        //this.getTransactions();
+                                        this.getTransactions();
                                     }}
                                 >
-                                    <MenuItem key={1} value={1}>
+                                    <MenuItem key={-1} value={-1} disabled>
+                                        <span className={classes.selectLabel}>
+                                            {this.getLabel('choose-status')}
+                                        </span>
+                                    </MenuItem>
+                                    <MenuItem key={'close'} value={'close'}>
                                         {this.getLabel('settled-label')}
                                     </MenuItem>
-                                    <MenuItem key={2} value={2}>
+                                    <MenuItem key={'open'} value={'open'}>
                                         {this.getLabel('not-settled')}
                                     </MenuItem>
                                 </Select>
@@ -875,7 +904,7 @@ export class BetDetails extends Component {
                                         this.getTransactions();
                                     }}
                                 >
-                                    <MenuItem value={-1}>
+                                    {/* <MenuItem value={-1}>
                                         {this.getLabel('all-label')}
                                     </MenuItem>
                                     <MenuItem value={0}>
@@ -889,7 +918,7 @@ export class BetDetails extends Component {
                                     </MenuItem>
                                     <MenuItem value={3}>
                                         {this.getLabel('cancelled-label')}
-                                    </MenuItem>
+                                    </MenuItem> */}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -933,8 +962,10 @@ export class BetDetails extends Component {
 }
 
 const mapStateToProps = state => {
+    const { token, user } = state.auth;
     return {
-        lang: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
     };
 };
 
