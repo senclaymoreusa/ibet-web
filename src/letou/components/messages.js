@@ -377,7 +377,7 @@ export const messages = {
         'withdrawal-inprogress': 'Withdrawal In!',
         'withdrawal-label': 'Withdrawal',
         'submitted-label': 'submitted',
-        'check-transaction-status': 'Please check for transaction status.',
+        'check-transaction-status': 'Please go to the bank within 1 day.',
         'check-balance': 'Check Balance',
         'back-games-lobby': 'Back to Games Lobby',
         'deposit-failed-text':

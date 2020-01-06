@@ -469,16 +469,19 @@ class ThaiLocalBank extends Component {
 
     handleClick() {
         let currentComponent = this;
+        let userid = this.state.data.pk;
 
         var postData = {
             "amount": this.state.amount,
-            "user_id": this.state.data.pk,
+            "userid": this.state.data.pk,
             "currency": '7',
-            "bank": this.state.selectedBankOption,
+            "CashBankDetailName": this.state.selectedBankOption,
             "language": "en-Us",
-            //"order_id": this.state.order_id,
+            "CashCardNumber": this.state.bankAccountNumber,
+            "CashCardChName": "bbb",
+            "cashoutMethod": "cashifacebatch",
         }
-
+        
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -493,7 +496,7 @@ class ThaiLocalBank extends Component {
             username: this.state.data.username,
             balance: this.state.amount,
         });
-
+        {/*
         axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
             .then(res => {
                 if (res.data === 'Failed') {
@@ -504,6 +507,171 @@ class ThaiLocalBank extends Component {
                     currentComponent.props.callbackFromParent("success", "Transaction completed.");
                 }
             });
+        */}
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + '=' + encodedValue);
+        }
+        formBody = formBody.join('&');
+        return fetch(API_URL + 'accounting/api/asiapay/cashout', {
+            method: 'POST',
+            headers: {
+                'content-type':
+                    'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        }).then(function (res) {
+            console.log(res)
+            if(res.ok){
+                return res.json();
+            }else{
+                currentComponent.props.callbackFromParent("error", "Transaction failed.");
+            }
+            
+        }).then(function (data) {
+            console.log(data)
+            let status = data.StatusCode;
+
+            if (status == '50001') {
+                const body = JSON.stringify({
+                    type: 'withdraw',
+                    username: this.state.username,
+                    balance: this.state.amount,
+                });
+                console.log(body)
+                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                    .then(res => {
+                        if (res.data === 'Failed') {
+                            //this.setState({ error: true });
+                            currentComponent.props.callbackFromParent("error", 'Transaction failed!');
+                        } else if (res.data === 'The balance is not enough') {
+                            //    // alert("cannot withdraw this amount")
+                            currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
+
+                        } else {
+                            currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
+
+                            // alert("your balance is updated")
+                            // window.location.reload()
+                        }
+                    });
+
+            } else {
+                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+            }
+        }).catch(err => {
+            currentComponent.props.callbackFromParent("error", "Something is wrong.");
+            sendingLog(err);
+        });
+            /*
+            .then(function (res) {
+                return res.json();
+            })
+            .then(function (data) {
+                //console.log(data)
+                let qrurl = data.qr;
+                //console.log(qrurl)
+                if (qrurl != null) {
+                    const mywin = window.open(qrurl, 'asiapay-wechatpay');
+                    var timer = setInterval(function () {
+                        if (mywin.closed) {
+                            clearInterval(timer);
+                            var postData = {
+                                order_id: data.oid,
+                                userid: 'n' + userid,
+                                CmdType: '01'
+                            };
+                            var formBody = [];
+                            for (var pd in postData) {
+                                var encodedKey = encodeURIComponent(pd);
+                                var encodedValue = encodeURIComponent(
+                                    postData[pd]
+                                );
+                                formBody.push(encodedKey + '=' + encodedValue);
+                            }
+                            formBody = formBody.join('&');
+
+                            return fetch(
+                                API_URL + 'accounting/api/asiapay/orderStatus',
+                                {
+                                    method: 'POST',
+                                    headers: {
+                                        'content-type':
+                                            'application/x-www-form-urlencoded; charset=UTF-8'
+                                    },
+                                    body: formBody
+                                }
+                            )
+                                .then(function (res) {
+                                    return res.json();
+                                })
+                                .then(function (data) {
+                                    //console.log(data.status)
+                                    if (data.status === '001') {
+                                        //alert('Transaction is approved.');
+                                        const body = JSON.stringify({
+                                            type: 'add',
+                                            username:
+                                                currentComponent.state.data
+                                                    .username,
+                                            balance:
+                                                currentComponent.state.amount
+                                        });
+                                        //console.log(body)
+                                        axios
+                                            .post(
+                                                API_URL +
+                                                `users/api/addorwithdrawbalance/`,
+                                                body,
+                                                config
+                                            )
+                                            .then(res => {
+                                                if (res.data === 'Failed') {
+                                                    //currentComponent.setState({ error: true });
+                                                    currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Transaction failed.'
+                                                    );
+                                                } else if (
+                                                    res.data ===
+                                                    'The balance is not enough'
+                                                ) {
+                                                    currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Cannot deposit this amount.'
+                                                    );
+                                                } else {
+                                                    currentComponent.props.callbackFromParent(
+                                                        'success',
+                                                        currentComponent.state
+                                                            .amount
+                                                    );
+                                                }
+                                            });
+                                    } else {
+                                        currentComponent.props.callbackFromParent(
+                                            'error',
+                                            data.StatusMsg
+                                        );
+                                    }
+                                });
+                        }
+                    }, 1000);
+                } else {
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        data.StatusMsg
+                    );
+                }
+            })
+            .catch(function (err) {
+                currentComponent.props.callbackFromParent('error', err.message);
+                sendingLog(err);
+            });
+            */
         
     }
 

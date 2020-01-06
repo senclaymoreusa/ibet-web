@@ -471,7 +471,7 @@ class Help2Pay extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 500 || parseFloat(event.target.value) > 500000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 50 || parseFloat(event.target.value) > 500) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -530,14 +530,18 @@ class Help2Pay extends Component {
 
         var postData = {
             "amount": this.state.amount,
+            /*
             "user_id": this.state.data.pk,
-            //"currency": '2',
-            //"bank": this.state.selectedBankOption,
             "language": "en-Us",
             "order_id": this.state.order_id,
             "withdrawPassword": this.state.withdrawpassword,
             "toBankAccountName": this.state.bankAccountHolder,
             "toBankAccountNumber": this.state.bankAccountNumber,
+            */
+            "username":"ibtthbtest03",
+            "toBankAccountName":"bangqi",
+            "toBankAccountNumber": this.state.bankAccountNumber,
+            "withdrawPassword": "1234",
         }
 
         var formBody = [];
@@ -548,14 +552,8 @@ class Help2Pay extends Component {
         }
         formBody = formBody.join("&");
         const token = localStorage.getItem('token');
-        {/*
-            path('api/help2pay/deposit', help2pay.SubmitDeposit.as_view(), name='Help2pay_Deposit'),
-            path('api/help2pay/deposit_result', help2pay.DepositResult.as_view(), name='Help2pay_deposit_result'),
-            path('api/help2pay/deposit_success', help2pay.depositFrontResult, name = 'Help2pay_deposit_sucess'),
-            path('api/help2pay/deposit_status', help2pay.depositStatus, name = 'Help2pay_deposit_status'),
-        */}
-        //console.log({formBody})
-        return fetch(API_URL + 'accounting/api/help2pay/submit_payout', {
+        //return fetch(API_URL + 'accounting/api/help2pay/submit_payout', {
+        return fetch('http://ibet-django-apdev.claymoreasia.com/accounting/api/help2pay/submit_payout', {
             method: 'POST',
             withCredentials: true,
             headers: {
@@ -572,8 +570,10 @@ class Help2Pay extends Component {
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
+            console.log(data)
             let newwin = window.open('');
             newwin.document.write(data);
+            console.log(data)
             var timer = setInterval(function () {
 
                 if (newwin.closed) {
@@ -595,7 +595,7 @@ class Help2Pay extends Component {
                     }).then(function (res) {
                         return res.text();
                     }).then(function (data) {
-                        //console.log(data)
+                        console.log(data)
                         if (data === '0') {
 
                             const body = JSON.stringify({
@@ -622,8 +622,7 @@ class Help2Pay extends Component {
             }, 1000);
 
         }).catch(function (err) {
-            //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            currentComponent.props.callbackFromParent("error", 'Something is wrong');
             sendingLog(err);
         });
     }
