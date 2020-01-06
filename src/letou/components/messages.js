@@ -24,7 +24,7 @@ export const messages = {
         'letou-esports-pro': 'Letou E-Sports Pro',
         'sabah-esports': 'Sabah E-Sports',
         'fried-golden': 'Golden Flower',
-        '21-oclock': "Black Jack",
+        '21-oclock': 'Black Jack',
         'grab-cattle': 'Banker Bull-Bull',
         'texas-holdem': "Texas Hold'em Poker",
         'games-lobby': 'Hall',
@@ -69,7 +69,7 @@ export const messages = {
             'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
         'footer-text4':
             '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
-        'story': '乐投品牌故事',
+        story: '乐投品牌故事',
         'for-partner': '供合作伙伴使用',
         'help-title': 'Help',
         'aboutUs-detail-text-one':
@@ -370,7 +370,6 @@ export const messages = {
         'deposit-submitted': 'Deposit Submitted!',
         'deposit-failed': 'Deposit Failed!',
         'deposit-inprogress': 'Deposit In!',
-        'deposit-label': 'Deposit',
         'submitted-label': 'submitted',
         'check-transaction-status': 'Please check for transaction status.',
         'check-balance': 'Check Balance',
@@ -435,7 +434,6 @@ export const messages = {
         'qr-will-needed':
             'Your QR code needs to be used once only, please ensure the amount you deposit matches what is on the QR code to avoid any issues.',
         'vn-help2paypay-placeholder': 'Deposit ₫300,000 - ₫300,000,000',
-        'vn-localbank-placeholder': 'Deposit ₫200,000 - ₫100,000,000',
         'email-update-success':
             ' Your email address has been successfully updated.',
         'lang-thai': 'Thai',
@@ -516,7 +514,8 @@ export const messages = {
             'For your account security, please be sure to perform various security verifications',
         'verify-immediately': 'Verify Immediately',
         'pt-password-not-set': 'PT APP password is not set',
-        'pt-password-desc': 'Regularly reset PT APP password, account is more secure',
+        'pt-password-desc':
+            'Regularly reset PT APP password, account is more secure',
         'withdrawable-fund': 'Withdrawable Funds',
         'today-label': 'Today',
         'one-week': '1 Week',
@@ -536,22 +535,22 @@ export const messages = {
         'content-label': 'Content',
         'start-date': 'Start Date',
         'end-date': 'End Date',
-        'e-games':'E-games',
-        'provider-label':'Provider',
+        'e-games': 'E-games',
+        'provider-label': 'Provider',
         'inbox-label': 'Inbox',
         'any-question-label':
             'If you have any suggestions, please feel free to contact us',
-        'dedicated-line': '24-hour Domestic Dedicated Line'
+        'dedicated-line': '24-hour Domestic Dedicated Line',
         'recommended': 'Recommended',
         'top-games': 'Top Games',
         'slot-machine': 'Slot Machine',
         'cumulative-award': 'Cumulative Award',
         'table-games': 'Table Games',
-        'scratch-card': 'Scratch Card',
         'gaming-room': 'Gaming Room',
         'video-poker': 'Video Poker',
         'fishing-games': 'Fishing Games',
-        'view-all': 'View All >'
+        'view-all': 'View All >',
+        'not-settled': 'Not Settled'
     },
     zh: {
         'help-title': '我们在此竭诚服务',

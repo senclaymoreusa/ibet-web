@@ -221,9 +221,15 @@ export class BetDetails extends Component {
             startDate: moment(new Date()),
             endDate: moment(new Date()),
             filterRange: '',
+
+            categories: [],
             filterCategory: -1,
-            filterStatus: -1,
+
+            filterStatus: 1,
+
+            providers: [],
             filterProvider: '',
+
             items: [],
             userId: ''
         };
@@ -244,14 +250,23 @@ export class BetDetails extends Component {
             // this.getTransactions();
         });
 
-        this.getProviders();
+        this.fillDropDowns();
     }
 
-    getProviders() {
+    fillDropDowns() {
         axios
             .get(API_URL + 'games/api/bets/getprovandcats', config)
             .then(res => {
-                console.log(res.data)
+                this.setState({
+                    providers: res.data.providers.sort((a, b) =>
+                        a.provider_name > b.provider_name ? 1 : -1
+                    )
+                });
+                this.setState({
+                    categories: res.data.categories.sort((a, b) =>
+                        a.name > b.name ? 1 : -1
+                    )
+                });
             });
     }
 
@@ -290,7 +305,9 @@ export class BetDetails extends Component {
             filterCategory,
             filterStatus,
             filterProvider,
-            items
+            items,
+            categories,
+            providers
         } = this.state;
         var today = moment(new Date());
 
@@ -482,18 +499,14 @@ export class BetDetails extends Component {
                                         //this.getTransactions();
                                     }}
                                 >
-                                    <MenuItem value={-1}>
-                                        {this.getLabel('all-label')}
-                                    </MenuItem>
-                                    <MenuItem value={0}>
-                                        {this.getLabel('sports-label')}
-                                    </MenuItem>
-                                    <MenuItem value={1}>
-                                        {this.getLabel('lottery-label')}
-                                    </MenuItem>
-                                    <MenuItem value={2}>
-                                        {this.getLabel('e-games')}
-                                    </MenuItem>
+                                    {categories.map(categoryItem => (
+                                        <MenuItem
+                                            key={categoryItem.category_id}
+                                            value={categoryItem.category_id}
+                                        >
+                                            {categoryItem.name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                             <span
@@ -522,18 +535,14 @@ export class BetDetails extends Component {
                                         //this.getTransactions();
                                     }}
                                 >
-                                    <MenuItem value={-1}>
-                                        {this.getLabel('all-label')}
-                                    </MenuItem>
-                                    <MenuItem value={0}>
-                                        {this.getLabel('sports-label')}
-                                    </MenuItem>
-                                    <MenuItem value={1}>
-                                        {this.getLabel('lottery-label')}
-                                    </MenuItem>
-                                    <MenuItem value={2}>
-                                        {this.getLabel('e-games')}
-                                    </MenuItem>
+                                    {providers.map(providerItem => (
+                                        <MenuItem
+                                            key={providerItem.provider_id}
+                                            value={providerItem.provider_id}
+                                        >
+                                            {providerItem.provider_name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                             <span
@@ -562,17 +571,11 @@ export class BetDetails extends Component {
                                         //this.getTransactions();
                                     }}
                                 >
-                                    <MenuItem value={-1}>
-                                        {this.getLabel('all-label')}
+                                    <MenuItem key={1} value={1}>
+                                        {this.getLabel('settled-label')}
                                     </MenuItem>
-                                    <MenuItem value={0}>
-                                        {this.getLabel('sports-label')}
-                                    </MenuItem>
-                                    <MenuItem value={1}>
-                                        {this.getLabel('lottery-label')}
-                                    </MenuItem>
-                                    <MenuItem value={2}>
-                                        {this.getLabel('e-games')}
+                                    <MenuItem key={2} value={2}>
+                                        {this.getLabel('not-settled')}
                                     </MenuItem>
                                 </Select>
                             </FormControl>
