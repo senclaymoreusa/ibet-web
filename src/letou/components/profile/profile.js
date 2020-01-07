@@ -378,8 +378,8 @@ export class Profile extends Component {
                                         size="small"
                                         className={classes.topLinkButton}
                                         onClick={() => {
-                                            this.props.logout();
-                                            postLogout();
+                                            // this.props.logout();
+                                            this.props.postLogout();
                                         }}
                                     >
                                         {this.getLabel('log-out')}

@@ -313,8 +313,8 @@ class WechatPay extends Component {
             return res.json();
         }).then(function (data) {
             if(data.errorCode){
-                currentComponent.props.logout();
-                postLogout();
+                currentComponent.props.postLogout();
+                // postLogout();
                 return;
             }
             let redirectUrl = data.paymentPageSession.paymentPageUrl

@@ -326,8 +326,8 @@ class JDPay extends Component {
         }).then(function (data) {
             //console.log(data)
             if(data.errorCode){
-                currentComponent.props.logout();
-                postLogout();
+                currentComponent.props.postLogout();
+                // postLogout();
                 return;
             }
             let qrurl = data.qr;
