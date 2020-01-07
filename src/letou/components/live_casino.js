@@ -117,12 +117,27 @@ export class live_casino extends React.Component {
     };
 
     this.getLabel = this.getLabel.bind(this);
-    
+    this.handleEAClick = this.handleEAClick.bind(this);
   }
+
   getLabel(labelId) {
     const { formatMessage } = this.props.intl;
     return formatMessage({ id: labelId });
   }
+
+  componentDidUpdate() {
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers["Authorization"] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ data: res.data });
+                this.setState({ currencyValue: res.data.currency });
+                
+        });
+    }
+
+}
   
   componentDidMount() {
     const token = localStorage.getItem('token');
@@ -201,6 +216,27 @@ export class live_casino extends React.Component {
       });
     }else{
       this.props.history.push('/register');
+    }
+  }
+
+
+  handleEAClick() {
+    
+    // console.log("lang: " + this.props.lang);
+    // console.log(this.state.data);
+    var language = 3;
+    if (this.props.lang === "zh") {
+        language = 1;
+    }
+    var username = this.state.data.username;
+    var token = localStorage.getItem('token');
+    var url = "";
+    if (!token) {
+        this.props.history.push('/register');
+    } else {
+      
+        url = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=" + username + "&uuid=" + token + "&lang=" + language;
+        window.open(url, "ea-live")
     }
   }
   
@@ -285,12 +321,13 @@ export class live_casino extends React.Component {
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtnLeft}>
                   <div className="PgHallBtn Active FloatLeft" style={{ cursor: 'pointer' }}>
-                    <a><span><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('pc-version')}</font></span></a>
+                    <a href="http://testdownload.ea2-mission.com/wkpibet.exe"><span><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('pc-version')}</font></span></a>
                   </div>
                   </Grid>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a onClick={() => (this.state.data) ? window.open("https://178.claymoreasia.com/wkpibet/newlayout/index.php", "ealive"): this.props.history.push('/register')}><span><font style={{ verticalAlign: 'inherit' }}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</font></span></a>
+                    {<a onClick={() => {this.handleEAClick()}} ><span>{this.getLabel('Real-money')}</span></a>}
+                    {/* <a onClick={() => (this.state.data) ? window.open("https://178.claymoreasia.com/wkpibet/newlayout/index.php", "ealive"): this.props.history.push('/register')}><span><font style={{ verticalAlign: 'inherit' }}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</font></span></a> */}
                   </div>
                   </Grid>
                 </div>
