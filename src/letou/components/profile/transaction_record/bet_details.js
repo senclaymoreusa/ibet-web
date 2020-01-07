@@ -152,8 +152,8 @@ const styles = theme => ({
         backgroundColor: '#3c3c3c',
         color: '#fff',
         '&:hover': {
-            color: '#000',
-        },
+            color: '#000'
+        }
     },
     mobileActive: {
         backgroundColor: '#f28f22',
@@ -355,10 +355,14 @@ export class BetDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={startDate}
                                     onChange={date => {
-                                        this.setState({
-                                            startDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                startDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -376,10 +380,14 @@ export class BetDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={endDate}
                                     onChange={date => {
-                                        this.setState({
-                                            endDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                endDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -407,16 +415,16 @@ export class BetDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'today'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date())
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'today',
+                                            startDate: moment(new Date()),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('today-label')}
@@ -438,19 +446,19 @@ export class BetDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -7
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'oneweek',
+                                            startDate: moment(new Date()).add(
+                                                'days',
+                                                -7
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-week')}
@@ -472,19 +480,19 @@ export class BetDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -30
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'onemonth',
+                                            startDate: moment(new Date()).add(
+                                                'days',
+                                                -30
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-month')}
@@ -513,10 +521,15 @@ export class BetDetails extends Component {
                                     id="category-select"
                                     value={filterCategory}
                                     onChange={event => {
-                                        this.setState({
-                                            filterCategory: event.target.value
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                filterCategory:
+                                                    event.target.value
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                 >
                                     <MenuItem key={-1} value={-1} disabled>
@@ -551,10 +564,15 @@ export class BetDetails extends Component {
                                     id="provider-select"
                                     value={filterProvider}
                                     onChange={event => {
-                                        this.setState({
-                                            filterProvider: event.target.value
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                filterProvider:
+                                                    event.target.value
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                 >
                                     <MenuItem key={-1} value={-1} disabled>
@@ -589,10 +607,14 @@ export class BetDetails extends Component {
                                     id="status-select"
                                     value={filterStatus}
                                     onChange={event => {
-                                        this.setState({
-                                            filterStatus: event.target.value
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                filterStatus: event.target.value
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                 >
                                     <MenuItem key={-1} value={-1} disabled>
@@ -972,7 +994,7 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(mapStateToProps, { authCheckState, sendingLog })(BetDetails)
+            connect(mapStateToProps, { authCheckState, sendingLog,AUTH_RESULT_FAIL })(BetDetails)
         )
     )
 );
