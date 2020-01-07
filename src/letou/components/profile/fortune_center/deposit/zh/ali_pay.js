@@ -13,10 +13,10 @@ import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
-
+import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -170,15 +170,15 @@ const styles = theme => ({
 
 const CustomCheckbox = withStyles({
     root: {
-        color: '#4DA9DF',
+        color: '#21e496',
         '&$checked': {
-            color: '#4DA9DF',
+            color: '#21e496',
         },
     },
     checked: {},
-})(props => <Checkbox color="default" {...props} />);
+})(props => <Checkbox {...props} />);
 
-const amounts = Object.freeze([20, 50, 100, 250]);
+const amounts = Object.freeze([500, 800, 1000, 1500]);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
@@ -195,6 +195,9 @@ function NumberFormatCustom(props) {
                 });
             }}
             thousandSeparator
+            decimalSeparator='.'
+            decimalScale={2}
+            fixedDecimalScale
             prefix={currency}
         />
     );
@@ -205,7 +208,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class BitcoinDeposit extends Component {
+class AliPay extends Component {
     constructor(props) {
         super(props);
 
@@ -234,15 +237,8 @@ class BitcoinDeposit extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            showLinearProgressBar: false,
-
             isFavorite: false,
         };
-
-
-        this.handleClick = this.handleClick.bind(this);
-
-        this.setAsFavorite = this.setAsFavorite.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -252,7 +248,7 @@ class BitcoinDeposit extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'bitcoin' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'alipay' });
             });
     }
 
@@ -263,7 +259,7 @@ class BitcoinDeposit extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'bitcoin' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'alipay' });
             });
     }
 
@@ -273,29 +269,206 @@ class BitcoinDeposit extends Component {
         if (e.target.value.length === 0) {
             this.setState({ amount: '', amountInvalid: true });
         } else {
-            const re = /^[0-9\b]+$/;
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(e.target.value)) {
-                this.setState({ amount: e.target.value, amountInvalid: false });
+                this.setState({ amount: e.target.value });
+                this.setState({ amountInvalid: (parseFloat(e.target.value) < 500 || parseFloat(e.target.value) > 5000) });
             }
             else {
                 this.setState({ amountInvalid: true });
             }
         }
     };
-
-    handleClick = () => {
+    
+    //handleClick() {
+        //Asiapay
+        /*
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
         let userid = this.state.data.pk;
         var postData = {
-            "amount": this.state.amount,
-            "userid": this.state.data.pk,
-            "currency": "0",
-            "PayWay": "30", //在线支付
-            "method": "38", //wechat
+            amount: this.state.amount,
+            userid: this.state.data.pk,
+            currency: '0',
+            PayWay: '42', //qrcode
+            method: '41', //alipay
+            RealName: this.state.data.last_name + this.state.data.first_name,
+        };
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + '=' + encodedValue);
         }
+        formBody = formBody.join('&');
+        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+            method: 'POST',
+            headers: {
+                'content-type':
+                    'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        })
+            .then(function(res) {
+                //console.log(res);
+                currentComponent.setState({ showLinearProgressBar: false });
+                if(res.status == 200){
+                    return res.json();
+                }else{
+                    currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                }
+                
+            })
+            .then(function(data) {
+                //console.log(data);
+                if(data.errorCode){
+                    currentComponent.props.logout();
+                    postLogout();
+                    return;
+                }
+                let qrurl = data.qr;
+                //console.log(qrurl);
+                if (qrurl != null) {
+                    const mywin = window.open(qrurl, 'asiapay-alipay');
+                    var timer = setInterval(function() {
+                        
+                        if (mywin.closed) {
+                            clearInterval(timer);
+                            var postData = {
+                                order_id: data.oid,
+                                userid: 'n' + userid,
+                                CmdType: '01'
+                            };
+                            var formBody = [];
+                            for (var pd in postData) {
+                                var encodedKey = encodeURIComponent(pd);
+                                var encodedValue = encodeURIComponent(
+                                    postData[pd]
+                                );
+                                formBody.push(encodedKey + '=' + encodedValue);
+                            }
+                            formBody = formBody.join('&');
+
+                            return fetch(
+                                API_URL + 'accounting/api/asiapay/orderStatus',
+                                {
+                                    method: 'POST',
+                                    headers: {
+                                        'content-type':
+                                            'application/x-www-form-urlencoded; charset=UTF-8'
+                                    },
+                                    body: formBody
+                                }
+                            )
+                                .then(function(res) {
+                                    if(res.status == 200){
+                                        return res.json();
+                                    }else{
+                                        currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        
+                                    }
+                                })
+                                .then(function(data) {
+                                    //console.log(data.status);
+                                    if (data.status === '001') {
+                                        //alert('Transaction is approved.');
+                                        const body = JSON.stringify({
+                                            type: 'add',
+                                            username:
+                                                currentComponent.state.data
+                                                    .username,
+                                            balance:
+                                                currentComponent.state.amount
+                                        });
+                                        //console.log(body);
+                                        axios
+                                            .post(
+                                                API_URL +
+                                                    `users/api/addorwithdrawbalance/`,
+                                                body,
+                                                config
+                                            )
+                                            .then(res => {
+                                                if (res.data === 'Failed') {
+                                                    //currentComponent.setState({ error: true });
+                                                    currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Transaction failed.'
+                                                    );
+                                                } else if (
+                                                    res.data ===
+                                                    'The balance is not enough'
+                                                ) {
+                                                    currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Cannot deposit this amount.'
+                                                    );
+                                                } else {
+                                                    currentComponent.props.callbackFromParent(
+                                                        'success',
+                                                        currentComponent.state
+                                                            .amount
+                                                    );
+                                                }
+                                            });
+                                    } else {
+                                        currentComponent.props.callbackFromParent(
+                                            'error',
+                                            data.StatusMsg
+                                        );
+                                    }
+                                });
+                        }
+                    }, 1000);
+                }else{
+                    if(data.StatusCode == ('00005' || '100504' || '100505' || '00800' || '100803' || '000008' || '100305' || '100306' || '100307'
+                        || '100606' || '100608' || '100603' || '100604' || '100605' || '100901' || '100902' || '100803' || '00050' || '00003' || '00002')){
+                        currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        data.StatusMsg
+                                                    );
+                    }else{
+                        currentComponent.props.callbackFromParent(
+                                                        'error',
+                                                        'Transaction failed.'
+                                                    );
+                    }
+                    
+                }
+                
+            })
+            .catch(function(err) {
+                // catch
+                // console.log('Request failed', err);
+                currentComponent.props.callbackFromParent(
+                    'error',
+                    "Something is wrong."
+                );
+
+                // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                sendingLog(err);
+            });*/
+    //};
+    
+
+    handleClick() { 
+        {/*  
+            Qaicash
+        */}
+        let currentComponent = this;
+
+        currentComponent.setState({ showLinearProgressBar: true });
+
+        var postData = {
+            "amount": this.state.amount,
+            "user_id": this.state.data.pk,
+            "currency": "0",
+            "language": "zh-Hans",
+            "method": "ALIPAY",
+        }
+        //console.log(this.state.amount)
         //console.log(this.state.data.pk)
         var formBody = [];
         for (var pd in postData) {
@@ -304,35 +477,36 @@ class BitcoinDeposit extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+        return fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
             method: 'POST',
             headers: {
                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: formBody
         }).then(function (res) {
-            //console.log(res);
-
-            currentComponent.setState({ showLinearProgressBar: false });
-
-
             return res.json();
-
         }).then(function (data) {
-            //console.log(data)
-            let qrurl = data.qr;
-            //console.log(qrurl)
-            if (qrurl != null) {
-                const mywin = window.open(qrurl, 'asiapay-wechatpay')
-                var timer = setInterval(function () {
+            if(data.errorCode){
+                currentComponent.props.postLogout();
+                // postLogout();
+                return;
+            }
+            let redirectUrl = data.paymentPageSession.paymentPageUrl
+            //console.log(redirectUrl)
 
+
+            if (redirectUrl != null) {
+                const mywin = window.open(redirectUrl, 'qaicash-Alipay');
+                currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
+                var timer = setInterval(function () {
+                    //console.log('checking..')
+                    console.log("data",data)
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
-                            "order_id": data.oid,
-                            "userid": "n" + userid,
-                            "CmdType": "01",
+                            "trans_id": data.paymentPageSession.orderId
                         }
+                        
                         var formBody = [];
                         for (var pd in postData) {
                             var encodedKey = encodeURIComponent(pd);
@@ -340,8 +514,9 @@ class BitcoinDeposit extends Component {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
+                        console.log("postData",postData)
 
-                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
+                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
                             method: "POST",
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -351,7 +526,7 @@ class BitcoinDeposit extends Component {
                             return res.json();
                         }).then(function (data) {
                             //console.log(data.status)
-                            if (data.status === "001") {
+                            if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
@@ -363,29 +538,27 @@ class BitcoinDeposit extends Component {
                                     .then(res => {
                                         if (res.data === 'Failed') {
                                             //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                            currentComponent.props.callbackFromParent("error", 'Transaction failed.');
+                                        } else if (res.data === 'The balance is not enough') {
+                                            currentComponent.props.callbackFromParent("error", 'Cannot deposit this amount.');
                                         } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                            currentComponent.props.callbackFromParent('success', currentComponent.state.amount);
                                         }
                                     });
                             } else {
-                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
                             }
                         });
                     }
                 }, 1000);
-
             } else {
-                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                currentComponent.setState({ showLinearProgressBar: false });
+                currentComponent.props.callbackFromParent("error", data.returnMessage);
             }
-
-        }).catch(function (err) {
-            //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+        }).catch(function (err) {  
+            
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
-            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
@@ -397,7 +570,7 @@ class BitcoinDeposit extends Component {
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
             user_id: this.state.data.pk,
-            payment: event.target.checked ? 'bitcoin' : null,
+            payment: event.target.checked ? 'alipay' : null,
         })
             .then(res => {
                 this.setState({ isFavorite: !this.state.isFavorite });
@@ -408,14 +581,22 @@ class BitcoinDeposit extends Component {
             });
     }
 
+    backClicked() {
+        var url = this.props.history.location.pathname
+        var parts = url.split('/');
+        url = '/';
+        var path = parts.slice(1, 4).join('/');
+        url = url + path;
+        this.props.history.push(url);
+    }
+
     render() {
         const { classes } = this.props;
-        const { showLinearProgressBar, isFavorite, amount, currency } = this.state;
-
+        const { isFavorite, amount, currency } = this.state;
+        console.log(classes)
         return (
             <div className={classes.root}>
-                {showLinearProgressBar === true && <LinearProgress />}
-                <Grid container spacing={2} className={classes.contentGrid} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}>
+                <Grid container spacing={2} className={classes.contentGrid}>
                     {amounts.map((x, i) => {
                         return (
                             <Grid item xs={3} key={i}>
@@ -439,7 +620,7 @@ class BitcoinDeposit extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('bitcoin-placeholder')}
+                            placeholder={this.getLabel('alipay-placeholder')}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -479,13 +660,13 @@ class BitcoinDeposit extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.handleClick}
+                            onClick={this.handleClick.bind(this)}
                             disabled={this.state.amountInvalid}
-                        >{this.getLabel('next-label')}</Button>
+                        >{this.getLabel('deposit-label')}</Button>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.backClicked}
+                            onClick={this.backClicked.bind(this)}
                         >{this.getLabel('back-banking')}</Button>
                     </Grid>
                 </Grid>
@@ -500,4 +681,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(BitcoinDeposit)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(AliPay))));
