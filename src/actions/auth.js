@@ -22,6 +22,13 @@ export const authSuccess = token => {
     };
 };
 
+export const authGetUser = user => {
+    return {
+        type: 'AUTH_GET_USER',
+        user: user
+    };
+};
+
 export const authFail = error => {
     return {
         type: 'AUTH_FAIL',
@@ -44,7 +51,7 @@ export const authLogin = (username, password, iovationData) => {
             )
             .then(res => {
                 if (res.data.errorCode) {
-                      return Promise.resolve(res.data);
+                    return Promise.resolve(res.data);
                 }
                 const token = res.data.key;
                 if (!token || token === undefined) {
@@ -56,11 +63,17 @@ export const authLogin = (username, password, iovationData) => {
                 localStorage.setItem('token', token);
                 localStorage.setItem('expirationDate', expirationDate);
 
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        localStorage.setItem('userId', res.data.pk);
-                })
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    let userData = {
+                        userId: res.data.pk,
+                        currency: res.data.currency
+                    };
+
+                    dispatch(authGetUser(userData));
+                });
+
                 dispatch(authSuccess(token));
                 dispatch(checkAuthTimeout(3600));
                 return Promise.resolve(AUTH_RESULT_SUCCESS);
@@ -153,7 +166,7 @@ export const authSignup = (
 
         return axios
             .post(API_URL + 'users/api/signup/', body, config)
-            .then(res => {
+            .then(() => {
                 // const token = res.data.key;
                 // const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
                 // localStorage.setItem('token', token);
@@ -206,11 +219,11 @@ export const postLogout = () => {
     const body = JSON.stringify({});
     return axios
         .post(API_URL + 'users/api/logout/', body, config)
-        .then(res => {
+        .then(() => {
             window.location.reload();
             // console.log(res);
         })
-        .catch(err => {
+        .catch(() => {
             window.location.reload();
             // console.log(err);
         });
@@ -236,7 +249,7 @@ export const sendingLog = err => {
             { line: err, source: 'Ibetweb' },
             config
         )
-        .then(res => {});
+        .then(() => { });
 };
 
 export const authCheckState = () => {
@@ -246,7 +259,7 @@ export const authCheckState = () => {
         if (!token || token === undefined) {
             dispatch(logout());
             return Promise.resolve(AUTH_RESULT_FAIL);
-        } else {  
+        } else {
             const expirationDate = new Date(
                 localStorage.getItem('expirationDate')
             );
@@ -268,6 +281,13 @@ export const authCheckState = () => {
                             dispatch(logout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
+                            let userData = {
+                                userId: res.data.pk,
+                                currency: res.data.currency
+                            };
+
+                            dispatch(authGetUser(userData));
+
                             dispatch(authSuccess(token));
                             dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);

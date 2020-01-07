@@ -31,9 +31,12 @@ const styles = theme => ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh'
+        minHeight: '100vh',
+        alignItems: 'center'
     },
     rootDesktop: {
+        maxWidth: 1400,
+        width:'100%',
         height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
@@ -99,7 +102,7 @@ const styles = theme => ({
     },
     content: {
         flexGrow: 1,
-        paddingLeft: 10,
+        paddingLeft: 30,
         paddingTop: 10,
         paddingBottom: 10
     },

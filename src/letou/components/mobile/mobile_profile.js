@@ -272,7 +272,10 @@ export class MobileMainProfile extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={4} style={{ textAlign: 'center' }}>
-                        <Button className={classes.mobileTabTitleButton}>
+                        <Button className={classes.mobileTabTitleButton}
+                        onClick={() => {
+                             this.props.history.push('/p/fortune-center/transfer');
+                        }}>
                             <div className={classes.column}>
                                 <img
                                     src={
