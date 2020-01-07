@@ -190,14 +190,10 @@ class LiveCasino_Type extends Component {
 
         let userInfo = await axios.get(API_URL + 'users/api/user/', config);
 
-        var URL = API_URL + 'games/api/live-casino/';
-
-        let games = await axios.get(URL, config);
         this.setState({
             token: token,
             data: userInfo.data,
-            currencyValue: userInfo.data.currency,
-            live_casino: games.data || []
+            currencyValue: userInfo.data.currency
         });
     }
 
@@ -213,9 +209,6 @@ class LiveCasino_Type extends Component {
         let tournamentMessage = formatMessage({ id: 'nav.tournaments' });
 
         const { data: userdata, live_casino: games, token } = this.state;
-
-        console.log('games');
-        console.log(games);
 
         let username = '';
         if (userdata) username = userdata.username;
@@ -377,9 +370,8 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     injectIntl(
-        connect(
-            mapStateToProps,
-            { live_casino_type, authCheckState }
-        )(LiveCasino_Type)
+        connect(mapStateToProps, { live_casino_type, authCheckState })(
+            LiveCasino_Type
+        )
     )
 );
