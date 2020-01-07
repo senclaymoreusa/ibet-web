@@ -131,10 +131,15 @@ export class live_casino extends React.Component {
   }
   handleN2Click = (username) => {
     var token = localStorage.getItem('token');
-    console.log(username, token);
-    window.open(
-        `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`
-    );
+    if (token) {
+      console.log(username, token);
+      window.open(
+          `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`
+      );
+    }
+    else {
+      this.props.history.push('/register');
+    }
   };
   handleGDClick(view){
     let direct_view = {
