@@ -229,15 +229,11 @@ export class AccountDetails extends Component {
         let fromStr = `&time_from=${this.state.startDate.format('l')}`;
         let toStr = `&time_to=${this.state.endDate.format('l')}`;
 
-        console.log(
-            API_URL + requestURL + typeStr + statusStr + fromStr + toStr
-        );
         axios
             .get(API_URL + requestURL + typeStr + statusStr + fromStr + toStr)
             .then(res => {
                 if (res.status === 200) {
                     this.setState({ items: res.data.results });
-                    console.log(res);
                 }
             })
             .catch(err => {
@@ -280,10 +276,14 @@ export class AccountDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={startDate}
                                     onChange={date => {
-                                        this.setState({
-                                            startDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                startDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -304,10 +304,14 @@ export class AccountDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={endDate}
                                     onChange={date => {
-                                        this.setState({
-                                            endDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                endDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -755,10 +759,14 @@ export class AccountDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={startDate}
                                     onChange={date => {
-                                        this.setState({
-                                            startDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                startDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -776,10 +784,14 @@ export class AccountDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={endDate}
                                     onChange={date => {
-                                        this.setState({
-                                            endDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                endDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -809,16 +821,16 @@ export class AccountDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'today'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date())
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'today',
+                                            startDate: moment(new Date()),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('today-label')}
@@ -839,19 +851,19 @@ export class AccountDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -7
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'oneweek',
+                                            startDate: moment(new Date()).add(
+                                                'days',
+                                                -7
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-week')}
@@ -872,19 +884,19 @@ export class AccountDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -30
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'onemonth',
+                                            startDate: moment(new Date()).add(
+                                                'days',
+                                                -30
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-month')}
@@ -909,10 +921,14 @@ export class AccountDetails extends Component {
                                     id="demo-simple-select"
                                     value={filterType}
                                     onChange={event => {
-                                        this.setState({
-                                            filterType: event.target.value
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                filterType: event.target.value
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                 >
                                     <MenuItem value={-1}>
@@ -954,10 +970,14 @@ export class AccountDetails extends Component {
                                     id="demo-simple-select"
                                     value={filterStatus}
                                     onChange={event => {
-                                        this.setState({
-                                            filterStatus: event.target.value
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                filterStatus: event.target.value
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                 >
                                     <MenuItem value={-1}>
