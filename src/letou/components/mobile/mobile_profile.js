@@ -272,7 +272,10 @@ export class MobileMainProfile extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={4} style={{ textAlign: 'center' }}>
-                        <Button className={classes.mobileTabTitleButton}>
+                        <Button className={classes.mobileTabTitleButton}
+                        onClick={() => {
+                             this.props.history.push('/p/fortune-center/transfer');
+                        }}>
                             <div className={classes.column}>
                                 <img
                                     src={
@@ -297,8 +300,9 @@ export class MobileMainProfile extends Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        // this.props.history.push('/');
-                                        // this.props.hide_letou_mobile_menu();
+                                        this.props.history.push(
+                                            '/p/transaction-records'
+                                        );
                                     }}
                                 >
                                     <ListItemAvatar>
