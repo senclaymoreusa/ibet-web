@@ -125,9 +125,9 @@ export class live_casino extends React.Component {
     return formatMessage({ id: labelId });
   }
 
-  componentDidUpdate() {
-    const token = localStorage.getItem('token');
-    if (token) {
+  componentDidUpdate(prevProps) {
+    if (this.props.isAuthenticated !== prevProps.isAuthenticated && this.props.isAuthenticated) {
+        const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
@@ -136,7 +136,6 @@ export class live_casino extends React.Component {
                 
         });
     }
-
 }
   
   componentDidMount() {
@@ -542,9 +541,11 @@ export class live_casino extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    lang: state.language.lang,
-  }
+    const { token } = state.auth;
+    return {
+        isAuthenticated: (token !== null && token !== undefined),
+        lang: state.language.lang,
+    }
 }
 
 export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(live_casino))));
