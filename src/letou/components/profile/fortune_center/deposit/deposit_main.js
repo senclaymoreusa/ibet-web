@@ -60,6 +60,7 @@ const styles = theme => ({
         }
     },
     rootMobile: {
+        width: '100%',
         minHeight: '100vh',
         display: 'flex',
         backgroundColor: '#f2f3f5',
@@ -102,16 +103,28 @@ const styles = theme => ({
     mobileBar: {
         paddingLeft: 0,
         paddingRight: 0,
-        width: '100%'
+        width: '100%',
+        borderBottom: '1px solid #d8d8d8'
     },
     grow: {
         flexGrow: 1
     },
     mobileRow: {
+        width: '100%',
         alignItems: 'center',
         backgroundColor: '#fff'
     },
     title: {
+        fontSize: 12,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#676767',
+        whiteSpace: 'nowrap'
+    },
+    mobileTitle: {
         fontSize: 20,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -210,14 +223,8 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-    return {
-        id: `scrollable-auto-tab-${index}`,
-        'aria-controls': `scrollable-auto-tabpanel-${index}`,
-    };
-}
-
 export class DepositMain extends Component {
+    _isMounted = false;
     constructor(props) {
         super(props);
 
@@ -239,6 +246,8 @@ export class DepositMain extends Component {
     }
 
     componentWillReceiveProps(props) {
+        this._isMounted = true;
+
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
@@ -249,8 +258,12 @@ export class DepositMain extends Component {
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ userCountry: res.data.country });
-                this.setState({ favouriteMethod: res.data.favorite_payment_method });
+                if (this._isMounted) {
+                    this.setState({
+                        userCountry: res.data.country,
+                        favouriteMethod: res.data.favorite_payment_method
+                    });
+                }
                 //this.setState({contentValue: this.state.favouriteMethod });
             });
 
@@ -260,6 +273,8 @@ export class DepositMain extends Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
+
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
@@ -270,15 +285,22 @@ export class DepositMain extends Component {
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ userCountry: res.data.country });
-                this.setState({ favouriteMethod: res.data.favorite_payment_method });
-                this.setState({ contentValue: this.state.favouriteMethod });
-                //this.setState({ contentValue: res.data.favorite_payment_method });
+                if (this._isMounted) {
+                    this.setState({
+                        userCountry: res.data.country,
+                        favouriteMethod: res.data.favorite_payment_method,
+                        contentValue: this.state.favouriteMethod
+                    });
+                }
             });
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
         this.setContent();
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     checkFavoriteMethod() {
@@ -488,7 +510,7 @@ export class DepositMain extends Component {
                             </Grid>
                         </div>
                         <div className={classes.rootMobile}>
-                            <AppBar position="fixed" className={classes.mobileRow}>
+                            <AppBar position="static" className={classes.mobileRow}>
                                 <Toolbar className={classes.mobileBar}>
                                     <Grid container>
                                         <Grid item xs={3}>
@@ -512,7 +534,7 @@ export class DepositMain extends Component {
                                                 textAlign: 'center'
                                             }}
                                         >
-                                            <span className={classes.title}>
+                                            <span className={classes.mobileTitle}>
                                                 {this.getLabel('deposit-label')}
                                             </span>
                                         </Grid>
@@ -520,63 +542,106 @@ export class DepositMain extends Component {
                                         </Grid>
                                     </Grid>
                                 </Toolbar>
-                                <StyledTabs
-                                    value={tabValue}
-                                    variant="scrollable"
-                                    scrollButtons="auto"
-                                    onChange={this.handleTabChange}
-                                >
-                                    <StyledTab label={this.getLabel('bank-transfer')}
-                                        value="chinabanktransfer"
-                                        icon={<div className={classes.mobileTabIcon}>
-                                            <img src={images.src + 'letou/bank-icon.svg'} alt="" height="18" />
-                                        </div>}
-                                        onClick={() => {
-                                            if (this.props.match.params.type !== 'chinabanktransfer') {
-                                                this.handleTabChange('chinabanktransfer');
-                                                this.depositWith('chinabanktransfer');
-                                            }
-                                        }} />
-                                    <StyledTab label={this.getLabel('quick-pay')} value="quickpay"
-                                        icon={<div className={classes.mobileTabIcon}>
-                                            <img src={images.src + 'letou/unionpay.svg'} alt="" height="18" />
-                                        </div>}
-                                        onClick={() => {
-                                            if (this.props.match.params.type !== 'quickpay') {
-                                                this.handleTabChange('quickpay');
-                                                this.depositWith('quickpay');
-                                            }
-                                        }} />
-                                    <StyledTab label={this.getLabel('union-pay-qr')} value="unionpayqr"
-                                        icon={<div className={classes.mobileTabIcon}>
-                                            <img src={images.src + 'letou/unionpayqr.svg'} alt="" height="18" />
-                                        </div>} {...a11yProps(2)} />
-                                    <StyledTab label={this.getLabel('ali-pay')} value="alipay"
-                                        icon={<div className={classes.mobileTabIcon}>
-                                            <img src={images.src + 'letou/alipay@3x.png'} alt="" height="18" />
-                                        </div>} {...a11yProps(3)} />
-                                    <StyledTab label={this.getLabel('online-pay')} value="onlinepay"
-                                        icon={<div className={classes.mobileTabIcon}>
-                                            <img src={images.src + 'letou/onlinepay.svg'} alt="" height="18" />
-                                        </div>} {...a11yProps(4)} />
-                                    <StyledTab label={this.getLabel('we-chat-pay')} value="wechatpay"
-                                        icon={<div className={classes.mobileTabIcon}>
-                                            <img src={images.src + 'letou/wechatpay.svg'} alt="" height="26" />
-                                        </div>} {...a11yProps(5)} />
-                                    <StyledTab label={this.getLabel('jd-pay')} value="jdpay"
-                                        icon={<div className={classes.mobileTabIcon}>
-                                            <img src={images.src + 'letou/jdpay.svg'} alt="" height="18" />
-                                        </div>} {...a11yProps(6)} />
-                                    <StyledTab label={this.getLabel('bit-coin')} value="bitcoin"
-                                        icon={<div className={classes.mobileTabIcon}>
-                                            <img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
-                                        </div>} {...a11yProps(7)} />
-                                    <StyledTab label={this.getLabel('astro-pay')} value="astropay"
-                                        icon={<div className={classes.mobileTabIcon}>
-                                            <img src={images.src + 'letou/astropay.svg'} alt="" height="18" />
-                                        </div>} {...a11yProps(8)} />
-                                </StyledTabs>
+
                             </AppBar>
+                            <StyledTabs
+                                value={tabValue}
+                                variant="scrollable"
+                                scrollButtons="auto"
+                                onChange={this.handleTabChange}
+                            >
+                                <StyledTab label={this.getLabel('bank-transfer')}
+                                    value="chinabanktransfer"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/bank-icon.svg'} alt="" height="18" />
+                                    </div>}
+                                    onClick={() => {
+                                        if (this.props.match.params.type !== 'chinabanktransfer') {
+                                            this.handleTabChange('chinabanktransfer');
+                                            this.depositWith('chinabanktransfer');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('quick-pay')} value="quickpay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/unionpay.svg'} alt="" height="18" />
+                                    </div>}
+                                    onClick={() => {
+                                        if (this.props.match.params.type !== 'quickpay') {
+                                            this.handleTabChange('quickpay');
+                                            this.depositWith('quickpay');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('union-pay-qr')} value="unionpayqr"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/unionpayqr.svg'} alt="" height="18" />
+                                    </div>}
+                                    onClick={() => {
+                                        if (this.props.match.params.type !== 'unionpayqr') {
+                                            this.handleTabChange('unionpayqr');
+                                            this.depositWith('unionpayqr');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('ali-pay')} value="alipay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/alipay@3x.png'} alt="" height="18" />
+                                    </div>}
+                                    onClick={() => {
+                                        if (this.props.match.params.type !== 'alipay') {
+                                            this.handleTabChange('alipay');
+                                            this.depositWith('alipay');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('online-pay')} value="onlinepay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/onlinepay.svg'} alt="" height="18" />
+                                    </div>}
+                                    onClick={() => {
+                                        if (this.props.match.params.type !== 'onlinepay') {
+                                            this.handleTabChange('onlinepay');
+                                            this.depositWith('onlinepay');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('we-chat-pay')} value="wechatpay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/wechatpay.svg'} alt="" height="26" />
+                                    </div>}
+                                    onClick={() => {
+                                        if (this.props.match.params.type !== 'wechatpay') {
+                                            this.handleTabChange('wechatpay');
+                                            this.depositWith('wechatpay');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('jd-pay')} value="jdpay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/jdpay.svg'} alt="" height="18" />
+                                    </div>}
+                                    onClick={() => {
+                                        if (this.props.match.params.type !== 'jdpay') {
+                                            this.handleTabChange('jdpay');
+                                            this.depositWith('jdpay');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('bit-coin')} value="bitcoin"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
+                                    </div>}
+                                    onClick={() => {
+                                        if (this.props.match.params.type !== 'bitcoin') {
+                                            this.handleTabChange('bitcoin');
+                                            this.depositWith('bitcoin');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('astro-pay')} value="astropay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/astropay.svg'} alt="" height="18" />
+                                    </div>}
+                                    onClick={() => {
+                                        if (this.props.match.params.type !== 'astropay') {
+                                            this.handleTabChange('astropay');
+                                            this.depositWith('astropay');
+                                        }
+                                    }} />
+                            </StyledTabs>
                         </div>
                     </div>
                 );

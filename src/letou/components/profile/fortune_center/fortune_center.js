@@ -44,6 +44,7 @@ const styles = theme => ({
         }
     },
     rootMobile: {
+        width: '100%',
         minHeight: '100vh',
         display: 'flex',
         backgroundColor: '#f2f3f5',
