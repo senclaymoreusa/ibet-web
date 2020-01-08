@@ -49,7 +49,7 @@ window.iapiSetCallout('Login', calloutLogin);
 
 function logintest(realMode) {
     console.log("test")
-    window.iapiLogin(document.getElementById("loginform"), "1033$j/in3zuZcm3Puf3wPi1mIbh0TjSbK6pjn5j9hBjvcIFR59ivqlBt8bKBGWN/5u+8$LtADV/TMTSwjMethN7yAhqxLx/rrDOXoaVSPHyzECZ0=", realMode, "en");
+    window.iapiLogin("IBETPU_JENNIE", "1033$j/in3zuZcm3Puf3wPi1mIbh0TjSbK6pjn5j9hBjvcIFR59ivqlBt8bKBGWN/5u+8$LtADV/TMTSwjMethN7yAhqxLx/rrDOXoaVSPHyzECZ0=", realMode, "en");
 }
   
 function calloutLogin(response) {
@@ -83,7 +83,7 @@ export class PTlaunchtest extends React.Component {
 
         const script1 = document.createElement("script");
         script1.type = "text/javascript";
-        script1.src = "https://login.luckydragon88.com/jswrapper/integration.js.php?casino=fourblessings88"
+        script1.src = "https://login.winforfun88.com/jswrapper/integration.js.php?casino=winforfun88"
         document.body.appendChild(script1);
 
 
