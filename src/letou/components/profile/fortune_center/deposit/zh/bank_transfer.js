@@ -471,8 +471,8 @@ class BankTransfer extends Component {
                             return res.json();
                         }).then(function (data) {
                             if(data.errorCode){
-                                currentComponent.props.logout();
-                                postLogout();
+                                currentComponent.props.postLogout();
+                                // postLogout();
                                 return;
                             }
                             //console.log(data.status)
