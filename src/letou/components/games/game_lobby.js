@@ -518,6 +518,9 @@ export class GameLobby extends React.Component {
                 <div className={classes.banner}>
                     <img src="https://d18z3w7mepzcqu.cloudfront.net/banner/jptbanner01.jpg"></img>
                 </div>
+                <div>
+                    <a href="/pt_test"> PT test</a>
+                </div>
                 <div className={classes.banner}>
                     <Paper style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
                         <AppBar position="static" color="default" style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>

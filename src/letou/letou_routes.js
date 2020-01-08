@@ -167,6 +167,7 @@ import GameLobby from './components/games/game_lobby';
 import GameDetail from './components/games/game_detail';
 
 import Promotion from './components/promotion';
+import  PTlaunchtest  from './components/games/pt_launchtest';
 
 const containerStyle = {
     minHeight: '100%'
@@ -189,7 +190,7 @@ const BaseRouter = () => (
         {/* <Route exact path="/game" component={Games} /> */}
         <Route exact path="/game/:category?/:search?/" component={GameLobby} />
         <Route exact path="/game_detail/:id" component={GameDetail} />
-
+        <Route exact path="/pt_test" component={PTlaunchtest} />
         <Route exact path="/zh/about_us" component={AboutUs} />
         <Route exact path="/zh/contact_us" component={ContactUs} />
         <Route exact path="/zh/statement" component={Statement} />
