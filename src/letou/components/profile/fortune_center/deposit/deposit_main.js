@@ -7,32 +7,40 @@ import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import DepositSuccess from './deposit_success';
 import DepositError from './deposit_error';
-import BitcoinDeposit from './zh/bitcoin';
+import DepositInprogress from './deposit_inprogress';
 import { images } from '../../../../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { config } from '../../../../../util_config';
-
 import ThaiLocalBank from './th/local_bank';
 import Payzod from './th/payzod';
+import Toolbar from '@material-ui/core/Toolbar';
+import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import Astropay from './th/astro_pay';
 import Help2pay from './th/help2_pay';
-
 import FgoCard from './vn/fgo_card';
 import MomoPay from './vn/momo_pay';
 import CirclePay from './vn/circle_pay';
 import VietnamHelp2pay from './vn/help2_pay';
 import ScratchCard from './vn/scratch_card';
 import VietnamLocalBank from './vn/local_bank';
-
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import AliPay from './zh/ali_pay';
+import OnlinePay from './zh/online_pay';
+import Banktransfer from './zh/bank_transfer';
+import WechatPay from './zh/wechat_pay';
+import QuickPay from './zh/quickpay';
+import UnionPayQr from './zh/unionpay_qr';
+import JDPay from './zh/jd_pay';
+import Astropay_CH from './zh/astro_pay';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -60,6 +68,12 @@ const styles = theme => ({
             display: 'none'
         }
     },
+    mobileMenuButton: {
+        [theme.breakpoints.up('md')]: {
+            margin: theme.spacing(1)
+        },
+        textTransform: 'capitalize'
+    },
     paymentButton: {
         width: 87,
         padding: 0,
@@ -85,15 +99,26 @@ const styles = theme => ({
         marginLeft: 10,
         marginRight: 10
     },
+    mobileBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        width: '100%'
+    },
+    grow: {
+        flexGrow: 1
+    },
+    mobileRow: {
+        alignItems: 'center',
+        backgroundColor: '#fff'
+    },
     title: {
-        fontSize: 12,
+        fontSize: 20,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 'normal',
-        color: '#676767',
-        whiteSpace: 'nowrap'
+        lineHeight: 1.29,
+        letterSpacing: -0.24,
+        color: '#000',
     },
     active: {
         fontSize: 13,
@@ -119,7 +144,48 @@ const styles = theme => ({
         right: -9,
         bottom: 0
     },
+    mobileTabIcon: {
+        backgroundColor: '#e4e4e4',
+        height: 40,
+        maxHeight: 40,
+        width: 60,
+        maxWidth: 60,
+        borderRadius: 3,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
 });
+
+const StyledTabs = withStyles({
+    indicator: {
+        display: 'flex',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        '& > div': {
+            width: '100%',
+            backgroundColor: '#53abe0',
+        },
+    },
+})(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
+
+const StyledTab = withStyles(theme => ({
+    root: {
+        textTransform: 'none',
+        color: '#676767',
+        backgroundColor: '#fff',
+        fontWeight: theme.typography.fontWeightRegular,
+        fontSize: theme.typography.pxToRem(13),
+        '&:focus': {
+            opacity: 1,
+
+        },
+        '&:selected': {
+            opacity: 1,
+            height: '100%',
+        },
+    }
+}))(props => <Tab disableRipple {...props} />);
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -129,11 +195,11 @@ function TabPanel(props) {
             component="div"
             role="tabpanel"
             hidden={value !== index}
-            id={`scrollable-auto-tabpanel-${index}`}
-            aria-labelledby={`scrollable-auto-tab-${index}`}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
             {...other}
         >
-            {value === index && <Box p={3}>{children}</Box>}
+            <Box p={3}>{children}</Box>
         </Typography>
     );
 }
@@ -160,8 +226,12 @@ export class DepositMain extends Component {
             contentValue: '',
             selectedType: '',
             userCountry: '',
-            favouriteMethod: ''
+            favouriteMethod: '',
+
+            tabValue: 'chinabanktransfer'
         };
+
+        this.handleTabChange = this.handleTabChange.bind(this);
 
         this.setPage = this.setPage.bind(this);
         this.depositWith = this.depositWith.bind(this);
@@ -181,6 +251,7 @@ export class DepositMain extends Component {
             .then(res => {
                 this.setState({ userCountry: res.data.country });
                 this.setState({ favouriteMethod: res.data.favorite_payment_method });
+                //this.setState({contentValue: this.state.favouriteMethod });
             });
 
         this.setState({ urlPath: this.props.history.location.pathname });
@@ -201,6 +272,8 @@ export class DepositMain extends Component {
             .then(res => {
                 this.setState({ userCountry: res.data.country });
                 this.setState({ favouriteMethod: res.data.favorite_payment_method });
+                this.setState({ contentValue: this.state.favouriteMethod });
+                //this.setState({ contentValue: res.data.favorite_payment_method });
             });
 
         this.setState({ urlPath: this.props.history.location.pathname });
@@ -214,7 +287,13 @@ export class DepositMain extends Component {
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ favouriteMethod: res.data.favorite_payment_method });
+                this.setState({ contentValue: this.state.favouriteMethod });
+                //this.setState({ contentValue: res.data.favorite_payment_method });
             });
+    }
+
+    handleTabChange(newValue) {
+        this.setState({ tabValue: newValue })
     }
 
     setContent() {
@@ -227,6 +306,7 @@ export class DepositMain extends Component {
             }
         } else
             this.setState({ contentValue: '' })
+        //this.setState({ contentValue: this.state.favouriteMethod })
     }
 
     setPage = (page, msg) => {
@@ -238,6 +318,7 @@ export class DepositMain extends Component {
 
     depositWith(paymentMethod) {
         this.setState({ contentValue: paymentMethod });
+
 
         var url = this.state.urlPath;
         var parts = url.split('/');
@@ -267,8 +348,10 @@ export class DepositMain extends Component {
     }
 
     getAvailablePaymentMethods() {
+
+
         const { classes } = this.props;
-        const { contentValue, userCountry, favouriteMethod } = this.state;
+        const { contentValue, userCountry, favouriteMethod, tabValue } = this.state;
 
         switch (userCountry.toLowerCase()) {
             case 'china':
@@ -280,23 +363,24 @@ export class DepositMain extends Component {
                                     <Button
                                         className={classes.paymentButton}
                                         onClick={() => {
-                                            this.depositWith('banktransfer');
-                                        }}
-                                    >
+                                            this.depositWith('chinabanktransfer');
+                                        }}>
                                         <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                        {favouriteMethod === 'chinabanktransfer' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                                     </Button>
                                     <span className={clsx(classes.title, {
-                                        [classes.active]: (contentValue === 'banktransfer'),
+                                        [classes.active]: (contentValue === 'chinabanktransfer'),
                                     })}>{this.getLabel('bank-transfer')}</span>
-                                    {contentValue === 'banktransfer' && <div className={classes.selected} />}
+                                    {contentValue === 'chinabanktransfer' && <div className={classes.selected} />}
                                 </Grid>
                                 <Grid item xs={1} className={classes.methodColumn}>
                                     <Button
                                         className={classes.paymentButton}
                                         onClick={() => {
                                             this.depositWith('quickpay');
-                                        }}
-                                    ><img src={images.src + 'letou/unionpay.svg'} alt="" height="26" />
+                                        }}>
+                                        <img src={images.src + 'letou/unionpay.svg'} alt="" height="26" />
+                                        {favouriteMethod === 'quickpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                                     </Button>
                                     <span className={clsx(classes.title, {
                                         [classes.active]: (contentValue === 'quickpay'),
@@ -308,8 +392,9 @@ export class DepositMain extends Component {
                                         className={classes.paymentButton}
                                         onClick={() => {
                                             this.depositWith('unionpayqr');
-                                        }}
-                                    ><img src={images.src + 'letou/unionpayqr.svg'} alt="" height="26" />
+                                        }}>
+                                        <img src={images.src + 'letou/unionpayqr.svg'} alt="" height="26" />
+                                        {favouriteMethod === 'unionpayqr' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                                     </Button>
                                     <span className={clsx(classes.title, {
                                         [classes.active]: (contentValue === 'unionpayqr'),
@@ -321,8 +406,9 @@ export class DepositMain extends Component {
                                         className={classes.paymentButton}
                                         onClick={() => {
                                             this.depositWith('alipay');
-                                        }}
-                                    ><img src={images.src + 'letou/alipay@3x.png'} alt="" height="26" />
+                                        }}>
+                                        <img src={images.src + 'letou/alipay@3x.png'} alt="" height="26" />
+                                        {favouriteMethod === 'alipay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                                     </Button>
                                     <span className={clsx(classes.title, {
                                         [classes.active]: (contentValue === 'alipay'),
@@ -334,8 +420,9 @@ export class DepositMain extends Component {
                                         className={classes.paymentButton}
                                         onClick={() => {
                                             this.depositWith('onlinepay');
-                                        }}
-                                    ><img src={images.src + 'letou/onlinepay.svg'} alt="" height="26" />
+                                        }}>
+                                        <img src={images.src + 'letou/onlinepay.svg'} alt="" height="26" />
+                                        {favouriteMethod === 'onlinepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                                     </Button>
                                     <span className={clsx(classes.title, {
                                         [classes.active]: (contentValue === 'onlinepay'),
@@ -347,8 +434,9 @@ export class DepositMain extends Component {
                                         className={classes.paymentButton}
                                         onClick={() => {
                                             this.depositWith('wechatpay');
-                                        }}
-                                    ><img src={images.src + 'letou/wechatpay.svg'} alt="" height="40" />
+                                        }}>
+                                        <img src={images.src + 'letou/wechatpay.svg'} alt="" height="40" />
+                                        {favouriteMethod === 'wechatpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                                     </Button>
                                     <span className={clsx(classes.title, {
                                         [classes.active]: (contentValue === 'wechatpay'),
@@ -360,8 +448,9 @@ export class DepositMain extends Component {
                                         className={classes.paymentButton}
                                         onClick={() => {
                                             this.depositWith('jdpay');
-                                        }}
-                                    ><img src={images.src + 'letou/jdpay.svg'} alt="" height="28" />
+                                        }}>
+                                        <img src={images.src + 'letou/jdpay.svg'} alt="" height="28" />
+                                        {favouriteMethod === 'jdpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                                     </Button>
                                     <span className={clsx(classes.title, {
                                         [classes.active]: (contentValue === 'jdpay'),
@@ -373,8 +462,9 @@ export class DepositMain extends Component {
                                         className={classes.paymentButton}
                                         onClick={() => {
                                             this.depositWith('bitcoin');
-                                        }}
-                                    ><img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
+                                        }}>
+                                        <img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
+                                        {favouriteMethod === 'bitcoin' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                                     </Button>
                                     <span className={clsx(classes.title, {
                                         [classes.active]: (contentValue === 'bitcoin'),
@@ -385,63 +475,114 @@ export class DepositMain extends Component {
                                     <Button
                                         className={classes.paymentButton}
                                         onClick={() => {
-                                            this.depositWith('astropay');
-                                        }}
-                                    ><img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                            this.depositWith('astropay_ch');
+                                        }}>
+                                        <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                        {favouriteMethod === 'astropay_ch' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
                                     </Button>
                                     <span className={clsx(classes.title, {
-                                        [classes.active]: (contentValue === 'astropay'),
+                                        [classes.active]: (contentValue === 'astropay_ch'),
                                     })}>{this.getLabel('astro-pay')}</span>
-                                    {contentValue === 'astropay' && <div className={classes.selected} />}
+                                    {contentValue === 'astropay_ch' && <div className={classes.selected} />}
                                 </Grid>
                             </Grid>
                         </div>
                         <div className={classes.rootMobile}>
-                            <AppBar position="static" color="default">
-                                <Tabs
-                                    value={0}
-                                    indicatorColor="primary"
-                                    textColor="primary"
+                            <AppBar position="fixed" className={classes.mobileRow}>
+                                <Toolbar className={classes.mobileBar}>
+                                    <Grid container>
+                                        <Grid item xs={3}>
+                                            <Button
+                                                className={classes.mobileMenuButton}
+                                                onClick={() => {
+                                                    this.props.history.push('/p/');
+                                                }}
+                                            >
+                                                <ArrowBackIos style={{ width: 16 }} />
+                                                {this.getLabel('back-label')}
+                                            </Button>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={6}
+                                            style={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'center',
+                                                textAlign: 'center'
+                                            }}
+                                        >
+                                            <span className={classes.title}>
+                                                {this.getLabel('deposit-label')}
+                                            </span>
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                        </Grid>
+                                    </Grid>
+                                </Toolbar>
+                                <StyledTabs
+                                    value={tabValue}
                                     variant="scrollable"
                                     scrollButtons="auto"
-                                    aria-label="scrollable auto tabs example"
+                                    onChange={this.handleTabChange}
                                 >
-                                    <Tab label="Item One" {...a11yProps(0)} />
-                                    <Tab label="Item Two" {...a11yProps(1)} />
-                                    <Tab label="Item Three" {...a11yProps(2)} />
-                                    <Tab label="Item Four" {...a11yProps(3)} />
-                                    <Tab label="Item Five" {...a11yProps(4)} />
-                                    <Tab label="Item Six" {...a11yProps(5)} />
-                                    <Tab label="Item Seven" {...a11yProps(6)} />
-                                </Tabs>
+                                    <StyledTab label={this.getLabel('bank-transfer')}
+                                        value="chinabanktransfer"
+                                        icon={<div className={classes.mobileTabIcon}>
+                                            <img src={images.src + 'letou/bank-icon.svg'} alt="" height="18" />
+                                        </div>}
+                                        onClick={() => {
+                                            if (this.props.match.params.type !== 'chinabanktransfer') {
+                                                this.handleTabChange('chinabanktransfer');
+                                                this.depositWith('chinabanktransfer');
+                                            }
+                                        }} />
+                                    <StyledTab label={this.getLabel('quick-pay')} value="quickpay"
+                                        icon={<div className={classes.mobileTabIcon}>
+                                            <img src={images.src + 'letou/unionpay.svg'} alt="" height="18" />
+                                        </div>}
+                                        onClick={() => {
+                                            if (this.props.match.params.type !== 'quickpay') {
+                                                this.handleTabChange('quickpay');
+                                                this.depositWith('quickpay');
+                                            }
+                                        }} />
+                                    <StyledTab label={this.getLabel('union-pay-qr')} value="unionpayqr"
+                                        icon={<div className={classes.mobileTabIcon}>
+                                            <img src={images.src + 'letou/unionpayqr.svg'} alt="" height="18" />
+                                        </div>} {...a11yProps(2)} />
+                                    <StyledTab label={this.getLabel('ali-pay')} value="alipay"
+                                        icon={<div className={classes.mobileTabIcon}>
+                                            <img src={images.src + 'letou/alipay@3x.png'} alt="" height="18" />
+                                        </div>} {...a11yProps(3)} />
+                                    <StyledTab label={this.getLabel('online-pay')} value="onlinepay"
+                                        icon={<div className={classes.mobileTabIcon}>
+                                            <img src={images.src + 'letou/onlinepay.svg'} alt="" height="18" />
+                                        </div>} {...a11yProps(4)} />
+                                    <StyledTab label={this.getLabel('we-chat-pay')} value="wechatpay"
+                                        icon={<div className={classes.mobileTabIcon}>
+                                            <img src={images.src + 'letou/wechatpay.svg'} alt="" height="26" />
+                                        </div>} {...a11yProps(5)} />
+                                    <StyledTab label={this.getLabel('jd-pay')} value="jdpay"
+                                        icon={<div className={classes.mobileTabIcon}>
+                                            <img src={images.src + 'letou/jdpay.svg'} alt="" height="18" />
+                                        </div>} {...a11yProps(6)} />
+                                    <StyledTab label={this.getLabel('bit-coin')} value="bitcoin"
+                                        icon={<div className={classes.mobileTabIcon}>
+                                            <img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
+                                        </div>} {...a11yProps(7)} />
+                                    <StyledTab label={this.getLabel('astro-pay')} value="astropay"
+                                        icon={<div className={classes.mobileTabIcon}>
+                                            <img src={images.src + 'letou/astropay.svg'} alt="" height="18" />
+                                        </div>} {...a11yProps(8)} />
+                                </StyledTabs>
                             </AppBar>
-                            <TabPanel value={value} index={0}>
-                                Item One
-                            </TabPanel>
-                            <TabPanel value={value} index={1}>
-                                Item Two
-                            </TabPanel>
-                            <TabPanel value={value} index={2}>
-                                Item Three
-                            </TabPanel>
-                            <TabPanel value={value} index={3}>
-                                Item Four
-                            </TabPanel>
-                            <TabPanel value={value} index={4}>
-                                Item Five
-                            </TabPanel>
-                            <TabPanel value={value} index={5}>
-                                Item Six
-                            </TabPanel>
-                            <TabPanel value={value} index={6}>
-                                Item Seven
-                            </TabPanel>
                         </div>
                     </div>
                 );
             case 'thailand':
                 return (
-                    <div className={classes.rootDesktop}>
+                    <div classnName={classes.rootDesktop}>
                         <Grid container className={classes.methodGrid} spacing={4}>
                             <Grid item xs={1} className={classes.methodColumn}>
                                 <Button
@@ -610,8 +751,19 @@ export class DepositMain extends Component {
                 {this.getAvailablePaymentMethods()}
                 {contentValue === 'error' && (<DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
                 {contentValue === 'success' && (<DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />)}
-                {contentValue === 'onlinepay' && (<DepositError callbackFromParent={this.setPage} />)}
-                {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} />)}
+                {contentValue === 'inprogress' && (<DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />)}
+
+                {/*
+                {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
+                */}
+                {contentValue === 'alipay' && (<AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'onlinepay' && (<OnlinePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'chinabanktransfer' && (<Banktransfer callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'wechatpay' && (<WechatPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'quickpay' && (<QuickPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'unionpayqr' && (<UnionPayQr callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'jdpay' && (<JDPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {contentValue === 'astropay_ch' && (<Astropay_CH callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
 
                 {contentValue === 'vietnamhelp2pay' && (<VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
                 {contentValue === 'circlepay' && (<CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}

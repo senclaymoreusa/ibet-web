@@ -144,8 +144,8 @@ export class MessageNotification extends Component {
                 axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
                     .then(res => {
                         if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                            this.props.logout();
-                            postLogout();
+                            this.props.postLogout();
+                            // postLogout();
                             return;
                         }
                         if(res.data.length == 0) {
@@ -168,8 +168,8 @@ export class MessageNotification extends Component {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
                 if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                    this.props.logout();
-                    postLogout();
+                    this.props.postLogout();
+                    // postLogout();
                     return;
                 }
 

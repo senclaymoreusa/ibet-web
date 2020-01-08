@@ -287,26 +287,10 @@ export class Profile extends Component {
             }
         });
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({ username: res.data.username });
-                    this.setState({ mainWallet: res.data.main_wallet });
-                    this.setState({ currency: res.data.currency });
-                }
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
-
         if (this._isMounted)
             this.setState({ urlPath: this.props.history.location.pathname });
 
-        this.setContent();
+        //this.setContent();
     }
 
     setContent() {
@@ -316,7 +300,8 @@ export class Profile extends Component {
         if (parts.length >= 2) {
             let path = parts[2];
             this.setState({ mobileContent: parts[parts.length - 1] });
-           
+            console.log(parts[parts.length - 1])
+
             if (path.length > 0) {
                 if (this._isMounted)
                     this.setState({ desktopTabValue: parts[2] });
@@ -333,6 +318,23 @@ export class Profile extends Component {
         this._isMounted = false;
     }
 
+    getMobileContent() {
+        const { typeProp, subProp } = this.props;
+
+        switch (typeProp) {
+            case 'account-management':
+                return <MobileAccountInfo />;
+            case 'security-settings':
+                return <SecuritySettings />;
+            case 'fortune-center':
+                return <FortuneCenter />;
+            case 'suggestions':
+                return <Suggestions />;
+            default:
+                return <MobileMainProfile />;
+        }
+    }
+
     render() {
         const { classes } = this.props;
         const {
@@ -344,12 +346,18 @@ export class Profile extends Component {
             desktopTabValue
         } = this.state;
 
+
+
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>
                     <AppBar position="static" className={classes.firstRow}>
                         <Toolbar className={classes.firstBar}>
-                            <IconButton href="/" className={classes.logo}>
+                            <IconButton
+                                onClick={() => {
+                                    this.props.history.push('/');
+                                }}
+                                className={classes.logo}>
                                 <img
                                     src={images.src + 'letou/logo2.png'}
                                     alt="LETOU"
@@ -360,21 +368,21 @@ export class Profile extends Component {
                             {this.props.isAuthenticated ? (
                                 <div>
                                     <Button
-                                          size="small"
-                                          onClick={() => {
-                                              this.props.history.push('/p/account-management/message-notification')
-                                          }}
-                                      >
-                                          <div>
-                                              <img src={images.src + 'email2.png'} alt="" />
-                                          </div>
+                                        size="small"
+                                        onClick={() => {
+                                            this.props.history.push('/p/account-management/message-notification')
+                                        }}
+                                    >
+                                        <div>
+                                            <img src={images.src + 'email2.png'} alt="" />
+                                        </div>
                                     </Button>
                                     <Button
                                         size="small"
                                         className={classes.topLinkButton}
                                         onClick={() => {
-                                            this.props.logout();
-                                            postLogout();
+                                            // this.props.logout();
+                                            this.props.postLogout();
                                         }}
                                     >
                                         {this.getLabel('log-out')}
@@ -601,31 +609,19 @@ export class Profile extends Component {
                     <Footer />
                 </div>
                 <div className={classes.rootMobile}>
-                    {this.state.mobileContent === '' && <MobileMainProfile />}
-                    {this.state.mobileContent === 'account-management' && (
-                        <MobileAccountInfo />
-                    )}
-                    {this.state.mobileContent === 'security-settings' && (
-                        <SecuritySettings />
-                    )}
-                    {this.state.mobileContent === 'fortune-center' && (
-                        <FortuneCenter />
-                    )}
-                     {this.state.mobileContent === 'deposit' && (
+                    {/* {this.props.typeProp === 'deposit' && (
                         <DepositMain />
                     )}
-                     {this.state.mobileContent === 'withdrawal' && (
+                    {this.props.typeProp === 'withdrawal' && (
                         <Withdrawal />
                     )}
-                     {this.state.mobileContent === 'transfer' && (
+                    {this.props.typeProp === 'transfer' && (
                         <Transfer />
                     )}
-                     {this.state.mobileContent === 'total-assets' && (
+                    {this.props.typeProp === 'total-assets' && (
                         <TotalAssets />
-                    )}
-                     {this.state.mobileContent === 'suggestions' && (
-                        <Suggestions />
-                    )}
+                    )} */}
+                    {this.getMobileContent()}
                     <div className={classes.grow} />
                     <Footer />
                 </div>
@@ -634,12 +630,11 @@ export class Profile extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     const { token } = state.auth;
     return {
         isAuthenticated: token !== null && token !== undefined,
-        error: state.auth.error,
-        lang: state.language.lang
+        typeProp: ownProps.match.params.type
     };
 };
 

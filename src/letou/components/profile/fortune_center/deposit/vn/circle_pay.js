@@ -500,8 +500,8 @@ class CirclePay extends Component {
                 } else {
                     console.log(res);
                     if (res.data.errorCode) {
-                        currentComponent.props.logout();
-                        postLogout();
+                        currentComponent.props.postLogout();
+                        // postLogout();
                         return;
                     }
                     window.open(postURL);

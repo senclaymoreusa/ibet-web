@@ -1,24 +1,76 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../../util_config';
+import { config, images } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
-
+import Select from '@material-ui/core/Select';
+import InputBase from '@material-ui/core/InputBase';
+import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { withRouter } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+
+const bank_options = [
+    { value: 'OOO6CN', label: 'China UnionPay' },
+    { value: 'ABOCCN', label: 'Agricultural Bank of China' },
+    { value: 'BEASCN', label: 'Bank of East Asia' },
+    { value: 'BJCNCN', label: 'Bank of Beijing'},
+    { value: 'BKCHCN', label: 'Bank of China' },
+    { value: 'BKNBCN', label: 'Bank of Ningbo'},
+    { value: 'BKSHCN', label: 'Bank Of Hebei'},
+    { value: 'BOSHCN', label: 'Bank of Shanghai' },
+    { value: 'BRCBCN', label: 'Beijing Rural Commercial Bank'},
+    { value: 'CBOCCN', label: 'Bank of Chengdu' },
+    { value: 'CHBHCN', label: 'China Bohai Bank' },
+    { value: 'CIBKCN', label: 'China Citic Bank' },
+    { value: 'CMBCCN', label: 'China Merchants Bank' },
+    { value: 'CN01CN', label: 'Zhongshan Rural Credit Union' },
+    { value: 'CN03CN', label: 'Yao Credit Cooperative Union' },
+    { value: 'COMMCN', label: 'Bank of Communication'},
+    { value: 'CZCBCN', label: 'Zhejiang Chouzhou commercial bank'},
+    { value: 'EVSOCN', label: 'China Everbright Bank'},
+    { value: 'FJIBCN', label: 'Industrial Bank Co Ltd'},
+    { value: 'GDBKCN', label: 'China Guangfa Bank'},
+    { value: 'GNXSCN', label: 'Guangzhou Rural Credit Cooperatives'},
+    { value: 'GZCBCN', label: 'Bank of Guangzhou'},
+    { value: 'GZRCCN', label: 'GuangZhou Commercial Bank'},
+    { value: 'HFCBCN', label: 'Huishang Bank'},
+    { value: 'HXBKCN', label: 'Huaxia Bank'},
+    { value: 'HZCBCN', label: 'Hangzhou Bank'},
+    { value: 'ICBKCN', label: 'Industrial and Commercial Bank of China'},
+    { value: 'JSHBCN', label: 'Jinshang Bank'},
+    { value: 'MSBCCN', label: 'China Minsheng Bank'},
+    { value: 'NJCBCN', label: 'Bank of Nanjing'},
+    { value: 'NYCBCN', label: 'Nanyang Commercial Bank'},
+    { value: 'PCBCCN', label: 'China Construction Bank'},
+    { value: 'PSBCCN', label: 'Postal Savings Bank of China'},
+    { value: 'RCCSCN', label: 'Shunde Rural Commercial Bank'},
+    { value: 'SHRCCN', label: 'Shanghai Rural Commercial Bank'},
+    { value: 'SPDBCN', label: 'Shanghai Pudong Development Bank'},
+    { value: 'SZCBCN', label: 'Ping An Bank'},
+    { value: 'SZDBCN', label: 'Shenzhen Development Bank'},
+    { value: 'TCCBCN', label: 'Bank of Tianjin'},
+    { value: 'WHCBCN', label: 'Hankou Bank'},
+    { value: 'WZCBCN', label: 'Bank of Wenzhou'},
+    { value: 'ZJCBCN', label: 'China Zheshang Bank'},
+    { value: 'ZJTLCN', label: 'Zhejiang Tailong Commercial Bank'},
+    { value: 'PBOCCN', label: 'People’s Bank of China'},
+    { value: 'HSBCCN', label: 'HSBC'},
+    { value: 'DGCBCN', label: 'Bank of Dongguang'},
+    
+];
 
 const styles = theme => ({
     root: {
@@ -120,6 +172,31 @@ const styles = theme => ({
     selected: {
         opacity: 1,
     },
+    select: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 44,
+        width: '100%',
+    },
+    selectLabel: {
+        marginLeft: 10,
+        fontSize: 15,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+    },
+    bankIcon: {
+        height: 20,
+        maxWidth: 100
+    },
     amountText: {
         fontSize: 14,
         fontWeight: 500,
@@ -168,17 +245,53 @@ const styles = theme => ({
     },
 });
 
+const BootstrapInput = withStyles(theme => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing(3),
+        },
+    },
+    input: {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        padding: '10px 2px 10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        display: 'flex',
+        flexDirection: 'row',
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}))(InputBase);
+
 const CustomCheckbox = withStyles({
     root: {
-        color: '#4DA9DF',
+        color: '#21e496',
         '&$checked': {
-            color: '#4DA9DF',
+            color: '#21e496',
         },
     },
     checked: {},
-})(props => <Checkbox color="default" {...props} />);
+})(props => <Checkbox {...props} />);
 
-const amounts = Object.freeze([20, 50, 100, 250]);
+const amounts = Object.freeze([100, 500, 1000, 10000]);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
@@ -195,6 +308,9 @@ function NumberFormatCustom(props) {
                 });
             }}
             thousandSeparator
+            decimalSeparator='.'
+            decimalScale={2}
+            fixedDecimalScale
             prefix={currency}
         />
     );
@@ -205,7 +321,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class BitcoinDeposit extends Component {
+class BankTransfer extends Component {
     constructor(props) {
         super(props);
 
@@ -214,35 +330,12 @@ class BitcoinDeposit extends Component {
         this.state = {
             amount: '',
             currency: '',
-            error: false,
-            data: '',
-            type: '',
-            qaicash_error: false,
-            qaicash_error_msg: "",
-            live_check_amount: false,
-            button_disable: true,
-            value: "",
-            size: 128,
-            fgColor: '#000000',
-            bgColor: '#ffffff',
-            level: 'L',
-            renderAs: 'svg',
-            includeMargin: false,
-            show_qrcode: false,
-            bankid: '',
-
+            bank: 'none',
             amountFocused: false,
             amountInvalid: true,
 
-            showLinearProgressBar: false,
-
             isFavorite: false,
         };
-
-
-        this.handleClick = this.handleClick.bind(this);
-
-        this.setAsFavorite = this.setAsFavorite.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -252,7 +345,7 @@ class BitcoinDeposit extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'bitcoin' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'chinabanktransfer' });
             });
     }
 
@@ -263,7 +356,7 @@ class BitcoinDeposit extends Component {
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'bitcoin' });
+                this.setState({ isFavorite: res.data.favorite_payment_method === 'chinabanktransfer' });
             });
     }
 
@@ -273,10 +366,11 @@ class BitcoinDeposit extends Component {
         if (e.target.value.length === 0) {
             this.setState({ amount: '', amountInvalid: true });
         } else {
-            const re = /^[0-9\b]+$/;
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(e.target.value)) {
-                this.setState({ amount: e.target.value, amountInvalid: false });
+                this.setState({ amount: e.target.value });
+                this.setState({ amountInvalid: (parseFloat(e.target.value) < 100 || parseFloat(e.target.value) > 10000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -284,19 +378,52 @@ class BitcoinDeposit extends Component {
         }
     };
 
-    handleClick = () => {
+    handleBankChange = event => {
+        this.setState({ bank: event.target.value });
+    };
+
+    handleClick() {
+        {/*
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('no token -- user is not logged in');
+        }
+        config.headers['Authorization'] = `Token ${token}`;
+        let userid = this.state.data.pk;
+        var postData = {
+            amount: this.state.amount,
+            userid: userid,
+            currency: 7,
+            real_name: this.state.name,
+            bank_acc_no: this.state.bankAccountNumber,
+            bank: this.state.bank,
+            type: 0 // 0 = deposit
+        };
+        return axios
+            .post(
+                API_URL + 'accounting/api/transactions/save_transaction',
+                postData,
+                config
+            )
+            .then((res, err) => {
+                console.log(res);
+            });
+       */}
+        {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+        
         var postData = {
             "amount": this.state.amount,
-            "userid": this.state.data.pk,
+            "user_id": this.state.data.pk,
             "currency": "0",
-            "PayWay": "30", //在线支付
-            "method": "38", //wechat
+            "language": "zh-Hans",
+            "method": "BANK_TRANSFER",
+            "bank":this.state.selectedBankOption,
         }
-        //console.log(this.state.data.pk)
+        //console.log(this.state.amount)
+        //console.log(currentComponent.state.data.username)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -304,34 +431,27 @@ class BitcoinDeposit extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
+        return  fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
             method: 'POST',
             headers: {
                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: formBody
         }).then(function (res) {
-            //console.log(res);
-
-            currentComponent.setState({ showLinearProgressBar: false });
-
-
             return res.json();
-
         }).then(function (data) {
-            //console.log(data)
-            let qrurl = data.qr;
-            //console.log(qrurl)
-            if (qrurl != null) {
-                const mywin = window.open(qrurl, 'asiapay-wechatpay')
-                var timer = setInterval(function () {
+            let redirectUrl = data.paymentPageSession.paymentPageUrl
+            //console.log(redirectUrl)
 
+           
+            if (redirectUrl != null) {
+                const mywin = window.open(redirectUrl, 'qaicash_BT');
+                var timer = setInterval(function () {
+                    //console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
-                            "order_id": data.oid,
-                            "userid": "n" + userid,
-                            "CmdType": "01",
+                            "trans_id": data.paymentPageSession.orderId
                         }
                         var formBody = [];
                         for (var pd in postData) {
@@ -341,7 +461,7 @@ class BitcoinDeposit extends Component {
                         }
                         formBody = formBody.join("&");
 
-                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
+                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
                             method: "POST",
                             headers: {
                                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -350,8 +470,13 @@ class BitcoinDeposit extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
+                            if(data.errorCode){
+                                currentComponent.props.postLogout();
+                                // postLogout();
+                                return;
+                            }
                             //console.log(data.status)
-                            if (data.status === "001") {
+                            if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
@@ -368,25 +493,24 @@ class BitcoinDeposit extends Component {
                                             currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                         } else {
                                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        }
-                                    });
+                                        } });
                             } else {
-                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
                             }
                         });
                     }
                 }, 1000);
-
             } else {
-                currentComponent.props.callbackFromParent("error", data.StatusMsg);
+                currentComponent.setState({ showLinearProgressBar: false });
+                currentComponent.props.callbackFromParent("error", data.returnMessage);
+                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
-
-        }).catch(function (err) {
+        }).catch(function (err) {  
             //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
-            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
+    }
     }
 
     getLabel(labelId) {
@@ -397,7 +521,7 @@ class BitcoinDeposit extends Component {
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
             user_id: this.state.data.pk,
-            payment: event.target.checked ? 'bitcoin' : null,
+            payment: event.target.checked ? 'chinabanktransfer' : null,
         })
             .then(res => {
                 this.setState({ isFavorite: !this.state.isFavorite });
@@ -408,17 +532,52 @@ class BitcoinDeposit extends Component {
             });
     }
 
+    backClicked() {
+        var url = this.props.history.location.pathname
+        var parts = url.split('/');
+        url = '/';
+        var path = parts.slice(1, 4).join('/');
+        url = url + path;
+        this.props.history.push(url);
+    }
+
     render() {
         const { classes } = this.props;
-        const { showLinearProgressBar, isFavorite, amount, currency } = this.state;
+        const { isFavorite, amount, currency, bank } = this.state;
 
         return (
             <div className={classes.root}>
-                {showLinearProgressBar === true && <LinearProgress />}
-                <Grid container spacing={2} className={classes.contentGrid} style={(showLinearProgressBar === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }}>
+                <Grid container spacing={2} className={classes.contentGrid}>
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <Select
+                            className={classes.select}
+                            value={bank}
+                            onChange={(event) => {
+                                this.setState({ bank: event.target.value });
+                            }}
+                            input={<BootstrapInput name="bank" id="bank-select" />}>
+                            <MenuItem key='none' value='none' disabled>
+                                <span className={classes.selectLabel}>{this.getLabel('choose-bank')}</span>
+                            </MenuItem>
+                            {
+                                bank_options.map(bank => (
+                                
+                                    <MenuItem key={bank.label} value={bank.value} >
+                                        {/*
+                                        <div style={{ width: 100 }}>
+                                            <img src={images.src + bank.img} alt="" className={classes.bankIcon} />
+                                        </div>
+                                        */}
+                                        <span className={classes.selectLabel}>{bank.label}</span>
+                                    </MenuItem>
+                                
+                                ))
+                            }
+                        </Select>
+                    </Grid>
                     {amounts.map((x, i) => {
                         return (
-                            <Grid item xs={3} key={i}>
+                            <Grid item xs={3} key={i} style={{height:60}}>
                                 <Button
                                     className={clsx({
                                         [classes.button]: true,
@@ -439,7 +598,7 @@ class BitcoinDeposit extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('bitcoin-placeholder')}
+                            placeholder={"Deposit ¥100 - ¥10,000"}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -479,13 +638,13 @@ class BitcoinDeposit extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.handleClick}
+                            onClick={this.handleClick.bind(this)}
                             disabled={this.state.amountInvalid}
-                        >{this.getLabel('next-label')}</Button>
+                        >{this.getLabel('deposit-label')}</Button>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.backClicked}
+                            onClick={this.backClicked.bind(this)}
                         >{this.getLabel('back-banking')}</Button>
                     </Grid>
                 </Grid>
@@ -500,4 +659,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(BitcoinDeposit)));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(BankTransfer))));
