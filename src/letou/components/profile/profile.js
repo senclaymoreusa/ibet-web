@@ -66,6 +66,7 @@ const styles = theme => ({
         }
     },
     rootMobile: {
+        width: '100%',
         minHeight: '100vh',
         display: 'flex',
         backgroundColor: '#f2f3f5',
@@ -288,26 +289,10 @@ export class Profile extends Component {
             }
         });
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({ username: res.data.username });
-                    this.setState({ mainWallet: res.data.main_wallet });
-                    this.setState({ currency: res.data.currency });
-                }
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
-
         if (this._isMounted)
             this.setState({ urlPath: this.props.history.location.pathname });
 
-        this.setContent();
+        //this.setContent();
     }
 
     setContent() {
@@ -317,7 +302,7 @@ export class Profile extends Component {
         if (parts.length >= 2) {
             let path = parts[2];
             this.setState({ mobileContent: parts[parts.length - 1] });
-
+       
             if (path.length > 0) {
                 if (this._isMounted)
                     this.setState({ desktopTabValue: parts[2] });
@@ -334,6 +319,23 @@ export class Profile extends Component {
         this._isMounted = false;
     }
 
+    getMobileContent() {
+        const { typeProp, subProp } = this.props;
+
+        switch (typeProp) {
+            case 'account-management':
+                return <MobileAccountInfo />;
+            case 'security-settings':
+                return <SecuritySettings />;
+            case 'fortune-center':
+                return <FortuneCenter />;
+            case 'suggestions':
+                return <Suggestions />;
+            default:
+                return <MobileMainProfile />;
+        }
+    }
+
     render() {
         const { classes } = this.props;
         const {
@@ -344,6 +346,8 @@ export class Profile extends Component {
             emailVerified,
             desktopTabValue
         } = this.state;
+
+
 
         return (
             <div className={classes.root}>
@@ -606,36 +610,20 @@ export class Profile extends Component {
                     <Footer />
                 </div>
                 <div className={classes.rootMobile}>
-                    {this.state.mobileContent === '' && <MobileMainProfile />}
-                    {this.state.mobileContent === 'account-management' && (
-                        <MobileAccountInfo />
-                    )}
-                    {this.state.mobileContent === 'security-settings' && (
-                        <SecuritySettings />
-                    )}
-                    {this.state.mobileContent === 'fortune-center' && (
-                        <FortuneCenter />
-                    )}
-                    {this.state.mobileContent === 'deposit' && (
+                    {/* {this.props.typeProp === 'deposit' && (
                         <DepositMain />
                     )}
-                    {this.state.mobileContent === 'withdrawal' && (
+                    {this.props.typeProp === 'withdrawal' && (
                         <Withdrawal />
                     )}
-                    {this.state.mobileContent === 'transfer' && (
+                    {this.props.typeProp === 'transfer' && (
                         <Transfer />
                     )}
-                    {this.state.mobileContent === 'total-assets' && (
+                    {this.props.typeProp === 'total-assets' && (
                         <TotalAssets />
-                    )}
-                     {this.state.mobileContent === 'transaction-records' && (
-                        <TransactionRecord />
-                    )}
-
-                     {this.state.mobileContent === 'suggestions' && (
-                        <Suggestions />
-                    )}
-                    <div className={classes.grow} />
+                    )} */}
+                    {this.getMobileContent()}
+                    {/* <div className={classes.grow} /> */}
                     <Footer />
                 </div>
             </div>
@@ -643,12 +631,11 @@ export class Profile extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     const { token } = state.auth;
     return {
         isAuthenticated: token !== null && token !== undefined,
-        error: state.auth.error,
-        lang: state.language.lang
+        typeProp: ownProps.match.params.type
     };
 };
 
