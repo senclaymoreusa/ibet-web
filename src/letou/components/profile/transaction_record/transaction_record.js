@@ -48,38 +48,7 @@ const styles = theme => ({
     mainGrid: {
         maxWidth: 1400
     },
-    leftPane: {
-        backgroundColor: '#f0f0f0',
-        minHeight: 500,
-        width: 240,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start'
-    },
-    rightPane: {},
-    leftPaneButton: {
-        textTransform: 'capitalize',
-        justifyContent: 'flex-start',
-        width: 220,
-        marginTop: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        '&:hover': {
-            backgroundColor: '#f1f1f1'
-        }
-    },
-    activeLeftPaneButton: {
-        textTransform: 'capitalize',
-        justifyContent: 'flex-start',
-        backgroundColor: '#d1d1d1',
-        width: 220,
-        marginTop: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        '&:hover': {
-            backgroundColor: '#dfdfdf'
-        }
-    },
+   
     mobileRow: {
         height: 60,
         alignItems: 'center',
@@ -89,6 +58,11 @@ const styles = theme => ({
         paddingLeft: 0,
         paddingRight: 0,
         width: '100%'
+    },
+    tabLabel: {
+        fontSize: 14,
+        paddingLeft: 5,
+        paddingRight: 5
     },
     title: {
         fontSize: 20,
@@ -106,8 +80,10 @@ const styles = theme => ({
     content: {
         flexGrow: 1,
         borderTop: 'solid 1px #efefef',
-        paddingTop: 20,
-        paddingBottom: 10
+        [theme.breakpoints.up('md')]: {
+            paddingTop: 20,
+            paddingBottom: 10
+        }
     }
 });
 
@@ -128,7 +104,7 @@ const StyledTab = withStyles(theme => ({
         color: '#474747',
         fontWeight: theme.typography.fontWeightRegular,
         fontSize: theme.typography.pxToRem(15),
-        marginRight: theme.spacing(1),
+        // marginRight: theme.spacing(1),
         '&:focus': {
             opacity: 1,
             fontStretch: 'normal',
@@ -174,7 +150,7 @@ export class TransactionRecord extends Component {
         super(props);
 
         this.state = {
-            tabValue: 'account-details'
+            tabValue: 'analysis'
         };
     }
 
@@ -293,6 +269,7 @@ export class TransactionRecord extends Component {
                         onChange={this.handleTabChange}
                     >
                         <StyledTab
+                            className={classes.tabLabel}
                             label={this.getLabel('account-details')}
                             value="account-details"
                             onClick={() => {
@@ -307,6 +284,7 @@ export class TransactionRecord extends Component {
                             }}
                         />
                         <StyledTab
+                            className={classes.tabLabel}
                             label={this.getLabel('bet-details')}
                             value="bet-details"
                             onClick={() => {
@@ -321,6 +299,7 @@ export class TransactionRecord extends Component {
                             }}
                         />
                         <StyledTab
+                            className={classes.tabLabel}
                             label={this.getLabel('analysis-label')}
                             value="analysis"
                             onClick={() => {

@@ -540,7 +540,11 @@ export const messages = {
         'any-question-label':
             'If you have any suggestions, please feel free to contact us',
         'dedicated-line': '24-hour Domestic Dedicated Line',
-         'records-label': 'Records',
+        'records-label': 'Records',
+        'bet-label': 'Bet',
+        'win-label': 'Win',
+        'biggest-win': 'Biggest Win',
+        'bonuses-label': 'Bonuses',
         'total-balance': 'Total Balance',
         'recommended': 'Recommended',
         'top-games': 'Top Games',
@@ -551,7 +555,7 @@ export const messages = {
         'video-poker': 'Video Poker',
         'fishing-games': 'Fishing Games',
         'view-all': 'View All >',
-        'rejected-label':'Rejected',
+        'rejected-label': 'Rejected',
     },
     zh: {
         'help-title': '我们在此竭诚服务',

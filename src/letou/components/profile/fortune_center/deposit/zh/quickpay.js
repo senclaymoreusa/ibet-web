@@ -375,8 +375,8 @@ class QuickPay extends Component {
                             })
                             .then(function(data) {
                                 if(data.errorCode){
-                                    currentComponent.props.logout();
-                                    postLogout();
+                                    // currentComponent.props.logout();
+                                    currentComponent.props.postLogout();
                                     return;
                                 }
                                 //console.log(data.status);

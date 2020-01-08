@@ -299,8 +299,8 @@ class TopNavbar extends React.Component {
                         )
                         .then(res => {
                             if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                                this.props.logout();
-                                postLogout();
+                                // this.props.logout();
+                                this.props.postLogout();
                                 return;
                             }
 
@@ -575,8 +575,8 @@ class TopNavbar extends React.Component {
                                         size="small"
                                         className={classes.topLinkButton}
                                         onClick={() => {
-                                            this.props.logout();
-                                            postLogout();
+                                            // this.props.logout();
+                                            this.props.postLogout();
                                         }}
                                     >
                                         {this.getLabel('log-out')}
