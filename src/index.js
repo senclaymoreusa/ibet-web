@@ -59,7 +59,7 @@ if (
     window.location
         .toString()
         .toLowerCase()
-        .indexOf('localhost') == -1
+        .indexOf('localhost') != -1
 ) {
     ReactDOM.render(
          <Provider store={store}>
