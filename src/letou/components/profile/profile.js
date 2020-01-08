@@ -302,8 +302,7 @@ export class Profile extends Component {
         if (parts.length >= 2) {
             let path = parts[2];
             this.setState({ mobileContent: parts[parts.length - 1] });
-            console.log(parts[parts.length - 1])
-
+       
             if (path.length > 0) {
                 if (this._isMounted)
                     this.setState({ desktopTabValue: parts[2] });
