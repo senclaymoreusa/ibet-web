@@ -74,23 +74,20 @@ export class PTlaunchtest extends React.Component {
         return formatMessage({ id: labelId });
     }
     componentDidMount() {
-        const script = document.createElement("script");
+        // const script = document.createElement("script");
     
-        script.src = "http://cache.download.banner.winforfun88.com/integrationjs.php";
-        // script.async = true;
+        // script.src = "http://cache.download.banner.winforfun88.com/integrationjs.php";
+        // // script.async = true;
     
-        document.body.appendChild(script);
+        // document.body.appendChild(script);
 
         const script1 = document.createElement("script");
         script1.type = "text/javascript";
-        script1.src = "https://login.luckydragon88.com/jswrapper/integration.js.php?casino=fourblessings88"
+        script1.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
         document.body.appendChild(script1);
 
 
       }
-    
-            
-  
 
     render() {
 
