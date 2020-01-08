@@ -85,8 +85,6 @@ export class PTlaunchtest extends React.Component {
         script1.type = "text/javascript";
         script1.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
         document.body.appendChild(script1);
-
-
       }
 
     render() {
