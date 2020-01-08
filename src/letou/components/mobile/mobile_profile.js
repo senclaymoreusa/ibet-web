@@ -246,7 +246,10 @@ export class MobileMainProfile extends Component {
                         </div>
                     </Grid>
                     <Grid item xs={4} style={{ textAlign: 'center' }}>
-                        <Button className={classes.mobileTabTitleButton}>
+                        <Button className={classes.mobileTabTitleButton}
+                        onClick={() => {
+                            this.props.history.push('/p/fortune-center/deposit');
+                       }}>
                             <div className={classes.column}>
                                 <img
                                     src={images.src + 'letou/deposit-icon.png'}
@@ -258,7 +261,10 @@ export class MobileMainProfile extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={4} style={{ textAlign: 'center' }}>
-                        <Button className={classes.mobileTabTitleButton}>
+                        <Button className={classes.mobileTabTitleButton}
+                        onClick={() => {
+                            this.props.history.push('/p/fortune-center/withdrawal');
+                       }}>
                             <div className={classes.column}>
                                 <img
                                     src={

@@ -593,7 +593,7 @@ class AliPay extends Component {
     render() {
         const { classes } = this.props;
         const { isFavorite, amount, currency } = this.state;
-        console.log(classes)
+       
         return (
             <div className={classes.root}>
                 <Grid container spacing={2} className={classes.contentGrid}>
