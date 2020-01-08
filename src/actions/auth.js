@@ -68,7 +68,9 @@ export const authLogin = (username, password, iovationData) => {
                 axios.get(API_URL + 'users/api/user/', config).then(res => {
                     let userData = {
                         userId: res.data.pk,
-                        currency: res.data.currency
+                        currency: res.data.currency,
+                        favoriteDepositMethod: res.data.favorite_payment_method,
+                        country: res.data.country
                     };
 
                     dispatch(authGetUser(userData));
@@ -82,6 +84,24 @@ export const authLogin = (username, password, iovationData) => {
                 dispatch(authFail(err.response.data.detail));
                 return Promise.reject(err.response.data.detail);
             });
+    };
+};
+
+export const authUserUpdate = () => {
+    return (dispatch, getState) => {
+        config.headers['Authorization'] = `Token ${getState().auth.token}`;
+
+        axios.get(API_URL + 'users/api/user/', config).then(res => {
+            let userData = {
+                userId: res.data.pk,
+                currency: res.data.currency,
+                favoriteDepositMethod: res.data.favorite_payment_method,
+                country: res.data.country,
+                newData:'new'
+            };
+
+            dispatch(authGetUser(userData));
+        });
     };
 };
 
@@ -212,20 +232,19 @@ export const checkAuthTimeout = expirationTime => {
     return dispatch => {
         setTimeout(() => {
             axios
-            .post(API_URL + 'users/api/logout/?token=' + token, config)
-            .then(res => {
-                // console.log(res);
-                dispatch(logout());
-                window.location.reload();
-                // console.log(res);
-            })
-            .catch(err => {
-                dispatch(logout());
-                // console.log(err);
-                window.location.reload();
-                // console.log(err);
-            });
-            
+                .post(API_URL + 'users/api/logout/?token=' + token, config)
+                .then(res => {
+                    // console.log(res);
+                    dispatch(logout());
+                    window.location.reload();
+                    // console.log(res);
+                })
+                .catch(err => {
+                    dispatch(logout());
+                    // console.log(err);
+                    window.location.reload();
+                    // console.log(err);
+                });
         }, expirationTime * 1000);
     };
 };
@@ -234,7 +253,8 @@ export const postLogout = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
         const body = JSON.stringify({});
-        axios.post(API_URL + 'users/api/logout/?token=' + token, body, config)
+        axios
+            .post(API_URL + 'users/api/logout/?token=' + token, body, config)
             .then(res => {
                 dispatch(logout());
                 window.location.reload();
@@ -245,7 +265,7 @@ export const postLogout = () => {
                 window.location.reload();
                 // console.log(err);
             });
-        }
+    };
 };
 
 export const logout = () => {
@@ -262,6 +282,16 @@ export const logout = () => {
 };
 
 export const sendingLog = err => {
+    return axios
+        .post(
+            API_URL + 'system/api/logstreamtos3/',
+            { line: err, source: 'Ibetweb' },
+            config
+        )
+        .then(() => { });
+};
+
+export const getUpdatedUserData = err => {
     return axios
         .post(
             API_URL + 'system/api/logstreamtos3/',
@@ -302,7 +332,10 @@ export const authCheckState = () => {
                         } else {
                             let userData = {
                                 userId: res.data.pk,
-                                currency: res.data.currency
+                                currency: res.data.currency,
+                                favoriteDepositMethod:
+                                    res.data.favorite_payment_method,
+                                country: res.data.country
                             };
 
                             dispatch(authGetUser(userData));

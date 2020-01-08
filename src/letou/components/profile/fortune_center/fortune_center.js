@@ -193,23 +193,6 @@ export class FortuneCenter extends Component {
             mainWallet: 0,
             currency: 'CNY'
         }
-
-        this.handleTabChange = this.handleTabChange.bind(this);
-    }
-
-    handleTabChange(event, newValue) {
-        this.setState({ desktopContent: newValue });
-        this.setState({ desktopTabValue: newValue });
-
-        var url = this.state.urlPath;
-        var parts = url.split('/');
-
-        url = '/';
-        var path = parts.slice(1, 3).join('/');
-        url = url + path;
-
-        url = url + '/' + newValue;
-        this.props.history.push(url);
     }
 
     componentWillReceiveProps(props) {
@@ -477,22 +460,22 @@ export class FortuneCenter extends Component {
                         <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
                             <div className={classes.leftPane}>
                                 <Button className={(desktopTabValue === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'total-assets')}>
+                                    onClick={() => this.props.history.push('/p/fortune-center/total-assets')}>
                                     <AccountBalanceOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('total-assets')}
                                 </Button>
                                 <Button className={(desktopTabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'deposit')}>
+                                    onClick={() => this.props.history.push('/p/fortune-center/deposit')}>
                                     <FlightLandOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('deposit-label')}
                                 </Button>
                                 <Button className={(desktopTabValue === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'withdrawal')}>
+                                    onClick={() => this.props.history.push('/p/fortune-center/withdrawal')}>
                                     <FlightTakeoffOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('title-withdrawal')}
                                 </Button>
                                 <Button className={(desktopTabValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'transfer')}>
+                                    onClick={() => this.props.history.push('/p/fortune-center/transfer')}>
                                     <LoopOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('title-transfer')}
                                 </Button>

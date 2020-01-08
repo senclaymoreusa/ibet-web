@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState, AUTH_RESULT_FAIL
+    authCheckState, AUTH_RESULT_FAIL, sendingLog, authUserUpdate
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
@@ -52,7 +52,6 @@ const styles = theme => ({
         minHeight: '100vh'
     },
     rootDesktop: {
-        height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -61,7 +60,6 @@ const styles = theme => ({
     },
     rootMobile: {
         width: '100%',
-        minHeight: '100vh',
         display: 'flex',
         backgroundColor: '#f2f3f5',
         flexDirection: 'column',
@@ -232,71 +230,77 @@ export class DepositMain extends Component {
             urlPath: '',
             contentValue: '',
             selectedType: '',
-            userCountry: '',
             favouriteMethod: '',
-
-            tabValue: 'chinabanktransfer'
         };
-
-        this.handleTabChange = this.handleTabChange.bind(this);
 
         this.setPage = this.setPage.bind(this);
         this.depositWith = this.depositWith.bind(this);
         this.checkFavoriteMethod = this.checkFavoriteMethod.bind(this);
     }
 
-    componentWillReceiveProps(props) {
-        this._isMounted = true;
+    // componentWillReceiveProps(props) {
+    //     this._isMounted = true;
 
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            }
-        })
+    //     this.props.authCheckState().then(res => {
+    //         if (res === AUTH_RESULT_FAIL) {
+    //             this.props.history.push('/')
+    //         }
+    //     })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({
-                        userCountry: res.data.country,
-                        favouriteMethod: res.data.favorite_payment_method
-                    });
-                }
-                //this.setState({contentValue: this.state.favouriteMethod });
-            });
+    //     const token = localStorage.getItem('token');
+    //     config.headers["Authorization"] = `Token ${token}`;
+    //     axios.get(API_URL + 'users/api/user/', config)
+    //         .then(res => {
+    //             if (this._isMounted) {
+    //                 this.setState({
+    //                     userCountry: res.data.country,
+    //                     favouriteMethod: res.data.favorite_payment_method
+    //                 });
+    //             }
+    //         });
 
-        this.setState({ urlPath: this.props.history.location.pathname });
+    //     this.setState({ urlPath: this.props.history.location.pathname });
 
-        this.setContent();
-    }
+    //     this.setContent();
+    // }
 
     componentDidMount() {
-        this._isMounted = true;
+        // this._isMounted = true;
 
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            }
-        })
+        // this.props.authCheckState()
+        //     .then(res => {
+        //         if (res === AUTH_RESULT_FAIL) {
+        //             this.props.history.push('/');
+        //             sendingLog('authentication failure!!!');
+        //         } else {
+        //             if (this._isMounted) {
+        //                 const { user } = this.props;
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({
-                        userCountry: res.data.country,
-                        favouriteMethod: res.data.favorite_payment_method,
-                        contentValue: this.state.favouriteMethod
-                    });
-                }
-            });
+        //                 this.setState({
+        //                     currency: getSymbolFromCurrency(user.currency),
+        //                     isFavorite: (user.favoriteDepositMethod === 'quickpay')
+        //                 });
+        //             }
+        //         }
+        //     });
 
-        this.setState({ urlPath: this.props.history.location.pathname });
 
-        this.setContent();
+        // const token = localStorage.getItem('token');
+        // config.headers["Authorization"] = `Token ${token}`;
+        // axios.get(API_URL + 'users/api/user/', config)
+        //     .then(res => {
+        //         if (this._isMounted) {
+        //             this.setState({
+        //                 userCountry: res.data.country,
+        //                 favouriteMethod: res.data.favorite_payment_method,
+        //                 contentValue: this.state.favouriteMethod
+        //             });
+        //         }
+        //     });
+
+        // this.setState({ urlPath: this.props.history.location.pathname });
+
+        // this.setContent();
     }
 
     componentWillUnmount() {
@@ -312,10 +316,6 @@ export class DepositMain extends Component {
                 this.setState({ contentValue: this.state.favouriteMethod });
                 //this.setState({ contentValue: res.data.favorite_payment_method });
             });
-    }
-
-    handleTabChange(newValue) {
-        this.setState({ tabValue: newValue })
     }
 
     setContent() {
@@ -339,20 +339,7 @@ export class DepositMain extends Component {
     };
 
     depositWith(paymentMethod) {
-        this.setState({ contentValue: paymentMethod });
-
-
-        var url = this.state.urlPath;
-        var parts = url.split('/');
-
-        if (parts.length >= 4) {
-            url = '/';
-            var path = parts.slice(1, 4).join('/');
-            url = url + path;
-        }
-        url = url + '/' + paymentMethod;
-        this.props.history.push(url);
-
+        this.props.history.push('/p/fortune-center/deposit/' + paymentMethod)
     }
 
     getLabel(labelId) {
@@ -360,22 +347,11 @@ export class DepositMain extends Component {
         return formatMessage({ id: labelId });
     }
 
-    checkFavoriteMethod() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ favouriteMethod: res.data.favorite_payment_method });
-            });
-    }
-
     getAvailablePaymentMethods() {
+        const { classes, user, operationProp } = this.props;
+        const { contentValue, favouriteMethod } = this.state;
 
-
-        const { classes } = this.props;
-        const { contentValue, userCountry, favouriteMethod, tabValue } = this.state;
-
-        switch (userCountry.toLowerCase()) {
+        switch (user.country.toLowerCase()) {
             case 'china':
                 return (
                     <div>
@@ -542,22 +518,23 @@ export class DepositMain extends Component {
                                         </Grid>
                                     </Grid>
                                 </Toolbar>
-
                             </AppBar>
                             <StyledTabs
-                                value={tabValue}
+                                value={operationProp ? operationProp : 'none'}
                                 variant="scrollable"
                                 scrollButtons="auto"
-                                onChange={this.handleTabChange}
                             >
+                                <StyledTab
+                                    style={{ width: 0, minWidth: 0, maxWidth: 0, padding: 0 }}
+                                    value="none"
+                                />
                                 <StyledTab label={this.getLabel('bank-transfer')}
                                     value="chinabanktransfer"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/bank-icon.svg'} alt="" height="18" />
                                     </div>}
                                     onClick={() => {
-                                        if (this.props.match.params.type !== 'chinabanktransfer') {
-                                            this.handleTabChange('chinabanktransfer');
+                                        if (operationProp !== 'chinabanktransfer') {
                                             this.depositWith('chinabanktransfer');
                                         }
                                     }} />
@@ -566,8 +543,7 @@ export class DepositMain extends Component {
                                         <img src={images.src + 'letou/unionpay.svg'} alt="" height="18" />
                                     </div>}
                                     onClick={() => {
-                                        if (this.props.match.params.type !== 'quickpay') {
-                                            this.handleTabChange('quickpay');
+                                        if (operationProp !== 'quickpay') {
                                             this.depositWith('quickpay');
                                         }
                                     }} />
@@ -576,8 +552,7 @@ export class DepositMain extends Component {
                                         <img src={images.src + 'letou/unionpayqr.svg'} alt="" height="18" />
                                     </div>}
                                     onClick={() => {
-                                        if (this.props.match.params.type !== 'unionpayqr') {
-                                            this.handleTabChange('unionpayqr');
+                                        if (operationProp !== 'unionpayqr') {
                                             this.depositWith('unionpayqr');
                                         }
                                     }} />
@@ -586,9 +561,8 @@ export class DepositMain extends Component {
                                         <img src={images.src + 'letou/alipay@3x.png'} alt="" height="18" />
                                     </div>}
                                     onClick={() => {
-                                        if (this.props.match.params.type !== 'alipay') {
-                                            this.handleTabChange('alipay');
-                                            this.depositWith('alipay');
+                                        if (operationProp !== 'alipay') {
+                                             this.depositWith('alipay');
                                         }
                                     }} />
                                 <StyledTab label={this.getLabel('online-pay')} value="onlinepay"
@@ -596,8 +570,7 @@ export class DepositMain extends Component {
                                         <img src={images.src + 'letou/onlinepay.svg'} alt="" height="18" />
                                     </div>}
                                     onClick={() => {
-                                        if (this.props.match.params.type !== 'onlinepay') {
-                                            this.handleTabChange('onlinepay');
+                                        if (operationProp !== 'onlinepay') {
                                             this.depositWith('onlinepay');
                                         }
                                     }} />
@@ -606,8 +579,7 @@ export class DepositMain extends Component {
                                         <img src={images.src + 'letou/wechatpay.svg'} alt="" height="26" />
                                     </div>}
                                     onClick={() => {
-                                        if (this.props.match.params.type !== 'wechatpay') {
-                                            this.handleTabChange('wechatpay');
+                                        if (operationProp !== 'wechatpay') {
                                             this.depositWith('wechatpay');
                                         }
                                     }} />
@@ -616,8 +588,7 @@ export class DepositMain extends Component {
                                         <img src={images.src + 'letou/jdpay.svg'} alt="" height="18" />
                                     </div>}
                                     onClick={() => {
-                                        if (this.props.match.params.type !== 'jdpay') {
-                                            this.handleTabChange('jdpay');
+                                        if (operationProp !== 'jdpay') {
                                             this.depositWith('jdpay');
                                         }
                                     }} />
@@ -626,8 +597,7 @@ export class DepositMain extends Component {
                                         <img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
                                     </div>}
                                     onClick={() => {
-                                        if (this.props.match.params.type !== 'bitcoin') {
-                                            this.handleTabChange('bitcoin');
+                                        if (operationProp !== 'bitcoin') {
                                             this.depositWith('bitcoin');
                                         }
                                     }} />
@@ -636,8 +606,7 @@ export class DepositMain extends Component {
                                         <img src={images.src + 'letou/astropay.svg'} alt="" height="18" />
                                     </div>}
                                     onClick={() => {
-                                        if (this.props.match.params.type !== 'astropay') {
-                                            this.handleTabChange('astropay');
+                                        if (operationProp !== 'astropay') {
                                             this.depositWith('astropay');
                                         }
                                     }} />
@@ -807,47 +776,74 @@ export class DepositMain extends Component {
                 return <div></div>;
         }
     }
+
+    getPaymentMethodContent() {
+        const { operationProp } = this.props;
+
+        if (operationProp === 'alipay')
+            return <AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'onlinepay')
+            return <OnlinePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'chinabanktransfer')
+            return <Banktransfer callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'wechatpay')
+            return <WechatPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'quickpay')
+            return <QuickPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        // else if (operationProp === 'bitcoin')
+        //     return <BitcoinDeposit callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'unionpayqr')
+            return <UnionPayQr callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'jdpay')
+            return <JDPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'astropay_ch')
+            return <Astropay_CH callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'vietnamhelp2pay')
+            return <VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'circlepay')
+            return <CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'fgocard')
+            return <FgoCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'vietnamlocalbank')
+            return <VietnamLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'momopay')
+            return <MomoPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'scratchcard')
+            return <ScratchCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'thailocalbank')
+            return <ThaiLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'payzod')
+            return <Payzod callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'astropay')
+            return <Astropay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'help2pay')
+            return <Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'error')
+            return <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />;
+        else if (operationProp === 'success')
+            return <DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />;
+        else if (operationProp === 'inprogress')
+            return <DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />;
+    }
+
     render() {
         const { classes } = this.props;
-        const { contentValue } = this.state;
 
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
-                {contentValue === 'error' && (<DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />)}
-                {contentValue === 'success' && (<DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />)}
-                {contentValue === 'inprogress' && (<DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />)}
-
-                {/*
-                {contentValue === 'bitcoin' && (<BitcoinDeposit callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod}/>)}
-                */}
-                {contentValue === 'alipay' && (<AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'onlinepay' && (<OnlinePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'chinabanktransfer' && (<Banktransfer callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'wechatpay' && (<WechatPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'quickpay' && (<QuickPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'unionpayqr' && (<UnionPayQr callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'jdpay' && (<JDPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'astropay_ch' && (<Astropay_CH callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-
-                {contentValue === 'vietnamhelp2pay' && (<VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'circlepay' && (<CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'fgocard' && (<FgoCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'vietnamlocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'momopay' && (<MomoPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'scratchcard' && (<ScratchCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'payzod' && (<Payzod callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'astropay' && (<Astropay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
-                {contentValue === 'help2pay' && (<Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />)}
+                {this.getPaymentMethodContent()}
             </div >
         );
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+    const { user } = state.auth;
+
     return {
-        lang: state.language.lang,
+        user: user,
+        operationProp: ownProps.match.params.operation
     };
 };
 
@@ -855,7 +851,7 @@ export default withStyles(styles)
     (withRouter(
         injectIntl(
             connect(
-                mapStateToProps, { authCheckState }
+                mapStateToProps, { authCheckState, authUserUpdate, sendingLog }
             )(DepositMain)
         )
     )
