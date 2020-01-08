@@ -51,31 +51,31 @@ store.subscribe(
     }, 1000)
 );
 
-if (
-    window.location
-        .toString()
-        .toLowerCase()
-        .indexOf('asia') != -1 || 
-    window.location
-        .toString()
-        .toLowerCase()
-        .indexOf('localhost') != -1
-) {
+// if (
+//     window.location
+//         .toString()
+//         .toLowerCase()
+//         .indexOf('asia') != -1 || 
+//     window.location
+//         .toString()
+//         .toLowerCase()
+//         .indexOf('localhost') == -1
+// ) {
     ReactDOM.render(
          <Provider store={store}>
             <LetouApp />
         </Provider>,
         document.getElementById('root')
     );
-} else {
-    // console.log('using ibet app');
-    ReactDOM.render(
-        <Provider store={store}>
-            <IbetApp />
-        </Provider>,
-        document.getElementById('root')
-    );
-}
+// } else {
+//     // console.log('using ibet app');
+//     ReactDOM.render(
+//         <Provider store={store}>
+//             <IbetApp />
+//         </Provider>,
+//         document.getElementById('root')
+//     );
+// }
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
