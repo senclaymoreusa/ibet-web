@@ -60,7 +60,7 @@ function calloutLogin(response) {
       else {
           alert("Login OK, you will be redirected to the play console");
           console.log("sss..")
-          window.open ("http://cache.download.banner.winforfun88.com/casinoclient.html?language=en&game=hb");
+          window.open ("http://cache.download.banner.fourblessings88.com/casinoclient.html?language=en&game=hb");
       }
   }
 
@@ -83,7 +83,7 @@ export class PTlaunchtest extends React.Component {
 
         const script1 = document.createElement("script");
         script1.type = "text/javascript";
-        script1.src = "https://login.winforfun88.com/jswrapper/integration.js.php?casino=winforfun88"
+        script1.src = "https://login.luckydragon88.com/jswrapper/integration.js.php?casino=fourblessings88"
         document.body.appendChild(script1);
 
 
