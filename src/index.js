@@ -32,9 +32,9 @@ addLocaleData(th);
 
 let middleware = [];
 if (process.env.REACT_APP_NODE_ENV === 'development') {
-  middleware = [...middleware, thunkMiddleware, loggerMiddleware];
+    middleware = [...middleware, thunkMiddleware, loggerMiddleware];
 } else {
-  middleware = [...middleware, thunkMiddleware];
+    middleware = [...middleware, thunkMiddleware];
 }
 
 const store = createStore(
@@ -46,7 +46,7 @@ const store = createStore(
 store.subscribe(
     throttle(() => {
         saveState({
-            auth : store.getState().auth
+            auth: store.getState().auth
         });
     }, 1000)
 );
@@ -55,14 +55,14 @@ if (
     window.location
         .toString()
         .toLowerCase()
-        .indexOf('asia') != -1 || 
+        .indexOf('asia') != -1 ||
     window.location
         .toString()
         .toLowerCase()
         .indexOf('localhost') != -1
 ) {
     ReactDOM.render(
-         <Provider store={store}>
+        <Provider store={store}>
             <LetouApp />
         </Provider>,
         document.getElementById('root')
