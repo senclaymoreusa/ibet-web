@@ -220,7 +220,7 @@ export class live_casino extends React.Component {
               </div>
 
               <div className="PgHall MarginLeft">
-                <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
+                <div className="PgHallTitle">{this.getLabel('ab-title')}</div>
                 <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ab.jpg" alt="ab" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                 <div className="PgHallArticle">
                   <p>{this.getLabel('ab-words')}</p>
@@ -333,10 +333,11 @@ export class live_casino extends React.Component {
                 <div className="PgHallArticle">
                   <p>{this.getLabel('bbin-words')}</p>
                   <ul>
-                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-words')}</font></a></li>
+                    
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Two')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Sangong')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Wenzhou')}</font></a></li>
+                    <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Toubao')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Texas')}</font></a></li>
                     <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Color')}</font></a></li>
                   </ul>
