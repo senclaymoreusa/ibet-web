@@ -298,6 +298,7 @@ class TopNavbar extends React.Component {
                             config
                         )
                         .then(res => {
+                            console.log("response: ", res);
                             if (res.data.errorCode === errors.USER_IS_BLOCKED) {
                                 // this.props.logout();
                                 this.props.postLogout();
@@ -305,8 +306,8 @@ class TopNavbar extends React.Component {
                             }
 
                             if (res.status === 200) {
+                                console.log(res.data);
                                 this.setState({ kyUrl: res.data.d.url });
-                                console.log(this.state.kyUrl);
                                 window.open(this.state.kyUrl, 'kaiyuan gaming');
                             }
                         })
