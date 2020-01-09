@@ -305,8 +305,8 @@ class TopNavbar extends React.Component {
                             }
 
                             if (res.status === 200) {
+                                console.log(res.data);
                                 this.setState({ kyUrl: res.data.d.url });
-                                console.log(this.state.kyUrl);
                                 window.open(this.state.kyUrl, 'kaiyuan gaming');
                             }
                         })
