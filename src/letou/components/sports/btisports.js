@@ -12,12 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import '../../css/banner.css';
 import { withRouter } from 'react-router-dom';
 import { config } from '../../../util_config';
-import axios from 'axios';
 import Iframe from 'react-iframe';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
-
-//console.log("Line 15, process env URL = " + API_URL);
 
 document.body.style = 'background: #f1f1f1;';
 
@@ -108,17 +103,10 @@ class btisports extends React.Component {
         super(props);
 
         this.state = {
-            //   url : ""
+            url: ''
         };
     }
     componentDidMount() {
-        // this.props.authCheckState()
-        //     .then(() => {
-        //         this.setState({ showSoggedinStatus: true });
-        //     })
-        this.game_url();
-    }
-    game_url = () => {
         var token = localStorage.getItem('token');
         if (token) {
             config.headers['Authorization'] = `Token ${token}`;
@@ -128,7 +116,7 @@ class btisports extends React.Component {
                     token
             });
         }
-    };
+    }
 
     render() {
         const { classes } = this.props;
