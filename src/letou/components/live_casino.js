@@ -135,18 +135,21 @@ export class live_casino extends React.Component {
   
   componentDidMount() {
     const token = localStorage.getItem('token');
-    config.headers["Authorization"] = `Token ${token}`;
-    axios.get(API_URL + 'users/api/user/', config)
-        .then(res => {
-            this.setState({ data: res.data });
-            this.setState({ currencyValue: res.data.currency });
-        });
+
+    if (token) {
+        config.headers["Authorization"] = `Token ${token}`;
+        axios.get(API_URL + 'users/api/user/', config)
+            .then(res => {
+                this.setState({ data: res.data });
+                this.setState({ currencyValue: res.data.currency });
+            });
+    }
+    
     
   }
   handleN2Click = (username) => {
     var token = localStorage.getItem('token');
     if (token) {
-      console.log(username, token);
       window.open(
           `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`
       );
