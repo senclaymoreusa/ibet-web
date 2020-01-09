@@ -16,10 +16,7 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
   gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
   gdcasino_accessKey = process.env.REACT_APP_GDCASINO_STAGING_ACCESSKEY;
 
-//console.log("Line 15, process env URL = " + API_URL);
-//console.log(gdcasino_accessKey)
 document.body.style = 'background: #f1f1f1;';
-
 
 const styles = theme => ({
   root: {
@@ -102,8 +99,6 @@ const styles = theme => ({
   PgHallBtnLeft:{
     float: "left",
   }
-
-
 });
 
 export class live_casino extends React.Component {
@@ -126,17 +121,26 @@ export class live_casino extends React.Component {
   
   componentDidMount() {
     const token = localStorage.getItem('token');
-    if (token) {
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currencyValue: res.data.currency });
-                
+    config.headers["Authorization"] = `Token ${token}`;
+    axios.get(API_URL + 'users/api/user/', config)
+        .then(res => {
+            this.setState({ data: res.data });
+            this.setState({ currencyValue: res.data.currency });
         });
+    
+  }
+  handleN2Click = (username) => {
+    var token = localStorage.getItem('token');
+    if (token) {
+      console.log(username, token);
+      window.open(
+          `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`
+      );
     }
-
-}
+    else {
+      this.props.history.push('/register');
+    }
+  };
   handleGDClick(view){
     let direct_view = {
       'Baccarat': 'N',
@@ -145,9 +149,7 @@ export class live_casino extends React.Component {
       'BidmeBaccarat': 'BMB',
       
     }
-    
-    
-    var token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     // var code = gdcasino_code;
     // var accessKey = gdcasino_accessKey;
     //console.log(this.state.data)
@@ -165,14 +167,12 @@ export class live_casino extends React.Component {
       url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
       window.open(url, "gdcasino")
     }
-    
-    
   }
 
 
   render() {
-
     const { classes } = this.props;
+    const { username } = this.state.data;
 
     return (
       <div className={classes.root}>
@@ -277,7 +277,8 @@ export class live_casino extends React.Component {
                   </ul>
                   <Grid item xs={3} className={classes.PgHallBtn}>
                   <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                    <a onClick={() => window.open("https://666.claymoreasia.com/", "n2live")}><span>{this.getLabel('Real-money')}</span></a>
+                    {/* <a onClick={() => window.open("https://666.claymoreasia.com/", "n2live")}><span>{this.getLabel('Real-money')}</span></a> */}
+                    <a onClick={() => {this.handleN2Click(username)}}><span>{this.getLabel('Real-money')}</span></a>
                   </div>
                   </Grid>
                 </div>
