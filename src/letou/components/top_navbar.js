@@ -298,6 +298,7 @@ class TopNavbar extends React.Component {
                             config
                         )
                         .then(res => {
+                            console.log("response: ", res);
                             if (res.data.errorCode === errors.USER_IS_BLOCKED) {
                                 // this.props.logout();
                                 this.props.postLogout();
