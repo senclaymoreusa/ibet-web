@@ -96,7 +96,7 @@ class GameDetail extends Component {
 
     generateQTURL(gameId, free) {
 
-        if (free) {
+        if (!free) {
             axios.post(API_URL + 'games/api/qt/game_launch?mode=demo&gameId=' + gameId, config).then(
             res => {
               if (res.data.url) {
