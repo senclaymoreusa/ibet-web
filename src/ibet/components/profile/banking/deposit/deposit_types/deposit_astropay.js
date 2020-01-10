@@ -441,6 +441,8 @@ class DepositAstropay extends Component {
                 error: true,
                 error_msg: res.data.response_msg.split('|')[3]
             });
+            this.setState({ showLinearProgressBar: false });
+            this.props.callbackFromParent('error', this.state.error_msg);
         }
     };
 

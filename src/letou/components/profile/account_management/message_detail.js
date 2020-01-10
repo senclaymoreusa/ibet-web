@@ -124,8 +124,8 @@ export class MessageDetail extends Component {
         axios.post(API_URL + 'operation/api/read_message/' + this.props.message.pk, config)
             .then(res => {
                 if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                    this.props.logout();
-                    postLogout();
+                    this.props.postLogout();
+                    // postLogout();
                     return;
                 }
                 if(res.status === 201) {
@@ -144,8 +144,8 @@ export class MessageDetail extends Component {
         axios.post(API_URL + 'operation/api/delete_message/' + id, config)
             .then(res => {
                 if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                    this.props.logout();
-                    postLogout();
+                    this.props.postLogout();
+                    // postLogout();
                     return;
                 }
                 if(res.status === 200) {
