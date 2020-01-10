@@ -362,6 +362,7 @@ export class Register extends Component {
       this.props.lang,
       (this.state.referralCode.length !== 0) ? this.state.referralCode : undefined)
       .then((res) => {
+        // this.props.authSuccess();
         this.props.show_letou_login();
         this.setState({showRegisterMessage: true});
       }).catch(err => {
