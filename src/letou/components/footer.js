@@ -315,7 +315,6 @@ export class Footer extends React.Component {
         if (parts.length >= 2) {
             let path = parts[1];
 
-            // eslint-disable-next-line prettier/prettier
             this.setState({ activeMenu: (path == '') ? 'home' : path });
         } else if (parts.length >= 3) {
             let path = parts[2];

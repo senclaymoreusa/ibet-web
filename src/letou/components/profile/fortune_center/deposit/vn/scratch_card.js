@@ -358,8 +358,8 @@ class ScratchCard extends Component {
             })
             .then(function (data) {
                 if (data.errorCode) {
-                    currentComponent.props.logout();
-                    postLogout();
+                    currentComponent.props.postLogout();
+                    // postLogout();
                     return;
                 }
                 if (data.error_code === '00' && data.status === '0') {

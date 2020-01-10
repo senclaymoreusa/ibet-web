@@ -487,8 +487,8 @@ class AliPay extends Component {
             return res.json();
         }).then(function (data) {
             if(data.errorCode){
-                currentComponent.props.logout();
-                postLogout();
+                currentComponent.props.postLogout();
+                // postLogout();
                 return;
             }
             let redirectUrl = data.paymentPageSession.paymentPageUrl
@@ -593,7 +593,7 @@ class AliPay extends Component {
     render() {
         const { classes } = this.props;
         const { isFavorite, amount, currency } = this.state;
-        console.log(classes)
+       
         return (
             <div className={classes.root}>
                 <Grid container spacing={2} className={classes.contentGrid}>
