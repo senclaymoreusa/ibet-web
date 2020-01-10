@@ -58,11 +58,11 @@ const styles = theme => ({
         minHeight: '100vh'
     },
     rootDesktop: {
-        height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            minHeight: '100vh'
         }
     },
     rootMobile: {
@@ -592,7 +592,7 @@ export class Profile extends Component {
                         )}
                     </Popper>
                     <div className={classes.content}>
-                        {this.state.desktopTabValue === 'fortune-center' && (
+                      {this.state.desktopTabValue === 'fortune-center' && (
                             <FortuneCenter />
                         )}
                         {this.state.desktopTabValue === 'transaction-records' && (

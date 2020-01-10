@@ -24,11 +24,9 @@ const styles = theme => ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
         alignItems: 'center',
     },
     rootDesktop: {
-        height: 92,
         maxWidth: 1400,
         display: 'none',
         [theme.breakpoints.up('md')]: {
