@@ -115,25 +115,27 @@ export class MessageDetail extends Component {
             .then(res => {
                 if (res === 1) {
                     window.location.reload();
+                } else {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.post(API_URL + 'operation/api/read_message/' + this.props.message.pk, config)
+                        .then(res => {
+                            if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                                this.props.postLogout();
+                                // postLogout();
+                                return;
+                            }
+                            if(res.status === 201) {
+                                this.props.handle_inbox_value(this.props.inbox - 1);
+                            }
+                        }).catch(err => {
+                            sendingLog(err);
+                        })
                 }
             })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.post(API_URL + 'operation/api/read_message/' + this.props.message.pk, config)
-            .then(res => {
-                if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                    this.props.postLogout();
-                    // postLogout();
-                    return;
-                }
-                if(res.status === 201) {
-                    this.props.handle_inbox_value(this.props.inbox - 1);
-                }
-            }).catch(err => {
-                sendingLog(err);
-            })
+        
     }
 
     backClicked() {

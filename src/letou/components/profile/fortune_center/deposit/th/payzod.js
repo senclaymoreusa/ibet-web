@@ -318,24 +318,28 @@ class Payzod extends Component {
 
     componentWillReceiveProps(props) {
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
-            });
+        if (token) {
+            config.headers["Authorization"] = `Token ${token}`;
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                    this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
+                });
+        }
     }
 
     componentDidMount() {
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
+        if (token) {
+            config.headers["Authorization"] = `Token ${token}`;
+            axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
             });
+        }
     }
 
     amountChanged(event) {

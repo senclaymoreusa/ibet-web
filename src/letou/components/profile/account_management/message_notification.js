@@ -133,31 +133,31 @@ export class MessageNotification extends Component {
             .then(res => {
                 if (res === 1) {
                     window.location.reload();
+                } else {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+                    
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
+                                .then(res => {
+                                    if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                                        this.props.postLogout();
+                                        // postLogout();
+                                        return;
+                                    }
+                                    if(res.data.length == 0) {
+                                        this.setState({noMessage: "You don't have any message yet"});
+                                    }
+                                    
+                                    this.setState({Messages: res.data});
+                                }).catch(err => {
+                                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                                    sendingLog(err);
+                                })
+                        })
                 }
-            })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
-                    .then(res => {
-                        if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                            this.props.postLogout();
-                            // postLogout();
-                            return;
-                        }
-                        if(res.data.length == 0) {
-                            this.setState({noMessage: "You don't have any message yet"});
-                        }
-                        
-                        this.setState({Messages: res.data});
-                    }).catch(err => {
-                        // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                        sendingLog(err);
-                    })
-            })
+            }) 
     }
 
     detailClicked(msg) {

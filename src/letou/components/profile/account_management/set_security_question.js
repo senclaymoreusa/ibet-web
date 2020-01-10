@@ -338,40 +338,42 @@ export class SetSecurityQuestion extends Component {
 
     async componentDidMount() {
 
-        this.props.authCheckState()
-            .then(res => {
+       this.props.authCheckState()
+            .then( async res => {
                 if (res === 1) {
                     this.props.history.push('/');
+                } else {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+
+                    let currentComponent = this;
+
+                    axios.get(API_URL + 'users/api/security-question/', config)
+                        .then(res => {
+                            this.setState({ questionList: res.data });
+                        }).catch(function (err) {
+                            sendingLog(err);
+                        });
+
+                    await axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            currentComponent.setState({ userId: res.data.pk });
+                            currentComponent.setState({ securityQuestion: res.data.security_question });
+                            axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
+                                .then(res => {
+                                    if (res.data.errorCode !== 105)
+                                        this.setState({ securityQuestion: res.data.value });
+                                }).catch(function (err) {
+                                    sendingLog(err);
+                                });
+                        }).catch(function (err) {
+                            sendingLog(err);
+                        });
                 }
             })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-
-        let currentComponent = this;
-
-        axios.get(API_URL + 'users/api/security-question/', config)
-            .then(res => {
-                this.setState({ questionList: res.data });
-            }).catch(function (err) {
-                sendingLog(err);
-            });
-
-        await axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                currentComponent.setState({ userId: res.data.pk });
-                currentComponent.setState({ securityQuestion: res.data.security_question });
-                axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
-                    .then(res => {
-                        if (res.data.errorCode !== 105)
-                            this.setState({ securityQuestion: res.data.value });
-                    }).catch(function (err) {
-                        sendingLog(err);
-                    });
-            }).catch(function (err) {
-                sendingLog(err);
-            });
+        
     }
 
     setSecurityAnswer() {
