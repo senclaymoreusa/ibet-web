@@ -306,7 +306,7 @@ export class Register extends Component {
     this.setState({ password: event.target.value });
     let testedResult = zxcvbn(event.target.value);
 
-    this.setState({ passwordInvalid: (testedResult.score !== 4) })
+    this.setState({ passwordInvalid: (testedResult.score !== 3) })
 
     this.setState({ confirmPasswordInvalid: (this.state.confirmPassword !== event.target.value) })
   }
@@ -362,7 +362,6 @@ export class Register extends Component {
       this.props.lang,
       (this.state.referralCode.length !== 0) ? this.state.referralCode : undefined)
       .then((res) => {
-        // this.props.authSuccess();
         this.props.show_letou_login();
         this.setState({showRegisterMessage: true});
       }).catch(err => {
@@ -373,16 +372,16 @@ export class Register extends Component {
           this.setState({ errorMessage: err.response.data.username[0] });
         } else if (err.response && 'email' in err.response.data) {
           this.setState({ emailInvalid: true })
-          this.setState({ errorMessage: err.response.data.username[0] });
+          this.setState({ errorMessage: err.response.data.email[0] });
         } else if (err.response && 'phone' in err.response.data) {
           this.setState({ phoneInvalid: true })
-          this.setState({ errorMessage: err.response.data.username[0] });
+          this.setState({ errorMessage: err.response.data.phone[0] });
         } else if (err.response && 'non_field_errors' in err.response.data) {
           // this.setState({ error: err.response.data.non_field_errors.slice(0) })
           // this.setState({ errorMessage: err.response.data.username[0] });
-        } else if (err.response && 'password1' in err.response.data) {
+        } else if (err.response && 'password' in err.response.data) {
           this.setState({ passwordInvalid: true })
-          this.setState({ errorMessage: err.response.data.username[0] });
+          this.setState({ errorMessage: err.response.data.password[0] });
         }
       })
   }
