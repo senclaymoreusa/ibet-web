@@ -132,7 +132,7 @@ export class MessageNotification extends Component {
         this.props.authCheckState()
             .then(res => {
                 if (res === 1) {
-                    window.location.reload();
+                    this.props.history.push('/');
                 } else {
                     const token = localStorage.getItem('token');
                     config.headers["Authorization"] = `Token ${token}`;
