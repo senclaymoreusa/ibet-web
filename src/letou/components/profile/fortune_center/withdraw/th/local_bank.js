@@ -297,11 +297,11 @@ const styles = theme => ({
 });
 
 const bank_options = [
-    { value: 'KKR', label: 'Kasikorn Bank (K-Bank)', img: 'letou/kasikornbank.png', code: 'THB' },
-    { value: 'SCB', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 'THB' },
-    { value: 'KTB', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 'THB' },
-    { value: 'BOA', label: 'Bank of Ayudhya (Krungsri)', img: 'letou/bay.png', code: 'THB' },
-    { value: 'TMB', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 'THB' },
+    { value: 'Kasikorn Bank', label: 'Kasikorn Bank', img: 'letou/kasikornbank.png', code: 'THB' },
+    { value: 'Siam Commercial Bank', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 'THB' },
+    { value: 'Krung Thai Bank', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 'THB' },
+    { value: 'Bank of Ayudhya', label: 'Bank of Ayudhya', img: 'letou/bay.png', code: 'THB' },
+    { value: 'TMB Bank Public Company Limited', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 'THB' },
 ];
 
 const BootstrapInput = withStyles(theme => ({
@@ -475,13 +475,12 @@ class ThaiLocalBank extends Component {
             "amount": this.state.amount,
             "userid": this.state.data.pk,
             "currency": '7',
-            "CashBankDetailName": this.state.selectedBankOption,
+            "bank": this.state.selectedBankOption,
             "language": "en-Us",
-            "CashCardNumber": this.state.bankAccountNumber,
-            "CashCardChName": "bbb",
+            "bank_acc_no": this.state.bankAccountNumber,
+            "real_name": "bangqi zhu",
             "cashoutMethod": "cashifacebatch",
         }
-        
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -495,6 +494,9 @@ class ThaiLocalBank extends Component {
             type: 'withdraw',
             username: this.state.data.username,
             balance: this.state.amount,
+            'bank':this.state.selectedBankOption,
+            'bank_acc_no':this.state.bankAccountNumber,
+            "real_name": "bangqi zhu",
         });
         {/*
         axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
@@ -507,7 +509,7 @@ class ThaiLocalBank extends Component {
                     currentComponent.props.callbackFromParent("success", "Transaction completed.");
                 }
             });
-        */}
+        
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -515,13 +517,19 @@ class ThaiLocalBank extends Component {
             formBody.push(encodedKey + '=' + encodedValue);
         }
         formBody = formBody.join('&');
-        return fetch(API_URL + 'accounting/api/asiapay/cashout', {
+        */}
+        return fetch(API_URL + 'accounting/api/transactions/save_transaction', {
             method: 'POST',
             headers: {
                 'content-type':
                     'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            body: formBody
+            //body: formBody
+            body: body,
+            user:{
+                pk: this.state.data.pk,
+                username: this.state.data.username,
+            }
         }).then(function (res) {
             console.log(res)
             if(res.ok){
