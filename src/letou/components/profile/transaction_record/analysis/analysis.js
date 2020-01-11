@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../actions';
 import { injectIntl, FormattedNumber } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -311,8 +311,11 @@ export class Analysis extends Component {
     }
 
     componentWillReceiveProps(props) {
-        if (this.props.isAuthenticated) {
-            const token = localStorage.getItem('token');
+        this.props.authCheckState().then(async res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
             config.headers['Authorization'] = `Token ${token}`;
 
             axios.get(API_URL + 'users/api/user/', config).then(res => {
@@ -321,12 +324,16 @@ export class Analysis extends Component {
 
             this.setChartData(this.state.currentMonth);
             this.setChartLabels(this.state.currentMonth);
-        }
+            }
+        })
     }
 
     componentDidMount() {
-        if (this.props.isAuthenticated) {
-            const token = localStorage.getItem('token');
+        this.props.authCheckState().then(async res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
             config.headers['Authorization'] = `Token ${token}`;
 
             axios.get(API_URL + 'users/api/user/', config).then(res => {
@@ -335,7 +342,8 @@ export class Analysis extends Component {
 
             this.setChartData(this.state.currentMonth);
             this.setChartLabels(this.state.currentMonth);
-        }
+            }
+        })
     }
 
     setChartData(month) {

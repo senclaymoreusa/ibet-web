@@ -211,19 +211,16 @@ export const checkAuthTimeout = expirationTime => {
     const token = localStorage.getItem('token');
     return dispatch => {
         setTimeout(() => {
+            
             axios
             .post(API_URL + 'users/api/logout/?token=' + token, config)
             .then(res => {
-                // console.log(res);
                 dispatch(logout());
                 window.location.reload();
-                // console.log(res);
             })
             .catch(err => {
                 dispatch(logout());
-                // console.log(err);
                 window.location.reload();
-                // console.log(err);
             });
             
         }, expirationTime * 1000);
@@ -231,6 +228,7 @@ export const checkAuthTimeout = expirationTime => {
 };
 
 export const postLogout = () => {
+    // document.location.href="/";
     return dispatch => {
         const token = localStorage.getItem('token');
         const body = JSON.stringify({});
@@ -238,12 +236,10 @@ export const postLogout = () => {
             .then(res => {
                 dispatch(logout());
                 window.location.reload();
-                // console.log(res);
             })
             .catch(err => {
                 dispatch(logout());
                 window.location.reload();
-                // console.log(err);
             });
         }
 };
