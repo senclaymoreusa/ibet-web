@@ -559,7 +559,7 @@ export const messages = {
         'view-all': 'View All >',
     },
     zh: {
-        'help-title': '我们在此竭诚服务',
+        'help': '我们在此竭诚服务',
         'for-member': '供会员使用',
         'for-partner': '供合作伙伴使用',
         'aboutUs-detail-text-one':

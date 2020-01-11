@@ -51,7 +51,7 @@ export class IconHeader extends React.Component {
          <IconButton className={classes.logoHeader}>
              <img src={images.src + 'letou/letou-logo.png'} alt="LETOU" height="20" />
          </IconButton>
-         <h2 className={classes.header}> {this.getLabel('help-title')}</h2>
+         <h2 className={classes.header}> {this.getLabel('help')}</h2>
          </div>
 
       );
