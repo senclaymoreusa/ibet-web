@@ -316,14 +316,14 @@ export class Analysis extends Component {
                 this.props.history.push('/')
             } else {
                 const token = localStorage.getItem('token');
-            config.headers['Authorization'] = `Token ${token}`;
+                config.headers['Authorization'] = `Token ${token}`;
 
-            axios.get(API_URL + 'users/api/user/', config).then(res => {
-                this.setState({ currency: res.data.currency });
-            });
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ currency: res.data.currency });
+                });
 
-            this.setChartData(this.state.currentMonth);
-            this.setChartLabels(this.state.currentMonth);
+                this.setChartData(this.state.currentMonth);
+                this.setChartLabels(this.state.currentMonth);
             }
         })
     }
@@ -334,14 +334,14 @@ export class Analysis extends Component {
                 this.props.history.push('/')
             } else {
                 const token = localStorage.getItem('token');
-            config.headers['Authorization'] = `Token ${token}`;
+                config.headers['Authorization'] = `Token ${token}`;
 
-            axios.get(API_URL + 'users/api/user/', config).then(res => {
-                this.setState({ currency: res.data.currency });
-            });
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ currency: res.data.currency });
+                });
 
-            this.setChartData(this.state.currentMonth);
-            this.setChartLabels(this.state.currentMonth);
+                this.setChartData(this.state.currentMonth);
+                this.setChartLabels(this.state.currentMonth);
             }
         })
     }
