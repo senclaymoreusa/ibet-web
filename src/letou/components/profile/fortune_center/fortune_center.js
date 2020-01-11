@@ -214,22 +214,24 @@ export class FortuneCenter extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios
+                    .get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ username: res.data.username });
+                        this.setState({ mainWallet: res.data.main_wallet });
+                        this.setState({ currency: res.data.currency });
+                    })
+                    .catch(function (err) {
+                        sendingLog(err);
+                    });
             }
         })
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ username: res.data.username });
-                this.setState({ mainWallet: res.data.main_wallet });
-                this.setState({ currency: res.data.currency });
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
+        
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -245,22 +247,24 @@ export class FortuneCenter extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios
+                    .get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ username: res.data.username });
+                        this.setState({ mainWallet: res.data.main_wallet });
+                        this.setState({ currency: res.data.currency });
+                    })
+                    .catch(function (err) {
+                        sendingLog(err);
+                    });
             }
         })
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ username: res.data.username });
-                this.setState({ mainWallet: res.data.main_wallet });
-                this.setState({ currency: res.data.currency });
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
+        
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
