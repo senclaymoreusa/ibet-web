@@ -34,7 +34,7 @@ import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import TransferSuccess from './transfer_success';
 
 import getSymbolFromCurrency from 'currency-symbol-map';
 
@@ -483,7 +483,9 @@ class Transfer extends Component {
             snackType: 'info',
             snackMessage: '',
             showConfirmationDialog: false,
-            loading: false
+            loading: false,
+
+            activeContent: 0
         }
 
         this.handleWalletClick = this.handleWalletClick.bind(this);
@@ -545,6 +547,13 @@ class Transfer extends Component {
     }
 
     sendClicked() {
+        if (parseInt(this.state.from.amount) < parseInt(this.state.amount)) {
+            this.setState({ snackType: 'error' });
+            this.setState({ snackMessage: this.getLabel('balance-not-enough') });
+            this.setState({ showSnackbar: true });
+            return;
+        }
+
         this.setState({ loading: true });
 
         axios.post(API_URL + 'users/api/transfer/',
@@ -556,13 +565,11 @@ class Transfer extends Component {
             }, config)
             .then(res => {
                 if (res.data.status_code === 1) {
-                    this.setState({ snackType: 'success' });
-                    this.setState({ snackMessage: this.getLabel('transfer-successfull') });
-                    this.setState({ showSnackbar: true });
+                    // this.setState({ snackType: 'success' });
+                    // this.setState({ snackMessage: this.getLabel('transfer-successful') });
+                    // this.setState({ showSnackbar: true });
 
-                    this.setState({ from: null });
-                    this.setState({ to: null });
-                    this.setState({ amount: '', amountInvalid: false, amountFocused: false });
+                    this.setState({ activeContent: 1 });
                 } else if (res.data.status_code === 107) {
                     this.setState({ snackType: 'error' });
                     this.setState({ snackMessage: res.data.error_message });
@@ -685,7 +692,7 @@ class Transfer extends Component {
 
     render() {
         const { classes } = this.props;
-        const { from, to, amount, walletObjs, currency, showConfirmationDialog, loading, totalBalance } = this.state;
+        const { from, to, amount, walletObjs, currency, showConfirmationDialog, loading, totalBalance, activeContent } = this.state;
 
         let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
 
@@ -715,12 +722,13 @@ class Transfer extends Component {
         return (
             <div className={classes.root}>
                 {loading && <CircularProgress className={classes.progress} />}
+
                 <div className={classes.rootDesktop} style={
                     loading === true
                         ? { pointerEvents: 'none' }
                         : { pointerEvents: 'all' }
                 }>
-                    <Grid container>
+                    {activeContent === 1 ? < TransferSuccess from={from.code} to={to.code} amount={amount}/> : <Grid container>
                         <Grid item xs={12} className={classes.titleRow}>
                             <span className={classes.title} >
                                 {this.getLabel('transfer-label')}
@@ -826,7 +834,7 @@ class Transfer extends Component {
                                 startAngle={0}
                             />
                         </Grid>
-                    </Grid>
+                    </Grid>}
                 </div>
                 <div className={classes.rootMobile}>
                     <AppBar position="fixed" className={classes.mobileRow}>

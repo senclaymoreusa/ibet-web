@@ -504,7 +504,7 @@ export const messages = {
         'latest-offers': 'Latest Offers',
         'profile-label': 'Profile',
         'news-label': 'News',
-        'transfer-successfull': 'Transfer successfull',
+        'transfer-successful': 'Transfer successful!',
         'customer-service': 'Customer Service',
         'help-center': 'Help Center',
         'set-up': 'Set Up',
@@ -556,6 +556,8 @@ export const messages = {
         'video-poker': 'Video Poker',
         'fishing-games': 'Fishing Games',
         'view-all': 'View All >',
+        'balance-not-enough':'Balance is not enough',
+        'transfer-message':'Transfered [amount] from [fromWallet] to [toWallet]',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
