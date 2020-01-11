@@ -141,7 +141,7 @@ export const authSignup = (
     referralCode
 ) => {
     return dispatch => {
-        dispatch(authStart());
+        // dispatch(authStart());
         // const config = {
         //   headers: {
         //     "Content-Type": "application/json"
