@@ -238,27 +238,6 @@ class QuickPay extends Component {
         };
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     this._isMounted = true;
-
-    //     this.props.authCheckState()
-    //         .then(res => {
-    //             if (res === AUTH_RESULT_FAIL) {
-    //                 this.props.history.push('/');
-    //                 sendingLog('authentication failure!!!');
-    //             } else {
-    //                 if (this._isMounted) {
-    //                     const { user } = this.props;
-
-    //                     this.setState({
-    //                         currency: getSymbolFromCurrency(user.currency),
-    //                         isFavorite: (user.favoriteDepositMethod === 'quickpay')
-    //                     });
-    //                 }
-    //             }
-    //         });
-    // }
-
     componentDidMount() {
         this._isMounted = true;
 
@@ -396,13 +375,10 @@ class QuickPay extends Component {
                                 })
                                 .then(function (data) {
                                     if (data.errorCode) {
-                                        // currentComponent.props.logout();
                                         currentComponent.props.postLogout();
                                         return;
                                     }
-                                    //console.log(data.status);
-                                    if (data.status === '001') {
-                                        //alert('Transaction is approved.');
+                                   if (data.status === '001') {
                                         const body = JSON.stringify({
                                             type: 'add',
                                             username:
@@ -410,7 +386,6 @@ class QuickPay extends Component {
                                                     .username,
                                             balance: currentComponent.state.amount
                                         });
-                                        //console.log(body);
                                         axios
                                             .post(
                                                 API_URL +
@@ -420,8 +395,7 @@ class QuickPay extends Component {
                                             )
                                             .then(res => {
                                                 if (res.data === 'Failed') {
-                                                    //currentComponent.setState({ error: true });
-                                                    currentComponent.props.callbackFromParent(
+                                                   currentComponent.props.callbackFromParent(
                                                         'error',
                                                         'Transaction failed.'
                                                     );
@@ -454,7 +428,6 @@ class QuickPay extends Component {
 
             })
             .catch(function (err) {
-                //console.log('Request failed', err);
                 currentComponent.props.callbackFromParent("error", "Something is wrong.");
                 sendingLog(err);
             });
@@ -470,13 +443,18 @@ class QuickPay extends Component {
     }
 
     setAsFavorite(event) {
+        const { user } = this.props;
+
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
+            user_id: user.userId,
             payment: event.target.checked ? 'quickpay' : null,
         })
             .then(res => {
-                this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
+                if(res.status === 200){
+                    
+                    this.setState({ isFavorite: !this.state.isFavorite });
+                    this.props.checkFavoriteMethod();    
+                }
             })
             .catch(function (err) {
                 sendingLog(err);

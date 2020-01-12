@@ -420,19 +420,22 @@ export class EditPhone extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
+                } else {
+                    
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            this.setState({ phone: res.data.phone });
+                            this.setState({ username: res.data.username });
+                        }).catch(function (err) {
+                            sendingLog(err);
+                        });
                 }
             })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ phone: res.data.phone });
-                this.setState({ username: res.data.username });
-            }).catch(function (err) {
-                sendingLog(err);
-            });
+        
     }
 
     setNewPhoneNumber() {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { config } from '../util_config';
 import { errors } from '../ibet/components/errors';
+import { getOverlappingDaysInIntervals } from 'date-fns';
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
@@ -96,8 +97,7 @@ export const authUserUpdate = () => {
                 userId: res.data.pk,
                 currency: res.data.currency,
                 favoriteDepositMethod: res.data.favorite_payment_method,
-                country: res.data.country,
-                newData:'new'
+                country: res.data.country
             };
 
             dispatch(authGetUser(userData));
@@ -161,7 +161,7 @@ export const authSignup = (
     referralCode
 ) => {
     return dispatch => {
-        dispatch(authStart());
+        // dispatch(authStart());
         // const config = {
         //   headers: {
         //     "Content-Type": "application/json"
@@ -233,37 +233,32 @@ export const checkAuthTimeout = expirationTime => {
         setTimeout(() => {
             axios
                 .post(API_URL + 'users/api/logout/?token=' + token, config)
-                .then(res => {
-                    // console.log(res);
+                .then(() => {
                     dispatch(logout());
                     window.location.reload();
-                    // console.log(res);
                 })
-                .catch(err => {
+                .catch(() => {
                     dispatch(logout());
-                    // console.log(err);
                     window.location.reload();
-                    // console.log(err);
                 });
         }, expirationTime * 1000);
     };
 };
 
 export const postLogout = () => {
+    // document.location.href="/";
     return dispatch => {
         const token = localStorage.getItem('token');
         const body = JSON.stringify({});
         axios
             .post(API_URL + 'users/api/logout/?token=' + token, body, config)
-            .then(res => {
+            .then(() => {
                 dispatch(logout());
                 window.location.reload();
-                // console.log(res);
             })
-            .catch(err => {
+            .catch(() => {
                 dispatch(logout());
                 window.location.reload();
-                // console.log(err);
             });
     };
 };
@@ -288,7 +283,7 @@ export const sendingLog = err => {
             { line: err, source: 'Ibetweb' },
             config
         )
-        .then(() => { });
+        .then(() => {});
 };
 
 export const getUpdatedUserData = err => {
@@ -298,7 +293,7 @@ export const getUpdatedUserData = err => {
             { line: err, source: 'Ibetweb' },
             config
         )
-        .then(() => { });
+        .then(() => {});
 };
 
 export const authCheckState = () => {
