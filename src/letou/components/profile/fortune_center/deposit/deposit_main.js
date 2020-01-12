@@ -251,21 +251,23 @@ export class DepositMain extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        if (this._isMounted) {
+                            this.setState({
+                                userCountry: res.data.country,
+                                favouriteMethod: res.data.favorite_payment_method
+                            });
+                        }
+                        //this.setState({contentValue: this.state.favouriteMethod });
+                    });
             }
         })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({
-                        userCountry: res.data.country,
-                        favouriteMethod: res.data.favorite_payment_method
-                    });
-                }
-                //this.setState({contentValue: this.state.favouriteMethod });
-            });
+        
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -278,21 +280,23 @@ export class DepositMain extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        if (this._isMounted) {
+                            this.setState({
+                                userCountry: res.data.country,
+                                favouriteMethod: res.data.favorite_payment_method,
+                                contentValue: this.state.favouriteMethod
+                            });
+                        }
+                    });
             }
         })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({
-                        userCountry: res.data.country,
-                        favouriteMethod: res.data.favorite_payment_method,
-                        contentValue: this.state.favouriteMethod
-                    });
-                }
-            });
+        
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -305,13 +309,16 @@ export class DepositMain extends Component {
 
     checkFavoriteMethod() {
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ favouriteMethod: res.data.favorite_payment_method });
-                this.setState({ contentValue: this.state.favouriteMethod });
-                //this.setState({ contentValue: res.data.favorite_payment_method });
-            });
+        if (token) {
+            config.headers["Authorization"] = `Token ${token}`;
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ favouriteMethod: res.data.favorite_payment_method });
+                    this.setState({ contentValue: this.state.favouriteMethod });
+                    //this.setState({ contentValue: res.data.favorite_payment_method });
+                });
+        }
+        
     }
 
     handleTabChange(newValue) {
@@ -362,11 +369,13 @@ export class DepositMain extends Component {
 
     checkFavoriteMethod() {
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ favouriteMethod: res.data.favorite_payment_method });
-            });
+        if (token) {
+            config.headers["Authorization"] = `Token ${token}`;
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ favouriteMethod: res.data.favorite_payment_method });
+                });
+        }
     }
 
     getAvailablePaymentMethods() {

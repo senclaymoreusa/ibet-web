@@ -120,6 +120,11 @@ export class gbssc extends React.Component {
     this.game_url("SSC");
    
 }
+componentDidUpdate(prevProps){
+  if (this.props.lang !== prevProps.lang && this.props.lang) {
+    this.game_url("SSC");
+  }
+}
   game_url(gamename){
     
     var token = localStorage.getItem('token')  
@@ -134,12 +139,30 @@ export class gbssc extends React.Component {
             this.setState({url : Game_URL});
         })
     }else{
-        var URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename
+      let language = '';
+      switch(this.props.lang) {
+        case 'en':
+            language = 'en-us';
+            break;
+        case 'zh':
+            language = 'zh-cn';
+            break;
+        case 'th':
+            language = 'th-th';
+            break;
+        case 'vi':
+            language = 'vi-vn';
+            break;
+        default:
+            language = 'zh-cn';
+            break;
+        }
+        var URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename + '&language=' + language
         axios.get(URL, config)
         .then(res => {
             var Game_URL = res.data.game_url
-            //console.log("fake");
-            //console.log(Game_URL);
+            // console.log("fake");
+            // console.log(Game_URL);
             // return Game_URL;
             this.setState({url : Game_URL});
         })
