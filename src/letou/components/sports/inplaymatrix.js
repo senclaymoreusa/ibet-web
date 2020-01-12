@@ -120,7 +120,8 @@ export class gbesports extends React.Component {
     if (token){
         config.headers["Authorization"] = `Token ${token}`;
         var URL = API_URL + 'games/api/inplay/login/';
-        axios.get(URL, {"user": "Bobby"}, config)
+        console.log(URL);
+        axios.post(URL, {"username": "Bobby"}, config)
             .then(res => {
                 console.log(res);
             })
@@ -131,35 +132,35 @@ export class gbesports extends React.Component {
     //     .then(() => {
     //         this.setState({ showSoggedinStatus: true });
     //     })
-    this.game_url("GB ESports");
+    // this.game_url("GB ESports");
    
 }
-  game_url(gamename){
+//   game_url(gamename){
     
-    var token = localStorage.getItem('token')  
-    if (token){
-        config.headers["Authorization"] = `Token ${token}`;
-        var URL = API_URL + 'games/api/inplay/login/';
-        axios.get(URL, {"user": "Bobby"}, config)
-            .then(res => {
-                // var Game_URL = res.data.game_url
-                console.log(res);
-                // // this.state.url =Game_URL
-                // this.setState({url : Game_URL});
-            })
-    } else {
-        console.log("Not Login");
-        // var URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename
-        // axios.get(URL, config)
-        // .then(res => {
-        //     var Game_URL = res.data.game_url
-        //     // console.log("fake");
-        //     // console.log(Game_URL);
-        //     // return Game_URL;
-        //     this.setState({url : Game_URL});
-        // })
-    }
-}
+//     var token = localStorage.getItem('token')  
+//     if (token){
+//         config.headers["Authorization"] = `Token ${token}`;
+//         var URL = API_URL + 'games/api/inplay/login/';
+//         axios.get(URL, {"user": "Bobby"}, config)
+//             .then(res => {
+//                 // var Game_URL = res.data.game_url
+//                 console.log(res);
+//                 // // this.state.url =Game_URL
+//                 // this.setState({url : Game_URL});
+//             })
+//     } else {
+//         console.log("Not Login");
+//         // var URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename
+//         // axios.get(URL, config)
+//         // .then(res => {
+//         //     var Game_URL = res.data.game_url
+//         //     // console.log("fake");
+//         //     // console.log(Game_URL);
+//         //     // return Game_URL;
+//         //     this.setState({url : Game_URL});
+//         // })
+//     }
+// }
   
 
   render() {
