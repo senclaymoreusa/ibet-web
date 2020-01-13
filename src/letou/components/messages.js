@@ -217,7 +217,7 @@ export const messages = {
         'rules-privacy-policy': 'LETOU Gambling Rules and Privacy Policy',
         'username-limit':
             'Username requires 8-16 digits with letters or numbers.',
-        'please-strong-password': 'Please enter a strong password.',
+        'please-strong-password': 'Your password strength should be at least good.',
         'please-confirm-password': 'Please confirm your password.',
         'register-hint1': 'Tips for a strong password',
         'register-hint2': 'Use letters and numbers',
