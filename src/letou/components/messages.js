@@ -642,7 +642,6 @@ export const messages = {
             '本网站获得库拉索政府颁发的体育博彩和娱乐场产品的运营许可证-许可证编号为:1668/JAZ 提供运营与支持。',
         'footer-text4':
             '© 2004-2019 Letou 版权所有，赌博可以成瘾，请负责任博彩',
-        'letou-story': '乐投品牌故事',
         'for-partner': '供合作伙伴使用',
         'help-title': '帮助',
         'aboutUs-detail-text-one':
