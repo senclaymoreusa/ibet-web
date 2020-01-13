@@ -337,16 +337,18 @@ export class JiufuPasswordSet extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
+                } else {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            this.setState({ phone: res.data.phone });
+                        })
                 }
             })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ phone: res.data.phone });
-            })
+        
     }
 
     render() {

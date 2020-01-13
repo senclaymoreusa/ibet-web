@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -197,14 +197,22 @@ export class AccountDetails extends Component {
     }
 
     async componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
 
-        await axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ userId: res.data.pk });
+        this.props.authCheckState().then(async res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
 
-            this.getTransactions();
-        });
+                await axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ userId: res.data.pk });
+
+                    this.getTransactions();
+                });
+            }
+        })
+            
     }
 
     getTransactions() {

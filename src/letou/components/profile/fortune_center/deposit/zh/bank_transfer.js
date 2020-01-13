@@ -343,35 +343,47 @@ class BankTransfer extends Component {
     componentWillReceiveProps(props) {
         this._isMounted = true;
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({
-                        data: res.data,
-                        currency: getSymbolFromCurrency(res.data.currency),
-                        isFavorite: res.data.favorite_payment_method === 'chinabanktransfer'
-                    });
-                }
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    if (this._isMounted) {
+                        this.setState({
+                            data: res.data,
+                            currency: getSymbolFromCurrency(res.data.currency),
+                            isFavorite: res.data.favorite_payment_method === 'chinabanktransfer'
+                        });
+                    }
+                });
+            }
+        })
     }
 
     componentDidMount() {
         this._isMounted = true;
         
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({
-                        data: res.data,
-                        currency: getSymbolFromCurrency(res.data.currency),
-                        isFavorite: res.data.favorite_payment_method === 'chinabanktransfer'
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        if (this._isMounted) {
+                            this.setState({
+                                data: res.data,
+                                currency: getSymbolFromCurrency(res.data.currency),
+                                isFavorite: res.data.favorite_payment_method === 'chinabanktransfer'
+                            });
+                        }
                     });
-                }
-            });
+            }
+        })
     }
 
     componentWillUnmount() {
