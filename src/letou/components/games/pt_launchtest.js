@@ -29,6 +29,7 @@ import Link from '@material-ui/core/Link';
 import login from '../../../ibet/components/login';
 
 
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 document.body.style = 'background: #f1f1f1;';
@@ -74,12 +75,12 @@ export class PTlaunchtest extends React.Component {
         return formatMessage({ id: labelId });
     }
     componentDidMount() {
-        // const script = document.createElement("script");
+        const script = document.createElement("script");
     
-        // script.src = "http://cache.download.banner.winforfun88.com/integrationjs.php";
-        // // script.async = true;
+        script.src = "pt_test/integration/integrationRedirect.html";
+        // script.async = true;
     
-        // document.body.appendChild(script);
+        document.body.appendChild(script);
 
         const script1 = document.createElement("script");
         script1.type = "text/javascript";
