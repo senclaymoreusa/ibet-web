@@ -16,7 +16,7 @@ import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -444,6 +444,7 @@ class QuickPay extends Component {
 
     setAsFavorite(event) {
         const { user } = this.props;
+        let currentComponent = this;
 
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
             user_id: user.userId,
@@ -451,9 +452,8 @@ class QuickPay extends Component {
         })
             .then(res => {
                 if(res.status === 200){
-                    
                     this.setState({ isFavorite: !this.state.isFavorite });
-                    this.props.checkFavoriteMethod();    
+                    currentComponent.props.authUserUpdate();    
                 }
             })
             .catch(function (err) {
@@ -553,4 +553,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(QuickPay))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(QuickPay))));
