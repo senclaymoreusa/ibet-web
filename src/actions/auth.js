@@ -232,7 +232,8 @@ export const checkAuthTimeout = expirationTime => {
     const token = localStorage.getItem('token');
     return dispatch => {
         setTimeout(() => {
-            axios
+            if (token) {
+                axios
                 .post(API_URL + 'users/api/logout/?token=' + token, config)
                 .then(() => {
                     dispatch(logout());
@@ -241,7 +242,10 @@ export const checkAuthTimeout = expirationTime => {
                 .catch(() => {
                     dispatch(logout());
                     window.location.reload();
-                });
+                });  
+            } else {
+                window.location.reload();
+            }
         }, expirationTime * 1000);
     };
 };
