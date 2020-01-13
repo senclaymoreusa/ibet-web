@@ -251,7 +251,8 @@ export const postLogout = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
         const body = JSON.stringify({});
-        axios
+        if (token) {
+            axios
             .post(API_URL + 'users/api/logout/?token=' + token, body, config)
             .then(() => {
                 dispatch(logout());
@@ -261,6 +262,9 @@ export const postLogout = () => {
                 dispatch(logout());
                 window.location.reload();
             });
+        } else {
+            window.location.reload();
+        }
     };
 };
 
