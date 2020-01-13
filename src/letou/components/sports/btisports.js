@@ -108,24 +108,17 @@ class btisports extends React.Component {
     }
     componentDidMount() {
         var token = localStorage.getItem('token');
-        if (token) {
-            config.headers['Authorization'] = `Token ${token}`;
-            if (
-                window.location
-                    .toString()
-                    .toLowerCase()
-                    .indexOf('dev') != -1
-            ) {
-                this.setState({
-                    url:
-                        'http://wkibph.staging.btisports.io/en/sports/?stoken=' +
-                        token
-                });
-            } else {
-                this.setState({
-                    url: 'http://wkibph.btisports.io/en/sports/?stoken=' + token
-                });
-            }
+        config.headers['Authorization'] = `Token ${token}`;
+        if (process.env.REACT_APP_NODE_ENV === 'development') {
+            this.setState({
+                url:
+                    'http://wkibph.staging.btisports.io/en/sports/?stoken=' +
+                    token
+            });
+        } else {
+            this.setState({
+                url: 'http://wkibph.btisports.io/en/sports/?stoken=' + token
+            });
         }
     }
 
