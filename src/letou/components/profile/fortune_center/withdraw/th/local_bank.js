@@ -733,7 +733,7 @@ class ThaiLocalBank extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick.bind(this)}
-                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.bankAccountHolder == 'none' || this.state.bankAccountNumber == 'none'}
+                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.bankAccountHolder == '' || this.state.bankAccountNumber == ''}
                         >{this.getLabel('next-label')}</Button>
                     </Grid>
                 </Grid>
