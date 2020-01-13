@@ -738,7 +738,7 @@ class Transfer extends Component {
                 }>
                     {activeContent === 1
                         ? < TransferSuccess 
-                        // from={from.code} to={to.code} amount={amount} 
+                         from={from.code} to={to.code} amount={currency+''+amount} 
                         />
                         : <Grid container>
                             <Grid item xs={12} className={classes.titleRow}>
