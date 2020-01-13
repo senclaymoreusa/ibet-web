@@ -232,9 +232,12 @@ export class AccountDetails extends Component {
             .then(res => {
                 if (res.status === 200) {
                     this.setState({ items: res.data.results });
+                } else {
+                    this.setState({ items: [] });
                 }
             })
             .catch(err => {
+                this.setState({ items: [] });
                 sendingLog(err);
             });
     }
@@ -254,7 +257,7 @@ export class AccountDetails extends Component {
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>
-                    <Grid container >
+                    <Grid container>
                         <Grid item xs={12} className={classes.row}>
                             <span
                                 className={classes.label}
