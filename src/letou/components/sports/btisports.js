@@ -110,11 +110,22 @@ class btisports extends React.Component {
         var token = localStorage.getItem('token');
         if (token) {
             config.headers['Authorization'] = `Token ${token}`;
-            this.setState({
-                url:
-                    'http://wkibph.staging.btisports.io/en/sports/?stoken=' +
-                    token
-            });
+            if (
+                window.location
+                    .toString()
+                    .toLowerCase()
+                    .indexOf('dev') != -1
+            ) {
+                this.setState({
+                    url:
+                        'http://wkibph.staging.btisports.io/en/sports/?stoken=' +
+                        token
+                });
+            } else {
+                this.setState({
+                    url: 'http://wkibph.btisports.io/en/sports/?stoken=' + token
+                });
+            }
         }
     }
 
