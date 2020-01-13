@@ -69,17 +69,17 @@ export const messages = {
             'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
         'footer-text4':
             '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
-        'story': '乐投品牌故事',
-        'for-partner': '供合作伙伴使用',
+        'letou-story': 'Letou Brand Story',
+        'for-partner': 'For partners',
         'help-title': 'Help',
         'aboutUs-detail-text-one':
-            'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
+            'Established in 2004, LETOU is the first entertainment company in Asia to offer cash-based online gambling services.',
         'aboutUs-detail-text-two':
-            '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
+            'Over the years, we have always implemented the concept of honesty, pragmatic management, adhering to the principle of customer first, and have a large number of friends from all over the world. Thanks to the support of our friends, we continue to grow and develop, step by step to today. LETOU warmly welcomes new friends to join, and also hopes to continue to support the old friends! Today is the result of the strong support of new and old friends. Letou will continue to work hard to provide a better game experience for our friends.',
         'aboutUs-detail-text-three':
-            'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
+            'LETOU provides customers with services 24 hours a day, 365 days a year, and solves various problems attentively for customers. LETOU provides 500 different types of matches every day, covering major sports around the world, including football, basketball, tennis, baseball , Billiards, golf, etc., while providing digital games, virtual games, casual games and online live casino services; LETOU is a professional company that strictly follows the requirements of the Philippine government and designates deposits and withdrawals under the requirements of government financial management authorities to ensure that The safety of customer funds and compliance with the anti-money laundering law (AML) principles set by the government provide the most transparent financial environment for government supervision and ensuring the interests of customers; at the same time, LETOU also actively calls that gambling is only a form of entertainment. It is recommended that players have a good game mentality.',
         'aboutUs-detail-text-four':
-            '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
+            'Customer first is always our principle! For a long time, LETOU has always put users first. In the future, we will continue to work with friends for a better tomorrow!',
         'Live-casino': 'Live casino',
         'ag-title': 'AG Extreme Square',
         'ag-words':
@@ -572,7 +572,7 @@ export const messages = {
             'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
         'aboutUs-detail-stext-four':
             '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
-        'story': '乐投品牌故事',
+        'letou-story': '乐投品牌故事',
         'about-letou': '关于乐投',
         'become-partner': '成为合作伙伴',
         'line-center': '线路中心',
@@ -642,7 +642,7 @@ export const messages = {
             '本网站获得库拉索政府颁发的体育博彩和娱乐场产品的运营许可证-许可证编号为:1668/JAZ 提供运营与支持。',
         'footer-text4':
             '© 2004-2019 Letou 版权所有，赌博可以成瘾，请负责任博彩',
-        'story': '乐投品牌故事',
+        'letou-story': '乐投品牌故事',
         'for-partner': '供合作伙伴使用',
         'help-title': '帮助',
         'aboutUs-detail-text-one':
