@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -218,31 +219,40 @@ export class MobileLogin extends React.Component {
 
     onFormSubmit(event) {
         event.preventDefault();
-       
+
         var bbData = window.IGLOO.getBlackbox();
         if (bbData.finished) {
-          // clearTimeout(timeoutId);
-          var blackBoxString = bbData.blackbox;
-          axios.get(API_URL + 'users/api/login-device-info?bb=' + blackBoxString)
-            .then(res => {      
-                this.props.authLogin(this.state.username, this.state.password, res.data)
-                .then((response) => {
-                    if (response.errorCode) {
-                        this.setState({ errorMessage: response.errorMsg.detail[0] });
-                    } else {
-                        this.props.hide_letou_mobile_login();
-    
-                    }
-                })
-                .catch(err => {
-                    this.setState({errorMessage : err});
-    
-                    sendingLog(err);
-                });
-           
-            })
+            // clearTimeout(timeoutId);
+            var blackBoxString = bbData.blackbox;
+            axios
+                .get(
+                    API_URL + 'users/api/login-device-info?bb=' + blackBoxString
+                )
+                .then(res => {
+                    this.props
+                        .authLogin(
+                            this.state.username,
+                            this.state.password,
+                            res.data
+                        )
+                        .then(response => {
+                            if (response.errorCode) {
+                                this.setState({
+                                    errorMessage: response.errorMsg.detail[0]
+                                });
+                            } else {
+                                this.props.hide_letou_mobile_login();
+                                this.props.history.push('/');
+                            }
+                        })
+                        .catch(err => {
+                            this.setState({ errorMessage: err });
 
-          // Your code to handle blackBoxString
+                            sendingLog(err);
+                        });
+                });
+
+            // Your code to handle blackBoxString
         }
     }
 
