@@ -573,7 +573,7 @@ export class DepositMain extends Component {
                 );
             case 'thailand':
                 return (
-                    <div classnName={classes.rootDesktop}>
+                    <div className={classes.rootDesktop}>
                         <Grid container className={classes.methodGrid} spacing={4}>
                             <Grid item xs={1} className={classes.methodColumn}>
                                 <Button

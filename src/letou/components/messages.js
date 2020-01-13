@@ -69,7 +69,7 @@ export const messages = {
             'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
         'footer-text4':
             '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
-        'story': '乐投品牌故事',
+        story: '乐投品牌故事',
         'for-partner': '供合作伙伴使用',
         'help-title': 'Help',
         'aboutUs-detail-text-one':
@@ -131,7 +131,7 @@ export const messages = {
         'bbin-Two': 'Two bars',
         'bbin-Sangong': 'Sangong',
         'bbin-Wenzhou': 'Wenzhou Pai Gow',
-        'bbin-Toubao' : 'tou bao',
+        'bbin-Toubao': 'tou bao',
         'bbin-Texas': "Texas Hold'em",
         'bbin-Color': 'Color dish',
         'gpi-title': 'GPI Jin Yucheng',
@@ -505,7 +505,7 @@ export const messages = {
         'latest-offers': 'Latest Offers',
         'profile-label': 'Profile',
         'news-label': 'News',
-        'transfer-successfull': 'Transfer successfull',
+        'transfer-successful': 'Transfer successful!',
         'customer-service': 'Customer Service',
         'help-center': 'Help Center',
         'set-up': 'Set Up',
@@ -558,6 +558,9 @@ export const messages = {
         'fishing-games': 'Fishing Games',
         'view-all': 'View All >',
         'rejected-label': 'Rejected',
+        'balance-not-enough': 'Balance is not enough',
+        'transfer-message':
+            'Transfered [amount] from [fromWallet] to [toWallet]'
     },
     zh: {
         'help-title': '我们在此竭诚服务',
@@ -571,7 +574,6 @@ export const messages = {
             'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
         'aboutUs-detail-stext-four':
             '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
-        'story': '乐投品牌故事',
         'about-letou': '关于乐投',
         'become-partner': '成为合作伙伴',
         'line-center': '线路中心',
@@ -634,7 +636,7 @@ export const messages = {
         'video-game-rules': '电子游戏规则',
         'world-lotto-rules': '世界乐透规则',
         'footer-text1':
-            "Letou.com是亚洲领先的网络博彩集团之一，提供体育投注、真人娱乐场、小游戏、数字彩票等丰富选择，并提供业界最优惠的红利和返水。",
+            'Letou.com是亚洲领先的网络博彩集团之一，提供体育投注、真人娱乐场、小游戏、数字彩票等丰富选择，并提供业界最优惠的红利和返水。',
         'footer-text2':
             "Letou.com is operated by WK (Cyprus) Services Limited with the registered address. Gr. Xenopoulou, 17, 3106, Limassol, Cyprus which is a subsidiary of White Knight (Curacao) BV, established under the laws of Curacao, which has an Agreement with Curaçao eGaming for its gaming license. Curaçao eGaming's registration Number is 72819 and its registered address is at Pareraweg 45, Curacao.",
         'footer-text3':
@@ -642,20 +644,11 @@ export const messages = {
         'footer-text4':
             '© 2004-2019 Letou 版权所有，赌博可以成瘾，请负责任博彩',
         'story': '乐投品牌故事',
-        'for-partner': '供合作伙伴使用',
-        'help-title': '帮助',
-        'aboutUs-detail-text-one':
-            'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
-        'aboutUs-detail-text-two':
-            '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
-        'aboutUs-detail-text-three':
-            'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
         'aboutUs-detail-text-four':
             '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
         'Live-casino': '真人娱乐场',
         'ag-title': 'AG 至尊坊',
-        'ag-words':
-            "全球首创6张牌先发，美女主播热线传情，赢钱机会绝不错过。",
+        'ag-words': '全球首创6张牌先发，美女主播热线传情，赢钱机会绝不错过。',
         'ag-baccarat': '百家乐',
         'ag-Jingmi': '竞咪百家乐',
         'ag-Package': '包桌百家乐',
@@ -666,16 +659,14 @@ export const messages = {
         'ag-Flagshiphall': 'Flagship hall',
         'ag-JingmiHall': '竞咪厅',
         'ab-title': 'AB 清晏舫',
-        'ab-words':
-            "首创超级多台百家乐一次览尽12张桌台路纸，更贴近玩家习惯。",
+        'ab-words': '首创超级多台百家乐一次览尽12张桌台路纸，更贴近玩家习惯。',
         'ab-Julong': '聚龙厅',
         'ab-Super': '超级多台厅',
         'ab-Vip': 'Vip厅',
         'ab-Jingmi': '竞咪厅',
         'Real-money': '真钱游戏',
         'EA-title': 'EA瑞宝阁',
-        'EA-words':
-            '业界营运最久平台，现场感的操作体验，独创免佣点数玩法。',
+        'EA-words': '业界营运最久平台，现场感的操作体验，独创免佣点数玩法。',
         'EA-commission': '免佣百家乐',
         'EA-Super': '超级百家乐',
         'EA-Dragon': '龙凤百家乐',
@@ -684,16 +675,13 @@ export const messages = {
         'EA-Multi': '多门龙虎',
         'pc-version': 'PC版下载',
         'n2live-title': 'N2Live 新瑞宝阁',
-        'n2live-words':
-            '全新移动端独享，流畅操作体验，高品质游戏平台。',
-        'OPUS-words':
-            '2D迷你游戏、3D真人体验，专属乐投VIP百家乐厅。',
+        'n2live-words': '全新移动端独享，流畅操作体验，高品质游戏平台。',
+        'OPUS-words': '2D迷你游戏、3D真人体验，专属乐投VIP百家乐厅。',
         'OPUS-Qixi': '七喜百家乐',
-        'OPUS-Texas': "德州扑克",
-        'OPUS-21': "21点",
+        'OPUS-Texas': '德州扑克',
+        'OPUS-21': '21点',
         'gd-title': 'GD 盘龙殿',
-        'gd-words':
-            '简洁操作平台，体验全新情景模式，多款百家乐一次拥有。',
+        'gd-words': '简洁操作平台，体验全新情景模式，多款百家乐一次拥有。',
         'gd-Mi': '咪牌百家乐',
         'bbin-title': 'BBIN 波音厅',
         'bbin-words':
@@ -701,12 +689,11 @@ export const messages = {
         'bbin-Two': '二八杠',
         'bbin-Sangong': '三公',
         'bbin-Wenzhou': '温州牌九',
-        'bbin-Toubao' : '骰宝',
-        'bbin-Texas': "德州扑克",
+        'bbin-Toubao': '骰宝',
+        'bbin-Texas': '德州扑克',
         'bbin-Color': '色碟',
         'gpi-title': 'GPI 金誉城',
-        'gpi-words':
-            '独家超级98百家乐，创新高赔率，技术能力业界领先。',
+        'gpi-words': '独家超级98百家乐，创新高赔率，技术能力业界领先。',
         'gpi-Baccarat': '百家乐',
         'gpi-Qixi': '七喜百家乐',
         'gpi-Dai': '斗色骰宝',
@@ -728,7 +715,7 @@ export const messages = {
         'rule-Sangong': '三公',
         'rule-Wenzhou': '温州牌九',
         'rule-Color': '色碟',
-        'rule-Texas': "德州扑克",
+        'rule-Texas': '德州扑克',
         'rule-Blackjack': '二十一点',
         'rule-Cattle': '牛牛',
         'HG-platform': 'HG 平台',
@@ -759,11 +746,9 @@ export const messages = {
         'login-password': '登录密码',
         'set-login-password': '设置登录密码',
         'modify-login-password': '修改登录密码',
-        'set-login-password-desc':
-            '请重置密码已确保账户安全',
+        'set-login-password-desc': '请重置密码已确保账户安全',
         'withdrawal-password': '提款密码',
-        'withdrawal-password-desc':
-            '设置提款密码确保提款安全',
+        'withdrawal-password-desc': '设置提款密码确保提款安全',
         'registration-time': '注册时间',
         'bank-card': '银行卡',
         'binding-card-number': '绑定卡号',
@@ -775,7 +760,7 @@ export const messages = {
         'enter-password': '请输入有效密码.',
         'forgot-password': '忘记密码?',
         'login-question-text':
-            "如果在登录期间有任何疑问，请联系我们的24小时在线客户服务以帮助解决此问题。此网站使用了Global Trust最先进的128/256位SSL服务器加密机制。",
+            '如果在登录期间有任何疑问，请联系我们的24小时在线客户服务以帮助解决此问题。此网站使用了Global Trust最先进的128/256位SSL服务器加密机制。',
         'dont-have-account': '没有账户, ',
         'register-here': '点击注册.',
         'login-here': '点击登录.',
@@ -785,8 +770,7 @@ export const messages = {
         'register-policy-text':
             '通过单击按钮确认应用程序。您确认自己已经18岁，并且已经阅读，接受并同意条款和条件',
         'rules-privacy-policy': 'LETOU赌博规则和隐私权政策',
-        'username-limit':
-            '用户名要求使用8-16位字母或数字。',
+        'username-limit': '用户名要求使用8-16位字母或数字。',
         'please-strong-password': '密码太简单，请重新输入。',
         'please-confirm-password': '请确认密码。',
         'register-hint1': '建议使用:',
@@ -803,8 +787,7 @@ export const messages = {
         'set-successfully': '设置成功',
         'verification-code': '验证码',
         'send-code': '发送验证码',
-        'only-three-code':
-            '一天只能发送三个验证码!',
+        'only-three-code': '一天只能发送三个验证码!',
         'next-step': '下一步',
         'verification-code-sent': '验证码已发送.',
         'reset-password': '重置密码',
@@ -815,8 +798,7 @@ export const messages = {
         'password-not-match': '密码不匹配.',
         'old-new-same': '新旧密码不一致',
         'incorrect-password': '密码不正确. 请重试.',
-        'password-reset-successful':
-            '您已成功修改密码.',
+        'password-reset-successful': '您已成功修改密码.',
         'wrong-password': '密码错误.',
         'password-update-failed': '密码更新失败',
         'last-login-time': '上次登录时间',
@@ -827,14 +809,11 @@ export const messages = {
         'jiufu-password': 'Jiufu Temple APP 登录密码',
         'setting-label': '设置',
         'not-set': '未设置',
-        'verification-code-error':
-            '您可能输入了无效的验证码。请尝试再次发送。',
+        'verification-code-error': '您可能输入了无效的验证码。请尝试再次发送。',
         'reached-verification-limit':
             '您已达到验证码请求限制。请联系我们的电话中心。',
-        'password-you-need-login':
-            '登录帐户时需要输入的密码',
-        'password-you-need-withdrawing':
-            '提款时输入的密码',
+        'password-you-need-login': '登录帐户时需要输入的密码',
+        'password-you-need-withdrawing': '提款时输入的密码',
         'setting-problem': '问题设置',
         'confirm-answer': '确认答案',
         'set-security-question': '设置安全问题',
@@ -844,8 +823,7 @@ export const messages = {
         'jiufu-password-text':
             '创建一个安全密码，使用字母，数字和特殊字符的组合来更改或更新您的登录密码。为了方便起见，九福寺应用密码可以与乐豆网站的密码相同。',
         'letou-login-password': '乐投登录密码',
-        'suggestion-text':
-            '如有任何疑问，请随时与我们联系。',
+        'suggestion-text': '如有任何疑问，请随时与我们联系。',
         'exclusive-support': '独家的优质客户服务经验',
         'domestic-line': '国内专线',
         '24-hours': '24小时全年无休',
@@ -854,8 +832,7 @@ export const messages = {
         'enter-code': '请输入验证码',
         'new-phone-number': '新手机号',
         'set-new-phone': '设置新手机号',
-        'phone-change-success':
-            '您已成功修改手机号',
+        'phone-change-success': '您已成功修改手机号',
         'good-job': 'Good Job!',
         'back-acccount-settings': '回到账户设置',
         'setup-now': '现在设置',
@@ -864,17 +841,14 @@ export const messages = {
         'create-password': '创建密码',
         'select-question': '选择问题',
         'set-security-question-text': '请设置安全问题',
-        'security-question-set-error':
-            '设置安全性问题时发生错误',
-        'security-question-set-success':
-            '恭喜您，帐户安全!',
-        'security-question-desc':
-            '重要信息，验证您的身份以确保信息安全',
+        'security-question-set-error': '设置安全性问题时发生错误',
+        'security-question-set-success': '恭喜您，帐户安全!',
+        'security-question-desc': '重要信息，验证您的身份以确保信息安全',
         'modify-security-issues': '修改安全性问题',
         'intimate-reminder': '贴心提醒',
         'intimate-reminder-text':
             '完成安全问题设置后，如果有任何疑问，请联系在线客户服务或致电400-120-8588寻求帮助。',
-        'register-succes': "恭喜你！您已成功注册",
+        'register-succes': '恭喜你！您已成功注册',
         'name-verification': '姓名验证',
         'phone-verification': '电话验证',
         'email-verification': '邮件验证',
@@ -883,13 +857,12 @@ export const messages = {
         'id-number': 'ID 卡号码',
         'verify-email': '验证邮件',
         'verify-phone': '验证手机号',
-        'verify-name-message':
-            '您已成功验证您的ID和名称.',
+        'verify-name-message': '您已成功验证您的ID和名称.',
         'enter-verification-code': '输入验证码',
         'email-has-sent': '该电子邮件已发送到您的电子邮件.',
-        'not-get-email': "尚未收到电子邮件?",
+        'not-get-email': '尚未收到电子邮件?',
         'check-in-spam':
-            "请检查它是是否垃圾邮件。如果您尚未收到，请返回并重新发送.",
+            '请检查它是是否垃圾邮件。如果您尚未收到，请返回并重新发送.',
         'back-label': '返回',
         'transfer-label': '转账',
         'total_assets-label': '总资产',
@@ -903,12 +876,10 @@ export const messages = {
         'amount-label': '金额',
         'next-label': '下一步',
         'empty-wallet-message': '您不能从空钱包里转钱!!',
-        'invalid-transfer-value':
-            '转账金额超过您钱包中的金额!!',
+        'invalid-transfer-value': '转账金额超过您钱包中的金额!!',
         'ok-label': 'OK',
         'cancel-label': '取消',
-        'are-u-sure-transfer':
-            '你即将把所有钱都转移到你的主账户里。你确定吗?',
+        'are-u-sure-transfer': '你即将把所有钱都转移到你的主账户里。你确定吗?',
         'local-bank': '本地银行',
         'bank-transfer': '银行转账',
         'quick-pay': '快捷支付',
@@ -960,10 +931,8 @@ export const messages = {
         'scratch-card': 'Scratch Card',
         'fgo-card': 'F-Go Card',
         'fgo-enter': '请输入以下内容，完成后点击提交',
-        'fgo-ensure':
-            '请确保您填写了刮刮卡中的正确信息',
-        'fgo-wrong':
-            '如果您填写了错误的信息，您的存款将失败',
+        'fgo-ensure': '请确保您填写了刮刮卡中的正确信息',
+        'fgo-wrong': '如果您填写了错误的信息，您的存款将失败',
         'select-amount': '选择金额',
         'serial-number': '序列号',
         'invalid-card-number': '无效卡号',
@@ -977,12 +946,10 @@ export const messages = {
             '确保您输入的电子邮件地址将收到激活电子邮件，以使电子邮件生效.',
         'email-verification-success-message':
             '恭喜，您的帐户很安全。您的电子邮件已过验证',
-        'email-verification-error-message':
-            '验证电子邮件时出错。请重试。',
+        'email-verification-error-message': '验证电子邮件时出错。请重试。',
         'phone-verification-success-message':
             '恭喜，您的帐户很安全。您的手机已验证',
-        'phone-verification-error-message':
-            '验证电话时出错。请重试。',
+        'phone-verification-error-message': '验证电话时出错。请重试。',
         'email-verification-bonus-text':
             '提醒您，如果您存款超过 1000 元，您可以获得验证奖金。',
         'deposit-immediately': '立即存款',
@@ -993,8 +960,7 @@ export const messages = {
         'verify-phone-asap': '请验证您的电话',
         'verify-email-asap': '请验证您的邮件',
         'change-password': '修改密码',
-        'withdrawal-password-success':
-            '已成功设置提款密码.',
+        'withdrawal-password-success': '已成功设置提款密码.',
         'withdrawal-password-completion':
             '祝贺您完成取款密码，请务必记住您的提款密码，请不要向他人提供您的密码.',
         'go-withdrawal': '进入提款',
@@ -1007,8 +973,7 @@ export const messages = {
         'qr-will-needed':
             '您的 QR 码只需使用一次，请确保您的存款金额与 QR 码上的金额相符，以避免任何问题.',
         'vn-help2paypay-placeholder': '存入 ₫300,000 - ₫300,000,000',
-        'email-update-success':
-            '您的电子邮件地址已成功更新.',
+        'email-update-success': '您的电子邮件地址已成功更新.',
         'lang-thai': '泰文',
         'home-label': '主页',
         'support-label': '支持',
@@ -1083,12 +1048,10 @@ export const messages = {
         'manage-bank-cards': '管理银行卡',
         'compelete-dentity-info': '完整的身份信息',
         'no-verification': '无标准安全验证',
-        'be-sure-verifications':
-            '为了您的帐户安全，请务必执行各种安全验证',
+        'be-sure-verifications': '为了您的帐户安全，请务必执行各种安全验证',
         'verify-immediately': '立即验证',
         'pt-password-not-set': 'PT APP 密码未设置',
-        'pt-password-desc':
-            '定期重置PT APP密码，帐户更安全',
+        'pt-password-desc': '定期重置PT APP密码，帐户更安全',
         'withdrawable-fund': '可提取资金',
         'today-label': '今日',
         'one-week': '1 周',
@@ -1108,14 +1071,13 @@ export const messages = {
         'content-label': '内容',
         'start-date': '开始时间',
         'end-date': '截止时间',
-          'inbox-label': '收件箱',
-        'any-question-label':
-            '如果您有任何建议，请随时与我们联系',
+        'inbox-label': '收件箱',
+        'any-question-label': '如果您有任何建议，请随时与我们联系',
         'dedicated-line': '24-hour国内专线',
-        'bet-label':'投注',
-        'win-label':'赢',
-        'biggest-win':'Biggest Win',
-        'bonuses-label':'奖金',
+        'bet-label': '投注',
+        'win-label': '赢',
+        'biggest-win': 'Biggest Win',
+        'bonuses-label': '奖金',
         'records-label': '记录',
         'total-balance': '全部余额',
         'recommended': '推荐',
@@ -1126,8 +1088,7 @@ export const messages = {
         'gaming-room': '游戏厅',
         'video-poker': '视频扑克',
         'fishing-games': '捕鱼游戏',
-        'view-all': '查看全部 >',
-
+        'view-all': '查看全部 >'
     },
 
     vi: {},

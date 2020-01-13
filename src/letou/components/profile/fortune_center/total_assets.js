@@ -468,7 +468,7 @@ export class TotalAssets extends Component {
             .then(res => {
                 if (res.data.status_code === 1) {
                     this.setState({ snackType: 'success' });
-                    this.setState({ snackMessage: this.getLabel('transfer-successfull') });
+                    this.setState({ snackMessage: this.getLabel('transfer-successful') });
                     this.setState({ showSnackbar: true });
 
                     this.setState({ from: null });

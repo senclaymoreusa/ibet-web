@@ -41,11 +41,9 @@ const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
+        flexDirection: 'column'
     },
     rootDesktop: {
-        height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -256,7 +254,7 @@ export class AccountDetails extends Component {
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>
-                    <Grid container>
+                    <Grid container >
                         <Grid item xs={12} className={classes.row}>
                             <span
                                 className={classes.label}
@@ -667,59 +665,67 @@ export class AccountDetails extends Component {
                                 {this.getLabel('cancelled-label')}
                             </Button>
                         </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <Paper style={{ marginTop: 20 }}>
+                                <Table className={classes.table}>
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell>
+                                                {this.getLabel(
+                                                    'transaction-number'
+                                                )}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel('time-label')}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel(
+                                                    'transaction-type'
+                                                )}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel('channel-label')}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel('amount-label')}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel('status-label')}
+                                            </StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {items.map(row => (
+                                            <StyledTableRow
+                                                key={row.transaction_id}
+                                            >
+                                                <StyledTableCell>
+                                                    {row.transaction_id}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {moment(
+                                                        row.request_time
+                                                    ).format('llll')}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {row.transaction_type}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {row.channel}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {row.amount}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {row.provider}
+                                                </StyledTableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Paper>
+                        </Grid>
                     </Grid>
-                    <Paper style={{ marginTop: 20 }}>
-                        <Table className={classes.table}>
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell>
-                                        {this.getLabel('transaction-number')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('time-label')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('transaction-type')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('channel-label')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('amount-label')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('status-label')}
-                                    </StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {items.map(row => (
-                                    <StyledTableRow key={row.transaction_id}>
-                                        <StyledTableCell>
-                                            {row.transaction_id}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {moment(row.request_time).format(
-                                                'llll'
-                                            )}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {row.transaction_type}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {row.channel}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {row.amount}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {row.provider}
-                                        </StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Paper>
                 </div>
                 <div className={classes.rootMobile}>
                     <Grid container>

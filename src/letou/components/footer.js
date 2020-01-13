@@ -27,9 +27,7 @@ import Paper from '@material-ui/core/Paper';
 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import Person from '@material-ui/icons/Person';
-import ContactSupport from '@material-ui/icons/ContactSupport';
 import MeetingRoom from '@material-ui/icons/MeetingRoom';
 
 import MobileLogin from './mobile/mobile_login';

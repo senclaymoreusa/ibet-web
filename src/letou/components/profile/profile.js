@@ -47,6 +47,7 @@ import Withdrawal from './fortune_center/withdrawal';
 import Transfer from './fortune_center/transfer';
 import TotalAssets from './fortune_center/total_assets';
 import AccountDetails from './transaction_record/account_details';
+import { Grid } from '@material-ui/core';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -61,8 +62,7 @@ const styles = theme => ({
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
-            flexDirection: 'column',
-            minHeight: '100vh'
+            flexDirection: 'column'
         }
     },
     rootMobile: {
@@ -388,8 +388,8 @@ export class Profile extends Component {
                         </Toolbar>
                     </AppBar>
                     <AppBar position="static" className={classes.appBar}>
-                        <StyledTabs centered  value={typeProp ? typeProp : 'none'}
-                               >
+                        <StyledTabs centered value={typeProp ? typeProp : 'none'}
+                        >
                             <StyledTab
                                 style={{
                                     width: 0,
@@ -563,23 +563,27 @@ export class Profile extends Component {
                             </Fade>
                         )}
                     </Popper>
-                    <div className={classes.content}>
-                        {typeProp === 'fortune-center' && (
-                            <FortuneCenter />
-                        )}
-                        {typeProp === 'transaction-records' && (
-                            <TransactionRecord />
-                        )}
-                        {typeProp === 'account-management' && (
-                            <AccountManagement
-                                activeContent={this.state.desktopContent}
-                            />
-                        )}
-                        {typeProp === 'sharing-plan' && (
-                            <SharingPlan />
-                        )}
-                    </div>
-                    <Footer />
+                    <Grid container>
+                        <Grid item xs={12} className={classes.content}>
+                            {typeProp === 'fortune-center' && (
+                                <FortuneCenter />
+                            )}
+                            {typeProp === 'transaction-records' && (
+                                <TransactionRecord />
+                            )}
+                            {typeProp === 'account-management' && (
+                                <AccountManagement
+                                    activeContent={this.state.desktopContent}
+                                />
+                            )}
+                            {typeProp === 'sharing-plan' && (
+                                <SharingPlan />
+                            )}
+                        </Grid>
+                       <Grid item xs={12}>
+                            <Footer />
+                        </Grid>
+                    </Grid>
                 </div>
                 <div className={classes.rootMobile}>
                     {/* {this.props.typeProp === 'deposit' && (
