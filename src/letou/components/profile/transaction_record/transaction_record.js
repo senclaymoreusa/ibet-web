@@ -24,16 +24,14 @@ const styles = theme => ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     rootDesktop: {
-        height: 92,
         maxWidth: 1400,
+        width: '100%',
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
-            flexDirection: 'column'
         }
     },
     rootMobile: {
@@ -46,9 +44,9 @@ const styles = theme => ({
         }
     },
     mainGrid: {
+        width: '100%',
         maxWidth: 1400
     },
-   
     mobileRow: {
         height: 60,
         alignItems: 'center',
@@ -78,7 +76,6 @@ const styles = theme => ({
         paddingBottom: 12
     },
     content: {
-        flexGrow: 1,
         borderTop: 'solid 1px #efefef',
         [theme.breakpoints.up('md')]: {
             paddingTop: 20,
@@ -220,6 +217,8 @@ export class TransactionRecord extends Component {
                                     }}
                                 />
                             </StyledTabs>
+                        </Grid>
+                        <Grid item xs={12}>
                             <div className={classes.content}>
                                 {tabValue === 'account-details' && (
                                     <AccountDetails />

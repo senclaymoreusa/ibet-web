@@ -19,14 +19,12 @@ const styles = theme => ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
         alignItems: 'center',
         [theme.breakpoints.down('md')]: {
             paddingBottom: 70
         }
     },
     main: {
-        minHeight: '100vh',
         display: 'flex',
         backgroundColor: '#f2f3f5',
         flexDirection: 'column',
