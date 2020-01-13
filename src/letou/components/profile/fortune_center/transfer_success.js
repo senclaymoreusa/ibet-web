@@ -67,7 +67,7 @@ const styles = () => ({
         alignItems: 'center'
     },
     title: {
-        fontSize: 40,
+        fontSize: 36,
         fontWeight: 800,
         fontStyle: 'normal',
         fontStretch: 'normal',
