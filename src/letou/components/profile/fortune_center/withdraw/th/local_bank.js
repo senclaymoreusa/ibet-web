@@ -385,6 +385,7 @@ class ThaiLocalBank extends Component {
             amountInvalid: true,
 
             bankAccountNumber: '',
+            bankAccountHolder: '',
             password: '',
 
             activeStep: 0,
@@ -463,223 +464,76 @@ class ThaiLocalBank extends Component {
             this.setState({ bankAccountNumber: '' });
     };
 
+    bankAccountHolderChanged(event) {
+        this.setState({ bankAccountHolderFocused: true });
+        this.setState({ bankAccountHolder: event.target.value });
+        this.setState({ bankAccountHolderFocused: true });
+    };
+
     handleBankChange = event => {
         this.setState({ selectedBankOption: event.target.value });
     };
 
     handleClick() {
         let currentComponent = this;
-        let userid = this.state.data.pk;
-
-        var postData = {
-            "amount": this.state.amount,
-            "userid": this.state.data.pk,
-            "currency": '7',
-            "bank": this.state.selectedBankOption,
-            "language": "en-Us",
-            "bank_acc_no": this.state.bankAccountNumber,
-            "real_name": "bangqi zhu",
-            "cashoutMethod": "cashifacebatch",
-        }
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
         const token = localStorage.getItem('token');
-
+        config.headers['Authorization'] = `Token ${token}`;
+        let userid = this.state.data.pk;
         const body = JSON.stringify({
-            type: 'withdraw',
+            type: '1',
             username: this.state.data.username,
             balance: this.state.amount,
             'bank':this.state.selectedBankOption,
             'bank_acc_no':this.state.bankAccountNumber,
-            "real_name": "bangqi zhu",
+            "real_name": this.state.bankAccountHolder,
+            amount: this.state.amount,
+            currency: 7,
         });
-        {/*
-        axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-            .then(res => {
-                if (res.data === 'Failed') {
+        return axios
+            .post(
+                API_URL + 'accounting/api/transactions/save_transaction',
+                body,
+                config
+            )
+            .then((res) => {
+                if(res.statusText=="OK"){
+                    return res.data;
+                }else{
                     currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                } else if (res.data === 'The balance is not enough') {
-                    currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                } else {
-                    currentComponent.props.callbackFromParent("success", "Transaction completed.");
                 }
-            });
-        
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + '=' + encodedValue);
-        }
-        formBody = formBody.join('&');
-        */}
-        return fetch(API_URL + 'accounting/api/transactions/save_transaction', {
-            method: 'POST',
-            headers: {
-                'content-type':
-                    'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            //body: formBody
-            body: body,
-            user:{
-                pk: this.state.data.pk,
-                username: this.state.data.username,
-            }
-        }).then(function (res) {
-            console.log(res)
-            if(res.ok){
-                return res.json();
-            }else{
-                currentComponent.props.callbackFromParent("error", "Transaction failed.");
-            }
-            
-        }).then(function (data) {
-            console.log(data)
-            let status = data.StatusCode;
-
-            if (status == '50001') {
-                const body = JSON.stringify({
-                    type: 'withdraw',
-                    username: this.state.username,
-                    balance: this.state.amount,
-                });
-                console.log(body)
-                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                    .then(res => {
-                        if (res.data === 'Failed') {
-                            //this.setState({ error: true });
-                            currentComponent.props.callbackFromParent("error", 'Transaction failed!');
-                        } else if (res.data === 'The balance is not enough') {
-                            //    // alert("cannot withdraw this amount")
-                            currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
-
-                        } else {
-                            currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
-
-                            // alert("your balance is updated")
-                            // window.location.reload()
-                        }
+            }).then(function (data) {
+                let status = data.success;
+                if (status) {
+                    const sbody = JSON.stringify({
+                        type: 'withdraw',
+                        username: currentComponent.state.data.username,
+                        balance: currentComponent.state.amount,
                     });
-
-            } else {
-                currentComponent.props.callbackFromParent("error", data.StatusMsg);
-                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
-            }
-        }).catch(err => {
-            currentComponent.props.callbackFromParent("error", "Something is wrong.");
-            sendingLog(err);
-        });
-            /*
-            .then(function (res) {
-                return res.json();
-            })
-            .then(function (data) {
-                //console.log(data)
-                let qrurl = data.qr;
-                //console.log(qrurl)
-                if (qrurl != null) {
-                    const mywin = window.open(qrurl, 'asiapay-wechatpay');
-                    var timer = setInterval(function () {
-                        if (mywin.closed) {
-                            clearInterval(timer);
-                            var postData = {
-                                order_id: data.oid,
-                                userid: 'n' + userid,
-                                CmdType: '01'
-                            };
-                            var formBody = [];
-                            for (var pd in postData) {
-                                var encodedKey = encodeURIComponent(pd);
-                                var encodedValue = encodeURIComponent(
-                                    postData[pd]
-                                );
-                                formBody.push(encodedKey + '=' + encodedValue);
+                    axios.post(API_URL + `users/api/addorwithdrawbalance/`, sbody, config)
+                        .then(res => {
+                            if (res.data === 'Failed') {
+                                //this.setState({ error: true });
+                                currentComponent.props.callbackFromParent("error", 'Transaction failed!');
+                            } else if (res.data === 'The balance is not enough') {
+                                //    // alert("cannot withdraw this amount")
+                                currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
+    
+                            } else {
+                                currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
+    
+                                // alert("your balance is updated")
+                                // window.location.reload()
                             }
-                            formBody = formBody.join('&');
-
-                            return fetch(
-                                API_URL + 'accounting/api/asiapay/orderStatus',
-                                {
-                                    method: 'POST',
-                                    headers: {
-                                        'content-type':
-                                            'application/x-www-form-urlencoded; charset=UTF-8'
-                                    },
-                                    body: formBody
-                                }
-                            )
-                                .then(function (res) {
-                                    return res.json();
-                                })
-                                .then(function (data) {
-                                    //console.log(data.status)
-                                    if (data.status === '001') {
-                                        //alert('Transaction is approved.');
-                                        const body = JSON.stringify({
-                                            type: 'add',
-                                            username:
-                                                currentComponent.state.data
-                                                    .username,
-                                            balance:
-                                                currentComponent.state.amount
-                                        });
-                                        //console.log(body)
-                                        axios
-                                            .post(
-                                                API_URL +
-                                                `users/api/addorwithdrawbalance/`,
-                                                body,
-                                                config
-                                            )
-                                            .then(res => {
-                                                if (res.data === 'Failed') {
-                                                    //currentComponent.setState({ error: true });
-                                                    currentComponent.props.callbackFromParent(
-                                                        'error',
-                                                        'Transaction failed.'
-                                                    );
-                                                } else if (
-                                                    res.data ===
-                                                    'The balance is not enough'
-                                                ) {
-                                                    currentComponent.props.callbackFromParent(
-                                                        'error',
-                                                        'Cannot deposit this amount.'
-                                                    );
-                                                } else {
-                                                    currentComponent.props.callbackFromParent(
-                                                        'success',
-                                                        currentComponent.state
-                                                            .amount
-                                                    );
-                                                }
-                                            });
-                                    } else {
-                                        currentComponent.props.callbackFromParent(
-                                            'error',
-                                            data.StatusMsg
-                                        );
-                                    }
-                                });
-                        }
-                    }, 1000);
+                        });
+    
                 } else {
-                    currentComponent.props.callbackFromParent(
-                        'error',
-                        data.StatusMsg
-                    );
+                    currentComponent.props.callbackFromParent("error", "Somthing is wrong");
+                    //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
                 }
-            })
-            .catch(function (err) {
-                currentComponent.props.callbackFromParent('error', err.message);
+            }).catch(err => {
+                currentComponent.props.callbackFromParent("error", "Something is wrong.");
                 sendingLog(err);
             });
-            */
         
     }
 
@@ -701,7 +555,7 @@ class ThaiLocalBank extends Component {
 
     render() {
         const { classes } = this.props;
-        const { selectedBankOption, bankAccountNumber, amount, currency } = this.state;
+        const { selectedBankOption, bankAccountNumber, amount, bankAccountHolder, currency } = this.state;
 
 
         const filteredOptions = bank_options.filter((o) => o.code === "THB")
@@ -771,6 +625,25 @@ class ThaiLocalBank extends Component {
                             }}
                         />
                     </Grid>}
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
+                            placeholder={this.getLabel('bank-holder')}
+                            onChange={this.bankAccountHolderChanged.bind(this)}
+                            value={bankAccountHolder}
+                            error={this.state.bankAccountHolderFocused && bankAccountHolder.length === 0}
+                            helperText={(this.state.bankAccountHolderFocused && bankAccountHolder.length === 0)}// ? this.getLabel('invalid-bank-number') : ' '}
+                            InputProps={{
+                                disableUnderline: true,
+                                endAdornment: (
+                                    
+                                    <InputAdornment position="end" >
+                                    </InputAdornment>
+                                    
+                                ),
+                            }}
+                        />
+                    </Grid>
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}

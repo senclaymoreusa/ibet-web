@@ -21,7 +21,7 @@ import LoopOutlined from '@material-ui/icons/LoopOutlined';
 import DepositMain from './deposit/deposit_main';
 import TotalAssets from './total_assets';
 import Transfer from './transfer';
-import Withdrawal from './withdrawal';
+import Withdrawal from './withdraw/withdraw_main';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 

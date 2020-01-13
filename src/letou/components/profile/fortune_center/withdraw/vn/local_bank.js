@@ -472,39 +472,63 @@ class VietnamLocalBank extends Component {
 
     handleClick() {
         let currentComponent = this;
-
-        var postData = {
-            "amount": this.state.amount,
-            "user_id": this.state.data.pk,
-            "currency": '7',
-            "bank": this.state.selectedBankOption,
-            "language": "en-Us",
-            //"order_id": this.state.order_id,
-        }
-
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
         const token = localStorage.getItem('token');
-
+        config.headers['Authorization'] = `Token ${token}`;
+        let userid = this.state.data.pk;
         const body = JSON.stringify({
-            type: 'withdraw',
+            type: '1',
             username: this.state.data.username,
             balance: this.state.amount,
+            'bank':this.state.selectedBankOption,
+            'bank_acc_no':this.state.bankAccountNumber,
+            "real_name": this.state.bankAccountHolder,
+            amount: this.state.amount,
+            currency: 2,
         });
-        axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-            .then(res => {
-                if (res.data === 'Failed') {
+        return axios
+            .post(
+                API_URL + 'accounting/api/transactions/save_transaction',
+                body,
+                config
+            )
+            .then((res) => {
+                if(res.statusText=="OK"){
+                    return res.data;
+                }else{
                     currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                } else if (res.data === 'The balance is not enough') {
-                    currentComponent.props.callbackFromParent("error", "Cannot withdraw this amount.");
-                } else {
-                    currentComponent.props.callbackFromParent("success", "Transaction completed.");
                 }
+            }).then(function (data) {
+                let status = data.success;
+                if (status) {
+                    const sbody = JSON.stringify({
+                        type: 'withdraw',
+                        username: currentComponent.state.data.username,
+                        balance: currentComponent.state.amount,
+                    });
+                    axios.post(API_URL + `users/api/addorwithdrawbalance/`, sbody, config)
+                        .then(res => {
+                            if (res.data === 'Failed') {
+                                //this.setState({ error: true });
+                                currentComponent.props.callbackFromParent("error", 'Transaction failed!');
+                            } else if (res.data === 'The balance is not enough') {
+                                //    // alert("cannot withdraw this amount")
+                                currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
+    
+                            } else {
+                                currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
+    
+                                // alert("your balance is updated")
+                                // window.location.reload()
+                            }
+                        });
+    
+                } else {
+                    currentComponent.props.callbackFromParent("error", "Somthing is wrong");
+                    //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+                }
+            }).catch(err => {
+                currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                sendingLog(err);
             });
     }
 

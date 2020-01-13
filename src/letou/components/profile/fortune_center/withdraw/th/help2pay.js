@@ -540,8 +540,10 @@ class Help2Pay extends Component {
             */
             "username":"ibtthbtest03",
             "toBankAccountName":"bangqi",
-            "toBankAccountNumber": this.state.bankAccountNumber,
+            //"toBankAccountNumber": this.state.bankAccountNumber,
+            "toBankAccountNumber": "123123123123440",
             "withdrawPassword": "1234",
+            "bank":this.state.selectedBankOption,
         }
 
         var formBody = [];
@@ -570,10 +572,8 @@ class Help2Pay extends Component {
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
-            console.log(data)
             let newwin = window.open('');
             newwin.document.write(data);
-            console.log(data)
             var timer = setInterval(function () {
 
                 if (newwin.closed) {
@@ -599,7 +599,7 @@ class Help2Pay extends Component {
                         if (data === '0') {
 
                             const body = JSON.stringify({
-                                type: 'add',
+                                type: 'withdraw',
                                 username: this.state.data.username,
                                 balance: this.state.amount,
                             });
