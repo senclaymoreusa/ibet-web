@@ -52,6 +52,7 @@ export const authLogin = (username, password, iovationData) => {
             )
             .then(res => {
                 if (res.data.errorCode) {
+                    dispatch(authFail(res.data.errorMsg));
                     return Promise.resolve(res.data);
                 }
                 const token = res.data.key;
