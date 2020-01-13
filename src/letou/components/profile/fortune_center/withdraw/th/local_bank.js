@@ -445,7 +445,7 @@ class ThaiLocalBank extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 200 || parseFloat(event.target.value) > 950000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 500 || parseFloat(event.target.value) > 500000) });
             }
             else {
                 this.setState({ amountInvalid: true });
