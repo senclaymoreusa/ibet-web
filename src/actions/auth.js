@@ -286,16 +286,6 @@ export const sendingLog = err => {
         .then(() => {});
 };
 
-export const getUpdatedUserData = err => {
-    return axios
-        .post(
-            API_URL + 'system/api/logstreamtos3/',
-            { line: err, source: 'Ibetweb' },
-            config
-        )
-        .then(() => {});
-};
-
 export const authCheckState = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
