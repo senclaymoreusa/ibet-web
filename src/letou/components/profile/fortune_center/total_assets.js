@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { config, images } from '../../../../util_config';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../actions';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -407,21 +407,29 @@ export class TotalAssets extends Component {
     }
 
     async componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
 
-        await axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ userId: res.data.pk });
-                this.setState({ username: res.data.username });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+        this.props.authCheckState().then(async res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+                await axios
+                    .get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ userId: res.data.pk });
+                        this.setState({ username: res.data.username });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
 
-                this.getWalletsByUsername(res.data.pk);
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
+                        this.getWalletsByUsername(res.data.pk);
+                    })
+                    .catch(function (err) {
+                        sendingLog(err);
+                    });
+            }
+        
+        })
+        
     }
 
     getWalletsByUsername(userId) {
@@ -460,7 +468,7 @@ export class TotalAssets extends Component {
             .then(res => {
                 if (res.data.status_code === 1) {
                     this.setState({ snackType: 'success' });
-                    this.setState({ snackMessage: this.getLabel('transfer-successfull') });
+                    this.setState({ snackMessage: this.getLabel('transfer-successful') });
                     this.setState({ showSnackbar: true });
 
                     this.setState({ from: null });
