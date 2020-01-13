@@ -259,17 +259,13 @@ export class Profile extends Component {
         };
     }
 
-    async handleCategoryChange(category) {
-        var url = this.state.urlPath;
-        var parts = url.split('/');
+    handleCategoryChange(category) {
+        this.props.history.push('/p/' + category)
 
-        if (parts.length >= 2) {
-            url = '/';
-            var path = parts.slice(1, 2).join('/');
-            url = url + path;
-        }
-        url = url + '/' + category;
-        this.props.history.push(url);
+        this.setState({
+            anchorEl: null,
+            showProfileMenu: false
+        });
     }
 
     componentWillReceiveProps(props) {
@@ -302,7 +298,7 @@ export class Profile extends Component {
         if (parts.length >= 2) {
             let path = parts[2];
             this.setState({ mobileContent: parts[parts.length - 1] });
-       
+
             if (path.length > 0) {
                 if (this._isMounted)
                     this.setState({ desktopTabValue: parts[2] });
@@ -337,14 +333,13 @@ export class Profile extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, typeProp } = this.props;
         const {
             showProfileMenu,
             anchorEl,
             nameVerified,
             phoneVerified,
-            emailVerified,
-            desktopTabValue
+            emailVerified
         } = this.state;
 
 
@@ -393,21 +388,25 @@ export class Profile extends Component {
                         </Toolbar>
                     </AppBar>
                     <AppBar position="static" className={classes.appBar}>
-                        <StyledTabs centered value={desktopTabValue}>
+                        <StyledTabs centered  value={typeProp ? typeProp : 'none'}
+                               >
+                            <StyledTab
+                                style={{
+                                    width: 0,
+                                    minWidth: 0,
+                                    maxWidth: 0,
+                                    padding: 0
+                                }}
+                                value="none"
+                            />
                             <StyledTab
                                 label={this.getLabel('fortune-center')}
                                 value="fortune-center"
                                 onClick={() => {
-                                    if (desktopTabValue !== 'fortune-center') {
+                                    if (typeProp !== 'fortune-center') {
                                         this.handleCategoryChange(
                                             'fortune-center'
                                         );
-                                        this.setState({
-                                            anchorEl: null
-                                        });
-                                        this.setState({
-                                            showProfileMenu: false
-                                        });
                                     }
                                 }}
                             />
@@ -415,16 +414,10 @@ export class Profile extends Component {
                                 label={this.getLabel('transaction-records')}
                                 value="transaction-records"
                                 onClick={() => {
-                                    if (desktopTabValue !== 'transaction-records') {
+                                    if (typeProp !== 'transaction-records') {
                                         this.handleCategoryChange(
                                             'transaction-records'
                                         );
-                                        this.setState({
-                                            anchorEl: null
-                                        });
-                                        this.setState({
-                                            showProfileMenu: false
-                                        });
                                     }
                                 }}
                             />
@@ -440,16 +433,10 @@ export class Profile extends Component {
                                 value="account-management"
                                 label={this.getLabel('account-management')}
                                 onClick={() => {
-                                    if (desktopTabValue !== 'account-management') {
+                                    if (typeProp !== 'account-management') {
                                         this.handleCategoryChange(
                                             'account-management'
                                         );
-                                        this.setState({
-                                            anchorEl: null
-                                        });
-                                        this.setState({
-                                            showProfileMenu: false
-                                        });
                                     }
                                 }}
                             />
@@ -457,27 +444,12 @@ export class Profile extends Component {
                                 value="sharing-plan"
                                 label={this.getLabel('sharing-plan')}
                                 onClick={() => {
-                                    if (desktopTabValue !== 'sharing-plan') {
+                                    if (typeProp !== 'sharing-plan') {
                                         this.handleCategoryChange(
                                             'sharing-plan'
                                         );
-                                        this.setState({
-                                            anchorEl: null
-                                        });
-                                        this.setState({
-                                            showProfileMenu: false
-                                        });
                                     }
                                 }}
-                            />
-                            <StyledTab
-                                style={{
-                                    width: 0,
-                                    minWidth: 0,
-                                    maxWidth: 0,
-                                    padding: 0
-                                }}
-                                value="none"
                             />
                         </StyledTabs>
                     </AppBar>
@@ -592,18 +564,18 @@ export class Profile extends Component {
                         )}
                     </Popper>
                     <div className={classes.content}>
-                        {this.state.desktopTabValue === 'fortune-center' && (
+                        {typeProp === 'fortune-center' && (
                             <FortuneCenter />
                         )}
-                        {this.state.desktopTabValue === 'transaction-records' && (
+                        {typeProp === 'transaction-records' && (
                             <TransactionRecord />
                         )}
-                        {this.state.desktopTabValue === 'account-management' && (
+                        {typeProp === 'account-management' && (
                             <AccountManagement
                                 activeContent={this.state.desktopContent}
                             />
                         )}
-                        {this.state.desktopTabValue === 'sharing-plan' && (
+                        {typeProp === 'sharing-plan' && (
                             <SharingPlan />
                         )}
                     </div>
