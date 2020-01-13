@@ -595,7 +595,7 @@ class Help2Pay extends Component {
                     }).then(function (res) {
                         return res.text();
                     }).then(function (data) {
-                        console.log(data)
+                        //console.log(data)
                         if (data === '0') {
 
                             const body = JSON.stringify({
