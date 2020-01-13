@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../../actions';
@@ -5,26 +6,65 @@ import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
 import { images } from '../../../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableContainer from '@material-ui/core/TableContainer';
+
+const StyledTableCell = withStyles(theme => ({
+    head: {
+        backgroundColor: '#f28f22',
+        color: theme.palette.common.white,
+        padding: 10
+    },
+    body: {
+        fontSize: 14,
+        padding: 10
+    }
+}))(TableCell);
+
+const StyledTableRow = withStyles(theme => ({
+    root: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.background.default
+        }
+    }
+}))(TableRow);
 
 const styles = theme => ({
     root: {
         width: '100%',
+        [theme.breakpoints.down('md')]: {
+            paddingBottom: 70
+        }
     },
     titleRow: {
-        height: 70,
+        [theme.breakpoints.up('md')]: {
+            height: 70
+        },
         backgroundColor: 'rgba(228, 228, 228, 0.25)',
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'row'
+    },
+    contentRow: {
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 10,
+            paddingRight: 10
+        }
     },
     grow: {
-        flexGrow: 1,
+        flexGrow: 1
     },
     title: {
-        marginTop: 25,
         marginLeft: 20,
+        marginTop: 4,
+        [theme.breakpoints.up('md')]: {
+            marginTop: 25
+        },
         fontSize: 18,
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -32,10 +72,10 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 0.64,
         textAlign: 'center',
-        color: 'black',
+        color: 'black'
     },
     contentPaper: {
-        marginTop: 15,
+        marginTop: 15
     },
     gridTitleRow: {
         display: 'flex',
@@ -43,18 +83,18 @@ const styles = theme => ({
         backgroundColor: '#f28f22',
         borderTopLeftRadius: 4,
         borderTopRightRadius: 4,
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
         paddingTop: 15,
-        paddingBottom: 15,
+        paddingBottom: 15
     },
     gridRow: {
         display: 'flex',
         flexDirection: 'row',
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
         paddingTop: 10,
-        paddingBottom: 10,
+        paddingBottom: 10
     },
     link: {
         cursor: 'pointer',
@@ -63,7 +103,7 @@ const styles = theme => ({
         fontWeight: 500,
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
+        lineHeight: 'normal'
     },
     titleLabel: {
         fontSize: 14,
@@ -88,15 +128,10 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         color: '#212121'
-    },
-    cell:
-    {
-        minWidth: 100
     }
 });
 
 export class SportsBets extends Component {
-
     constructor(props) {
         super(props);
 
@@ -117,43 +152,79 @@ export class SportsBets extends Component {
         return formatMessage({ id: labelId });
     }
 
-    componentDidMount() {
-
-    }
     getSportsBet() {
         const { classes } = this.props;
 
         return (
-            <Paper className={classes.contentPaper}>
-                <Grid container>
-                    <Grid item xs={12} className={classes.gridTitleRow}>
-                        <div className={classes.cell} ><span className={classes.titleLabel}>15 Jul</span> </div>
-                        <div className={classes.cell}  ><span className={classes.titleLabel}>{this.getLabel('sports-bet-total')}</span> </div>
-                        <div className={classes.grow} />
-                        <div className={classes.cell} > <span className={classes.titleLabel}>200</span> </div>
-                        <div className={classes.cell} > <span className={classes.titleLabel}>500</span> </div>
-                    </Grid>
-                    <Grid item xs={12} className={classes.gridRow}>
-                        <div className={classes.cell} > <span className={classes.subtitleLabel}>{this.getLabel('placed-label')}</span> </div>
-                        <div className={classes.cell} > <span className={classes.subtitleLabel}>{this.getLabel('category-label')}</span> </div>
-                        <div className={classes.grow} />
-                        <div className={classes.cell} > <span className={classes.subtitleLabel}>{this.getLabel('win-loss')}</span> </div>
-                        <div className={classes.cell} >  <span className={classes.subtitleLabel}>{this.getLabel('balance-label')}</span> </div>
-                    </Grid>
-                    <Grid item xs={12} style={{ paddingLeft: 20, paddingRight: 20 }}>
-                        <Divider variant="fullWidth" light={true} />
-                    </Grid>
-                    <Grid item xs={12} className={classes.gridRow}>
-                        <div className={classes.cell} >  <span className={classes.label}>15:00</span> </div>
-                        <div className={classes.cell} onClick={() => {
+            <TableContainer component={Paper} className={classes.contentPaper}>
+                <Table className={classes.table}>
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>
+                                <span className={classes.titleLabel}>
+                                    15 Jul
+                                </span>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <span className={classes.titleLabel}>
+                                    {this.getLabel('sports-bet-total')}
+                                </span>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <span className={classes.titleLabel}>200</span>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <span className={classes.titleLabel}>500</span>
+                            </StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        <StyledTableRow key={Math.random()}>
+                            <StyledTableCell>
+                                <span className={classes.subtitleLabel}>
+                                    {this.getLabel('placed-label')}
+                                </span>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <span className={classes.subtitleLabel}>
+                                    {this.getLabel('category-label')}
+                                </span>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <span className={classes.subtitleLabel}>
+                                    {this.getLabel('win-loss')}
+                                </span>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <span className={classes.subtitleLabel}>
+                                    {this.getLabel('balance-label')}
+                                </span>
+                            </StyledTableCell>
+                        </StyledTableRow>
+                        <StyledTableRow
+                            key={Math.random()}
+                            onClick={() => {
                                 this.props.callbackFromParent('sports-detail');
-                            }}>   <span className={classes.link}>Single NBA Knicks vs Celtics</span> </div>
-                        <div className={classes.grow} />
-                        <div className={classes.cell} >   <span className={classes.label}>100</span> </div>
-                        <div className={classes.cell} >   <span className={classes.label}>200</span> </div>
-                    </Grid>
-                </Grid>
-            </Paper>
+                            }}
+                        >
+                            <StyledTableCell>
+                                <span className={classes.label}>15:00</span>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <span className={classes.link}>
+                                    Single NBA Knicks vs Celtics
+                                </span>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <span className={classes.label}>100</span>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <span className={classes.label}>200</span>
+                            </StyledTableCell>
+                        </StyledTableRow>
+                    </TableBody>
+                </Table>
+            </TableContainer>
         );
     }
 
@@ -164,38 +235,43 @@ export class SportsBets extends Component {
             <div className={classes.root}>
                 <Grid container>
                     <Grid item xs={12} className={classes.titleRow}>
-                        <span className={classes.title}>{this.getLabel('sports-bets')}</span>
+                        <span className={classes.title}>
+                            {this.getLabel('sports-bets')}
+                        </span>
                         <div className={classes.grow} />
-                        <Button className={classes.prevButton}
+                        <Button
+                            className={classes.prevButton}
                             onClick={() => {
                                 this.props.callbackFromParent('main');
-                            }}>
+                            }}
+                        >
                             <img src={images.src + 'letou/close.svg'} alt="" />
                         </Button>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} className={classes.contentRow}>
                         {this.getSportsBet()}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} className={classes.contentRow}>
                         {this.getSportsBet()}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} className={classes.contentRow}>
                         {this.getSportsBet()}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} className={classes.contentRow}>
                         {this.getSportsBet()}
                     </Grid>
                 </Grid>
-
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
         lang: state.language.lang
-    }
-}
+    };
+};
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(SportsBets)));
+export default withStyles(styles)(
+    injectIntl(connect(mapStateToProps, { authCheckState })(SportsBets))
+);

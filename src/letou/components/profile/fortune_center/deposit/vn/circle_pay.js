@@ -361,41 +361,43 @@ class CirclePay extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({
+                        currency: getSymbolFromCurrency(res.data.currency)
+                    });
+                    this.setState({ currencyCode: res.data.currency });
+                    this.setState({
+                        isFavorite: res.data.favorite_payment_method === 'circlepay'
+                    });
+                });
             }
         });
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                currency: getSymbolFromCurrency(res.data.currency)
-            });
-            this.setState({ currencyCode: res.data.currency });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'circlepay'
-            });
-        });
+        
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({
+                        currency: getSymbolFromCurrency(res.data.currency)
+                    });
+                    this.setState({ currencyCode: res.data.currency });
+                    this.setState({
+                        isFavorite: res.data.favorite_payment_method === 'circlepay'
+                    });
+                });
             }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                currency: getSymbolFromCurrency(res.data.currency)
-            });
-            this.setState({ currencyCode: res.data.currency });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'circlepay'
-            });
         });
     }
 
@@ -500,8 +502,8 @@ class CirclePay extends Component {
                 } else {
                     console.log(res);
                     if (res.data.errorCode) {
-                        currentComponent.props.logout();
-                        postLogout();
+                        currentComponent.props.postLogout();
+                        // postLogout();
                         return;
                     }
                     window.open(postURL);

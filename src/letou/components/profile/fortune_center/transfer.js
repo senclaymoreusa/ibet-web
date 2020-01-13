@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-
+import { config, images } from '../../../../util_config';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../actions';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -16,7 +16,6 @@ import ArrowForward from '@material-ui/icons/ArrowForward';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ReactMinimalPieChart from 'react-minimal-pie-chart';
-import { images } from '../../../../util_config';
 import clsx from 'clsx';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
@@ -30,11 +29,40 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
+import axios from 'axios';
+import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import TransferSuccess from './transfer_success';
 
-const styles = () => ({
+import getSymbolFromCurrency from 'currency-symbol-map';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+
+const styles = theme => ({
     root: {
-        paddingLeft: 50,
-        paddingRight: 20
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+    },
+    rootDesktop: {
+        height: 92,
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+            flexDirection: 'column'
+        }
+    },
+    rootMobile: {
+        minHeight: '100vh',
+        display: 'flex',
+        backgroundColor: '#f2f3f5',
+        flexDirection: 'column',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        },
     },
     title: {
         fontSize: 20,
@@ -72,8 +100,24 @@ const styles = () => ({
     walletColumn: {
         maxWidth: 362,
     },
+    mobileMenuButton: {
+        [theme.breakpoints.up('md')]: {
+            margin: theme.spacing(1)
+        },
+        textTransform: 'capitalize'
+    },
+    mobileBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        width: '100%'
+    },
     grow: {
-        flexGrow: 1,
+        flexGrow: 1
+    },
+    mobileRow: {
+        height: 60,
+        alignItems: 'center',
+        backgroundColor: '#fff'
     },
     walletButton: {
         border: '1px dashed #e1e1e1',
@@ -146,20 +190,59 @@ const styles = () => ({
     chartColumn: {
         paddingTop: 20,
         paddingBottom: 20,
-        // display: 'flex',
-        // flexDirection: 'row',
-        // justifyContent: 'center'
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     paper: {
         width: '80%',
-        maxHeight: 435,
+        maxHeight: 435
     },
+    progress: {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        marginTop: 20,
+        marginLeft: -20,
+        zIndex: 2
+    },
+    mobileGrid: {
+        padding: 20
+    },
+    balanceContainer: {
+        position: 'absolute',
+        left: '50%',
+        transform: 'translateX(-50%)',
+    },
+    balanceInnerContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        textAlign: 'center'
+    },
+    totalBalance: {
+        fontSize: 36,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+    },
+    text: {
+        fontSize: 16,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+    }
 });
 
 
 function ConfirmationDialogRaw(props) {
     const { onClose, open, ...other } = props;
-     const radioGroupRef = React.useRef(null);
+    const radioGroupRef = React.useRef(null);
 
 
     const handleEntering = () => {
@@ -190,8 +273,8 @@ function ConfirmationDialogRaw(props) {
                 <FormattedMessage id='transfer-to-main' defaultMessage='Transfer All to Main Wallet' />
             </DialogTitle>
             <DialogContent dividers>
-           <FormattedMessage id='are-u-sure-transfer' defaultMessage='Are you sure?' />
-          
+                <FormattedMessage id='are-u-sure-transfer' defaultMessage='Are you sure?' />
+
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleCancel} color="primary">
@@ -229,6 +312,7 @@ const walletStyles = makeStyles(() => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#212121',
+        textTransform: 'uppercase'
     },
     amount: {
         fontSize: 13,
@@ -276,7 +360,7 @@ const variantIcon = {
 
 function LetouWallet(props) {
     const classes = walletStyles();
-    const { className, wallet, isMain, onClick, closeClick, ...other } = props;
+    const { className, wallet, currency, isMain, onClick, closeClick, ...other } = props;
 
     return (
         <Paper onClick={onClick}
@@ -288,10 +372,14 @@ function LetouWallet(props) {
             {...other}>
             <div className={classes.content}>
                 <Typography className={classes.amount}>
-                    {wallet.currency}{wallet.value}
+                    {currency}{wallet.amount}
                 </Typography>
                 <Typography className={classes.name}>
-                    {wallet.title}
+
+                    {wallet.isMain == 'true' ?
+                        <FormattedMessage id="main-wallet" defaultMessage="Main Wallet" />
+                        :
+                        wallet.code}
                 </Typography>
                 {(closeClick !== undefined) &&
                     <Button className={classes.close} onClick={closeClick}>
@@ -314,10 +402,9 @@ LetouWallet.propTypes = {
     className: PropTypes.string,
     onClick: PropTypes.func,
     closeClick: PropTypes.func,
-    wallet: PropTypes.object
+    wallet: PropTypes.object,
+    currency: PropTypes.string
 };
-
-
 
 const snackStyles = makeStyles(theme => ({
     success: {
@@ -377,7 +464,8 @@ LetouSnackbarContentWrapper.propTypes = {
     variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
 };
 
-export class Transfer extends Component {
+class Transfer extends Component {
+    _isMounted = false;
 
     constructor(props) {
         super(props);
@@ -388,127 +476,153 @@ export class Transfer extends Component {
             amount: '',
             amountInvalid: false,
             amountFocused: true,
-            currency: '$',
-            walletObjs: [
-                {
-                    title: 'OneWorks',
-                    value: 1000,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'EA',
-                    value: 1000,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'AG',
-                    value: 500,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'OPUS',
-                    value: 500,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'GPI',
-                    value: 0,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'BBIN',
-                    value: 0,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'PT',
-                    value: 400,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'KY',
-                    value: 0,
-                    isMain: false,
-                    color: ''
-                },
-                {
-                    title: 'Main Wallet',
-                    value: 5000,
-                    isMain: true,
-                    color: ''
-                }
-            ],
-
+            currency: '',
+            walletObjs: [],
+            totalBalance: 0,
             showSnackbar: false,
             snackType: 'info',
             snackMessage: '',
+            showConfirmationDialog: false,
+            loading: false,
 
-            showConfirmationDialog: false
+            activeContent: 0
         }
 
         this.handleWalletClick = this.handleWalletClick.bind(this);
         this.sendAllToMainWallet = this.sendAllToMainWallet.bind(this);
     }
+
     componentDidMount() {
+        this._isMounted = true;
 
-        var randomColor = require('randomcolor');
+        this.props.authCheckState()
+            .then(res => {
+                if (res === AUTH_RESULT_FAIL) {
+                    sendingLog('authentication failure!!!');
+                } else {
+                    const { user } = this.props;
 
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.value !== 0 ? Object.assign(obj, { color: randomColor({ luminosity: 'bright', hue: 'random' }) }) : Object.assign(obj, { color: '#d9d9d9' }))
-            )
-        }));
+                    if (this._isMounted) {
+                        this.setState({ loading: true });
+                        this.setState({ currency: getSymbolFromCurrency(user.currency) });
+                        this.getWalletsByUsername(user.userId);
+                    }
+                }
+            });
     }
-    
-    sendClicked() {
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    getWalletsByUsername(userId) {
         var randomColor = require('randomcolor');
 
-        let fromObj = this.state.from;
-        fromObj.color = (parseInt(fromObj.value) - parseInt(this.state.amount)) === 0 ? '#d9d9d9' : fromObj.color;
-        fromObj.value = parseInt(fromObj.value) - parseInt(this.state.amount);
+        let currentComponent = this;
 
-        let toObj = this.state.to;
-        toObj.color = (parseInt(toObj.value) === 0) ? randomColor({ luminosity: 'bright', hue: 'random' }) : toObj.color;
-        toObj.value = parseInt(toObj.value) + parseInt(this.state.amount);
+        axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({ walletObjs: res.data });
 
+                    let total = res.data.reduce((totalBalance, wallet) => totalBalance + parseFloat(wallet.amount), 0);
 
-        this.setState({ from: null });
-        this.setState({ to: null });
+                    this.setState({ totalBalance: total });
 
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.title === fromObj.title ? Object.assign(obj, fromObj) : obj)
-            )
-        }));
+                    this.setState(prevState => ({
+                        walletObjs: prevState.walletObjs.map(
+                            obj => (parseFloat(obj.amount) !== 0.00
+                                ?
+                                Object.assign(obj, { color: randomColor({ luminosity: 'bright', hue: 'random' }) })
+                                :
+                                Object.assign(obj, { color: '#d9d9d9' }))
+                        )
+                    }));
+                }
+                currentComponent.setState({ loading: false });
+            }).catch(function (err) {
+                currentComponent.setState({ loading: false });
+                sendingLog(err);
+            });
+    }
 
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.title === toObj.title ? Object.assign(obj, toObj) : obj)
-            )
-        }));
+    sendClicked() {
+        if (parseInt(this.state.from.amount) < parseInt(this.state.amount)) {
+            this.setState({ snackType: 'error' });
+            this.setState({ snackMessage: this.getLabel('balance-not-enough') });
+            this.setState({ showSnackbar: true });
+            return;
+        }
 
-        this.setState({ amount: '', amountInvalid: false, amountFocused: false });
+        this.setState({ loading: true });
+
+        const { user } = this.props;
+        
+        axios.post(API_URL + 'users/api/transfer/',
+            {
+                'user_id': user.userId,
+                'from_wallet': this.state.from.code,
+                'to_wallet': this.state.to.code,
+                'amount': this.state.amount
+            }, config)
+            .then(res => {
+                if (res.data.status_code === 1) {
+                    // this.setState({ snackType: 'success' });
+                    // this.setState({ snackMessage: this.getLabel('transfer-successful') });
+                    // this.setState({ showSnackbar: true });
+
+                    this.setState({ activeContent: 1 });
+                } else if (res.data.status_code === 107) {
+                    this.setState({ snackType: 'error' });
+                    this.setState({ snackMessage: res.data.error_message });
+                    this.setState({ showSnackbar: true });
+                }
+
+                this.getWalletsByUsername(this.props.user.userId);
+
+                this.setState({ loading: false });
+            }).catch(err => {
+                sendingLog(err);
+                this.setState({ loading: false });
+                this.setState({ snackType: 'error' });
+                this.setState({ snackMessage: err.message });
+                this.setState({ showSnackbar: true });
+            })
     }
 
     sendAllToMainWallet() {
-        let amount = 0;
+        this.setState({ from: null });
+        this.setState({ to: null });
 
-        this.state.walletObjs.forEach(wallet => {
-            amount += wallet.value
+        let currentComponent = this;
+
+        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain == true)[0];
+        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain == false && parseFloat(item.amount) > 10.00);
+
+        walletsWithAmount.forEach(wallet => {
+
+            axios.post(API_URL + 'users/api/transfer/',
+                {
+                    'user_id': this.props.user.userId,
+                    'from_wallet': wallet.code,
+                    'to_wallet': mainWalletObj.code,
+                    'amount': wallet.amount
+                }, config)
+                .then(res => {
+                    if (res.data.status_code === 1) {
+                        if (walletsWithAmount[walletsWithAmount.length - 1].code === wallet.code) {
+                            currentComponent.getWalletsByUsername(currentComponent.props.user.userId);
+                        }
+                    } else if (res.data.status_code === 107) {
+                        this.setState({ snackType: 'error' });
+                        this.setState({ snackMessage: res.data.error_message });
+                        this.setState({ showSnackbar: true });
+                        return true;
+                    }
+                }).catch(err => {
+                    sendingLog(err);
+                });
         });
-
-        this.setState(prevState => ({
-            walletObjs: prevState.walletObjs.map(
-                obj => (obj.isMain === true ? Object.assign(obj, { value: amount }) : Object.assign(obj, { value: 0, color: '#d9d9d9' }))
-            )
-        }));
     }
 
     amountChanged = event => {
@@ -517,13 +631,17 @@ export class Transfer extends Component {
         if (event.target.value.length === 0) {
             this.setState({ amount: '', amountInvalid: true });
         } else {
-            if (this.state.from !== null && this.state.from.value < event.target.value) {
-                this.setState({ snackType: 'error' });
-                this.setState({ snackMessage: this.getLabel('invalid-transfer-value') });
-                this.setState({ showSnackbar: true });
-                this.setState({ amountInvalid: true });
-            } else {
-                this.setState({ amount: event.target.value, amountInvalid: false });
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
+
+            if (re.test(event.target.value)) {
+                if (this.state.from !== null && this.state.from.value < event.target.value) {
+                    this.setState({ snackType: 'error' });
+                    this.setState({ snackMessage: this.getLabel('invalid-transfer-value') });
+                    this.setState({ showSnackbar: true });
+                    this.setState({ amountInvalid: true });
+                } else {
+                    this.setState({ amount: event.target.value, amountInvalid: false });
+                }
             }
         }
     };
@@ -542,18 +660,27 @@ export class Transfer extends Component {
     }
 
     handleWalletClick(id) {
-        let wallet = this.state.walletObjs.filter(item => item.title === id)[0];
+        let wallet = this.state.walletObjs.filter(item => item.code === id)[0];
 
-        if (this.state.from === null) {
-
-            if (wallet.value > 0)
-                this.setState({ from: wallet });
-            else {
+        if (this.state.from === null && this.state.to === null) {
+            if (wallet.amount == 0) {
                 this.setState({ snackType: 'warning' });
                 this.setState({ snackMessage: this.getLabel('empty-wallet-message') });
                 this.setState({ showSnackbar: true });
+                return;
             }
-        } else if (this.state.to === null) {
+
+            this.setState({ from: wallet });
+        } else if (this.state.from === null && this.state.to.code !== wallet.code) {
+            if (wallet.amount == 0) {
+                this.setState({ snackType: 'warning' });
+                this.setState({ snackMessage: this.getLabel('empty-wallet-message') });
+                this.setState({ showSnackbar: true });
+                return;
+            }
+
+            this.setState({ from: wallet });
+        } else if (this.state.to === null && this.state.from.code !== wallet.code) {
             this.setState({ to: wallet });
         }
     }
@@ -567,42 +694,238 @@ export class Transfer extends Component {
 
     render() {
         const { classes } = this.props;
-        const { from, to, amount, walletObjs, showConfirmationDialog } = this.state;
+        const { from, to, amount, walletObjs, currency, showConfirmationDialog, loading, totalBalance, activeContent } = this.state;
+        let mainWallet = null;
+        let fromWallet = null;
+        let toWallet = null;
+        let otherWalletObjs = [];
 
-        let mainWalletObj = walletObjs.filter(item => item.isMain === true)[0];
+        if (activeContent === 0) {
+            let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
 
-        let otherWalletObjs = walletObjs.filter(item => item.isMain === false);
+            otherWalletObjs = walletObjs.filter(item => item.isMain == false);
 
-        let mainWallet = (
-            <LetouWallet wallet={mainWalletObj} onClick={() => { this.handleWalletClick(mainWalletObj.title) }} />
-        );
+             mainWallet = (
+                mainWalletObj ?
+                    <LetouWallet wallet={mainWalletObj} currency={currency} onClick={() => { this.handleWalletClick(mainWalletObj.code) }} />
+                    :
+                    null
+            );
 
-        const fromWallet = (
-            (from) ?
-                <LetouWallet wallet={from} closeClick={() => { this.setState(() => ({ from: null })) }} />
-                :
-                <Button className={classes.walletButton}>{this.getLabel('from-label')}</Button>
-        );
+            fromWallet = (
+                (from) ?
+                    <LetouWallet wallet={from} currency={currency} closeClick={() => { this.setState(() => ({ from: null })) }} />
+                    :
+                    <Button className={classes.walletButton}>{this.getLabel('from-label')}</Button>
+            );
 
-        const toWallet = (
-            (to) ?
-                <LetouWallet wallet={to} closeClick={() => { this.setState(() => ({ to: null })) }} />
-                :
-                <Button className={classes.walletButton}>{this.getLabel('to-label')}</Button>
-        );
+            toWallet = (
+                (to) ?
+                    <LetouWallet wallet={to} currency={currency} closeClick={() => { this.setState(() => ({ to: null })) }} />
+                    :
+                    <Button className={classes.walletButton}>{this.getLabel('to-label')}</Button>
+            );
+        }
 
         return (
             <div className={classes.root}>
-                <Grid container>
-                    <Grid item xs={12} className={classes.titleRow}>
-                        <span className={classes.title} >
-                            {this.getLabel('transfer-label')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={7} className={classes.walletColumn}>
-                        <Grid item xs={12} className={classes.row}>
+                {loading && <CircularProgress className={classes.progress} />}
+
+                <div className={classes.rootDesktop} style={
+                    loading === true
+                        ? { pointerEvents: 'none' }
+                        : { pointerEvents: 'all' }
+                }>
+                    {activeContent === 1
+                        ? < TransferSuccess 
+                         from={from.code} to={to.code} amount={currency+''+amount} 
+                        />
+                        : <Grid container>
+                            <Grid item xs={12} className={classes.titleRow}>
+                                <span className={classes.title} >
+                                    {this.getLabel('transfer-label')}
+                                </span>
+                            </Grid>
+                            <Grid item xs={7} >
+                                <Grid container>
+                                    <Grid item xs={12} className={classes.row}>
+                                        <span className={classes.boldText} >
+                                            {this.getLabel('select-transfer')}
+                                        </span>
+                                    </Grid>
+                                    <Grid item xs={12} style={{ paddingBottom: 20 }}>
+                                        {mainWallet}
+                                    </Grid>
+                                    <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
+                                        <Button className={classes.allButton}
+                                        // onClick={() => {
+                                        //     this.setState({ showConfirmationDialog: true });
+                                        // }}
+                                        >
+                                            {this.getLabel('transfer-to-main')}
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={12} style={{ paddingTop: 30 }}>
+                                        <Grid container spacing={2}>
+                                            {otherWalletObjs.map(walletObj => (
+                                                <Grid item xs={4} key={walletObj.code}>
+                                                    <LetouWallet wallet={walletObj} currency={currency}
+                                                        onClick={() => { this.handleWalletClick(walletObj.code) }} />
+                                                </Grid>
+                                            ))}
+                                            <Grid item xs={12} style={{ paddingTop: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}>
+                                                {fromWallet}
+                                                <div style={{ height: 60, width: 74, paddingTop: 18 }}>
+                                                    <ArrowForward className={classes.arrow} />
+                                                </div>
+                                                {toWallet}
+                                            </Grid>
+                                            <Grid item xs={12} style={{ paddingTop: 20 }}>
+                                                <TextField className={classes.amountField}
+                                                    value={amount}
+                                                    placeholder="Minimum ¥10"
+                                                    onChange={this.amountChanged.bind(this)}
+                                                    error={
+                                                        this.state.amountInvalid &&
+                                                        this.state.amountFocused
+                                                    }
+                                                    helperText={
+                                                        this.state.amountInvalid &&
+                                                            this.state.amountFocused
+                                                            ? this.getLabel('valid-amount')
+                                                            : ' '
+                                                    }
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                        inputProps: {
+                                                            step: 1,
+                                                            min: 10,
+                                                            style: { textAlign: 'right' }
+                                                        },
+                                                        startAdornment: (
+                                                            <InputAdornment position="start" >
+                                                                <span className={classes.label}>{this.getLabel('amount-label')}</span>
+                                                            </InputAdornment>
+                                                        ),
+                                                    }} />
+                                            </Grid>
+                                            <Grid item xs={12} style={{ paddingTop: 40 }}>
+                                                <Button className={classes.nextButton}
+                                                    onClick={this.sendClicked.bind(this)}
+                                                    disabled={amount < 10 ||
+                                                        from === null || to === null}>
+                                                    {this.getLabel('next-label')}
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={5} >
+                                <ReactMinimalPieChart
+                                    animate={true}
+                                    animationDuration={500}
+                                    animationEasing="ease-out"
+                                    cx={50}
+                                    cy={50}
+                                    data={walletObjs.map(function (item) {
+                                        return {
+                                            title: item.code,
+                                            value: parseFloat(item.amount),
+                                            color: item.color
+                                        };
+                                    })}
+                                    lineWidth={15}
+                                    onClick={undefined}
+                                    onMouseOut={undefined}
+                                    onMouseOver={undefined}
+                                    paddingAngle={0}
+                                    radius={40}
+                                    ratio={1}
+                                    rounded={false}
+                                    startAngle={0}
+                                />
+                            </Grid>
+                        </Grid>}
+                </div>
+                <div className={classes.rootMobile}>
+                    <AppBar position="fixed" className={classes.mobileRow}>
+                        <Toolbar className={classes.mobileBar}>
+                            <Grid container>
+                                <Grid item xs={3}>
+                                    <Button
+                                        className={classes.mobileMenuButton}
+                                        onClick={() => {
+                                            this.props.history.push('/p/');
+                                        }}
+                                    >
+                                        <ArrowBackIos style={{ width: 16 }} />
+                                        {this.getLabel('back-label')}
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    <span className={classes.title}>
+                                        {this.getLabel('transfer-label')}
+                                    </span>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Button
+                                        className={classes.mobileMenuButton}
+                                        onClick={() => {
+                                            this.props.history.push('/p/');
+                                        }}
+                                    >
+                                        {this.getLabel('records-label')}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Toolbar>
+                    </AppBar>
+                    <Grid container className={classes.mobileGrid}>
+                        <Grid item xs={12} className={classes.chartColumn} style={{ marginTop: 20 }}>
+                            <ReactMinimalPieChart
+                                animate={true}
+                                animationDuration={500}
+                                animationEasing="ease-out"
+                                cx={50}
+                                cy={50}
+                                data={walletObjs.map(function (item) {
+                                    return {
+                                        title: item.code,
+                                        value: parseFloat(item.amount),
+                                        color: item.color
+                                    };
+                                })}
+                                lengthAngle={360}
+                                lineWidth={15}
+                                onClick={undefined}
+                                onMouseOut={undefined}
+                                onMouseOver={undefined}
+                                paddingAngle={0}
+                                radius={40}
+                                ratio={1}
+                                rounded={false}
+                                startAngle={0}
+                            />
+                            <div className={classes.balanceContainer}>
+                                <div className={classes.balanceInnerContainer}>
+                                    <span className={classes.totalBalance}>{currency}{totalBalance}</span>
+                                    <FormattedMessage id='total-balance' defaultMessage='Total Balance' />
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row} style={{ textAlign: 'center' }}>
                             <span className={classes.boldText} >
-                                {this.getLabel('select-transfer')}
+                                {this.getLabel('tap-transfer')}
                             </span>
                         </Grid>
                         <Grid item xs={12} style={{ paddingBottom: 20 }}>
@@ -611,7 +934,7 @@ export class Transfer extends Component {
                         <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
                             <Button href="#text-buttons" className={classes.allButton}
                                 onClick={() => {
-                                     this.setState({showConfirmationDialog: true});
+                                    this.setState({ showConfirmationDialog: true });
                                 }}>
                                 {this.getLabel('transfer-to-main')}
                             </Button>
@@ -619,9 +942,9 @@ export class Transfer extends Component {
                         <Grid item xs={12} style={{ paddingTop: 30 }}>
                             <Grid container spacing={2}>
                                 {otherWalletObjs.map(walletObj => (
-                                    <Grid item xs={4} key={walletObj.title}>
-                                        <LetouWallet wallet={walletObj}
-                                            onClick={() => { this.handleWalletClick(walletObj.title) }} />
+                                    <Grid item xs={4} key={walletObj.code}>
+                                        <LetouWallet wallet={walletObj} currency={currency}
+                                            onClick={() => { this.handleWalletClick(walletObj.code) }} />
                                     </Grid>
                                 ))}
                                 <Grid item xs={12} style={{ paddingTop: 30, display: 'flex', flexDirection: 'row', alignItems: 'center', }}>
@@ -660,7 +983,7 @@ export class Transfer extends Component {
                                             ),
                                         }} />
                                 </Grid>
-                                <Grid item xs={12} style={{ paddingTop: 40 }}>
+                                <Grid item xs={12} style={{ paddingTop: 40, paddingBottom: 60 }}>
                                     <Button className={classes.nextButton}
                                         onClick={this.sendClicked.bind(this)}
                                         disabled={amount < 10 ||
@@ -671,30 +994,7 @@ export class Transfer extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={5} className={classes.chartColumn}>
-                        <ReactMinimalPieChart
-                            animate={true}
-                            animationDuration={500}
-                            animationEasing="ease-out"
-                            cx={50}
-                            cy={50}
-                            data={walletObjs}
-                            label={false}
-                            labelPosition={50}
-                            lengthAngle={360}
-                            lineWidth={15}
-                            onClick={undefined}
-                            onMouseOut={undefined}
-                            onMouseOver={undefined}
-                            paddingAngle={0}
-                            radius={20}
-                            ratio={1}
-                            rounded={false}
-                            startAngle={0}
-                        />
-                    </Grid>
-
-                </Grid>
+                </div>
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',
@@ -725,8 +1025,10 @@ export class Transfer extends Component {
 }
 
 const mapStateToProps = (state) => {
+    const { token, user } = state.auth;
     return {
-        lang: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
     }
 }
 

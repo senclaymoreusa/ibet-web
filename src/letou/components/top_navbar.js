@@ -32,6 +32,8 @@ import Dehaze from '@material-ui/icons/Dehaze';
 import Fab from '@material-ui/core/Fab';
 import Person from '@material-ui/icons/Person';
 import Avatar from '@material-ui/core/Avatar';
+import axios from 'axios';
+import { config } from '../../util_config';
 
 import {
     logout,
@@ -42,10 +44,14 @@ import {
     show_letou_login,
     show_letou_forgot_password,
     show_letou_mobile_menu,
-    hide_letou_mobile_menu
+    hide_letou_mobile_menu,
+    sendingLog
 } from '../../actions';
 
 import '../css/top_navbar.scss';
+import { errors } from './errors';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -229,7 +235,7 @@ const styles = theme => ({
     }
 });
 
-export class TopNavbar extends React.Component {
+class TopNavbar extends React.Component {
     constructor(props) {
         super(props);
 
@@ -237,11 +243,15 @@ export class TopNavbar extends React.Component {
             anchorEl: null,
             anchorElLang: null,
             dropdownMenu: 'none',
-            showLoggedinStatus: false
+            kyUrl: null
         };
 
         this.getLabel = this.getLabel.bind(this);
         // this.handleOnebookClick = this.handleOnebookClick.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.authCheckState();
     }
 
     langMenuClicked(langValue) {
@@ -266,16 +276,49 @@ export class TopNavbar extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(() => {
-            this.setState({ showLoggedinStatus: true });
-        });
-    }
+    chessOptions(game_id) {
+        if (!this.props.isAuthenticated) {
+            this.props.show_letou_login();
+        } else {
+            let token = localStorage.getItem('token');
+            config.headers['Authorization'] = `Token ${token}`;
+            axios
+                .get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    let user_name = res.data.username;
+                    axios
+                        .post(
+                            API_URL + 'games/api/ky/games/',
+                            {
+                                s: 0,
+                                account: String(user_name),
+                                money: '0',
+                                KindID: String(game_id)
+                            },
+                            config
+                        )
+                        .then(res => {
+                            // console.log("response: ", res);
+                            if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                                // this.props.logout();
+                                this.props.postLogout();
+                                return;
+                            }
 
-    componentDidMount() {
-        this.props.authCheckState().then(() => {
-            this.setState({ showLoggedinStatus: true });
-        });
+                            if (res.status === 200) {
+                                // console.log(res.data);
+                                this.setState({ kyUrl: res.data.d.url });
+                                window.open(this.state.kyUrl, 'kaiyuan gaming');
+                            }
+                        })
+                        .catch(err => {
+                            sendingLog(err);
+                        });
+                })
+                .catch(err => {
+                    sendingLog(err);
+                });
+        }
     }
 
     // handleOnebookClick() {
@@ -513,25 +556,45 @@ export class TopNavbar extends React.Component {
                             >
                                 {this.getLabel('online-service')}
                             </Button>
-                            {this.props.isAuthenticated
-                                ? this.state.showLoggedinStatus && (
-                                      <Button
-                                          size="small"
-                                          className={classes.topLinkButton}
-                                          onClick={() => {
-                                              this.props.logout();
-                                              postLogout();
-                                          }}
-                                      >
-                                          {this.getLabel('log-out')}
-                                      </Button>
-                                  )
-                                : null}
+                            {this.props.isAuthenticated && (
+                                <div>
+                                    <Button
+                                        size="small"
+                                        onClick={() => {
+                                            this.props.history.push(
+                                                '/p/account-management/message-notification'
+                                            );
+                                        }}
+                                    >
+                                        <div>
+                                            <img
+                                                src={images.src + 'email.png'}
+                                                alt=""
+                                            />
+                                        </div>
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
+                                            // this.props.logout();
+                                            this.props.postLogout();
+                                        }}
+                                    >
+                                        {this.getLabel('log-out')}
+                                    </Button>
+                                </div>
+                            )}
                         </Toolbar>
                     </AppBar>
                     <AppBar position="static" className={classes.secondRow}>
                         <Toolbar className={classes.secondBar}>
-                            <IconButton href="/" className={classes.logo}>
+                            <IconButton
+                                className={classes.logo}
+                                onClick={() => {
+                                    this.props.history.push('/');
+                                }}
+                            >
                                 <img
                                     src={
                                         images.src +
@@ -766,45 +829,55 @@ export class TopNavbar extends React.Component {
                                             <Paper id="menu-list-grow">
                                                 <MenuList>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.chessOptions(
+                                                                220
+                                                            );
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'fried-golden'
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.chessOptions(
+                                                                600
+                                                            );
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             '21-oclock'
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.chessOptions(
+                                                                830
+                                                            );
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'grab-cattle'
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.chessOptions(
+                                                                620
+                                                            );
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'texas-holdem'
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.chessOptions(
+                                                                0
+                                                            );
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'games-lobby'
@@ -924,7 +997,7 @@ export class TopNavbar extends React.Component {
                                     this.openMainMenu(event, 'games');
                                 }}
                                 onClick={() => {
-                                    this.props.history.push('/game');
+                                    this.props.history.push('/game/all');
                                 }}
                             >
                                 {this.getLabel('nav-games')}
@@ -985,47 +1058,45 @@ export class TopNavbar extends React.Component {
                                 )}
                             </Popper>
                             {this.props.isAuthenticated ? (
-                                this.state.showLoggedinStatus && (
-                                    <Fab
-                                        color="primary"
-                                        aria-label="add"
-                                        className={classes.profileIcon}
-                                        onClick={() => {
-                                            // window.open(window.location.origin + "/p/fortune-center/deposit",
-                                            //     "Letou profile",
-                                            //     "resizable,scrollbars,status");
-                                            this.props.history.push(
-                                                '/p/fortune-center/deposit'
-                                            );
-                                        }}
-                                    >
-                                        <Person />
-                                    </Fab>
-                                )
+                                <Fab
+                                    color="primary"
+                                    aria-label="add"
+                                    className={classes.profileIcon}
+                                    onClick={() => {
+                                        // window.open(window.location.origin + "/p/fortune-center/deposit",
+                                        //     "Letou profile",
+                                        //     "resizable,scrollbars,status");
+                                        this.props.history.push(
+                                            '/p/fortune-center/deposit'
+                                        );
+                                    }}
+                                >
+                                    <Person />
+                                </Fab>
                             ) : (
-                                <div style={{ marginLeft: 20 }}>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.history.push(
-                                                '/register'
-                                            );
-                                        }}
-                                    >
-                                        {this.getLabel('sign-up')}
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.show_letou_login();
-                                        }}
-                                    >
-                                        {this.getLabel('log-in')}
-                                    </Button>
-                                </div>
-                            )}
+                                    <div style={{ marginLeft: 20 }}>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.secondRowButton}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/register'
+                                                );
+                                            }}
+                                        >
+                                            {this.getLabel('sign-up')}
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.secondRowButton}
+                                            onClick={() => {
+                                                this.props.show_letou_login();
+                                            }}
+                                        >
+                                            {this.getLabel('log-in')}
+                                        </Button>
+                                    </div>
+                                )}
                         </Toolbar>
                     </AppBar>
                     <Modal
@@ -1473,9 +1544,10 @@ export class TopNavbar extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const { token } = state.auth;
+    const { token, user } = state.auth;
     return {
         isAuthenticated: token !== null && token !== undefined,
+        user: user,
         error: state.auth.error,
         lang: state.language.lang,
         showAnnouncements: state.general.show_letou_announcements,

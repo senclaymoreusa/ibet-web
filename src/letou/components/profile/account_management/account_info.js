@@ -73,19 +73,19 @@ export class AccountInfo extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
-                }
-            })
+                } else {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ actualName: res.data.first_name });
-                this.setState({ email: res.data.email });
-                this.setState({ phone: res.data.phone });
-                this.setState({ username: res.data.username });
-                this.setState({ registrationDate: res.data.time_of_registration });
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            this.setState({ actualName: res.data.first_name });
+                            this.setState({ email: res.data.email });
+                            this.setState({ phone: res.data.phone });
+                            this.setState({ username: res.data.username });
+                            this.setState({ registrationDate: res.data.time_of_registration });
+                        })
+                    }
             })
     }
 

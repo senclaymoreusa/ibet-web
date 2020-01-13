@@ -11,10 +11,18 @@ import fr from 'react-intl/locale-data/fr';
 import vi from 'react-intl/locale-data/vi';
 import th from 'react-intl/locale-data/th';
 
+import throttle from 'lodash/throttle';
+import { createLogger } from 'redux-logger';
+
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk';
-import reducers from './reducers';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import rootReducers from './reducers';
+
+import { loadState, saveState } from './localStorage';
+
+const persistentState = loadState();
+const loggerMiddleware = createLogger();
 
 addLocaleData(en);
 addLocaleData(zh);
@@ -22,15 +30,37 @@ addLocaleData(fr);
 addLocaleData(vi);
 addLocaleData(th);
 
-const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+let middleware = [];
+if (process.env.REACT_APP_NODE_ENV === 'development') {
+    middleware = [...middleware, thunkMiddleware, loggerMiddleware];
+} else {
+    middleware = [...middleware, thunkMiddleware];
+}
+
+const store = createStore(
+    rootReducers,
+    persistentState,
+    compose(applyMiddleware(...middleware))
+);
+
+store.subscribe(
+    throttle(() => {
+        saveState({
+            auth: store.getState().auth
+        });
+    }, 1000)
+);
 
 if (
     window.location
         .toString()
         .toLowerCase()
-        .indexOf('asia') != -1
+        .indexOf('asia') != -1 ||
+    window.location
+        .toString()
+        .toLowerCase()
+        .indexOf('localhost') != -1
 ) {
-    // console.log('using letou app');
     ReactDOM.render(
         <Provider store={store}>
             <LetouApp />
