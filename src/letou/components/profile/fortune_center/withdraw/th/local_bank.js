@@ -297,11 +297,11 @@ const styles = theme => ({
 });
 
 const bank_options = [
-    { value: 'Kasikorn Bank', label: 'Kasikorn Bank', img: 'letou/kasikornbank.png', code: 'THB' },
-    { value: 'Siam Commercial Bank', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 'THB' },
-    { value: 'Krung Thai Bank', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 'THB' },
-    { value: 'Bank of Ayudhya', label: 'Bank of Ayudhya', img: 'letou/bay.png', code: 'THB' },
-    { value: 'TMB Bank Public Company Limited', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 'THB' },
+    { value: 'KKR', label: 'Kasikorn Bank', img: 'letou/kasikornbank.png', code: 'THB' },
+    { value: 'SCB', label: 'Siam Commercial Bank', img: 'letou/scb.png', code: 'THB' },
+    { value: 'KTB', label: 'Krung Thai Bank', img: 'letou/krungthai.png', code: 'THB' },
+    { value: 'BOA', label: 'Bank of Ayudhya', img: 'letou/bay.png', code: 'THB' },
+    { value: 'TMB', label: 'TMB Bank Public Company Limited', img: 'letou/tmb.png', code: 'THB' },
 ];
 
 const BootstrapInput = withStyles(theme => ({

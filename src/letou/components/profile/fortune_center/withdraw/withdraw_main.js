@@ -172,7 +172,7 @@ export class WithdrawMain extends Component {
             favouriteMethod: '',
             activeStep: -1,
 
-            tabValue: ''
+            tabValue: 'local'
         };
 
         this.handleTabChange = this.handleTabChange.bind(this);

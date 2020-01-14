@@ -572,11 +572,11 @@ class Help2Pay extends Component {
             throw new Error('Something went wrong.');
 
         }).then(function (data) {
-            let newwin = window.open('');
-            newwin.document.write(data);
+            //let newwin = window.open('');
+            //newwin.document.write(data);
             var timer = setInterval(function () {
 
-                if (newwin.closed) {
+                //if (newwin.closed) {
                     clearInterval(timer);
                     const pd = JSON.stringify({
                         order_id: currentComponent.state.order_id,
@@ -618,7 +618,7 @@ class Help2Pay extends Component {
                             currentComponent.props.callbackFromParent("error", '渠道维护中');
                         }
                     });
-                }
+                //}
             }, 1000);
 
         }).catch(function (err) {
