@@ -41,11 +41,9 @@ const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
+        flexDirection: 'column'
     },
     rootDesktop: {
-        height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -232,7 +230,7 @@ export class BetDetails extends Component {
             categories: [],
             filterCategory: -1,
 
-            filterStatus: 'open',
+            filterStatus: -1,
 
             providers: [],
             filterProvider: -1,
@@ -311,8 +309,28 @@ export class BetDetails extends Component {
             .get(requestURL, config)
             .then(res => {
                 if (res.status === 200) {
-                    this.setState({ items: res.data.results });
-                    console.log(res.data.results);
+                    let itemArray = [];
+                    Object.keys(res.data.results).map(function (refNum) {
+                        let result = res.data.results[refNum];
+
+                        if (result.length === 1) {
+                            itemArray.push(result[0]);
+                        } else if (result.length > 1) {
+                            let temp1 = result.filter(r => {
+                                return r.outcome != null;
+                            })[0];
+
+                            let temp2 = result.filter(r => {
+                                return r.outcome == null;
+                            })[0];
+
+                            temp1['amount_wagered'] = temp2['amount_wagered'];
+                            temp1['date'] = temp2['date'];
+
+                            itemArray.push(temp1);
+                        }
+                    });
+                    this.setState({ items: itemArray });
                 }
             })
             .catch(err => {
@@ -348,9 +366,11 @@ export class BetDetails extends Component {
                             </span>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
+                                    autoOk={true}
                                     disableToolbar
                                     variant="inline"
                                     className={classes.date}
+                                    maxDate={endDate}
                                     margin="normal"
                                     id="start-date"
                                     format="MM/dd/yyyy"
@@ -373,6 +393,9 @@ export class BetDetails extends Component {
                                     }}
                                 />
                                 <KeyboardDatePicker
+                                    maxDate={new Date()}
+                                    minDate={startDate}
+                                    autoOk={true}
                                     disableToolbar
                                     variant="inline"
                                     className={classes.date}
@@ -533,9 +556,9 @@ export class BetDetails extends Component {
                                         );
                                     }}
                                 >
-                                    <MenuItem key={-1} value={-1} disabled>
+                                    <MenuItem key={-1} value={-1}>
                                         <span className={classes.selectLabel}>
-                                            {this.getLabel('choose-category')}
+                                            {this.getLabel('all-label')}
                                         </span>
                                     </MenuItem>
                                     {categories.map(categoryItem => (
@@ -576,9 +599,9 @@ export class BetDetails extends Component {
                                         );
                                     }}
                                 >
-                                    <MenuItem key={-1} value={-1} disabled>
+                                    <MenuItem key={-1} value={-1}>
                                         <span className={classes.selectLabel}>
-                                            {this.getLabel('choose-provider')}
+                                            {this.getLabel('all-label')}
                                         </span>
                                     </MenuItem>
                                     {providers.map(providerItem => (
@@ -618,9 +641,9 @@ export class BetDetails extends Component {
                                         );
                                     }}
                                 >
-                                    <MenuItem key={-1} value={-1} disabled>
+                                    <MenuItem key={-1} value={-1}>
                                         <span className={classes.selectLabel}>
-                                            {this.getLabel('choose-status')}
+                                            {this.getLabel('all-label')}
                                         </span>
                                     </MenuItem>
                                     <MenuItem key={'close'} value={'close'}>
@@ -658,31 +681,31 @@ export class BetDetails extends Component {
                                     <StyledTableCell>
                                         {this.getLabel('amount-won')}
                                     </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('amount-loss')}
-                                    </StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {Object.keys(items).map(row => (
-                                    <StyledTableRow key={row[0].ref_no}>
+                                {items.map(row => (
+                                    <StyledTableRow key={row.ref_no}>
                                         <StyledTableCell>
-                                            {row[0].ref_no}
+                                            {row.ref_no}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row[0].ref_no}
+                                            {moment(row.date).format('llll')}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row[0].ref_no}
+                                            {row.category}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row[0].ref_no}
+                                            {row.provider}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row[0].ref_no}
+                                            {row.outcome}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row[0].ref_no}
+                                            {row.amount_wagered}
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            {row.amount_won}
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 ))}
@@ -720,7 +743,9 @@ export class BetDetails extends Component {
                         >
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
+                                    autoOk={true}
                                     disableToolbar
+                                    maxDate={endDate}
                                     variant="inline"
                                     className={classes.date}
                                     margin="normal"
@@ -728,10 +753,14 @@ export class BetDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={startDate}
                                     onChange={date => {
-                                        this.setState({
-                                            startDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                startDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -741,6 +770,9 @@ export class BetDetails extends Component {
                                     }}
                                 />
                                 <KeyboardDatePicker
+                                    maxDate={new Date()}
+                                    minDate={startDate}
+                                    autoOk={true}
                                     disableToolbar
                                     variant="inline"
                                     className={classes.date}
@@ -749,10 +781,14 @@ export class BetDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={endDate}
                                     onChange={date => {
-                                        this.setState({
-                                            endDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                endDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -782,16 +818,16 @@ export class BetDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'today'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date())
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'today',
+                                            startDate: moment(new Date()),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('today-label')}
@@ -812,19 +848,19 @@ export class BetDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -7
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'oneweek',
+                                            startDate: moment(new Date()).add(
+                                                'days',
+                                                -7
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-week')}
@@ -845,19 +881,19 @@ export class BetDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -30
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'onemonth',
+                                            startDate: moment(new Date()).add(
+                                                'days',
+                                                -30
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-month')}
@@ -878,37 +914,39 @@ export class BetDetails extends Component {
                                     {this.getLabel('type-label')}
                                 </InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                    input={
+                                        <BootstrapInput
+                                            name="category"
+                                            id="category-select"
+                                        />
+                                    }
+                                    id="category-select"
                                     value={filterCategory}
                                     onChange={event => {
-                                        this.setState({
-                                            filterCategory: event.target.value
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                filterCategory:
+                                                    event.target.value
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                 >
-                                    <MenuItem value={-1}>
-                                        {this.getLabel('all-label')}
+                                    <MenuItem key={-1} value={-1}>
+                                        <span className={classes.selectLabel}>
+                                            {this.getLabel('all-label')}
+                                        </span>
                                     </MenuItem>
-                                    <MenuItem value={0}>
-                                        {this.getLabel('deposit-label')}
-                                    </MenuItem>
-                                    <MenuItem value={1}>
-                                        {this.getLabel('withdraw-label')}
-                                    </MenuItem>
-                                    <MenuItem value={2}>
-                                        {this.getLabel('transfer-label')}
-                                    </MenuItem>
-                                    <MenuItem value={3}>
-                                        {this.getLabel('bonus-label')}
-                                    </MenuItem>
-                                    <MenuItem value={4}>
-                                        {this.getLabel('adjustment-label')}
-                                    </MenuItem>
-                                    <MenuItem value={5}>
-                                        {this.getLabel('commission-label')}
-                                    </MenuItem>
+                                    {categories.map(categoryItem => (
+                                        <MenuItem
+                                            key={categoryItem.category_id}
+                                            value={categoryItem.category_id}
+                                        >
+                                            {categoryItem.name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -923,31 +961,36 @@ export class BetDetails extends Component {
                                     {this.getLabel('status-label')}
                                 </InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                    input={
+                                        <BootstrapInput
+                                            name="status"
+                                            id="status-select"
+                                        />
+                                    }
+                                    id="status-select"
                                     value={filterStatus}
                                     onChange={event => {
-                                        this.setState({
-                                            filterStatus: event.target.value
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                filterStatus: event.target.value
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                 >
-                                    {/* <MenuItem value={-1}>
-                                        {this.getLabel('all-label')}
+                                    <MenuItem key={-1} value={-1}>
+                                        <span className={classes.selectLabel}>
+                                            {this.getLabel('all-label')}
+                                        </span>
                                     </MenuItem>
-                                    <MenuItem value={0}>
-                                        {this.getLabel('success-label')}
+                                    <MenuItem key={'close'} value={'close'}>
+                                        {this.getLabel('settled-label')}
                                     </MenuItem>
-                                    <MenuItem value={1}>
-                                        {this.getLabel('pending-label')}
+                                    <MenuItem key={'open'} value={'open'}>
+                                        {this.getLabel('not-settled')}
                                     </MenuItem>
-                                    <MenuItem value={2}>
-                                        {this.getLabel('fail-label')}
-                                    </MenuItem>
-                                    <MenuItem value={3}>
-                                        {this.getLabel('cancelled-label')}
-                                    </MenuItem> */}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -960,27 +1003,33 @@ export class BetDetails extends Component {
                                         {this.getLabel('time-label')}
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {this.getLabel('transaction-type')}
+                                        {this.getLabel('out-come')}
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {this.getLabel('amount-label')}
+                                        {this.getLabel('amount-wagered')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('amount-won')}
                                     </StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {/* {items.map(row => (
-                                    <StyledTableRow key={row.transaction_id}>
+                                {items.map(row => (
+                                    <StyledTableRow key={row.ref_no}>
                                         <StyledTableCell>
-                                            {row.arrive_time.toDateString()}
+                                            {moment(row.date).format('llll')}
+                                        </StyledTableCell>
+                                       <StyledTableCell>
+                                            {row.outcome}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row.transaction_type}
+                                            {row.amount_wagered}
                                         </StyledTableCell>
-                                        <StyledTableCell align="right">
-                                            {row.amount}
+                                        <StyledTableCell>
+                                            {row.amount_won}
                                         </StyledTableCell>
                                     </StyledTableRow>
-                                ))} */}
+                                ))}
                             </TableBody>
                         </Table>
                     </Paper>

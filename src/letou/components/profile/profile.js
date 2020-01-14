@@ -309,6 +309,8 @@ export class Profile extends Component {
         switch (typeProp) {
             case 'account-management':
                 return <MobileAccountInfo />;
+                case 'transaction-records':
+                return <TransactionRecord />;
             case 'security-settings':
                 return <SecuritySettings />;
             case 'fortune-center':
@@ -573,29 +575,7 @@ export class Profile extends Component {
                     </Grid>
                 </div>
                 <div className={classes.rootMobile}>
-                    {/* {this.props.typeProp === 'deposit' && (
-                        <DepositMain />
-                    )}
-                    {this.props.typeProp === 'withdrawal' && (
-                        <Withdrawal />
-                    )}
-                    {this.props.typeProp === 'transfer' && (
-                        <Transfer />
-                    )}
-                    {this.props.typeProp === 'total-assets' && (
-                        <TotalAssets />
-                    )}
-                     {this.state.mobileContent === 'transaction-records' && (
-                        <TransactionRecord />
-                    )}
-
-                     {this.state.mobileContent === 'suggestions' && (
-                        <Suggestions />
-                    )}
-                    <div className={classes.grow} />
-                    )} */}
                     {this.getMobileContent()}
-                    {/* <div className={classes.grow} /> */}
                     <Footer />
                 </div>
             </div>
