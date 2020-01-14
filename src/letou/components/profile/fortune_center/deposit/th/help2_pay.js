@@ -494,7 +494,7 @@ class Help2pay extends Component {
         }).then(function (res) {
             
             if (res.ok) {
-                console.log(res);
+                
                 return res.text();
             }
 
