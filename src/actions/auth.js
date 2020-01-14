@@ -244,6 +244,7 @@ export const checkAuthTimeout = expirationTime => {
                     window.location.reload();
                 });  
             } else {
+                dispatch(logout());
                 window.location.reload();
             }
         }, expirationTime * 1000);
@@ -267,6 +268,7 @@ export const postLogout = () => {
                 window.location.reload();
             });
         } else {
+            dispatch(logout());
             window.location.reload();
         }
     };
