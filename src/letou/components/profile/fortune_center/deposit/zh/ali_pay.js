@@ -238,6 +238,7 @@ class AliPay extends Component {
             amountInvalid: true,
 
             isFavorite: false,
+            showLinearProgressBar: false,
         };
     }
 
@@ -277,7 +278,7 @@ class AliPay extends Component {
         })
         
     }
-
+    
     amountChanged = e => {
         this.setState({ amountFocused: true });
 
@@ -512,11 +513,12 @@ class AliPay extends Component {
 
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Alipay');
-                currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
+                //currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
                 var timer = setInterval(function () {
                     //console.log('checking..')
-                    console.log("data",data)
+                    
                     if (mywin.closed) {
+                        console.log(mywin.closed)
                         clearInterval(timer);
                         var postData = {
                             "trans_id": data.paymentPageSession.orderId
@@ -529,7 +531,7 @@ class AliPay extends Component {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
-                        console.log("postData",postData)
+                        
 
                         return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
                             method: "POST",
@@ -540,7 +542,8 @@ class AliPay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            //console.log(data.status)
+                            console.log(data.status)
+                            console.log(currentComponent.props)
                             if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
@@ -548,16 +551,18 @@ class AliPay extends Component {
                                     username: currentComponent.state.data.username,
                                     balance: currentComponent.state.amount,
                                 });
-                                //console.log(body)
+                                
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
+                                        
                                         if (res.data === 'Failed') {
                                             //currentComponent.setState({ error: true });
+                                            
                                             currentComponent.props.callbackFromParent("error", 'Transaction failed.');
                                         } else if (res.data === 'The balance is not enough') {
                                             currentComponent.props.callbackFromParent("error", 'Cannot deposit this amount.');
                                         } else {
-                                            currentComponent.props.callbackFromParent('success', currentComponent.state.amount);
+                                            currentComponent.props.callbackFromParent('success', 'Deposit Success');
                                         }
                                     });
                             } else {
