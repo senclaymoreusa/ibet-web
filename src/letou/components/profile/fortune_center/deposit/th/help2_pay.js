@@ -492,7 +492,9 @@ class Help2pay extends Component {
             },
             body: formBody
         }).then(function (res) {
+            
             if (res.ok) {
+                
                 return res.text();
             }
 

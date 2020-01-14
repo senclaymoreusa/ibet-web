@@ -123,13 +123,35 @@ export class eonebook extends React.Component {
     this.handleOnebookClick();
    
 }
+componentDidUpdate(prevProps){
+  if (this.props.lang !== prevProps.lang && this.props.lang) {
+    this.handleOnebookClick();
+  }
+}
 handleOnebookClick() {
-
+    let language = '';
+    switch(this.props.lang) {
+      case 'en':
+          language = 'en';
+          break;
+      case 'zh':
+          language = 'cs';
+          break;
+      case 'th':
+          language = 'th';
+          break;
+      case 'vi':
+          language = 'vn';
+          break;
+      default:
+          language = 'cs';
+          break;
+      }
     var Game_URL = "";
     let currentComponent = this;
     let token = localStorage.getItem('token');
     if(!token){
-        Game_URL = 'http://sbtest.claymoreasia.com/NewIndex?lang=en&act=esports';
+        Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language + '&act=esports';
         currentComponent.setState({url : Game_URL});
         // window.open(url, "onebook_url");
     }else{
