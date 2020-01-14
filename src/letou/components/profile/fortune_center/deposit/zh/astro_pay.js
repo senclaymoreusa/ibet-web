@@ -427,11 +427,13 @@ class Astropay_CH extends Component {
 
         if (!token) {
             console.log('no token -- user is not logged in');
+            alert('Please log in');
+            this.props.history.push('/');
         }
         config.headers['Authorization'] = `Token ${token}`;
 
-        console.log('amount: ' + this.state.amount);
-        console.log(this.state.data);
+        // console.log('amount: ' + this.state.amount);
+        // console.log(this.state.data);
         let postData = {
             card_num: this.state.number.replace(/\s+/g, ''),
             card_code: this.state.cvv,
@@ -516,7 +518,6 @@ class Astropay_CH extends Component {
         const { classes } = this.props;
         const { amount, currency, isFavorite } = this.state;
 
-        console.log(classes);
         return (
             <div className={classes.root}>
                 <Grid container spacing={2} className={classes.contentGrid}>
