@@ -278,7 +278,7 @@ export class BetDetails extends Component {
     getTransactions() {
         const { user } = this.props;
 
-        let requestURL = `games/api/bets/getall?userid=${user.userId}`;
+        let apiURL = `games/api/bets/getall?userid=${user.userId}`;
 
         let statusStr =
             this.state.filterStatus !== -1
@@ -298,16 +298,17 @@ export class BetDetails extends Component {
         let startStr = `&start=${this.state.startDate.format('YYYY/MM/DD')}`;
         let endStr = `&end=${this.state.endDate.format('YYYY/MM/DD')}`;
 
+        let requestURL =
+            API_URL +
+            apiURL +
+            statusStr +
+            providerStr +
+            categoryStr +
+            startStr +
+            endStr;
+
         axios
-            .get(
-                API_URL +
-                    requestURL +
-                    statusStr +
-                    providerStr +
-                    categoryStr +
-                    startStr +
-                    endStr
-            )
+            .get(requestURL, config)
             .then(res => {
                 if (res.status === 200) {
                     this.setState({ items: res.data.results });
@@ -643,39 +644,45 @@ export class BetDetails extends Component {
                                         {this.getLabel('time-label')}
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {this.getLabel('transaction-type')}
+                                        {this.getLabel('category-label')}
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {this.getLabel('content-label')}
+                                        {this.getLabel('provider-label')}
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {this.getLabel('amount-label')}
+                                        {this.getLabel('out-come')}
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {this.getLabel('status-label')}
+                                        {this.getLabel('amount-wagered')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('amount-won')}
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        {this.getLabel('amount-loss')}
                                     </StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {items.map(row => (
-                                    <StyledTableRow key={row.transaction_id}>
+                                {Object.keys(items).map(row => (
+                                    <StyledTableRow key={row[0].ref_no}>
                                         <StyledTableCell>
-                                            {row.transaction_id}
+                                            {row[0].ref_no}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row.arrive_time.toDateString()}
+                                            {row[0].ref_no}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row.transaction_type}
+                                            {row[0].ref_no}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row.method}
-                                        </StyledTableCell>
-                                        <StyledTableCell align="right">
-                                            {row.amount}
+                                            {row[0].ref_no}
                                         </StyledTableCell>
                                         <StyledTableCell>
-                                            {row.status}
+                                            {row[0].ref_no}
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            {row[0].ref_no}
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 ))}
@@ -961,7 +968,7 @@ export class BetDetails extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {items.map(row => (
+                                {/* {items.map(row => (
                                     <StyledTableRow key={row.transaction_id}>
                                         <StyledTableCell>
                                             {row.arrive_time.toDateString()}
@@ -973,7 +980,7 @@ export class BetDetails extends Component {
                                             {row.amount}
                                         </StyledTableCell>
                                     </StyledTableRow>
-                                ))}
+                                ))} */}
                             </TableBody>
                         </Table>
                     </Paper>
@@ -994,7 +1001,11 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(mapStateToProps, { authCheckState, sendingLog,AUTH_RESULT_FAIL })(BetDetails)
+            connect(mapStateToProps, {
+                authCheckState,
+                sendingLog,
+                AUTH_RESULT_FAIL
+            })(BetDetails)
         )
     )
 );

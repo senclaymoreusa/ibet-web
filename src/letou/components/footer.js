@@ -296,10 +296,6 @@ export class Footer extends React.Component {
         this.getLabel = this.getLabel.bind(this);
     }
 
-    componentDidUpdate(prevProps) {
-        this.setActiveMenuByPath();
-    }
-
     componentDidMount() {
         this.setActiveMenuByPath();
     }
