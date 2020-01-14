@@ -350,20 +350,20 @@ export class VerifyPhone extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
+                } else {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+            
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            this.setState({ username: res.data.username });
+                            this.setState({ fetchedPhone: res.data.phone });
+                            this.setState({ phone: res.data.phone });
+                        }).catch(function (err) {
+                            sendingLog(err);
+                        });
                 }
-            })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ username: res.data.username });
-                this.setState({ fetchedPhone: res.data.phone });
-                this.setState({ phone: res.data.phone });
-            }).catch(function (err) {
-                sendingLog(err);
-            });
+            }) 
     }
 
     phoneChanged(event) {

@@ -47,6 +47,7 @@ import Withdrawal from './fortune_center/withdrawal';
 import Transfer from './fortune_center/transfer';
 import TotalAssets from './fortune_center/total_assets';
 import AccountDetails from './transaction_record/account_details';
+import { Grid } from '@material-ui/core';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -58,7 +59,6 @@ const styles = theme => ({
         minHeight: '100vh'
     },
     rootDesktop: {
-        height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -66,6 +66,7 @@ const styles = theme => ({
         }
     },
     rootMobile: {
+        width: '100%',
         minHeight: '100vh',
         display: 'flex',
         backgroundColor: '#f2f3f5',
@@ -258,17 +259,13 @@ export class Profile extends Component {
         };
     }
 
-    async handleCategoryChange(category) {
-        var url = this.state.urlPath;
-        var parts = url.split('/');
+    handleCategoryChange(category) {
+        this.props.history.push('/p/' + category)
 
-        if (parts.length >= 2) {
-            url = '/';
-            var path = parts.slice(1, 2).join('/');
-            url = url + path;
-        }
-        url = url + '/' + category;
-        this.props.history.push(url);
+        this.setState({
+            anchorEl: null,
+            showProfileMenu: false
+        });
     }
 
     componentWillReceiveProps(props) {
@@ -288,26 +285,10 @@ export class Profile extends Component {
             }
         });
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({ username: res.data.username });
-                    this.setState({ mainWallet: res.data.main_wallet });
-                    this.setState({ currency: res.data.currency });
-                }
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
-
         if (this._isMounted)
             this.setState({ urlPath: this.props.history.location.pathname });
 
-        this.setContent();
+        //this.setContent();
     }
 
     setContent() {
@@ -334,16 +315,34 @@ export class Profile extends Component {
         this._isMounted = false;
     }
 
+    getMobileContent() {
+        const { typeProp, subProp } = this.props;
+
+        switch (typeProp) {
+            case 'account-management':
+                return <MobileAccountInfo />;
+            case 'security-settings':
+                return <SecuritySettings />;
+            case 'fortune-center':
+                return <FortuneCenter />;
+            case 'suggestions':
+                return <Suggestions />;
+            default:
+                return <MobileMainProfile />;
+        }
+    }
+
     render() {
-        const { classes } = this.props;
+        const { classes, typeProp } = this.props;
         const {
             showProfileMenu,
             anchorEl,
             nameVerified,
             phoneVerified,
-            emailVerified,
-            desktopTabValue
+            emailVerified
         } = this.state;
+
+
 
         return (
             <div className={classes.root}>
@@ -389,21 +388,25 @@ export class Profile extends Component {
                         </Toolbar>
                     </AppBar>
                     <AppBar position="static" className={classes.appBar}>
-                        <StyledTabs centered value={desktopTabValue}>
+                        <StyledTabs centered value={typeProp ? typeProp : 'none'}
+                        >
+                            <StyledTab
+                                style={{
+                                    width: 0,
+                                    minWidth: 0,
+                                    maxWidth: 0,
+                                    padding: 0
+                                }}
+                                value="none"
+                            />
                             <StyledTab
                                 label={this.getLabel('fortune-center')}
                                 value="fortune-center"
                                 onClick={() => {
-                                    if (desktopTabValue !== 'fortune-center') {
+                                    if (typeProp !== 'fortune-center') {
                                         this.handleCategoryChange(
                                             'fortune-center'
                                         );
-                                        this.setState({
-                                            anchorEl: null
-                                        });
-                                        this.setState({
-                                            showProfileMenu: false
-                                        });
                                     }
                                 }}
                             />
@@ -411,16 +414,10 @@ export class Profile extends Component {
                                 label={this.getLabel('transaction-records')}
                                 value="transaction-records"
                                 onClick={() => {
-                                    if (desktopTabValue !== 'transaction-records') {
+                                    if (typeProp !== 'transaction-records') {
                                         this.handleCategoryChange(
                                             'transaction-records'
                                         );
-                                        this.setState({
-                                            anchorEl: null
-                                        });
-                                        this.setState({
-                                            showProfileMenu: false
-                                        });
                                     }
                                 }}
                             />
@@ -436,16 +433,10 @@ export class Profile extends Component {
                                 value="account-management"
                                 label={this.getLabel('account-management')}
                                 onClick={() => {
-                                    if (desktopTabValue !== 'account-management') {
+                                    if (typeProp !== 'account-management') {
                                         this.handleCategoryChange(
                                             'account-management'
                                         );
-                                        this.setState({
-                                            anchorEl: null
-                                        });
-                                        this.setState({
-                                            showProfileMenu: false
-                                        });
                                     }
                                 }}
                             />
@@ -453,27 +444,12 @@ export class Profile extends Component {
                                 value="sharing-plan"
                                 label={this.getLabel('sharing-plan')}
                                 onClick={() => {
-                                    if (desktopTabValue !== 'sharing-plan') {
+                                    if (typeProp !== 'sharing-plan') {
                                         this.handleCategoryChange(
                                             'sharing-plan'
                                         );
-                                        this.setState({
-                                            anchorEl: null
-                                        });
-                                        this.setState({
-                                            showProfileMenu: false
-                                        });
                                     }
                                 }}
-                            />
-                            <StyledTab
-                                style={{
-                                    width: 0,
-                                    minWidth: 0,
-                                    maxWidth: 0,
-                                    padding: 0
-                                }}
-                                value="none"
                             />
                         </StyledTabs>
                     </AppBar>
@@ -587,45 +563,39 @@ export class Profile extends Component {
                             </Fade>
                         )}
                     </Popper>
-                    <div className={classes.content}>
-                        {this.state.desktopTabValue === 'fortune-center' && (
-                            <FortuneCenter />
-                        )}
-                        {this.state.desktopTabValue === 'transaction-records' && (
-                            <TransactionRecord />
-                        )}
-                        {this.state.desktopTabValue === 'account-management' && (
-                            <AccountManagement
-                                activeContent={this.state.desktopContent}
-                            />
-                        )}
-                        {this.state.desktopTabValue === 'sharing-plan' && (
-                            <SharingPlan />
-                        )}
-                    </div>
-                    <Footer />
+                    <Grid container>
+                        <Grid item xs={12} className={classes.content}>
+                            {typeProp === 'fortune-center' && (
+                                <FortuneCenter />
+                            )}
+                            {typeProp === 'transaction-records' && (
+                                <TransactionRecord />
+                            )}
+                            {typeProp === 'account-management' && (
+                                <AccountManagement
+                                    activeContent={this.state.desktopContent}
+                                />
+                            )}
+                            {typeProp === 'sharing-plan' && (
+                                <SharingPlan />
+                            )}
+                        </Grid>
+                       <Grid item xs={12}>
+                            <Footer />
+                        </Grid>
+                    </Grid>
                 </div>
                 <div className={classes.rootMobile}>
-                    {this.state.mobileContent === '' && <MobileMainProfile />}
-                    {this.state.mobileContent === 'account-management' && (
-                        <MobileAccountInfo />
-                    )}
-                    {this.state.mobileContent === 'security-settings' && (
-                        <SecuritySettings />
-                    )}
-                    {this.state.mobileContent === 'fortune-center' && (
-                        <FortuneCenter />
-                    )}
-                    {this.state.mobileContent === 'deposit' && (
+                    {/* {this.props.typeProp === 'deposit' && (
                         <DepositMain />
                     )}
-                    {this.state.mobileContent === 'withdrawal' && (
+                    {this.props.typeProp === 'withdrawal' && (
                         <Withdrawal />
                     )}
-                    {this.state.mobileContent === 'transfer' && (
+                    {this.props.typeProp === 'transfer' && (
                         <Transfer />
                     )}
-                    {this.state.mobileContent === 'total-assets' && (
+                    {this.props.typeProp === 'total-assets' && (
                         <TotalAssets />
                     )}
                      {this.state.mobileContent === 'transaction-records' && (
@@ -636,6 +606,9 @@ export class Profile extends Component {
                         <Suggestions />
                     )}
                     <div className={classes.grow} />
+                    )} */}
+                    {this.getMobileContent()}
+                    {/* <div className={classes.grow} /> */}
                     <Footer />
                 </div>
             </div>
@@ -643,12 +616,11 @@ export class Profile extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     const { token } = state.auth;
     return {
         isAuthenticated: token !== null && token !== undefined,
-        error: state.auth.error,
-        lang: state.language.lang
+        typeProp: ownProps.match.params.type
     };
 };
 

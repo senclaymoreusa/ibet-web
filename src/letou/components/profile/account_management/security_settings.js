@@ -178,39 +178,41 @@ export class SecuritySettings extends Component {
         this.props.authCheckState().then(res => {
             if (res === 1) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ lastLoginTime: res.data.last_login_time });
+                });
             }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ lastLoginTime: res.data.last_login_time });
-        });
+        });  
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === 1) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ lastLoginTime: res.data.last_login_time });
+                    this.setState({
+                        securityQuestionHasBeenset: res.data.security_question
+                            ? true
+                            : false
+                    });
+                    this.setState({
+                        withdrawalPasswordHasBeenset: res.data.withdraw_password
+                            ? true
+                            : false
+                    });
+                });
+
             }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ lastLoginTime: res.data.last_login_time });
-            this.setState({
-                securityQuestionHasBeenset: res.data.security_question
-                    ? true
-                    : false
-            });
-            this.setState({
-                withdrawalPasswordHasBeenset: res.data.withdraw_password
-                    ? true
-                    : false
-            });
+        
         });
     }
 

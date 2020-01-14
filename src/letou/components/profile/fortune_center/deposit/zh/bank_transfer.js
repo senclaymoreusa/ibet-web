@@ -26,50 +26,50 @@ const bank_options = [
     { value: 'OOO6CN', label: 'China UnionPay' },
     { value: 'ABOCCN', label: 'Agricultural Bank of China' },
     { value: 'BEASCN', label: 'Bank of East Asia' },
-    { value: 'BJCNCN', label: 'Bank of Beijing'},
+    { value: 'BJCNCN', label: 'Bank of Beijing' },
     { value: 'BKCHCN', label: 'Bank of China' },
-    { value: 'BKNBCN', label: 'Bank of Ningbo'},
-    { value: 'BKSHCN', label: 'Bank Of Hebei'},
+    { value: 'BKNBCN', label: 'Bank of Ningbo' },
+    { value: 'BKSHCN', label: 'Bank Of Hebei' },
     { value: 'BOSHCN', label: 'Bank of Shanghai' },
-    { value: 'BRCBCN', label: 'Beijing Rural Commercial Bank'},
+    { value: 'BRCBCN', label: 'Beijing Rural Commercial Bank' },
     { value: 'CBOCCN', label: 'Bank of Chengdu' },
     { value: 'CHBHCN', label: 'China Bohai Bank' },
     { value: 'CIBKCN', label: 'China Citic Bank' },
     { value: 'CMBCCN', label: 'China Merchants Bank' },
     { value: 'CN01CN', label: 'Zhongshan Rural Credit Union' },
     { value: 'CN03CN', label: 'Yao Credit Cooperative Union' },
-    { value: 'COMMCN', label: 'Bank of Communication'},
-    { value: 'CZCBCN', label: 'Zhejiang Chouzhou commercial bank'},
-    { value: 'EVSOCN', label: 'China Everbright Bank'},
-    { value: 'FJIBCN', label: 'Industrial Bank Co Ltd'},
-    { value: 'GDBKCN', label: 'China Guangfa Bank'},
-    { value: 'GNXSCN', label: 'Guangzhou Rural Credit Cooperatives'},
-    { value: 'GZCBCN', label: 'Bank of Guangzhou'},
-    { value: 'GZRCCN', label: 'GuangZhou Commercial Bank'},
-    { value: 'HFCBCN', label: 'Huishang Bank'},
-    { value: 'HXBKCN', label: 'Huaxia Bank'},
-    { value: 'HZCBCN', label: 'Hangzhou Bank'},
-    { value: 'ICBKCN', label: 'Industrial and Commercial Bank of China'},
-    { value: 'JSHBCN', label: 'Jinshang Bank'},
-    { value: 'MSBCCN', label: 'China Minsheng Bank'},
-    { value: 'NJCBCN', label: 'Bank of Nanjing'},
-    { value: 'NYCBCN', label: 'Nanyang Commercial Bank'},
-    { value: 'PCBCCN', label: 'China Construction Bank'},
-    { value: 'PSBCCN', label: 'Postal Savings Bank of China'},
-    { value: 'RCCSCN', label: 'Shunde Rural Commercial Bank'},
-    { value: 'SHRCCN', label: 'Shanghai Rural Commercial Bank'},
-    { value: 'SPDBCN', label: 'Shanghai Pudong Development Bank'},
-    { value: 'SZCBCN', label: 'Ping An Bank'},
-    { value: 'SZDBCN', label: 'Shenzhen Development Bank'},
-    { value: 'TCCBCN', label: 'Bank of Tianjin'},
-    { value: 'WHCBCN', label: 'Hankou Bank'},
-    { value: 'WZCBCN', label: 'Bank of Wenzhou'},
-    { value: 'ZJCBCN', label: 'China Zheshang Bank'},
-    { value: 'ZJTLCN', label: 'Zhejiang Tailong Commercial Bank'},
-    { value: 'PBOCCN', label: 'People’s Bank of China'},
-    { value: 'HSBCCN', label: 'HSBC'},
-    { value: 'DGCBCN', label: 'Bank of Dongguang'},
-    
+    { value: 'COMMCN', label: 'Bank of Communication' },
+    { value: 'CZCBCN', label: 'Zhejiang Chouzhou commercial bank' },
+    { value: 'EVSOCN', label: 'China Everbright Bank' },
+    { value: 'FJIBCN', label: 'Industrial Bank Co Ltd' },
+    { value: 'GDBKCN', label: 'China Guangfa Bank' },
+    { value: 'GNXSCN', label: 'Guangzhou Rural Credit Cooperatives' },
+    { value: 'GZCBCN', label: 'Bank of Guangzhou' },
+    { value: 'GZRCCN', label: 'GuangZhou Commercial Bank' },
+    { value: 'HFCBCN', label: 'Huishang Bank' },
+    { value: 'HXBKCN', label: 'Huaxia Bank' },
+    { value: 'HZCBCN', label: 'Hangzhou Bank' },
+    { value: 'ICBKCN', label: 'Industrial and Commercial Bank of China' },
+    { value: 'JSHBCN', label: 'Jinshang Bank' },
+    { value: 'MSBCCN', label: 'China Minsheng Bank' },
+    { value: 'NJCBCN', label: 'Bank of Nanjing' },
+    { value: 'NYCBCN', label: 'Nanyang Commercial Bank' },
+    { value: 'PCBCCN', label: 'China Construction Bank' },
+    { value: 'PSBCCN', label: 'Postal Savings Bank of China' },
+    { value: 'RCCSCN', label: 'Shunde Rural Commercial Bank' },
+    { value: 'SHRCCN', label: 'Shanghai Rural Commercial Bank' },
+    { value: 'SPDBCN', label: 'Shanghai Pudong Development Bank' },
+    { value: 'SZCBCN', label: 'Ping An Bank' },
+    { value: 'SZDBCN', label: 'Shenzhen Development Bank' },
+    { value: 'TCCBCN', label: 'Bank of Tianjin' },
+    { value: 'WHCBCN', label: 'Hankou Bank' },
+    { value: 'WZCBCN', label: 'Bank of Wenzhou' },
+    { value: 'ZJCBCN', label: 'China Zheshang Bank' },
+    { value: 'ZJTLCN', label: 'Zhejiang Tailong Commercial Bank' },
+    { value: 'PBOCCN', label: 'People’s Bank of China' },
+    { value: 'HSBCCN', label: 'HSBC' },
+    { value: 'DGCBCN', label: 'Bank of Dongguang' },
+
 ];
 
 const styles = theme => ({
@@ -322,6 +322,8 @@ NumberFormatCustom.propTypes = {
 };
 
 class BankTransfer extends Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
@@ -339,27 +341,55 @@ class BankTransfer extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'chinabanktransfer' });
-            });
+        this._isMounted = true;
+
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    if (this._isMounted) {
+                        this.setState({
+                            data: res.data,
+                            currency: getSymbolFromCurrency(res.data.currency),
+                            isFavorite: res.data.favorite_payment_method === 'chinabanktransfer'
+                        });
+                    }
+                });
+            }
+        })
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'chinabanktransfer' });
-            });
+        this._isMounted = true;
+        
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        if (this._isMounted) {
+                            this.setState({
+                                data: res.data,
+                                currency: getSymbolFromCurrency(res.data.currency),
+                                isFavorite: res.data.favorite_payment_method === 'chinabanktransfer'
+                            });
+                        }
+                    });
+            }
+        })
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+    
     amountChanged = e => {
         this.setState({ amountFocused: true });
 
@@ -410,107 +440,108 @@ class BankTransfer extends Component {
             });
        */}
         {
-        let currentComponent = this;
+            let currentComponent = this;
 
-        currentComponent.setState({ showLinearProgressBar: true });
-        
-        var postData = {
-            "amount": this.state.amount,
-            "user_id": this.state.data.pk,
-            "currency": "0",
-            "language": "zh-Hans",
-            "method": "BANK_TRANSFER",
-            "bank":this.state.selectedBankOption,
-        }
-        //console.log(this.state.amount)
-        //console.log(currentComponent.state.data.username)
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
-        return  fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            body: formBody
-        }).then(function (res) {
-            return res.json();
-        }).then(function (data) {
-            let redirectUrl = data.paymentPageSession.paymentPageUrl
-            //console.log(redirectUrl)
+            currentComponent.setState({ showLinearProgressBar: true });
 
-           
-            if (redirectUrl != null) {
-                const mywin = window.open(redirectUrl, 'qaicash_BT');
-                var timer = setInterval(function () {
-                    //console.log('checking..')
-                    if (mywin.closed) {
-                        clearInterval(timer);
-                        var postData = {
-                            "trans_id": data.paymentPageSession.orderId
-                        }
-                        var formBody = [];
-                        for (var pd in postData) {
-                            var encodedKey = encodeURIComponent(pd);
-                            var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + "=" + encodedValue);
-                        }
-                        formBody = formBody.join("&");
-
-                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
-                            method: "POST",
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: formBody
-                        }).then(function (res) {
-                            return res.json();
-                        }).then(function (data) {
-                            if(data.errorCode){
-                                currentComponent.props.postLogout();
-                                // postLogout();
-                                return;
-                            }
-                            //console.log(data.status)
-                            if (data.status === 0) {
-                                //alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'add',
-                                    username: currentComponent.state.data.username,
-                                    balance: currentComponent.state.amount,
-                                });
-                                //console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
-                            } else {
-                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
-                            }
-                        });
-                    }
-                }, 1000);
-            } else {
-                currentComponent.setState({ showLinearProgressBar: false });
-                currentComponent.props.callbackFromParent("error", data.returnMessage);
-                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+            var postData = {
+                "amount": this.state.amount,
+                "user_id": this.state.data.pk,
+                "currency": "0",
+                "language": "zh-Hans",
+                "method": "BANK_TRANSFER",
+                "bank": this.state.selectedBankOption,
             }
-        }).catch(function (err) {  
-            //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", "Something is wrong");
-            sendingLog(err);
-        });
-    }
+            //console.log(this.state.amount)
+            //console.log(currentComponent.state.data.username)
+            var formBody = [];
+            for (var pd in postData) {
+                var encodedKey = encodeURIComponent(pd);
+                var encodedValue = encodeURIComponent(postData[pd]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            return fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                },
+                body: formBody
+            }).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                let redirectUrl = data.paymentPageSession.paymentPageUrl
+                //console.log(redirectUrl)
+
+
+                if (redirectUrl != null) {
+                    const mywin = window.open(redirectUrl, 'qaicash_BT');
+                    var timer = setInterval(function () {
+                        //console.log('checking..')
+                        if (mywin.closed) {
+                            clearInterval(timer);
+                            var postData = {
+                                "trans_id": data.paymentPageSession.orderId
+                            }
+                            var formBody = [];
+                            for (var pd in postData) {
+                                var encodedKey = encodeURIComponent(pd);
+                                var encodedValue = encodeURIComponent(postData[pd]);
+                                formBody.push(encodedKey + "=" + encodedValue);
+                            }
+                            formBody = formBody.join("&");
+
+                            return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
+                                method: "POST",
+                                headers: {
+                                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                },
+                                body: formBody
+                            }).then(function (res) {
+                                return res.json();
+                            }).then(function (data) {
+                                if (data.errorCode) {
+                                    currentComponent.props.postLogout();
+                                    // postLogout();
+                                    return;
+                                }
+                                //console.log(data.status)
+                                if (data.status === 0) {
+                                    //alert('Transaction is approved.');
+                                    const body = JSON.stringify({
+                                        type: 'add',
+                                        username: currentComponent.state.data.username,
+                                        balance: currentComponent.state.amount,
+                                    });
+                                    //console.log(body)
+                                    axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                        .then(res => {
+                                            if (res.data === 'Failed') {
+                                                //currentComponent.setState({ error: true });
+                                                currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                            } else if (res.data === "The balance is not enough") {
+                                                currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                            } else {
+                                                currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                            }
+                                        });
+                                } else {
+                                    currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
+                                }
+                            });
+                        }
+                    }, 1000);
+                } else {
+                    currentComponent.setState({ showLinearProgressBar: false });
+                    currentComponent.props.callbackFromParent("error", data.returnMessage);
+                    //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+                }
+            }).catch(function (err) {
+                //console.log('Request failed', err);
+                currentComponent.props.callbackFromParent("error", "Something is wrong");
+                sendingLog(err);
+            });
+        }
     }
 
     getLabel(labelId) {
@@ -561,7 +592,7 @@ class BankTransfer extends Component {
                             </MenuItem>
                             {
                                 bank_options.map(bank => (
-                                
+
                                     <MenuItem key={bank.label} value={bank.value} >
                                         {/*
                                         <div style={{ width: 100 }}>
@@ -570,14 +601,14 @@ class BankTransfer extends Component {
                                         */}
                                         <span className={classes.selectLabel}>{bank.label}</span>
                                     </MenuItem>
-                                
+
                                 ))
                             }
                         </Select>
                     </Grid>
                     {amounts.map((x, i) => {
                         return (
-                            <Grid item xs={3} key={i} style={{height:60}}>
+                            <Grid item xs={3} key={i} style={{ height: 60 }}>
                                 <Button
                                     className={clsx({
                                         [classes.button]: true,
