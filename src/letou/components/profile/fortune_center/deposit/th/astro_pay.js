@@ -428,7 +428,8 @@ class Astropay extends Component {
             card_num: this.state.number.replace(/\s+/g, ''),
             card_code: this.state.cvv,
             exp_date: this.state.expireDate,
-            amount: this.state.amount
+            amount: this.state.amount,
+            currency: "THB"
         };
 
         var res = await axios.post(
