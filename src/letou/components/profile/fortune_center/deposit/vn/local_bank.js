@@ -343,7 +343,7 @@ class VietnamLocalBank extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
-            } else {    
+            } else {
                 const token = localStorage.getItem('token');
                 config.headers['Authorization'] = `Token ${token}`;
                 axios.get(API_URL + 'users/api/user/', config).then(res => {
@@ -353,12 +353,12 @@ class VietnamLocalBank extends Component {
                     });
                     this.setState({
                         isFavorite:
-                            res.data.favorite_payment_method === 'vietnamlocalbank'
+                            res.data.favorite_payment_method ===
+                            'vietnamlocalbank'
                     });
                 });
             }
         });
-        
     }
 
     componentDidMount() {
@@ -375,12 +375,12 @@ class VietnamLocalBank extends Component {
                     });
                     this.setState({
                         isFavorite:
-                            res.data.favorite_payment_method === 'vietnamlocalbank'
+                            res.data.favorite_payment_method ===
+                            'vietnamlocalbank'
                     });
                 });
             }
         });
-        
     }
 
     amountChanged(event) {
@@ -421,8 +421,8 @@ class VietnamLocalBank extends Component {
 
         if (!token) {
             console.log('no token -- user is not logged in');
-            alert("Please log in");
-            window.history.push("/");
+            alert('Please log in');
+            this.props.history.push('/');
         }
         config.headers['Authorization'] = `Token ${token}`;
         let userid = this.state.data.pk;
