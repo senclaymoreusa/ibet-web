@@ -165,6 +165,8 @@ import Games from './components/game';
 
 import Promotion from './components/promotion';
 
+import VerificationBonus from './components/bonus/verification_bonus';
+
 const containerStyle = {
     mineight: '100%'
 };
@@ -184,6 +186,8 @@ const BaseRouter = () => (
         <Route exact path="/gbpk10" component={gbpk10} />
         <Route exact path="/gbssc" component={gbssc} />
         <Route exact path="/game" component={Games} />
+
+        <Route exact path="/bonus/three_items" component={VerificationBonus} />
 
         <Route exact path="/zh/about_us" component={AboutUs} />
         <Route exact path="/zh/contact_us" component={ContactUs} />
