@@ -411,6 +411,7 @@ export class GameLobby extends React.Component {
                                                 value[1].map( (game, index) => {
                                                     return (
                                                         <div className={classes.item} key={index}>
+                                                            <NavLink to={`/game_detail/${game.pk}`} target="_blank" style={{ textDecoration: 'none' }}>
                                                             <GridListTile key={game.pk} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
                                                                 <img src={game.fields.image_url} alt='Not available' width='213px' height='213px' />
                                                             <GridListTileBar
@@ -420,7 +421,9 @@ export class GameLobby extends React.Component {
                                                                 }}
                                                             />
                                                             </GridListTile>
+                                                            </NavLink>
                                                         </div>
+                                                       
                                                     )
                                                 }) 
                                             }
@@ -447,7 +450,7 @@ export class GameLobby extends React.Component {
                                         var gameFields = game['fields'];
                                         return (
                                             <Grid item xs={2} sm={2} key={game.pk}>
-                                                <NavLink to={`/game_detail/${game.pk}`} style={{ textDecoration: 'none' }}>
+                                                <NavLink to={`/game_detail/${game.pk}`} target="_blank" style={{ textDecoration: 'none' }}>
                                                     <div className={classes.item} key={index}>
                                                         <GridListTile key={game.pk} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
                                                             <img src={gameFields.image_url} alt='Not available' style={{ 'width': '100%', 'height': '213px' }}/>
