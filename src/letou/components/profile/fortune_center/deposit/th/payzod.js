@@ -392,6 +392,7 @@ class Payzod extends Component {
             .catch(err => {
                 console.log(err.response);
                 sendingLog(err);
+                return;
             });
 
         if (res.data) {
