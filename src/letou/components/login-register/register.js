@@ -51,7 +51,7 @@ const styles = theme => ({
         flexGrow: 1,
         backgroundImage: 'url(' + images.src + 'letou/register_bg.jpg)',
         backgroundPosition: 'top',
-        backgroundSize: '180%',
+        backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
         paddingTop: 30,
         paddingBottom: 30
@@ -438,8 +438,8 @@ export class Register extends Component {
                                         item
                                         xs={12}
                                         style={{
-                                            paddingTop: 20,
-                                            paddingBottom: 20,
+                                            paddingTop: 10,
+                                            paddingBottom: 10,
                                             textAlign: 'center'
                                         }}
                                     >
@@ -465,7 +465,7 @@ export class Register extends Component {
                                         <Grid
                                             item
                                             xs={12}
-                                            style={{ paddingBottom: 30 }}
+                                            style={{ paddingBottom: 20 }}
                                         >
                                             <TextField
                                                 value={this.state.username}
@@ -510,7 +510,7 @@ export class Register extends Component {
                                         <Grid
                                             item
                                             xs={12}
-                                            style={{ paddingBottom: 30 }}
+                                            style={{ paddingBottom: 20 }}
                                         >
                                             <TextField
                                                 autoComplete="new-password"
@@ -647,7 +647,7 @@ export class Register extends Component {
                                         <Grid
                                             item
                                             xs={12}
-                                            style={{ paddingBottom: 30 }}
+                                            style={{ paddingBottom: 20 }}
                                         >
                                             <TextField
                                                 value={
@@ -837,7 +837,7 @@ export class Register extends Component {
                                         <Grid
                                             item
                                             xs={12}
-                                            style={{ marginTop: 30 }}
+                                            style={{ marginTop: 20 }}
                                         >
                                             <TextField
                                                 value={this.state.email}
@@ -880,7 +880,7 @@ export class Register extends Component {
                                         <Grid
                                             item
                                             xs={12}
-                                            style={{ marginTop: 30 }}
+                                            style={{ marginTop: 20 }}
                                         >
                                             <TextField
                                                 value={this.state.referrer}
@@ -909,7 +909,7 @@ export class Register extends Component {
                                         <Grid
                                             item
                                             xs={12}
-                                            style={{ marginTop: 30 }}
+                                            style={{ marginTop: 20 }}
                                         >
                                             <Button
                                                 className={
