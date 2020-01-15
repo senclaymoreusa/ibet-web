@@ -205,6 +205,8 @@ const styles = theme => ({
     depositIcon: {
         marginLeft: 3,
         backgroundColor: '#F1941A',
+        textTransform: 'none',
+        color: 'white',
         // height: 30,
         // width: 36,
         '&:hover': {
@@ -1089,7 +1091,7 @@ class TopNavbar extends React.Component {
                             </Popper>
                             {this.props.isAuthenticated ? (
                                 <div>
-                                    <div style={{ display: 'inline-block', backgroundColor: '#fff7ec', borderRadius: 10 }}>
+                                    <div style={{ display: 'inline-block', backgroundColor: '#fff7ec', borderRadius: '40px', padding: '5px' }}>
                                         <div style={{ float: 'left', display: 'inline', color: 'black', paddingTop: '8px'}}>
                                             ${ this.props.balance }
                                         </div>
@@ -1099,8 +1101,7 @@ class TopNavbar extends React.Component {
                                                 '/p/fortune-center/deposit'
                                             );
                                         }}>
-                                        {/* <NavigationIcon className={classes.extendedIcon} /> */}
-                                            Deposit
+                                            {this.getLabel('deposit-label')}
                                         </Fab>
                                         </div>
                                     </div>

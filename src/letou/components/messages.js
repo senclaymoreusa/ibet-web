@@ -52,6 +52,7 @@ export const messages = {
         'terms-conditions': 'Terms and Conditions',
         'contact-us': 'Contact Us',
         'deposit-process': 'Deposit Process',
+
         'common-problem': 'Common Problem',
         'sabah-sports-rules': 'Sabah Sports Rules',
         'happy-color-rules': 'Happy Color Rules',
@@ -217,7 +218,8 @@ export const messages = {
         'rules-privacy-policy': 'LETOU Gambling Rules and Privacy Policy',
         'username-limit':
             'Username requires 8-16 digits with letters or numbers.',
-        'please-strong-password': 'Your password strength should be at least good.',
+        'please-strong-password':
+            'Your password strength should be at least good.',
         'please-confirm-password': 'Please confirm your password.',
         'register-hint1': 'Tips for a strong password',
         'register-hint2': 'Use letters and numbers',
