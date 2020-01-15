@@ -857,7 +857,7 @@ class Help2Pay extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick.bind(this)}
-                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.bankAccountNumber == "" || this.state.bankAccountHolder == "" || this.state.withdrawpassword ==""}
+                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.bankAccountNumber == "" || this.state.bankAccountHolder == "" || this.state.withdrawpassword == ""}
                         >{this.getLabel('next-label')}</Button>
                     </Grid>
                 </Grid>
