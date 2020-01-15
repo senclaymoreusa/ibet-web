@@ -34,6 +34,10 @@ import Person from '@material-ui/icons/Person';
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios';
 import { config } from '../../util_config';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import Typography from '@material-ui/core/Typography';
+
+
 
 import {
     logout,
@@ -198,6 +202,15 @@ const styles = theme => ({
             backgroundColor: '#F1941A'
         }
     },
+    depositIcon: {
+        marginLeft: 3,
+        backgroundColor: '#F1941A',
+        // height: 30,
+        // width: 36,
+        '&:hover': {
+            backgroundColor: '#F1941A'
+        }
+    },
     margin: {
         margin: theme.spacing(1)
     },
@@ -248,6 +261,12 @@ class TopNavbar extends React.Component {
 
         this.getLabel = this.getLabel.bind(this);
         // this.handleOnebookClick = this.handleOnebookClick.bind(this);
+    }
+
+    componentDidUpdate(prev) {
+        if (this.props.isAuthenticated !== prev.isAuthenticated) {
+            this.props.authCheckState();
+        }
     }
 
     componentDidMount() {
@@ -548,7 +567,15 @@ class TopNavbar extends React.Component {
                                     <Announcements />
                                 </Paper>
                             </Modal>
+                            
                             <div className={classes.grow} />
+                            {
+                                this.props.isAuthenticated ? 
+                                (<div className={classes.topLinkButton}>
+                                    <Typography style={{display: 'inline-block', color: 'black'}}>Hi, </Typography>
+                                    <Typography style={{display: 'inline-block', color: 'black'}}>{ this.props.username }</Typography>
+                                </div>) : null
+                            }
                             <Button
                                 size="small"
                                 className={classes.topLinkButton}
@@ -1061,6 +1088,22 @@ class TopNavbar extends React.Component {
                                 )}
                             </Popper>
                             {this.props.isAuthenticated ? (
+                                <div>
+                                    <div style={{ display: 'inline-block', backgroundColor: '#fff7ec', borderRadius: 10 }}>
+                                        <div style={{ float: 'left', display: 'inline', color: 'black', paddingTop: '8px'}}>
+                                            ${ this.props.balance }
+                                        </div>
+                                        <div  style={{ display: 'inline' }}>
+                                        <Fab variant="extended" size="small" className={classes.depositIcon} onClick={()=> {
+                                            this.props.history.push(
+                                                '/p/fortune-center/deposit'
+                                            );
+                                        }}>
+                                        {/* <NavigationIcon className={classes.extendedIcon} /> */}
+                                            Deposit
+                                        </Fab>
+                                        </div>
+                                    </div>
                                 <Fab
                                     color="primary"
                                     aria-label="add"
@@ -1076,6 +1119,7 @@ class TopNavbar extends React.Component {
                                 >
                                     <Person />
                                 </Fab>
+                                </div>
                             ) : (
                                 <div style={{ marginLeft: 20 }}>
                                     <Button
@@ -1556,7 +1600,9 @@ const mapStateToProps = state => {
         showAnnouncements: state.general.show_letou_announcements,
         showLogin: state.general.show_letou_login,
         showForgotPassword: state.general.show_letou_forgot_password,
-        showMobileMenu: state.general.show_letou_mobile_menu
+        showMobileMenu: state.general.show_letou_mobile_menu,
+        balance: user ?  Number(user.balance).toFixed(2) : '',
+        username: user ? user.username : '',
     };
 };
 

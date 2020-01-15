@@ -331,7 +331,9 @@ export const authCheckState = () => {
                                 currency: res.data.currency,
                                 favoriteDepositMethod:
                                     res.data.favorite_payment_method,
-                                country: res.data.country
+                                country: res.data.country,
+                                balance: res.data.main_wallet,
+                                username: res.data.username
                             };
 
                             dispatch(authGetUser(userData));
