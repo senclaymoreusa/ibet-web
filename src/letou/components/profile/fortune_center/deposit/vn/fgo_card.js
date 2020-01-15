@@ -319,33 +319,35 @@ class FgoCard extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({
+                        isFavorite: res.data.favorite_payment_method === 'fgocard'
+                    });
+                });
             }
         });
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'fgocard'
-            });
-        });
+        
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({
+                        isFavorite: res.data.favorite_payment_method === 'fgocard'
+                    });
+                });
             }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'fgocard'
-            });
         });
     }
 
@@ -391,8 +393,8 @@ class FgoCard extends Component {
             })
             .then(function(data) {
                 if (data.errorCode) {
-                    currentComponent.props.logout();
-                    postLogout();
+                    currentComponent.props.postLogout();
+                    // postLogout();
                     return;
                 }
                 if (data.error_code === '00' && data.status === '0') {

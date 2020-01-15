@@ -68,7 +68,7 @@ export class AboutUs extends React.Component {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/zh/for_member">{this.getLabel('story')}  >
+                                    <a href="/zh/for_member">{this.getLabel('letou-story')}  >
                                     <i></i>
                                     </a>
                                 </li>

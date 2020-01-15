@@ -323,33 +323,34 @@ export class VerifyEmail extends Component {
     async componentDidMount() {
 
         this.props.authCheckState()
-            .then(res => {
+            .then(async res => {
                 if (res === 1) {
                     this.props.history.push('/');
+                } else {
+
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+
+                    let currentComponent = this;
+
+                    await axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            currentComponent.setState({ date: res.data });
+
+                            currentComponent.setState({ username: res.data.username });
+                            currentComponent.setState({ fetchedEmail: res.data.email });
+
+                            currentComponent.setState({ email: res.data.email });
+
+                            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                            this.setState({ emailInvalid: !res.data.email.match(re) })
+
+                        }).catch(function (err) {
+                            sendingLog(err);
+                        });
                 }
             })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-
-        let currentComponent = this;
-
-        await axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                currentComponent.setState({ date: res.data });
-
-                currentComponent.setState({ username: res.data.username });
-                currentComponent.setState({ fetchedEmail: res.data.email });
-
-                currentComponent.setState({ email: res.data.email });
-
-                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                this.setState({ emailInvalid: !res.data.email.match(re) })
-
-            }).catch(function (err) {
-                sendingLog(err);
-            });
     }
 
     sendVerificationCodeToEmail() {

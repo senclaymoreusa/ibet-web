@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import Home from './components/home';
 import Register from './components/login-register/register';
 import live_casino from './components/live_casino';
@@ -104,23 +105,23 @@ import VirtualTh from './components/member_th/virtual_sports';
 
 import Profile from './components/profile/profile';
 
-import AboutUsVn  from './components/member_vn/about_us'
-import ForMemberVn  from './components/member_vn/for_member'
-import ForPartnerVn  from './components/partner_vn/for_partner';
-import ContactUsVn  from './components/member_vn/contact_us';
-import  StatementVn  from './components/member_vn/statement';
-import  DisclaimerVn  from './components/member_vn/disclaimer';
-import  PrivacyVn  from './components/member_vn/privacy';
-import SafeBetVn  from './components/member_vn/safe_bet';
-import  IdentityVn  from './components/member_vn/identity';
-import  OfferTermsVn  from './components/member_vn/offer_terms';
-import  RulesVn  from './components/member_vn/rules';
-import  FootballRulesVn  from './components/member_vn/football_rules';
-import  BetRulesVn  from './components/member_vn/bet_rules';
-import  GeneralRulesVn  from './components/member_vn/general_rules';
-import  GamePokerVn  from './components/member_vn/game_poker';
-import  GameNiuniuVn  from './components/member_vn/game.niuniu';
-import  GameRuleSixVn  from './components/member_vn/game_rule6';
+import AboutUsVn from './components/member_vn/about_us';
+import ForMemberVn from './components/member_vn/for_member';
+import ForPartnerVn from './components/partner_vn/for_partner';
+import ContactUsVn from './components/member_vn/contact_us';
+import StatementVn from './components/member_vn/statement';
+import DisclaimerVn from './components/member_vn/disclaimer';
+import PrivacyVn from './components/member_vn/privacy';
+import SafeBetVn from './components/member_vn/safe_bet';
+import IdentityVn from './components/member_vn/identity';
+import OfferTermsVn from './components/member_vn/offer_terms';
+import RulesVn from './components/member_vn/rules';
+import FootballRulesVn from './components/member_vn/football_rules';
+import BetRulesVn from './components/member_vn/bet_rules';
+import GeneralRulesVn from './components/member_vn/general_rules';
+import GamePokerVn from './components/member_vn/game_poker';
+import GameNiuniuVn from './components/member_vn/game.niuniu';
+import GameRuleSixVn from './components/member_vn/game_rule6';
 import member_rule1Vn from './components/partner_vn/partner_rule1';
 import member_rule2Vn from './components/partner_vn/partner_rule2';
 import member_rule3Vn from './components/partner_vn/partner_rule3';
@@ -155,20 +156,23 @@ import VirtualVn from './components/member_vn/virtual_sports';
 import gbsports from './components/sports/gbsports';
 import gbesports from './components/sports/gbesports';
 import onebook from './components/sports/onebook';
+import btisports from './components/sports/btisports';
 import eonebook from './components/sports/eonebook';
 import gblotto from './components/sports/gblotto';
 import gbkeno from './components/sports/gbkeno';
 import gbk3 from './components/sports/gbk3';
 import gbpk10 from './components/sports/gbpk10';
 import gbssc from './components/sports/gbssc';
-import Games from './components/game';
+// import  Games  from './components/game';
+import GameLobby from './components/games/game_lobby';
+import GameDetail from './components/games/game_detail';
 
 import Promotion from './components/promotion';
 
 import VNFirst200SlotBonus from './components/bonus/vn_first_200_slots';
 
 const containerStyle = {
-    mineight: '100%'
+    minHeight: '100%'
 };
 
 const BaseRouter = () => (
@@ -177,6 +181,7 @@ const BaseRouter = () => (
         <Route exact path="/register" component={Register} />
         <Route exact path="/live_casino" component={live_casino} />
         <Route exact path="/gbsports" component={gbsports} />
+        <Route exact path="/btisports" component={btisports} />
         <Route exact path="/gbesports" component={gbesports} />
         <Route exact path="/onebook" component={onebook} />
         <Route exact path="/eonebook" component={eonebook} />
@@ -185,7 +190,9 @@ const BaseRouter = () => (
         <Route exact path="/gbk3" component={gbk3} />
         <Route exact path="/gbpk10" component={gbpk10} />
         <Route exact path="/gbssc" component={gbssc} />
-        <Route exact path="/game" component={Games} />
+        {/* <Route exact path="/game" component={Games} /> */}
+        <Route exact path="/game/:category?/:search?/" component={GameLobby} />
+        <Route exact path="/game_detail/:id" component={GameDetail} />
 
         <Route exact path="/zh/about_us" component={AboutUs} />
         <Route exact path="/zh/contact_us" component={ContactUs} />
@@ -292,10 +299,6 @@ const BaseRouter = () => (
         <Route exact path="/th/member_rule4" component={member_rule4Th} />
         <Route exact path="/th/member_rule5" component={member_rule5Th} />
         <Route exact path="/th/member_rule6" component={member_rule6Th} />
-       
-
-        
-      
 
         <Route exact path="/vi/about_us" component={AboutUsVn} />
         <Route exact path="/vi/contact_us" component={ContactUsVn} />

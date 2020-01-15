@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
@@ -9,8 +10,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import BetDetails from './bet_details';
 import AccountDetails from './account_details';
 import Main from './analysis/main';
@@ -22,40 +26,41 @@ const styles = theme => ({
         flexDirection: 'column',
         alignItems: 'center'
     },
+    rootDesktop: {
+        maxWidth: 1400,
+        width: '100%',
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        }
+    },
+    rootMobile: {
+        minHeight: '100vh',
+        display: 'flex',
+        backgroundColor: '#f2f3f5',
+        flexDirection: 'column',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
+    },
     mainGrid: {
+        width: '100%',
         maxWidth: 1400
     },
-    leftPane: {
-        backgroundColor: '#f0f0f0',
-        minHeight: 500,
-        width: 240,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start'
+    mobileRow: {
+        height: 60,
+        alignItems: 'center',
+        backgroundColor: '#fff'
     },
-    rightPane: {},
-    leftPaneButton: {
-        textTransform: 'capitalize',
-        justifyContent: 'flex-start',
-        width: 220,
-        marginTop: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        '&:hover': {
-            backgroundColor: '#f1f1f1'
-        }
+    mobileBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        width: '100%'
     },
-    activeLeftPaneButton: {
-        textTransform: 'capitalize',
-        justifyContent: 'flex-start',
-        backgroundColor: '#d1d1d1',
-        width: 220,
-        marginTop: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        '&:hover': {
-            backgroundColor: '#dfdfdf'
-        }
+    tabLabel: {
+        fontSize: 14,
+        paddingLeft: 5,
+        paddingRight: 5
     },
     title: {
         fontSize: 20,
@@ -71,11 +76,11 @@ const styles = theme => ({
         paddingBottom: 12
     },
     content: {
-        flexGrow: 1,
         borderTop: 'solid 1px #efefef',
-        paddingTop: 20,
-        paddingBottom: 10,
-
+        [theme.breakpoints.up('md')]: {
+            paddingTop: 20,
+            paddingBottom: 10
+        }
     }
 });
 
@@ -96,21 +101,21 @@ const StyledTab = withStyles(theme => ({
         color: '#474747',
         fontWeight: theme.typography.fontWeightRegular,
         fontSize: theme.typography.pxToRem(15),
-        marginRight: theme.spacing(1),
+        // marginRight: theme.spacing(1),
         '&:focus': {
             opacity: 1,
             fontStretch: 'normal',
             fontStyle: 'normal',
             lineHeight: 1.38,
             letterSpacing: -0.06,
-            textAlign: 'center',
+            textAlign: 'center'
         },
         '&:active': {
-            height: '100%',
+            height: '100%'
         }
     },
     selected: {
-        backgroundColor: 'rgba(228, 228, 228, 0.4)',
+        backgroundColor: 'rgba(228, 228, 228, 0.4)'
     }
 }))(props => <Tab disableRipple {...props} />);
 
@@ -157,58 +162,162 @@ export class TransactionRecord extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container className={classes.mainGrid}>
-                    <Grid item xs={12} className={classes.titleRow}>
-                        <span className={classes.title}>
-                            {this.getLabel('transaction-records')}
-                        </span>
+                <div className={classes.rootDesktop}>
+                    <Grid container className={classes.mainGrid}>
+                        <Grid item xs={12} className={classes.titleRow}>
+                            <span className={classes.title}>
+                                {this.getLabel('transaction-records')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} style={{ marginTop: 20 }}>
+                            <StyledTabs
+                                value={tabValue}
+                                onChange={this.handleTabChange}
+                            >
+                                <StyledTab
+                                    label={this.getLabel('account-details')}
+                                    value="account-details"
+                                    onClick={() => {
+                                        if (
+                                            this.props.match.params.type !==
+                                            'account-details'
+                                        ) {
+                                            this.setState({
+                                                tabValue: 'account-details'
+                                            });
+                                        }
+                                    }}
+                                />
+                                <StyledTab
+                                    label={this.getLabel('bet-details')}
+                                    value="bet-details"
+                                    onClick={() => {
+                                        if (
+                                            this.props.match.params.type !==
+                                            'bet-details'
+                                        ) {
+                                            this.setState({
+                                                tabValue: 'bet-details'
+                                            });
+                                        }
+                                    }}
+                                />
+                                <StyledTab
+                                    label={this.getLabel('analysis-label')}
+                                    value="analysis"
+                                    onClick={() => {
+                                        if (
+                                            this.props.match.params.type !==
+                                            'analysis'
+                                        ) {
+                                            this.setState({
+                                                tabValue: 'analysis'
+                                            });
+                                        }
+                                    }}
+                                />
+                            </StyledTabs>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div className={classes.content}>
+                                {tabValue === 'account-details' && (
+                                    <AccountDetails />
+                                )}
+                                {tabValue === 'bet-details' && <BetDetails />}
+                                {tabValue === 'analysis' && <Main />}
+                            </div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} style={{ marginTop: 20 }}>
-                        <StyledTabs
-                            value={tabValue}
-                            onChange={this.handleTabChange}
-                        >
-                            <StyledTab
-                                label={this.getLabel('account-details')}
-                                value="account-details"
-                                onClick={() => {
-                                    if (
-                                        this.props.match.params.type !== 'account-details'
-                                    ) {
-                                        this.setState({ tabValue: 'account-details' });
-                                    }
-                                }}
-                            />
-                            <StyledTab
-                                label={this.getLabel('bet-details')}
-                                value="bet-details"
-                                onClick={() => {
-                                    if (
-                                        this.props.match.params.type !== 'bet-details'
-                                    ) {
-                                        this.setState({ tabValue: 'bet-details' });
-                                    }
-                                }}
-                            />
-                            <StyledTab
-                                label={this.getLabel('analysis-label')}
-                                value="analysis"
-                                onClick={() => {
-                                    if (
-                                        this.props.match.params.type !== 'analysis'
-                                    ) {
-                                        this.setState({ tabValue: 'analysis' });
-                                    }
-                                }}
-                            />
-                        </StyledTabs>
-                        <div className={classes.content}>
-                            {tabValue === 'account-details' && <AccountDetails />}
-                            {tabValue === 'bet-details' && <BetDetails />}
-                            {tabValue === 'analysis' && <Main />}
-                        </div>
-                    </Grid>
-                </Grid>
+                </div>
+                <div className={classes.rootMobile}>
+                    <AppBar position="static" className={classes.mobileRow}>
+                        <Toolbar className={classes.mobileBar}>
+                            <Grid container>
+                                <Grid item xs={3}>
+                                    <Button
+                                        className={classes.mobileMenuButton}
+                                        onClick={() => {
+                                            this.props.history.push('/p/');
+                                        }}
+                                    >
+                                        <ArrowBackIos style={{ width: 16 }} />
+                                        {this.getLabel('back-label')}
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    <span className={classes.title}>
+                                        {this.getLabel('transaction-records')}
+                                    </span>
+                                </Grid>
+                                <Grid item xs={3}></Grid>
+                            </Grid>
+                        </Toolbar>
+                    </AppBar>
+                    <StyledTabs
+                        variant="fullWidth"
+                        value={tabValue}
+                        onChange={this.handleTabChange}
+                    >
+                        <StyledTab
+                            className={classes.tabLabel}
+                            label={this.getLabel('account-details')}
+                            value="account-details"
+                            onClick={() => {
+                                if (
+                                    this.props.match.params.type !==
+                                    'account-details'
+                                ) {
+                                    this.setState({
+                                        tabValue: 'account-details'
+                                    });
+                                }
+                            }}
+                        />
+                        <StyledTab
+                            className={classes.tabLabel}
+                            label={this.getLabel('bet-details')}
+                            value="bet-details"
+                            onClick={() => {
+                                if (
+                                    this.props.match.params.type !==
+                                    'bet-details'
+                                ) {
+                                    this.setState({
+                                        tabValue: 'bet-details'
+                                    });
+                                }
+                            }}
+                        />
+                        <StyledTab
+                            className={classes.tabLabel}
+                            label={this.getLabel('analysis-label')}
+                            value="analysis"
+                            onClick={() => {
+                                if (
+                                    this.props.match.params.type !== 'analysis'
+                                ) {
+                                    this.setState({
+                                        tabValue: 'analysis'
+                                    });
+                                }
+                            }}
+                        />
+                    </StyledTabs>
+                    <div className={classes.content}>
+                        {tabValue === 'account-details' && <AccountDetails />}
+                        {tabValue === 'bet-details' && <BetDetails />}
+                        {tabValue === 'analysis' && <Main />}
+                    </div>
+                </div>
             </div>
         );
     }
@@ -223,10 +332,7 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState }
-            )(TransactionRecord)
+            connect(mapStateToProps, { authCheckState })(TransactionRecord)
         )
     )
 );

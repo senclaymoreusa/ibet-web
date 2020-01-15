@@ -398,17 +398,19 @@ export class SetWithdrawalPassword extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
+                } else {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            this.setState({ userId: res.data.pk });
+                            this.setState({ activeStep: res.data.withdraw_password ? 1 : 0 })
+                        })
                 }
             })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ userId: res.data.pk });
-                this.setState({ activeStep: res.data.withdraw_password ? 1 : 0 })
-            })
+        
     }
 
 
