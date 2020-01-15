@@ -1086,6 +1086,7 @@ class TopNavbar extends React.Component {
                                                 '/register'
                                             );
                                         }}
+                                        style={{ backgroundColor: "#ff9e00", color: "white" }}
                                     >
                                         {this.getLabel('sign-up')}
                                     </Button>
@@ -1095,6 +1096,7 @@ class TopNavbar extends React.Component {
                                         onClick={() => {
                                             this.props.show_letou_login();
                                         }}
+                                        style={{ backgroundColor: "#64bced", color: "white" }}
                                     >
                                         {this.getLabel('log-in')}
                                     </Button>
