@@ -165,7 +165,7 @@ import Games from './components/game';
 
 import Promotion from './components/promotion';
 
-import VerificationBonus from './components/bonus/verification_bonus';
+import VNFirst200SlotBonus from './components/bonus/vn_first_200_slots';
 
 const containerStyle = {
     mineight: '100%'
@@ -186,8 +186,6 @@ const BaseRouter = () => (
         <Route exact path="/gbpk10" component={gbpk10} />
         <Route exact path="/gbssc" component={gbssc} />
         <Route exact path="/game" component={Games} />
-
-        <Route exact path="/bonus/three_items" component={VerificationBonus} />
 
         <Route exact path="/zh/about_us" component={AboutUs} />
         <Route exact path="/zh/contact_us" component={ContactUs} />
@@ -351,6 +349,8 @@ const BaseRouter = () => (
         <Route exact path="/vi/member_rule4" component={member_rule4Vn} />
         <Route exact path="/vi/member_rule5" component={member_rule5Vn} />
         <Route exact path="/vi/member_rule6" component={member_rule6Vn} />
+
+        <Route exact path="/vi/first_time_200Slotgames" component={VNFirst200SlotBonus} />
 
         <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
         <Route exact path="/promotions" component={Promotion} />
