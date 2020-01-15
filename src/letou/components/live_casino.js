@@ -150,7 +150,7 @@ export class live_casino extends React.Component {
         var token = localStorage.getItem('token');
         if (token) {
         window.open(
-            `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`
+            `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`,'n2','width=1000,height=800'
         );
         }
         else {
@@ -181,7 +181,7 @@ export class live_casino extends React.Component {
             this.props.history.push('/register');
         } else {
             url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
-            window.open(url, "gdcasino")
+            window.open(url, 'gdcasino','width=1000,height=800')
         }
     }
 
@@ -211,7 +211,7 @@ export class live_casino extends React.Component {
             }).then(function (res){
                 return res.json();
             }).then(function(data) {
-                window.open(data.url, "aggames");
+                window.open(data.url, "aggames", 'width=1000,height=800');
             });
         } else {
             this.props.history.push('/register');
@@ -235,7 +235,7 @@ export class live_casino extends React.Component {
         } else {
         
             url = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=" + username + "&uuid=" + token + "&lang=" + language;
-            window.open(url, "ea-live")
+            window.open(url, "ea-live",'width=1000,height=800')
         }
     }
     
