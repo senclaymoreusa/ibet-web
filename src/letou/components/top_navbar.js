@@ -25,6 +25,7 @@ import ForgotPassword from './login-register/forgot_password';
 import NewReleases from '@material-ui/icons/NewReleases';
 import Clear from '@material-ui/icons/Clear';
 import List from '@material-ui/core/List';
+import getSymbolFromCurrency from 'currency-symbol-map';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -36,8 +37,6 @@ import axios from 'axios';
 import { config } from '../../util_config';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import Typography from '@material-ui/core/Typography';
-
-
 
 import {
     logout,
@@ -205,11 +204,15 @@ const styles = theme => ({
     depositIcon: {
         marginLeft: 3,
         backgroundColor: '#F1941A',
-        // height: 30,
-        // width: 36,
+        textTransform: 'capitalize',
+        color: 'white',
         '&:hover': {
             backgroundColor: '#F1941A'
         }
+    },
+    depositValue: {
+        fontSize: 13,
+        fontWeight: 'normal'
     },
     margin: {
         margin: theme.spacing(1)
@@ -256,7 +259,8 @@ class TopNavbar extends React.Component {
             anchorEl: null,
             anchorElLang: null,
             dropdownMenu: 'none',
-            kyUrl: null
+            kyUrl: null,
+            currency: 'USD'
         };
 
         this.getLabel = this.getLabel.bind(this);
@@ -404,7 +408,7 @@ class TopNavbar extends React.Component {
 
     // }
     render() {
-        const { classes } = this.props;
+        const { classes, user } = this.props;
         const { anchorEl, anchorElLang, dropdownMenu } = this.state;
         const token = localStorage.getItem('token');
 
@@ -567,15 +571,28 @@ class TopNavbar extends React.Component {
                                     <Announcements />
                                 </Paper>
                             </Modal>
-                            
+
                             <div className={classes.grow} />
-                            {
-                                this.props.isAuthenticated ? 
-                                (<div className={classes.topLinkButton}>
-                                    <Typography style={{display: 'inline-block', color: 'black'}}>Hi, </Typography>
-                                    <Typography style={{display: 'inline-block', color: 'black'}}>{ this.props.username }</Typography>
-                                </div>) : null
-                            }
+                            {this.props.isAuthenticated ? (
+                                <div className={classes.topLinkButton}>
+                                    <Typography
+                                        style={{
+                                            display: 'inline-block',
+                                            color: 'black'
+                                        }}
+                                    >
+                                        Hi,{' '}
+                                    </Typography>
+                                    <Typography
+                                        style={{
+                                            display: 'inline-block',
+                                            color: 'black'
+                                        }}
+                                    >
+                                        {this.props.username}
+                                    </Typography>
+                                </div>
+                            ) : null}
                             <Button
                                 size="small"
                                 className={classes.topLinkButton}
@@ -1089,36 +1106,62 @@ class TopNavbar extends React.Component {
                             </Popper>
                             {this.props.isAuthenticated ? (
                                 <div>
-                                    <div style={{ display: 'inline-block', backgroundColor: '#fff7ec', borderRadius: 10 }}>
-                                        <div style={{ float: 'left', display: 'inline', color: 'black', paddingTop: '8px'}}>
-                                            ${ this.props.balance }
+                                    <div
+                                        style={{
+                                            display: 'inline-block',
+                                            backgroundColor: '#fff7ec',
+                                            borderRadius: 18,
+                                            padding: 5
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                float: 'left',
+                                                display: 'inline',
+                                                color: 'black',
+                                                paddingTop: '8px'
+                                            }}
+                                        >
+                                            <span
+                                                className={classes.depositValue}
+                                            >
+                                                {getSymbolFromCurrency(
+                                                    user.currency
+                                                )}
+                                                {this.props.balance}
+                                            </span>
                                         </div>
-                                        <div  style={{ display: 'inline' }}>
-                                        <Fab variant="extended" size="small" className={classes.depositIcon} onClick={()=> {
+                                        <div style={{ display: 'inline' }}>
+                                            <Fab
+                                                variant="extended"
+                                                size="small"
+                                                className={classes.depositIcon}
+                                                onClick={() => {
+                                                    this.props.history.push(
+                                                        '/p/fortune-center/deposit'
+                                                    );
+                                                }}
+                                            >
+                                                {/* <NavigationIcon className={classes.extendedIcon} /> */}
+                                                {this.getLabel('deposit-label')}
+                                            </Fab>
+                                        </div>
+                                    </div>
+                                    <Fab
+                                        color="primary"
+                                        aria-label="add"
+                                        className={classes.profileIcon}
+                                        onClick={() => {
+                                            // window.open(window.location.origin + "/p/fortune-center/deposit",
+                                            //     "Letou profile",
+                                            //     "resizable,scrollbars,status");
                                             this.props.history.push(
                                                 '/p/fortune-center/deposit'
                                             );
-                                        }}>
-                                        {/* <NavigationIcon className={classes.extendedIcon} /> */}
-                                            Deposit
-                                        </Fab>
-                                        </div>
-                                    </div>
-                                <Fab
-                                    color="primary"
-                                    aria-label="add"
-                                    className={classes.profileIcon}
-                                    onClick={() => {
-                                        // window.open(window.location.origin + "/p/fortune-center/deposit",
-                                        //     "Letou profile",
-                                        //     "resizable,scrollbars,status");
-                                        this.props.history.push(
-                                            '/p/fortune-center/deposit'
-                                        );
-                                    }}
-                                >
-                                    <Person />
-                                </Fab>
+                                        }}
+                                    >
+                                        <Person />
+                                    </Fab>
                                 </div>
                             ) : (
                                 <div style={{ marginLeft: 20 }}>
@@ -1601,8 +1644,8 @@ const mapStateToProps = state => {
         showLogin: state.general.show_letou_login,
         showForgotPassword: state.general.show_letou_forgot_password,
         showMobileMenu: state.general.show_letou_mobile_menu,
-        balance: user ?  Number(user.balance).toFixed(2) : '',
-        username: user ? user.username : '',
+        balance: user ? Number(user.balance).toFixed(2) : '',
+        username: user ? user.username : ''
     };
 };
 
