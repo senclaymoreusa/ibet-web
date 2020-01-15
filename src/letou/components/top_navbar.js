@@ -193,21 +193,22 @@ const styles = theme => ({
     },
     profileIcon: {
         margin: theme.spacing(1),
-        marginLeft: 30,
+        marginLeft: 20,
         backgroundColor: '#F1941A',
-        height: 30,
-        width: 36,
+        color:'white',
+        height: 40,
+        width: 40,
         '&:hover': {
             backgroundColor: '#F1941A'
         }
     },
     depositIcon: {
-        marginLeft: 3,
+        marginLeft: 5,
         backgroundColor: '#F1941A',
         textTransform: 'capitalize',
         color: 'white',
         '&:hover': {
-            backgroundColor: '#F1941A'
+            backgroundColor: '#FF7E05'
         }
     },
     depositValue: {
@@ -1141,52 +1142,47 @@ class TopNavbar extends React.Component {
                                                         '/p/fortune-center/deposit'
                                                     );
                                                 }}
-                                            >
-                                                {/* <NavigationIcon className={classes.extendedIcon} /> */}
-                                                {this.getLabel('deposit-label')}
+                                            >{this.getLabel('deposit-label')}
                                             </Fab>
                                         </div>
                                     </div>
-                                    <Fab
-                                        color="primary"
-                                        aria-label="add"
-                                        className={classes.profileIcon}
-                                        onClick={() => {
-                                            // window.open(window.location.origin + "/p/fortune-center/deposit",
-                                            //     "Letou profile",
-                                            //     "resizable,scrollbars,status");
-                                            this.props.history.push(
-                                                '/p/fortune-center/deposit'
-                                            );
-                                        }}
-                                    >
-                                        <Person />
-                                    </Fab>
+                                    <div style={{ display: 'inline' }}>
+                                        <Fab
+                                            className={classes.profileIcon}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/p/fortune-center/deposit'
+                                                );
+                                            }}
+                                        >
+                                            <Person />
+                                        </Fab>
+                                    </div>
                                 </div>
                             ) : (
-                                <div style={{ marginLeft: 20 }}>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.history.push(
-                                                '/register'
-                                            );
-                                        }}
-                                    >
-                                        {this.getLabel('sign-up')}
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.show_letou_login();
-                                        }}
-                                    >
-                                        {this.getLabel('log-in')}
-                                    </Button>
-                                </div>
-                            )}
+                                    <div style={{ marginLeft: 20 }}>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.secondRowButton}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/register'
+                                                );
+                                            }}
+                                        >
+                                            {this.getLabel('sign-up')}
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.secondRowButton}
+                                            onClick={() => {
+                                                this.props.show_letou_login();
+                                            }}
+                                        >
+                                            {this.getLabel('log-in')}
+                                        </Button>
+                                    </div>
+                                )}
                         </Toolbar>
                     </AppBar>
                     <Modal
