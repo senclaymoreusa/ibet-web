@@ -30,13 +30,11 @@ const styles = theme => ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
         alignItems: 'center'
     },
     rootDesktop: {
         maxWidth: 1400,
         width: '100%',
-        height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -193,45 +191,30 @@ export class FortuneCenter extends Component {
             mainWallet: 0,
             currency: 'CNY'
         }
-
-        this.handleTabChange = this.handleTabChange.bind(this);
-    }
-
-    handleTabChange(event, newValue) {
-        this.setState({ desktopContent: newValue });
-        this.setState({ desktopTabValue: newValue });
-
-        var url = this.state.urlPath;
-        var parts = url.split('/');
-
-        url = '/';
-        var path = parts.slice(1, 3).join('/');
-        url = url + path;
-
-        url = url + '/' + newValue;
-        this.props.history.push(url);
     }
 
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios
+                    .get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ username: res.data.username });
+                        this.setState({ mainWallet: res.data.main_wallet });
+                        this.setState({ currency: res.data.currency });
+                    })
+                    .catch(function (err) {
+                        sendingLog(err);
+                    });
             }
         })
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ username: res.data.username });
-                this.setState({ mainWallet: res.data.main_wallet });
-                this.setState({ currency: res.data.currency });
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
+        
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -247,22 +230,24 @@ export class FortuneCenter extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios
+                    .get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ username: res.data.username });
+                        this.setState({ mainWallet: res.data.main_wallet });
+                        this.setState({ currency: res.data.currency });
+                    })
+                    .catch(function (err) {
+                        sendingLog(err);
+                    });
             }
         })
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ username: res.data.username });
-                this.setState({ mainWallet: res.data.main_wallet });
-                this.setState({ currency: res.data.currency });
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
+        
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -477,22 +462,22 @@ export class FortuneCenter extends Component {
                         <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
                             <div className={classes.leftPane}>
                                 <Button className={(desktopTabValue === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'total-assets')}>
+                                    onClick={() => this.props.history.push('/p/fortune-center/total-assets')}>
                                     <AccountBalanceOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('total-assets')}
                                 </Button>
                                 <Button className={(desktopTabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'deposit')}>
+                                    onClick={() => this.props.history.push('/p/fortune-center/deposit')}>
                                     <FlightLandOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('deposit-label')}
                                 </Button>
                                 <Button className={(desktopTabValue === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'withdrawal')}>
+                                    onClick={() => this.props.history.push('/p/fortune-center/withdrawal')}>
                                     <FlightTakeoffOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('title-withdrawal')}
                                 </Button>
                                 <Button className={(desktopTabValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'transfer')}>
+                                    onClick={() => this.props.history.push('/p/fortune-center/transfer')}>
                                     <LoopOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('title-transfer')}
                                 </Button>

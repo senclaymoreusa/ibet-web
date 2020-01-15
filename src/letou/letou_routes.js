@@ -128,40 +128,41 @@ import member_rule3Vn from './components/partner_vn/partner_rule3';
 import member_rule4Vn from './components/partner_vn/partner_rule4';
 import member_rule5Vn from './components/partner_vn/partner_rule5';
 import member_rule6Vn from './components/partner_vn/partner_rule6';
-import  LotteryRuleOneVn  from './components/member_vn/lottery_rule1';
-import  GameSedieVn  from './components/member_vn/game_sedie';
-import  GameErbagangVn  from './components/member_vn/game_erbagang';
-import  SpecialRulesVn  from './components/member_vn/special_rules';
-import  GameRuleTwoVn  from './components/member_vn/game_rule2';
-import  GameWenzhoujiupaiVn  from './components/member_vn/game_wenzhoujiupai';
-import  GameRuleFiveVn  from './components/member_vn/game_rule5';
-import  GameLongHuVn  from './components/member_vn/game_longhu';
-import  GameRuleSevenVn  from './components/member_vn/game_rule7';
-import  GameGubaoVn  from './components/member_vn/game_gubao';
-import  LotteryRuleFourVn  from './components/member_vn/lottery_rule4';
-import  GameRuleFourVn  from './components/member_vn/game_rule4';
-import  GameSangongVn  from './components/member_vn/game_sangong';
-import  GameRuleEightVn  from './components/member_vn/game_rule8';
-import  LotteryRuleTwoVn  from './components/member_vn/lottery_rule2';
-import  LotteryRuleThreeVn  from './components/member_vn/lottery_rule3';
-import  GameRuleThreeVn  from './components/member_vn/game_rule3';
-import  GameRuleOneVn  from './components/member_vn/game_rule1';
-import  BetRuleTwoVn  from './components/member_vn/bet_rules2';
-import  BetRuleThreeVn  from './components/member_vn/bet_rules3';
-import  BetRuleFourVn  from './components/member_vn/bet_rules4';
-import  BaijialeVn  from './components/member_vn/game_baijiale';
-import  LunpanVn  from './components/member_vn/game_lunpan';
-import  Game21dianVn  from './components/member_vn/game_21dian';
-import  VirtualVn  from './components/member_vn/virtual_sports';
-import  gbsports from './components/sports/gbsports';
-import  gbesports from './components/sports/gbesports';
-import  onebook from './components/sports/onebook';
-import  eonebook from './components/sports/eonebook';
-import  gblotto from './components/sports/gblotto';
-import  gbkeno from './components/sports/gbkeno';
-import  gbk3 from './components/sports/gbk3';
-import  gbpk10 from './components/sports/gbpk10';
-import  gbssc from './components/sports/gbssc';
+import LotteryRuleOneVn from './components/member_vn/lottery_rule1';
+import GameSedieVn from './components/member_vn/game_sedie';
+import GameErbagangVn from './components/member_vn/game_erbagang';
+import SpecialRulesVn from './components/member_vn/special_rules';
+import GameRuleTwoVn from './components/member_vn/game_rule2';
+import GameWenzhoujiupaiVn from './components/member_vn/game_wenzhoujiupai';
+import GameRuleFiveVn from './components/member_vn/game_rule5';
+import GameLongHuVn from './components/member_vn/game_longhu';
+import GameRuleSevenVn from './components/member_vn/game_rule7';
+import GameGubaoVn from './components/member_vn/game_gubao';
+import LotteryRuleFourVn from './components/member_vn/lottery_rule4';
+import GameRuleFourVn from './components/member_vn/game_rule4';
+import GameSangongVn from './components/member_vn/game_sangong';
+import GameRuleEightVn from './components/member_vn/game_rule8';
+import LotteryRuleTwoVn from './components/member_vn/lottery_rule2';
+import LotteryRuleThreeVn from './components/member_vn/lottery_rule3';
+import GameRuleThreeVn from './components/member_vn/game_rule3';
+import GameRuleOneVn from './components/member_vn/game_rule1';
+import BetRuleTwoVn from './components/member_vn/bet_rules2';
+import BetRuleThreeVn from './components/member_vn/bet_rules3';
+import BetRuleFourVn from './components/member_vn/bet_rules4';
+import BaijialeVn from './components/member_vn/game_baijiale';
+import LunpanVn from './components/member_vn/game_lunpan';
+import Game21dianVn from './components/member_vn/game_21dian';
+import VirtualVn from './components/member_vn/virtual_sports';
+import gbsports from './components/sports/gbsports';
+import gbesports from './components/sports/gbesports';
+import onebook from './components/sports/onebook';
+import btisports from './components/sports/btisports';
+import eonebook from './components/sports/eonebook';
+import gblotto from './components/sports/gblotto';
+import gbkeno from './components/sports/gbkeno';
+import gbk3 from './components/sports/gbk3';
+import gbpk10 from './components/sports/gbpk10';
+import gbssc from './components/sports/gbssc';
 // import  Games  from './components/game';
 import GameLobby from './components/games/game_lobby';
 import GameDetail from './components/games/game_detail';
@@ -177,15 +178,16 @@ const BaseRouter = () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/live_casino" component={live_casino} />
-        <Route exact path='/gbsports' component={gbsports} />
-        <Route exact path='/gbesports' component={gbesports} />
-        <Route exact path='/onebook' component={onebook} />
-        <Route exact path='/eonebook' component={eonebook} />
-        <Route exact path='/gblotto' component={gblotto} />
-        <Route exact path='/gbkeno' component={gbkeno} />
-        <Route exact path='/gbk3' component={gbk3} />
-        <Route exact path='/gbpk10' component={gbpk10} />
-        <Route exact path='/gbssc' component={gbssc} />
+        <Route exact path="/gbsports" component={gbsports} />
+        <Route exact path="/btisports" component={btisports} />
+        <Route exact path="/gbesports" component={gbesports} />
+        <Route exact path="/onebook" component={onebook} />
+        <Route exact path="/eonebook" component={eonebook} />
+        <Route exact path="/gblotto" component={gblotto} />
+        <Route exact path="/gbkeno" component={gbkeno} />
+        <Route exact path="/gbk3" component={gbk3} />
+        <Route exact path="/gbpk10" component={gbpk10} />
+        <Route exact path="/gbssc" component={gbssc} />
         {/* <Route exact path="/game" component={Games} /> */}
         <Route exact path="/game/:category?/:search?/" component={GameLobby} />
         <Route exact path="/game_detail/:id" component={GameDetail} />

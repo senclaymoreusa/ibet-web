@@ -332,6 +332,7 @@ export class live_casino extends React.Component {
                         </div>
                     </div>
 
+
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle">{this.getLabel('n2live-title')}</div>
                         <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/n2live.jpg" alt="n2" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
@@ -448,6 +449,7 @@ export class live_casino extends React.Component {
                     </div>
                     
                     </div>
+
 
                     {/* </div> */}
                     {/* </Grid> */}

@@ -298,7 +298,7 @@ class TopNavbar extends React.Component {
                             config
                         )
                         .then(res => {
-                            console.log("response: ", res);
+                            // console.log("response: ", res);
                             if (res.data.errorCode === errors.USER_IS_BLOCKED) {
                                 // this.props.logout();
                                 this.props.postLogout();
@@ -306,7 +306,7 @@ class TopNavbar extends React.Component {
                             }
 
                             if (res.status === 200) {
-                                console.log(res.data);
+                                // console.log(res.data);
                                 this.setState({ kyUrl: res.data.d.url });
                                 window.open(this.state.kyUrl, 'kaiyuan gaming');
                             }
@@ -387,6 +387,7 @@ class TopNavbar extends React.Component {
     render() {
         const { classes } = this.props;
         const { anchorEl, anchorElLang, dropdownMenu } = this.state;
+        const token = localStorage.getItem('token');
 
         let flag = '';
 
@@ -666,9 +667,11 @@ class TopNavbar extends React.Component {
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.props.history.push(
+                                                                '/btisports'
+                                                            );
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'international-sports'
@@ -1074,29 +1077,29 @@ class TopNavbar extends React.Component {
                                     <Person />
                                 </Fab>
                             ) : (
-                                    <div style={{ marginLeft: 20 }}>
-                                        <Button
-                                            variant="contained"
-                                            className={classes.secondRowButton}
-                                            onClick={() => {
-                                                this.props.history.push(
-                                                    '/register'
-                                                );
-                                            }}
-                                        >
-                                            {this.getLabel('sign-up')}
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            className={classes.secondRowButton}
-                                            onClick={() => {
-                                                this.props.show_letou_login();
-                                            }}
-                                        >
-                                            {this.getLabel('log-in')}
-                                        </Button>
-                                    </div>
-                                )}
+                                <div style={{ marginLeft: 20 }}>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.secondRowButton}
+                                        onClick={() => {
+                                            this.props.history.push(
+                                                '/register'
+                                            );
+                                        }}
+                                    >
+                                        {this.getLabel('sign-up')}
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.secondRowButton}
+                                        onClick={() => {
+                                            this.props.show_letou_login();
+                                        }}
+                                    >
+                                        {this.getLabel('log-in')}
+                                    </Button>
+                                </div>
+                            )}
                         </Toolbar>
                     </AppBar>
                     <Modal

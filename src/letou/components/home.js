@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 
-
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 document.body.style = 'background: #f1f1f1;';
