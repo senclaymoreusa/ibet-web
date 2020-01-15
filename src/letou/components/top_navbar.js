@@ -207,10 +207,11 @@ const styles = theme => ({
         backgroundColor: '#F1941A',
         textTransform: 'none',
         color: 'white',
-        // height: 30,
+        height: 30,
         // width: 36,
+        minWidth: '70px',
         '&:hover': {
-            backgroundColor: '#F1941A'
+            backgroundColor: '#FF7E05'
         }
     },
     margin: {
@@ -1096,7 +1097,7 @@ class TopNavbar extends React.Component {
                                             ${ this.props.balance }
                                         </div>
                                         <div  style={{ display: 'inline' }}>
-                                        <Fab variant="extended" size="small" className={classes.depositIcon} onClick={()=> {
+                                        <Fab variant="extended" className={classes.depositIcon} onClick={()=> {
                                             this.props.history.push(
                                                 '/p/fortune-center/deposit'
                                             );
