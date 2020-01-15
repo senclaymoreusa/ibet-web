@@ -75,12 +75,12 @@ export class PTlaunchtest extends React.Component {
         return formatMessage({ id: labelId });
     }
     componentDidMount() {
-        const script = document.createElement("script");
+        // const script = document.createElement("script");
     
-        script.src = "pt_test/integration/integrationRedirect.html";
-        // script.async = true;
+        // script.src = "pt_test/integration/integrationRedirect.html";
+        // // script.async = true;
     
-        document.body.appendChild(script);
+        // document.body.appendChild(script);
 
         const script1 = document.createElement("script");
         script1.type = "text/javascript";
