@@ -1128,7 +1128,7 @@ class TopNavbar extends React.Component {
                                                 className={classes.depositValue}
                                             >
                                                 {getSymbolFromCurrency(
-                                                    user.currency
+                                                    this.props.currency
                                                 )}
                                                 {this.props.balance}
                                             </span>
@@ -1642,7 +1642,8 @@ const mapStateToProps = state => {
         showForgotPassword: state.general.show_letou_forgot_password,
         showMobileMenu: state.general.show_letou_mobile_menu,
         balance: user ? Number(user.balance).toFixed(2) : '',
-        username: user ? user.username : ''
+        username: user ? user.username : '',
+        currency: user ? user.currency : 'USD'
     };
 };
 
