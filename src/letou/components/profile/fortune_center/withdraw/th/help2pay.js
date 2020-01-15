@@ -544,6 +544,7 @@ class Help2Pay extends Component {
             "toBankAccountNumber": "123123123123440",
             "withdrawPassword": "1234",
             "bank":this.state.selectedBankOption,
+            "currency":2,
         }
 
         var formBody = [];
@@ -564,8 +565,8 @@ class Help2Pay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            if (res.ok) {
-                return res.text();
+            if (res.statusText == "OK") {
+                return res;
             }
             currentComponent.props.callbackFromParent("error", "渠道维护中");
 
@@ -574,10 +575,39 @@ class Help2Pay extends Component {
         }).then(function (data) {
             //let newwin = window.open('');
             //newwin.document.write(data);
+            let currentComponent = this;
             var timer = setInterval(function () {
-
                 //if (newwin.closed) {
                     clearInterval(timer);
+                    let status = data.success;
+                    if (status) {
+                        const sbody = JSON.stringify({
+                            type: 'withdraw',
+                            username: currentComponent.state.data.username,
+                            balance: currentComponent.state.amount,
+                        });
+                        axios.post(API_URL + `users/api/addorwithdrawbalance/`, sbody, config)
+                            .then(res => {
+                                if (res.data === 'Failed') {
+                                    //this.setState({ error: true });
+                                    currentComponent.props.callbackFromParent("error", 'Transaction failed!');
+                                } else if (res.data === 'The balance is not enough') {
+                                    //    // alert("cannot withdraw this amount")
+                                    currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
+        
+                                } else {
+                                    currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
+        
+                                    // alert("your balance is updated")
+                                    // window.location.reload()
+                                }
+                            });
+        
+                    } else {
+                        currentComponent.props.callbackFromParent("error", "Somthing is wrong");
+                    //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+                }
+                    {/*
                     const pd = JSON.stringify({
                         order_id: currentComponent.state.order_id,
 
@@ -593,15 +623,16 @@ class Help2Pay extends Component {
                         body: pd
 
                     }).then(function (res) {
+                        
                         return res.text();
                     }).then(function (data) {
                         //console.log(data)
                         if (data === '0') {
-
+                        
                             const body = JSON.stringify({
                                 type: 'withdraw',
-                                username: this.state.data.username,
-                                balance: this.state.amount,
+                                username: currentComponent.state.data.pk,
+                                balance: currentComponent.state.amount,
                             });
                             //console.log(body)
                             axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
@@ -614,10 +645,11 @@ class Help2Pay extends Component {
                                         currentComponent.props.callbackFromParent("success", "Transaction completed.");
                                     }
                                 });
-                        } else {
-                            currentComponent.props.callbackFromParent("error", '渠道维护中');
-                        }
-                    });
+                            */}
+                        //} else {
+                            //currentComponent.props.callbackFromParent("error", '渠道维护中');
+                        //}
+                    //});
                 //}
             }, 1000);
 
@@ -825,7 +857,7 @@ class Help2Pay extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick.bind(this)}
-                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
+                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.bankAccountNumber == "" || this.state.bankAccountHolder == "" || this.state.withdrawpassword ==""}
                         >{this.getLabel('next-label')}</Button>
                     </Grid>
                 </Grid>
