@@ -261,6 +261,7 @@ export class Login extends React.Component {
                                 });
                             } else {
                                 this.props.hide_letou_login();
+                                this.props.history.push('/');
                             }
                         })
                         .catch(err => {

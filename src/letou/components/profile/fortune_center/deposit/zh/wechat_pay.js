@@ -335,7 +335,7 @@ class WechatPay extends Component {
 
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Wechatpay');
-                currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
+                //currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
                 var timer = setInterval(function () {
                     //console.log('checking..')
                     if (mywin.closed) {

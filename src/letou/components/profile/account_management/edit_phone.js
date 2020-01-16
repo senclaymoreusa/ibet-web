@@ -11,7 +11,6 @@ import StepLabel from '@material-ui/core/StepLabel';
 import { config } from '../../../../util_config';
 import axios from 'axios'
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -158,15 +157,6 @@ const variantIcon = {
     info: InfoIcon,
 };
 
-const CustomCheckbox = withStyles({
-    root: {
-        color: '#4DA9DF',
-        '&$checked': {
-            color: '#4DA9DF',
-        },
-    },
-    checked: {},
-})(props => <Checkbox color="default" {...props} />);
 
 const customStepStyles = makeStyles({
     root: {
@@ -301,7 +291,7 @@ export class EditPhone extends Component {
 
     getStepContent() {
         const { classes } = this.props;
-        const { activeStep, phone, newPhone, remainingTime, verificationCode, verificationCodeSent } = this.state;
+        const { activeStep, phone, newPhone, remainingTime, verificationCode } = this.state;
 
         switch (activeStep) {
             case 0:

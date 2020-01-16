@@ -165,83 +165,21 @@ export class WithdrawMain extends Component {
         super(props);
 
         this.state = {
-            urlPath: '',
             contentValue: '',
-            selectedType: '',
-            userCountry: '',
-            favouriteMethod: '',
             activeStep: -1,
-
-            tabValue: 'local'
         };
 
         this.handleTabChange = this.handleTabChange.bind(this);
 
         this.setPage = this.setPage.bind(this);
         this.withdrawWith = this.withdrawWith.bind(this);
-        this.checkFavoriteMethod = this.checkFavoriteMethod.bind(this);
 
     }
 
     handleTabChange(newValue) {
         this.setState({ tabValue: newValue })
     }
-    
-    /*
-    setWithdrawalPassword() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
 
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ userId: res.data.pk });
-                this.setState({ activeStep: res.data.withdraw_password ? 1 : 0 })
-            })
-
-    }
-    */
-    /*
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            }
-        })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ userCountry: res.data.country });
-                this.setState({ favouriteMethod: res.data.favorite_payment_method });
-            });
-
-        this.setState({ urlPath: this.props.history.location.pathname });
-
-        this.setContent();
-    }
-    */
-   static getDerivedStateFromProps(props){
-       /*
-    const token = localStorage.getItem('token');
-    config.headers["Authorization"] = `Token ${token}`;
-    axios.get(API_URL + 'users/api/user/', config)
-        .then(res => {
-            return {
-                userCountry: res.data.country,
-                favouriteMethod: res.data.favorite_payment_method,
-            }
-            //this.setState({ userCountry: res.data.country });
-            //this.setState({ favouriteMethod: res.data.favorite_payment_method });
-        });
-
-    //this.setState({ urlPath: this.props.history.location.pathname });
-    */
-        return {
-            urlPath: props.history.location.pathname,
-        }
-   }
-   
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -310,148 +248,17 @@ export class WithdrawMain extends Component {
         return formatMessage({ id: labelId });
     }
 
-    checkFavoriteMethod() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ favouriteMethod: res.data.favorite_payment_method });
-            });
-    }
-
     getAvailablePaymentMethods() {
-        const { classes } = this.props;
-        const { contentValue, userCountry, favouriteMethod, tabValue } = this.state;
+        const { classes, user, operationProp } = this.props;
+        const { contentValue, tabValue } = this.state;
 
-        //console.log(userCountry.toLocaleLowerCase())
-        switch (userCountry.toLowerCase()) {
+        switch (user.country.toLowerCase()) {
             case 'china':
                 return (
-                    <Grid container className={classes.methodGrid} spacing={4}>
-                        {/* <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.withdrawWith('banktransfer');
-                                }}
-                            >
-                                <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'banktransfer'),
-                            })}>{this.getLabel('bank-transfer')}</span>
-                            {contentValue === 'banktransfer' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.withdrawWith('quickpay');
-                                }}
-                            ><img src={images.src + 'letou/unionpay.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'quickpay'),
-                            })}>{this.getLabel('quick-pay')}</span>
-                            {contentValue === 'quickpay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.withdrawWith('unionpayqr');
-                                }}
-                            ><img src={images.src + 'letou/unionpayqr.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'unionpayqr'),
-                            })}>{this.getLabel('union-pay-qr')}</span>
-                            {contentValue === 'unionpayqr' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.withdrawWith('alipay');
-                                }}
-                            ><img src={images.src + 'letou/alipay@3x.png'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'alipay'),
-                            })}>{this.getLabel('ali-pay')}</span>
-                            {contentValue === 'alipay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.withdrawWith('onlinepay');
-                                }}
-                            ><img src={images.src + 'letou/onlinepay.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'onlinepay'),
-                            })}>{this.getLabel('online-pay')}</span>
-                            {contentValue === 'onlinepay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.withdrawWith('wechatpay');
-                                }}
-                            ><img src={images.src + 'letou/wechatpay.svg'} alt="" height="40" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'wechatpay'),
-                            })}>{this.getLabel('we-chat-pay')}</span>
-                            {contentValue === 'wechatpay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.withdrawWith('jdpay');
-                                }}
-                            ><img src={images.src + 'letou/jdpay.svg'} alt="" height="28" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'jdpay'),
-                            })}>{this.getLabel('jd-pay')}</span>
-                            {contentValue === 'jdpay' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.withdrawWith('bitcoin');
-                                }}
-                            ><img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'bitcoin'),
-                            })}>{this.getLabel('bit-coin')}</span>
-                            {contentValue === 'bitcoin' && <div className={classes.selected} />}
-                        </Grid>
-                        <Grid item xs={1} className={classes.methodColumn}>
-                            <Button
-                                className={classes.addButton}
-                                onClick={() => {
-                                    this.withdrawWith('astropay');
-                                }}
-                            ><img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
-                            </Button>
-                            <span className={clsx(classes.title, {
-                                [classes.active]: (contentValue === 'astropay'),
-                            })}>{this.getLabel('astro-pay')}</span>
-                            {contentValue === 'astropay' && <div className={classes.selected} />}
-                        </Grid> */}
-                    </Grid>
+                    <div></div>
                 );
             case 'thailand':
-            //case 'united states':
                 return (
-                    
                     <StyledTabs
                         value={tabValue}
                         onChange={this.handleTabChange}>
@@ -476,11 +283,8 @@ export class WithdrawMain extends Component {
                             }}
                         />
                     </StyledTabs>
-                    
-                    
                 );
             case 'vietnam':
-            //case 'united states':
                 return (
                     <StyledTabs
                         value={tabValue}
@@ -490,12 +294,12 @@ export class WithdrawMain extends Component {
                             value="vietnamelocalbank"
                             onClick={() => {
                                 if (this.props.match.params.type !== 'vietnamelocalbank') {
-                                    this.handleTabChange('vietnamelocalbank');                                    
+                                    this.handleTabChange('vietnamelocalbank');
                                     this.withdrawWith('vietnamelocalbank');
                                 }
                             }}
                         />
-                        
+
                         <StyledTab
                             label={this.getLabel('money-pay')}
                             value="moneypay"
@@ -511,6 +315,21 @@ export class WithdrawMain extends Component {
             default:
                 return <div></div>;
         }
+    }
+
+    getPaymentMethodContent() {
+        const { operationProp } = this.props;
+        const { contentValue } = this.state;
+
+        if (contentValue === 'error')
+            return <WithdrawError callbackFromParent={this.setPage} errorMessage={this.state.withdrawMessage} />;
+        else if (contentValue === 'success')
+            return <WithdrawSuccess callbackFromParent={this.setPage} successMessage={this.state.withdrawMessage} />;
+
+
+        if (operationProp === 'thailocalbank')
+            return <ThaiLocalBank callbackFromParent={this.setPage} />;
+
     }
 
     render() {
@@ -529,18 +348,20 @@ export class WithdrawMain extends Component {
 
                     {activeStep === 1 && tabValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
                     {activeStep === 1 && tabValue === 'help2pay' && <Help2Pay callbackFromParent={this.setPage} />}
-                    {activeStep === 1 && tabValue === 'vietnamelocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage}/>)}
-                    
-                        
+                    {activeStep === 1 && tabValue === 'vietnamelocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage} />)}
+
                 </div>
             </div >
         );
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+    const { user } = state.auth;
+
     return {
-        lang: state.language.lang,
+        user: user,
+        operationProp: ownProps.match.params.operation,
     };
 };
 

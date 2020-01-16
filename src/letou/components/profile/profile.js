@@ -7,11 +7,9 @@ import {
     authCheckState,
     AUTH_RESULT_FAIL,
     logout,
-    postLogout,
-    sendingLog
-} from '../../../actions';
-import { config } from '../../../util_config';
+    postLogout} from '../../../actions';
 import clsx from 'clsx';
+import Popover from '@material-ui/core/Popover';
 
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
@@ -29,26 +27,18 @@ import Button from '@material-ui/core/Button';
 import TransactionRecord from './transaction_record/transaction_record';
 import { images } from '../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
-import Popper from '@material-ui/core/Popper';
-import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import Person from '@material-ui/icons/Person';
 import Smartphone from '@material-ui/icons/PhoneAndroid';
 import Email from '@material-ui/icons/Email';
 import Tooltip from '@material-ui/core/Tooltip';
-import axios from 'axios';
 
 import MobileMainProfile from '../mobile/mobile_profile';
 import MobileAccountInfo from '../mobile/mobile_account_info';
 import SecuritySettings from './account_management/security_settings';
 import Suggestions from './account_management/suggestions';
-import DepositMain from './fortune_center/deposit/deposit_main';
-import Withdrawal from './fortune_center/withdrawal';
-import Transfer from './fortune_center/transfer';
-import TotalAssets from './fortune_center/total_assets';
-import AccountDetails from './transaction_record/account_details';
+import { Grid } from '@material-ui/core';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -58,7 +48,6 @@ const styles = theme => ({
         minHeight: '100vh'
     },
     rootDesktop: {
-        height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -246,7 +235,7 @@ export class Profile extends Component {
             desktopTabValue: 'none',
             desktopContent: '',
             mobileContent: '',
-            showProfileMenu: false,
+
             anchorEl: null,
 
             emailVerified: false,
@@ -263,8 +252,7 @@ export class Profile extends Component {
         this.props.history.push('/p/' + category)
 
         this.setState({
-            anchorEl: null,
-            showProfileMenu: false
+            anchorEl: null
         });
     }
 
@@ -316,11 +304,13 @@ export class Profile extends Component {
     }
 
     getMobileContent() {
-        const { typeProp, subProp } = this.props;
+        const { typeProp } = this.props;
 
         switch (typeProp) {
             case 'account-management':
                 return <MobileAccountInfo />;
+                case 'transaction-records':
+                return <TransactionRecord />;
             case 'security-settings':
                 return <SecuritySettings />;
             case 'fortune-center':
@@ -335,7 +325,6 @@ export class Profile extends Component {
     render() {
         const { classes, typeProp } = this.props;
         const {
-            showProfileMenu,
             anchorEl,
             nameVerified,
             phoneVerified,
@@ -343,6 +332,7 @@ export class Profile extends Component {
         } = this.state;
 
 
+        const showProfileMenu = Boolean(anchorEl);
 
         return (
             <div className={classes.root}>
@@ -388,8 +378,8 @@ export class Profile extends Component {
                         </Toolbar>
                     </AppBar>
                     <AppBar position="static" className={classes.appBar}>
-                        <StyledTabs centered  value={typeProp ? typeProp : 'none'}
-                               >
+                        <StyledTabs centered value={typeProp ? typeProp : 'none'}
+                        >
                             <StyledTab
                                 style={{
                                     width: 0,
@@ -426,7 +416,6 @@ export class Profile extends Component {
                                 value="profile"
                                 onMouseEnter={event => {
                                     this.setState({ anchorEl: event.target });
-                                    this.setState({ showProfileMenu: true });
                                 }}
                             />
                             <StyledTab
@@ -453,149 +442,140 @@ export class Profile extends Component {
                             />
                         </StyledTabs>
                     </AppBar>
-                    <Popper
-                        id="porfile-popper"
+                    <Popover
+                        id="porfile-popover"
                         open={showProfileMenu}
                         anchorEl={anchorEl}
-                        transition
+                        onClose={() => {
+                            this.setState({
+                                anchorEl: null
+                            });
+                        }}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
                     >
-                        {({ TransitionProps }) => (
-                            <Fade {...TransitionProps} timeout={350}>
-                                <Paper>
-                                    <Tooltip
-                                        title={
-                                            nameVerified
-                                                ? this.getLabel('name-verified')
-                                                : this.getLabel(
-                                                    'verify-name-asap'
-                                                )
+
+                        <Paper>
+                            <Tooltip
+                                title={
+                                    nameVerified
+                                        ? this.getLabel('name-verified')
+                                        : this.getLabel(
+                                            'verify-name-asap'
+                                        )
+                                }
+                            >
+                                <IconButton
+                                    className={clsx({
+                                        [classes.icon]: true,
+                                        [classes.verifiedIcon]: nameVerified
+                                    })}
+                                    onClick={() => {
+                                        if (!nameVerified) {
+                                            this.handleCategoryChange(
+                                                'account-management/verify-name'
+                                            );
+                                            this.setState({
+                                                anchorEl: null
+                                            });
                                         }
-                                    >
-                                        <IconButton
-                                            className={clsx({
-                                                [classes.icon]: true,
-                                                [classes.verifiedIcon]: nameVerified
-                                            })}
-                                            onClick={() => {
-                                                if (!nameVerified) {
-                                                    this.handleCategoryChange(
-                                                        'account-management/verify-name'
-                                                    );
-                                                    this.setState({
-                                                        anchorEl: null
-                                                    });
-                                                    this.setState({
-                                                        showProfileMenu: false
-                                                    });
-                                                }
-                                            }}
-                                        >
-                                            <Person />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip
-                                        title={
-                                            phoneVerified
-                                                ? this.getLabel(
-                                                    'phone-verified'
-                                                )
-                                                : this.getLabel(
-                                                    'verify-phone-asap'
-                                                )
+                                    }}
+                                >
+                                    <Person />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip
+                                title={
+                                    phoneVerified
+                                        ? this.getLabel(
+                                            'phone-verified'
+                                        )
+                                        : this.getLabel(
+                                            'verify-phone-asap'
+                                        )
+                                }
+                            >
+                                <IconButton
+                                    className={clsx({
+                                        [classes.icon]: true,
+                                        [classes.verifiedIcon]: phoneVerified
+                                    })}
+                                    onClick={() => {
+                                        if (!phoneVerified) {
+                                            this.handleCategoryChange(
+                                                'account-management/verify-phone'
+                                            );
+                                            this.setState({
+                                                anchorEl: null
+                                            });
                                         }
-                                    >
-                                        <IconButton
-                                            className={clsx({
-                                                [classes.icon]: true,
-                                                [classes.verifiedIcon]: phoneVerified
-                                            })}
-                                            onClick={() => {
-                                                if (!phoneVerified) {
-                                                    this.handleCategoryChange(
-                                                        'account-management/verify-phone'
-                                                    );
-                                                    this.setState({
-                                                        anchorEl: null
-                                                    });
-                                                    this.setState({
-                                                        showProfileMenu: false
-                                                    });
-                                                }
-                                            }}
-                                        >
-                                            <Smartphone />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip
-                                        title={
-                                            emailVerified
-                                                ? this.getLabel(
-                                                    'email-verified'
-                                                )
-                                                : this.getLabel(
-                                                    'verify-email-asap'
-                                                )
+                                    }}
+                                >
+                                    <Smartphone />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip
+                                title={
+                                    emailVerified
+                                        ? this.getLabel(
+                                            'email-verified'
+                                        )
+                                        : this.getLabel(
+                                            'verify-email-asap'
+                                        )
+                                }
+                            >
+                                <IconButton
+                                    className={clsx({
+                                        [classes.icon]: true,
+                                        [classes.verifiedIcon]: emailVerified
+                                    })}
+                                    onClick={() => {
+                                        if (!emailVerified) {
+                                            this.handleCategoryChange(
+                                                'account-management/verify-email'
+                                            );
+                                            this.setState({
+                                                anchorEl: null
+                                            });
                                         }
-                                    >
-                                        <IconButton
-                                            className={clsx({
-                                                [classes.icon]: true,
-                                                [classes.verifiedIcon]: emailVerified
-                                            })}
-                                            onClick={() => {
-                                                if (!emailVerified) {
-                                                    this.handleCategoryChange(
-                                                        'account-management/verify-email'
-                                                    );
-                                                    this.setState({
-                                                        anchorEl: null
-                                                    });
-                                                    this.setState({
-                                                        showProfileMenu: false
-                                                    });
-                                                }
-                                            }}
-                                        >
-                                            <Email />
-                                        </IconButton>
-                                    </Tooltip>
-                                </Paper>
-                            </Fade>
-                        )}
-                    </Popper>
-                    <div className={classes.content}>
-                        {typeProp === 'fortune-center' && (
-                            <FortuneCenter />
-                        )}
-                        {typeProp === 'transaction-records' && (
-                            <TransactionRecord />
-                        )}
-                        {typeProp === 'account-management' && (
-                            <AccountManagement
-                                activeContent={this.state.desktopContent}
-                            />
-                        )}
-                        {typeProp === 'sharing-plan' && (
-                            <SharingPlan />
-                        )}
-                    </div>
-                    <Footer />
+                                    }}
+                                >
+                                    <Email />
+                                </IconButton>
+                            </Tooltip>
+                        </Paper>
+                    </Popover>
+                    <Grid container>
+                        <Grid item xs={12} className={classes.content}>
+                            {typeProp === 'fortune-center' && (
+                                <FortuneCenter />
+                            )}
+                            {typeProp === 'transaction-records' && (
+                                <TransactionRecord />
+                            )}
+                            {typeProp === 'account-management' && (
+                                <AccountManagement
+                                    activeContent={this.state.desktopContent}
+                                />
+                            )}
+                            {typeProp === 'sharing-plan' && (
+                                <SharingPlan />
+                            )}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Footer />
+                        </Grid>
+                    </Grid>
                 </div>
                 <div className={classes.rootMobile}>
-                    {/* {this.props.typeProp === 'deposit' && (
-                        <DepositMain />
-                    )}
-                    {this.props.typeProp === 'withdrawal' && (
-                        <Withdrawal />
-                    )}
-                    {this.props.typeProp === 'transfer' && (
-                        <Transfer />
-                    )}
-                    {this.props.typeProp === 'total-assets' && (
-                        <TotalAssets />
-                    )} */}
                     {this.getMobileContent()}
-                    {/* <div className={classes.grow} /> */}
                     <Footer />
                 </div>
             </div>

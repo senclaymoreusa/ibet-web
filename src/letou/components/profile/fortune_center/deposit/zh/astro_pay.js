@@ -9,13 +9,17 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputMask from 'react-input-mask';
-import { authCheckState, AUTH_RESULT_FAIL, sendingLog } from '../../../../../../actions';
+import {
+    authCheckState,
+    AUTH_RESULT_FAIL,
+    sendingLog
+} from '../../../../../../actions';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withRouter } from 'react-router-dom';
-import getSymbolFromCurrency from 'currency-symbol-map'
+import getSymbolFromCurrency from 'currency-symbol-map';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -30,7 +34,7 @@ const styles = theme => {
         },
         contentGrid: {
             width: 430,
-            minWidth: 430,
+            minWidth: 430
         },
         cardTypeCell: {
             borderTop: '1px solid #d8d8d8',
@@ -102,7 +106,7 @@ const styles = theme => {
             borderTopLeftRadius: 4,
             borderBottomLeftRadius: 4,
             textAlign: 'center',
-            paddingTop: 12,
+            paddingTop: 12
         },
         infoLabel: {
             display: 'inline-block',
@@ -134,26 +138,22 @@ const styles = theme => {
             borderRadius: 22,
             backgroundColor: '#4DA9DF',
             color: '#fff',
-            "&:hover": {
+            '&:hover': {
                 backgroundColor: '#57b9f2',
-                color: '#fff',
-
+                color: '#fff'
             },
-            "&:focus": {
+            '&:focus': {
                 backgroundColor: '#57b9f2',
-                color: '#fff',
-
+                color: '#fff'
             },
-            textTransform: 'capitalize',
-
+            textTransform: 'capitalize'
         },
         cancelButton: {
             width: '100%',
             height: 44,
             borderRadius: 22,
 
-            textTransform: 'capitalize',
-
+            textTransform: 'capitalize'
         },
         amountText: {
             fontSize: 14,
@@ -170,12 +170,12 @@ const styles = theme => {
             width: '100%',
             borderRadius: 4,
             border: 'solid 1px #e4e4e4',
-            "&:hover": {
-                border: '1px solid #717171',
+            '&:hover': {
+                border: '1px solid #717171'
             },
-            "&:focus": {
-                border: '1px solid #717171',
-            },
+            '&:focus': {
+                border: '1px solid #717171'
+            }
         },
         detailText: {
             fontSize: 14,
@@ -234,7 +234,7 @@ const styles = theme => {
             '&:focus': {
                 border: 'solid 1px #717171'
             }
-        },
+        }
     };
 };
 
@@ -242,10 +242,10 @@ const CustomCheckbox = withStyles({
     root: {
         color: '#21e496',
         '&$checked': {
-            color: '#21e496',
-        },
+            color: '#21e496'
+        }
     },
-    checked: {},
+    checked: {}
 })(props => <Checkbox {...props} />);
 
 function NumberFormatCustom(props) {
@@ -263,7 +263,7 @@ function NumberFormatCustom(props) {
                 });
             }}
             thousandSeparator
-            decimalSeparator='.'
+            decimalSeparator="."
             decimalScale={2}
             fixedDecimalScale
             prefix={currency}
@@ -275,7 +275,6 @@ NumberFormatCustom.propTypes = {
     inputRef: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired
 };
-
 
 class Astropay_CH extends Component {
     constructor(props) {
@@ -301,47 +300,53 @@ class Astropay_CH extends Component {
             amountInvalid: true,
 
             currency: '',
-            isFavorite: false,
+            isFavorite: false
         };
     }
 
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
+                this.props.history.push('/');
             } else {
                 const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'astropay_ch' });
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({
+                        currency: getSymbolFromCurrency(res.data.currency)
                     });
+                    this.setState({
+                        isFavorite:
+                            res.data.favorite_payment_method === 'astropay_ch'
+                    });
+                });
             }
-        })
-        
+        });
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
+                this.props.history.push('/');
             } else {
                 const token = localStorage.getItem('token');
-            config.headers["Authorization"] = `Token ${token}`;
-            axios.get(API_URL + 'users/api/user/', config)
-                .then(res => {
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
                     this.setState({ data: res.data });
-                    this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                    this.setState({ isFavorite: res.data.favorite_payment_method === 'astropay_ch' });
+                    this.setState({
+                        currency: getSymbolFromCurrency(res.data.currency)
+                    });
+                    this.setState({
+                        isFavorite:
+                            res.data.favorite_payment_method === 'astropay_ch'
+                    });
                 });
             }
-        })
+        });
     }
 
     amountChanged(event) {
-
         this.setState({ amountFocused: true });
 
         if (event.target.value.length === 0) {
@@ -351,13 +356,16 @@ class Astropay_CH extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 10 || parseFloat(event.target.value) > 500000) });
-            }
-            else {
+                this.setState({
+                    amountInvalid:
+                        parseFloat(event.target.value) < 10 ||
+                        parseFloat(event.target.value) > 500000
+                });
+            } else {
                 this.setState({ amountInvalid: true });
             }
         }
-    };
+    }
 
     numberChanged = event => {
         this.setState({ numberFocused: true });
@@ -419,16 +427,19 @@ class Astropay_CH extends Component {
 
         if (!token) {
             console.log('no token -- user is not logged in');
+            alert('Please log in');
+            this.props.history.push('/');
         }
         config.headers['Authorization'] = `Token ${token}`;
 
-        console.log('amount: ' + this.state.amount);
-        console.log(this.state.data);
+        // console.log('amount: ' + this.state.amount);
+        // console.log(this.state.data);
         let postData = {
             card_num: this.state.number.replace(/\s+/g, ''),
             card_code: this.state.cvv,
             exp_date: this.state.expireDate,
-            amount: this.state.amount
+            amount: this.state.amount,
+            currency: 'CNY'
         };
 
         var res = await axios.post(
@@ -450,17 +461,27 @@ class Astropay_CH extends Component {
                     if (res.data === 'Failed') {
                         currentComponent.props.callbackFromParent('error');
                     } else if (res.data === 'The balance is not enough') {
-                        currentComponent.props.callbackFromParent('error', 'Cannot withdraw this amount');
+                        currentComponent.props.callbackFromParent(
+                            'error',
+                            'Cannot withdraw this amount'
+                        );
                     } else {
-                        currentComponent.props.callbackFromParent("success");
+                        currentComponent.props.callbackFromParent('success');
                     }
-                }).catch(function (err) {
-                    currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                })
+                .catch(function(err) {
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        'Something is wrong.'
+                    );
                     sendingLog(err);
                 });
         } else {
             sendingLog(res.data.response_msg.split('|')[3]);
-            currentComponent.props.callbackFromParent("error", res.data.response_msg.split('|')[3]);
+            currentComponent.props.callbackFromParent(
+                'error',
+                res.data.response_msg.split('|')[3]
+            );
         }
     };
 
@@ -470,24 +491,22 @@ class Astropay_CH extends Component {
     }
 
     setAsFavourite(event) {
-        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
-            payment: event.target.checked ? 'astropay_ch' : null,
-        })
+        axios
+            .post(API_URL + `users/api/favorite-payment-setting/`, {
+                user_id: this.state.data.pk,
+                payment: event.target.checked ? 'astropay_ch' : null
+            })
             .then(res => {
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 sendingLog(err);
             });
-
-
     }
 
-
     cancelClicked() {
-        var url = this.props.history.location.pathname
+        var url = this.props.history.location.pathname;
         var parts = url.split('/');
         url = '/';
         var path = parts.slice(1, 4).join('/');
@@ -499,14 +518,10 @@ class Astropay_CH extends Component {
         const { classes } = this.props;
         const { amount, currency, isFavorite } = this.state;
 
-        console.log(classes)
         return (
             <div className={classes.root}>
                 <Grid container spacing={2} className={classes.contentGrid}>
-                    <Grid
-                        item
-                        xs={6}
-                    >
+                    <Grid item xs={6}>
                         <InputMask
                             mask="9999 9999 9999 9999"
                             maskChar={null}
@@ -524,7 +539,7 @@ class Astropay_CH extends Component {
                                     }
                                     helperText={
                                         this.state.numberInvalid &&
-                                            this.state.numberFocused
+                                        this.state.numberFocused
                                             ? this.getLabel('16-digit-number')
                                             : ' '
                                     }
@@ -535,11 +550,7 @@ class Astropay_CH extends Component {
                             )}
                         </InputMask>
                     </Grid>
-                    <Grid
-                        item
-                        xs={3}
-                        className={classes.expireCell}
-                    >
+                    <Grid item xs={3} className={classes.expireCell}>
                         <InputMask
                             mask="99/9999"
                             maskChar={null}
@@ -553,14 +564,12 @@ class Astropay_CH extends Component {
                                     placeholder="MM/YYYY"
                                     type="text"
                                     error={
-                                        this.state
-                                            .expireDateInvalid &&
+                                        this.state.expireDateInvalid &&
                                         this.state.expireDateFocused
                                     }
                                     helperText={
-                                        this.state
-                                            .expireDateInvalid &&
-                                            this.state.expireDateFocused
+                                        this.state.expireDateInvalid &&
+                                        this.state.expireDateFocused
                                             ? this.getLabel('date-invalid')
                                             : ' '
                                     }
@@ -590,12 +599,12 @@ class Astropay_CH extends Component {
                                     }
                                     helperText={
                                         this.state.cvvInvalid &&
-                                            this.state.cvvFocused
+                                        this.state.cvvFocused
                                             ? this.getLabel('cvv-invalid')
                                             : ' '
                                     }
                                     InputProps={{
-                                        disableUnderline: true,
+                                        disableUnderline: true
                                     }}
                                 />
                             )}
@@ -606,9 +615,17 @@ class Astropay_CH extends Component {
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             className={classes.amountText}
-                            placeholder={"Deposit ¥500 - ¥2,000"}
-                            error={this.state.amountInvalid && this.state.amountFocused}
-                            helperText={this.state.amountInvalid && this.state.amountFocused ? this.getLabel('valid-amount') : ' '}
+                            placeholder={'Deposit ¥500 - ¥2,000'}
+                            error={
+                                this.state.amountInvalid &&
+                                this.state.amountFocused
+                            }
+                            helperText={
+                                this.state.amountInvalid &&
+                                this.state.amountFocused
+                                    ? this.getLabel('valid-amount')
+                                    : ' '
+                            }
                             InputProps={{
                                 disableUnderline: true,
                                 inputComponent: NumberFormatCustom,
@@ -617,23 +634,33 @@ class Astropay_CH extends Component {
                                     currency: currency
                                 },
                                 startAdornment: (
-                                    <InputAdornment position="start" >
-                                        <span className={classes.label}>{this.getLabel('amount-label')}</span>
+                                    <InputAdornment position="start">
+                                        <span className={classes.label}>
+                                            {this.getLabel('amount-label')}
+                                        </span>
                                     </InputAdornment>
-                                ),
+                                )
                             }}
                         />
                     </Grid>
                     <Grid item xs={12} style={{ marginBottom: 50 }}>
-                        <FormControlLabel className={classes.checkbox}
+                        <FormControlLabel
+                            className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
+                                <CustomCheckbox
+                                    checked={isFavorite}
+                                    value="checkedA"
+                                    onClick={event => {
+                                        this.setAsFavourite(event);
+                                    }}
+                                />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
-                        <Button className={classes.actionButton}
+                        <Button
+                            className={classes.actionButton}
                             onClick={this.handleClick}
                             disabled={
                                 this.state.amountInvalid ||
@@ -641,17 +668,22 @@ class Astropay_CH extends Component {
                                 this.state.expireDateInvalid ||
                                 this.state.cvvInvalid
                             }
-                        >{this.getLabel('deposit-label')}</Button>
+                        >
+                            {this.getLabel('deposit-label')}
+                        </Button>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         {/*<Button variant="contained" className={classes.cancelButton}
-                        */}
-                        <Button className={classes.actionButton}
+                         */}
+                        <Button
+                            className={classes.actionButton}
                             onClick={this.cancelClicked.bind(this)}
-                        >{this.getLabel('back-banking')}</Button>
+                        >
+                            {this.getLabel('back-banking')}
+                        </Button>
                     </Grid>
                 </Grid>
-            </div >
+            </div>
         );
     }
 }
@@ -662,12 +694,8 @@ const mapStateToProps = state => {
     };
 };
 
-export default withStyles(styles)
-    (withRouter(
-        injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState }
-            )(Astropay_CH)
-        ))
-    );
+export default withStyles(styles)(
+    withRouter(
+        injectIntl(connect(mapStateToProps, { authCheckState })(Astropay_CH))
+    )
+);

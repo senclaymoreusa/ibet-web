@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState, AUTH_RESULT_FAIL, sendingLog
+    authCheckState, sendingLog
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
@@ -48,8 +48,7 @@ const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
+        flexDirection: 'column'
     },
     rootDesktop: {
         display: 'none',
@@ -236,9 +235,7 @@ export class DepositMain extends Component {
         super(props);
 
         this.state = {
-            urlPath: '',
             contentValue: '',
-            selectedType: '',
         };
 
         this.setPage = this.setPage.bind(this);
@@ -276,6 +273,7 @@ export class DepositMain extends Component {
     }
 
     setPage = (page, msg) => {
+        console.log(page);
         if (msg)
             this.setState({ depositMessage: msg });
 
@@ -573,7 +571,7 @@ export class DepositMain extends Component {
                 );
             case 'thailand':
                 return (
-                    <div classnName={classes.rootDesktop}>
+                    <div className={classes.rootDesktop}>
                         <Grid container className={classes.methodGrid} spacing={4}>
                             <Grid item xs={1} className={classes.methodColumn}>
                                 <Button
@@ -736,6 +734,15 @@ export class DepositMain extends Component {
 
     getPaymentMethodContent() {
         const { operationProp } = this.props;
+        const { contentValue } = this.state;
+        
+        
+        if (contentValue === 'error')
+            return <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />;
+        else if (contentValue === 'success')
+            return <DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />;
+        else if (contentValue === 'inprogress')
+            return <DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />;
 
         if (operationProp === 'alipay')
             return <AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
@@ -774,17 +781,12 @@ export class DepositMain extends Component {
         else if (operationProp === 'astropay')
             return <Astropay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
         else if (operationProp === 'help2pay')
-            return <Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
-        else if (operationProp === 'error')
-            return <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />;
-        else if (operationProp === 'success')
-            return <DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />;
-        else if (operationProp === 'inprogress')
-            return <DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />;
+            return <Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;    
     }
 
     render() {
         const { classes } = this.props;
+        
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
