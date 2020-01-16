@@ -97,64 +97,64 @@ export class BetRuleFourTh extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>Tennis</a>
+                                <a href="/">Tennis</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>Basketball</a>
+                                <a href="/">Basketball</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>American football</a>
+                                <a href="/">American football</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>ฮอคกี้น้ำแข็ง</a>
+                                <a href="/">ฮอคกี้น้ำแข็ง</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>กีฬาเบสบอล</a>
+                                <a href="/">กีฬาเบสบอล</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>Handball</a>
+                                <a href="/">Handball</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>Volleyball</a>
+                                <a href="/">Volleyball</a>
                             </li>
                             <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>วอลเลย์บอลชายหาด</a>
+                                <a href="/">วอลเลย์บอลชายหาด</a>
                             </li>
                             <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>ฟุตซอล</a>
+                                <a href="/">ฟุตซอล</a>
                             </li>
                             <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>แบดมินตัน</a>
+                                <a href="/">แบดมินตัน</a>
                             </li>
                             <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>รักบี้ยูเนี่ยน & ลีก</a>
+                                <a href="/">รักบี้ยูเนี่ยน & ลีก</a>
                             </li>
                             <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>ลูกดอก</a>
+                                <a href="/">ลูกดอก</a>
                             </li>
                             <li className={this.state.current === 13 ? "Active" : ""} onClick={this.onClick.bind(this,13)}>
-                                <a>สนุ๊กเกอร์</a>
+                                <a href="/">สนุ๊กเกอร์</a>
                             </li>
                             <li className={this.state.current === 14 ? "Active" : ""} onClick={this.onClick.bind(this,14)}>
-                                <a>ปิงปอง</a>
+                                <a href="/">ปิงปอง</a>
                             </li>
                             <li className={this.state.current === 15 ? "Active" : ""} onClick={this.onClick.bind(this,15)}>
-                                <a>กอล์ฟ</a>
+                                <a href="/">กอล์ฟ</a>
                             </li>
                             <li className={this.state.current === 16 ? "Active" : ""} onClick={this.onClick.bind(this,16)}>
-                                <a>Cricket</a>
+                                <a href="/">Cricket</a>
                             </li>
                             <li className={this.state.current === 17 ? "Active" : ""} onClick={this.onClick.bind(this,17)}>
-                                <a>ฟุตบอลลีกเสมือนจริง (VFL)</a>
+                                <a href="/">ฟุตบอลลีกเสมือนจริง (VFL)</a>
                             </li>
                             <li className={this.state.current === 18 ? "Active" : ""} onClick={this.onClick.bind(this,18)}>
-                                <a>E-Sports</a>
+                                <a href="/">E-Sports</a>
                             </li>
                             <li className={this.state.current === 19 ? "Active" : ""} onClick={this.onClick.bind(this,19)}>
-                                <a>DOTA2</a>
+                                <a href="/">DOTA2</a>
                             </li>
                             <li className={this.state.current === 20 ? "Active" : ""} onClick={this.onClick.bind(this,20)}>
-                                <a>Counter Strike: GO</a>
+                                <a href="/">Counter Strike: GO</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
