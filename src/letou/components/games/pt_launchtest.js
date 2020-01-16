@@ -1,32 +1,17 @@
 import React from 'react';
-import Footer from "../footer";
-import TopNavbar from "../top_navbar";
+
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { authCheckState, handle_referid, hide_landing_page } from '../../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import '../../css/banner.css';
 import { withRouter } from 'react-router-dom';
-import { config } from '../../../util_config';
-import axios from 'axios'
-import Grid from '@material-ui/core/Grid';
+
 import '../../css/help.css'
-import Paper from '@material-ui/core/Paper';
-import { NavLink } from 'react-router-dom';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from "@material-ui/core/AppBar";
-import FilterSearchBar from './search_filter';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import Slider from "react-slick";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Typography from '@material-ui/core/Typography';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import Link from '@material-ui/core/Link';
-import login from '../../../ibet/components/login';
+
 
 
 
