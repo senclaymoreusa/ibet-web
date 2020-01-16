@@ -679,6 +679,9 @@ class TopNavbar extends React.Component {
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'sports');
                                 }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu();
+                                }}
                             >
                                 {this.getLabel('sports-label')}
                             </Button>
@@ -766,6 +769,9 @@ class TopNavbar extends React.Component {
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'gaming');
                                 }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu();
+                                }}
                             >
                                 {this.getLabel('gaming-label')}
                             </Button>
@@ -836,9 +842,6 @@ class TopNavbar extends React.Component {
                                         ? classes.activeSecondRowDropdown
                                         : classes.secondRowDropdown
                                 }
-                                onMouseEnter={event => {
-                                    this.openMainMenu(event, 'live-casino');
-                                }}
                                 onClick={() => {
                                     this.props.history.push('/live_casino');
                                 }}
@@ -854,6 +857,9 @@ class TopNavbar extends React.Component {
                                 }
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'chess');
+                                }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu();
                                 }}
                             >
                                 {this.getLabel('nav-chess')}
@@ -946,6 +952,9 @@ class TopNavbar extends React.Component {
                                 }
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'lottery');
+                                }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu();
                                 }}
                             >
                                 {this.getLabel('nav-lottery')}
@@ -1041,9 +1050,6 @@ class TopNavbar extends React.Component {
                                         ? classes.activeSecondRowDropdown
                                         : classes.secondRowDropdown
                                 }
-                                onMouseEnter={event => {
-                                    this.openMainMenu(event, 'games');
-                                }}
                                 onClick={() => {
                                     this.props.history.push('/game/all');
                                 }}
@@ -1059,6 +1065,9 @@ class TopNavbar extends React.Component {
                                 }
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'offer');
+                                }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu();
                                 }}
                             >
                                 {this.getLabel('nav-offer')}
