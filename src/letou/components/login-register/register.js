@@ -38,7 +38,7 @@ import InputBase from '@material-ui/core/InputBase';
 import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import CloseIcon from '@material-ui/icons/Close';
-
+import { withRouter } from 'react-router-dom';
 import PasswordStrengthMeter from '../../../commons/PasswordStrengthMeter';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
@@ -404,8 +404,7 @@ export class Register extends Component {
                                             errorMessage: response.errorMsg.detail[0]
                                         });
                                     } else {
-                                        console.log("login succ....")
-                                        this.props.hide_letou_login();
+                                        // console.log("login succ....")
                                         this.props.history.push('/');
                                     }
                                 })
@@ -1066,8 +1065,11 @@ const mapStateToProps = state => {
     };
 };
 
+
+
 export default withStyles(styles)(
     injectIntl(
+      withRouter(
         connect(mapStateToProps, {
             authLogin,
             authCheckState,
@@ -1076,5 +1078,6 @@ export default withStyles(styles)(
             hide_landing_page,
             show_letou_login
         })(Register)
+      )
     )
 );
