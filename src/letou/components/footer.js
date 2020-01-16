@@ -928,7 +928,7 @@ export class Footer extends React.Component {
                                     href="https://help.letou.com/cn/index.html?type=member_start_03"
                                     className={classes.footerlink}
                                 >
-                                    {this.getLabel('withdrawal-process')}
+                                    {this.getLabel('withdraw-process')}
                                 </Link>
                                 <Link
                                     target="_blank"

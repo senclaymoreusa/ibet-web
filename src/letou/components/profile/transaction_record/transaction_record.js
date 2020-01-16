@@ -85,6 +85,9 @@ const styles = theme => ({
 });
 
 const StyledTabs = withStyles({
+    root: {
+        borderBottom: '1px solid #efefef'
+    },
     indicator: {
         display: 'flex',
         justifyContent: 'center',
@@ -101,7 +104,6 @@ const StyledTab = withStyles(theme => ({
         color: '#474747',
         fontWeight: theme.typography.fontWeightRegular,
         fontSize: theme.typography.pxToRem(15),
-        // marginRight: theme.spacing(1),
         '&:focus': {
             opacity: 1,
             fontStretch: 'normal',

@@ -5,6 +5,7 @@ import {
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 import { images } from '../../../../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -17,7 +18,6 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-
 import WithdrawSuccess from './withdraw_success';
 import WithdrawError from './withdraw_error';
 import VietnamLocalBank from './vn/local_bank';
@@ -25,11 +25,22 @@ import ThaiLocalBank from './th/local_bank';
 import Help2Pay from './th/help2pay';
 import SetWithdrawalPassword from '../../account_management/set_withdrawal_password';
 import MoneyPay from './vn/money_pay';
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 
-const styles = () => ({
+const styles = theme => ({
     root: {
         width: '100%',
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    sectionMobile: {
+        width: '100%',
+        display: 'flex',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
     },
     addButton: {
         width: 87,
@@ -56,6 +67,28 @@ const styles = () => ({
         marginLeft: 10,
         marginRight: 10
     },
+    mobileRow: {
+        width: '100%',
+        alignItems: 'center',
+        backgroundColor: '#fff'
+    },
+    mobileBar: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        width: '100%',
+        borderBottom: '1px solid #d8d8d8'
+    },
+    mobileMenuButton: {
+        [theme.breakpoints.up('md')]: {
+            margin: theme.spacing(1)
+        },
+        textTransform: 'capitalize'
+    },
+    mainTab: {
+        [theme.breakpoints.down('md')]: {
+            variant: 'fullWidth'
+        }
+    },
     title: {
         fontSize: 12,
         fontWeight: 'normal',
@@ -65,6 +98,15 @@ const styles = () => ({
         letterSpacing: 'normal',
         color: '#676767',
         whiteSpace: 'nowrap'
+    },
+    mobileTitle: {
+        fontSize: 20,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.29,
+        letterSpacing: -0.24,
+        color: '#000',
     },
     active: {
         fontSize: 13,
@@ -99,12 +141,11 @@ const styles = () => ({
 
 const StyledTabs = withStyles({
     root: {
-        borderBottom: '1px solid #efefef',
+        borderBottom: '1px solid #efefef'
     },
     indicator: {
         display: 'flex',
         justifyContent: 'center',
-        backgroundColor: 'transparent',
         '& > div': {
             width: '100%',
             backgroundColor: '#53abe0',
@@ -116,24 +157,23 @@ const StyledTab = withStyles(theme => ({
     root: {
         textTransform: 'none',
         color: '#474747',
-        backgroundColor: '#e4e4e4',
         fontWeight: theme.typography.fontWeightRegular,
         fontSize: theme.typography.pxToRem(15),
-        marginRight: theme.spacing(1),
         '&:focus': {
             opacity: 1,
-            fontWeight: 800,
             fontStretch: 'normal',
             fontStyle: 'normal',
             lineHeight: 1.38,
-            letterSpacing: - 0.06,
-            textAlign: 'center',
+            letterSpacing: -0.06,
+            textAlign: 'center'
         },
         '&:selected': {
-            opacity: 1,
             height: '100%',
         },
     },
+    selected: {
+        backgroundColor: 'rgba(228, 228, 228, 0.4)'
+    }
 }))(props => <Tab disableRipple {...props} />);
 
 function TabPanel(props) {
@@ -159,63 +199,32 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-
 export class WithdrawMain extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             contentValue: '',
-            activeStep: -1,
+            tabValue: 'none'
         };
-
-        this.handleTabChange = this.handleTabChange.bind(this);
 
         this.setPage = this.setPage.bind(this);
         this.withdrawWith = this.withdrawWith.bind(this);
-
-    }
-
-    handleTabChange(newValue) {
-        this.setState({ tabValue: newValue })
     }
 
     componentDidMount() {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
+        const { user, operationProp } = this.props;
+        console.log('operationProp: ' + operationProp)
+        if (!operationProp) {
+            switch (user.country.toLowerCase()) {
+                case 'thailand':
+                    this.props.history.push('/p/fortune-center/withdraw/thlocalbank');
+                    break;
+                case 'vietnam':
+                    this.props.history.push('/p/fortune-center/withdraw/vnlocalbank');
+                    break;
             }
-        })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ userCountry: res.data.country });
-                this.setState({ favouriteMethod: res.data.favorite_payment_method });
-                //
-                this.setState({ userId: res.data.pk });
-                this.setState({ activeStep: res.data.withdraw_password ? 1 : 0 })
-                //
-            });
-
-        this.setState({ urlPath: this.props.history.location.pathname });
-
-        this.setContent();
-    }
-
-    setContent() {
-        var url = this.props.history.location.pathname;
-        var parts = url.split('/');
-
-        if (parts.length > 4) {
-            if (parts[4].length > 0) {
-                //this.setState({ contentValue: parts[4] })
-                this.setState({ tabValue: parts[4] })
-            }
-        } else
-            //this.setState({ contentValue: '' })
-            this.setState({ tabValue: '' })
+        }
     }
 
     setPage = (page, msg) => {
@@ -227,20 +236,7 @@ export class WithdrawMain extends Component {
     };
 
     withdrawWith(paymentMethod) {
-        //this.setState({ contentValue: paymentMethod });
-        this.setState({ tabValue: paymentMethod });
-
-        var url = this.state.urlPath;
-        var parts = url.split('/');
-
-        if (parts.length >= 4) {
-            url = '/';
-            var path = parts.slice(1, 4).join('/');
-            url = url + path;
-        }
-        url = url + '/' + paymentMethod;
-        this.props.history.push(url);
-
+        this.props.history.push('/p/fortune-center/withdraw/' + paymentMethod)
     }
 
     getLabel(labelId) {
@@ -250,8 +246,8 @@ export class WithdrawMain extends Component {
 
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
-        const { contentValue, tabValue } = this.state;
-
+        const { width } = this.props;
+        console.log('width: '+ width)
         switch (user.country.toLowerCase()) {
             case 'china':
                 return (
@@ -260,15 +256,24 @@ export class WithdrawMain extends Component {
             case 'thailand':
                 return (
                     <StyledTabs
-                        value={tabValue}
-                        onChange={this.handleTabChange}>
+                        variant={width == 'xs' ? 'fullWidth' : 'standard'}
+                        className={classes.mainTab}
+                        value={operationProp ? operationProp : 'none'}>
+                        <StyledTab
+                            style={{
+                                width: 0,
+                                minWidth: 0,
+                                maxWidth: 0,
+                                padding: 0
+                            }}
+                            value="none"
+                        />
                         <StyledTab
                             label={this.getLabel('local-bank')}
-                            value="thailocalbank"
+                            value="thlocalbank"
                             onClick={() => {
-                                if (this.props.match.params.type !== 'thailocalbank') {
-                                    this.handleTabChange('thailocalbank');
-                                    this.withdrawWith('thailocalbank');
+                                if (this.props.match.params.type !== 'thlocalbank') {
+                                    this.withdrawWith('thlocalbank');
                                 }
                             }}
                         />
@@ -277,7 +282,6 @@ export class WithdrawMain extends Component {
                             value="help2pay"
                             onClick={() => {
                                 if (this.props.match.params.type !== 'help2pay') {
-                                    this.handleTabChange('help2pay');
                                     this.withdrawWith('help2pay');
                                 }
                             }}
@@ -287,15 +291,22 @@ export class WithdrawMain extends Component {
             case 'vietnam':
                 return (
                     <StyledTabs
-                        value={tabValue}
-                        onChange={this.handleTabChange}>
+                        value={operationProp ? operationProp : 'none'}>
+                        <StyledTab
+                            style={{
+                                width: 0,
+                                minWidth: 0,
+                                maxWidth: 0,
+                                padding: 0
+                            }}
+                            value="none"
+                        />
                         <StyledTab
                             label={this.getLabel('local-bank')}
-                            value="vietnamelocalbank"
+                            value="vnlocalbank"
                             onClick={() => {
-                                if (this.props.match.params.type !== 'vietnamelocalbank') {
-                                    this.handleTabChange('vietnamelocalbank');
-                                    this.withdrawWith('vietnamelocalbank');
+                                if (this.props.match.params.type !== 'vnlocalbank') {
+                                    this.withdrawWith('vnlocalbank');
                                 }
                             }}
                         />
@@ -305,7 +316,6 @@ export class WithdrawMain extends Component {
                             value="moneypay"
                             onClick={() => {
                                 if (this.props.match.params.type !== 'moneypay') {
-                                    this.handleTabChange('moneypay');
                                     this.withdrawWith('moneypay');
                                 }
                             }}
@@ -326,31 +336,58 @@ export class WithdrawMain extends Component {
         else if (contentValue === 'success')
             return <WithdrawSuccess callbackFromParent={this.setPage} successMessage={this.state.withdrawMessage} />;
 
-
-        if (operationProp === 'thailocalbank')
+        if (operationProp === 'thlocalbank')
             return <ThaiLocalBank callbackFromParent={this.setPage} />;
-
+        else if (operationProp === 'help2pay')
+            return <Help2Pay callbackFromParent={this.setPage} />;
+        else if (operationProp === 'vnlocalbank')
+            return <VietnamLocalBank callbackFromParent={this.setPage} />;
+        else if (operationProp === 'moneypay')
+            return <MoneyPay callbackFromParent={this.setPage} />;
     }
 
     render() {
-        const { classes } = this.props;
-        const { tabValue, activeStep } = this.state;
+        const { classes, user } = this.props;
 
         return (
             <div className={classes.root}>
-                {this.getAvailablePaymentMethods()}
-                <div className={classes.content}>
-
-                    {activeStep === 0 && <SetWithdrawalPassword />}
-
-                    {activeStep === 1 && tabValue === 'success' && <WithdrawSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
-                    {activeStep === 1 && tabValue === 'error' && <WithdrawError callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />}
-
-                    {activeStep === 1 && tabValue === 'thailocalbank' && (<ThaiLocalBank callbackFromParent={this.setPage} />)}
-                    {activeStep === 1 && tabValue === 'help2pay' && <Help2Pay callbackFromParent={this.setPage} />}
-                    {activeStep === 1 && tabValue === 'vietnamelocalbank' && (<VietnamLocalBank callbackFromParent={this.setPage} />)}
-
+                <div className={classes.sectionMobile}>
+                    <AppBar position="static" className={classes.mobileRow}>
+                        <Toolbar className={classes.mobileBar}>
+                            <Grid container>
+                                <Grid item xs={3}>
+                                    <Button
+                                        className={classes.mobileMenuButton}
+                                        onClick={() => {
+                                            this.props.history.push('/p/');
+                                        }}
+                                    >
+                                        <ArrowBackIos style={{ width: 16 }} />
+                                        {this.getLabel('back-label')}
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    <span className={classes.mobileTitle}>
+                                        {this.getLabel('withdraw-label')}
+                                    </span>
+                                </Grid>
+                                <Grid item xs={3}>
+                                </Grid>
+                            </Grid>
+                        </Toolbar>
+                    </AppBar>
                 </div>
+                {user.hasWithdrawPassword ? this.getAvailablePaymentMethods() : null}
+                {user.hasWithdrawPassword ? this.getPaymentMethodContent() : <SetWithdrawalPassword />}
             </div >
         );
     }
@@ -365,12 +402,14 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-export default withStyles(styles)
-    (withRouter(
-        injectIntl(
-            connect(
-                mapStateToProps, { authCheckState }
-            )(WithdrawMain)
+export default withWidth()(
+    withStyles(styles)
+        (withRouter(
+            injectIntl(
+                connect(
+                    mapStateToProps, { authCheckState }
+                )(WithdrawMain)
+            )
         )
-    )
-    );
+        )
+);

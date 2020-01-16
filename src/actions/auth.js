@@ -68,14 +68,7 @@ export const authLogin = (username, password, iovationData) => {
                 config.headers['Authorization'] = `Token ${token}`;
 
                 axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    let userData = {
-                        userId: res.data.pk,
-                        currency: res.data.currency,
-                        favoriteDepositMethod: res.data.favorite_payment_method,
-                        country: res.data.country
-                    };
-
-                    dispatch(authGetUser(userData));
+                    dispatch(authGetUser(parseUser(res.data)));
                 });
 
                 dispatch(authSuccess(token));
@@ -94,14 +87,7 @@ export const authUserUpdate = () => {
         config.headers['Authorization'] = `Token ${getState().auth.token}`;
 
         axios.get(API_URL + 'users/api/user/', config).then(res => {
-            let userData = {
-                userId: res.data.pk,
-                currency: res.data.currency,
-                favoriteDepositMethod: res.data.favorite_payment_method,
-                country: res.data.country
-            };
-
-            dispatch(authGetUser(userData));
+            dispatch(authGetUser(parseUser(res.data)));
         });
     };
 };
@@ -234,15 +220,15 @@ export const checkAuthTimeout = expirationTime => {
         setTimeout(() => {
             if (token) {
                 axios
-                .post(API_URL + 'users/api/logout/?token=' + token, config)
-                .then(() => {
-                    dispatch(logout());
-                    window.location.reload();
-                })
-                .catch(() => {
-                    dispatch(logout());
-                    window.location.reload();
-                });  
+                    .post(API_URL + 'users/api/logout/?token=' + token, config)
+                    .then(() => {
+                        dispatch(logout());
+                        window.location.reload();
+                    })
+                    .catch(() => {
+                        dispatch(logout());
+                        window.location.reload();
+                    });
             } else {
                 dispatch(logout());
                 window.location.reload();
@@ -258,15 +244,19 @@ export const postLogout = () => {
         const body = JSON.stringify({});
         if (token) {
             axios
-            .post(API_URL + 'users/api/logout/?token=' + token, body, config)
-            .then(() => {
-                dispatch(logout());
-                window.location.reload();
-            })
-            .catch(() => {
-                dispatch(logout());
-                window.location.reload();
-            });
+                .post(
+                    API_URL + 'users/api/logout/?token=' + token,
+                    body,
+                    config
+                )
+                .then(() => {
+                    dispatch(logout());
+                    window.location.reload();
+                })
+                .catch(() => {
+                    dispatch(logout());
+                    window.location.reload();
+                });
         } else {
             dispatch(logout());
             window.location.reload();
@@ -326,18 +316,6 @@ export const authCheckState = () => {
                             dispatch(postLogout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
-                            let userData = {
-                                userId: res.data.pk,
-                                currency: res.data.currency,
-                                favoriteDepositMethod:
-                                    res.data.favorite_payment_method,
-                                country: res.data.country,
-                                balance: res.data.main_wallet,
-                                username: res.data.username
-                            };
-
-                            dispatch(authGetUser(userData));
-
                             dispatch(authSuccess(token));
                             dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);
@@ -354,3 +332,18 @@ export const authCheckState = () => {
         }
     };
 };
+
+function parseUser(data) {
+    return {
+        userId: data.pk,
+        currency: data.currency,
+        favoriteDepositMethod: data.favorite_payment_method,
+        country: data.country,
+        balance: data.main_wallet,
+        username: data.username,
+        hasWithdrawPassword:
+            data.withdraw_password != null &&
+            data.withdraw_password != undefined &&
+            data.withdraw_password != ''
+    };
+}

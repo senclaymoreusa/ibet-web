@@ -62,14 +62,17 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        },
     },
     contentGrid: {
-        width: 430,
+        width: '100%',
+        maxWidth: 430,
     },
     contentRow: {
-        paddingLeft: 263,
-        paddingRight: 262,
         paddingTop: 50,
         paddingBottom: 50,
     },
@@ -760,12 +763,12 @@ class Help2Pay extends Component {
                             helperText={(this.state.bankAccountHolderFocused && bankAccountHolder.length === 0)}// ? this.getLabel('invalid-bank-number') : ' '}
                             InputProps={{
                                 disableUnderline: true,
-                                endAdornment: (
+                                // endAdornment: (
                                     
-                                    <InputAdornment position="end" >
-                                    </InputAdornment>
+                                //     <InputAdornment position="end" >
+                                //     </InputAdornment>
                                     
-                                ),
+                                // ),
                             }}
                         />
                     </Grid>
