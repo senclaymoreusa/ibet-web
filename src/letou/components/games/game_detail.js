@@ -78,7 +78,7 @@ class GameDetail extends Component {
                         gameUrl = gameUrl.replace('{token}', token);
                         gameUrl = gameUrl.replace('{lang}', 'en');
                         gameUrl = gameUrl.replace('{gameId}', gameId);
-                        this.setState({ gameURL: "" });
+                        this.setState({ gameURL: gameUrl });
                     }
                 } else {
                     if (data.provider.provider_name == 'QTech') {
