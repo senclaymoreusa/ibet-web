@@ -31,7 +31,7 @@ const styles = theme => ({
     },
 });
 
-// const htmlFile = require("../games/integrationRedirect.html");
+const htmlFile = '<p>hhhh</p>'
 export class PTIntegrate extends React.Component {
     constructor(props) {
         super(props);
@@ -59,12 +59,13 @@ export class PTIntegrate extends React.Component {
         const { classes } = this.props;
       
         return ( 
-            // <div dangerouslySetInnerHTML={{__html: htmlFile}}>
+            <div dangerouslySetInnerHTML={{__html:  "<p>hhh</p>"}}>
                 
-            // </div>
-            <div>
-                <a href="/Users/jenniehu/Documents/work/Game/PT/integrationRedirect.html"></a>
             </div>
+            // <div>
+            //     {/* <a href="/Users/jenniehu/Documents/work/Game/PT/integrationRedirect.html"></a> */}
+            //     <a href=""></a>
+            // </div>
         );
     }
 }
