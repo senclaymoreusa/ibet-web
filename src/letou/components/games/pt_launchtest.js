@@ -41,11 +41,11 @@ function logintest(realMode) {
 function calloutLogin(response) {
       if (response.errorCode) {
           alert("Login failed, " + response.errorText);
-          console.log("fail...")
+        //   console.log("fail...")
       }
       else {
           alert("Login OK, you will be redirected to the play console");
-          console.log("sss..")
+        //   console.log("sss..")
           window.open ("http://cache.download.banner.fourblessings88.com/casinoclient.html?language=en&game=hb");
       }
   }
