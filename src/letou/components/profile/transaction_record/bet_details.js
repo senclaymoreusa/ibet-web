@@ -310,7 +310,7 @@ export class BetDetails extends Component {
             .then(res => {
                 if (res.status === 200) {
                     let itemArray = [];
-                    Object.keys(res.data.results).map(function (refNum) {
+                    Object.keys(res.data.results).map(function(refNum) {
                         let result = res.data.results[refNum];
 
                         if (result.length === 1) {
@@ -323,11 +323,12 @@ export class BetDetails extends Component {
                             let temp2 = result.filter(r => {
                                 return r.outcome == null;
                             })[0];
-
-                            temp1['amount_wagered'] = temp2['amount_wagered'];
-                            temp1['date'] = temp2['date'];
-
-                            itemArray.push(temp1);
+                            if (temp1 && temp2) {
+                                temp1['amount_wagered'] =
+                                    temp2['amount_wagered'];
+                                temp1['date'] = temp2['date'];
+                                itemArray.push(temp1);
+                            }
                         }
                     });
                     this.setState({ items: itemArray });
@@ -352,7 +353,15 @@ export class BetDetails extends Component {
             providers
         } = this.state;
         var today = moment(new Date());
-
+        console.log('ITEMS IS:');
+        console.log(items);
+        // items.push({amount_wagered: "70.0000",
+        // amount_won: "70.0000",
+        // category: "Sicbo",
+        // date: "2019-12-05T17:40:35.617Z",
+        // outcome: "Void",
+        // provider: "N2 Games",
+        // ref_no: "848263"})
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>
@@ -1019,7 +1028,7 @@ export class BetDetails extends Component {
                                         <StyledTableCell>
                                             {moment(row.date).format('llll')}
                                         </StyledTableCell>
-                                       <StyledTableCell>
+                                        <StyledTableCell>
                                             {row.outcome}
                                         </StyledTableCell>
                                         <StyledTableCell>
