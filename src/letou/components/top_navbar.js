@@ -1684,39 +1684,3 @@ export default withStyles(styles)(
         )
     )
 );
-
-
-<Fab
-color="primary"
-aria-label="add"
-className={classes.profileIcon}
-onClick={() => {
-    // window.open(window.location.origin + "/p/fortune-center/deposit",
-    //     "Letou profile",
-    //     "resizable,scrollbars,status");
-    this.props.history.push(
-        '/p/fortune-center/deposit'
-    );
-}}
->
-<Person />
-</Fab>
-) : (
-<div style={{ marginLeft: 20 }}>
-<Button
-    variant="contained"
-    className={classes.signUpButton}
-    onClick={() => {
-        this.props.history.push(
-            '/register'
-        );
-    }}
->
-    {this.getLabel('sign-up')}
-</Button>
-<Button
-    variant="contained"
-    className={classes.loginButton}
-    onClick={() => {
-        this.props.show_letou_login();
-    }}
