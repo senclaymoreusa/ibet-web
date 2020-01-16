@@ -97,10 +97,10 @@ export class LunpanVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>Asian Roulette</a>
+                                <a href="">Asian Roulette</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>International Roulette</a>
+                                <a href="">International Roulette</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
