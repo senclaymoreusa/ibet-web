@@ -134,10 +134,25 @@ const styles = theme => ({
             margin: theme.spacing(1)
         }
     },
-    secondRowButton: {
+    signUpButton: {
         borderRadius: 18,
         margin: theme.spacing(1),
-        textTransform: 'capitalize'
+        textTransform: 'capitalize',
+        backgroundColor: '#ff9e00',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#FF7E05',
+        }
+    },
+    loginButton: {
+        borderRadius: 18,
+        margin: theme.spacing(1),
+        textTransform: 'capitalize',
+        backgroundColor: '#64bced',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#36A3E6',
+        }
     },
     secondRowDropdown: {
         height: '100%',
@@ -1170,24 +1185,24 @@ class TopNavbar extends React.Component {
                                     </div>
                                 </div>
                             ) : (
-                                    <div style={{ marginLeft: 20 }}>
-                                        <Button
-                                            variant="contained"
-                                            className={classes.secondRowButton}
-                                            onClick={() => {
-                                                this.props.history.push(
-                                                    '/register'
-                                                );
-                                            }}
-                                        >
-                                            {this.getLabel('sign-up')}
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            className={classes.secondRowButton}
-                                            onClick={() => {
-                                                this.props.show_letou_login();
-                                            }}
+<div style={{ marginLeft: 20 }}>
+<Button
+    variant="contained"
+    className={classes.signUpButton}
+    onClick={() => {
+        this.props.history.push(
+            '/register'
+        );
+    }}
+>
+    {this.getLabel('sign-up')}
+</Button>
+<Button
+    variant="contained"
+    className={classes.loginButton}
+    onClick={() => {
+        this.props.show_letou_login();
+    }}
                                         >
                                             {this.getLabel('log-in')}
                                         </Button>
