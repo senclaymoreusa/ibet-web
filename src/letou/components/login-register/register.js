@@ -355,7 +355,7 @@ export class Register extends Component {
         event.preventDefault();
 
         this.setState({ errorMessage: '' });
-
+        let phoneNum = `[${this.state.phoneCode.slice(1)}]-${this.state.phone}`;
         this.props
             .authSignup(
                 this.state.username,
@@ -363,7 +363,7 @@ export class Register extends Component {
                 this.state.password,
                 undefined,
                 undefined,
-                this.state.phoneCode.slice(1) + this.state.phone,
+                phoneNum,
                 undefined,
                 undefined,
                 'china',
