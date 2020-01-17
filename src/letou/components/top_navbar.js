@@ -124,10 +124,16 @@ const styles = theme => ({
         }
     },
     topLinkButton: {
-        margin: theme.spacing(1),
+        margin: 4,
         textTransform: 'capitalize',
         cursor: 'pointer',
         maxHeight: 32
+    },
+    usernameText: {
+        display: 'inline-block',
+        color: '#212121',
+        fontWeight: 600,
+        fontSize: 13
     },
     mobileMenuButton: {
         [theme.breakpoints.up('md')]: {
@@ -141,7 +147,7 @@ const styles = theme => ({
         backgroundColor: '#ff9e00',
         color: 'white',
         '&:hover': {
-            backgroundColor: '#FF7E05',
+            backgroundColor: '#FF7E05'
         }
     },
     loginButton: {
@@ -151,7 +157,7 @@ const styles = theme => ({
         backgroundColor: '#64bced',
         color: 'white',
         '&:hover': {
-            backgroundColor: '#36A3E6',
+            backgroundColor: '#36A3E6'
         }
     },
     secondRowDropdown: {
@@ -210,7 +216,7 @@ const styles = theme => ({
         margin: theme.spacing(1),
         marginLeft: 20,
         backgroundColor: '#F1941A',
-        color:'white',
+        color: 'white',
         height: 40,
         width: 40,
         '&:hover': {
@@ -589,34 +595,20 @@ class TopNavbar extends React.Component {
                             </Modal>
 
                             <div className={classes.grow} />
-                            {this.props.isAuthenticated ? (
+                            {this.props.isAuthenticated && (
                                 <div className={classes.topLinkButton}>
                                     <Typography
-                                        style={{
-                                            display: 'inline-block',
-                                            color: 'black'
-                                        }}
+                                        className={classes.usernameText}
                                     >
                                         Hi,{' '}
                                     </Typography>
                                     <Typography
-                                        style={{
-                                            display: 'inline-block',
-                                            color: 'black'
-                                        }}
+                                        className={classes.usernameText}
                                     >
                                         {this.props.username}
                                     </Typography>
                                 </div>
-                            ) : null}
-                            <Button
-                                size="small"
-                                className={classes.topLinkButton}
-                                target="_blank"
-                                href="https://www.letou.com/cn/chat"
-                            >
-                                {this.getLabel('online-service')}
-                            </Button>
+                            )}
                             {this.props.isAuthenticated && (
                                 <div>
                                     <Button
@@ -638,7 +630,40 @@ class TopNavbar extends React.Component {
                                         size="small"
                                         className={classes.topLinkButton}
                                         onClick={() => {
-                                            // this.props.logout();
+                                            this.props.history.push(
+                                                '/p/fortune-center/withdraw'
+                                            );
+                                        }}
+                                    >
+                                        {this.getLabel('withdraw-label')}
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
+                                            this.props.history.push(
+                                                '/p/fortune-center/transfer'
+                                            );
+                                        }}
+                                    >
+                                        {this.getLabel('transfer-label')}
+                                    </Button>
+                                </div>
+                            )}
+                            <Button
+                                size="small"
+                                className={classes.topLinkButton}
+                                target="_blank"
+                                href="https://www.letou.com/cn/chat"
+                            >
+                                {this.getLabel('online-service')}
+                            </Button>
+                            {this.props.isAuthenticated && (
+                                <div>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
                                             this.props.postLogout();
                                         }}
                                     >
@@ -1138,7 +1163,7 @@ class TopNavbar extends React.Component {
                                             borderRadius: 18,
                                             padding: 5
                                         }}
-                                        // style={{ backgroundColor: "#64bced", color: "white" }}
+                                    // style={{ backgroundColor: "#64bced", color: "white" }}
                                     >
                                         <div
                                             style={{
@@ -1167,7 +1192,8 @@ class TopNavbar extends React.Component {
                                                         '/p/fortune-center/deposit'
                                                     );
                                                 }}
-                                            >{this.getLabel('deposit-label')}
+                                            >
+                                                {this.getLabel('deposit-label')}
                                             </Fab>
                                         </div>
                                     </div>
@@ -1185,24 +1211,24 @@ class TopNavbar extends React.Component {
                                     </div>
                                 </div>
                             ) : (
-<div style={{ marginLeft: 20 }}>
-<Button
-    variant="contained"
-    className={classes.signUpButton}
-    onClick={() => {
-        this.props.history.push(
-            '/register'
-        );
-    }}
->
-    {this.getLabel('sign-up')}
-</Button>
-<Button
-    variant="contained"
-    className={classes.loginButton}
-    onClick={() => {
-        this.props.show_letou_login();
-    }}
+                                    <div style={{ marginLeft: 20 }}>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.signUpButton}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/register'
+                                                );
+                                            }}
+                                        >
+                                            {this.getLabel('sign-up')}
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.loginButton}
+                                            onClick={() => {
+                                                this.props.show_letou_login();
+                                            }}
                                         >
                                             {this.getLabel('log-in')}
                                         </Button>
@@ -1435,9 +1461,7 @@ class TopNavbar extends React.Component {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={this.getLabel(
-                                            'live-casino'
-                                        )}
+                                        primary={this.getLabel('live-casino')}
                                     />
                                 </ListItem>
                                 <ListItem
