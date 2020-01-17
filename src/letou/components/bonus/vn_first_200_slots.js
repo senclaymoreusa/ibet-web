@@ -12,6 +12,7 @@ const styles = {
         color: 'orange',
         textAlign: 'center',
         paddingBottom: 15,
+        fontWeight: 500,
     },
     content: {
         margin: 15,
@@ -19,6 +20,7 @@ const styles = {
         paddingRight: 100,
         paddingBottom: 50,
         lineHeight: 2,
+        color: 'grey',
     },
     bannerImg: {
         width: '100%',
@@ -30,9 +32,18 @@ const styles = {
         backgroundColor: 'orange',
         color: 'white',
     },
-    table: {
-        border: 'grey',
+    tableCell: {
+        border: '1px solid grey',
+        width: 250,
+        textAlign: 'center',
+        paddingLeft: 50,
+        paddingRight: 50,
+        paddingTop: 6,
+        paddingBottom: 6,
     },
+    bolded: {
+        fontWeight: 900,
+    }
 };
 
 
@@ -53,7 +64,7 @@ class VNFirst200SlotBonus extends React.Component {
 
                     <hr></hr>
 
-                    <p>Điều kiện và Điều khoản:</p>
+                    <p className={classes.bolded}>Điều kiện và Điều khoản:</p>
 
                     <ul>
                         <li>1. Chương trình Khuyến mãi bắt đầu từ 00:00:00 (GMT+8) ngày 01/01/2020 đến 23:59:59 (GMT+8) ngày 31/01/2020</li>
@@ -66,21 +77,21 @@ class VNFirst200SlotBonus extends React.Component {
                             <div>
                                 <table className={classes.table}>
                                     <tr className={classes.tableHeader}>
-                                        <th>Sản phẩm</th>
-                                        <th>Thưởng</th>
-                                        <th>Thưởng tối đa</th>
-                                        <th>Vòng cược yêu cầu</th>
+                                        <th className={classes.tableCell}>Sản phẩm</th>
+                                        <th className={classes.tableCell}>Thưởng</th>
+                                        <th className={classes.tableCell}>Thưởng tối đa</th>
+                                        <th className={classes.tableCell}>Vòng cược yêu cầu</th>
                                     </tr>
                                     <tr>
-                                        <td>Slot Games</td>
-                                        <td>200%</td>
-                                        <td>2,888VND</td>
-                                        <td>32</td>
+                                        <td className={classes.tableCell}>Slot Games</td>
+                                        <td className={classes.tableCell}>200%</td>
+                                        <td className={classes.tableCell}>2,888VND</td>
+                                        <td className={classes.tableCell}>32</td>
                                     </tr>
                                 </table>
                             </div>
 
-                            <li>Ví dụ</li>
+                            <li className={classes.bolded}>Ví dụ</li>
                             <li>Chuyển quỹ vào tài khoản Slot Games: 500VND</li>
                             <li>Nhận thưởng 200% Khuyến mãi: 200% x 500 = 1,000VND</li>
                             <li>Số tiền cược yêu cầu: (500+1,000)x 32 = 48,000VND</li>
