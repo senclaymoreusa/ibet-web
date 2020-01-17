@@ -31,24 +31,30 @@ const styles = theme => ({
     },
 });
 
-window.iapiSetCallout('Login', calloutLogin);
+
+function calloutLogin(response) {
+    console.log(response);
+    console.log("hi");
+    if (response.errorCode) {
+        alert("Login failed, " + response.errorText);
+    //   console.log("fail...")
+    }
+    else {
+        alert("Login OK, you will be redirected to the play console");
+    //   console.log("sss..")
+        window.open ("http://cache.download.banner.fourblessings88.com/casinoclient.html?language=en&game=hb");
+    }
+  }
 
 function logintest(realMode) {
     console.log("test")
-    window.iapiLogin("IBETPU_JENNIE", "1033$j/in3zuZcm3Puf3wPi1mIbh0TjSbK6pjn5j9hBjvcIFR59ivqlBt8bKBGWN/5u+8$LtADV/TMTSwjMethN7yAhqxLx/rrDOXoaVSPHyzECZ0=", realMode, "en");
+    console.log(window.iapiLogin);
+    let x = window.iapiLogin("IBETPU_JENNIE", "1033$j/in3zuZcm3Puf3wPi1mIbh0TjSbK6pjn5j9hBjvcIFR59ivqlBt8bKBGWN/5u+8$LtADV/TMTSwjMethN7yAhqxLx/rrDOXoaVSPHyzECZ0=", realMode, "en");
+    console.log(x);
+    // calloutLogin(x);
 }
   
-function calloutLogin(response) {
-      if (response.errorCode) {
-          alert("Login failed, " + response.errorText);
-        //   console.log("fail...")
-      }
-      else {
-          alert("Login OK, you will be redirected to the play console");
-        //   console.log("sss..")
-          window.open ("http://cache.download.banner.fourblessings88.com/casinoclient.html?language=en&game=hb");
-      }
-  }
+
 
 
 export class PTlaunchtest extends React.Component {
@@ -86,7 +92,10 @@ export class PTlaunchtest extends React.Component {
                     // console.log("hhh") 
                     // window.iapiSetCallout('Login', window.calloutLogin); 
                     // console.log("zzz")  
-                    logintest(1)
+                    console.log(window.iapiSetCallout);
+                    logintest(1);
+                    window.iapiSetCallout('Login', calloutLogin(window.iapiLogin("IBETPU_JENNIE", "1033$j/in3zuZcm3Puf3wPi1mIbh0TjSbK6pjn5j9hBjvcIFR59ivqlBt8bKBGWN/5u+8$LtADV/TMTSwjMethN7yAhqxLx/rrDOXoaVSPHyzECZ0=", 1, "en"))); 
+
                 }
                 }> login</button>
             </div>
