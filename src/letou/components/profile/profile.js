@@ -7,9 +7,11 @@ import {
     authCheckState,
     AUTH_RESULT_FAIL,
     logout,
-    postLogout} from '../../../actions';
+    postLogout
+} from '../../../actions';
 import clsx from 'clsx';
 import Popover from '@material-ui/core/Popover';
+import getSymbolFromCurrency from 'currency-symbol-map';
 
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
@@ -91,6 +93,12 @@ const styles = theme => ({
         minHeight: 32,
         maxWidth: 1400,
         width: '100%'
+    },
+    usernameText: {
+        display: 'inline-block',
+        color: '#fff',
+        fontWeight: 600,
+        fontSize: 13
     },
     grow: {
         flexGrow: 1
@@ -275,8 +283,6 @@ export class Profile extends Component {
 
         if (this._isMounted)
             this.setState({ urlPath: this.props.history.location.pathname });
-
-        //this.setContent();
     }
 
     setContent() {
@@ -309,7 +315,7 @@ export class Profile extends Component {
         switch (typeProp) {
             case 'account-management':
                 return <MobileAccountInfo />;
-                case 'transaction-records':
+            case 'transaction-records':
                 return <TransactionRecord />;
             case 'security-settings':
                 return <SecuritySettings />;
@@ -323,14 +329,13 @@ export class Profile extends Component {
     }
 
     render() {
-        const { classes, typeProp } = this.props;
+        const { classes, typeProp, currency, balance, username } = this.props;
         const {
             anchorEl,
             nameVerified,
             phoneVerified,
             emailVerified
         } = this.state;
-
 
         const showProfileMenu = Boolean(anchorEl);
 
@@ -351,8 +356,20 @@ export class Profile extends Component {
                                 />
                             </IconButton>
                             <div className={classes.grow} />
-                            {this.props.isAuthenticated ? (
-                                <div>
+                            {this.props.isAuthenticated && (
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'row', color:'#fff', marginTop:12 }}>
+                                    <Typography
+                                        className={classes.usernameText}
+                                    >
+                                        Hi,{' '}
+                                    </Typography>
+                                    <Typography
+                                        className={classes.usernameText}
+                                    >
+                                        {username}
+                                    </Typography>
+                                    </div>
                                     <Button
                                         size="small"
                                         onClick={() => {
@@ -367,14 +384,22 @@ export class Profile extends Component {
                                         size="small"
                                         className={classes.topLinkButton}
                                         onClick={() => {
-                                            // this.props.logout();
+                                            this.props.history.push('/p/fortune-center/deposit')
+                                        }}
+                                    >
+                                        {this.getLabel('balance-label')}{' '}{getSymbolFromCurrency(currency)}{balance}
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
                                             this.props.postLogout();
                                         }}
                                     >
                                         {this.getLabel('log-out')}
                                     </Button>
                                 </div>
-                            ) : null}
+                            )}
                         </Toolbar>
                     </AppBar>
                     <AppBar position="static" className={classes.appBar}>
@@ -584,10 +609,14 @@ export class Profile extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { token } = state.auth;
+    const { token, user } = state.auth;
     return {
+        user: user,
         isAuthenticated: token !== null && token !== undefined,
-        typeProp: ownProps.match.params.type
+        typeProp: ownProps.match.params.type,
+        balance: user ? Number(user.balance).toFixed(2) : '',
+        username: user ? user.username : '',
+        currency: user ? user.currency : 'USD'
     };
 };
 
