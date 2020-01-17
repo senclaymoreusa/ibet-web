@@ -11,7 +11,8 @@ import '../../css/help.css'
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { config } from '../../../util_config';
+import axios from 'axios';
 
 
 
@@ -46,10 +47,10 @@ function calloutLogin(response) {
     }
   }
 
-function logintest(realMode) {
+function logintest(realMode, username, password) {
     console.log("test")
     console.log(window.iapiLogin);
-    let x = window.iapiLogin("IBETPU_JENNIE", "1033$j/in3zuZcm3Puf3wPi1mIbh0TjSbK6pjn5j9hBjvcIFR59ivqlBt8bKBGWN/5u+8$LtADV/TMTSwjMethN7yAhqxLx/rrDOXoaVSPHyzECZ0=", realMode, "en");
+    let x = window.iapiLogin(username, password, realMode, "en");
     console.log(x);
     // calloutLogin(x);
 }
@@ -58,9 +59,19 @@ function logintest(realMode) {
 
 
 export class PTlaunchtest extends React.Component {
+   
     constructor(props) {
         super(props);
-    }
+    
+        this.state = {
+          user: '',
+          
+    
+        };
+    
+        this.getLabel = this.getLabel.bind(this);
+        
+      }
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
@@ -77,6 +88,16 @@ export class PTlaunchtest extends React.Component {
         script1.type = "text/javascript";
         script1.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
         document.body.appendChild(script1);
+
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers["Authorization"] = `Token ${token}`;
+            axios.get(API_URL + 'users/api/user/', config)
+                .then(res => {
+                    this.setState({ user: res.data });
+                    
+            });
+        }
       }
 
     render() {
@@ -92,9 +113,18 @@ export class PTlaunchtest extends React.Component {
                     // console.log("hhh") 
                     // window.iapiSetCallout('Login', window.calloutLogin); 
                     // console.log("zzz")  
+                   // http://127.0.0.1:8000/games/api/pt/get_player?username=Jennie
                     console.log(window.iapiSetCallout);
-                    logintest(1);
-                    window.iapiSetCallout('Login', calloutLogin(window.iapiLogin("IBETPU_JENNIE", "1033$j/in3zuZcm3Puf3wPi1mIbh0TjSbK6pjn5j9hBjvcIFR59ivqlBt8bKBGWN/5u+8$LtADV/TMTSwjMethN7yAhqxLx/rrDOXoaVSPHyzECZ0=", 1, "en"))); 
+
+                    axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
+                    .then(res => {
+                        console.log(res.data)
+                        logintest(1, res.data.playername, res.data.password)
+                        window.iapiSetCallout('Login', calloutLogin(window.iapiLogin(res.data.playername, res.data.password, 1, "en"))); 
+
+                    })
+                    //logintest(1);
+                    //window.iapiSetCallout('Login', calloutLogin(window.iapiLogin("IBETPU_JENNIE", "1033$j/in3zuZcm3Puf3wPi1mIbh0TjSbK6pjn5j9hBjvcIFR59ivqlBt8bKBGWN/5u+8$LtADV/TMTSwjMethN7yAhqxLx/rrDOXoaVSPHyzECZ0=", 1, "en"))); 
 
                 }
                 }> login</button>
