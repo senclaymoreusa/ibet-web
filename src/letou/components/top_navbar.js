@@ -695,7 +695,7 @@ class TopNavbar extends React.Component {
                                     this.openMainMenu(event, 'sports');
                                 }}
                                 onMouseLeave={() => {
-                                    this.closeMainMenu();
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('sports-label')}
@@ -785,7 +785,7 @@ class TopNavbar extends React.Component {
                                     this.openMainMenu(event, 'gaming');
                                 }}
                                 onMouseLeave={() => {
-                                    this.closeMainMenu();
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('gaming-label')}
@@ -874,7 +874,7 @@ class TopNavbar extends React.Component {
                                     this.openMainMenu(event, 'chess');
                                 }}
                                 onMouseLeave={() => {
-                                    this.closeMainMenu();
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('nav-chess')}
@@ -969,7 +969,7 @@ class TopNavbar extends React.Component {
                                     this.openMainMenu(event, 'lottery');
                                 }}
                                 onMouseLeave={() => {
-                                    this.closeMainMenu();
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('nav-lottery')}
@@ -1082,7 +1082,7 @@ class TopNavbar extends React.Component {
                                     this.openMainMenu(event, 'offer');
                                 }}
                                 onMouseLeave={() => {
-                                    this.closeMainMenu();
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('nav-offer')}
