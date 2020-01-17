@@ -25,27 +25,27 @@ export class Main extends Component {
 
         this.state = {
             contentValue: 'main',
-            id:''
+            dateValue: null
         }
     }
 
-    setContent = (dataFromChild) => {
-        this.setState({ contentValue: dataFromChild });
+    setContent = (content, date) => {
+        this.setState({ contentValue: content, dateValue: date });
     }
 
     render() {
         const { classes } = this.props;
-        const {contentValue} = this.state;
+        const { contentValue, dateValue } = this.state;
 
         return (
             <div className={classes.root}>
-                {contentValue === 'main' && <Analysis callbackFromParent={this.setContent}/>}
-                {contentValue === 'sports' && <SportsBets callbackFromParent={this.setContent}/>}
-                {contentValue === 'sports-detail' && <SportsBetDetails callbackFromParent={this.setContent}/>}
-                {contentValue === 'casino-spins' && <CasinoSpins callbackFromParent={this.setContent}/>}
-                {contentValue === 'live-casino-bets' && <LiveCasinoBets callbackFromParent={this.setContent}/>}
-                {contentValue === 'deposit-withdraw' && <DepositWithdraw callbackFromParent={this.setContent}/>}
-                {contentValue === 'deposit-withdraw-detail' && <DepositWithdrawDetails callbackFromParent={this.setContent}/>}
+                {contentValue === 'main' && <Analysis callbackFromParent={this.setContent} />}
+                {contentValue === 'sports' && <SportsBets callbackFromParent={this.setContent} date={dateValue}/>}
+                {contentValue === 'sports-detail' && <SportsBetDetails callbackFromParent={this.setContent} />}
+                {contentValue === 'casino-spins' && <CasinoSpins callbackFromParent={this.setContent} />}
+                {contentValue === 'live-casino-bets' && <LiveCasinoBets callbackFromParent={this.setContent} />}
+                {contentValue === 'deposit-withdraw' && <DepositWithdraw callbackFromParent={this.setContent} />}
+                {contentValue === 'deposit-withdraw-detail' && <DepositWithdrawDetails callbackFromParent={this.setContent} />}
             </div>
         );
     }

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -13,7 +13,11 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+import { config } from '../../../../../util_config';
 import TableContainer from '@material-ui/core/TableContainer';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -139,6 +143,27 @@ export class SportsBets extends Component {
         this.goToDetailAnalysis = this.goToDetailAnalysis.bind(this);
     }
 
+    componentDidMount() {
+        const { user, date } = this.props;
+
+        let apiURL = `games/api/bets/getall?userid=${user.userId}`;
+
+        let startStr = `&start=${date.startOf('month').format('YYYY/MM/DD')}`;
+        let endStr = `&end=${date.endOf('month').format('YYYY/MM/DD')}`;
+
+        let requestURL = API_URL + apiURL + startStr + endStr;
+
+        console.log(requestURL)
+        axios
+            .get(requestURL, config)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
+    }
+
     backClicked(ev) {
         this.props.callbackFromParent(1);
     }
@@ -231,6 +256,8 @@ export class SportsBets extends Component {
     render() {
         const { classes } = this.props;
 
+        console.log(this.props.date);
+
         return (
             <div className={classes.root}>
                 <Grid container>
@@ -267,11 +294,14 @@ export class SportsBets extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
     return {
-        lang: state.language.lang
+        user: user
     };
 };
 
 export default withStyles(styles)(
-    injectIntl(connect(mapStateToProps, { authCheckState })(SportsBets))
+    injectIntl(
+        connect(mapStateToProps, { authCheckState, sendingLog })(SportsBets)
+    )
 );

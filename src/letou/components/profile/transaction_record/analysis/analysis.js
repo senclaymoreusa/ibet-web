@@ -11,6 +11,7 @@ import axios from 'axios';
 import { config, images } from '../../../../../util_config';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
+import moment from 'moment';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -277,71 +278,36 @@ export class Analysis extends Component {
     constructor(props) {
         super(props);
 
-        let thisMonth = new Date();
-        thisMonth.setDate(1);
-
         this.state = {
             currency: 'USD',
-            currentMonth: thisMonth,
+            currentDate: moment(),
             chartData: [],
             chartLabels: [],
             type: 'turnover'
         };
 
-        this.goToPreviousMonth = this.goToPreviousMonth.bind(this);
-        this.goToNextMonth = this.goToNextMonth.bind(this);
         this.setChartLabels = this.setChartLabels.bind(this);
         this.setChartData = this.setChartData.bind(this);
     }
 
     goToPreviousMonth() {
-        let month = this.getPreviusMonth(this.state.currentMonth);
-        this.setState({ currentMonth: month });
+        let month = this.getPreviusMonth(this.state.currentDate);
+        this.setState({ currentDate: month });
         this.setChartData(month);
         this.setChartLabels(month);
     }
 
     goToNextMonth() {
-        let month = this.getNextMonth(this.state.currentMonth);
-        this.setState({ currentMonth: month });
+        let month = this.getNextMonth(this.state.currentDate);
+        this.setState({ currentDate: month });
         this.setChartData(month);
         this.setChartLabels(month);
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(async res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ currency: res.data.currency });
-                });
-
-                this.setChartData(this.state.currentMonth);
-                this.setChartLabels(this.state.currentMonth);
-            }
-        })
-    }
-
     componentDidMount() {
-        this.props.authCheckState().then(async res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
 
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ currency: res.data.currency });
-                });
-
-                this.setChartData(this.state.currentMonth);
-                this.setChartLabels(this.state.currentMonth);
-            }
-        })
+                // this.setChartData(this.state.currentDate);
+                // this.setChartLabels(this.state.currentDate);
     }
 
     setChartData(month) {
@@ -384,38 +350,6 @@ export class Analysis extends Component {
         this.setState({ chartLabels: labels });
     }
 
-    getPreviusMonth(month) {
-        var d = new Date();
-        d.setDate(1);
-        d.setMonth(month.getMonth());
-        d.setFullYear(month.getFullYear());
-
-        var newMonth = d.getMonth() - 1;
-        if (newMonth < 0) {
-            newMonth += 12;
-            d.setYear(d.getFullYear() - 1);
-        }
-        d.setMonth(newMonth);
-
-        return d;
-    }
-
-    getNextMonth(month) {
-        var d = new Date();
-        d.setDate(1);
-        d.setMonth(month.getMonth());
-        d.setFullYear(month.getFullYear());
-
-        var newMonth = d.getMonth() + 1;
-        if (newMonth === 12) {
-            newMonth -= 12;
-            d.setYear(d.getFullYear() + 1);
-        }
-        d.setMonth(newMonth);
-
-        return d;
-    }
-
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
@@ -423,51 +357,61 @@ export class Analysis extends Component {
 
     render() {
         const { classes } = this.props;
-        const { type } = this.state;
-
-        let prevMonth = this.getPreviusMonth(this.state.currentMonth);
-        let prevText = monthNames[prevMonth.getMonth()];
-        let prevLabel = this.getLabel('month-' + prevText.toLowerCase());
-
-        let nextLabel = '';
-        let today = new Date();
-        if (this.state.currentMonth.getMonth() === today.getMonth()) {
-            nextLabel = this.getLabel('life-time');
-        } else {
-            let nextMonth = this.getNextMonth(this.state.currentMonth);
-            let nextText = monthNames[nextMonth.getMonth()];
-            nextLabel = this.getLabel('month-' + nextText.toLowerCase());
-        }
-
-        let currentText = monthNames[this.state.currentMonth.getMonth()];
-        let currentLabel =
-            this.getLabel('month-' + currentText.toLowerCase()) +
-            ' ' +
-            this.state.currentMonth.getFullYear();
+        const { type, currentDate } = this.state;
 
         const prevButton = (
             <Button
                 className={classes.titleButton}
-                onClick={this.goToPreviousMonth}
+                onClick={() => {
+                    this.setState({
+                        currentDate: currentDate.clone().subtract(1, 'months')
+                    });
+                }}
             >
                 <img
                     src={images.src + 'letou/prev_step.svg'}
                     alt=""
                     height="24"
                 />
-                <span className={classes.prevLabel}>{prevLabel}</span>
+                <span className={classes.prevLabel}>
+                    {this.getLabel(
+                        'month-' +
+                            currentDate
+                                .clone()
+                                .subtract(1, 'months')
+                                .format('MMMM')
+                                .toLowerCase()
+                    )}
+                </span>
             </Button>
         );
 
         const nextButton = (
             <Button
                 className={classes.titleButton}
-                onClick={this.goToNextMonth}
+                onClick={() => {
+                    this.setState({
+                        currentDate: currentDate.clone().add(1, 'months')
+                    });
+                }}
                 disabled={
-                    this.state.currentMonth.getMonth() === new Date().getMonth()
+                    currentDate.month() === moment().month() &&
+                    currentDate.year() === moment().year()
                 }
             >
-                <span className={classes.nextLabel}>{nextLabel}</span>
+                <span className={classes.nextLabel}>
+                    {currentDate.month() === moment().month() &&
+                    currentDate.year() === moment().year()
+                        ? this.getLabel('life-time')
+                        : this.getLabel(
+                              'month-' +
+                                  currentDate
+                                      .clone()
+                                      .add(1, 'months')
+                                      .format('MMMM')
+                                      .toLowerCase()
+                          )}
+                </span>
                 <img
                     src={images.src + 'letou/next_step.svg'}
                     alt=""
@@ -518,7 +462,7 @@ export class Analysis extends Component {
             },
             tooltips: {
                 callbacks: {
-                    label: function (tooltipItem, data) {
+                    label: function(tooltipItem, data) {
                         return data['datasets'][0]['data'][
                             tooltipItem['index']
                         ];
@@ -547,7 +491,13 @@ export class Analysis extends Component {
                             <div className={classes.grow} />
                             <div className={classes.currentCell}>
                                 <span className={classes.currentLabel}>
-                                    {currentLabel}
+                                    {this.getLabel(
+                                        'month-' +
+                                            currentDate
+                                                .format('MMMM')
+                                                .toLowerCase()
+                                    )}{' '}
+                                    {currentDate.format('YYYY')}
                                 </span>
                             </div>
                             <div className={classes.grow} />
@@ -648,7 +598,7 @@ export class Analysis extends Component {
                             <Button
                                 className={classes.button}
                                 onClick={() => {
-                                    this.props.callbackFromParent('sports');
+                                    this.props.callbackFromParent('sports', currentDate);
                                 }}
                             >
                                 <img
@@ -675,7 +625,7 @@ export class Analysis extends Component {
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'casino-spins'
+                                        'casino-spins', currentDate
                                     );
                                 }}
                             >
@@ -703,7 +653,7 @@ export class Analysis extends Component {
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'live-casino-bets'
+                                        'live-casino-bets', currentDate
                                     );
                                 }}
                             >
@@ -741,7 +691,7 @@ export class Analysis extends Component {
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'deposit-withdraw'
+                                        'deposit-withdraw', currentDate
                                     );
                                 }}
                             >
@@ -766,7 +716,7 @@ export class Analysis extends Component {
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'deposit-withdraw'
+                                        'deposit-withdraw', currentDate
                                     );
                                 }}
                             >
@@ -798,11 +748,10 @@ export class Analysis extends Component {
 }
 
 const mapStateToProps = state => {
-    const { token } = state.auth;
-
+    const { token, user } = state.auth;
     return {
         isAuthenticated: token !== null && token !== undefined,
-        lang: state.language.lang
+        user: user
     };
 };
 
