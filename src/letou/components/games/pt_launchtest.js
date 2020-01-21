@@ -50,7 +50,7 @@ function calloutLogin(response) {
 function logintest(realMode, username, password) {
     console.log("test")
     console.log(window.iapiLogin);
-    let x = window.iapiLogin(username, password, realMode, "en");
+    let x = window.iapiLogin("IBETPU_FGTEST", "FGtest123", realMode, "en");
     console.log(x);
     // calloutLogin(x);
 }
@@ -119,8 +119,8 @@ export class PTlaunchtest extends React.Component {
                     axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
                     .then(res => {
                         console.log(res.data)
-                        logintest(1, res.data.playername, res.data.password)
-                        window.iapiSetCallout('Login', calloutLogin(window.iapiLogin(res.data.playername, res.data.password, 1, "en"))); 
+                        logintest(1, "IBETPU_FGTEST", "FGtest123")
+                        window.iapiSetCallout('Login', calloutLogin(window.iapiLogin("IBETPU_FGTEST", "FGtest123", 1, "en"))); 
 
                     })
                     //logintest(1);
