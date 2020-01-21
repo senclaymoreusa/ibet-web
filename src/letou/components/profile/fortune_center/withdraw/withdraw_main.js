@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState, AUTH_RESULT_FAIL, sendingLog
+    authCheckState,
+    AUTH_RESULT_FAIL,
+    sendingLog
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
@@ -60,7 +62,7 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        position: 'relative',
+        position: 'relative'
     },
     methodGrid: {
         marginBottom: 30,
@@ -106,7 +108,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 1.29,
         letterSpacing: -0.24,
-        color: '#000',
+        color: '#000'
     },
     active: {
         fontSize: 13,
@@ -136,7 +138,7 @@ const styles = theme => ({
         flexGrow: 1,
         paddingTop: 50,
         paddingBottom: 50
-    },
+    }
 });
 
 const StyledTabs = withStyles({
@@ -148,9 +150,9 @@ const StyledTabs = withStyles({
         justifyContent: 'center',
         '& > div': {
             width: '100%',
-            backgroundColor: '#53abe0',
-        },
-    },
+            backgroundColor: '#53abe0'
+        }
+    }
 })(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
 
 const StyledTab = withStyles(theme => ({
@@ -168,8 +170,8 @@ const StyledTab = withStyles(theme => ({
             textAlign: 'center'
         },
         '&:selected': {
-            height: '100%',
-        },
+            height: '100%'
+        }
     },
     selected: {
         backgroundColor: 'rgba(228, 228, 228, 0.4)'
@@ -196,7 +198,7 @@ function TabPanel(props) {
 TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired
 };
 
 export class WithdrawMain extends Component {
@@ -214,29 +216,32 @@ export class WithdrawMain extends Component {
 
     componentDidMount() {
         const { user, operationProp } = this.props;
-        console.log('operationProp: ' + operationProp)
+        console.log('operationProp: ' + operationProp);
         if (!operationProp) {
             switch (user.country.toLowerCase()) {
                 case 'thailand':
-                    this.props.history.push('/p/fortune-center/withdraw/thlocalbank');
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/thlocalbank'
+                    );
                     break;
                 case 'vietnam':
-                    this.props.history.push('/p/fortune-center/withdraw/vnlocalbank');
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/vnlocalbank'
+                    );
                     break;
             }
         }
     }
 
     setPage = (page, msg) => {
-        if (msg)
-            this.setState({ withdrawMessage: msg });
+        if (msg) this.setState({ withdrawMessage: msg });
 
-        //this.setState({ contentValue: page });
-        this.setState({ tabValue: page });
+        this.setState({ contentValue: page });
+        // this.setState({ tabValue: page });
     };
 
     withdrawWith(paymentMethod) {
-        this.props.history.push('/p/fortune-center/withdraw/' + paymentMethod)
+        this.props.history.push('/p/fortune-center/withdraw/' + paymentMethod);
     }
 
     getLabel(labelId) {
@@ -247,18 +252,17 @@ export class WithdrawMain extends Component {
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
         const { width } = this.props;
-        console.log('width: '+ width)
+        console.log('width: ' + width);
         switch (user.country.toLowerCase()) {
             case 'china':
-                return (
-                    <div></div>
-                );
+                return <div></div>;
             case 'thailand':
                 return (
                     <StyledTabs
                         variant={width == 'xs' ? 'fullWidth' : 'standard'}
                         className={classes.mainTab}
-                        value={operationProp ? operationProp : 'none'}>
+                        value={operationProp ? operationProp : 'none'}
+                    >
                         <StyledTab
                             style={{
                                 width: 0,
@@ -272,7 +276,10 @@ export class WithdrawMain extends Component {
                             label={this.getLabel('local-bank')}
                             value="thlocalbank"
                             onClick={() => {
-                                if (this.props.match.params.type !== 'thlocalbank') {
+                                if (
+                                    this.props.match.params.type !==
+                                    'thlocalbank'
+                                ) {
                                     this.withdrawWith('thlocalbank');
                                 }
                             }}
@@ -281,7 +288,9 @@ export class WithdrawMain extends Component {
                             label={this.getLabel('help-pay')}
                             value="help2pay"
                             onClick={() => {
-                                if (this.props.match.params.type !== 'help2pay') {
+                                if (
+                                    this.props.match.params.type !== 'help2pay'
+                                ) {
                                     this.withdrawWith('help2pay');
                                 }
                             }}
@@ -290,8 +299,7 @@ export class WithdrawMain extends Component {
                 );
             case 'vietnam':
                 return (
-                    <StyledTabs
-                        value={operationProp ? operationProp : 'none'}>
+                    <StyledTabs value={operationProp ? operationProp : 'none'}>
                         <StyledTab
                             style={{
                                 width: 0,
@@ -305,7 +313,10 @@ export class WithdrawMain extends Component {
                             label={this.getLabel('local-bank')}
                             value="vnlocalbank"
                             onClick={() => {
-                                if (this.props.match.params.type !== 'vnlocalbank') {
+                                if (
+                                    this.props.match.params.type !==
+                                    'vnlocalbank'
+                                ) {
                                     this.withdrawWith('vnlocalbank');
                                 }
                             }}
@@ -315,7 +326,9 @@ export class WithdrawMain extends Component {
                             label={this.getLabel('money-pay')}
                             value="moneypay"
                             onClick={() => {
-                                if (this.props.match.params.type !== 'moneypay') {
+                                if (
+                                    this.props.match.params.type !== 'moneypay'
+                                ) {
                                     this.withdrawWith('moneypay');
                                 }
                             }}
@@ -332,9 +345,19 @@ export class WithdrawMain extends Component {
         const { contentValue } = this.state;
 
         if (contentValue === 'error')
-            return <WithdrawError callbackFromParent={this.setPage} errorMessage={this.state.withdrawMessage} />;
+            return (
+                <WithdrawError
+                    callbackFromParent={this.setPage}
+                    errorMessage={this.state.withdrawMessage}
+                />
+            );
         else if (contentValue === 'success')
-            return <WithdrawSuccess callbackFromParent={this.setPage} successMessage={this.state.withdrawMessage} />;
+            return (
+                <WithdrawSuccess
+                    callbackFromParent={this.setPage}
+                    successMessage={this.state.withdrawMessage}
+                />
+            );
 
         if (operationProp === 'thlocalbank')
             return <ThaiLocalBank callbackFromParent={this.setPage} />;
@@ -380,15 +403,20 @@ export class WithdrawMain extends Component {
                                         {this.getLabel('withdraw-label')}
                                     </span>
                                 </Grid>
-                                <Grid item xs={3}>
-                                </Grid>
+                                <Grid item xs={3}></Grid>
                             </Grid>
                         </Toolbar>
                     </AppBar>
                 </div>
-                {user.hasWithdrawPassword ? this.getAvailablePaymentMethods() : null}
-                {user.hasWithdrawPassword ? this.getPaymentMethodContent() : <SetWithdrawalPassword />}
-            </div >
+                {user.hasWithdrawPassword
+                    ? this.getAvailablePaymentMethods()
+                    : null}
+                {user.hasWithdrawPassword ? (
+                    this.getPaymentMethodContent()
+                ) : (
+                    <SetWithdrawalPassword />
+                )}
+            </div>
         );
     }
 }
@@ -398,18 +426,16 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         user: user,
-        operationProp: ownProps.match.params.operation,
+        operationProp: ownProps.match.params.operation
     };
 };
 
 export default withWidth()(
-    withStyles(styles)
-        (withRouter(
+    withStyles(styles)(
+        withRouter(
             injectIntl(
-                connect(
-                    mapStateToProps, { authCheckState }
-                )(WithdrawMain)
+                connect(mapStateToProps, { authCheckState })(WithdrawMain)
             )
         )
-        )
+    )
 );
