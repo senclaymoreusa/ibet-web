@@ -66,8 +66,9 @@ const styles = theme => ({
         color: '#000',
     },
     titleRow: {
-        paddingTop: 12,
-        paddingBottom: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 10,
         borderBottom: '1px solid #cdcdcd'
     },
     boldText: {
