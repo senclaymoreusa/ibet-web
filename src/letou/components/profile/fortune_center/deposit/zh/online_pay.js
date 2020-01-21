@@ -305,14 +305,14 @@ class OnlinePay extends Component {
         this.state = {
             amount: '',
             currency: '',
-            bank: 'none',
+            
             amountFocused: false,
             amountInvalid: true,
-
+            bankid: '',
             isFavorite: false,
         };
     }
-
+    
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -548,7 +548,7 @@ class OnlinePay extends Component {
                             className={classes.select}
                             value={bank}
                             onChange={(event) => {
-                                this.setState({ bank: event.target.value });
+                                this.setState({ bankid: event.target.value });
                             }}
                             input={<BootstrapInput name="bank" id="bank-select" />}>
                             <MenuItem key='none' value='none' disabled>
