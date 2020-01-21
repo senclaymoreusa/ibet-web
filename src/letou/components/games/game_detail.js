@@ -155,6 +155,7 @@ class GameDetail extends Component {
             console.log(res.data)
             if (res.data.status == 0) {
                 // balance enough, can launch game.
+                console.log(this.state.user.username)
                 ptLogintest(1, res.data.playername, this.state.user.username)
                 window.iapiSetCallout('Login', ptCalloutLogin(window.iapiLogin(res.data.playername, this.state.user.username, 1, "en"), gameId)); 
             } else if (res.data.state == 1) {
