@@ -21,7 +21,7 @@ import LoopOutlined from '@material-ui/icons/LoopOutlined';
 import DepositMain from './deposit/deposit_main';
 import TotalAssets from './total_assets';
 import Transfer from './transfer';
-import Withdrawal from './withdrawal';
+import WithdrawMain from './withdraw/withdraw_main';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -100,9 +100,7 @@ const styles = theme => ({
     },
     content: {
         flexGrow: 1,
-        paddingLeft: 30,
-        paddingTop: 10,
-        paddingBottom: 10
+        paddingLeft: 10
     },
     mobileMenuButton: {
         [theme.breakpoints.up('md')]: {
@@ -299,8 +297,8 @@ export class FortuneCenter extends Component {
         switch (subProp) {
             case 'deposit':
                 return <DepositMain />;
-            case 'withdrawal':
-                return <Withdrawal />;
+            case 'withdraw':
+                return <WithdrawMain />;
             case 'transfer':
                 return <Transfer />;
             case 'total-assets':
@@ -388,7 +386,7 @@ export class FortuneCenter extends Component {
                         <Grid item xs={12} className={classes.row}
                             onClick={() => {
                                 this.props.history.push(
-                                    '/p/fortune-center/withdrawal'
+                                    '/p/fortune-center/withdraw'
                                 );
                             }}>
                             <img
@@ -398,7 +396,7 @@ export class FortuneCenter extends Component {
                                 className={classes.listImage}
                             />
                             <span className={classes.label}>
-                                {this.getLabel('title-withdrawal')}
+                                {this.getLabel('withdraw-label')}
                             </span>
                             <div className={classes.grow} />
                             <KeyboardArrowRight />
@@ -471,10 +469,10 @@ export class FortuneCenter extends Component {
                                     <FlightLandOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('deposit-label')}
                                 </Button>
-                                <Button className={(desktopTabValue === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={() => this.props.history.push('/p/fortune-center/withdrawal')}>
+                                <Button className={(desktopTabValue === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                    onClick={() => this.props.history.push('/p/fortune-center/withdraw')}>
                                     <FlightTakeoffOutlined style={{ marginRight: 8 }} />
-                                    {this.getLabel('title-withdrawal')}
+                                    {this.getLabel('withdraw-label')}
                                 </Button>
                                 <Button className={(desktopTabValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                     onClick={() => this.props.history.push('/p/fortune-center/transfer')}>
@@ -486,7 +484,7 @@ export class FortuneCenter extends Component {
                                 {desktopContent === 'deposit' && <DepositMain />}
                                 {desktopContent === 'total-assets' && <TotalAssets />}
                                 {desktopContent === 'transfer' && <Transfer />}
-                                {desktopContent === 'withdrawal' && <Withdrawal />}
+                                {desktopContent === 'withdraw' && <WithdrawMain />}
                             </div>
                         </Grid>
                     </Grid>

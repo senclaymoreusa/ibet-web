@@ -36,8 +36,9 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = () => ({
     root: {
-        paddingLeft: 50,
-        paddingRight: 20
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column'
     },
     title: {
         fontSize: 20,
@@ -49,8 +50,9 @@ const styles = () => ({
         color: '#000',
     },
     titleRow: {
-        paddingTop: 12,
-        paddingBottom: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 10,
         borderBottom: '1px solid #cdcdcd'
     },
     boldText: {

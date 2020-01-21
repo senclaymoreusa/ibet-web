@@ -48,8 +48,7 @@ const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
+        flexDirection: 'column'
     },
     rootDesktop: {
         display: 'none',
@@ -236,9 +235,7 @@ export class DepositMain extends Component {
         super(props);
 
         this.state = {
-            urlPath: '',
             contentValue: '',
-            selectedType: '',
         };
 
         this.setPage = this.setPage.bind(this);
@@ -787,9 +784,7 @@ export class DepositMain extends Component {
         else if (operationProp === 'astropay')
             return <Astropay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
         else if (operationProp === 'help2pay')
-            return <Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
-        
-        
+            return <Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;    
     }
 
     render() {
