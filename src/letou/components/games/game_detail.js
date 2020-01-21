@@ -82,6 +82,7 @@ class GameDetail extends Component {
                 } else if (data.provider.provider_name == 'QTech') {
                     this.generateQTURL(gameId, true);
                 } else if (data.provider.provider_name == 'PT') {
+                        console.log("test...")
                         this.launchPTGame(gameId);
                 } else {
                     var gameUrl = LUNCH_GAME_URL[providerName]["real"]
