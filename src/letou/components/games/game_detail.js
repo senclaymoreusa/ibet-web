@@ -148,6 +148,7 @@ class GameDetail extends Component {
     }
 
     launchPTGame(gameId) {
+        console.log("launch test...")
         axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
         .then(res => {
             // console.log(res.data)
