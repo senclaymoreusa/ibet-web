@@ -572,7 +572,8 @@ export const messages = {
         'rejected-label': 'Rejected',
         'balance-not-enough': 'Balance is not enough',
         'transfer-message':
-            'Transfered [amount] from [fromWallet] to [toWallet]'
+            'Transfered [amount] from [fromWallet] to [toWallet]',
+        'safety-rate':'Safety Rate',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
