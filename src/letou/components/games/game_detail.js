@@ -32,7 +32,7 @@ function ptCalloutLogin(response, gameId) {
     else {
         alert("Login OK, you will be redirected to the play console");
     //   console.log("sss..")
-        window.open ("http://cache.download.banner.fourblessings88.com/casinoclient.html?language=en&game=" + gameId);
+        window.open ("http://cache.download.banner.fourblessings88.com/casinoclient.html?language=en&game=" + gameId, "_self");
     }
   }
 
@@ -103,7 +103,7 @@ class GameDetail extends Component {
                         });
                         
                     } else if (data.provider.provider_name == 'PT') {
-                        this.launchPTGame(gameId, true, providerName);
+                        this.launchPTGame(gameId);
 
                     } else {
                         var gameUrl = LAUNCH_GAME_URL[providerName]['real'];
@@ -212,14 +212,14 @@ class GameDetail extends Component {
 
     }
 
-    launchPTGame(gameId, providerName) {
+    launchPTGame(gameId) {
         axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             if (res.data.status == 0) {
                 // balance enough, can launch game.
                 // ptLogintest(1, res.data.playername, this.state.user.username)
-                window.iapiSetCallout('Login', ptCalloutLogin(window.iapiLogin(res.data.playername, this.state.user.username, 1, "en"))); 
+                window.iapiSetCallout('Login', ptCalloutLogin(window.iapiLogin(res.data.playername, this.state.user.username, 1, "en"), gameId)); 
             } else if (res.data.state == 1) {
                 alert("General error in launchPT!");
             } else {
@@ -227,12 +227,6 @@ class GameDetail extends Component {
                 alert("your PT wallet balance is not enough, please deposit first.")
             }
         })
-        // var gameUrl = LAUNCH_GAME_URL[providerName]['real'];
-        // gameUrl = gameUrl.replace('{lang}', 'en');
-        // gameUrl = gameUrl.replace('{gameId}', gameId);
-        // this.setState({ gameURL: gameUrl });
-
-        
 
     }
 
