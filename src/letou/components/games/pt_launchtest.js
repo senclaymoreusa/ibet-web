@@ -119,8 +119,8 @@ export class PTlaunchtest extends React.Component {
                     axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
                     .then(res => {
                         console.log(res.data)
-                        logintest(1, "IBETPU_FGTEST", "FGtest123")
-                        window.iapiSetCallout('Login', calloutLogin(window.iapiLogin("IBETPU_FGTEST", "FGtest123", 1, "en"))); 
+                        logintest(1, "IBETPU_TEST123", "test123")
+                        window.iapiSetCallout('Login', calloutLogin(window.iapiLogin("IBETPU_TEST123", "test123", 1, "en"))); 
 
                     })
                     //logintest(1);
