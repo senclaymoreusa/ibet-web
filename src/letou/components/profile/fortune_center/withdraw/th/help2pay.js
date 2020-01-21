@@ -14,17 +14,20 @@ import {
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withRouter } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { Divider } from '@material-ui/core';
 
+//thailand
 const bank_options = [
-    //tailand
     {
         value: 'KKR',
         label: 'Kasikorn Bank (K-Bank)',
@@ -67,31 +70,17 @@ const bank_options = [
         img: 'letou/tmb.png',
         code: 2
     },
-    { value: 'CIMBT', label: 'CIMB Thai', img: 'letou/cimb.png', code: 2 },
-    { value: 'KNK', label: 'Kiatnakin Bank', img: 'letou/kiat.png', code: 2 },
-    // vietnam
-    { value: 'TCB', label: 'Techcom Bank', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'SACOM', label: 'Sacom Bank', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'VCB', label: 'Vietcom Bank', img: 'letou/kiat.png', code: 'VND' },
     {
-        value: 'ACB',
-        label: 'Asia Commercial Bank',
-        img: 'letou/kiat.png',
-        code: 'VND'
-    },
-    { value: 'DAB', label: 'DongA Bank', img: 'letou/kiat.png', code: 'VND' },
-    { value: 'VTB', label: 'Vietin Bank', img: 'letou/kiat.png', code: 'VND' },
-    {
-        value: 'BIDV',
-        label: 'Bank for Investment and Development of Vietnam',
-        img: 'letou/kiat.png',
-        code: 'VND'
+        value: 'CIMBT',
+        label: 'CIMB Thai',
+        img: 'letou/cimb.png',
+        code: 2
     },
     {
-        value: 'EXIM',
-        label: 'Eximbank Vietnam',
+        value: 'KNK',
+        label: 'Kiatnakin Bank',
         img: 'letou/kiat.png',
-        code: 'VND'
+        code: 2
     }
 ];
 
@@ -103,14 +92,17 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
-        paddingLeft: 263,
-        paddingRight: 262,
         paddingTop: 50,
         paddingBottom: 50
     },
@@ -151,13 +143,8 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 40
-    },
-    backButtonCell: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingTop: 20
+        paddingTop: 40,
+        marginTop: 30
     },
     rememberCell: {
         paddingTop: 20
@@ -237,7 +224,6 @@ const styles = theme => ({
         width: '100%',
         height: 44,
         borderRadius: 22,
-
         textTransform: 'capitalize'
     },
     rightButton: {
@@ -326,6 +312,28 @@ const styles = theme => ({
         textAlign: 'center',
         paddingTop: 12
     },
+    detailText: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 44,
+        paddingLeft: 6,
+        paddingRight: 10,
+        paddingTop: 6,
+        width: '100%',
+        borderRadius: 4,
+        border: 'solid 1px #e4e4e4',
+        '&:hover': {
+            border: '1px solid #717171'
+        },
+        '&:focus': {
+            border: '1px solid #717171'
+        }
+    },
     selectLabel: {
         marginLeft: 10,
         fontSize: 15,
@@ -335,6 +343,19 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#292929'
+    },
+    desc: {
+        fontSize: 12,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929'
+    },
+    bankIcon: {
+        height: 20,
+        maxWidth: 100
     }
 });
 
@@ -374,16 +395,6 @@ const BootstrapInput = withStyles(theme => ({
     }
 }))(InputBase);
 
-const CustomCheckbox = withStyles({
-    root: {
-        color: '#21e496',
-        '&$checked': {
-            color: '#21e496'
-        }
-    },
-    checked: {}
-})(props => <Checkbox {...props} />);
-
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
 
@@ -412,63 +423,33 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class Help2pay extends Component {
+class Help2Pay extends Component {
     constructor(props) {
         super(props);
-
-        this.amountInput = React.createRef();
 
         this.state = {
             urlPath: '',
             amount: '',
             error: false,
             data: '',
-            type: '',
-            live_check_amount: false,
-            button_disable: false,
-            value: '',
-            selectedCurrencyOption: 'none',
             selectedBankOption: 'none',
-            order_id:
-                'ibet' +
-                new Date()
-                    .toISOString()
-                    .replace(/-/g, '')
-                    .replace('T', '')
-                    .replace(/:/g, '')
-                    .split('.')[0],
+            showwithdrawPassword: false,
 
             amountFocused: false,
             amountInvalid: true,
 
+            bankAccountNumber: '',
+            bankAccountHolder: '',
+            withdrawpassword: '',
+
+            //withdrawpasswordFocused: false,
+            //withdrawpasswordInvalid: true,
+
+            activeStep: 0,
             currency: 'THB',
             currencyCode: 'THB',
             isFavorite: false
         };
-
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
-                    this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
-                    });
-                    this.setState({ currencyCode: res.data.currency });
-                    this.setState({
-                        isFavorite:
-                            res.data.favorite_payment_method === 'help2pay'
-                    });
-                });
-            }
-        });
     }
 
     componentDidMount() {
@@ -484,10 +465,6 @@ class Help2pay extends Component {
                         currency: getSymbolFromCurrency(res.data.currency)
                     });
                     this.setState({ currencyCode: res.data.currency });
-                    this.setState({
-                        isFavorite:
-                            res.data.favorite_payment_method === 'help2pay'
-                    });
                 });
             }
         });
@@ -514,83 +491,95 @@ class Help2pay extends Component {
         }
     }
 
-    handleCurrencyChange = event => {
-        this.setState({ selectedCurrencyOption: event.target.value });
-        this.setState({ selectedBankOption: 'none' });
-    };
+    bankAccountNumberChanged(event) {
+        this.setState({ bankAccountNumberFocused: true });
+
+        const re = /^[0-9\b]+$/;
+
+        if (re.test(event.target.value))
+            this.setState({ bankAccountNumber: event.target.value });
+        else if (event.target.value.length === 0)
+            this.setState({ bankAccountNumber: '' });
+    }
+
+    bankAccountHolderChanged(event) {
+        this.setState({ bankAccountHolderFocused: true });
+        {
+            /*
+        const re = /^[0-9\b]+$/;
+
+        if (re.test(event.target.value))
+            this.setState({ bankAccountHolder: event.target.value });
+        else if (event.target.value.length === 0)
+            this.setState({ bankAccountHolder: '' });
+        */
+        }
+        this.setState({ bankAccountHolder: event.target.value });
+        this.setState({ bankAccountHolderFocused: true });
+        //this.setState({ pinInvalid: (event.target.value.length < 2) });
+    }
+
+    withdrawpasswordChanged(event) {
+        this.setState({ withdrawpasswordFocused: true });
+        {
+            /*}
+        const re = /^[0-9]+(\.[0-9]{0,2})?$/;
+
+        if (re.test(event.target.value))
+            this.setState({ withdrawpassword: event.target.value });
+        else if (event.target.value.length === 0)
+            this.setState({ bwithdrawpassword: '' });
+        */
+        }
+        this.setState({ withdrawpassword: event.target.value });
+        this.setState({ withdrawpasswordFocused: true });
+    }
 
     handleBankChange = event => {
         this.setState({ selectedBankOption: event.target.value });
     };
 
-    handleClick = () => {
+    async handleClick() {
         let currentComponent = this;
 
         var postData = {
             amount: this.state.amount,
-            user_id: this.state.data.pk,
-            currency: '2',
+            username: this.state.data.username,
+            // "user_id": this.state.data.pk,
+            // "language": "en-Us",
+            toBankAccountName: this.state.bankAccountHolder,
+            toBankAccountNumber: this.state.bankAccountNumber,
+            toBankAccountNumber: this.state.bankAccountNumber,
+            withdrawPassword: this.state.withdrawpassword,
             bank: this.state.selectedBankOption,
-            language: 'en-Us'
+            currency: 2
         };
-        //console.log(orderid)
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + '=' + encodedValue);
-        }
-        formBody = formBody.join('&');
-        const token = localStorage.getItem('token');
 
-        return fetch(API_URL + 'accounting/api/help2pay/deposit', {
-            method: 'POST',
-            withCredentials: true,
-            headers: {
-                'content-type':
-                    'application/x-www-form-urlencoded; charset=UTF-8',
-                Authorization: 'Token ' + token
-            },
-            body: formBody
-        })
-            .then(function(res) {
-                if (res.ok) {
-                    return res.text();
-                }
+        let res = await axios.post(
+            API_URL + 'accounting/api/help2pay/submit_payout',
+            postData,
+            config
+        );
+        console.log(res);
 
+        if (res.status == 200) {
+            if (res.data.indexOf('000') !== -1) {
+                currentComponent.props.callbackFromParent(
+                    'success',
+                    postData.amount
+                );
+            } else {
                 currentComponent.props.callbackFromParent(
                     'error',
-                    '渠道维护中'
+                    'Error message goes here'
                 );
-
-                //alert("渠道维护中");
-                throw new Error('Something went wrong.');
-            })
-            .catch(function(err) {
-                console.log('Request failed', err);
-                currentComponent.props.callbackFromParent('error', err.message);
-                sendingLog(err);
-            });
-    };
+            }
+        }
+    }
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
-    }
-
-    setAsFavourite(event) {
-        axios
-            .post(API_URL + `users/api/favorite-payment-setting/`, {
-                user_id: this.state.data.pk,
-                payment: event.target.checked ? 'help2pay' : null
-            })
-            .then(res => {
-                this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
-            })
-            .catch(function(err) {
-                sendingLog(err);
-            });
     }
 
     cancelClicked() {
@@ -600,18 +589,41 @@ class Help2pay extends Component {
         var path = parts.slice(1, 4).join('/');
         url = url + path;
         this.props.history.push(url);
+        let currentComponent = this;
+        currentComponent.props.callbackFromParent('');
     }
 
     render() {
         const { classes } = this.props;
-        const { selectedBankOption, isFavorite, amount, currency } = this.state;
+        const {
+            selectedBankOption,
+            bankAccountNumber,
+            amount,
+            currency,
+            bankAccountHolder,
+            withdrawpassword
+        } = this.state;
 
-        // const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
-        const filteredOptions = bank_options.filter(o => o.code === 2);
         return (
             <div className={classes.root}>
                 <Grid container className={classes.contentGrid} spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid
+                        item
+                        xs={12}
+                        style={{ display: 'flex', flexDirection: 'column' }}
+                    >
+                        <span className={classes.selectLabel}>
+                            {this.getLabel('bank-account')}
+                        </span>
+                        <Divider style={{ marginTop: 10 }} />
+                        <span
+                            className={classes.desc}
+                            style={{ marginTop: 10, marginbottom: 20 }}
+                        >
+                            {this.getLabel('vn-local-withdraw-text')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
                         <Select
                             className={classes.select}
                             value={selectedBankOption}
@@ -625,7 +637,7 @@ class Help2pay extends Component {
                                     {this.getLabel('choose-bank')}
                                 </span>
                             </MenuItem>
-                            {filteredOptions.map(bank => (
+                            {bank_options.map(bank => (
                                 <MenuItem key={bank.label} value={bank.value}>
                                     <div style={{ width: 100 }}>
                                         <img
@@ -633,6 +645,8 @@ class Help2pay extends Component {
                                             alt=""
                                             height="20"
                                         />
+                                        {/*className={classes.bankIcon} />
+                                         */}
                                     </div>
                                     <span className={classes.selectLabel}>
                                         {bank.label}
@@ -640,6 +654,102 @@ class Help2pay extends Component {
                                 </MenuItem>
                             ))}
                         </Select>
+                    </Grid>
+                    {this.state.activeStep === 1 && (
+                        <Grid item xs={12} className={classes.detailRow}>
+                            <TextField
+                                className={classes.amountText}
+                                placeholder={this.getLabel(
+                                    'help2pay-placeholder'
+                                )}
+                                onChange={this.amountChanged.bind(this)}
+                                value={amount}
+                                error={
+                                    this.state.amountInvalid &&
+                                    this.state.amountFocused
+                                }
+                                helperText={
+                                    this.state.amountInvalid &&
+                                    this.state.amountFocused
+                                        ? this.getLabel('valid-amount')
+                                        : ' '
+                                }
+                                InputProps={{
+                                    disableUnderline: true,
+                                    inputComponent: NumberFormatCustom,
+                                    inputProps: {
+                                        style: { textAlign: 'right' },
+                                        currency: currency
+                                    },
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <span className={classes.label}>
+                                                {this.getLabel('amount-label')}
+                                            </span>
+                                        </InputAdornment>
+                                    )
+                                }}
+                            />
+                        </Grid>
+                    )}
+
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
+                            placeholder={this.getLabel('bank-holder')}
+                            onChange={this.bankAccountHolderChanged.bind(this)}
+                            value={bankAccountHolder}
+                            error={
+                                this.state.bankAccountHolderFocused &&
+                                bankAccountHolder.length === 0
+                            }
+                            helperText={
+                                this.state.bankAccountHolderFocused &&
+                                bankAccountHolder.length === 0
+                            } // ? this.getLabel('invalid-bank-number') : ' '}
+                            InputProps={{
+                                disableUnderline: true
+                                // endAdornment: (
+
+                                //     <InputAdornment position="end" >
+                                //     </InputAdornment>
+
+                                // ),
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
+                            placeholder={this.getLabel('bank-number')}
+                            onChange={this.bankAccountNumberChanged.bind(this)}
+                            value={bankAccountNumber}
+                            error={
+                                this.state.bankAccountNumberFocused &&
+                                bankAccountNumber.length === 0
+                            }
+                            helperText={
+                                this.state.bankAccountNumberFocused &&
+                                bankAccountNumber.length === 0
+                                    ? this.getLabel('invalid-bank-number')
+                                    : ' '
+                            }
+                            InputProps={{
+                                disableUnderline: true,
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <img
+                                            src={
+                                                images.src +
+                                                'letou/info-icon.svg'
+                                            }
+                                            alt=""
+                                            height="20"
+                                        />
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
                     </Grid>
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
@@ -661,6 +771,9 @@ class Help2pay extends Component {
                                 disableUnderline: true,
                                 inputComponent: NumberFormatCustom,
                                 inputProps: {
+                                    step: 10,
+                                    min: 200,
+                                    min: 950000,
                                     style: { textAlign: 'right' },
                                     currency: currency
                                 },
@@ -674,19 +787,51 @@ class Help2pay extends Component {
                             }}
                         />
                     </Grid>
-                    <Grid item xs={12} style={{ marginBottom: 50 }}>
-                        <FormControlLabel
-                            className={classes.checkbox}
-                            control={
-                                <CustomCheckbox
-                                    checked={isFavorite}
-                                    value="checkedA"
-                                    onClick={event => {
-                                        this.setAsFavourite(event);
-                                    }}
-                                />
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
+                            value={this.state.withdrawpassword}
+                            placeholder={this.getLabel('password-text')}
+                            onChange={this.withdrawpasswordChanged.bind(this)}
+                            type={
+                                this.state.showwithdrawPassword
+                                    ? ''
+                                    : 'password'
                             }
-                            label={this.getLabel('add-favourite-deposit')}
+                            error={
+                                this.state.withdrawpasswordFocused &&
+                                withdrawpassword.length === 0
+                            }
+                            helperText={
+                                this.state.withdrawpasswordFocused &&
+                                withdrawpassword.length === 0
+                            } // ? this.getLabel('invalid-bank-number') : ' '}
+                            InputProps={{
+                                disableUnderline: true,
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            size="small"
+                                            disabled={
+                                                this.state.withdrawpassword
+                                                    .length === 0
+                                            }
+                                            aria-label="Toggle password visibility"
+                                            onClick={() => {
+                                                this.setState(state => ({
+                                                    showwithdrawPassword: !state.showwithdrawPassword
+                                                }));
+                                            }}
+                                        >
+                                            {this.state.showwithdrawPassword ? (
+                                                <Visibility />
+                                            ) : (
+                                                <VisibilityOff />
+                                            )}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
                         />
                     </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
@@ -701,10 +846,13 @@ class Help2pay extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button
                             className={classes.actionButton}
-                            onClick={this.handleClick}
+                            onClick={this.handleClick.bind(this)}
                             disabled={
                                 this.state.amountInvalid ||
-                                this.state.selectedBankOption === 'none'
+                                this.state.selectedBankOption === 'none' ||
+                                this.state.bankAccountNumber == '' ||
+                                this.state.bankAccountHolder == '' ||
+                                this.state.withdrawpassword == ''
                             }
                         >
                             {this.getLabel('next-label')}
@@ -724,6 +872,6 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Help2pay))
+        injectIntl(connect(mapStateToProps, { authCheckState })(Help2Pay))
     )
 );

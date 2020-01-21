@@ -102,8 +102,6 @@ const styles = theme => ({
         marginTop: 20
     },
     lang_button: {
-        // padding: 0,
-        // minWidth: 0
         border: '1px solid #363636',
         height: 48,
         borderRadius: 4,
@@ -298,10 +296,6 @@ export class Footer extends React.Component {
         this.getLabel = this.getLabel.bind(this);
     }
 
-    componentWillReceiveProps(props) {
-        this.setActiveMenuByPath();
-    }
-
     componentDidMount() {
         this.setActiveMenuByPath();
     }
@@ -313,7 +307,7 @@ export class Footer extends React.Component {
         if (parts.length >= 2) {
             let path = parts[1];
 
-            this.setState({ activeMenu: (path == '') ? 'home' : path });
+            this.setState({ activeMenu: path == '' ? 'home' : path });
         } else if (parts.length >= 3) {
             let path = parts[2];
 
@@ -934,7 +928,7 @@ export class Footer extends React.Component {
                                     href="https://help.letou.com/cn/index.html?type=member_start_03"
                                     className={classes.footerlink}
                                 >
-                                    {this.getLabel('withdrawal-process')}
+                                    {this.getLabel('withdraw-process')}
                                 </Link>
                                 <Link
                                     target="_blank"
@@ -1072,90 +1066,90 @@ export class Footer extends React.Component {
                         />
                     </BottomNavigation>
                 ) : (
-                        <BottomNavigation
-                            value={activeMenu}
-                            showLabels
-                            className={classes.rootMobile}
-                        >
-                            <BottomNavigationAction
-                                label={this.getLabel('home-label')}
-                                icon={
-                                    <img
-                                        src={this.getMobileFooterIconUrl('home')}
-                                        alt=""
-                                        height="20"
-                                    />
-                                }
-                                onClick={() => {
-                                    this.props.history.push('/');
-                                    this.setState({ activeMenu: 'home' });
-                                }}
-                            />
-                            <BottomNavigationAction
-                                label={this.getLabel('promotions-label')}
-                                icon={
-                                    <img
-                                        src={this.getMobileFooterIconUrl(
-                                            'promotions'
-                                        )}
-                                        alt=""
-                                        height="20"
-                                    />
-                                }
-                                onClick={() => {
-                                    this.setState({ activeMenu: 'promotions' });
-                                    this.props.history.push('/promotions');
-                                }}
-                            />
-                            <BottomNavigationAction
-                                style={{ paddingTop: 0, paddingBottom: 0 }}
-                                icon={
-                                    <img
-                                        src={
-                                            images.src +
-                                            'letou/signup-bottom-' +
-                                            this.props.lang +
-                                            '.png'
-                                        }
-                                        alt=""
-                                        height="50"
-                                    />
-                                }
-                                onClick={() => {
-                                    this.props.show_letou_mobile_signup();
-                                }}
-                            />
-                            <BottomNavigationAction
-                                label={this.getLabel('help-title')}
-                                icon={
-                                    <img
-                                        src={this.getMobileFooterIconUrl('help')}
-                                        alt=""
-                                        height="20"
-                                    />
-                                }
-                                onClick={() => {
-                                    this.props.history.push(
-                                        '/' + this.props.lang + '/about_us'
-                                    );
-                                    this.setState({ activeMenu: 'help' });
-                                }}
-                            />
-                            <BottomNavigationAction
-                                label={this.getLabel('log-in')}
-                                icon={
-                                    <img
-                                        src={this.getMobileFooterIconUrl('signin')}
-                                        alt=""
-                                        height="20"
-                                    />
-                                }
-                                onClick={() => {
-                                    this.props.show_letou_mobile_login();
-                                }}
-                            />
-                        </BottomNavigation>
-                    )}
+                    <BottomNavigation
+                        value={activeMenu}
+                        showLabels
+                        className={classes.rootMobile}
+                    >
+                        <BottomNavigationAction
+                            label={this.getLabel('home-label')}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl('home')}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
+                            onClick={() => {
+                                this.props.history.push('/');
+                                this.setState({ activeMenu: 'home' });
+                            }}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('promotions-label')}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl(
+                                        'promotions'
+                                    )}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
+                            onClick={() => {
+                                this.setState({ activeMenu: 'promotions' });
+                                this.props.history.push('/promotions');
+                            }}
+                        />
+                        <BottomNavigationAction
+                            style={{ paddingTop: 0, paddingBottom: 0 }}
+                            icon={
+                                <img
+                                    src={
+                                        images.src +
+                                        'letou/signup-bottom-' +
+                                        this.props.lang +
+                                        '.png'
+                                    }
+                                    alt=""
+                                    height="50"
+                                />
+                            }
+                            onClick={() => {
+                                this.props.show_letou_mobile_signup();
+                            }}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('help-title')}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl('help')}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
+                            onClick={() => {
+                                this.props.history.push(
+                                    '/' + this.props.lang + '/about_us'
+                                );
+                                this.setState({ activeMenu: 'help' });
+                            }}
+                        />
+                        <BottomNavigationAction
+                            label={this.getLabel('log-in')}
+                            icon={
+                                <img
+                                    src={this.getMobileFooterIconUrl('signin')}
+                                    alt=""
+                                    height="20"
+                                />
+                            }
+                            onClick={() => {
+                                this.props.show_letou_mobile_login();
+                            }}
+                        />
+                    </BottomNavigation>
+                )}
                 <Modal
                     aria-labelledby="mobile-menu"
                     aria-describedby="mobile-menu-description"

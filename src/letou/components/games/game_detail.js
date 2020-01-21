@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { config } from '../../../util_config';
 import { FormattedMessage } from 'react-intl';
+import { withStyles } from '@material-ui/core/styles';
 import Iframe from 'react-iframe';
 import { GAME_URLS } from '../../../game_constant';
 
@@ -14,6 +15,12 @@ if (process.env.REACT_APP_NODE_ENV === 'development') {
 } else {
     LAUNCH_GAME_URL = GAME_URLS['prod'];
 }
+
+const styles = theme => ({
+    root: {
+        height: '100%',
+    }
+});
 class GameDetail extends Component {
     constructor(props) {
         super(props);
@@ -21,11 +28,13 @@ class GameDetail extends Component {
         this.state = {
             gameURL: '',
             token: '',
-            gameId: ''
+            gameId: '',
+            png: false,
         };
 
         this.generateFGURL = this.generateFGURL.bind(this);
         this.generateQTURL = this.generateQTURL.bind(this);
+        this.launchPNGGame = this.launchPNGGame.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +60,18 @@ class GameDetail extends Component {
                         this.generateFGURL(gameId, providerName);
                     } else if (data.provider.provider_name == 'QTech') {
                         this.generateQTURL(gameId, true);
+                    } else if (data.provider.provider_name == 'PLAYNGO') {
+
+                        axios.get(
+                            API_URL +
+                                'games/api/playngo/get_png_ticket?userid=' + this.state.user.pk,
+                            config
+                        )
+                        .then(res => {
+                            // console.log(res);
+                            this.launchPNGGame(gameId, 'en_GB', res.data.ticket, true);
+                        });
+                        
                     } else {
                         var gameUrl = LAUNCH_GAME_URL[providerName]['real'];
                         let token = localStorage.getItem('token');
@@ -62,6 +83,8 @@ class GameDetail extends Component {
                 } else {
                     if (data.provider.provider_name == 'QTech') {
                         this.generateQTURL(gameId, false);
+                    } else if (data.provider.provider_name == 'PLAYNGO') {
+                        this.launchPNGGame(gameId, 'en_GB', '', false);
                     } else {
                         var gameUrl = LAUNCH_GAME_URL[providerName]['free'];
                         gameUrl = gameUrl.replace('{lang}', 'en');
@@ -100,8 +123,8 @@ class GameDetail extends Component {
             });
     }
 
-    generateQTURL(gameId, free) {
-        if (free) {
+    generateQTURL(gameId, isReal) {
+        if (!isReal) {
             axios
                 .post(
                     API_URL +
@@ -132,16 +155,50 @@ class GameDetail extends Component {
         }
     }
 
+
+    launchPNGGame(gameId, lang, session, isReal) {
+
+
+        if (!isReal) {
+            const script = document.createElement("script");
+    
+            script.src = `https://csistage.playngonetwork.com/casino/js?div=pngCasinoGame&pid=8820&lang=${lang}&practice=1&height=786px&width=100%&gid=${gameId}`;
+            script.async = true;
+        
+            document.body.appendChild(script);
+        } else {
+            const script = document.createElement("script");
+    
+            script.src = `https://csistage.playngonetwork.com/casino/js?div=pngCasinoGame&pid=8820&lang=${lang}&practice=0&height=786px&width=100%&gid=${gameId}&username=${session}`;
+            script.async = true;
+        
+            document.body.appendChild(script);
+        }
+        
+        this.setState({ png: true });
+
+    }
+
     render() {
-        return (
-            <div>
-                <Iframe
-                    url={this.state.gameURL}
-                    height={window.innerHeight}
-                    width="100%"
-                />
-            </div>
-        );
+        var { png } = this.state;
+        var height = window.innerHeight;
+        if (png) {
+            return (   
+                <div id="pngCasinoGame" style={{ height: height }}>
+                 </div>
+            )
+        } else {
+            return (
+                <div>
+                    <Iframe
+                        url={this.state.gameURL}
+                        height={window.innerHeight}
+                        width="100%"
+                    />
+                </div>
+            );
+        }
+        
     }
 }
 
@@ -154,4 +211,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(GameDetail);
+export default withStyles(styles)(connect(mapStateToProps)(GameDetail));

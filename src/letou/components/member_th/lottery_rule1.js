@@ -97,37 +97,37 @@ export class LotteryRuleOneTh extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
-                                <a>Glossary</a>
+                                <a href="/">Glossary</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
-                                <a>ฮ่องกง ล็อตโต้</a>
+                                <a href="/">ฮ่องกง ล็อตโต้</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
-                                <a>ล็อตโต้สิงค์โปร</a>
+                                <a href="/">ล็อตโต้สิงค์โปร</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
-                                <a>ล็อตโต้จีน</a>
+                                <a href="/">ล็อตโต้จีน</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
-                                <a>ล็อตโต้นิวซีแลนด์</a>
+                                <a href="/">ล็อตโต้นิวซีแลนด์</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
-                                <a>ล็อตโต้เยอรมัน</a>
+                                <a href="/">ล็อตโต้เยอรมัน</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
-                                <a>ล็อตโต้อังกฤษ</a>
+                                <a href="/">ล็อตโต้อังกฤษ</a>
                             </li>
                             <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
-                                <a>ล็อตโต้สเปน</a>
+                                <a href="/">ล็อตโต้สเปน</a>
                             </li>
                             <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
-                                <a>ล็อตโต้แอฟริกาใต้</a>
+                                <a href="/">ล็อตโต้แอฟริกาใต้</a>
                             </li>
                             <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
-                                <a>ล็อตโต้แคนนาดา</a>
+                                <a href="/">ล็อตโต้แคนนาดา</a>
                             </li>
                             <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
-                                <a>อเมริกัน ล็อตโต้</a>
+                                <a href="/">อเมริกัน ล็อตโต้</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

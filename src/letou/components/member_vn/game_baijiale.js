@@ -97,40 +97,40 @@ export class BaijialeVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>Super 6 Baccarat</a>
+                                <a href="/">Super 6 Baccarat</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>Baccarat truyền thống</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>Super Baccarat</a>
+                                <a href="/">Super Baccarat</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>Baccarat Cặp</a>
+                                <a href="/">Baccarat Cặp</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>Baccarat 14 người chơi</a>
+                                <a href="/">Baccarat 14 người chơi</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>Classic Baccarat</a>
+                                <a href="/">Classic Baccarat</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>VIP Baccarat</a>
+                                <a href="/">VIP Baccarat</a>
                             </li>
                             <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>Bid Baccarat</a>
+                                <a href="/">Bid Baccarat</a>
                             </li>
                             <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>Baccarat nhiều bàn chơi</a>
+                                <a href="/">Baccarat nhiều bàn chơi</a>
                             </li>
                             <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>Dragon Bonus Baccarat</a>
+                                <a href="/">Dragon Bonus Baccarat</a>
                             </li>
                             <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>Playboy Baccarat</a>
+                                <a href="/">Playboy Baccarat</a>
                             </li>
                             <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>Points Baccarat</a>
+                                <a href="/">Points Baccarat</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

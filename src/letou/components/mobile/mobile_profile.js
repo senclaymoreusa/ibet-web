@@ -264,7 +264,7 @@ export class MobileMainProfile extends Component {
                     <Grid item xs={4} style={{ textAlign: 'center' }}>
                         <Button className={classes.mobileTabTitleButton}
                         onClick={() => {
-                            this.props.history.push('/p/fortune-center/withdrawal');
+                            this.props.history.push('/p/fortune-center/withdraw');
                        }}>
                             <div className={classes.column}>
                                 <img
@@ -274,7 +274,7 @@ export class MobileMainProfile extends Component {
                                     alt="LETOU"
                                     height="20"
                                 />
-                                {this.getLabel('title-withdrawal')}
+                                {this.getLabel('withdraw-label')}
                             </div>
                         </Button>
                     </Grid>
