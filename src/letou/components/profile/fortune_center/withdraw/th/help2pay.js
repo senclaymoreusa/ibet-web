@@ -569,10 +569,12 @@ class Help2Pay extends Component {
                     postData.amount
                 );
             } else {
-                currentComponent.props.callbackFromParent(
-                    'error',
-                    'Error message goes here'
+                let d = res.data;
+                var errMsg = d.slice(
+                    d.indexOf('<message>') + 9,
+                    d.indexOf('</message>')
                 );
+                currentComponent.props.callbackFromParent('error', errMsg);
             }
         }
     }
@@ -660,7 +662,7 @@ class Help2Pay extends Component {
                             <TextField
                                 className={classes.amountText}
                                 placeholder={this.getLabel(
-                                    'help2pay-placeholder'
+                                    'help2pay-withdraw-placeholder'
                                 )}
                                 onChange={this.amountChanged.bind(this)}
                                 value={amount}

@@ -566,6 +566,13 @@ class Help2pay extends Component {
                 //alert("渠道维护中");
                 throw new Error('Something went wrong.');
             })
+            .then(function(data) {
+                if (data.errorCode) {
+                    throw new Error('Something went wrong.');
+                }
+                let newwin = window.open('');
+                newwin.document.write(data);
+            })
             .catch(function(err) {
                 console.log('Request failed', err);
                 currentComponent.props.callbackFromParent('error', err.message);
