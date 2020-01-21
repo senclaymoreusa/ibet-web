@@ -84,10 +84,10 @@ export class PTlaunchtest extends React.Component {
     
         // document.body.appendChild(script);
 
-        const script1 = document.createElement("script");
-        script1.type = "text/javascript";
-        script1.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
-        document.body.appendChild(script1);
+        // const script1 = document.createElement("script");
+        // script1.type = "text/javascript";
+        // script1.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
+        // document.body.appendChild(script1);
 
         const token = localStorage.getItem('token');
         if (token) {
@@ -119,8 +119,8 @@ export class PTlaunchtest extends React.Component {
                     axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
                     .then(res => {
                         console.log(res.data)
-                        logintest(1, "IBETPU_FGTEST", "FGtest123")
-                        window.iapiSetCallout('Login', calloutLogin(window.iapiLogin("IBETPU_FGTEST", "FGtest123", 1, "en"))); 
+                        // logintest(1, "IBETPU_FGTEST", "FGtest123")
+                        // window.iapiSetCallout('Login', calloutLogin(window.iapiLogin("IBETPU_FGTEST", "FGtest123", 1, "en"))); 
 
                     })
                     //logintest(1);
