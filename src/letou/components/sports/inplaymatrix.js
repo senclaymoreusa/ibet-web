@@ -115,20 +115,29 @@ export class gbesports extends React.Component {
     
   }
   componentDidMount() {
-    var token = localStorage.getItem('token')  
+    var token = localStorage.getItem('token');
     if (token){
         config.headers["Authorization"] = `Token ${token}`;
         var URL = API_URL + 'games/api/inplay/login/';
-        console.log(URL);
-        axios.post(URL, {"username": "Bobby"}, config)
+
+        axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                // console.log(res);
-                if(res.status == 200) {
-                    if(res.data.StatusCode === 0 && res.data.StatusDesc === "Success") {
-                        let launchUrl = "https://imes.claymoreasia.com/?token=" + String(token)
-                        this.setState({url: launchUrl});
+                let userName = res.data.username;
+                axios.post(URL, {"username": "Bobby"}, config)
+                .then(res => {
+                    // console.log(res);
+                    if(res.status == 200) {
+                        if(res.data.StatusCode === 0 && res.data.StatusDesc === "Success") {
+                            // let launchUrl = "https://imes.claymoreasia.com/?token=" + String(token);
+                            let launchUrl = "https://imes.claymoreasia.com/?token=e789cd6b4cc84f9ff8de0bee5a0bf8f5485c6d9f";
+                            console.log(launchUrl);
+                            this.setState({url: launchUrl});
+                        }
                     }
-                }
+                })
+            })
+            .catch(err => {
+                console.log(err);
             })
     } else {
         console.log("Not Login");
