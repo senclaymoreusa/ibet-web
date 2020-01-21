@@ -481,7 +481,8 @@ class TopNavbar extends React.Component {
                     >
                         <Flag country="US" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-english')}
+                            {/* {this.getLabel('lang-english')} */}
+                            English
                         </div>
                     </MenuItem>
                     <MenuItem
@@ -497,7 +498,8 @@ class TopNavbar extends React.Component {
                     >
                         <Flag country="CN" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-chinese')}
+                            {/* {this.getLabel('lang-chinese')} */}
+                            中文
                         </div>
                     </MenuItem>
                     <MenuItem
@@ -510,7 +512,8 @@ class TopNavbar extends React.Component {
                     >
                         <Flag country="TH" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-thai')}
+                            {/* {this.getLabel('lang-thai')} */}
+                            ประเทศไทย
                         </div>
                     </MenuItem>
                     <MenuItem
@@ -523,7 +526,8 @@ class TopNavbar extends React.Component {
                     >
                         <Flag country="VN" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-vietnamese')}
+                            {/* {this.getLabel('lang-vietnamese')} */}
+                            Tiếng Việt
                         </div>
                     </MenuItem>
                 </Menu>
