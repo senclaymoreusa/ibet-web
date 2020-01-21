@@ -382,7 +382,7 @@ export class WithdrawMain extends Component {
                                     <Button
                                         className={classes.mobileMenuButton}
                                         onClick={() => {
-                                            this.props.history.push('/p/');
+                                            this.props.history.push('/p/fortune-center');
                                         }}
                                     >
                                         <ArrowBackIos style={{ width: 16 }} />
