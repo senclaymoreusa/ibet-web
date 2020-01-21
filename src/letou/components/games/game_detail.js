@@ -14,6 +14,29 @@ if (process.env.REACT_APP_NODE_ENV === 'development') {
 } else {
     LUNCH_GAME_URL = GAME_URLS['prod'];
 }
+
+function ptCalloutLogin(response, gameId) {
+    // console.log(response);
+    // console.log("hi");
+    if (response.errorCode) {
+        alert("Login failed, " + response.errorText);
+    //   console.log("fail...")
+    }
+    else {
+        alert("Login OK, you will be redirected to the play console");
+    //   console.log("sss..")
+        window.open ("http://cache.download.banner.fourblessings88.com/casinoclient.html?language=en&game=" + gameId, "_self");
+    }
+  }
+
+function ptLogintest(realMode, username, password) {
+
+    // console.log(window.iapiLogin);
+    let x = window.iapiLogin(username, password, realMode, "en");
+    // console.log(x);
+    // calloutLogin(x);
+}
+
 class GameDetail extends Component {
 
     constructor(props) {
@@ -27,11 +50,18 @@ class GameDetail extends Component {
 
         this.generateFGURL  = this.generateFGURL.bind(this);
         this.generateQTURL  = this.generateQTURL.bind(this);
+        this.launchPTGame = this.launchPTGame.bind(this);
 
     }
 
 
     componentDidMount() {
+
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
+        document.body.appendChild(script);
+
         const { id } = this.props.match.params;
         // console.log(id);
         const token = localStorage.getItem('token');
@@ -51,6 +81,8 @@ class GameDetail extends Component {
                     this.generateFGURL(gameId, providerName);
                 } else if (data.provider.provider_name == 'QTech') {
                     this.generateQTURL(gameId, true);
+                } else if (data.provider.provider_name == 'PT') {
+                        this.launchPTGame(gameId);
                 } else {
                     var gameUrl = LUNCH_GAME_URL[providerName]["real"]
                     let token = localStorage.getItem('token');
@@ -113,6 +145,24 @@ class GameDetail extends Component {
         }
         
         
+    }
+
+    launchPTGame(gameId) {
+        axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
+        .then(res => {
+            // console.log(res.data)
+            if (res.data.status == 0) {
+                // balance enough, can launch game.
+                // ptLogintest(1, res.data.playername, this.state.user.username)
+                window.iapiSetCallout('Login', ptCalloutLogin(window.iapiLogin(res.data.playername, this.state.user.username, 1, "en"), gameId)); 
+            } else if (res.data.state == 1) {
+                alert("General error in launchPT!");
+            } else {
+                //balance not enough, go to deposit.
+                alert("your PT wallet balance is not enough, please deposit first.")
+            }
+        })
+
     }
 
   render() {

@@ -11,7 +11,11 @@ export const GAME_URLS = {
         "Betsoft": {
             "free": "https://claymoreasia-gp3.discreetgaming.com/cwguestlogin.do?bankId=4542&gameId={gameId}&lang={lang}",
             "real": "https://claymoreasia-gp3.discreetgaming.com/cwstartgamev2.do?bankId=4542&gameId={gameId}&mode=real&token={token}&lang={lang}"
-        }   
+        },
+        "PlayTech": {
+            "free": "http://cache.download.banner.fourblessings88.com/casinoclient.html?language={lang}&game={gameId}&mode=offline",
+            "real": "http://cache.download.banner.fourblessings88.com/casinoclient.html?language={lang}&game={gameId}"
+        }    
     },
     'prod': {
         "FG": {
@@ -25,6 +29,10 @@ export const GAME_URLS = {
         "Betsoft": {
             "free": "https://claymoreasia-gp3.betsoftgaming.com/cwguestlogin.do?bankId=4542&gameId={gameId}&lang={lang}",
             "real": "https://claymoreasia-gp3.betsoftgaming.com/cwstartgamev2.do?bankId=4542&gameId={gameId}&mode=real&token={token}&lang={lang}"
+        } ,
+        "PlayTech": {
+            "free": "http://cache.download.banner.fourblessings88.com/casinoclient.html?language={lang}&game={gameId}&mode=offline",
+            "real": "http://cache.download.banner.fourblessings88.com/casinoclient.html?language={lang}&game={gameId}"
         }   
 
     }
