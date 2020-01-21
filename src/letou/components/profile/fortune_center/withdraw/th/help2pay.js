@@ -450,10 +450,8 @@ class Help2Pay extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
-            }
-        })
-
-        const token = localStorage.getItem('token');
+            }else{
+                const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
@@ -462,6 +460,10 @@ class Help2Pay extends Component {
                 this.setState({ currencyCode: res.data.currency });
                 //this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
+            }
+        })
+
+        
     }
 
     amountChanged(event) {
