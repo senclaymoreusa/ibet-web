@@ -25,26 +25,27 @@ export class Main extends Component {
 
         this.state = {
             contentValue: 'main',
-            dateValue: null
+            dateValue: null,
+            operationType: ''
         }
     }
 
-    setContent = (content, date) => {
-        this.setState({ contentValue: content, dateValue: date });
+    setContent = (content, date, operation) => {
+        this.setState({ contentValue: content, dateValue: date, operationType: operation });
     }
 
     render() {
         const { classes } = this.props;
-        const { contentValue, dateValue } = this.state;
+        const { contentValue, dateValue, operationType } = this.state;
 
         return (
             <div className={classes.root}>
                 {contentValue === 'main' && <Analysis callbackFromParent={this.setContent} />}
-                {contentValue === 'sports' && <SportsBets callbackFromParent={this.setContent} date={dateValue}/>}
+                {contentValue === 'sports' && <SportsBets callbackFromParent={this.setContent} date={dateValue} />}
                 {contentValue === 'sports-detail' && <SportsBetDetails callbackFromParent={this.setContent} />}
                 {contentValue === 'casino-spins' && <CasinoSpins callbackFromParent={this.setContent} />}
                 {contentValue === 'live-casino-bets' && <LiveCasinoBets callbackFromParent={this.setContent} />}
-                {contentValue === 'deposit-withdraw' && <DepositWithdraw callbackFromParent={this.setContent} />}
+                {contentValue === 'deposit-withdraw' && <DepositWithdraw callbackFromParent={this.setContent} date={dateValue} opType={operationType}/>}
                 {contentValue === 'deposit-withdraw-detail' && <DepositWithdrawDetails callbackFromParent={this.setContent} />}
             </div>
         );

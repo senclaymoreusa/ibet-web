@@ -280,7 +280,7 @@ export class Analysis extends Component {
 
         this.state = {
             currency: 'USD',
-            currentDate: moment(),
+            currentDate: moment(new Date()),
             chartData: [],
             chartLabels: [],
             type: 'turnover'
@@ -545,9 +545,9 @@ export class Analysis extends Component {
                             </div>
                         </Grid>
                         <Grid item md={3} className={classes.desktop}></Grid>
-                        <Grid item xs={12} className={classes.chartPane}>
+                        {/* <Grid item xs={12} className={classes.chartPane}>
                             <Line data={data} options={options} />
-                        </Grid>
+                        </Grid> */}
                         <Grid
                             item
                             xs={12}
@@ -691,7 +691,7 @@ export class Analysis extends Component {
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'deposit-withdraw', currentDate
+                                        'deposit-withdraw', currentDate, 0
                                     );
                                 }}
                             >
@@ -716,7 +716,7 @@ export class Analysis extends Component {
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'deposit-withdraw', currentDate
+                                        'deposit-withdraw', currentDate, 1
                                     );
                                 }}
                             >
