@@ -10,11 +10,11 @@ import {
     postLogout
 } from '../../../actions';
 import clsx from 'clsx';
-import Popover from '@material-ui/core/Popover';
+import Menu from '@material-ui/core/Menu';
 import getSymbolFromCurrency from 'currency-symbol-map';
-
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
+import Tooltip from '@material-ui/core/Tooltip';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
@@ -28,12 +28,11 @@ import SharingPlan from './sharing_plan/sharing_plan';
 import Button from '@material-ui/core/Button';
 import TransactionRecord from './transaction_record/transaction_record';
 import { images } from '../../../util_config';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Person from '@material-ui/icons/Person';
 import Smartphone from '@material-ui/icons/PhoneAndroid';
 import Email from '@material-ui/icons/Email';
-import Tooltip from '@material-ui/core/Tooltip';
 
 import MobileMainProfile from '../mobile/mobile_profile';
 import MobileAccountInfo from '../mobile/mobile_account_info';
@@ -42,6 +41,18 @@ import Suggestions from './account_management/suggestions';
 import { Grid } from '@material-ui/core';
 
 import '../../css/profile.css';
+
+const HtmlTooltip = withStyles(theme => ({
+    tooltip: {
+        backgroundColor: '#1e1b29',
+        color: '#fff',
+        fontSize: 12,
+        marginTop: 13,
+        maxWidth: 220,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0
+    }
+}))(Tooltip);
 
 const styles = theme => ({
     root: {
@@ -126,7 +137,7 @@ const styles = theme => ({
         }
     },
     icon: {
-        margin: theme.spacing(2)
+        color: '#fff'
     },
     verifiedIcon: {
         color: '#4DA9DF'
@@ -173,6 +184,7 @@ const styles = theme => ({
         alignItems: 'center'
     },
     Omoveh: {
+        cursor: 'pointer',
         fontSize: 18,
         width: 98,
         backgroundColor: '#1e1b29',
@@ -275,19 +287,29 @@ TabPanel.propTypes = {
 export class Profile extends Component {
     constructor(props) {
         super(props);
-
+        this.rateRef = React.createRef();
         this.state = {
             desktopTabValue: 'none',
             desktopContent: '',
             mobileContent: '',
             anchorEl: null,
-            rate: 0,
             currency: 'CNY',
             mainWallet: 0.0,
-            username: ''
+            username: '',
+            show: false,
+
+            popperMoreCount: 0,
+            popperType: 'hover',
+            position: 'bottom',
+            targetType: 'hover'
         };
+
+        this.closeMenu = this.closeMenu.bind(this);
     }
 
+    closeMenu() {
+        this.setState({ anchorEl: null });
+    }
     handleCategoryChange(category) {
         this.props.history.push('/p/' + category);
 
@@ -340,15 +362,23 @@ export class Profile extends Component {
     }
 
     render() {
-        const { classes, typeProp, currency, balance, username } = this.props;
         const {
-            anchorEl,
-            nameVerified,
-            phoneVerified,
-            emailVerified
-        } = this.state;
+            classes,
+            typeProp,
+            currency,
+            balance,
+            username,
+            user
+        } = this.props;
 
-        const showProfileMenu = Boolean(anchorEl);
+        const { show } = this.state;
+
+        let rate = 0;
+
+        if (user && user.emailVerified) rate += 33;
+        if (user && user.nameVerified) rate += 33;
+        if (user && user.nameVerified) rate += 33;
+        if (rate == 99) rate = 100;
 
         return (
             <div className={classes.root}>
@@ -481,32 +511,147 @@ export class Profile extends Component {
                                 />
                             </StyledTabs>
                             <div className={classes.grow} />
-                            <div className={classes.Omoveh}>
-                                <div
-                                    className={classes.OmoveBg}
-                                    style={{
-                                        backgroundImage: `url(${images.src +
-                                            'letou/membero1.png'})`
-                                    }}
+                            <div ref={this.rateRef} className={classes.Omoveh}>
+                                <HtmlTooltip
+                                    title={
+                                        <React.Fragment>
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                <span>{username}</span>
+                                                <span>{this.getLabel('verification-status')}</span>
+                                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                                    <Tooltip
+                                                        title={
+                                                            user.nameVerified
+                                                                ? this.getLabel(
+                                                                    'name-verified'
+                                                                )
+                                                                : this.getLabel(
+                                                                    'verify-name-asap'
+                                                                )
+                                                        }
+                                                    >
+                                                        <IconButton
+                                                            className={clsx({
+                                                                [classes.icon]: true,
+                                                                [classes.verifiedIcon]:
+                                                                    user.nameVerified
+                                                            })}
+                                                            onClick={() => {
+                                                                if (
+                                                                    !user.nameVerified
+                                                                ) {
+                                                                    this.handleCategoryChange(
+                                                                        'account-management/verify-name'
+                                                                    );
+                                                                    this.setState({
+                                                                        anchorEl: null
+                                                                    });
+                                                                }
+                                                            }}
+                                                        >
+                                                            <Person />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip
+                                                        title={
+                                                            user.phoneVerified
+                                                                ? this.getLabel(
+                                                                    'phone-verified'
+                                                                )
+                                                                : this.getLabel(
+                                                                    'verify-phone-asap'
+                                                                )
+                                                        }
+                                                    >
+                                                        <IconButton
+                                                            className={clsx({
+                                                                [classes.icon]: true,
+                                                                [classes.verifiedIcon]:
+                                                                    user.phoneVerified
+                                                            })}
+                                                            onClick={() => {
+                                                                if (
+                                                                    !user.phoneVerified
+                                                                ) {
+                                                                    this.handleCategoryChange(
+                                                                        'account-management/verify-phone'
+                                                                    );
+                                                                    this.setState({
+                                                                        anchorEl: null
+                                                                    });
+                                                                }
+                                                            }}
+                                                        >
+                                                            <Smartphone />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip
+                                                        title={
+                                                            user.emailVerified
+                                                                ? this.getLabel(
+                                                                    'email-verified'
+                                                                )
+                                                                : this.getLabel(
+                                                                    'verify-email-asap'
+                                                                )
+                                                        }
+                                                    >
+                                                        <IconButton
+                                                            className={clsx({
+                                                                [classes.icon]: true,
+                                                                [classes.verifiedIcon]:
+                                                                    user.emailVerified
+                                                            })}
+                                                            onClick={() => {
+                                                                if (
+                                                                    !user.emailVerified
+                                                                ) {
+                                                                    this.handleCategoryChange(
+                                                                        'account-management/verify-email'
+                                                                    );
+                                                                    this.setState({
+                                                                        anchorEl: null
+                                                                    });
+                                                                }
+                                                            }}
+                                                        >
+                                                            <Email />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </div>
+                                            </div>
+                                        </React.Fragment>
+                                    }
+                                    interactive
                                 >
                                     <div
-                                        className="Omove"
+                                        className={classes.OmoveBg}
                                         style={{
                                             backgroundImage: `url(${images.src +
-                                                'letou/membero2.png'})`
+                                                'letou/membero1.png'})`
                                         }}
-                                    />
-                                    <div className={classes.rateContainer}>
-                                        <span className={classes.rate}>
-                                            100%
-                                        </span>
-                                        <span className={classes.rateText}>
-                                            {' '}
-                                            {this.getLabel('safety-rate')}
-                                        </span>
+                                    >
+                                        <div
+                                            className="Omove"
+                                            style={{
+                                                backgroundImage: `url(${images.src +
+                                                    'letou/membero2.png'})`
+                                            }}
+                                        />
+                                        <div className={classes.rateContainer}>
+                                            <span className={classes.rate}>
+                                                {rate}
+                                                {'%'}
+                                            </span>
+                                            <span className={classes.rateText}>
+                                                {' '}
+                                                {this.getLabel('safety-rate')}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
+                                </HtmlTooltip>
                             </div>
+
                             <div className={classes.grow} />
                             <StyledTabs
                                 centered
@@ -551,15 +696,13 @@ export class Profile extends Component {
                             </StyledTabs>
                         </Toolbar>
                     </AppBar>
-                    <Popover
-                        id="porfile-popover"
-                        open={showProfileMenu}
-                        anchorEl={anchorEl}
-                        onClose={() => {
-                            this.setState({
-                                anchorEl: null
-                            });
-                        }}
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={this.rateRef.current}
+                        keepMounted
+                        open={show}
+                        onClose={this.closeMenu}
+                        getContentAnchorEl={null}
                         anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'center'
@@ -568,88 +711,8 @@ export class Profile extends Component {
                             vertical: 'top',
                             horizontal: 'center'
                         }}
-                    >
-                        <Paper>
-                            <Tooltip
-                                title={
-                                    nameVerified
-                                        ? this.getLabel('name-verified')
-                                        : this.getLabel('verify-name-asap')
-                                }
-                            >
-                                <IconButton
-                                    className={clsx({
-                                        [classes.icon]: true,
-                                        [classes.verifiedIcon]: nameVerified
-                                    })}
-                                    onClick={() => {
-                                        if (!nameVerified) {
-                                            this.handleCategoryChange(
-                                                'account-management/verify-name'
-                                            );
-                                            this.setState({
-                                                anchorEl: null
-                                            });
-                                        }
-                                    }}
-                                >
-                                    <Person />
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip
-                                title={
-                                    phoneVerified
-                                        ? this.getLabel('phone-verified')
-                                        : this.getLabel('verify-phone-asap')
-                                }
-                            >
-                                <IconButton
-                                    className={clsx({
-                                        [classes.icon]: true,
-                                        [classes.verifiedIcon]: phoneVerified
-                                    })}
-                                    onClick={() => {
-                                        if (!phoneVerified) {
-                                            this.handleCategoryChange(
-                                                'account-management/verify-phone'
-                                            );
-                                            this.setState({
-                                                anchorEl: null
-                                            });
-                                        }
-                                    }}
-                                >
-                                    <Smartphone />
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip
-                                title={
-                                    emailVerified
-                                        ? this.getLabel('email-verified')
-                                        : this.getLabel('verify-email-asap')
-                                }
-                            >
-                                <IconButton
-                                    className={clsx({
-                                        [classes.icon]: true,
-                                        [classes.verifiedIcon]: emailVerified
-                                    })}
-                                    onClick={() => {
-                                        if (!emailVerified) {
-                                            this.handleCategoryChange(
-                                                'account-management/verify-email'
-                                            );
-                                            this.setState({
-                                                anchorEl: null
-                                            });
-                                        }
-                                    }}
-                                >
-                                    <Email />
-                                </IconButton>
-                            </Tooltip>
-                        </Paper>
-                    </Popover>
+                        MenuListProps={{ onMouseLeave: this.closeMenu }}
+                    ></Menu>
                     <Grid container>
                         <Grid item xs={12} className={classes.content}>
                             {typeProp === 'fortune-center' && <FortuneCenter />}
