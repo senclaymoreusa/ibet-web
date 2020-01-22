@@ -273,7 +273,7 @@ export class DepositMain extends Component {
     }
 
     setPage = (page, msg) => {
-        console.log(page);
+        // console.log(page);
         if (msg)
             this.setState({ depositMessage: msg });
 
@@ -294,8 +294,11 @@ export class DepositMain extends Component {
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
         const { contentValue } = this.state;
-
-        switch (user.country.toLowerCase()) {
+        var country = "";
+        if (user && user.country) {
+            country = user.country;
+        }
+        switch (country.toLowerCase()) {
             case 'china':
                 return (
                     <div>

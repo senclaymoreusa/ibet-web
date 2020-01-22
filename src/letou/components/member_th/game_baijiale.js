@@ -97,40 +97,40 @@ export class BaijialeTh extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>บาคาร่า super 6</a>
+                                <a href="/">บาคาร่า super 6</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>บาคาร่าแบบดั้งเดิม</a>
+                                <a href="/">บาคาร่าแบบดั้งเดิม</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>ซุปเปอร์บาคาร่า</a>
+                                <a href="/">ซุปเปอร์บาคาร่า</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>ไพ่คู่ บาคาร่า</a>
+                                <a href="/">ไพ่คู่ บาคาร่า</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>ผู้เล่น คาบาร่า 14 ราย (ต่อโต๊ะ)</a>
+                                <a href="/">ผู้เล่น คาบาร่า 14 ราย (ต่อโต๊ะ)</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>>บาคาร่า คลาสสิก</a>
+                                <a href="/">>บาคาร่า คลาสสิก</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>VIPบาคาร่า</a>
+                                <a href="/">VIPบาคาร่า</a>
                             </li>
                             <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>การเดิมพันบาคาร่า</a>
+                                <a href="/">การเดิมพันบาคาร่า</a>
                             </li>
                             <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>หลากหลายเกมบาคาร่า</a>
+                                <a href="/">หลากหลายเกมบาคาร่า</a>
                             </li>
                             <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>บาคาร่าโบนัสมังกร</a>
+                                <a href="/">บาคาร่าโบนัสมังกร</a>
                             </li>
                             <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>บาคาร่า Playboy</a>
+                                <a href="/">บาคาร่า Playboy</a>
                             </li>
                             <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>แต้ม บาคาร่า</a>
+                                <a href="/">แต้ม บาคาร่า</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

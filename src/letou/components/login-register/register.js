@@ -3,8 +3,11 @@ import React, { Component } from 'react';
 import Footer from '../footer';
 import TopNavbar from '../top_navbar';
 import { connect } from 'react-redux';
+
 import {
+    authLogin,
     authCheckState,
+    AUTH_RESULT_SUCCESS,
     authSignup,
     handle_referid,
     hide_landing_page,
@@ -35,10 +38,12 @@ import InputBase from '@material-ui/core/InputBase';
 import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import CloseIcon from '@material-ui/icons/Close';
-
+import { withRouter } from 'react-router-dom';
 import PasswordStrengthMeter from '../../../commons/PasswordStrengthMeter';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -376,7 +381,41 @@ export class Register extends Component {
                     : undefined
             )
             .then(() => {
-                this.props.show_letou_login();
+                // this.props.show_letou_login();
+                var bbData = window.IGLOO.getBlackbox();
+                if (bbData.finished) {
+                    // clearTimeout(timeoutId);
+                    var blackBoxString = bbData.blackbox;
+                    axios
+                        .get(
+                            API_URL + 'users/api/login-device-info?bb=' + blackBoxString
+                        )
+                        .then(res => {
+                            //console.log(res.data)
+                            this.props
+                                .authLogin(
+                                    this.state.username,
+                                    this.state.password,
+                                    res.data
+                                )
+                                .then(response => {
+                                    if (response.errorCode) {
+                                        this.setState({
+                                            errorMessage: response.errorMsg.detail[0]
+                                        });
+                                    } else {
+                                        // console.log("login succ....")
+                                        this.props.history.push('/');
+                                    }
+                                })
+                                .catch(err => {
+                                    this.setState({ errorMessage: err });
+
+                                    sendingLog(err);
+                                });
+                        });
+                    // Your code to handle blackBoxString
+                }
                 this.setState({ showRegisterMessage: true });
             })
             .catch(err => {
@@ -1026,14 +1065,19 @@ const mapStateToProps = state => {
     };
 };
 
+
+
 export default withStyles(styles)(
     injectIntl(
+      withRouter(
         connect(mapStateToProps, {
+            authLogin,
             authCheckState,
             authSignup,
             handle_referid,
             hide_landing_page,
             show_letou_login
         })(Register)
+      )
     )
 );

@@ -452,11 +452,11 @@ class ThaiLocalBank extends Component {
                 config.headers['Authorization'] = `Token ${token}`;
 
                 axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
                     this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
+                        data: res.data,
+                        currency: getSymbolFromCurrency(res.data.currency),
+                        currencyCode: res.data.currency
                     });
-                    this.setState({ currencyCode: res.data.currency });
                     //this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
                 });
             }
