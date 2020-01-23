@@ -756,7 +756,9 @@ class Help2Pay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('help2pay-placeholder')}
+                            placeholder={this.getLabel(
+                                'help2pay-withdraw-placeholder'
+                            )}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
