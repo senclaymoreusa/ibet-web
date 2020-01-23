@@ -86,10 +86,10 @@ class ErrorBoundary extends Component {
                                 />
                                 <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    Sport
+                                    {this.getLabel('sports-label')}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    Football
+                                    {this.getLabel('sport-description')}
                                 </Typography>
                                 </CardContent>
                             </CardActionArea>
@@ -105,10 +105,10 @@ class ErrorBoundary extends Component {
                                 />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    live casino
+                                    {this.getLabel('nav-live-casino')}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    live casino
+                                    {this.getLabel('live-casino-description')}
                                 </Typography>
                             </CardContent>
                             </CardActionArea>
@@ -124,10 +124,10 @@ class ErrorBoundary extends Component {
                                 />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    Games
+                                    {this.getLabel('nav-games')}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    Games
+                                    {this.getLabel('games-description')}
                                 </Typography>
                             </CardContent>
                             </CardActionArea>
@@ -143,10 +143,10 @@ class ErrorBoundary extends Component {
                                 />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    Lottery
+                                    {this.getLabel('nav-lottery')}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    Lottery
+                                    {this.getLabel('lottery-description')}
                                 </Typography>
                             </CardContent>
                             </CardActionArea>
@@ -162,10 +162,10 @@ class ErrorBoundary extends Component {
                                 />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    Promotions
+                                    {this.getLabel('nav-offer')}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    Promotions
+                                    {this.getLabel('promotion-description')}
                                 </Typography>
                             </CardContent>
                             </CardActionArea>

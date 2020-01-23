@@ -589,6 +589,11 @@ export const messages = {
         'error-message': 'Oops, something went wrong',
         'contact-message': 'if you have any question please contact cs@letou.me',
         'verification-status':'Verification Status',
+        'sport-description': 'Football in football, insurance cashes in with zero risk. Mobile betting, mobile time difference',
+        'live-casino-description': 'Stable platform, rich gameplay, fair and open game experience',
+        'games-description': 'A variety of games, the exclusive hero slot machine is easy to use',
+        'lottery-description': 'Exclusive support for any double investment number tracking function, no longer complicated profitability',
+        'promotion-description': 'A variety of bonuses will support you, betting is not afraid of not backing up'
     },
     zh: {
         'help-title': '我们在此竭诚服务',
@@ -1123,6 +1128,11 @@ export const messages = {
         'page-not-found': '頁面不存在',
         'error-message': '內部異常',
         'contact-message': '如有任何疑问请发邮件到cs@letou.me',
+        'sport-description': '足球滚球，保险兑现零风险。手机投注，移动无时差',
+        'live-casino-description': '平台稳定，玩法丰富，公平公正公开的游戏体验',
+        'games-description': '游戏种类多样丰富，独家英雄老虎机容易上手',
+        'lottery-description': '独家支持任何倍投追号功能，盈利不再复杂',
+        'promotion-description': '各种红利流水为您撑腰，投注不怕没靠山'
     },
 
     vi: {},
