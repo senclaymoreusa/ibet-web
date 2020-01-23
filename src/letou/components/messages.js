@@ -583,7 +583,9 @@ export const messages = {
         'balance-not-enough': 'Balance is not enough',
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
+        'safety-rate':'Safety Rate',
         'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
+        'verification-status':'Verification Status',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
