@@ -583,10 +583,12 @@ export const messages = {
         'balance-not-enough': 'Balance is not enough',
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
+        'safety-rate':'Safety Rate',
         'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
         'page-not-found': 'Oops, this page does not exist',
         'error-message': 'Oops, something went wrong',
         'contact-message': 'if you have any question please contact cs@letou.me',
+        'verification-status':'Verification Status',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
