@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { sendingLog } from '../actions';
 
 import { withStyles } from '@material-ui/core/styles';
-import { withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+
 
 
 const styles = theme => ({
@@ -167,8 +168,8 @@ class ErrorBoundary extends Component {
                     </Grid>
 
                 </Grid>
-            {/* </div> */}
-                </Grid>
+            </Grid>
+            <Button variant="contained" onClick={()=> {window.location.href = "/"}} style={{ 'marginTop': '10px' }}>Home</Button>
             </div>
         )
       }
