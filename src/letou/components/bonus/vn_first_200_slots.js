@@ -56,21 +56,16 @@ class VNFirst200SlotBonus extends React.Component {
             <div>
                 <TopNavbar />
                 <img className={classes.bannerImg} src={BannerImage} alt="Banner Image"/>
-
-
                 <div className={classes.content}>
 
                     <h3 className={classes.mainHeading}>200% THƯỞNG CHÀO MỪNG TẠI SLOT GAMES</h3>
-
                     <hr></hr>
-
                     <p className={classes.bolded}>Điều kiện và Điều khoản:</p>
 
                     <ul>
                         <li>1. Chương trình Khuyến mãi bắt đầu từ 00:00:00 (GMT+8) ngày 01/01/2020 đến 23:59:59 (GMT+8) ngày 31/01/2020</li>
                         <li>2. Chương trình dành cho thành viên MỚI của Việt Nam đăng ký tiền tệ VND và có lần đầu gửi tiền thành công tại Letou trong thời gian diễn ra Khuyến mãi.</li>
                         <li>3. Người chơi cần nạp tiền tối thiểu 500VND để có thể tham gia Khuyến mãi.</li>
-
                         <li>4. Để hợp lệ nhận thưởng thì tiền gửi cộng tiền thưởng cần trải qua 32 vòng cược tại Slot Games.</li>
 
                         <div className={classes.indentedContent}>
@@ -97,7 +92,6 @@ class VNFirst200SlotBonus extends React.Component {
                             <li>Số tiền cược yêu cầu: (500+1,000)x 32 = 48,000VND</li>
                         </div>
 
-
                         <li>5. Tiền thưởng sẽ được cập nhật trong vòng 48 giờ kể từ thời điểm thành viên đăng ký thành công với Letou và đạt đủ doanh thu vòng cược theo yêu cầu.</li>
                         <li>6. Trong quá trình tham gia khuyến mãi, thành viên có thể rút tiền sau khi hoàn thành 1 vòng cược của tổng số tiền nạp.</li>
                         <li>7. Doanh thu cược tại Slot Games bắt đầu được tính cộng dồn từ thời điểm thành viên đăng ký Khuyến mãi thành công với LETOU, trước đó sẽ coi là không hợp lệ.</li>
@@ -108,9 +102,6 @@ class VNFirst200SlotBonus extends React.Component {
                         <li>12. Khuyến mãi không được kết hợp với những Khuyến mãi thành viên nạp tiền lần đầu khác.</li>
                         <li>13. Điều khoản & Điều kiện khuyến mãi chung được áp dụng.</li>
                     </ul>
-
-
-
                 </div>
 
                 <Footer />
@@ -118,7 +109,6 @@ class VNFirst200SlotBonus extends React.Component {
             </div>
         );
     }
-
 }
 
 export default withStyles(styles)(VNFirst200SlotBonus);
