@@ -18,6 +18,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducers from './reducers';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 import { loadState, saveState } from './localStorage';
 
@@ -63,7 +64,9 @@ if (
 ) {
     ReactDOM.render(
         <Provider store={store}>
+            <ErrorBoundary>
             <LetouApp />
+            </ErrorBoundary>
         </Provider>,
         document.getElementById('root')
     );
