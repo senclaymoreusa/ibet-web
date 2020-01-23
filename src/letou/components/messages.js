@@ -584,6 +584,7 @@ export const messages = {
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
         'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
+        'account-number':'Account Number',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
