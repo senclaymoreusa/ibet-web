@@ -584,6 +584,9 @@ export const messages = {
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
         'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
+        'page-not-found': 'Oops, this page does not exist',
+        'error-message': 'Oops, something went wrong',
+        'contact-message': 'if you have any question please contact cs@letou.me',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
@@ -1115,6 +1118,9 @@ export const messages = {
         'fishing-games': '捕鱼游戏',
         'view-all': '查看全部 >',
         'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
+        'page-not-found': '頁面不存在',
+        'error-message': '內部異常',
+        'contact-message': '如有任何疑问请发邮件到cs@letou.me',
     },
 
     vi: {},

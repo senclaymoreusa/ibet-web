@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
+import { injectIntl } from 'react-intl';
 
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -44,16 +44,21 @@ class NoMatch extends Component {
      };
     }
 
+    getLabel(labelId) {
+        const { formatMessage } = this.props.intl;
+        return formatMessage({ id: labelId });
+    }
+
     render() {
         const { classes } = this.props;
         return (
             <div className={classes.root}>
             <Grid container pacing={2}>
             <Typography variant="h1" component="h2" align="center" style={{ width: '100%' }}>
-                Oops, this page does not exist
+                {this.getLabel('page-not-found')} 
             </Typography>
             <Typography variant="h6" component="h6" align="center" style={{ width: '100%' }}>
-            如有任何疑问请发邮件到 cs@letou.me
+                {this.getLabel('contact-message')}
             </Typography>
             {/* <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}> */}
                 <Grid container item justify="center" md={12} xs={12} sm={12} key="455"  style={{'marginTop': '40px'}}>
@@ -62,7 +67,7 @@ class NoMatch extends Component {
                             <img href="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/pic1.jpg" />
                         </Paper> */}
                         <Card className={classes.card}>
-                            <CardActionArea>
+                            <CardActionArea disabled>
                                 <CardMedia
                                 className={classes.media}
                                 image="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/pic1.jpg"
@@ -81,13 +86,13 @@ class NoMatch extends Component {
                     </Grid>
                     <Grid item md={2} sm={2} xs={2} key="234" style={{ margin: 10 }}>
                         <Card className={classes.card}>
-                            <CardActionArea>
+                            <CardActionArea disabled>
                                 <CardMedia
                                 className={classes.media}
                                 image="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/pic2.jpg"
                                 title="Contemplative Reptile"
                                 />
-                            <CardContent>
+                                <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     live casino
                                 </Typography>
@@ -100,7 +105,7 @@ class NoMatch extends Component {
                     </Grid>
                     <Grid item md={2} sm={2} xs={2} key="455" style={{ margin: 10 }}>
                         <Card className={classes.card}>
-                            <CardActionArea>
+                            <CardActionArea disabled>
                                 <CardMedia
                                 className={classes.media}
                                 image="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/pic3.jpg"
@@ -119,7 +124,7 @@ class NoMatch extends Component {
                     </Grid>
                     <Grid item md={2} sm={2} xs={2} key="666" style={{ margin: 10 }}>
                         <Card className={classes.card}>
-                            <CardActionArea>
+                            <CardActionArea disabled>
                                 <CardMedia
                                 className={classes.media}
                                 image="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/pic4.jpg"
@@ -138,7 +143,7 @@ class NoMatch extends Component {
                     </Grid>
                     <Grid item md={2} sm={2} xs={2} key="334" style={{ margin: 10 }}>
                         <Card className={classes.card}>
-                            <CardActionArea>
+                            <CardActionArea disabled>
                                 <CardMedia
                                 className={classes.media}
                                 image="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/pic5.jpg"
@@ -164,4 +169,4 @@ class NoMatch extends Component {
     }
   }
 
-export default withStyles(styles)(withRouter(NoMatch));
+export default withStyles(styles)(withRouter(injectIntl(NoMatch)));

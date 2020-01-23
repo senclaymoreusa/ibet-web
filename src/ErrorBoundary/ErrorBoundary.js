@@ -9,7 +9,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-
+import { injectIntl } from 'react-intl';
 
 
 const styles = theme => ({
@@ -53,6 +53,11 @@ class ErrorBoundary extends Component {
       })
       sendingLog(error);
     }
+
+    getLabel(labelId) {
+        const { formatMessage } = this.props.intl;
+        return formatMessage({ id: labelId });
+    }
     render() {
         const { classes } = this.props;
         if (this.state.hasError) {
@@ -61,10 +66,10 @@ class ErrorBoundary extends Component {
             <div className={classes.root}>
             <Grid container pacing={2}>
             <Typography variant="h1" component="h2" align="center" style={{ width: '100%' }}>
-                Oops, something went wrong
+            {this.getLabel('error-message')} 
             </Typography>
             <Typography variant="h6" component="h6" align="center" style={{ width: '100%' }}>
-            如有任何疑问请发邮件到 cs@letou.me
+            {this.getLabel('contact-message')}
             </Typography>
             {/* <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}> */}
                 <Grid container item justify="center" md={12} xs={12} sm={12} key="455"  style={{'marginTop': '40px'}}>
@@ -177,4 +182,4 @@ class ErrorBoundary extends Component {
     }
   }
 
-export default withStyles(styles)(ErrorBoundary);
+export default withStyles(styles)(injectIntl(ErrorBoundary));

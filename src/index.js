@@ -64,9 +64,7 @@ if (
 ) {
     ReactDOM.render(
         <Provider store={store}>
-            <ErrorBoundary>
             <LetouApp />
-            </ErrorBoundary>
         </Provider>,
         document.getElementById('root')
     );
