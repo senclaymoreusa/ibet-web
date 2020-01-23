@@ -284,7 +284,7 @@ export const sendingLog = err => {
             { line: err, source: 'Ibetweb' },
             config
         )
-        .then(() => {});
+        .then(() => { });
 };
 
 export const authCheckState = () => {
@@ -333,7 +333,7 @@ export const authCheckState = () => {
     };
 };
 
-function parseUser(data) {
+function parseUser(data) { 
     return {
         userId: data.pk,
         currency: data.currency,
@@ -341,6 +341,9 @@ function parseUser(data) {
         country: data.country,
         balance: data.main_wallet,
         username: data.username,
+        nameVerified: data.id_verified,
+        emailVerified: data.email_verified,
+        phoneVerified: data.phone_verified,
         hasWithdrawPassword:
             data.withdraw_password != null &&
             data.withdraw_password != undefined &&
