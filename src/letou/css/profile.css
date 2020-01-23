@@ -1,0 +1,9 @@
+.Omove {
+    position: absolute;
+    width: 98px;
+    height: 98px;
+    top: 0;
+    animation: 2.5s ease-out forwards Move1;
+}
+
+@keyframes Move1{100%{transform:rotate(720deg)}}
