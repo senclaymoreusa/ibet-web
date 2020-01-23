@@ -97,37 +97,37 @@ export class LotteryRuleOneVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
-                                <a>Bảng chú giải</a>
+                                <a href="/">Bảng chú giải</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
-                                <a>Xổ Số HK</a>
+                                <a href="/">Xổ Số HK</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
-                                <a>Xổ Số Singaporean</a>
+                                <a href="/">Xổ Số Singaporean</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
-                                <a>Xổ Số Trung Quốc</a>
+                                <a href="/">Xổ Số Trung Quốc</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
-                                <a>Xổ Số New Zealand</a>
+                                <a href="/">Xổ Số New Zealand</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
-                                <a>Xổ Số Đức</a>
+                                <a href="/">Xổ Số Đức</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
-                                <a>Xổ Số British</a>
+                                <a href="/">Xổ Số British</a>
                             </li>
                             <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
-                                <a>Xổ Số Spanish</a>
+                                <a href="/">Xổ Số Spanish</a>
                             </li>
                             <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
-                                <a>Xổ Số South African</a>
+                                <a href="/">Xổ Số South African</a>
                             </li>
                             <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
-                                <a>Xổ Số Canada</a>
+                                <a href="/">Xổ Số Canada</a>
                             </li>
                             <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
-                                <a>Xổ Số American</a>
+                                <a href="/">Xổ Số American</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

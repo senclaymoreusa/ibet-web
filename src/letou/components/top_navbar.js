@@ -25,6 +25,7 @@ import ForgotPassword from './login-register/forgot_password';
 import NewReleases from '@material-ui/icons/NewReleases';
 import Clear from '@material-ui/icons/Clear';
 import List from '@material-ui/core/List';
+import getSymbolFromCurrency from 'currency-symbol-map';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -34,6 +35,8 @@ import Person from '@material-ui/icons/Person';
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios';
 import { config } from '../../util_config';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import Typography from '@material-ui/core/Typography';
 
 import {
     logout,
@@ -121,20 +124,41 @@ const styles = theme => ({
         }
     },
     topLinkButton: {
-        margin: theme.spacing(1),
+        margin: 4,
         textTransform: 'capitalize',
         cursor: 'pointer',
         maxHeight: 32
+    },
+    usernameText: {
+        display: 'inline-block',
+        color: '#212121',
+        fontWeight: 600,
+        fontSize: 13
     },
     mobileMenuButton: {
         [theme.breakpoints.up('md')]: {
             margin: theme.spacing(1)
         }
     },
-    secondRowButton: {
+    signUpButton: {
         borderRadius: 18,
         margin: theme.spacing(1),
-        textTransform: 'capitalize'
+        textTransform: 'capitalize',
+        backgroundColor: '#ff9e00',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#FF7E05'
+        }
+    },
+    loginButton: {
+        borderRadius: 18,
+        margin: theme.spacing(1),
+        textTransform: 'capitalize',
+        backgroundColor: '#64bced',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#36A3E6'
+        }
     },
     secondRowDropdown: {
         height: '100%',
@@ -190,13 +214,27 @@ const styles = theme => ({
     },
     profileIcon: {
         margin: theme.spacing(1),
-        marginLeft: 30,
+        marginLeft: 20,
         backgroundColor: '#F1941A',
-        height: 30,
-        width: 36,
+        color: 'white',
+        height: 40,
+        width: 40,
         '&:hover': {
             backgroundColor: '#F1941A'
         }
+    },
+    depositIcon: {
+        marginLeft: 5,
+        backgroundColor: '#F1941A',
+        textTransform: 'capitalize',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#FF7E05'
+        }
+    },
+    depositValue: {
+        fontSize: 13,
+        fontWeight: 'normal'
     },
     margin: {
         margin: theme.spacing(1)
@@ -243,11 +281,18 @@ class TopNavbar extends React.Component {
             anchorEl: null,
             anchorElLang: null,
             dropdownMenu: 'none',
-            kyUrl: null
+            kyUrl: null,
+            currency: 'USD'
         };
 
         this.getLabel = this.getLabel.bind(this);
         // this.handleOnebookClick = this.handleOnebookClick.bind(this);
+    }
+
+    componentDidUpdate(prev) {
+        if (this.props.isAuthenticated !== prev.isAuthenticated) {
+            this.props.authCheckState();
+        }
     }
 
     componentDidMount() {
@@ -385,7 +430,7 @@ class TopNavbar extends React.Component {
 
     // }
     render() {
-        const { classes } = this.props;
+        const { classes, user } = this.props;
         const { anchorEl, anchorElLang, dropdownMenu } = this.state;
         const token = localStorage.getItem('token');
 
@@ -442,7 +487,8 @@ class TopNavbar extends React.Component {
                     >
                         <Flag country="US" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-english')}
+                            {/* {this.getLabel('lang-english')} */}
+                            English
                         </div>
                     </MenuItem>
                     <MenuItem
@@ -458,7 +504,8 @@ class TopNavbar extends React.Component {
                     >
                         <Flag country="CN" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-chinese')}
+                            {/* {this.getLabel('lang-chinese')} */}
+                            中文
                         </div>
                     </MenuItem>
                     <MenuItem
@@ -471,7 +518,8 @@ class TopNavbar extends React.Component {
                     >
                         <Flag country="TH" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-thai')}
+                            {/* {this.getLabel('lang-thai')} */}
+                            ประเทศไทย
                         </div>
                     </MenuItem>
                     <MenuItem
@@ -484,7 +532,8 @@ class TopNavbar extends React.Component {
                     >
                         <Flag country="VN" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-vietnamese')}
+                            {/* {this.getLabel('lang-vietnamese')} */}
+                            Tiếng Việt
                         </div>
                     </MenuItem>
                 </Menu>
@@ -548,15 +597,22 @@ class TopNavbar extends React.Component {
                                     <Announcements />
                                 </Paper>
                             </Modal>
+
                             <div className={classes.grow} />
-                            <Button
-                                size="small"
-                                className={classes.topLinkButton}
-                                target="_blank"
-                                href="https://www.letou.com/cn/chat"
-                            >
-                                {this.getLabel('online-service')}
-                            </Button>
+                            {this.props.isAuthenticated && (
+                                <div className={classes.topLinkButton}>
+                                    <Typography
+                                        className={classes.usernameText}
+                                    >
+                                        Hi,{' '}
+                                    </Typography>
+                                    <Typography
+                                        className={classes.usernameText}
+                                    >
+                                        {this.props.username}
+                                    </Typography>
+                                </div>
+                            )}
                             {this.props.isAuthenticated && (
                                 <div>
                                     <Button
@@ -578,7 +634,40 @@ class TopNavbar extends React.Component {
                                         size="small"
                                         className={classes.topLinkButton}
                                         onClick={() => {
-                                            // this.props.logout();
+                                            this.props.history.push(
+                                                '/p/fortune-center/withdraw'
+                                            );
+                                        }}
+                                    >
+                                        {this.getLabel('withdraw-label')}
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
+                                            this.props.history.push(
+                                                '/p/fortune-center/transfer'
+                                            );
+                                        }}
+                                    >
+                                        {this.getLabel('transfer-label')}
+                                    </Button>
+                                </div>
+                            )}
+                            <Button
+                                size="small"
+                                className={classes.topLinkButton}
+                                target="_blank"
+                                href="https://www.letou.com/cn/chat"
+                            >
+                                {this.getLabel('online-service')}
+                            </Button>
+                            {this.props.isAuthenticated && (
+                                <div>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
                                             this.props.postLogout();
                                         }}
                                     >
@@ -634,8 +723,11 @@ class TopNavbar extends React.Component {
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'sports');
                                 }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
+                                }}
                             >
-                                {this.getLabel('nav-sports')}
+                                {this.getLabel('sports-label')}
                             </Button>
                             <Popper
                                 open={dropdownMenu === 'sports'}
@@ -721,8 +813,11 @@ class TopNavbar extends React.Component {
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'gaming');
                                 }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
+                                }}
                             >
-                                {this.getLabel('nav-gaming')}
+                                {this.getLabel('gaming-label')}
                             </Button>
                             <Popper
                                 open={dropdownMenu === 'gaming'}
@@ -791,14 +886,11 @@ class TopNavbar extends React.Component {
                                         ? classes.activeSecondRowDropdown
                                         : classes.secondRowDropdown
                                 }
-                                onMouseEnter={event => {
-                                    this.openMainMenu(event, 'live-casino');
-                                }}
                                 onClick={() => {
                                     this.props.history.push('/live_casino');
                                 }}
                             >
-                                {this.getLabel('nav-live-casino')}
+                                {this.getLabel('live-casino')}
                             </Button>
                             <Button
                                 variant="contained"
@@ -809,6 +901,9 @@ class TopNavbar extends React.Component {
                                 }
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'chess');
+                                }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('nav-chess')}
@@ -901,6 +996,9 @@ class TopNavbar extends React.Component {
                                 }
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'lottery');
+                                }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('nav-lottery')}
@@ -996,9 +1094,6 @@ class TopNavbar extends React.Component {
                                         ? classes.activeSecondRowDropdown
                                         : classes.secondRowDropdown
                                 }
-                                onMouseEnter={event => {
-                                    this.openMainMenu(event, 'games');
-                                }}
                                 onClick={() => {
                                     this.props.history.push('/game/all');
                                 }}
@@ -1014,6 +1109,9 @@ class TopNavbar extends React.Component {
                                 }
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'offer');
+                                }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('nav-offer')}
@@ -1061,47 +1159,85 @@ class TopNavbar extends React.Component {
                                 )}
                             </Popper>
                             {this.props.isAuthenticated ? (
-                                <Fab
-                                    color="primary"
-                                    aria-label="add"
-                                    className={classes.profileIcon}
-                                    onClick={() => {
-                                        // window.open(window.location.origin + "/p/fortune-center/deposit",
-                                        //     "Letou profile",
-                                        //     "resizable,scrollbars,status");
-                                        this.props.history.push(
-                                            '/p/fortune-center/deposit'
-                                        );
-                                    }}
-                                >
-                                    <Person />
-                                </Fab>
-                            ) : (
-                                <div style={{ marginLeft: 20 }}>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.history.push(
-                                                '/register'
-                                            );
+                                <div>
+                                    <div
+                                        style={{
+                                            display: 'inline-block',
+                                            backgroundColor: '#fff7ec',
+                                            borderRadius: 18,
+                                            padding: 5
                                         }}
-                                        style={{ backgroundColor: "#ff9e00", color: "white" }}
+                                    // style={{ backgroundColor: "#64bced", color: "white" }}
                                     >
-                                        {this.getLabel('sign-up')}
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.show_letou_login();
-                                        }}
-                                        style={{ backgroundColor: "#64bced", color: "white" }}
-                                    >
-                                        {this.getLabel('log-in')}
-                                    </Button>
+                                        <div
+                                            style={{
+                                                float: 'left',
+                                                display: 'inline',
+                                                color: 'black',
+                                                paddingTop: '8px'
+                                            }}
+                                        >
+                                            <span
+                                                className={classes.depositValue}
+                                            >
+                                                {getSymbolFromCurrency(
+                                                    this.props.currency
+                                                )}
+                                                {this.props.balance}
+                                            </span>
+                                        </div>
+                                        <div style={{ display: 'inline' }}>
+                                            <Fab
+                                                variant="extended"
+                                                size="small"
+                                                className={classes.depositIcon}
+                                                onClick={() => {
+                                                    this.props.history.push(
+                                                        '/p/fortune-center/deposit'
+                                                    );
+                                                }}
+                                            >
+                                                {this.getLabel('deposit-label')}
+                                            </Fab>
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'inline' }}>
+                                        <Fab
+                                            className={classes.profileIcon}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/p/fortune-center/deposit'
+                                                );
+                                            }}
+                                        >
+                                            <Person />
+                                        </Fab>
+                                    </div>
                                 </div>
-                            )}
+                            ) : (
+                                    <div style={{ marginLeft: 20 }}>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.signUpButton}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/register'
+                                                );
+                                            }}
+                                        >
+                                            {this.getLabel('sign-up')}
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.loginButton}
+                                            onClick={() => {
+                                                this.props.show_letou_login();
+                                            }}
+                                        >
+                                            {this.getLabel('log-in')}
+                                        </Button>
+                                    </div>
+                                )}
                         </Toolbar>
                     </AppBar>
                     <Modal
@@ -1329,9 +1465,7 @@ class TopNavbar extends React.Component {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={this.getLabel(
-                                            'nav-live-casino'
-                                        )}
+                                        primary={this.getLabel('live-casino')}
                                     />
                                 </ListItem>
                                 <ListItem
@@ -1558,7 +1692,10 @@ const mapStateToProps = state => {
         showAnnouncements: state.general.show_letou_announcements,
         showLogin: state.general.show_letou_login,
         showForgotPassword: state.general.show_letou_forgot_password,
-        showMobileMenu: state.general.show_letou_mobile_menu
+        showMobileMenu: state.general.show_letou_mobile_menu,
+        balance: user ? Number(user.balance).toFixed(2) : '',
+        username: user ? user.username : '',
+        currency: user ? user.currency : 'USD'
     };
 };
 

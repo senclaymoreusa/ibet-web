@@ -78,7 +78,7 @@ class GameDetail extends Component {
                         gameUrl = gameUrl.replace('{token}', token);
                         gameUrl = gameUrl.replace('{lang}', 'en');
                         gameUrl = gameUrl.replace('{gameId}', gameId);
-                        this.setState({ gameURL: "" });
+                        this.setState({ gameURL: gameUrl });
                     }
                 } else {
                     if (data.provider.provider_name == 'QTech') {
@@ -169,7 +169,7 @@ class GameDetail extends Component {
         } else {
             const script = document.createElement("script");
     
-            script.src = `https://csistage.playngonetwork.com/casino/js?div=pngCasinoGame&pid=8820&lang=${lang}&practice=0&height=786&width=100%&gid=${gameId}&username=${session}`;
+            script.src = `https://csistage.playngonetwork.com/casino/js?div=pngCasinoGame&pid=8820&lang=${lang}&practice=0&height=786px&width=100%&gid=${gameId}&username=${session}`;
             script.async = true;
         
             document.body.appendChild(script);

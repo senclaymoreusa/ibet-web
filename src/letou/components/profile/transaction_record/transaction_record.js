@@ -31,7 +31,7 @@ const styles = theme => ({
         width: '100%',
         display: 'none',
         [theme.breakpoints.up('md')]: {
-            display: 'flex',
+            display: 'flex'
         }
     },
     rootMobile: {
@@ -85,6 +85,9 @@ const styles = theme => ({
 });
 
 const StyledTabs = withStyles({
+    root: {
+        borderBottom: '1px solid #efefef'
+    },
     indicator: {
         display: 'flex',
         justifyContent: 'center',
@@ -101,7 +104,6 @@ const StyledTab = withStyles(theme => ({
         color: '#474747',
         fontWeight: theme.typography.fontWeightRegular,
         fontSize: theme.typography.pxToRem(15),
-        // marginRight: theme.spacing(1),
         '&:focus': {
             opacity: 1,
             fontStretch: 'normal',
@@ -143,12 +145,11 @@ TabPanel.propTypes = {
 };
 
 export class TransactionRecord extends Component {
-    constructor(props) {
-        super(props);
+    componentDidMount() {
+        const { subProp } = this.props;
 
-        this.state = {
-            tabValue: 'analysis'
-        };
+        if (!subProp)
+            this.props.history.push('/p/transaction-records/account-details');
     }
 
     getLabel(labelId) {
@@ -157,8 +158,7 @@ export class TransactionRecord extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const { tabValue } = this.state;
+        const { classes, subProp } = this.props;
 
         return (
             <div className={classes.root}>
@@ -171,9 +171,18 @@ export class TransactionRecord extends Component {
                         </Grid>
                         <Grid item xs={12} style={{ marginTop: 20 }}>
                             <StyledTabs
-                                value={tabValue}
+                                value={subProp ? subProp : 'none'}
                                 onChange={this.handleTabChange}
                             >
+                                <StyledTab
+                                    style={{
+                                        width: 0,
+                                        minWidth: 0,
+                                        maxWidth: 0,
+                                        padding: 0
+                                    }}
+                                    value="none"
+                                />
                                 <StyledTab
                                     label={this.getLabel('account-details')}
                                     value="account-details"
@@ -182,9 +191,9 @@ export class TransactionRecord extends Component {
                                             this.props.match.params.type !==
                                             'account-details'
                                         ) {
-                                            this.setState({
-                                                tabValue: 'account-details'
-                                            });
+                                            this.props.history.push(
+                                                '/p/transaction-records/account-details'
+                                            );
                                         }
                                     }}
                                 />
@@ -196,9 +205,9 @@ export class TransactionRecord extends Component {
                                             this.props.match.params.type !==
                                             'bet-details'
                                         ) {
-                                            this.setState({
-                                                tabValue: 'bet-details'
-                                            });
+                                            this.props.history.push(
+                                                '/p/transaction-records/bet-details'
+                                            );
                                         }
                                     }}
                                 />
@@ -210,9 +219,9 @@ export class TransactionRecord extends Component {
                                             this.props.match.params.type !==
                                             'analysis'
                                         ) {
-                                            this.setState({
-                                                tabValue: 'analysis'
-                                            });
+                                            this.props.history.push(
+                                                '/p/transaction-records/analysis'
+                                            );
                                         }
                                     }}
                                 />
@@ -220,11 +229,11 @@ export class TransactionRecord extends Component {
                         </Grid>
                         <Grid item xs={12}>
                             <div className={classes.content}>
-                                {tabValue === 'account-details' && (
+                                {subProp === 'account-details' && (
                                     <AccountDetails />
                                 )}
-                                {tabValue === 'bet-details' && <BetDetails />}
-                                {tabValue === 'analysis' && <Main />}
+                                {subProp === 'bet-details' && <BetDetails />}
+                                {subProp === 'analysis' && <Main />}
                             </div>
                         </Grid>
                     </Grid>
@@ -264,9 +273,18 @@ export class TransactionRecord extends Component {
                     </AppBar>
                     <StyledTabs
                         variant="fullWidth"
-                        value={tabValue}
+                        value={subProp ? subProp : 'none'}
                         onChange={this.handleTabChange}
                     >
+                        <StyledTab
+                            style={{
+                                width: 0,
+                                minWidth: 0,
+                                maxWidth: 0,
+                                padding: 0
+                            }}
+                            value="none"
+                        />
                         <StyledTab
                             className={classes.tabLabel}
                             label={this.getLabel('account-details')}
@@ -276,9 +294,9 @@ export class TransactionRecord extends Component {
                                     this.props.match.params.type !==
                                     'account-details'
                                 ) {
-                                    this.setState({
-                                        tabValue: 'account-details'
-                                    });
+                                    this.props.history.push(
+                                        '/p/transaction-records/account-details'
+                                    );
                                 }
                             }}
                         />
@@ -291,9 +309,9 @@ export class TransactionRecord extends Component {
                                     this.props.match.params.type !==
                                     'bet-details'
                                 ) {
-                                    this.setState({
-                                        tabValue: 'bet-details'
-                                    });
+                                    this.props.history.push(
+                                        '/p/transaction-records/bet-details'
+                                    );
                                 }
                             }}
                         />
@@ -305,17 +323,17 @@ export class TransactionRecord extends Component {
                                 if (
                                     this.props.match.params.type !== 'analysis'
                                 ) {
-                                    this.setState({
-                                        tabValue: 'analysis'
-                                    });
+                                    this.props.history.push(
+                                        '/p/transaction-records/analysis'
+                                    );
                                 }
                             }}
                         />
                     </StyledTabs>
                     <div className={classes.content}>
-                        {tabValue === 'account-details' && <AccountDetails />}
-                        {tabValue === 'bet-details' && <BetDetails />}
-                        {tabValue === 'analysis' && <Main />}
+                        {subProp === 'account-details' && <AccountDetails />}
+                        {subProp === 'bet-details' && <BetDetails />}
+                        {subProp === 'analysis' && <Main />}
                     </div>
                 </div>
             </div>
@@ -323,9 +341,11 @@ export class TransactionRecord extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+    const { token } = state.auth;
     return {
-        lang: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        subProp: ownProps.match.params.sub
     };
 };
 
