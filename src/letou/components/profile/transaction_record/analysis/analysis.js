@@ -26,7 +26,6 @@ const styles = theme => ({
     },
     main: {
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             maxWidth: 1400,

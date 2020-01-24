@@ -53,7 +53,6 @@ const styles = theme => ({
     rootMobile: {
         minHeight: '100vh',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'

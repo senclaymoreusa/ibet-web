@@ -60,7 +60,6 @@ const styles = theme => ({
     rootMobile: {
         width: '100%',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'

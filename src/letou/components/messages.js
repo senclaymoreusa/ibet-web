@@ -583,8 +583,19 @@ export const messages = {
         'balance-not-enough': 'Balance is not enough',
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
+        'safety-rate':'Safety Rate',
         'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
         'account-number':'Account Number',
+        'verification-status':'Verification Status',
+        'error-label':'Error',
+        'withdrawal-balance':'Withdrawal Balance',
+        'locked-balance':'Locked Balance',
+        'free-withdrawals-remaining':'Free Withdrawals Remaining',
+        'withdraw-fee-text':'% based on the maximum withdrawal amount allowed by your bank.',
+        'fees-label':'Fees',
+        'free-label':'Free',
+        'confirm-label':'Confirm',
+        'receive-amount':'Receive Amount'
     },
     zh: {
         'help-title': '我们在此竭诚服务',

@@ -25,8 +25,13 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Divider } from '@material-ui/core';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import clsx from 'clsx';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+
+const amounts = Object.freeze([20, 50, 100, 250]);
 
 const styles = theme => ({
     root: {
@@ -37,23 +42,13 @@ const styles = theme => ({
         paddingTop: 20,
         [theme.breakpoints.down('md')]: {
             paddingLeft: 15,
-            paddingRight: 15
+            paddingRight: 15,
+            paddingBottom: 70
         }
     },
     contentGrid: {
         width: '100%',
         maxWidth: 430
-    },
-    contentRow: {
-        paddingTop: 50,
-        paddingBottom: 50
-    },
-    cardTypeCell: {
-        borderTop: '1px solid #d8d8d8',
-        borderBottom: '1px solid #d8d8d8',
-        height: 77,
-        paddingTop: 15,
-        textAlign: 'center'
     },
     title: {
         fontSize: 18,
@@ -66,84 +61,28 @@ const styles = theme => ({
         color: 'black',
         marginTop: 28
     },
-    checkbox: {
-        margin: theme.spacing()
-    },
-    continueButton: {
-        width: 324,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#d8d8d8'
-    },
-    backBankingButton: {
-        width: 324,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#d8d8d8'
-    },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         marginTop: 40
     },
-    rememberCell: {
-        paddingTop: 20
-    },
-    cardTypeButton: {
-        width: 72,
-        height: 48,
-        borderRadius: 4.8,
-        backgroundColor: '#f1f1f1'
-    },
-    infoCell: {
-        paddingTop: 15
-    },
-    infoRow: {
-        display: 'block'
-    },
-    infoLabel: {
-        display: 'inline-block',
-        fontSize: 16,
-        fontWeight: 600,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 'normal',
-        color: '#4a4a4a'
-    },
-    infoValue: {
-        display: 'inline-block',
-        fontSize: 16,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 'normal',
-        color: '#4a4a4a',
-        marginLeft: 3
+    grow: {
+        flexGrow: 1
     },
     detailRow: {
-        paddingBottom: 15
+        paddingBottom: 15,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    leftButton: {
-        display: 'inline-block',
-        marginRight: 10,
-        borderRadius: 4,
-        backgroundColor: '#efefef',
-        marginTop: 15,
-        marginBottom: 15,
-        width: 90,
-        height: 44
-    },
-    middleButton: {
-        marginRight: 10,
-        borderRadius: 4,
-        backgroundColor: '#efefef',
-        marginTop: 15,
-        marginBottom: 15,
-        width: 90,
-        height: 44
+    detailBorderRow: {
+        paddingBottom: 15,
+        marginTop: 8,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottom: '1px solid #e7e7e7'
     },
     actionButton: {
         width: '100%',
@@ -167,16 +106,6 @@ const styles = theme => ({
         borderRadius: 22,
         textTransform: 'capitalize'
     },
-    rightButton: {
-        marginLeft: 10,
-        marginRight: 0,
-        borderRadius: 4,
-        backgroundColor: '#efefef',
-        marginTop: 15,
-        marginBottom: 15,
-        width: 88,
-        height: 44
-    },
     select: {
         fontSize: 14,
         fontWeight: 500,
@@ -187,37 +116,6 @@ const styles = theme => ({
         color: '#292929',
         height: 44,
         width: '100%'
-    },
-    otherText: {
-        fontSize: 14,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 'normal',
-        color: '#292929',
-        height: 44,
-        paddingTop: 6,
-        paddingLeft: 10,
-        paddingRight: 10,
-        width: 400,
-        borderRadius: 4,
-        border: 'solid 1px #e4e4e4',
-        '&:hover': {
-            border: 'solid 1px #717171'
-        },
-        '&:focus': {
-            border: 'solid 1px #717171'
-        }
-    },
-    amountRow: {
-        height: 40,
-        borderBottom: '4px solid #5e5e5e'
-    },
-    amountRightRow: {
-        height: 40,
-        textAlign: 'right',
-        borderBottom: '4px solid #5e5e5e'
     },
     amountText: {
         fontSize: 14,
@@ -285,6 +183,24 @@ const styles = theme => ({
         letterSpacing: 'normal',
         color: '#292929'
     },
+    text: {
+        fontSize: 15,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929'
+    },
+    totalBalance: {
+        fontSize: 36,
+        fontWeight: 300,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#4a4a4a'
+    },
     desc: {
         fontSize: 12,
         fontWeight: 'normal',
@@ -297,6 +213,24 @@ const styles = theme => ({
     bankIcon: {
         height: 20,
         maxWidth: 100
+    },
+    button: {
+        borderRadius: 4,
+        backgroundColor: '#f28f22',
+        marginBottom: 15,
+        width: 80,
+        height: 44,
+        fontSize: 15,
+        color: '#fff',
+        opacity: 0.5,
+        '&:hover': {
+            backgroundColor: '#f28f22',
+            opacity: 1
+        },
+        '&:focus': {
+            backgroundColor: '#f28f22',
+            opacity: 1
+        }
     }
 });
 
@@ -427,50 +361,20 @@ class ThaiLocalBank extends Component {
 
         this.state = {
             amount: '',
-            selectedBank: 'none',
+            selectedBank: 'SCB',
             order_id: '', //"letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
             accountNumber: '',
             password: '',
             showPassword: false,
-            activeStep: 0
+            activeStep: 1,
+            showErrorDialog: false
         };
     }
-    /*
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            }
-        })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-       
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ currencyCode: res.data.currency });
-                //this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
-            });
-        
-    }
-    */
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
-                    this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
-                    });
-                    this.setState({ currencyCode: res.data.currency });
-                });
             }
         });
     }
@@ -599,8 +503,21 @@ class ThaiLocalBank extends Component {
         return formatMessage({ id: labelId });
     }
 
+    checkWithdrawPassword() {
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        axios.get(API_URL + 'users/api/user/', config).then(res => {
+            if (res.datawithdraw_password === this.state.password) {
+                this.setState({ showErrorDialog: true });
+            } else {
+                this.setState({ activeStep: 1 });
+            }
+        });
+    }
+
     render() {
-        const { classes } = this.props;
+        const { classes, user } = this.props;
         const {
             selectedBank,
             accountNumber,
@@ -608,7 +525,8 @@ class ThaiLocalBank extends Component {
             currency,
             password,
             activeStep,
-            showPassword
+            showPassword,
+            showErrorDialog
         } = this.state;
 
         return (
@@ -671,7 +589,7 @@ class ThaiLocalBank extends Component {
                                 ))}
                             </Select>
                         </Grid>
-                        <Grid item xs={6} className={classes.detailRow}>
+                        <Grid item xs={12} sm={6} className={classes.detailRow}>
                             <TextField
                                 autoComplete="bank-number"
                                 className={classes.detailText}
@@ -705,7 +623,7 @@ class ThaiLocalBank extends Component {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={6} className={classes.detailRow}>
+                        <Grid item xs={12} sm={6} className={classes.detailRow}>
                             <TextField
                                 autoComplete="withdraw-password"
                                 className={classes.detailText}
@@ -747,7 +665,7 @@ class ThaiLocalBank extends Component {
                                 className={classes.cancelButton}
                                 onClick={() => {
                                     this.props.history.push(
-                                        'p/fortune-center/withdraw'
+                                        '/p/fortune-center/withdraw'
                                     );
                                 }}
                             >
@@ -757,7 +675,7 @@ class ThaiLocalBank extends Component {
                         <Grid item xs={6} className={classes.buttonCell}>
                             <Button
                                 className={classes.actionButton}
-                                // onClick={this.handleClick.bind(this)}
+                                onClick={this.checkWithdrawPassword.bind(this)}
                                 disabled={
                                     selectedBank === 'none' ||
                                     accountNumber == '' ||
@@ -771,40 +689,145 @@ class ThaiLocalBank extends Component {
                 )}
                 {activeStep === 1 && (
                     <Grid container className={classes.contentGrid} spacing={2}>
-                        <Grid item xs={12} className={classes.detailRow}>
-                            <TextField
-                                className={classes.amountText}
-                                placeholder={this.getLabel(
-                                    'thai-localbank-placeholder-withdraw'
-                                )}
-                                onChange={this.amountChanged.bind(this)}
-                                value={amount}
-                                error={
-                                    this.state.amountInvalid &&
-                                    this.state.amountFocused
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.detailRow}
+                            style={{ borderBottom: '1px solid #e7e7e7' }}
+                        >
+                            <img
+                                src={
+                                    images.src +
+                                    bank_options.filter(
+                                        o => o.value === selectedBank
+                                    )[0].img
                                 }
-                                helperText={
-                                    this.state.amountInvalid &&
-                                        this.state.amountFocused
-                                        ? this.getLabel('valid-amount')
-                                        : ' '
-                                }
-                                InputProps={{
-                                    disableUnderline: true,
-                                    inputComponent: NumberFormatCustom,
-                                    inputProps: {
-                                        style: { textAlign: 'right' },
-                                        currency: currency
-                                    },
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <span className={classes.label}>
-                                                {this.getLabel('amount-label')}
-                                            </span>
-                                        </InputAdornment>
-                                    )
-                                }}
+                                alt=""
+                                className={classes.bankIcon}
                             />
+                            <span
+                                className={classes.text}
+                                style={{ marginLeft: 10 }}
+                            >
+                                {
+                                    bank_options.filter(
+                                        o => o.value === selectedBank
+                                    )[0].label
+                                }
+                            </span>
+                            <span className={classes.text}>{' - '}</span>
+                            <span
+                                className={classes.text}
+                                style={{ marginLeft: 10 }}
+                            >
+                                {accountNumber.substring(
+                                    accountNumber.length - 4
+                                )}
+                            </span>
+                        </Grid>
+                        <Grid item xs={2} className={classes.detailRow}></Grid>
+                        <Grid item xs={8} style={{ textAlign: 'center' }}>
+                            <span className={classes.text}>
+                                {this.getLabel('total-balance')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={2} style={{ textAlign: 'right' }}>
+                            <img
+                                src={images.src + 'letou/info-icon.svg'}
+                                alt=""
+                                className={classes.bankIcon}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            style={{
+                                textAlign: 'center',
+                                borderBottom: '1px solid #e7e7e7',
+                                paddingTop: 15,
+                                paddingBottom: 20
+                            }}
+                        >
+                            <span className={classes.totalBalance}>
+                                {getSymbolFromCurrency(user.currency)}
+                                {Number(user.balance).toFixed(2)}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.detailBorderRow}>
+                            <span className={classes.detailLabel}>
+                                {this.getLabel('withdrawal-balance')}
+                            </span>
+                            <img
+                                src={images.src + 'letou/info-icon.svg'}
+                                alt=""
+                                style={{ marginLeft: 6 }}
+                                className={classes.bankIcon}
+                            />
+                            <div className={classes.grow} />
+                            <span className={classes.text}>
+                                {getSymbolFromCurrency(user.currency)}
+                                {Number(user.balance).toFixed(2)}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.detailBorderRow}>
+                            <span className={classes.detailLabel}>
+                                {this.getLabel('locked-balance')}
+                            </span>
+                            <img
+                                src={images.src + 'letou/info-icon.svg'}
+                                alt=""
+                                style={{ marginLeft: 6 }}
+                                className={classes.bankIcon}
+                            />
+                            <div className={classes.grow} />
+                            <span className={classes.text}>
+                                {getSymbolFromCurrency(user.currency)}
+                                {Number(user.balance).toFixed(2)}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.detailBorderRow}>
+                            <span className={classes.detailLabel}>
+                                {this.getLabel('free-withdrawals-remaining')}
+                            </span>
+                            <img
+                                src={images.src + 'letou/info-icon.svg'}
+                                alt=""
+                                style={{ marginLeft: 6 }}
+                                className={classes.bankIcon}
+                            />
+                            <div className={classes.grow} />
+                            <span className={classes.text}>0</span>
+                        </Grid>
+                        {amounts.map((x, i) => {
+                            return (
+                                <Grid
+                                    item
+                                    xs={3}
+                                    key={i}
+                                    style={{ paddingTop: 20 }}
+                                >
+                                    <Button
+                                        className={clsx({
+                                            [classes.button]: true,
+                                            [classes.selected]: x === amount
+                                        })}
+                                        onClick={() =>
+                                            this.setState({
+                                                amount: x,
+                                                amountInvalid: false,
+                                                amountFocused: false
+                                            })
+                                        }
+                                    >
+                                        {x}
+                                    </Button>
+                                </Grid>
+                            );
+                        })}
+                        <Grid item xs={12} className={classes.detailRow}>
+                            <span className={classes.desc}>
+                                {this.getLabel('withdraw-fee-text')}
+                            </span>
                         </Grid>
                         <Grid item xs={12} className={classes.detailRow}>
                             <TextField
@@ -844,17 +867,106 @@ class ThaiLocalBank extends Component {
                                 }}
                             />
                         </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.detailRow}
+                            style={{ paddingBottom: 0 }}
+                        >
+                            <div
+                                style={{
+                                    border: '1px solid #e7e7e7',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    padding: 12,
+                                    borderTopLeftRadius: 3,
+                                    borderTopRightRadius: 3
+                                }}
+                            >
+                                <span className={classes.detailLabel}>
+                                    {this.getLabel('fees-label')}
+                                </span>
+                                <div className={classes.grow} />
+                                <span className={classes.text}>
+                                    {this.getLabel('free-label')}
+                                </span>
+                            </div>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.detailRow}
+                            style={{ paddingTop: 0 }}
+                        >
+                            <div
+                                style={{
+                                    borderLeft: '1px solid #e7e7e7',
+                                    borderRight: '1px solid #e7e7e7',
+                                    borderBottom: '1px solid #e7e7e7',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    padding: 12,
+                                    borderBottomLeftRadius: 3,
+                                    borderBottomRightRadius: 3
+                                }}
+                            >
+                                <span className={classes.detailLabel}>
+                                    {this.getLabel('receive-amount')}
+                                </span>
+                                <div className={classes.grow} />
+                                <span className={classes.text}>
+                                    {amount === ''
+                                        ? ''
+                                        : getSymbolFromCurrency(user.currency)}
+                                    {amount === ''
+                                        ? ''
+                                        : Number(amount).toFixed(2)}
+                                </span>
+                            </div>
+                        </Grid>
+                        <Grid item xs={6} className={classes.buttonCell}>
+                            <Button
+                                variant="contained"
+                                className={classes.cancelButton}
+                                onClick={() => {
+                                    this.props.history.push(
+                                        '/p/fortune-center/withdraw'
+                                    );
+                                }}
+                            >
+                                {this.getLabel('cancel-label')}
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6} className={classes.buttonCell}>
+                            <Button
+                                className={classes.actionButton}
+                                onClick={this.handleClick.bind(this)}
+                                disabled={
+                                    amount === '' ||
+                                    this.state.amountInvalid == ''
+                                }
+                            >
+                                {this.getLabel('confirm-label')}
+                            </Button>
+                        </Grid>
                     </Grid>
                 )}
-
-
+                <Dialog aria-labelledby="dialog-title" open={showErrorDialog}>
+                    <DialogTitle id="dialog-title">
+                        {this.getLabel('error-label')}
+                    </DialogTitle>
+                </Dialog>
             </div>
         );
     }
 }
 
 const mapStateToProps = state => {
-    const { token, user} = state.auth;
+    const { token, user } = state.auth;
     return {
         isAuthenticated: token !== null && token !== undefined,
         user: user
