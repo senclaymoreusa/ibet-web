@@ -5,7 +5,7 @@ import BaseRouter from './letou_routes';
 import { IntlProvider } from 'react-intl';
 import { messages } from './components/messages';
 import { getLanguage } from '../actions/language';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 
 import './css/global.css';

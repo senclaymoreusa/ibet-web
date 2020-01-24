@@ -168,7 +168,7 @@ import GameLobby from './components/games/game_lobby';
 import GameDetail from './components/games/game_detail';
 
 import Promotion from './components/promotion';
-import NoMatch from '../ErrorBoundary/NoMatch';
+import NoMatch from './ErrorBoundary/NoMatch';
 
 const containerStyle = {
     minHeight: '100%'
