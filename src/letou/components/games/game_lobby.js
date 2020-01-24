@@ -26,6 +26,7 @@ import Typography from '@material-ui/core/Typography';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Link from '@material-ui/core/Link';
+import withWidth from '@material-ui/core/withWidth';
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -35,6 +36,7 @@ document.body.style = 'background: #f1f1f1;';
 
 const styles = theme => ({
     root: {
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
@@ -46,18 +48,22 @@ const styles = theme => ({
     banner: {
         display: 'block',
         margin: 'auto',
-        paddingTop: 5,
+        paddingTop: 5
     },
 
     game: {
         paddingTop: 20,
         margin: 'auto',
         paddingLeft: '8%',
-        paddingRight: '8%'
+        paddingRight: '8%',
+        [theme.breakpoints.down('md')]: {
+            margin: theme.spacing(1),
+            paddingLeft: '2%',
+            paddingRight: '2%',
+        }
     },
 
     rootDesktop: {
-        height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -65,9 +71,31 @@ const styles = theme => ({
         }
     },
 
+    rootMobile: {
+        width: '100%',
+        display: 'flex',
+        // backgroundColor: '#f2f3f5',
+        flexDirection: 'column',
+        [theme.breakpoints.up('md')]: {
+            display: 'none'
+        }
+    },
+
     test: {
-        width:1300,
+        width: '1300px',
+        [theme.breakpoints.down('md')]: {
+            width: '100%'
+        }
     
+    },
+
+    imageBlock: {
+        width:'213px',
+        height:'213px',
+        [theme.breakpoints.down('md')]: {
+            width:'120px',
+            height:'120px',
+        }
     },
     gridList: {
         flexWrap: 'nowrap',
@@ -86,6 +114,9 @@ const styles = theme => ({
     }, 
     item: {
         padding:10,
+        [theme.breakpoints.down('md')]: {
+            padding:2,
+        }
     
     },
     text:{
@@ -97,9 +128,20 @@ const styles = theme => ({
         fontFamily: 'Gilroy',
         fontSize: '17px',
         color: '#f28f22',
-        padding:10
+        padding:10,
+        [theme.breakpoints.down('md')]: {
+            float: 'right',
+        }
+
+    },
+    imageSize: {
+        width: '100%',
+        height: '213px',
+        [theme.breakpoints.down('md')]: {
+            width: '100%',
+            height: '120px',
+        }
     }
-    
 
 });
 
@@ -329,8 +371,12 @@ export class GameLobby extends React.Component {
 
     async generateGameList(games) {
 
-        var gameArray = []
-        var chunk = 6;
+        var gameArray = [];
+        var chunk = 3;
+        if (this.props.width !== 'xs') {
+            chunk = 6;
+        }
+        
         for (var i = 0, j = games.length; i < j; i += chunk) {
             var tempArr = games.slice(i, i + chunk);
             gameArray.push(tempArr);
@@ -367,6 +413,7 @@ export class GameLobby extends React.Component {
     renderGameElement(){
 
         const { classes } = this.props;
+        var gridSize = 4;
 
         var settings = {
             dots: false,
@@ -375,9 +422,19 @@ export class GameLobby extends React.Component {
             slidesToShow: 5.5,
             slidesToScroll: 5,
             swipeToSlide: true,
-            nextArrow: <NextArrow />,
-            prevArrow: <PrevArrow />
+            // nextArrow: <NextArrow />,
+            // prevArrow: <PrevArrow />
+
+            responsive: [{
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                  initialSlide: 3,
+                }
+              }]
         };
+
         var gridTileStyle= {
             position: 'relative',
             float: 'left',
@@ -387,6 +444,14 @@ export class GameLobby extends React.Component {
             overflow: 'hidden',
             // height: '100% !important'
         }
+
+        if (this.props.width !== 'xs') {
+            settings['nextArrow'] = <NextArrow />;
+            settings['prevArrow'] = <PrevArrow />;
+            gridSize = 2;
+        }
+        
+        
 
         if(!this.state.isFilter) {
             return (
@@ -406,14 +471,14 @@ export class GameLobby extends React.Component {
                                             }} className={classes.viewall}> {this.getLabel('view-all')} </Link>
                                         </Typography>
                                         <div className={classes.test}>
-                                            <Slider {...settings}>
+                                            <Slider {...settings} style={{ marginLeft: 0 }}>
                                             {
                                                 value[1].map( (game, index) => {
                                                     return (
                                                         <div className={classes.item} key={index}>
                                                             <NavLink to={`/game_detail/${game.pk}`} target="_blank" style={{ textDecoration: 'none' }}>
                                                             <GridListTile key={game.pk} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
-                                                                <img src={game.fields.image_url} alt='Not available' width='213px' height='213px' />
+                                                                <img src={game.fields.image_url} alt='Not available' className={classes.imageBlock} />
                                                             <GridListTileBar
                                                                 title={game.fields.name}
                                                                 classes={{
@@ -449,11 +514,11 @@ export class GameLobby extends React.Component {
                                     games.map(game => {
                                         var gameFields = game['fields'];
                                         return (
-                                            <Grid item xs={2} sm={2} key={game.pk}>
+                                            <Grid item xs={gridSize} sm={gridSize} key={game.pk}>
                                                 <NavLink to={`/game_detail/${game.pk}`} target="_blank" style={{ textDecoration: 'none' }}>
                                                     <div className={classes.item} key={index}>
                                                         <GridListTile key={game.pk} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
-                                                            <img src={gameFields.image_url} alt='Not available' style={{ 'width': '100%', 'height': '213px' }}/>
+                                                            <img src={gameFields.image_url} alt='Not available' className={classes.imageSize} />
                                                         <GridListTileBar
                                                             title={gameFields.name}
                                                             // subtitle={PROVIDER[value['fields'].provider]}
@@ -485,8 +550,9 @@ export class GameLobby extends React.Component {
         const { classes } = this.props;
         var handleToUpdate  =  this.handleToUpdate;
         let tabs = (
-            <StyledTabs centered
+            <StyledTabs
                 value={this.state.value}
+                variant="scrollable"
                 onChange={this.handleTabChange}>
                 > <StyledTab label="ALL"
                     value='all'
@@ -516,26 +582,42 @@ export class GameLobby extends React.Component {
         );
 
         return (
-            <div className={classes.rootDesktop}>
+            <div className={classes.root}>
                 <TopNavbar />
-                <div className={classes.banner}>
-                    <img src="https://d18z3w7mepzcqu.cloudfront.net/banner/jptbanner01.jpg"></img>
+                <div className={classes.rootDesktop}>
+                    <div className={classes.banner}>
+                        <img src="https://d18z3w7mepzcqu.cloudfront.net/banner/jptbanner01.jpg"></img>
+                    </div>
+                    <div className={classes.banner}>
+                        <Paper style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                            <AppBar position="static" color="default" style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                                {(this.state.categories.length > 0) && tabs}
+                            </AppBar>
+                            <FilterSearchBar />
+                        </Paper>
+                    </div>
+
+                    <div className={classes.game}>
+                        {
+                            this.renderGameElement()
+                        }
+                    </div>
                 </div>
-                <div className={classes.banner}>
-                    <Paper style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+
+                <div className={classes.rootMobile}>
+                    <div>
                         <AppBar position="static" color="default" style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
                             {(this.state.categories.length > 0) && tabs}
                         </AppBar>
                         <FilterSearchBar />
-                    </Paper>
-                </div>
+                    </div>
 
-                <div className={classes.game}>
-                    {
-                        this.renderGameElement()
-                    }
+                    <div className={classes.game}>
+                        {
+                            this.renderGameElement()
+                        }
+                    </div>
                 </div>
-
 
                 <Footer />
             </div >
@@ -553,4 +635,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(GameLobby))));
+export default withWidth()(withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(GameLobby)))));

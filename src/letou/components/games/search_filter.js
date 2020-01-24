@@ -33,6 +33,9 @@ const styles = theme => ({
     flexDirection: 'column',
     minHeight: '100vh',
     backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.down('md')]: {
+        float: 'right',
+    }
   },
   grow: {
     flexGrow: 1,
