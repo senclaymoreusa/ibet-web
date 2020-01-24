@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { sendingLog } from '../actions';
+import { sendingLog } from '../../../src/actions/auth';
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
