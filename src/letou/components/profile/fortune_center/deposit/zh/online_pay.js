@@ -305,7 +305,7 @@ class OnlinePay extends Component {
         this.state = {
             amount: '',
             currency: '',
-            
+            data:'',
             amountFocused: false,
             amountInvalid: true,
             bankid: '',
@@ -368,14 +368,15 @@ class OnlinePay extends Component {
     handleClick() {
         let currentComponent = this;
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+        
+        let userid = currentComponent.state.data.pk
         var postData = {
-            amount: this.state.amount,
-            userid: this.state.data.pk,
+            amount: currentComponent.state.amount,
+            userid: currentComponent.state.data.pk,
             currency: '0',
             PayWay: '30', //online bank
-            method: this.state.bankid, //银行卡
-            RealName : this.state.realname,
+            method: currentComponent.state.bankid, //银行卡
+            RealName : currentComponent.state.realname,
         };
 
         var formBody = [];
