@@ -32,6 +32,9 @@ const styles = {
         backgroundColor: 'orange',
         color: 'white',
     },
+    table: {
+        borderSpacing: 0,
+    },
     tableCell: {
         border: '1px solid grey',
         width: 250,
