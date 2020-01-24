@@ -408,10 +408,10 @@ export class WithdrawMain extends Component {
                         </Toolbar>
                     </AppBar>
                 </div>
-                {user.hasWithdrawPassword
+                {user && user.hasWithdrawPassword
                     ? this.getAvailablePaymentMethods()
                     : null}
-                {user.hasWithdrawPassword ? (
+                {user && user.hasWithdrawPassword ? (
                     this.getPaymentMethodContent()
                 ) : (
                     <SetWithdrawalPassword />
