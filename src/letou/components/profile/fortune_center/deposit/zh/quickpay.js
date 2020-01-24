@@ -302,7 +302,7 @@ class QuickPay extends Component {
         let userid = currentComponent.state.data.pk;
         let amount = currentComponent.state.amount;
         let user = currentComponent.state.data.pk;
-        console.log(user)
+        
         let postData = {
             amount: amount,
             userid: user,
@@ -339,7 +339,7 @@ class QuickPay extends Component {
                 }
             })
             .then(function (data) {
-                console.log(data)
+                //console.log(data)
                 currentComponent.setState({ showLinearProgressBar: false });
                 //console.log(data);
                 // let url = data.url;
