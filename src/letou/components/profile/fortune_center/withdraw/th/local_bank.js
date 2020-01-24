@@ -361,12 +361,12 @@ class ThaiLocalBank extends Component {
 
         this.state = {
             amount: '',
-            selectedBank: 'SCB',
+            selectedBank: 'none',
             order_id: '', //"letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
             accountNumber: '',
             password: '',
             showPassword: false,
-            activeStep: 1,
+            activeStep: 0,
             showErrorDialog: false
         };
     }
@@ -391,7 +391,7 @@ class ThaiLocalBank extends Component {
                 this.setState({ amount: event.target.value });
                 this.setState({
                     amountInvalid:
-                        parseFloat(event.target.value) < 500 ||
+                        parseFloat(event.target.value) < 200 ||
                         parseFloat(event.target.value) > 500000
                 });
             } else {
@@ -413,18 +413,19 @@ class ThaiLocalBank extends Component {
 
     handleClick() {
         let currentComponent = this;
+
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
-        let userid = this.state.data.pk;
+
         const body = JSON.stringify({
-            type: '1',
-            username: this.state.data.username,
-            balance: this.state.amount,
             bank: this.state.selectedBank,
             bank_acc_no: this.state.accountNumber,
-            real_name: '',
+            real_name:
+                this.props.user.firstName + ' ' + this.props.user.lastName,
+            username: this.props.user.username,
             amount: this.state.amount,
-            currency: 7
+            currency: 7,
+            type: '1'
         });
         return axios
             .post(
@@ -442,12 +443,12 @@ class ThaiLocalBank extends Component {
                     );
                 }
             })
-            .then(function (data) {
+            .then(function(data) {
                 let status = data.success;
                 if (status) {
                     const sbody = JSON.stringify({
                         type: 'withdraw',
-                        username: currentComponent.state.data.username,
+                        username: currentComponent.props.user.username,
                         balance: currentComponent.state.amount
                     });
                     axios
@@ -476,9 +477,6 @@ class ThaiLocalBank extends Component {
                                     'success',
                                     'Your balance is updated.'
                                 );
-
-                                // alert("your balance is updated")
-                                // window.location.reload()
                             }
                         });
                 } else {
@@ -486,7 +484,6 @@ class ThaiLocalBank extends Component {
                         'error',
                         'Somthing is wrong'
                     );
-                    //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
                 }
             })
             .catch(err => {
@@ -602,7 +599,7 @@ class ThaiLocalBank extends Component {
                                 }
                                 helperText={
                                     this.state.accountNumberFocused &&
-                                        accountNumber.length === 0
+                                    accountNumber.length === 0
                                         ? this.getLabel('invalid-bank-number')
                                         : ' '
                                 }
@@ -651,8 +648,8 @@ class ThaiLocalBank extends Component {
                                                 {this.state.showPassword ? (
                                                     <VisibilityOff />
                                                 ) : (
-                                                        <Visibility />
-                                                    )}
+                                                    <Visibility />
+                                                )}
                                             </IconButton>
                                         </InputAdornment>
                                     )
@@ -843,7 +840,7 @@ class ThaiLocalBank extends Component {
                                 }
                                 helperText={
                                     this.state.amountInvalid &&
-                                        this.state.amountFocused
+                                    this.state.amountFocused
                                         ? this.getLabel('valid-amount')
                                         : ' '
                                 }

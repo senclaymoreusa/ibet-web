@@ -333,14 +333,17 @@ export const authCheckState = () => {
     };
 };
 
-function parseUser(data) { 
+function parseUser(data) {
+    console.log(data)
     return {
         userId: data.pk,
+        username: data.username,
+        firstName: data.first_name,
+        lastName: data.last_name,
         currency: data.currency,
         favoriteDepositMethod: data.favorite_payment_method,
         country: data.country,
         balance: data.main_wallet,
-        username: data.username,
         nameVerified: data.id_verified,
         emailVerified: data.email_verified,
         phoneVerified: data.phone_verified,
