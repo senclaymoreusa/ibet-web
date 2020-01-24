@@ -46,6 +46,11 @@ const styles = {
     },
     bolded: {
         fontWeight: 900,
+    },
+    wrapper: {
+        fontWeight: 900,
+        borderLeft: '5px solid #FF9E00',
+        paddingLeft: 10,
     }
 };
 
@@ -63,7 +68,7 @@ class VNFirst200SlotBonus extends React.Component {
 
                     <h3 className={classes.mainHeading}>200% THƯỞNG CHÀO MỪNG TẠI SLOT GAMES</h3>
                     <hr></hr>
-                    <p className={classes.bolded}>Điều kiện và Điều khoản:</p>
+                    <p className={classes.wrapper}>Điều kiện và Điều khoản:</p>
 
                     <ul>
                         <li>1. Chương trình Khuyến mãi bắt đầu từ 00:00:00 (GMT+8) ngày 01/01/2020 đến 23:59:59 (GMT+8) ngày 31/01/2020</li>
