@@ -332,7 +332,7 @@ class BankTransfer extends Component {
         this.state = {
             amount: '',
             currency: '',
-            bank: 'none',
+            bank: '',
             amountFocused: false,
             amountInvalid: true,
 
@@ -450,7 +450,7 @@ class BankTransfer extends Component {
                 "currency": "0",
                 "language": "zh-Hans",
                 "method": "BANK_TRANSFER",
-                "bank": this.state.selectedBankOption,
+                "bank": this.state.bank,
             }
             //console.log(this.state.amount)
             //console.log(currentComponent.state.data.username)
@@ -470,6 +470,7 @@ class BankTransfer extends Component {
             }).then(function (res) {
                 return res.json();
             }).then(function (data) {
+                //console.log(data)
                 let redirectUrl = data.paymentPageSession.paymentPageUrl
                 //console.log(redirectUrl)
 

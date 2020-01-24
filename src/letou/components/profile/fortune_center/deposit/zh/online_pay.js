@@ -305,14 +305,14 @@ class OnlinePay extends Component {
         this.state = {
             amount: '',
             currency: '',
-            bank: 'none',
+            data:'',
             amountFocused: false,
             amountInvalid: true,
-
+            bankid: '',
             isFavorite: false,
         };
     }
-
+    
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -368,14 +368,15 @@ class OnlinePay extends Component {
     handleClick() {
         let currentComponent = this;
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+        
+        let userid = currentComponent.state.data.pk
         var postData = {
-            amount: this.state.amount,
-            userid: this.state.data.pk,
+            amount: currentComponent.state.amount,
+            userid: currentComponent.state.data.pk,
             currency: '0',
             PayWay: '30', //online bank
-            method: this.state.bankid, //银行卡
-            RealName : this.state.realname,
+            method: currentComponent.state.bankid, //银行卡
+            RealName : currentComponent.state.realname,
         };
 
         var formBody = [];
@@ -548,7 +549,7 @@ class OnlinePay extends Component {
                             className={classes.select}
                             value={bank}
                             onChange={(event) => {
-                                this.setState({ bank: event.target.value });
+                                this.setState({ bankid: event.target.value });
                             }}
                             input={<BootstrapInput name="bank" id="bank-select" />}>
                             <MenuItem key='none' value='none' disabled>
