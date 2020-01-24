@@ -63,10 +63,10 @@ class GameDetail extends Component {
 
     componentDidMount() {
 
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
-        document.body.appendChild(script);
+        // const script = document.createElement("script");
+        // script.type = "text/javascript";
+        // script.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
+        // document.body.appendChild(script);
 
         const { id } = this.props.match.params;
         // console.log(id);
@@ -118,6 +118,11 @@ class GameDetail extends Component {
                         this.generateQTURL(gameId, false);
                     } else if (data.provider.provider_name == 'PLAYNGO') {
                         this.launchPNGGame(gameId, 'en_GB', '', false);
+                    } else if (data.provider.provider_name == 'PT') {
+                        var gameUrl = LAUNCH_GAME_URL[providerName]['free'];
+                        gameUrl = gameUrl.replace('{lang}', 'en');
+                        gameUrl = gameUrl.replace('{gameId}', gameId);
+                        window.open(gameUrl);
                     } else {
                         var gameUrl = LAUNCH_GAME_URL[providerName]['free'];
                         gameUrl = gameUrl.replace('{lang}', 'en');
@@ -213,6 +218,10 @@ class GameDetail extends Component {
     }
 
     launchPTGame(gameId) {
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
+        document.body.appendChild(script);
         axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
         .then(res => {
             // console.log(res.data)
