@@ -48,7 +48,10 @@ const styles = theme => ({
     banner: {
         display: 'block',
         margin: 'auto',
-        paddingTop: 5
+        paddingTop: 5,
+        [theme.breakpoints.down('md')]: {
+            margin: 0,
+        }
     },
 
     game: {
@@ -60,6 +63,7 @@ const styles = theme => ({
             margin: theme.spacing(1),
             paddingLeft: '2%',
             paddingRight: '2%',
+            paddingTop: 5,
         }
     },
 
@@ -84,7 +88,8 @@ const styles = theme => ({
     test: {
         width: '1300px',
         [theme.breakpoints.down('md')]: {
-            width: '100%'
+            width: '100%',
+            color: '#444444'
         }
     
     },
@@ -92,7 +97,7 @@ const styles = theme => ({
     imageBlock: {
         width:'213px',
         height:'213px',
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
             width:'120px',
             height:'120px',
         }
@@ -123,6 +128,9 @@ const styles = theme => ({
         fontFamily: 'Gilroy',
         fontSize: '28px',
         color: '#202020',
+        // [theme.breakpoints.down('md')]: {
+        //     display: 'block',
+        // }
     },
     viewall: {
         fontFamily: 'Gilroy',
@@ -234,7 +242,7 @@ export class GameLobby extends React.Component {
 
     componentDidUpdate(prevProps) {
         var { category, search } = this.props.match.params;
-        if (this.props.match.params.category !== prevProps.match.params.category || (this.props.match.params.search !==  prevProps.match.params.search )) {
+        if (this.props.match.params.category !== prevProps.match.params.category || (this.props.match.params.search !==  prevProps.match.params.search ) || (this.props.width !== prevProps.width)) {
             var category = this.props.match.params.category;
 
             if (category) {
@@ -373,6 +381,7 @@ export class GameLobby extends React.Component {
 
         var gameArray = [];
         var chunk = 3;
+        console.log("!!!!" + this.props.width);
         if (this.props.width !== 'xs') {
             chunk = 6;
         }
@@ -609,7 +618,7 @@ export class GameLobby extends React.Component {
                         <AppBar position="static" color="default" style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
                             {(this.state.categories.length > 0) && tabs}
                         </AppBar>
-                        <FilterSearchBar />
+                        <FilterSearchBar windowSize={this.props.width} />
                     </div>
 
                     <div className={classes.game}>

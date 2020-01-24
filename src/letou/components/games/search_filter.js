@@ -50,6 +50,20 @@ const styles = theme => ({
     justifyContent : 'space-between'
   },
 
+  searchBarDesktop: {
+    float: 'right', 
+    padding: 0,
+    [theme.breakpoints.down('md')]: {
+        display: 'none',
+    }
+  },
+
+  filterDiv: {
+    [theme.breakpoints.down('md')]: {
+        padding: '0 4%',
+    }
+  },
+
   containerProducts: {
     paddingTop: 40,
     paddingLeft: 15,
@@ -76,6 +90,32 @@ const styles = theme => ({
     // minWidth: 120,
     // maxWidth: 300,
   },
+
+  filterButton: {
+    flexDirection:'row',
+    justifyContent : 'space-between',
+    paddingTop: 30,
+    [theme.breakpoints.down('md')]: {
+        float: 'right',
+        paddingTop: 10,
+        marginRight: 10,
+    }
+  },
+
+
+  filterTitle: {
+    float: 'left',
+    paddingTop: 10,
+    fontSize: '28px',
+    textTransform: 'capitalize',
+    fontFamily: 'Segoe UI Symbol',
+    [theme.breakpoints.up('md')]: {
+        display: 'none',
+        
+    }
+
+  }
+
 });
 
 const StyledButtonGroup = withStyles({
@@ -96,18 +136,6 @@ export class FilterSearchBar extends Component {
         this.state = {
             showFilter: false,
             showSort: false,
-            names: [
-                'Oliver Hansen',
-                'Van Henry',
-                'April Tucker',
-                'Ralph Hubbard',
-                'Omar Alexander',
-                'Carlos Abbott',
-                'Miriam Wagner',
-                'Bradley Wilkerson',
-                'Virginia Andrews',
-                'Kelly Snyder',
-                ],
             providers: [],
             jackpotFilter: [],
             providerFilter: [],
@@ -120,6 +148,7 @@ export class FilterSearchBar extends Component {
             sortFilter: [],
             sortArr: [],
             isSort: false,
+            type: 'all',
 
         };
 
@@ -131,7 +160,7 @@ export class FilterSearchBar extends Component {
 
     async componentDidMount() {
         var { category, search } = this.props.match.params;
-
+        this.setState({ type: category });
         if (!search) {
             this.setState({ jackpotFilter: [] });
             this.setState({ providerFilter: [] });
@@ -181,6 +210,7 @@ export class FilterSearchBar extends Component {
     componentDidUpdate(prevProps) {
         if ((this.props.match.params.category !== prevProps.match.params.category) || (this.props.match.params.search !== prevProps.match.params.search)) {
             var { category, search } = this.props.match.params;
+            this.setState({ type: category });
             if (!search) {
                 this.setState({ 
                     providerFilter: [],
@@ -435,16 +465,29 @@ export class FilterSearchBar extends Component {
 
     render() {
         const { classes } = this.props;
+        var type = this.state.type.split('-').join(" ");
+        if (type === 'all') {
+            type = "";
+        } else if (type === 'cumulative award') {
+            type = 'cumulative';
+        }
+        var size = 'large';
+        if (this.props.windowSize === 'xs') {
+            size = 'medium';
+        }
         var arr = this.state.providerFilter.concat(this.state.featuresFilter);
         arr = arr.concat(this.state.themeFilter);
         arr = arr.concat(this.state.jackpotFilter);
         arr = arr.concat(this.state.sortFilter);
         return (
-            <div>
-                <div style={{flexDirection:'row',justifyContent : 'space-between', paddingTop: 30}}>
+            <div className={classes.filterDiv}>
+                <div className={classes.filterTitle}>
+                    {type}
+                </div>
+                <div className={classes.filterButton}>
                     <ButtonGroup
                     variant="outlined"
-                    size="large"
+                    size={size}
                     // aria-label="large outlined secondary button group"
                     >
                     <Button onClick={() => {
@@ -483,7 +526,7 @@ export class FilterSearchBar extends Component {
                          });
                     }} style={this.state.showSort ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}>Sort</Button>  */}
 
-                    <div style={{float: 'right', padding: 0}} >
+                    <div className={classes.searchBarDesktop} >
                         {/* <InputBase
                             className={classes.input}
                             placeholder="Search..."
