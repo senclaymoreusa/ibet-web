@@ -520,7 +520,7 @@ export class Profile extends Component {
                                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                                                     <Tooltip
                                                         title={
-                                                            user.nameVerified
+                                                            user && user.nameVerified
                                                                 ? this.getLabel(
                                                                     'name-verified'
                                                                 )
@@ -533,7 +533,7 @@ export class Profile extends Component {
                                                             className={clsx({
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
-                                                                    user.nameVerified
+                                                                    user && user.nameVerified ? user.nameVerified : false
                                                             })}
                                                             onClick={() => {
                                                                 if (
@@ -553,7 +553,7 @@ export class Profile extends Component {
                                                     </Tooltip>
                                                     <Tooltip
                                                         title={
-                                                            user.phoneVerified
+                                                            user && user.phoneVerified
                                                                 ? this.getLabel(
                                                                     'phone-verified'
                                                                 )
@@ -566,7 +566,7 @@ export class Profile extends Component {
                                                             className={clsx({
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
-                                                                    user.phoneVerified
+                                                                    user && user.phoneVerified ? user.phoneVerified : false
                                                             })}
                                                             onClick={() => {
                                                                 if (
@@ -586,7 +586,7 @@ export class Profile extends Component {
                                                     </Tooltip>
                                                     <Tooltip
                                                         title={
-                                                            user.emailVerified
+                                                            user && user.emailVerified
                                                                 ? this.getLabel(
                                                                     'email-verified'
                                                                 )
@@ -599,7 +599,7 @@ export class Profile extends Component {
                                                             className={clsx({
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
-                                                                    user.emailVerified
+                                                                    user && user.emailVerified ? user.emailVerified : false
                                                             })}
                                                             onClick={() => {
                                                                 if (
