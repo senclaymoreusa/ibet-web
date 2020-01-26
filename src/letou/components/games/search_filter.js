@@ -22,6 +22,19 @@ import SyncIcon from '@material-ui/icons/Sync';
 import SearchBar from './search_autocomplete';
 import Menu from '@material-ui/core/Menu';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Collapse from '@material-ui/core/Collapse';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import StarBorder from '@material-ui/icons/StarBorder';
+import { Breadcrumb } from 'antd';
+
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -113,8 +126,11 @@ const styles = theme => ({
         display: 'none',
         
     }
+  },
 
-  }
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
 
 });
 
@@ -149,12 +165,24 @@ export class FilterSearchBar extends Component {
             sortArr: [],
             isSort: false,
             type: 'all',
-
+            open: false,
+            menuAnchorEl: null,
+            LastOpen: false,
+            firstOpen: false,
+            checked: [],
+            expandOpen: {},
+            // ProvidersOpen: false,
+            // JackpotOpen: false,
+            // ThemeOpen: false,
+            // FeaturesOpen: false,
         };
 
         this.openMainMenu  = this.openMainMenu.bind(this);
         this.closeMainMenu  = this.closeMainMenu.bind(this);
         this.selectMenu = this.selectMenu.bind(this);
+        this.handleMenuExpandClick = this.handleMenuExpandClick.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
+        this.expandHandleClick = this.expandHandleClick.bind(this);
 
     }
 
@@ -197,12 +225,17 @@ export class FilterSearchBar extends Component {
         axios.get(API_URL + 'games/api/filter/', config).then(res => {
             this.setState({ providers: res.data['Providers'] });
             this.setState({ filterOptions: res.data });
-
+            var obj = {};
             Object.entries(this.state.filterOptions).map((value) => {
+                // expandOpen[value[0]] = false;
+                obj[value[0]] = false;
                 if (value[0] === 'Sort') {
                     this.setState({ sortArr: value[1] }); 
                 }
             })
+            this.setState({expandOpen: obj});
+
+            console.log(this.state.expandOpen);
         })
     }
 
@@ -283,6 +316,8 @@ export class FilterSearchBar extends Component {
     }
 
     handleChange(event, name) {
+        console.log(event);
+        console.log(name);
         switch(name) {
             case 'Providers':
                 this.setState({ 
@@ -390,8 +425,8 @@ export class FilterSearchBar extends Component {
     }
 
     openMainMenu(event) {
-        this.setState({ anchorEl: event.currentTarget,
-            // showSort: !this.state.showSort,
+        this.setState({ 
+            anchorEl: event.currentTarget,
             showFilter: false
         });
     }
@@ -410,14 +445,97 @@ export class FilterSearchBar extends Component {
             sortFilter: [selected]
             // showFilter: false 
         }, () => {
-            this.redirectUrl()
+            this.redirectUrl();
         });
     }
 
+    handleToggle = (value, type) => () => {
+
+        switch(type) {
+            case 'Providers':
+                var currentIndex = this.state.providerFilter.indexOf(value);
+                var newChecked = [...this.state.providerFilter];
+                if (currentIndex === -1) {
+                    newChecked.push(value);
+                } else {
+                    newChecked.splice(currentIndex, 1);
+                }
+                this.setState({
+                    providerFilter: newChecked,
+                }, () => {
+                    this.redirectUrl();
+                });
+                break;
+            case 'Theme':
+                var currentIndex = this.state.themeFilter.indexOf(value);
+                var newChecked = [...this.state.themeFilter];
+                if (currentIndex === -1) {
+                    newChecked.push(value);
+                } else {
+                    newChecked.splice(currentIndex, 1);
+                }
+                this.setState({
+                    themeFilter: newChecked,
+                }, () => {
+                    this.redirectUrl();
+                });
+                break;
+            case 'Jackpot':
+                var currentIndex = this.state.jackpotFilter.indexOf(value);
+                var newChecked = [...this.state.jackpotFilter];
+                if (currentIndex === -1) {
+                    newChecked.push(value);
+                } else {
+                    newChecked.splice(currentIndex, 1);
+                }
+                this.setState({
+                    jackpotFilter: newChecked,
+                }, () => {
+                    this.redirectUrl();
+                });
+                break;
+            case 'Features':
+                var currentIndex = this.state.featuresFilter.indexOf(value);
+                var newChecked = [...this.state.featuresFilter];
+                if (currentIndex === -1) {
+                    newChecked.push(value);
+                } else {
+                    newChecked.splice(currentIndex, 1);
+                }
+                this.setState({
+                    featuresFilter: newChecked,
+                }, () => {
+                    this.redirectUrl();
+                });
+                break;
+            default:
+                return null;
+          }
+    };
+
+
+
+    handleMenuExpandClick = () => {
+        this.setState({ 
+            open: !this.state.open,
+        });
+    };
+
+
+    expandHandleClick = (name) => {
+
+        if (this.state.expandOpen && name in this.state.expandOpen) {
+            this.setState(prevState => ({
+                expandOpen: {                   // object that we want to update
+                    ...prevState.expandOpen,    // keep all other key-value pairs
+                    [name]: !prevState.expandOpen[name] // update the value of specific key
+                }
+            }))
+        }        
+    }
 
     handleDelete = (e, name) => {
-        // console.log(name);
-        // console.log(this.state.sortFilter);
+        
         if (this.state.providerFilter.includes(name)) {
             let idx = this.state.providerFilter.indexOf(name);
             this.state.providerFilter.splice(idx, 1);
@@ -456,7 +574,8 @@ export class FilterSearchBar extends Component {
                     featuresFilter: [],
                     themeFilter: [],
                     jackpotFilter: [],
-                    sortFilter: []   
+                    sortFilter: [],
+                    showFilter: false,
         }, () => {
             this.redirectUrl();
         });
@@ -490,11 +609,18 @@ export class FilterSearchBar extends Component {
                     size={size}
                     // aria-label="large outlined secondary button group"
                     >
-                    <Button onClick={() => {
-                        this.setState({ showFilter: !this.state.showFilter,
-                            showSort: false,
-                         });
-                                    
+                    <Button onClick={(event) => {
+                        if (this.props.windowSize == 'xs') {
+                            this.setState({ 
+                                menuAnchorEl: event.currentTarget,
+                                open: !this.state.open,
+                            });
+
+                        } else {
+                            this.setState({ showFilter: !this.state.showFilter,
+                                showSort: false,
+                            });
+                        }            
                     }} 
                     style={this.state.showFilter ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}>Filter</Button>
                     <Button
@@ -520,11 +646,158 @@ export class FilterSearchBar extends Component {
                         })
                     }
                     </Menu>
-                    {/* <Button onClick={() => {
-                        this.setState({ showSort: !this.state.showSort,
-                            showFilter: false,
-                         });
-                    }} style={this.state.showSort ? {backgroundColor: '#53abe0', borderColor:'#53abe0', color: 'white'} : {backgroundColor: 'white', borderColor:'#53abe0', color: '#53abe0'}}>Sort</Button>  */}
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={this.state.menuAnchorEl}
+                        // keepMounted
+                        open={Boolean(this.state.open)}
+                        onClose={this.handleMenuExpandClick}
+                    >   
+                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                        { 
+                            Object.entries(this.state.filterOptions).map((value, index) => {
+                                if (value[0] !== 'Sort') {
+                                    switch (value[0]) {
+                                        case 'Providers':
+                                            return (
+                                                <div key={index}>
+                                                <ListItem button  onClick={(e) => this.expandHandleClick(value[0])}>
+                                                    <ListItemText primary={value[0]} />
+                                                    {this.state.expandOpen[value[0]] ? <ExpandLess /> : <ExpandMore />}
+                                                </ListItem>
+
+                                                <Collapse in={this.state.expandOpen[value[0]]} timeout="auto" unmountOnExit key={index}>
+                                                {
+                                                    value[1].map((item, index) => {
+                                                    // console.log(item);
+                                                    
+                                                    const labelId = `checkbox-list-label-${item}`;
+                                                    return (
+                                                        <ListItem key={index} role={undefined} dense button onClick={this.handleToggle(item, value[0])}>
+                                                            <ListItemIcon>
+                                                            <Checkbox
+                                                                edge="start"
+                                                                checked={this.state.providerFilter.indexOf(item) !== -1}
+                                                                tabIndex={-1}
+                                                                disableRipple
+                                                                inputProps={{ 'aria-labelledby': labelId }}
+                                                            />
+                                                            </ListItemIcon>
+                                                            <ListItemText id={labelId} primary={item} />
+                                                        </ListItem>
+                                                    );
+                                                    })
+                                                }
+                                                </Collapse>
+                                                </div>
+                                            )
+                                        case 'Jackpot':
+                                            return (
+                                                <div key={index}>
+                                                <ListItem button onClick={(e) => this.expandHandleClick(value[0])}>
+                                                    <ListItemText primary={value[0]} />
+                                                    {this.state.expandOpen[value[0]] ? <ExpandLess /> : <ExpandMore />}
+                                                </ListItem>
+
+                                                <Collapse in={this.state.expandOpen[value[0]]} timeout="auto" unmountOnExit key={index}>
+                                                {
+                                                    value[1].map((item, index) => {
+                                                    const labelId = `checkbox-list-label-${item}`;
+                                                    return (
+                                                        <ListItem key={index} role={undefined} dense button onClick={this.handleToggle(item, value[0])}>
+                                                            <ListItemIcon>
+                                                            <Checkbox
+                                                                edge="start"
+                                                                checked={this.state.jackpotFilter.indexOf(item) !== -1}
+                                                                tabIndex={-1}
+                                                                disableRipple
+                                                                inputProps={{ 'aria-labelledby': labelId }}
+                                                            />
+                                                            </ListItemIcon>
+                                                            <ListItemText id={labelId} primary={item} />
+                                                        </ListItem>
+                                                        );
+                                                    })
+                                                }
+                                                </Collapse>
+                                                </div>
+                                            )
+
+                                        case 'Theme':
+                                            return (
+                                                <div key={index}>
+                                                <ListItem button onClick={(e) => this.expandHandleClick(value[0])}>
+                                                    <ListItemText primary={value[0]} />
+                                                    {this.state.expandOpen[value[0]] ? <ExpandLess /> : <ExpandMore />}
+                                                </ListItem>
+
+                                                <Collapse in={this.state.expandOpen[value[0]]} timeout="auto" unmountOnExit key={index}>
+                                                {
+                                                    value[1].map((item, index) => {
+                                                    const labelId = `checkbox-list-label-${item}`;
+                                                    return (
+                                                        <ListItem key={index} role={undefined} dense button onClick={this.handleToggle(item, value[0])}>
+                                                            <ListItemIcon>
+                                                            <Checkbox
+                                                                edge="start"
+                                                                checked={this.state.themeFilter.indexOf(item) !== -1}
+                                                                tabIndex={-1}
+                                                                disableRipple
+                                                                inputProps={{ 'aria-labelledby': labelId }}
+                                                            />
+                                                            </ListItemIcon>
+                                                            <ListItemText id={labelId} primary={item} />
+                                                        </ListItem>
+                                                        );
+                                                    })
+                                                }
+                                                </Collapse>
+                                                </div>
+                                            )
+
+                                        case 'Features':
+                                            return (
+                                                <div key={index}>
+                                                <ListItem button onClick={(e) => this.expandHandleClick(value[0])}>
+                                                    <ListItemText primary={value[0]} />
+                                                    {this.state.expandOpen[value[0]] ? <ExpandLess /> : <ExpandMore />}
+                                                </ListItem>
+
+                                                <Collapse in={this.state.expandOpen[value[0]]} timeout="auto" unmountOnExit key={index}>
+                                                {
+                                                    value[1].map((item, index) => {
+                                                    const labelId = `checkbox-list-label-${item}`;
+                                                    return (
+                                                        <ListItem key={index} role={undefined} dense button onClick={this.handleToggle(item, value[0])}>
+                                                            <ListItemIcon>
+                                                            <Checkbox
+                                                                edge="start"
+                                                                checked={this.state.featuresFilter.indexOf(item) !== -1}
+                                                                tabIndex={-1}
+                                                                disableRipple
+                                                                inputProps={{ 'aria-labelledby': labelId }}
+                                                            />
+                                                            </ListItemIcon>
+                                                            <ListItemText id={labelId} primary={item} />
+                                                        </ListItem>
+                                                        );
+                                                    })
+                                                }
+                                                </Collapse>
+                                                </div>
+                                            )
+                                        default:
+                                            return null;
+
+                                    }
+                                    
+                                }
+                            })
+                        }
+                        </List>
+                    </Collapse>
+                    </Menu>
 
                     <div className={classes.searchBarDesktop} >
                         {/* <InputBase
