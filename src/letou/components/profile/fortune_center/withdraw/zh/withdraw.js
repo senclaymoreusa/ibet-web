@@ -13,7 +13,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 import getSymbolFromCurrency from 'currency-symbol-map'
-
+import BankAccounts from './bank_accounts';
 import Checkbox from '@material-ui/core/Checkbox';
 import { authCheckState } from '../../../../../../actions';
 
@@ -309,6 +309,8 @@ class ChinaWithdraw extends Component {
             fee: 0,
             receiveAmount: 0,
             balanceCurrency: "CNY",
+
+            activeStep: 0
         };
     }
 
@@ -367,235 +369,238 @@ class ChinaWithdraw extends Component {
 
     render() {
         const { classes } = this.props;
-        const { amount, currency, balance, balanceCurrency, withdrawalBalance, lockedBalance, freeWithrawalsRemaining, fee, receiveAmount } = this.state;
+        const { activeStep, amount, currency, balance, balanceCurrency, withdrawalBalance, lockedBalance, freeWithrawalsRemaining, fee, receiveAmount } = this.state;
 
         return (
             <div className={classes.root}>
-                <Grid container spacing={2} className={classes.contentGrid} >
-                    <Grid item xs={12} className={classes.detailRow} style={{ borderBottom: '1px solid #e7e7e7' }}>
-                        银行名称在这里 2 - 0714
+                {activeStep == 0 && <BankAccounts />}
+                {activeStep == 1 &&
+                    <Grid container spacing={2} className={classes.contentGrid} >
+                        <Grid item xs={12} className={classes.detailRow} style={{ borderBottom: '1px solid #e7e7e7' }}>
+                            银行名称在这里 2 - 0714
                     </Grid>
-                    <Grid item xs={12} className={classes.balanceRow}>
-                        <span className={classes.text}>{this.getLabel('total-balance')}
-                            <Tooltip
-                                title={this.getLabel(
-                                    'total-withdrawal-tooltip'
-                                )}
-                                placement="bottom"
-                            >
-                                <img
-                                    src={
-                                        images.src +
-                                        'letou/info-icon.svg'
-                                    }
-                                    style={{ marginLeft: 5 }}
-                                    alt=""
-                                    height="14"
-                                />
-                            </Tooltip>
-                        </span>
-
-                        <div className={classes.balance}>
-                            <FormattedNumber
-                                maximumFractionDigits={2}
-                                value={balance}
-                                style={`currency`}
-                                currency={balanceCurrency}
-                            />
-                        </div>
-                    </Grid>
-                    <Grid item xs={7} className={classes.labelRow}>
-                        <span className={classes.label}>{this.getLabel('withdrawal-balance')}
-                            <Tooltip
-                                title={this.getLabel(
-                                    'withdrawal-tooltip'
-                                )}
-                                placement="bottom"
-                            >
-                                <img
-                                    src={
-                                        images.src +
-                                        'letou/info-icon.svg'
-                                    }
-                                    style={{ marginLeft: 5 }}
-                                    alt=""
-                                    height="14"
-                                />
-                            </Tooltip>
-                        </span>
-                    </Grid>
-                    <Grid item xs={5} className={classes.valueRow}>
-                        <div className={classes.value}>
-                            <FormattedNumber
-                                maximumFractionDigits={2}
-                                value={withdrawalBalance}
-                                style={`currency`}
-                                currency={balanceCurrency}
-                            />
-                        </div>
-                    </Grid>
-                    <Grid item xs={7} className={classes.labelRow}>
-                        <span className={classes.label}>{this.getLabel('locked-balance')}
-                            <Tooltip
-                                title={this.getLabel(
-                                    'locked-balance-tooltip'
-                                )}
-                                placement="bottom"
-                            >
-                                <img
-                                    src={
-                                        images.src +
-                                        'letou/info-icon.svg'
-                                    }
-                                    style={{ marginLeft: 5 }}
-                                    alt=""
-                                    height="14"
-                                />
-                            </Tooltip>
-                        </span>
-                    </Grid>
-                    <Grid item xs={5} className={classes.valueRow}>
-                        <div className={classes.value}>
-                            <FormattedNumber
-                                maximumFractionDigits={2}
-                                value={lockedBalance}
-                                style={`currency`}
-                                currency={balanceCurrency}
-                            />
-                        </div>
-                    </Grid>
-                    <Grid item xs={7} className={classes.labelRow} style={{ borderBottom: '1px solid #e7e7e7', marginBottom: 20 }}>
-                        <span className={classes.label}>{this.getLabel('free-withdrawals')}
-                        <Tooltip
-                                title={this.getLabel(
-                                    'free-withdrawal-tooltip'
-                                )}
-                                placement="bottom"
-                            >
-                                <img
-                                src={
-                                    images.src +
-                                    'letou/info-icon.svg'
-                                }
-                                style={{ marginLeft: 5 }}
-                                alt=""
-                                height="14"
-                            />
-                            </Tooltip>
+                        <Grid item xs={12} className={classes.balanceRow}>
+                            <span className={classes.text}>{this.getLabel('total-balance')}
+                                <Tooltip
+                                    title={this.getLabel(
+                                        'total-withdrawal-tooltip'
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <img
+                                        src={
+                                            images.src +
+                                            'letou/info-icon.svg'
+                                        }
+                                        style={{ marginLeft: 5 }}
+                                        alt=""
+                                        height="14"
+                                    />
+                                </Tooltip>
                             </span>
-                    </Grid>
-                    <Grid item xs={5} className={classes.valueRow} style={{ borderBottom: '1px solid #e7e7e7', marginBottom: 20 }}>
-                        <span className={classes.value}>{freeWithrawalsRemaining}</span>
-                    </Grid>
 
-                    {amounts.map((x, i) => {
-                        return (
-                            <Grid item xs={3} key={i}>
-                                <Button
-                                    className={clsx({
-                                        [classes.button]: true,
-                                        [classes.selected]: (x === amount)
-                                    })}
+                            <div className={classes.balance}>
+                                <FormattedNumber
+                                    maximumFractionDigits={2}
+                                    value={balance}
+                                    style={`currency`}
+                                    currency={balanceCurrency}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={7} className={classes.labelRow}>
+                            <span className={classes.label}>{this.getLabel('withdrawal-balance')}
+                                <Tooltip
+                                    title={this.getLabel(
+                                        'withdrawal-tooltip'
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <img
+                                        src={
+                                            images.src +
+                                            'letou/info-icon.svg'
+                                        }
+                                        style={{ marginLeft: 5 }}
+                                        alt=""
+                                        height="14"
+                                    />
+                                </Tooltip>
+                            </span>
+                        </Grid>
+                        <Grid item xs={5} className={classes.valueRow}>
+                            <div className={classes.value}>
+                                <FormattedNumber
+                                    maximumFractionDigits={2}
+                                    value={withdrawalBalance}
+                                    style={`currency`}
+                                    currency={balanceCurrency}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={7} className={classes.labelRow}>
+                            <span className={classes.label}>{this.getLabel('locked-balance')}
+                                <Tooltip
+                                    title={this.getLabel(
+                                        'locked-balance-tooltip'
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <img
+                                        src={
+                                            images.src +
+                                            'letou/info-icon.svg'
+                                        }
+                                        style={{ marginLeft: 5 }}
+                                        alt=""
+                                        height="14"
+                                    />
+                                </Tooltip>
+                            </span>
+                        </Grid>
+                        <Grid item xs={5} className={classes.valueRow}>
+                            <div className={classes.value}>
+                                <FormattedNumber
+                                    maximumFractionDigits={2}
+                                    value={lockedBalance}
+                                    style={`currency`}
+                                    currency={balanceCurrency}
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={7} className={classes.labelRow} style={{ borderBottom: '1px solid #e7e7e7', marginBottom: 20 }}>
+                            <span className={classes.label}>{this.getLabel('free-withdrawals')}
+                                <Tooltip
+                                    title={this.getLabel(
+                                        'free-withdrawal-tooltip'
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <img
+                                        src={
+                                            images.src +
+                                            'letou/info-icon.svg'
+                                        }
+                                        style={{ marginLeft: 5 }}
+                                        alt=""
+                                        height="14"
+                                    />
+                                </Tooltip>
+                            </span>
+                        </Grid>
+                        <Grid item xs={5} className={classes.valueRow} style={{ borderBottom: '1px solid #e7e7e7', marginBottom: 20 }}>
+                            <span className={classes.value}>{freeWithrawalsRemaining}</span>
+                        </Grid>
 
-                                    onClick={() =>
-                                        this.setState({
-                                            amount: x,
-                                            amountInvalid: false,
-                                            amountFocused: false
-                                        })}>
-                                    {x}
-                                </Button>
-                            </Grid>
-                        );
-                    })}
-                    <Grid item xs={12} className={classes.detailRow} style={{ marginBottom: 20 }}>
-                        <span className={classes.desc}>{this.getLabel('withdrawal-amount-allowed')}</span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.detailRow}>
-                        <TextField
-                            className={classes.amountText}
-                            placeholder={this.getLabel('china-withdrawal-placeholder')}
-                            onChange={this.amountChanged.bind(this)}
-                            value={amount}
-                            error={
-                                this.state.amountInvalid &&
-                                this.state.amountFocused
-                            }
-                            helperText={
-                                this.state.amountInvalid &&
+                        {amounts.map((x, i) => {
+                            return (
+                                <Grid item xs={3} key={i}>
+                                    <Button
+                                        className={clsx({
+                                            [classes.button]: true,
+                                            [classes.selected]: (x === amount)
+                                        })}
+
+                                        onClick={() =>
+                                            this.setState({
+                                                amount: x,
+                                                amountInvalid: false,
+                                                amountFocused: false
+                                            })}>
+                                        {x}
+                                    </Button>
+                                </Grid>
+                            );
+                        })}
+                        <Grid item xs={12} className={classes.detailRow} style={{ marginBottom: 20 }}>
+                            <span className={classes.desc}>{this.getLabel('withdrawal-amount-allowed')}</span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.detailRow}>
+                            <TextField
+                                className={classes.amountText}
+                                placeholder={this.getLabel('china-withdrawal-placeholder')}
+                                onChange={this.amountChanged.bind(this)}
+                                value={amount}
+                                error={
+                                    this.state.amountInvalid &&
                                     this.state.amountFocused
-                                    ? this.getLabel('valid-amount')
-                                    : ' '
-                            }
-                            InputProps={{
-                                disableUnderline: true,
-                                inputComponent: NumberFormatCustom,
-                                inputProps: {
-                                    step: 1,
-                                    min: 100,
-                                    style: { textAlign: 'right' },
-                                    currency: currency
-                                },
-                                startAdornment: (
-                                    <InputAdornment position="start" >
-                                        <span className={classes.inputLabel}>{this.getLabel('amount-label')}</span>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} className={classes.detailRow}>
-                        <TextField
-                            className={classes.feeText}
-                            //onChange={this.amountChanged.bind(this)}
-                            value={fee}
+                                }
+                                helperText={
+                                    this.state.amountInvalid &&
+                                        this.state.amountFocused
+                                        ? this.getLabel('valid-amount')
+                                        : ' '
+                                }
+                                InputProps={{
+                                    disableUnderline: true,
+                                    inputComponent: NumberFormatCustom,
+                                    inputProps: {
+                                        step: 1,
+                                        min: 100,
+                                        style: { textAlign: 'right' },
+                                        currency: currency
+                                    },
+                                    startAdornment: (
+                                        <InputAdornment position="start" >
+                                            <span className={classes.inputLabel}>{this.getLabel('amount-label')}</span>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} className={classes.detailRow}>
+                            <TextField
+                                className={classes.feeText}
+                                //onChange={this.amountChanged.bind(this)}
+                                value={fee}
 
-                            InputProps={{
-                                disableUnderline: true,
-                                inputComponent: NumberFormatCustom,
-                                inputProps: {
-                                    style: { textAlign: 'right' },
-                                },
-                                startAdornment: (
-                                    <InputAdornment position="start" >
-                                        <span className={classes.inputLabel}>{this.getLabel('fees-label')}</span>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                        <TextField
-                            className={classes.receiveText}
-                            //onChange={this.amountChanged.bind(this)}
-                            value={receiveAmount}
+                                InputProps={{
+                                    disableUnderline: true,
+                                    inputComponent: NumberFormatCustom,
+                                    inputProps: {
+                                        style: { textAlign: 'right' },
+                                    },
+                                    startAdornment: (
+                                        <InputAdornment position="start" >
+                                            <span className={classes.inputLabel}>{this.getLabel('fees-label')}</span>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            <TextField
+                                className={classes.receiveText}
+                                //onChange={this.amountChanged.bind(this)}
+                                value={receiveAmount}
 
-                            InputProps={{
-                                disableUnderline: true,
-                                inputComponent: NumberFormatCustom,
-                                inputProps: {
-                                    style: { textAlign: 'right' },
-                                },
-                                startAdornment: (
-                                    <InputAdornment position="start" >
-                                        <span className={classes.inputLabel}>{this.getLabel('receive-amount')}</span>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
+                                InputProps={{
+                                    disableUnderline: true,
+                                    inputComponent: NumberFormatCustom,
+                                    inputProps: {
+                                        style: { textAlign: 'right' },
+                                    },
+                                    startAdornment: (
+                                        <InputAdornment position="start" >
+                                            <span className={classes.inputLabel}>{this.getLabel('receive-amount')}</span>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} className={classes.detailRow} style={{ marginBottom: 40 }}>
+                            <span className={classes.desc}>{this.getLabel('china-withdrawal-message')}</span>
+                        </Grid>
+                        <Grid item xs={6} className={classes.buttonCell}>
+                            <Button className={classes.actionButton}
+                                onClick={this.handleClick}
+                            >{this.getLabel('cancel-label')}</Button>
+                        </Grid>
+                        <Grid item xs={6} className={classes.buttonCell}>
+                            <Button className={classes.actionButton}
+                                onClick={this.backClicked}
+                            >{this.getLabel('confirm-label')}</Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} className={classes.detailRow} style={{ marginBottom: 40 }}>
-                        <span className={classes.desc}>{this.getLabel('china-withdrawal-message')}</span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
-                        <Button className={classes.actionButton}
-                            onClick={this.handleClick}
-                        >{this.getLabel('cancel-label')}</Button>
-                    </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
-                        <Button className={classes.actionButton}
-                            onClick={this.backClicked}
-                        >{this.getLabel('confirm-label')}</Button>
-                    </Grid>
-                </Grid>
+                }
             </div>
         )
     }

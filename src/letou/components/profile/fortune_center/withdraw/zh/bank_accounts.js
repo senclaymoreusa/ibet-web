@@ -622,11 +622,6 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState }
-            )(BankAccounts)
-        )
+        injectIntl(connect(mapStateToProps, { authCheckState })(BankAccounts))
     )
 );

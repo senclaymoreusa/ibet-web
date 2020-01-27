@@ -219,7 +219,7 @@ export class WithdrawMain extends Component {
 
     componentDidMount() {
         const { user, operationProp } = this.props;
-        console.log('operationProp: ' + operationProp);
+
         if (!operationProp) {
             switch (user.country.toLowerCase()) {
                 case 'thailand':
@@ -230,6 +230,11 @@ export class WithdrawMain extends Component {
                 case 'vietnam':
                     this.props.history.push(
                         '/p/fortune-center/withdraw/vnlocalbank'
+                    );
+                    break;
+                case 'china':
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/zhlocalbank'
                     );
                     break;
             }
@@ -370,6 +375,8 @@ export class WithdrawMain extends Component {
             return <VietnamLocalBank callbackFromParent={this.setPage} />;
         else if (operationProp === 'moneypay')
             return <MoneyPay callbackFromParent={this.setPage} />;
+        else if (operationProp === 'zhlocalbank')
+            return <ChinaWithdraw callbackFromParent={this.setPage} />;
     }
 
     render() {
@@ -417,8 +424,8 @@ export class WithdrawMain extends Component {
                 {user && user.hasWithdrawPassword ? (
                     this.getPaymentMethodContent()
                 ) : (
-                    <SetWithdrawalPassword />
-                )}
+                        <SetWithdrawalPassword />
+                    )}
             </div>
         );
     }
