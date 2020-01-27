@@ -385,7 +385,7 @@ export const messages = {
         'back-games-lobby': 'Back to Games Lobby',
         'deposit-failed-text':
             'Please check your details and try again or click cancel to return to deposit.',
-        'withdrawal-failed': 'withdraw failed',
+        'withdrawal-failed': 'Withdraw failed!',
         'withdrawal-failed-text':
             'Please check your details and try again or click cancel to return to withdraw.',
         'try-again': 'Try Again',

@@ -560,14 +560,22 @@ class Help2Pay extends Component {
             postData,
             config
         );
-        console.log(res);
 
         if (res.status == 200) {
+            console.log(res);
+            console.log('res.data');
+            console.log(res.data);
+            if (res.data.status_code && res.data.status_code == 101) {
+                let errMsg = res.data.message;
+                currentComponent.props.callbackFromParent('error', errMsg);
+                return;
+            }
             if (res.data.indexOf('000') !== -1) {
                 currentComponent.props.callbackFromParent(
                     'success',
                     postData.amount
                 );
+                return;
             } else {
                 let d = res.data;
                 var errMsg = d.slice(
@@ -575,7 +583,14 @@ class Help2Pay extends Component {
                     d.indexOf('</message>')
                 );
                 currentComponent.props.callbackFromParent('error', errMsg);
+                return;
             }
+        } else {
+            currentComponent.props.callbackFromParent(
+                'error',
+                'Something went wrong, please try again later'
+            );
+            return;
         }
     }
 
