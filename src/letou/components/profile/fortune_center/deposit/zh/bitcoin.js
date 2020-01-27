@@ -16,7 +16,7 @@ import NumberFormat from 'react-number-format';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -246,23 +246,37 @@ class BitcoinDeposit extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'bitcoin' });
+                    });
+            }
+        })
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'bitcoin' });
+                    });
+            }
+        })
     }
 
     amountChanged = e => {
@@ -392,8 +406,18 @@ class BitcoinDeposit extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavorite() {
-        this.setState({ isFavorite: !this.state.isFavorite })
+    setAsFavorite(event) {
+        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
+            user_id: this.state.data.pk,
+            payment: event.target.checked ? 'bitcoin' : null,
+        })
+            .then(res => {
+                this.setState({ isFavorite: !this.state.isFavorite });
+                this.props.checkFavoriteMethod();
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     render() {
@@ -460,7 +484,7 @@ class BitcoinDeposit extends Component {
                     <Grid item xs={12}>
                         <FormControlLabel className={classes.checkbox}
                             control={
-                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite() }} />
+                                <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite(event) }} />
                             }
                             label={this.getLabel('add-favourite-deposit')}
                         />

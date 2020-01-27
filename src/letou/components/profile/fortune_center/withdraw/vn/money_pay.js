@@ -402,7 +402,7 @@ class MoneyPay extends Component {
             error: false,
             data: '',
             selectedBankOption: 'none',
-            order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
+            order_id: '',//"letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
 
             amountFocused: false,
             amountInvalid: true,
@@ -414,7 +414,7 @@ class MoneyPay extends Component {
             isFavorite: false,
         };
     }
-
+    /*
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -432,23 +432,25 @@ class MoneyPay extends Component {
                 this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
     }
-
+    */
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            }else{
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ currencyCode: res.data.currency });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
+                    });
             }
         })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
-            });
+      
     }
 
     amountChanged(event) {
@@ -461,7 +463,7 @@ class MoneyPay extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300 || parseFloat(event.target.value) > 300000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 200 || parseFloat(event.target.value) > 50000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -551,7 +553,7 @@ class MoneyPay extends Component {
                                     if (res.data === 'Failed') {
                                         currentComponent.props.callbackFromParent("error", "Transaction failed.");
                                     } else if (res.data === 'The balance is not enough') {
-                                        currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                        currentComponent.props.callbackFromParent("error", "Cannot withdraw this amount.");
                                     } else {
                                         currentComponent.props.callbackFromParent("success", "Transaction completed.");
                                     }
@@ -564,8 +566,8 @@ class MoneyPay extends Component {
             }, 1000);
 
         }).catch(function (err) {
-            console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
+            //console.log('Request failed', err);
+            currentComponent.props.callbackFromParent("error", 'Something is wrong');
             sendingLog(err);
         });
     }
@@ -574,21 +576,6 @@ class MoneyPay extends Component {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
     }
-
-    setAsFavorite(event) {
-        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
-            payment: event.target.checked ? 'vietnamhelp2pay' : null,
-        })
-            .then(res => {
-                this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
-    }
-
 
     bankAccountNumberChanged(event) {
         this.setState({ bankAccountNumberFocused: true });
@@ -608,6 +595,8 @@ class MoneyPay extends Component {
         var path = parts.slice(1, 4).join('/');
         url = url + path;
         this.props.history.push(url);
+        let currentComponent = this;
+        currentComponent.props.callbackFromParent("");
     }
 
     withdrawPasswordChanged(event) {
@@ -665,7 +654,7 @@ class MoneyPay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder="₫300 - 300,000"
+                            placeholder="₫200 - 50,000"
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -700,7 +689,8 @@ class MoneyPay extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField className={classes.detailText}
-                            value={this.state.withdrawalPassword}
+                             placeholder={this.getLabel('withdrawal-password')}
+                             value={this.state.withdrawalPassword}
                             onChange={this.withdrawPasswordChanged.bind(this)}
                             type={this.state.showWithdrawPassword ? '' : 'password'}
                             // error={this.state.withdrawPasswordInvalid}
@@ -723,17 +713,17 @@ class MoneyPay extends Component {
                                 ),
                             }} />
                     </Grid>
-                    <Grid item xs={12} style={{ paddingTop: 0, marginBottom:30 }}>
+                    {/* <Grid item xs={12} style={{ paddingTop: 0, marginBottom: 30 }}>
                         <Button className={classes.forgot}>
                             {this.getLabel('forgot-password')}
                         </Button>
-                    </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
+                    </Grid> */}
+                    <Grid item xs={6} className={classes.buttonCell} style={{ marginTop: 30 }}>
                         <Button variant="contained" className={classes.cancelButton}
                             onClick={this.cancelClicked.bind(this)}
                         >{this.getLabel('cancel-label')}</Button>
                     </Grid>
-                    <Grid item xs={6} className={classes.buttonCell}>
+                    <Grid item xs={6} className={classes.buttonCell} style={{ marginTop: 30 }}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick.bind(this)}
                             disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}

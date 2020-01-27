@@ -4,11 +4,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
+
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -56,10 +55,10 @@ export class GameRuleFive extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -69,12 +68,12 @@ export class GameRuleFive extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/for_member">供会员使用  >
+                                <a href="/zh/for_member">供会员使用  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/for_member">小游戏规则 >
+                                <a href="/zh/for_member">小游戏规则 >
                                     <i></i>
                                 </a>
                             </li>
@@ -145,7 +144,7 @@ export class GameRuleFive extends React.Component {
                             <br /> ► “ 终尾赌注 ” 允许您在该数字，及以该数字结束的任何数字上放置赌注。例如，点击1按钮将在1，11，21和31上放置赌注。
                             <br /> ► “ 补全 ” 和 “ 半补全 ” 选项允许您放置包含同一数字的所有赌注。如果选中了以上两个选项的任意一个，在您放置单数赌注时，以下的内注被放置在该特定数字上。
                             <br />
-                            <img src="http://i.imgur.com/Nf8aAQo.png" />
+                            <img src="http://i.imgur.com/Nf8aAQo.png" alt=""/>
                             <br />
                             <br /> - 例如，如果您在数字20上放置了一个单数赌注筹码，并选中了补全选项，那么两个筹码放置在双数17-20，19-20，20-21和20-23；三个筹码放置在三数19-20-21；四个筹码放置在四数16-17-19-20，17-18-20-21，19-20-22-23和20-21-23-24；6个筹码放置在线16-17-18-19-20-21和19-20-21-22-23-24。</p>
                     </div>

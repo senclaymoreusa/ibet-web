@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -72,10 +70,10 @@ export class BaijialeVn extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -85,12 +83,12 @@ export class BaijialeVn extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/vn/for_member">Dành cho Thành viên  >
+                                <a href="/vi/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/vn/for_member">Nguyên tắc Casino >
+                                <a href="/vi/for_member">Nguyên tắc Casino >
                                     <i></i>
                                 </a>
                             </li>
@@ -98,47 +96,47 @@ export class BaijialeVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>Super 6 Baccarat</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                                <a href="/">Super 6 Baccarat</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>Baccarat truyền thống</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>Super Baccarat</a>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                                <a href="/">Super Baccarat</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>Baccarat Cặp</a>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                                <a href="/">Baccarat Cặp</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>Baccarat 14 người chơi</a>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                                <a href="/">Baccarat 14 người chơi</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>Classic Baccarat</a>
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
+                                <a href="/">Classic Baccarat</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>VIP Baccarat</a>
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
+                                <a href="/">VIP Baccarat</a>
                             </li>
-                            <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>Bid Baccarat</a>
+                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
+                                <a href="/">Bid Baccarat</a>
                             </li>
-                            <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>Baccarat nhiều bàn chơi</a>
+                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
+                                <a href="/">Baccarat nhiều bàn chơi</a>
                             </li>
-                            <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>Dragon Bonus Baccarat</a>
+                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
+                                <a href="/">Dragon Bonus Baccarat</a>
                             </li>
-                            <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>Playboy Baccarat</a>
+                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
+                                <a href="/">Playboy Baccarat</a>
                             </li>
-                            <li className={this.state.current == 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>Points Baccarat</a>
+                            <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
+                                <a href="/">Points Baccarat</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>Super 6 Baccarat</h2>
                             &nbsp;
                             <p> Bắt nguồn từ Ý vào những năm 1500 và được phổ biến tại các nước còn lại tại Châu Âu từ thế kỷ 19, Baccarat được coi là trò
@@ -164,7 +162,7 @@ export class BaijialeVn extends React.Component {
                                 <br /> ♦ Đặt cược vào các loại cược sẽ có nhiều cơ hội thắng hơn.”CƯỢC CÀNG NHIỀU,THẮNG CÀNG NHIỀU”
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}> 
+                        <div className="centerDetail" hidden={this.state.current !== 2}> 
                         <h2> Baccarat Truyền Thống</h2>
                             <p>Sử dụng 8 bộ bài 52 lá trong trò chơi này:
                                 <br />
@@ -207,7 +205,7 @@ export class BaijialeVn extends React.Component {
                                 <br /> ♦"Big" Nghĩa là khi kết thúc ván bài có tổng số 5 hoặc 6 lá
                                 <br /> ♦ "Small" Nghĩa là khi kết thúc ván bài có tổng số 4 lá.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <h2>Super Baccarat</h2>
                             &nbsp;
                             <p>Không có nhiều khác biệt giữa Baccarat truyền thống và Super Baccarat. Điểm khác biệt duy nhất trong Super Baccarat là có
@@ -215,7 +213,7 @@ export class BaijialeVn extends React.Component {
                                 <br />
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <h2> Baccarat Cặp </h2>
                             &nbsp;
                             <p> “Baccarat Cặp” là một cược bên của Punto Banco, cược này sẽ thắng nếu hai lá bài đầu tiên được chia cho Player hoặc Banker
@@ -228,7 +226,7 @@ export class BaijialeVn extends React.Component {
                                 <br /> 8 Bộ bài – Thanh toán 11 : 1 – Xác suất của cặp là 7.47% -- Tỉ lệ hoa hồng 10.36%
                                 <br /> 6 Bộ bài -- Thanh toán 11 : 1 -- Xác suất của cặp là 7.40% -- Tỉ lệ hoa hồng 11.25% </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                         <h2>Baccarat 14 người chơi</h2>
                             <p>Baccarat 14 người chơi có cùng luật chơi với Baccarat nhưng lại thú
                                 vị hơn và khiến người chơi có thể cảm thấy như họ đang thật sự chơi ở casino thực tế để có thể tận hưởng niềm vui nhiều
@@ -239,7 +237,7 @@ export class BaijialeVn extends React.Component {
                             <p>♦ Một bàn chơi lên tới 14 người có thể cược
                                 và tương tác trực tuyến cùng một lúc.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                         <h2> Classic Baccarat </h2>
                             &nbsp;
                             <p> Baccarat Cổ điển là trò đánh bài được chơi đấu lại nhà cái. Mục đích của trò chơi là dự đoán kết quả của những lá bài được
@@ -259,7 +257,7 @@ export class BaijialeVn extends React.Component {
                                 2. Nếu player có tổng điểm là 5 hoặc nhỏ hơn thì player sẽ rút tiếp, nếu không player sẽ dừng lại. 3. Nếu player dừng
                                 lại, banker sẽ rút tiếp trên tổng điểm là 5 hoặc nhỏ hơn.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                         <h2> VIP Baccarat </h2>
                             &nbsp;
                             <p> VIP Baccarat cơ bản là phiên bản với tiền cược cao hơn của trò chơi gốc, nơi mà người chơi có thể đặt những cược lớn nhất
@@ -279,7 +277,7 @@ export class BaijialeVn extends React.Component {
                                 gì.
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 8}>
+                        <div className="centerDetail" hidden={this.state.current !== 8}>
                         <h2> Bid Baccarat </h2>
                             &nbsp;
                             <p> Bid Baccarat là một trong những trò chơi cổ nhất và phổ biến nhất trong các casino trên khắp thế giới. Hơn nữa, tính năng
@@ -288,7 +286,7 @@ export class BaijialeVn extends React.Component {
                                 tế từ sàn casino đến thiết bị của người chơi.
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 9}>
+                        <div className="centerDetail" hidden={this.state.current !== 9}>
                         <h2>Multi-game Baccarat</h2>
                             <p>Trong trò chơi baccarat trực tuyến điển hình trong một casino, một người chơi có thể chuyển qua bàn chơi khác. Người chơi
                                 có thể làm vậy khi đang chơi Oriental Game nhưng để giữ người chơi khỏi việc nhảy qua bàn chơi khác, chúng tối có tính
@@ -299,7 +297,7 @@ export class BaijialeVn extends React.Component {
                                 <br />
                                 <br /> - Baccarat nhiều bàn chơi: AG, OPUS</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 10}>
+                        <div className="centerDetail" hidden={this.state.current !== 10}>
                         <h2>Dragon Bonus Baccarat</h2>
                             <p>Dragon Bonus là một lựa chọn cược bên được cung cấp trong bàn Baccarat định sẵn. Một cược Dragon Bonus thắng nếu Player hoặc
                                 Banker có điểm tổng tự nhiên cao hơn bên còn lại, hoặc nếu điểm tổng của bên thắng vượt qua bên còn lại 4 điểm hoặc hơn
@@ -319,7 +317,7 @@ export class BaijialeVn extends React.Component {
                                 và cược sẽ được trả về).
                                 <br /> 4. Trong trường hợp thanh toán sai, cược sẽ được thanh toán lại dựa trên kết quả của video.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 11}>
+                        <div className="centerDetail" hidden={this.state.current !== 11}>
                         <h2>Playboy Baccarat</h2>
                             <p>Nếu bạn đang tìm kiếm sự hồi hộp cuối cùng trong khi chơi trò chơi bài phổ biến nhất ở châu Á, bạn phải thử tay tại Playboy
                                 Live Baccarat. Trò chơi được chơi ở các bảng độc quyền trên sòng casino ở Toronto, nơi các chú thỏ Playboy chính hiệu
@@ -337,7 +335,7 @@ export class BaijialeVn extends React.Component {
                                 <br /> - Lịch sử đặt tay và Bản đồ đường chuẩn được hiển thị bên trái và bên phải của người tổ chức trò chơi, ở phần trên của
                                 màn hình trò chơi. Trong khi đó, tất cả các tùy chọn trò chơi quan trọng có thể được tìm thấy dưới thẻ Menu.</p>
                         </div>
-                        <div className="centerDetai" hidden={this.state.current != 12}>
+                        <div className="centerDetai" hidden={this.state.current !== 12}>
                         <h2> Points Baccarat </h2>
                             &nbsp;
                             <p> Points Baccarat là một dạng khác của “Baccarat không hoa hồng” – Super 6

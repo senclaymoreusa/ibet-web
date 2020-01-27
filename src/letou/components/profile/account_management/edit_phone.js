@@ -11,7 +11,6 @@ import StepLabel from '@material-ui/core/StepLabel';
 import { config } from '../../../../util_config';
 import axios from 'axios'
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -158,15 +157,6 @@ const variantIcon = {
     info: InfoIcon,
 };
 
-const CustomCheckbox = withStyles({
-    root: {
-        color: '#4DA9DF',
-        '&$checked': {
-            color: '#4DA9DF',
-        },
-    },
-    checked: {},
-})(props => <Checkbox color="default" {...props} />);
 
 const customStepStyles = makeStyles({
     root: {
@@ -301,7 +291,7 @@ export class EditPhone extends Component {
 
     getStepContent() {
         const { classes } = this.props;
-        const { activeStep, phone, newPhone, remainingTime, verificationCode, verificationCodeSent } = this.state;
+        const { activeStep, phone, newPhone, remainingTime, verificationCode } = this.state;
 
         switch (activeStep) {
             case 0:
@@ -352,16 +342,6 @@ export class EditPhone extends Component {
                             disabled={verificationCode.length === 0 || remainingTime === 0}
                             onClick={this.verifyVerificationCode}
                             className={classes.button}>{this.getLabel('next-step')}</Button>
-                    </Grid>
-                    <Grid item xs={2} className={classes.row}>
-                    </Grid>
-                    <Grid item xs={10} className={classes.row}>
-                        <FormControlLabel
-                            control={
-                                <CustomCheckbox checked={verificationCodeSent} readOnly={true} value="checkedA" />
-                            }
-                            label={this.getLabel('verification-code-sent')}
-                        />
                     </Grid>
                 </Grid>);
             case 1:
@@ -430,19 +410,22 @@ export class EditPhone extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
+                } else {
+                    
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            this.setState({ phone: res.data.phone });
+                            this.setState({ username: res.data.username });
+                        }).catch(function (err) {
+                            sendingLog(err);
+                        });
                 }
             })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ phone: res.data.phone });
-                this.setState({ username: res.data.username });
-            }).catch(function (err) {
-                sendingLog(err);
-            });
+        
     }
 
     setNewPhoneNumber() {
@@ -540,8 +523,10 @@ export class EditPhone extends Component {
                             </Step>
                         </Stepper>
                     </Grid>
+                    <Grid item xs={12}>
+                    {this.getStepContent()}
+                    </Grid>
                 </Grid>
-                {this.getStepContent()}
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',

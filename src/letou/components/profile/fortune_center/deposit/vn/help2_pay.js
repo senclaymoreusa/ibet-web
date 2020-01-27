@@ -20,12 +20,12 @@ import { withRouter } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map'
 
 const bank_options = [
-    { value: 'TCB', label: 'Techcom Bank', img: 'letou/techcombank.png', code: 'VND' },
     { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
     { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
     { value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
     { value: 'EXIM', label: 'Eximbank Vietnam', img: 'letou/eximbank.png', code: 'VND' },
     { value: 'SACOM', label: 'Sacom Bank', img: 'letou/sacombank.png', code: 'VND' },
+    { value: 'TCB', label: 'Techcom Bank', img: 'letou/techcombank.png', code: 'VND' },
     { value: 'VCB', label: 'Vietcom Bank', img: 'letou/vietcombank.png', code: 'VND' },
     { value: 'VTB', label: 'Vietin Bank', img: 'letou/vietinbank.png', code: 'VND' },
 ];
@@ -381,36 +381,37 @@ class VietnamHelp2pay extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
-            }
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ currencyCode: res.data.currency });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
+                    });
+                }
         })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
-            });
+        
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ currencyCode: res.data.currency });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
+                    });
             }
         })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
-            });
     }
 
     amountChanged(event) {
@@ -423,7 +424,7 @@ class VietnamHelp2pay extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300 || parseFloat(event.target.value) > 300000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300000 || parseFloat(event.target.value) > 300000000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -441,7 +442,7 @@ class VietnamHelp2pay extends Component {
         var postData = {
             "amount": this.state.amount,
             "user_id": this.state.data.pk,
-            "currency": '7',
+            "currency": 8,
             "bank": this.state.selectedBankOption,
             "language": "en-Us",
             "order_id": this.state.order_id,
@@ -466,6 +467,7 @@ class VietnamHelp2pay extends Component {
             body: formBody
         }).then(function (res) {
             if (res.ok) {
+                
                 return res.text();
             }
 
@@ -564,7 +566,7 @@ class VietnamHelp2pay extends Component {
         const { classes } = this.props;
         const { selectedBankOption, isFavorite, amount, currency } = this.state;
 
-        const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+       // const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
 
         return (
             <div className={classes.root}>
@@ -579,7 +581,7 @@ class VietnamHelp2pay extends Component {
                                 <span className={classes.selectLabel}>{this.getLabel('choose-bank')}</span>
                             </MenuItem>
                             {
-                                filteredOptions.map(bank => (
+                                bank_options.map(bank => (
                                     <MenuItem key={bank.label} value={bank.value} >
                                         <div style={{ width: 100 }}>
                                             <img src={images.src + bank.img} alt="" className={classes.bankIcon} />

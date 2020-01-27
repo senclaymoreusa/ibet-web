@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -98,45 +96,45 @@ export class LotteryRuleOneTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
-                                <a>Glossary</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
+                                <a href="/">Glossary</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
-                                <a>ฮ่องกง ล็อตโต้</a>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
+                                <a href="/">ฮ่องกง ล็อตโต้</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
-                                <a>ล็อตโต้สิงค์โปร</a>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
+                                <a href="/">ล็อตโต้สิงค์โปร</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
-                                <a>ล็อตโต้จีน</a>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
+                                <a href="/">ล็อตโต้จีน</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
-                                <a>ล็อตโต้นิวซีแลนด์</a>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
+                                <a href="/">ล็อตโต้นิวซีแลนด์</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
-                                <a>ล็อตโต้เยอรมัน</a>
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
+                                <a href="/">ล็อตโต้เยอรมัน</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
-                                <a>ล็อตโต้อังกฤษ</a>
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
+                                <a href="/">ล็อตโต้อังกฤษ</a>
                             </li>
-                            <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
-                                <a>ล็อตโต้สเปน</a>
+                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
+                                <a href="/">ล็อตโต้สเปน</a>
                             </li>
-                            <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
-                                <a>ล็อตโต้แอฟริกาใต้</a>
+                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
+                                <a href="/">ล็อตโต้แอฟริกาใต้</a>
                             </li>
-                            <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
-                                <a>ล็อตโต้แคนนาดา</a>
+                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
+                                <a href="/">ล็อตโต้แคนนาดา</a>
                             </li>
-                            <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
-                                <a>อเมริกัน ล็อตโต้</a>
+                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
+                                <a href="/">อเมริกัน ล็อตโต้</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     {/* <!-- please only edit HelperCenterDetail's contain --> */}
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1} >
+                        <div className="centerDetail" hidden={this.state.current !== 1} >
                             <h2>Glossary</h2>
                             <h1>【หมายเลขพิเศษ】</h1>
                             <p>
@@ -196,7 +194,7 @@ export class LotteryRuleOneTh extends React.Component {
                                 "Special Number" ตัวอย่าง: ผู้เล่นเลือกหมายเลข 1 เป็นหมายเลขพิเศษและเลือก 2, 3 และ 4 เป็นตัวเลขสุ่ม การรวมกันนี้สามารถทำได้เฉพาะ
                                 [1,2], [1,3] และ [1,4] ถ้าการเดิมพันของผู้เล่นแทงเข้า 2 ฮิต</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>ฮ่องกง ล็อตโต้</h2>
                             &nbsp;
                             <h1>【หมายเลขพิเศษ】</h1>
@@ -312,7 +310,7 @@ export class LotteryRuleOneTh extends React.Component {
                                     6 ช่วง จาก 28 แต้มไปจนถึง 322 แต้ม </p>
                                     </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <h2>ล็อตโต้สิงค์โปร</h2>
                             &nbsp;
                             <h1>【หมายเลขพิเศษ】</h1>
@@ -389,7 +387,7 @@ export class LotteryRuleOneTh extends React.Component {
                             <p>ผู้เล่นจะทายผลของผลบอลแบบเจาะจง หรือ ผลบอลปกติที่จะปรากฎอยู่ในตำแหน่งต่าง ๆ ให้ตรงกับผลของช่วงที่หมายเลขที่ออกสลาก โดยผลรวมจะถูกแบ่งออกเป็น
                                 6 ช่วง จาก 28 แต้มไปจนถึง 322 แต้ม</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <h2>ล็อตโต้จีน</h2>
                             &nbsp;
                             <h1>【หมายเลขพิเศษ】</h1>
@@ -410,7 +408,7 @@ export class LotteryRuleOneTh extends React.Component {
                                 <br /> - หมายเลขหลักหน่วยใหญ่/เล็ก ถ้าตัวเลขหลักหน่วยมีค่าเท่ากับหรือมากกว่า 5 ผลจะเป็น "หลักหน่วยใหญ่"; ถ้าตัวเลขหลักหน่วยเท่ากับหรือน้อยกว่า
                                 4 ก็จะเป็น "หลักหน่วยเล็ก" </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                         <h2>ล็อตโต้นิวซีแลนด์</h2>
                             &nbsp;
                             <h1>【หมายเลขพิเศษ】</h1>
@@ -429,14 +427,14 @@ export class LotteryRuleOneTh extends React.Component {
                                 <br /> - มายเลขหลักหน่วยใหญ่/เล็ก ถ้าตัวเลขหลักหน่วยมีค่าเท่ากับหรือมากกว่า 5 ผลจะเป็น "หลักหน่วยใหญ่"; ถ้าตัวเลขหลักหน่วยเท่ากับหรือน้อยกว่า
                                 4 ก็จะเป็น "หลักหน่วยเล็ก" </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                         <h2>ล็อตโต้เยอรมัน</h2>
                             <h1>【หมายเลขพิเศษ】</h1>
                             <p>ผู้เล่นจะชนะหากหมายเลขพิเศษที่ชนะอยู่ในปัจจุบันเหมือนกันกับหมายเลขที่ผู้เล่นเดิมพัน</p>
                             <h1>【Normal Number】</h1>
                             <p>ผู้เล่นจะชนะการเดิมพันก็ต่อเมื่อ ตำแหน่งและหมายเลขที่ทำการเดิมพัน ตรงกันกับลำดับและตำแหน่งของบอล 1 ถึง บอล 6</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                         <h2> ล็อตโต้อังกฤษ </h2>
                             &nbsp;
                             <h1>【หมายเลขพิเศษ】</h1>
@@ -512,7 +510,7 @@ export class LotteryRuleOneTh extends React.Component {
                             <p>ผู้เล่นจะทายผลของผลบอลแบบเจาะจง หรือ ผลบอลปกติที่จะปรากฎอยู่ในตำแหน่งต่าง ๆ ให้ตรงกับผลของช่วงที่หมายเลขที่ออกสลาก โดยผลรวมจะถูกแบ่งออกเป็น
                                 6 ช่วง จาก 28 แต้มไปจนถึง 322 แต้ม</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 8}>
+                        <div className="centerDetail" hidden={this.state.current !== 8}>
                         <h2>ล็อตโต้สเปน</h2>
                             <h1>【หมายเลขพิเศษ】</h1>
                             <p>ผู้เล่นจะชนะหากหมายเลขพิเศษที่ชนะอยู่ในปัจจุบันเหมือนกันกับหมายเลขที่ผู้เล่นเดิมพัน.</p>
@@ -561,7 +559,7 @@ export class LotteryRuleOneTh extends React.Component {
                             <p>ผู้เล่นจะทายผลของผลบอลแบบเจาะจง หรือ ผลบอลปกติที่จะปรากฎอยู่ในตำแหน่งต่าง ๆ ให้ตรงกับผลของช่วงที่หมายเลขที่ออกสลาก โดยผลรวมจะถูกแบ่งออกเป็น
                                 6 ช่วง จาก 28 แต้มไปจนถึง 322 แต้ม</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 9}>
+                        <div className="centerDetail" hidden={this.state.current !== 9}>
                         <h2>ล็อตโต้แอฟริกาใต้</h2>
                             &nbsp;
                             <h1>【หมายเลขพิเศษ】</h1>
@@ -638,7 +636,7 @@ export class LotteryRuleOneTh extends React.Component {
                             <p>ผู้เล่นจะทายผลของผลบอลแบบเจาะจง หรือ ผลบอลปกติที่จะปรากฎอยู่ในตำแหน่งต่าง ๆ ให้ตรงกับผลของช่วงที่หมายเลขที่ออกสลาก โดยผลรวมจะถูกแบ่งออกเป็น
                                 6 ช่วง จาก 28 แต้มไปจนถึง 322 แต้ม</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 10}>
+                        <div className="centerDetail" hidden={this.state.current !== 10}>
                         <h2>ล็อตโต้แคนนาดา</h2>
                             <h1>【หมายเลขพิเศษ】</h1>
                             <p>ผู้เล่นจะชนะหากหมายเลขพิเศษที่ชนะอยู่ในปัจจุบันเหมือนกันกับหมายเลขที่ผู้เล่นเดิมพัน.</p>
@@ -704,7 +702,7 @@ export class LotteryRuleOneTh extends React.Component {
                             <p>ผู้เล่นจะทายผลของผลบอลแบบเจาะจง หรือ ผลบอลปกติที่จะปรากฎอยู่ในตำแหน่งต่าง ๆ ให้ตรงกับผลของช่วงที่หมายเลขที่ออกสลาก โดยผลรวมจะถูกแบ่งออกเป็น
                                 6 ช่วง จาก 28 แต้มไปจนถึง 322 แต้ม</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 11}>
+                        <div className="centerDetail" hidden={this.state.current !== 11}>
                             <h2> อเมริกัน ล็อตโต้
                             </h2>
                             &nbsp;

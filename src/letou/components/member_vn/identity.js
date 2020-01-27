@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -52,10 +50,10 @@ export class IdentityVn extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -65,12 +63,12 @@ export class IdentityVn extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/vn/for_member">Dành cho Thành viên  >
+                                <a href="/vi/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/vn/for_member">Bảo mật duy trì tài khoản >
+                                <a href="/vi/for_member">Bảo mật duy trì tài khoản >
                                     <i></i>
                                 </a>
                             </li>
@@ -100,13 +98,13 @@ export class IdentityVn extends React.Component {
                         <p>&nbsp;</p>
                         <h2>Xóa bỏ hình ảnh xác nhận (sử dụng chứng minh nhân dân thứ hai)</h2>
                         <p>Rõ ràng (trước)：<br />
-                        <img src="http://i.imgur.com/3OJMHCO.jpg" /></p>
+                        <img src="http://i.imgur.com/3OJMHCO.jpg" alt="" /></p>
                         <p>Mờ (trước)：<br />
-                        <img src="http://i.imgur.com/GBZgmPI.jpg" /></p>
+                        <img src="http://i.imgur.com/GBZgmPI.jpg"alt="" /></p>
                         <p>Rõ ràng (sau):<br />
-                        <img src="http://i.imgur.com/m33bGbm.jpg" /></p>
+                        <img src="http://i.imgur.com/m33bGbm.jpg" alt=""/></p>
                         <p>Mờ (sau):<br />
-                        <img src="http://i.imgur.com/uuWYLSQ.jpg" /></p>
+                        <img src="http://i.imgur.com/uuWYLSQ.jpg"alt="" /></p>
                         
                     </div>
                 </Grid>

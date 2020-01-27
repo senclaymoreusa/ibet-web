@@ -6,17 +6,15 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import IconHeader from "../icon_header";
 
 
 import {
     show_letou_announcements
 } from '../../../actions';
-import { InfoSelect } from '../info_select';
 
 
-const styles = theme => ({
+const styles = () => ({
     logoHeader: {
         height: '20px',
         padding: '10px'

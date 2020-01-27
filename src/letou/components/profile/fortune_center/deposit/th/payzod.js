@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import clsx from 'clsx';
 import NumberFormat from 'react-number-format';
@@ -317,23 +317,37 @@ class Payzod extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
+                    });
+            }
+        })
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
+                    });
+            }
+        })
     }
 
     amountChanged(event) {
@@ -421,8 +435,18 @@ class Payzod extends Component {
         return formatMessage({ id: labelId });
     }
 
-    setAsFavorite() {
-        this.setState({ isFavorite: !this.state.isFavorite })
+    setAsFavourite(event) {
+        axios.post(API_URL + `users/api/favorite-payment-setting/`, {
+            user_id: this.state.data.pk,
+            payment: event.target.checked ? 'payzod' : null,
+        })
+            .then(res => {
+                this.setState({ isFavorite: !this.state.isFavorite });
+                this.props.checkFavoriteMethod();
+            })
+            .catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     cancelClicked() {
@@ -480,7 +504,7 @@ class Payzod extends Component {
                         <Grid item xs={12} style={{ marginBottom: 50 }}>
                             <FormControlLabel className={classes.checkbox}
                                 control={
-                                    <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavorite() }} />
+                                    <CustomCheckbox checked={isFavorite} value="checkedA" onClick={(event) => { this.setAsFavourite(event) }} />
                                 }
                                 label={this.getLabel('add-favourite-deposit')}
                             />

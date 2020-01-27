@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +15,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
     content: {
         display: 'flex',
         paddingRight: 400,
@@ -51,10 +50,10 @@ export class AboutUs extends React.Component {
                         <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -64,12 +63,12 @@ export class AboutUs extends React.Component {
                         <div className="HelpCenterList">
                             <ul>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('for-member')}  >
+                                    <a href="/zh/for_member">{this.getLabel('for-member')}  >
                                     <i></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/for_member">{this.getLabel('story')}  >
+                                    <a href="/zh/for_member">{this.getLabel('letou-story')}  >
                                     <i></i>
                                     </a>
                                 </li>

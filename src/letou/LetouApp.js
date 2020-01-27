@@ -5,23 +5,22 @@ import BaseRouter from './letou_routes';
 import { IntlProvider } from 'react-intl';
 import { messages } from './components/messages';
 import { getLanguage } from '../actions/language';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+
 
 import './css/global.css';
-
 
 class LetouApp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            lang: 'zh',
+            lang: 'zh'
         };
     }
 
     componentDidMount() {
-
         this.props.getLanguage();
-
     }
 
     render() {
@@ -29,12 +28,14 @@ class LetouApp extends Component {
 
         return (
             <IntlProvider locale={lang} messages={messages[lang]}>
+                <ErrorBoundary>
                 <div>
                     <Router>
                         <BaseRouter />
                     </Router>
                 </div>
-            </IntlProvider>
+                </ErrorBoundary>
+            </IntlProvider>     
         );
     }
 }
@@ -48,9 +49,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default
-    connect(
-        mapStateToProps,
-        { getLanguage }
-    )(LetouApp)
-    ;
+export default connect(mapStateToProps, { getLanguage })(LetouApp);

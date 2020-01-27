@@ -9,7 +9,7 @@ import { config } from '../../../../util_config';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import axios from 'axios'
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -342,7 +342,7 @@ export class SetWithdrawalPassword extends Component {
 
         let testedResult = zxcvbn(event.target.value);
 
-        this.setState({ newPasswordInvalid: (testedResult.score !== 4) })
+        this.setState({ newPasswordInvalid: !(testedResult.score == 3 || testedResult.score == 4) })
         this.setState({ confirmPasswordInvalid: (event.target.value !== this.state.confirmPassword) })
 
     }
@@ -398,17 +398,12 @@ export class SetWithdrawalPassword extends Component {
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
+                } else {
+                    this.setState({ activeStep: this.props.user.hasWithdrawPassword ? 1 : 0 })
                 }
             })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ userId: res.data.pk });
-                this.setState({ activeStep: res.data.withdraw_password ? 1 : 0 })
-            })
+        
     }
 
 
@@ -434,7 +429,7 @@ export class SetWithdrawalPassword extends Component {
                     <Grid container>
                         <Grid item xs={12} className={classes.row}>
                             <span className={classes.label}>
-                                {this.getLabel('type-strong-password')}
+                                {this.getLabel('type-withdraw-password')}
                             </span>
                         </Grid>
                         <Grid item xs={12}>
@@ -629,10 +624,13 @@ export class SetWithdrawalPassword extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+
+const mapStateToProps = state => {
+    const { token, user } = state.auth;
     return {
-        lang: state.language.lang
-    }
-}
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
+    };
+};
 
 export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(SetWithdrawalPassword))));

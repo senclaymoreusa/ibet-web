@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -16,7 +14,7 @@ import {
 } from '../../../actions';
 
 
-const styles = theme => ({
+const styles = () => ({
    
     content : {
         display: 'flex',
@@ -72,10 +70,10 @@ export class LotteryRuleTwoVn extends React.Component {
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -85,12 +83,12 @@ export class LotteryRuleTwoVn extends React.Component {
                     <div className="HelpCenterList">
                         <ul>
                             <li>
-                                <a href="/vn/for_member">Dành cho Thành viên  >
+                                <a href="/vi/for_member">Dành cho Thành viên  >
                                     <i></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="/vn/for_member">Luật chơi Sổ xố >
+                                <a href="/vi/for_member">Luật chơi Sổ xố >
                                     <i></i>
                                 </a>
                             </li>
@@ -98,10 +96,10 @@ export class LotteryRuleTwoVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
                                 <a>KENO Introduction</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
                                 <a>Luật Chơi KENO</a>
                             </li>
                         </ul>
@@ -109,7 +107,7 @@ export class LotteryRuleTwoVn extends React.Component {
                     </div>
                     {/* <!-- please only edit HelperCenterDetail's contain --> */}
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>KENO</h2>
                             &nbsp;
                             <p>Keno là một trò cá cược xổ số được chơi ở các sòng bài hiện đại và cũng được cung cấp như một trò chơi vé số. Người chơi
@@ -134,7 +132,7 @@ export class LotteryRuleTwoVn extends React.Component {
                                 hợp theo thứ tự: Lớn/Nhỏ/Chẵn/Lẻ; Tổng số Chẵn/Lẻ/ Trên/Dưới; PB; B/S O/E Cược Xiên; B/S lx / Ngũ Hành; Cược Xiên
                                 Tổng Hợp; Ngọc Cầu, so sánh với sự kết hợp duy nhất của KENO ban hành bởi chính phủ.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>Luật Chơi KENO</h2>
                             &nbsp;
                             <h1>1. Tài/Xỉu</h1>

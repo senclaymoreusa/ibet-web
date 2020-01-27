@@ -10,26 +10,18 @@ import Grid from '@material-ui/core/Grid';
 import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
-import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map'
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Divider } from '@material-ui/core';
 
-const bank_options = [
-    { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
-    { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
-    { value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
-    { value: 'SACOM', label: 'Sacom Bank', img: 'letou/sacombank.png', code: 'VND' },
-    { value: 'TCB', label: 'Techcom Bank', img: 'letou/techombank.svg', code: 'VND' },
-    { value: 'VTB', label: 'Vietin Bank', img: 'letou/vietinbank.png', code: 'VND' },
-    { value: 'VPB', label: 'VP Bank', img: 'letou/vp-bank.svg', code: 'VND' },
-];
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -304,6 +296,16 @@ const styles = theme => ({
     },
 });
 
+const bank_options = [
+    { value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
+    { value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
+    { value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
+    { value: 'SACOM', label: 'Sacom Bank', img: 'letou/sacombank.png', code: 'VND' },
+    { value: 'TCB', label: 'Techcom Bank', img: 'letou/techombank.svg', code: 'VND' },
+    { value: 'VTB', label: 'Vietin Bank', img: 'letou/vietinbank.png', code: 'VND' },
+    { value: 'VPB', label: 'VP Bank', img: 'letou/vp-bank.svg', code: 'VND' },
+];
+
 const BootstrapInput = withStyles(theme => ({
     root: {
         'label + &': {
@@ -379,20 +381,22 @@ class VietnamLocalBank extends Component {
             error: false,
             data: '',
             selectedBankOption: 'none',
-            order_id: "letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
+            order_id: '',
+            //"letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
 
             amountFocused: false,
             amountInvalid: true,
 
             bankAccountNumber: '',
+            password: '',
 
             activeStep: 0,
-            currency: "THB",
-            currencyCode: 'THB',
+            currency: "VND",
+            currencyCode: 'VND',
             isFavorite: false,
         };
     }
-
+    /*
     componentWillReceiveProps(props) {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -402,31 +406,37 @@ class VietnamLocalBank extends Component {
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
+       
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
                 this.setState({ data: res.data });
                 this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
                 this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
+                //this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
             });
+        
     }
-
+    */
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            }else{
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ currencyCode: res.data.currency });
+                        //this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
+                    });
             }
         })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ currencyCode: res.data.currency });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
-            });
+      
+       
     }
 
     amountChanged(event) {
@@ -439,7 +449,7 @@ class VietnamLocalBank extends Component {
 
             if (re.test(event.target.value)) {
                 this.setState({ amount: event.target.value });
-                this.setState({ amountInvalid: (parseFloat(event.target.value) < 300 || parseFloat(event.target.value) > 300000) });
+                this.setState({ amountInvalid: (parseFloat(event.target.value) < 200000 || parseFloat(event.target.value) > 100000000) });
             }
             else {
                 this.setState({ amountInvalid: true });
@@ -464,99 +474,64 @@ class VietnamLocalBank extends Component {
 
     handleClick() {
         let currentComponent = this;
-
-        var postData = {
-            "amount": this.state.amount,
-            "user_id": this.state.data.pk,
-            "currency": '7',
-            "bank": this.state.selectedBankOption,
-            "language": "en-Us",
-            "order_id": this.state.order_id,
-        }
-
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
         const token = localStorage.getItem('token');
-
-        return fetch(API_URL + 'accounting/api/help2pay/deposit', {
-            method: 'POST',
-            withCredentials: true,
-            headers: {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'Authorization': 'Token ' + token
-            },
-            body: formBody
-        }).then(function (res) {
-            if (res.ok) {
-                return res.text();
-            }
-
-            currentComponent.props.callbackFromParent("error", "渠道维护中");
-
-            throw new Error('Something went wrong.');
-
-        }).then(function (data) {
-            let newwin = window.open('');
-            newwin.document.write(data);
-            var timer = setInterval(function () {
-
-                if (newwin.closed) {
-                    clearInterval(timer);
-                    const pd = JSON.stringify({
-                        order_id: currentComponent.state.order_id,
-
-                    });
-
-                    return fetch(API_URL + 'accounting/api/help2pay/deposit_status', {
-                        method: 'POST',
-                        withCredentials: true,
-                        headers: {
-                            'content-type': 'application/json',
-                            'Authorization': 'Token ' + token
-                        },
-                        body: pd
-
-                    }).then(function (res) {
-                        return res.text();
-                    }).then(function (data) {
-                        //console.log(data)
-
-
-                        if (data === '0') {
-
-                            const body = JSON.stringify({
-                                type: 'add',
-                                username: this.state.data.username,
-                                balance: this.state.amount,
-                            });
-                            //console.log(body)
-                            axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                .then(res => {
-                                    if (res.data === 'Failed') {
-                                        currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                    } else if (res.data === 'The balance is not enough') {
-                                        currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                    } else {
-                                        currentComponent.props.callbackFromParent("success", "Transaction completed.");
-                                    }
-                                });
-                        } else {
-                            currentComponent.props.callbackFromParent("error", '渠道维护中');
-                        }
-                    });
-                }
-            }, 1000);
-
-        }).catch(function (err) {
-            console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", err.message);
-            sendingLog(err);
+        config.headers['Authorization'] = `Token ${token}`;
+        let userid = this.state.data.pk;
+        const body = JSON.stringify({
+            type: '1',
+            username: this.state.data.username,
+            balance: this.state.amount,
+            'bank':this.state.selectedBankOption,
+            'bank_acc_no':this.state.bankAccountNumber,
+            "real_name": this.state.bankAccountHolder,
+            amount: this.state.amount,
+            currency: 2,
         });
+        return axios
+            .post(
+                API_URL + 'accounting/api/transactions/save_transaction',
+                body,
+                config
+            )
+            .then((res) => {
+                if(res.statusText=="OK"){
+                    return res.data;
+                }else{
+                    currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                }
+            }).then(function (data) {
+                let status = data.success;
+                if (status) {
+                    const sbody = JSON.stringify({
+                        type: 'withdraw',
+                        username: currentComponent.state.data.username,
+                        balance: currentComponent.state.amount,
+                    });
+                    axios.post(API_URL + `users/api/addorwithdrawbalance/`, sbody, config)
+                        .then(res => {
+                            if (res.data === 'Failed') {
+                                //this.setState({ error: true });
+                                currentComponent.props.callbackFromParent("error", 'Transaction failed!');
+                            } else if (res.data === 'The balance is not enough') {
+                                //    // alert("cannot withdraw this amount")
+                                currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
+    
+                            } else {
+                                currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
+    
+                                // alert("your balance is updated")
+                                // window.location.reload()
+                            }
+                        });
+    
+                } else {
+                    currentComponent.props.callbackFromParent("error", "Somthing is wrong");
+                    //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
+                }
+            }).catch(err => {
+                currentComponent.props.callbackFromParent("error", "Something is wrong.");
+                sendingLog(err);
+            });
     }
 
     getLabel(labelId) {
@@ -571,13 +546,15 @@ class VietnamLocalBank extends Component {
         var path = parts.slice(1, 4).join('/');
         url = url + path;
         this.props.history.push(url);
+        let currentComponent = this;
+        currentComponent.props.callbackFromParent("");
     }
 
     render() {
         const { classes } = this.props;
         const { selectedBankOption, bankAccountNumber, amount, currency } = this.state;
 
-        const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+        const filteredOptions = bank_options.filter((o) => o.code === "VND")
 
         return (
             <div className={classes.root}>
@@ -662,6 +639,69 @@ class VietnamLocalBank extends Component {
                             }}
                         />
                     </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
+                            <TextField
+                                className={classes.amountText}
+                                placeholder={this.getLabel('vn-localbank-placeholder-withdraw')}
+                                onChange={this.amountChanged.bind(this)}
+                                value={amount}
+                                error={
+                                    this.state.amountInvalid &&
+                                    this.state.amountFocused
+                                }
+                                helperText={
+                                    this.state.amountInvalid &&
+                                        this.state.amountFocused
+                                        ? this.getLabel('valid-amount')
+                                        : ' '
+                                }
+                                InputProps={{
+                                    disableUnderline: true,
+                                    inputComponent: NumberFormatCustom,
+                                    inputProps: {
+                                        step: 10,
+                                        min: 200,
+                                        min: 950000,
+                                        style: { textAlign: 'right' },
+                                        currency: currency
+                                    },
+                                    startAdornment: (
+                                        <InputAdornment position="start" >
+                                            <span className={classes.label}>{this.getLabel('amount-label')}</span>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
+                    {/*}
+                    <Grid item xs={6} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
+                            placeholder={this.getLabel('password-text')}
+                            onChange={this.bankAccountNumberChanged.bind(this)}
+                            value={bankAccountNumber}
+                            error={this.state.bankAccountNumberFocused && bankAccountNumber.length === 0}
+                            helperText={(this.state.bankAccountNumberFocused && bankAccountNumber.length === 0) ? this.getLabel('invalid-bank-number') : ' '}
+                            InputProps={{
+                                disableUnderline: true,
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                            <IconButton
+                                                size="small"
+                                                //disabled={this.state.password.length === 0}
+                                                aria-label="Toggle password visibility"
+                                                onClick={() => {
+                                                    this.setState(state => ({ showPassword: !state.showPassword }))
+                                                }}
+                                            >
+                                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                        */}
                     <Grid item xs={6} className={classes.buttonCell} >
                         <Button variant="contained" className={classes.cancelButton}
                             onClick={this.cancelClicked.bind(this)}
@@ -670,7 +710,7 @@ class VietnamLocalBank extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick.bind(this)}
-                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none'}
+                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.bankAccountNumber === ''}
                         >{this.getLabel('next-label')}</Button>
                     </Grid>
                 </Grid>

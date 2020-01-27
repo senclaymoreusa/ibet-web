@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
@@ -15,16 +12,13 @@ import IconHeader from "../icon_header";
 
 import ListItemText from '@material-ui/core/ListItemText';
 
-import { config, images } from '../../../util_config';
-import IconButton from '@material-ui/core/IconButton';
 
 import {
     show_letou_announcements
 } from '../../../actions';
-import { InfoSelect } from '../info_select';
 
 
-const styles = theme => ({
+const styles = () => ({
     logoHeader: {
         height: '20px',
         padding: '10px'
@@ -99,10 +93,10 @@ export class ForPartnerVn extends React.Component {
             <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
-                                    <a href="/vn/for_member">{this.getLabel('for-member')}</a>
+                                    <a href="/vi/for_member">{this.getLabel('for-member')}</a>
                                 </li>
                                 <li>
-                                    <a href="/vn/for_partner">{this.getLabel('for-partner')}</a>
+                                    <a href="/vi/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
                 </div>
@@ -115,19 +109,19 @@ export class ForPartnerVn extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/vn/member_rule1">
+                        <Link className={classes.list} href="/vi/member_rule1">
                         <ListItemText classes={{primary:classes.listItemText}} >Chia sẻ kế hoạch</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/vn/member_rule2">
+                        <Link className={classes.list} href="/vi/member_rule2">
                         <ListItemText classes={{primary:classes.listItemText}} >Chương trình đại lý</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/vn/member_rule3">
+                        <Link className={classes.list} href="/vi/member_rule3">
                         <ListItemText classes={{primary:classes.listItemText}} >Điều kiện & Điều khoản</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/vn/member_rule4">
+                        <Link className={classes.list} href="/vi/member_rule4">
                         <ListItemText classes={{primary:classes.listItemText}} >Cách tính hoa hồng</ListItemText>
                         </Link>
-                        <Link className={classes.list} href="/vn/member_rule5">
+                        <Link className={classes.list} href="/vi/member_rule5">
                         <ListItemText classes={{primary:classes.listItemText}} >Hỏi đáp chương trình Đại lý LETOU</ListItemText>
                         </Link>
                     </List>
@@ -142,7 +136,7 @@ export class ForPartnerVn extends React.Component {
                 </Typography>
                 <div className={classes.demo}>
                     <List >
-                        <Link className={classes.list} href="/vn/member_rule6">
+                        <Link className={classes.list} href="/vi/member_rule6">
                         <ListItemText classes={{primary:classes.listItemText}} >Lợi thế của LETOU</ListItemText>
                         </Link>
                     </List>

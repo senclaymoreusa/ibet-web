@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../actions';
+import { authCheckState, sendingLog } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -34,6 +34,11 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Info from '@material-ui/icons/InfoOutlined';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
+import axios from 'axios'
+import Divider from '@material-ui/core/Divider';
+
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 const styles = () => ({
     root: {
@@ -292,6 +297,7 @@ export class VerifyEmail extends Component {
 
         this.state = {
             activeStep: 0,
+            username: '',
 
             email: '',
             emailInvalid: true,
@@ -317,71 +323,82 @@ export class VerifyEmail extends Component {
     async componentDidMount() {
 
         this.props.authCheckState()
-            .then(res => {
+            .then(async res => {
                 if (res === 1) {
                     this.props.history.push('/');
-                    window.location.reload()
+                } else {
+
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+
+                    let currentComponent = this;
+
+                    await axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            currentComponent.setState({ date: res.data });
+
+                            currentComponent.setState({ username: res.data.username });
+                            currentComponent.setState({ fetchedEmail: res.data.email });
+
+                            currentComponent.setState({ email: res.data.email });
+
+                            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                            this.setState({ emailInvalid: !res.data.email.match(re) })
+
+                        }).catch(function (err) {
+                            sendingLog(err);
+                        });
                 }
             })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-
-        // let currentComponent = this;
-
-        // axios.get(API_URL + 'users/api/security-question/', config)
-        //     .then(res => {
-        //         this.setState({ questionList: res.data });
-        //     }).catch(function (err) {
-        //         sendingLog(err);
-        //     });
-
-        // await axios.get(API_URL + 'users/api/user/', config)
-        //     .then(res => {
-        //         currentComponent.setState({ userId: res.data.pk });
-        //         currentComponent.setState({ securityQuestion: res.data.security_question });
-        //         axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
-        //             .then(res => {
-        //                 if (res.data.errorCode !== 105)
-        //                     this.setState({ securityQuestion: res.data.value });
-        //             }).catch(function (err) {
-        //                 sendingLog(err);
-        //             });
-        //     }).catch(function (err) {
-        //         sendingLog(err);
-        //     });
     }
 
     sendVerificationCodeToEmail() {
-        this.setState({ activeStep: 1 });
+        axios.post(API_URL + `users/api/generateactivationcode/`, {
+            type: 'change_member_email',
+            username: this.state.username,
+            email: this.state.email
+        })
+            .then(res => {
+                if (res.status === 201) {
+                    this.setState({ snackType: 'success' });
+                    this.setState({ snackMessage: this.getLabel('verification-code-sent') });
+                    this.setState({ showSnackbar: true });
+                    this.setState({ activeStep: 1 });
+                } if (res.data === 104) {
+                    this.setState({ snackType: 'warning' });
+                    this.setState({ snackMessage: this.getLabel('reached-verification-limit') });
+                    this.setState({ showSnackbar: true });
+                }
+            }).catch(function (err) {
+                sendingLog(err);
+            });
     }
 
     verifyEmailWithCode() {
         this.setState({ activeStep: 2 });
 
-        //     let currentComponent = this;
+        let currentComponent = this;
 
-        //     axios.post(API_URL + `users/api/user-security-question/`, {
-        //         question: currentComponent.state.securityQuestion,
-        //         answer: currentComponent.state.securityAnswer,
-        //         userId: currentComponent.state.userId
-        //     })
-        //         .then(res => {
-        //             if (res.status === 200) {
-        //                 if (res.data.code === 1) {
-        //                     this.setState({ snackType: 'success' });
-        //                     this.setState({ snackMessage: this.getLabel('security-question-set-success') });
-        //                     this.setState({ showSnackbar: true });
-        //                     this.setState({ activeStep: 2 });
-        //                 }
-        //             }
-        //         }).catch(function (err) {
-        //             sendingLog(err);
-        //             currentComponent.setState({ snackType: 'error' });
-        //             currentComponent.setState({ snackMessage: currentComponent.getLabel('security-question-set-error') });
-        //             currentComponent.setState({ showSnackbar: true });
-        //         });
+        axios.post(API_URL + `users/api/verifyactivationcode/`, {
+            username: this.state.username,
+            code: this.state.verificationCode,
+            type: 'change_member_email',
+            email: this.state.email
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    currentComponent.setState({ snackType: 'success' });
+                    currentComponent.setState({ snackMessage: this.getLabel('email-verification-success-message') });
+                    currentComponent.setState({ showSnackbar: true });
+                    currentComponent.setState({ activeStep: 2 });
+          }
+            }).catch(function (err) {
+                sendingLog(err);
+                currentComponent.setState({ snackType: 'error' });
+                currentComponent.setState({ snackMessage: currentComponent.getLabel('email-verification-error-message') });
+                currentComponent.setState({ showSnackbar: true });
+            });
     }
 
     handleSnackbarClose = (event, reason) => {
@@ -407,17 +424,27 @@ export class VerifyEmail extends Component {
 
     getStepContent() {
         const { classes } = this.props;
-        const { activeStep, email, emailInvalid, verificationCode } = this.state;
+        const { activeStep, email, emailInvalid, verificationCode, username } = this.state;
 
         switch (activeStep) {
             case 0:
                 return (<Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
-                    <Grid item xs={2} className={classes.row} style={{ verticalAlign: 'middle' }}>
+                    <Grid item xs={3} className={classes.row} style={{ verticalAlign: 'middle' }}>
+                        <span className={classes.label} >
+                            {this.getLabel('user-name')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={9} className={classes.row}>
+                        <span className={classes.value} >
+                            {username}
+                        </span>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row} style={{ verticalAlign: 'middle' }}>
                         <span className={classes.label} >
                             {this.getLabel('email-label')}
                         </span>
                     </Grid>
-                    <Grid item xs={10} className={classes.row}>
+                    <Grid item xs={9} className={classes.row}>
                         <TextField className={classes.textField}
                             value={email}
                             onChange={(event) => { this.emailChanged(event) }}
@@ -438,7 +465,7 @@ export class VerifyEmail extends Component {
                                         <Info />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={this.getLabel('only-three-code')} secondary="" />
+                                <ListItemText primary={this.getLabel('make-sure-email-recieve')} secondary="" />
                             </ListItem>
                         </List>
                     </Grid>
@@ -511,12 +538,17 @@ export class VerifyEmail extends Component {
                             <span className={classes.successLabel} style={{ marginTop: 30 }}>
                                 {this.getLabel('good-job')}
                             </span>
-                            <span className={classes.title} style={{ marginTop: 50 }}>
-                                {this.getLabel('intimate-reminder')}
+                            <span className={classes.label} style={{ marginTop: 50 }}>
+                                {this.getLabel('email-verification-success-message')}
                             </span>
                             <span className={classes.label} style={{ marginTop: 30 }}>
-                                {this.getLabel('intimate-reminder-text')}
+                                {this.getLabel('email-verification-bonus-text')}
                             </span>
+                            <Button variant="contained" style={{ marginTop: 30, marginBottom: 50 }}
+                                onClick={() => {
+                                    this.props.history.push('/p/fortune-center/deposit');
+                                }}
+                                className={classes.nextButton}>{this.getLabel('deposit-immediately')}</Button>
                         </Grid>
                     </Grid>
                 );

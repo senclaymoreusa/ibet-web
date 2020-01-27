@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import IconHeader from "../icon_header";
-import InfoSelect from "../info_select";
 import '../../css/help.css'
 
 import {
@@ -98,47 +96,47 @@ export class BaijialeTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current == 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>บาคาร่า super 6</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
+                                <a href="/">บาคาร่า super 6</a>
                             </li>
-                            <li className={this.state.current == 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>บาคาร่าแบบดั้งเดิม</a>
+                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
+                                <a href="/">บาคาร่าแบบดั้งเดิม</a>
                             </li>
-                            <li className={this.state.current == 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>ซุปเปอร์บาคาร่า</a>
+                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
+                                <a href="/">ซุปเปอร์บาคาร่า</a>
                             </li>
-                            <li className={this.state.current == 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>ไพ่คู่ บาคาร่า</a>
+                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
+                                <a href="/">ไพ่คู่ บาคาร่า</a>
                             </li>
-                            <li className={this.state.current == 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>ผู้เล่น คาบาร่า 14 ราย (ต่อโต๊ะ)</a>
+                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
+                                <a href="/">ผู้เล่น คาบาร่า 14 ราย (ต่อโต๊ะ)</a>
                             </li>
-                            <li className={this.state.current == 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>>บาคาร่า คลาสสิก</a>
+                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
+                                <a href="/">>บาคาร่า คลาสสิก</a>
                             </li>
-                            <li className={this.state.current == 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>VIPบาคาร่า</a>
+                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
+                                <a href="/">VIPบาคาร่า</a>
                             </li>
-                            <li className={this.state.current == 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>การเดิมพันบาคาร่า</a>
+                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
+                                <a href="/">การเดิมพันบาคาร่า</a>
                             </li>
-                            <li className={this.state.current == 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>หลากหลายเกมบาคาร่า</a>
+                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
+                                <a href="/">หลากหลายเกมบาคาร่า</a>
                             </li>
-                            <li className={this.state.current == 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>บาคาร่าโบนัสมังกร</a>
+                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
+                                <a href="/">บาคาร่าโบนัสมังกร</a>
                             </li>
-                            <li className={this.state.current == 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>บาคาร่า Playboy</a>
+                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
+                                <a href="/">บาคาร่า Playboy</a>
                             </li>
-                            <li className={this.state.current == 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>แต้ม บาคาร่า</a>
+                            <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
+                                <a href="/">แต้ม บาคาร่า</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail">
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         `<h2>Super 6 Baccarat</h2>
                             &nbsp;
                             <p>กำเนิดในอิตาลีในปีพ. ศ. 2543 และนำมาใช้อีกครั้งที่ยุโรปในศตวรรษที่สิบเก้า บาคาร่าถือได้ว่าเป็นเกมแห่งกษัตริย์ บาคาร่ายังเป็นที่รู้จักกันในชื่อ
@@ -163,7 +161,7 @@ export class BaijialeTh extends React.Component {
                                 <br/>การเดิมพันข้างเคียง จะสามารถทำให้มีโอกาสที่ชนะเพิ่มขึ้น”.
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}> 
+                        <div className="centerDetail" hidden={this.state.current !== 2}> 
                         <h2>บาคาร่าแบบดั้งเดิม</h2>
                             <p>8 แต้มของไพ่จะถูกนำมาใช้ในการเดิมพันนี้:
                                 <br/>
@@ -208,7 +206,7 @@ export class BaijialeTh extends React.Component {
                                 <br/> ♦ "เล็ก" หมายถึงเมื่อคุณแสดงมือคุณมีไพ่ 4 ใบ 
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <h2>ซุปเปอร์บาคาร่า</h2>
                             &nbsp;
                             <p> ไม่มีความแตกต่างมากนักระหว่าง บาคาร่า และ ซุปเปอร์บาคาร่า ข้อแตกต่างเพียงอย่างเดียวคือ ซุปเปอร์บาคาร่ามีการเดิมพันพิเสษเพิ่มเติมอีก
@@ -217,7 +215,7 @@ export class BaijialeTh extends React.Component {
                                 <img src="http://i.imgur.com/GWynoVc.png"></img>
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <h2> ไพ่คู่ บาคาร่า </h2>
                             &nbsp;
                             <p> “ไพ่คู่ บาคาร่า” เป็นการเดิมพันฝ่ายใดฝ่ายหนึ่งที่ชนะบน Punto Banco ถ้าไพ่สองใบแรกที่ถูกแจกให้กับ ฝ่าย ผู้เล่น หรือ
@@ -232,7 +230,7 @@ export class BaijialeTh extends React.Component {
                                 <br/> 6 แต้ม/เด้ง -- อัตราจ่าย 11 ต่อ 1-- ความน่าจะเป็นของไพ่คู่ 7.40% -- House Edge 11.25% </p>
                         
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                             <h2>ผู้เล่น คาบาร่า 14 ราย (ต่อโต๊ะ)</h2>
                             &nbsp;
                             <p> 14 ผู้เล่น บาคาร่า คล้ายกับ การเล่นไพ่คู่ บาคาร่า (Baccarat Pairs) มีกฎเดียวกัน แต่มีความตื่นเต้นเป็นพิเศษเพื่อให้ผู้เล่นรู้สึกว่าพวกเขาอยู่ในคาสิโนจริง
@@ -243,7 +241,7 @@ export class BaijialeTh extends React.Component {
                                 <br/> ♦ สามารถรองรับผู้เล่นได้ถึง 14 รายต่อโต๊ะ ในการเล่นและโต้ตอบในเวลาเดียวกันบนอินเทอร์เน็ต p&gt;
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                         <h2> บาคาร่า คลาสสิก</h2>
                             &nbsp;
                             <p> บาคาร่าคลาสสิกเป็นเกมไพ่ที่เล่นกันที่บ้าน วัตถุประสงค์ของเกมคือการทำนายผลของไพ่ที่แจกให้กับผู้เล่นและเจ้ามือ ทุกมือจะมีค่าแต้มเท่ากับหรือน้อยกว่า9
@@ -263,7 +261,7 @@ export class BaijialeTh extends React.Component {
                                 3. หากผู้เล่นมีแต้มที่ดี อยู่ หรือไม่เรียกไพ่เพิ่มแล้ว หลังจากนั้นเจ้ามือเจ้ามือสามารถเรียกไพ่เพิ่มได้ถ้ามีแต้มที่เท่ากับ
                                 หรือน้อยกว่า 5 </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                         <h2> VIPบาคาร่า </h2>
                             &nbsp;
                             <p> VIP บาคาร่า คือเกมส์ที่มีการเดิมพันสูงตั้งแต่ในเกมแรก ซึ่งผู้เล่นที่มีเงินเดิมพันมากที่สุดไม่ว่าจะเล่นในฝั่งผู้เล่นหรือเจ้ามือ
@@ -280,7 +278,7 @@ export class BaijialeTh extends React.Component {
                                 แม้ว่าคุณอาจต้องการความช่วยเหลือในการเรียนรู้ว่าตัวเลขเหล่านี้มีความหมายอะไร
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 8}>
+                        <div className="centerDetail" hidden={this.state.current !== 8}>
                             <h2> การเดิมพันบาคาร่า</h2>
                             &nbsp;
                             <p> การเดิมพันบาคาร่าเป็นหนึ่งในเกมที่เก่าแก่และเป็นที่นิยมมากที่สุดในทั่วทุกมุมโลก นอกจากนี้ ทางเรายังพร้อมมอบประสบการณ์ใหม่ๆ
@@ -288,7 +286,7 @@ export class BaijialeTh extends React.Component {
                                 ณ ขณะนั้น) มาใช้ควบคู่ กับการแชทที่สามารถแลกเปลี่ยนความคิดเห็นกับผู้ที่เล่นบาคาร่าได้ในขณะที่รอเปิดไพ่ สด จากคาสิโนจริง
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 9}>
+                        <div className="centerDetail" hidden={this.state.current !== 9}>
                             <h2> หลากหลายเกมบาคาร่า</h2>
                             &nbsp;
                             <p>ในเกมบาคาร่าถ่ายทอดสดทั่วไปภายในคาสิโน ผู้เล่นสามารถย้ายไปที่โต๊ะอื่นได้ และสามารถทำเช่นเดียวกันในขณะที่เล่นเกมโอเรียนเต็ล
@@ -300,7 +298,7 @@ export class BaijialeTh extends React.Component {
                                 <br/> - หลากหลายเกมบาคาร่า: AG, OPUS
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 10}>
+                        <div className="centerDetail" hidden={this.state.current !== 10}>
                              <h2> บาคาร่าโบนัสมังกร</h2>
                             &nbsp;
                             <p> โบนัสมังกร เป็นการเดิมพันในฝั่งที่เป็นตัวเลือกที่ถูกนำเสนอในตารางบาคาร่า โบนัสมังกร จะชนะถ้ามือบาคาร่า (ฝ่ายเพลเยอร์
@@ -318,7 +316,7 @@ export class BaijialeTh extends React.Component {
                                 <br/>4. ในกรณีที่บิลเดิมพันมีการคำนวนหรือแจ้งผิด ระบบจะทำรายการคำนวนอีกครั้งโดยอ้างอิงจากวีดีโอที่บันทึกไว้
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 11}>
+                        <div className="centerDetail" hidden={this.state.current !== 11}>
                             <h2>บาคาร่า Playboy</h2>
                             <p>หากคุณกำลังมองหาสุดยอดความตื่นเต้นขณะเล่นเกมไพ่ยอดนิยมในเอเชีย ดังนั้นคุณจะต้องลองเกมนี้ เพย์บอยไลฟ์บาคาร่า ( Playboy
                                 Live Baccarat) เกมนี้ถูกจัดให้เล่นที่โต๊ะพิเศษที่คาสิโนในโตรอนโตประเทศแคนนาดา ที่ซึ่งพนักงานในนั้นเรียกตัวเองว่า
@@ -335,7 +333,7 @@ export class BaijialeTh extends React.Component {
                                 <br/> - ประวัติการเล่นและแผนมาตรฐานจะแสดงขึ้นที่ด้านซ้ายและด้านขวาของเจ้ามือการพนัน ในส่วนบนหน้าจอเกม ในขณะเดียวกันคุณสามารถดูตัวเลือกเกมที่สำคัญได้ทั้งหมดจากแท็บเมนู.
                             </p>
                         </div>
-                        <div className="centerDetai" hidden={this.state.current != 12}>
+                        <div className="centerDetai" hidden={this.state.current !== 12}>
                             <h2> แต้ม บาคาร่า </h2>
                             &nbsp;
                             <p>แต้ม บาคาร่าเป็นอีกรูปแบบหนึ่งของ "การเล่นบาคาร่าแบบไม่มีคอมมิชชั่น " - Super 6
