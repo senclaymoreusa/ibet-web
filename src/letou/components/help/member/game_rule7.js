@@ -94,7 +94,7 @@ export class GameRuleSeven extends React.Component {
                         <h1>赔付倍数</h1>
                         &nbsp;
                         <p>
-                            <img src="http://i.imgur.com/AijJax2.png" />
+                            <img src="http://i.imgur.com/AijJax2.png" alt=""/>
                         </p>
                     </div>
 

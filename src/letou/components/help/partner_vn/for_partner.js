@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
-import IconHeader from "../../icon_header";
+import InfoSelect from "../../info_select";
 
 import ListItemText from '@material-ui/core/ListItemText';
 
@@ -68,9 +68,9 @@ const styles = () => ({
 })
 
 export class ForPartnerVn extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -86,7 +86,7 @@ export class ForPartnerVn extends React.Component {
       return (
        
         <div className={classes.root}> 
-        <IconHeader/> 
+        <InfoSelect/>
     
         <Grid container className={classes.content}>
             <Grid item xs={5} className={classes.infoSelect}>

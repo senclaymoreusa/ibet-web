@@ -210,7 +210,7 @@ export class BaijialeTh extends React.Component {
                             <p> ไม่มีความแตกต่างมากนักระหว่าง บาคาร่า และ ซุปเปอร์บาคาร่า ข้อแตกต่างเพียงอย่างเดียวคือ ซุปเปอร์บาคาร่ามีการเดิมพันพิเสษเพิ่มเติมอีก
                                 6 ช่องทาง:
                                 <br/>
-                                <img src="http://i.imgur.com/GWynoVc.png"></img>
+                                <img src="http://i.imgur.com/GWynoVc.png" alt=""></img>
                             </p>
                         </div>
                         <div className="centerDetail" hidden={this.state.current !== 4}>

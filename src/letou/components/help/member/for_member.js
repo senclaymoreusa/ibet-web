@@ -10,7 +10,7 @@ import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
-import IconHeader from "../../icon_header";
+import InfoSelect from "../../info_select";
 import '../../../css/help.css'
 
 import { show_letou_announcements} from '../../../../actions';
@@ -81,7 +81,7 @@ export class ForMember extends React.Component {
       return (
        
         <div className={classes.root}> 
-            <IconHeader/>
+            <InfoSelect/>
             <Grid container className={classes.content}>
                 <Grid item xs={5} className={classes.infoSelect}>
                 <div className="HelpCenterLeftNav">

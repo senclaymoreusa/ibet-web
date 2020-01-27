@@ -10,9 +10,6 @@ import IconHeader from "../../icon_header";
 import '../../../css/help.css'
 
 import { show_letou_announcements} from '../../../../actions';
-import InfoSelect from  "../../info_select"
-
-
 
 
 
@@ -50,7 +47,10 @@ export class GameRuleFourTh extends React.Component {
       return (
        
         <div className={classes.root}> 
-             <div className="HelpCenterLeftNav">
+            <IconHeader/>
+            <Grid container className={classes.content}>
+                <Grid item xs={5} className={classes.infoSelect}>   
+                <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
                                     <a href="/th/for_member">{this.getLabel('for-member')}</a>
@@ -60,11 +60,9 @@ export class GameRuleFourTh extends React.Component {
                                 </li>
                             </ul>
                         </div>
-            <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
-                    <InfoSelect/>
                 </Grid>
-            
+           
+                
                 <Grid item xs={7} className={classes.detail}>
                     <div className="HelpCenterList">
                         <ul>

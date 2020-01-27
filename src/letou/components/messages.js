@@ -1132,7 +1132,9 @@ export const messages = {
         'live-casino-description': '平台稳定，玩法丰富，公平公正公开的游戏体验',
         'games-description': '游戏种类多样丰富，独家英雄老虎机容易上手',
         'lottery-description': '独家支持任何倍投追号功能，盈利不再复杂',
-        'promotion-description': '各种红利流水为您撑腰，投注不怕没靠山'
+        'promotion-description': '各种红利流水为您撑腰，投注不怕没靠山',
+        'help-problem': '遇到问题吗？',
+        'help-service': '我们随时随刻为您服务'
     },
 
     vi: {},

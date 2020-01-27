@@ -162,7 +162,7 @@ export class LunpanVn extends React.Component {
   const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated: (token != null && token != undefined),
+        isAuthenticated: (token !== null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
         showAnnouncements: state.general.show_letou_announcements,
