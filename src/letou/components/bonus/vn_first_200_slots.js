@@ -2,6 +2,7 @@ import React from 'react';
 import TopNavbar from '../top_navbar';
 import Footer from '../footer';
 import BannerImage from '../../assets/img/bonus_images/VN200slots.jpg';
+import LetouLogo from '../../assets/img/bonus_images/letou_logo.png'
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
@@ -51,6 +52,14 @@ const styles = {
         fontWeight: 900,
         borderLeft: '5px solid #FF9E00',
         paddingLeft: 10,
+    },
+    offerHeader: {
+        height: 55,
+    },
+    mainLogo: {
+        height: 25,
+        paddingLeft: 100,
+        marginTop: 13,
     }
 };
 
@@ -62,7 +71,13 @@ class VNFirst200SlotBonus extends React.Component {
 
         return (
             <div>
-                <TopNavbar />
+
+                <div className={classes.offerHeader}>
+                    <img className={classes.mainLogo} src={LetouLogo} alt="Main Logo"/>
+
+                </div>
+
+
                 <img className={classes.bannerImg} src={BannerImage} alt="Banner Image"/>
                 <div className={classes.content}>
 
