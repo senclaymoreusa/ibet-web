@@ -4,7 +4,7 @@ import TopNavbar from "../top_navbar";
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { authCheckState, handle_referid, hide_landing_page } from '../../../actions';
-import { withStyles } from '@material-ui/core/styles';
+import { fade, withStyles } from '@material-ui/core/styles';
 import '../../css/banner.css';
 import { withRouter } from 'react-router-dom';
 import { config } from '../../../util_config';
@@ -27,6 +27,13 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Link from '@material-ui/core/Link';
 import withWidth from '@material-ui/core/withWidth';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
+import Chip from '@material-ui/core/Chip';
+import ClearIcon from '@material-ui/icons/Clear';
+
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -40,7 +47,6 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
-        //alignItems: 'center',
         backgroundColor: theme.palette.background.paper,
 
     },
@@ -80,6 +86,7 @@ const styles = theme => ({
         display: 'flex',
         // backgroundColor: '#f2f3f5',
         flexDirection: 'column',
+        marginBottom: '60px',
         [theme.breakpoints.up('md')]: {
             display: 'none'
         }
@@ -149,7 +156,64 @@ const styles = theme => ({
             width: '100%',
             height: '120px',
         }
-    }
+    },
+
+
+    search: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+          backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+          marginLeft: theme.spacing(1),
+          width: 'auto',
+        },
+    },
+    searchIcon: {
+        width: theme.spacing(7),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    // inputRoot: {
+    //     color: 'black',
+    //     borderBottom: '1px solid #f1f1f1',
+    //   },
+      inputInput: {
+        // padding: theme.spacing(1, 1, 1, 7),
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+          width: 120,
+          '&:focus': {
+            width: 200,
+          },
+        },
+      },
+
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+    },
+    iconButton: {
+        padding: 10,
+    },
+
+
+    inputRoot: {
+        padding: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+      },
 
 });
 
@@ -173,6 +237,12 @@ function PrevArrow(props) {
   }
 
 const StyledTabs = withStyles({
+    root: {
+        "& button:first-child": {
+            minWidth: '10px',
+            width: '45px'
+        }
+    },
     indicator: {
         display: 'flex',
         justifyContent: 'center',
@@ -180,7 +250,7 @@ const StyledTabs = withStyles({
             width: '100%',
             backgroundColor: '#53abe0',
             
-        }
+        },
     }
 })(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
 
@@ -232,12 +302,16 @@ export class GameLobby extends React.Component {
             themeFilterStr: '',
             isFilter: false,
             games:[],
+            expandSearchBar: false,
         };
 
         this.getLabel = this.getLabel.bind(this);
         this.generateGameList = this.generateGameList.bind(this);
         this.handleTabChange = this.handleTabChange.bind(this);
         this.handleToUpdate  = this.handleToUpdate.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.searchHandleChange = this.searchHandleChange.bind(this);
+        this.searchResult = this.searchResult.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -381,7 +455,6 @@ export class GameLobby extends React.Component {
 
         var gameArray = [];
         var chunk = 3;
-        console.log("!!!!" + this.props.width);
         if (this.props.width !== 'xs') {
             chunk = 6;
         }
@@ -411,7 +484,34 @@ export class GameLobby extends React.Component {
     }
 
     handleTabChange(event, newValue) {
-        this.setState({ value: newValue })
+        this.setState({ value: newValue, expandSearchBar: false})
+    }
+
+    searchHandleChange(event) {
+        if (event.target.value.length > 0) {
+            this.setState({ searchKey: event.target.value });
+        }
+    }
+
+
+    searchResult(event) {
+
+        var search = this.state.searchKey;
+        let entireSiteUrl = API_URL + 'games/api/games/?q=' + search;
+        axios.get(entireSiteUrl, config).then(res => {
+            this.generateGameList(res.data);
+        });
+
+
+        
+    }
+
+    searchCancel = (e) => {
+        this.setState({ searchKey: '', 
+            expandSearchBar: false,
+            all_slots: [],
+        });
+
     }
 
     linkToCategory(category) {
@@ -460,9 +560,68 @@ export class GameLobby extends React.Component {
             gridSize = 2;
         }
         
-        
 
-        if(!this.state.isFilter) {
+        if(this.state.expandSearchBar) {
+            return(
+                <div>
+                <Paper component="form" className={classes.inputRoot}>
+                    <InputBase
+                        className={classes.input}
+                        placeholder="Search providers and games..."
+                        inputProps={{ 'aria-label': 'Search providers and games...' }}
+                        onChange={this.searchHandleChange}
+                    />
+                    <IconButton className={classes.iconButton} aria-label="search" onClick={this.searchResult}>
+                    <SearchIcon />
+                    </IconButton>
+                </Paper>
+                {
+                    this.state.all_slots.length > 0 ? (
+                        <div>
+                            <div style={{display: 'inline-flex', paddingTop: '15px'}}>
+                            <div style={{ paddingBottom: '5px', fontSize: 25.8, fontFamily: 'Gilroy', float:'left'}}>{`Result for  ${this.state.searchKey}`}</div>
+                            <div style={{float:'right'}}><Chip  icon={<ClearIcon />} style={{ marginLeft: '100%' }} key={'224'} color="primary" label="Clear" onClick={(e) => this.searchCancel(e)}/></div>
+                            </div>
+                            <Divider style={{ marginBottom: 20, backgroundColor: 'black'}}/>
+                        <Grid container item xs={12} sm={12} key="455">
+                        {
+                            this.state.all_slots.map((games, index) => {
+                                return (
+                                    <Grid container item xs={12} sm={12} key={index}>
+                                        {
+                                            games.map(game => {
+                                                var gameFields = game['fields'];
+                                                return (
+                                                    <Grid item xs={gridSize} sm={gridSize} key={game.pk}>
+                                                        <NavLink to={`/game_detail/${game.pk}`} target="_blank" style={{ textDecoration: 'none' }}>
+                                                            <div className={classes.item} key={index}>
+                                                                <GridListTile key={game.pk} {...gridTileStyle} classes={{imgFullWidth: classes.imgFullWidth}}>
+                                                                    <img src={gameFields.image_url} alt='Not available' className={classes.imageSize} />
+                                                                <GridListTileBar
+                                                                    title={gameFields.name}
+                                                                    classes={{
+                                                                        root: classes.titleBar,
+                                                                    }}
+                                                                />
+                                                                </GridListTile>
+                                                            </div>
+                                                        </NavLink>
+                                                    </Grid>
+                                                )
+                                            })
+                                        }
+                                    </Grid>
+                                )
+                            })
+                        }
+                        </Grid>
+                        </div>)
+                    :
+                    null
+                }
+                </div>
+            )
+        } else if(!this.state.isFilter) {
             return (
                 <div className={classes.banner}>
                     {
@@ -550,8 +709,12 @@ export class GameLobby extends React.Component {
             </Grid>
             )
         }
-     }
+    }
      
+    handleSearch = () => {
+        this.setState({ expandSearchBar: true });
+    }
+    
 
 
     render() {
@@ -563,7 +726,12 @@ export class GameLobby extends React.Component {
                 value={this.state.value}
                 variant="scrollable"
                 onChange={this.handleTabChange}>
-                > <StyledTab label="ALL"
+            >
+            {
+                this.props.width === 'xs' ? 
+                (<StyledTab icon={<SearchIcon />} onClick={this.handleSearch} aria-label="phone"/>) : null
+            }
+                <StyledTab label="ALL"
                     value='all'
                     onClick={() => {
                         if (this.props.match.params.category !== 'all') {
@@ -616,9 +784,11 @@ export class GameLobby extends React.Component {
                 <div className={classes.rootMobile}>
                     <div>
                         <AppBar position="static" color="default" style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
-                            {(this.state.categories.length > 0) && tabs}
+                            {(this.state.categories.length > 0 && tabs)} 
                         </AppBar>
-                        <FilterSearchBar windowSize={this.props.width} />
+                        {
+                            this.state.expandSearchBar ? null : <FilterSearchBar windowSize={this.props.width} />
+                        }
                     </div>
 
                     <div className={classes.game}>

@@ -26,13 +26,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import { Breadcrumb } from 'antd';
+
 
 
 
@@ -131,6 +127,20 @@ const styles = theme => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
+
+  filterResult: {
+    [theme.breakpoints.down('md')]: {
+        display: 'none',
+    }
+  },
+
+  filterResultMobile: {
+    // display: 'block',
+    [theme.breakpoints.up('md')]: {
+        display: 'none',
+        
+    }
+  }
 
 });
 
@@ -235,7 +245,6 @@ export class FilterSearchBar extends Component {
             })
             this.setState({expandOpen: obj});
 
-            console.log(this.state.expandOpen);
         })
     }
 
@@ -316,8 +325,6 @@ export class FilterSearchBar extends Component {
     }
 
     handleChange(event, name) {
-        console.log(event);
-        console.log(name);
         switch(name) {
             case 'Providers':
                 this.setState({ 
@@ -535,7 +542,7 @@ export class FilterSearchBar extends Component {
     }
 
     handleDelete = (e, name) => {
-        
+
         if (this.state.providerFilter.includes(name)) {
             let idx = this.state.providerFilter.indexOf(name);
             this.state.providerFilter.splice(idx, 1);
@@ -637,6 +644,14 @@ export class FilterSearchBar extends Component {
                         // keepMounted
                         open={Boolean(this.state.anchorEl)}
                         onClose={this.closeMainMenu}
+                        style={this.props.windowSize === 'xs' ? {top: '50px', width: '100%', left: 0 }: {}}
+                        PaperProps={ this.props.windowSize === 'xs' ? {
+                            style: {
+                                width: '100%',
+                                left: '16px', 
+                                boxShadow: 'none',
+                            }
+                        }: {style: {}}}
                     >
                     {   
                         // console.log(this.state.sortArr)
@@ -652,8 +667,18 @@ export class FilterSearchBar extends Component {
                         // keepMounted
                         open={Boolean(this.state.open)}
                         onClose={this.handleMenuExpandClick}
+                        PaperProps={{
+                            style: {
+                            //   width: '100%',
+                            //   padding: 0,
+                                position: 'relative',
+                                left: 0, 
+                                boxShadow: 'none',
+                            },
+                        }}
+                        style = {{top: '130px', width: '100%', left: 0 }}
                     >   
-                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                    <Collapse in={this.state.open} timeout="auto" unmountOnExit style={{ width: '100%', left: 0}}>
                         <List component="div" disablePadding>
                         { 
                             Object.entries(this.state.filterOptions).map((value, index) => {
@@ -809,7 +834,7 @@ export class FilterSearchBar extends Component {
                         {/* <Autocomplete style={{border: '2px solid black', borderRadius: 9.3}}/> */}
                     </div>
                 </div>
-                <div style={{display: this.state.showFilter ? 'block' : 'none', paddingTop: 40}}>
+                <div style={{display: (this.state.showFilter && this.props.windowSize !== 'xs') ? 'block' : 'none', paddingTop: 40}}>
                     <Grid container item md={12} sm={12} xs={12} key={'566'}>
                     <Grid item md={1} sm={1} xs={1} key={'123'} style={{lineHeight: '68px', color: '#767676'}}>Filter by</Grid>
                     {   
@@ -833,6 +858,7 @@ export class FilterSearchBar extends Component {
                 {
                     arr.length > 0 ? 
                     (<div>
+                        <div className={classes.filterResult}>
                         <Divider style={{ marginTop: 20}}/>
                         <div style={{ marginTop: 20}}>
                         {
@@ -856,6 +882,22 @@ export class FilterSearchBar extends Component {
                                         })
 
                                     }
+                                </Grid>
+                            </Grid>
+                            )
+                            : null
+                        }
+                        </div>
+                        </div>
+                        <div className={classes.filterResultMobile}>
+                        {
+                            this.props.match.params.search ? (
+                            <Grid container item md={12} sm={12} xs={12} key={'566'} style={{paddingTop: '10px'}} >
+                                <Grid item md={8} sm={8} xs={8} key={'123'} style={{color: "#6a6a6a", fontSize: 28, fontFamily: 'Gilroy'}}>
+                                    Filter results
+                                </Grid>
+                                <Grid item md={4} sm={4} xs={4} key={'333'} >
+                                    <Chip  icon={<SyncIcon />} style={{margin: 5, marginRight: 10}} key={'224'} label="Clear result" color="primary" onClick={(e) => this.handleClick(e)}/>
                                 </Grid>
                             </Grid>
                             )
