@@ -9,7 +9,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import getSymbolFromCurrency from 'currency-symbol-map';
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
@@ -19,7 +18,6 @@ import {
     authCheckState,
     sendingLog,
     AUTH_RESULT_FAIL,
-    postLogout,
     logout,
     authUserUpdate
 } from '../../../../../../actions';
@@ -44,22 +42,22 @@ const styles = theme => ({
         paddingTop: 50,
         paddingBottom: 50
     },
-    actionButton: {
-        width: 324,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#4DA9DF',
-        color: '#fff',
-        '&:hover': {
-            backgroundColor: '#57b9f2',
-            color: '#fff'
-        },
-        '&:focus': {
-            backgroundColor: '#57b9f2',
-            color: '#fff'
-        },
-        textTransform: 'capitalize'
-    },
+    // actionButton: {
+    //     width: 324,
+    //     height: 44,
+    //     borderRadius: 22,
+    //     backgroundColor: '#4DA9DF',
+    //     color: '#fff',
+    //     '&:hover': {
+    //         backgroundColor: '#57b9f2',
+    //         color: '#fff'
+    //     },
+    //     '&:focus': {
+    //         backgroundColor: '#57b9f2',
+    //         color: '#fff'
+    //     },
+    //     textTransform: 'capitalize'
+    // },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
@@ -390,10 +388,10 @@ class FgoCard extends Component {
             },
             body: formBody
         })
-            .then(function (res) {
+            .then(function(res) {
                 return res.json();
             })
-            .then(function (data) {
+            .then(function(data) {
                 if (data.errorCode) {
                     currentComponent.props.postLogout();
                     return;
@@ -443,7 +441,7 @@ class FgoCard extends Component {
                     );
                 }
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 currentComponent.props.callbackFromParent(
                     'error',
                     'Something is wrong.'
@@ -468,7 +466,7 @@ class FgoCard extends Component {
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 sendingLog(err);
             });
     }
@@ -541,7 +539,7 @@ class FgoCard extends Component {
                             }
                             helperText={
                                 this.state.cardNumberFocused &&
-                                    cardNumber.length === 0
+                                cardNumber.length === 0
                                     ? this.getLabel('invalid-card-number')
                                     : ' '
                             }
@@ -585,7 +583,7 @@ class FgoCard extends Component {
                             }
                             helperText={
                                 this.state.serialNumberFocused &&
-                                    serialNumber.length === 0
+                                serialNumber.length === 0
                                     ? this.getLabel('invalid-serial-number')
                                     : ' '
                             }

@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
@@ -18,7 +17,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -238,7 +237,6 @@ class AliPay extends Component {
             amountInvalid: true,
 
             isFavorite: false,
-            showLinearProgressBar: false,
         };
     }
 
@@ -300,7 +298,6 @@ class AliPay extends Component {
     handleClick() {
         let currentComponent = this;
 
-        currentComponent.setState({ showLinearProgressBar: true });
         let userid = this.state.data.pk;
         var postData = {
             amount: this.state.amount,
@@ -326,9 +323,7 @@ class AliPay extends Component {
             body: formBody
         })
             .then(function (res) {
-                //console.log(res);
-                currentComponent.setState({ showLinearProgressBar: false });
-                if (res.status == 200) {
+               if (res.status == 200) {
                     return res.json();
                 } else {
                     currentComponent.props.callbackFromParent("error", "Transaction failed.");
@@ -374,63 +369,61 @@ class AliPay extends Component {
                                     },
                                     body: formBody
                                 }
-                            )
-                                .then(function (res) {
-                                    if (res.status == 200) {
-                                        return res.json();
-                                    } else {
-                                        currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                            ).then(function (res) {
+                                if (res.status == 200) {
+                                    return res.json();
+                                } else {
+                                    currentComponent.props.callbackFromParent("error", "Transaction failed.");
 
-                                    }
-                                })
-                                .then(function (data) {
-                                    if (data.status === '001') {
-                                        const body = JSON.stringify({
-                                            type: 'add',
-                                            username:
-                                                currentComponent.state.data
-                                                    .username,
-                                            balance:
-                                                currentComponent.state.amount
+                                }
+                            }).then(function (data) {
+                                if (data.status === '001') {
+                                    const body = JSON.stringify({
+                                        type: 'add',
+                                        username:
+                                            currentComponent.state.data
+                                                .username,
+                                        balance:
+                                            currentComponent.state.amount
+                                    });
+
+                                    axios
+                                        .post(
+                                            API_URL +
+                                            `users/api/addorwithdrawbalance/`,
+                                            body,
+                                            config
+                                        )
+                                        .then(res => {
+                                            if (res.data === 'Failed') {
+                                                currentComponent.props.callbackFromParent(
+                                                    'error',
+                                                    'Transaction failed.'
+                                                );
+                                            } else if (
+                                                res.data ===
+                                                'The balance is not enough'
+                                            ) {
+                                                currentComponent.props.callbackFromParent(
+                                                    'error',
+                                                    'Cannot deposit this amount.'
+                                                );
+                                            } else {
+                                                currentComponent.props.authUserUpdate();
+                                                currentComponent.props.callbackFromParent(
+                                                    'success',
+                                                    currentComponent.state
+                                                        .amount
+                                                );
+                                            }
                                         });
-
-                                        axios
-                                            .post(
-                                                API_URL +
-                                                `users/api/addorwithdrawbalance/`,
-                                                body,
-                                                config
-                                            )
-                                            .then(res => {
-                                                if (res.data === 'Failed') {
-                                                    currentComponent.props.callbackFromParent(
-                                                        'error',
-                                                        'Transaction failed.'
-                                                    );
-                                                } else if (
-                                                    res.data ===
-                                                    'The balance is not enough'
-                                                ) {
-                                                    currentComponent.props.callbackFromParent(
-                                                        'error',
-                                                        'Cannot deposit this amount.'
-                                                    );
-                                                } else {
-                                                    currentComponent.props.authUserUpdate();
-                                                    currentComponent.props.callbackFromParent(
-                                                        'success',
-                                                        currentComponent.state
-                                                            .amount
-                                                    );
-                                                }
-                                            });
-                                    } else {
-                                        currentComponent.props.callbackFromParent(
-                                            'error',
-                                            data.StatusMsg
-                                        );
-                                    }
-                                });
+                                } else {
+                                    currentComponent.props.callbackFromParent(
+                                        'error',
+                                        data.StatusMsg
+                                    );
+                                }
+                            });
                         }
                     }, 1000);
                 } else {

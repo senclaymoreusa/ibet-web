@@ -323,7 +323,7 @@ class WithdrawAsiapayBT extends Component {
 
         let amount = this.state.amount;
         let user = this.state.data.pk;
-        let main_wallet = this.state.data.main_wallet;
+        
         let cardnumber = this.state.pin;
         let cardname = this.state.cardname;
         let bankname = this.state.bankname;
@@ -365,7 +365,7 @@ class WithdrawAsiapayBT extends Component {
         }).then(function (data) {
             let status = data.StatusCode;
 
-            if (status == '50001') {
+            if (status === '50001') {
                 const body = JSON.stringify({
                     type: 'withdraw',
                     username: username,

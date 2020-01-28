@@ -296,7 +296,6 @@ class JDPay extends Component {
     handleClick = () => {
         let currentComponent = this;
 
-        currentComponent.setState({ showLinearProgressBar: true });
         var postData = {
             amount: this.state.amount,
             userid: this.state.data.pk,
@@ -320,7 +319,6 @@ class JDPay extends Component {
             },
             body: formBody
         }).then(function (res) {
-             currentComponent.setState({ showLinearProgressBar: false });
             if (res.status === 200) {
                 return res.json();
             } else {

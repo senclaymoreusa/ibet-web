@@ -277,7 +277,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class Astropay_CH extends Component {
+class AstropayCH extends Component {
     constructor(props) {
         super(props);
 

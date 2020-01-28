@@ -381,7 +381,7 @@ class OnlinePay extends Component {
         })
             .then(function(res) {
                 
-                if(res.status == 200){
+                if(res.status === 200){
                     return res.text();
                 }
                 else{

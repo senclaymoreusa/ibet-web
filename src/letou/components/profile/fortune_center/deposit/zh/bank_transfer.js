@@ -416,8 +416,6 @@ class BankTransfer extends Component {
         {
             let currentComponent = this;
 
-            currentComponent.setState({ showLinearProgressBar: true });
-
             var postData = {
                 "amount": this.state.amount,
                 "user_id": this.state.data.pk,
@@ -504,14 +502,13 @@ class BankTransfer extends Component {
                         }
                     }, 1000);
                 } else {
-                    currentComponent.setState({ showLinearProgressBar: false });
                     currentComponent.props.callbackFromParent("error", data.returnMessage);
                  }
             }).catch(function (err) {
                 currentComponent.props.callbackFromParent("error", "Something is wrong");
                 sendingLog(err);
             });
-        }
+        
     }
 
     getLabel(labelId) {

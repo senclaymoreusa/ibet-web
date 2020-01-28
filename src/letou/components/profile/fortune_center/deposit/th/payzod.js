@@ -488,7 +488,7 @@ class Payzod extends Component {
                                     inputProps: {
                                         step: 10,
                                         min: 200,
-                                        min: 950000,
+                                        max: 950000,
                                         style: { textAlign: 'right' },
                                         currency: currency
                                     },
@@ -572,6 +572,8 @@ class Payzod extends Component {
                         <Grid item xs={3}></Grid>
                     </Grid>
                 );
+            default:
+                return <div></div>;
         }
     }
 

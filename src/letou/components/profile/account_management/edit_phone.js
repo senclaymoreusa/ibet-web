@@ -10,7 +10,6 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { config } from '../../../../util_config';
 import axios from 'axios'
-import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -325,7 +324,7 @@ export class EditPhone extends Component {
                             color="default"
                             onClick={this.sendVerificationCode}
                             className={classes.sendButton}>{
-                                ((this.timeIntervalID != 0 && this.state.remainingTime) > 0 ?
+                                ((this.timeIntervalID !== 0 && this.state.remainingTime) > 0 ?
                                     this.getLabel('enter-code') + ' ' + this.state.remainingTime :
                                     this.getLabel('send-code'))
                             }</Button>

@@ -482,11 +482,13 @@ export class SetSecurityQuestion extends Component {
                         </Grid>
                     </Grid>
                 );
+            default:
+                return <div></div>;
         }
     }
     render() {
         const { classes } = this.props;
-        const { activeStep, securityAnswer, securityQuestion, questionList } = this.state;
+        const { activeStep } = this.state;
 
         return (
             <div className={classes.root}>

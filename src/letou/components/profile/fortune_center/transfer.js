@@ -374,7 +374,7 @@ function LetouWallet(props) {
                 </Typography>
                 <Typography className={classes.name}>
 
-                    {wallet.isMain == 'true' ?
+                    {wallet.isMain === 'true' ?
                         <FormattedMessage id="main-wallet" defaultMessage="Main Wallet" />
                         :
                         wallet.code}
@@ -593,8 +593,8 @@ class Transfer extends Component {
 
         let currentComponent = this;
 
-        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain == true)[0];
-        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain == false && parseFloat(item.amount) > 10.00);
+        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain === true)[0];
+        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain === false && parseFloat(item.amount) > 10.00);
 
         walletsWithAmount.forEach(wallet => {
 
@@ -660,7 +660,7 @@ class Transfer extends Component {
         let wallet = this.state.walletObjs.filter(item => item.code === id)[0];
 
         if (this.state.from === null && this.state.to === null) {
-            if (wallet.amount == 0) {
+            if (wallet.amount === 0) {
                 this.setState({ snackType: 'warning' });
                 this.setState({ snackMessage: this.getLabel('empty-wallet-message') });
                 this.setState({ showSnackbar: true });
@@ -669,7 +669,7 @@ class Transfer extends Component {
 
             this.setState({ from: wallet });
         } else if (this.state.from === null && this.state.to.code !== wallet.code) {
-            if (wallet.amount == 0) {
+            if (wallet.amount === 0) {
                 this.setState({ snackType: 'warning' });
                 this.setState({ snackMessage: this.getLabel('empty-wallet-message') });
                 this.setState({ showSnackbar: true });
@@ -698,9 +698,9 @@ class Transfer extends Component {
         let otherWalletObjs = [];
 
         if (activeContent === 0) {
-            let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
+            let mainWalletObj = walletObjs.filter(item => item.isMain === true)[0];
 
-            otherWalletObjs = walletObjs.filter(item => item.isMain == false);
+            otherWalletObjs = walletObjs.filter(item => item.isMain === false);
 
              mainWallet = (
                 mainWalletObj ?
