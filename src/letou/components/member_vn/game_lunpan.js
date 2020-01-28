@@ -97,10 +97,10 @@ export class LunpanVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a href="">Asian Roulette</a>
+                                <a href="/">Asian Roulette</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a href="">International Roulette</a>
+                                <a href="/">International Roulette</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
@@ -164,7 +164,7 @@ export class LunpanVn extends React.Component {
   const mapStateToProps = (state) => {
     const { token } = state.auth;
     return {
-        isAuthenticated: (token != null && token != undefined),
+        isAuthenticated: (token != null && token !== undefined),
         error: state.auth.error,
         lang: state.language.lang,
         showAnnouncements: state.general.show_letou_announcements,

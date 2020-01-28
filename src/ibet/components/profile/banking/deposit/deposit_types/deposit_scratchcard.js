@@ -10,7 +10,7 @@ import { LinearProgress, Grid, Button, Select, MenuItem, TextField, InputBase } 
 import InputMask from 'react-input-mask';
 
 import { authCheckState,sendingLog, logout, postLogout } from '../../../../../../actions';
-import { func } from 'prop-types';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 

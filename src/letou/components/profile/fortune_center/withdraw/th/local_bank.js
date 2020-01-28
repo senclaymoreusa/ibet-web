@@ -15,7 +15,6 @@ import {
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
@@ -416,7 +415,6 @@ class ThaiLocalBank extends Component {
 
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
-
         const body = JSON.stringify({
             bank: this.state.selectedBank,
             bank_acc_no: this.state.accountNumber,
@@ -850,7 +848,7 @@ class ThaiLocalBank extends Component {
                                     inputProps: {
                                         step: 10,
                                         min: 200,
-                                        min: 950000,
+                                        max: 950000,
                                         style: { textAlign: 'right' },
                                         currency: currency
                                     },

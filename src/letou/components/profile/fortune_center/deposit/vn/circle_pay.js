@@ -10,8 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL,
-    postLogout
+    AUTH_RESULT_FAIL
 } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import NumberFormat from 'react-number-format';

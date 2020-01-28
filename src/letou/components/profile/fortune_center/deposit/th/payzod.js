@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../../util_config';
+import { config } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
 import getSymbolFromCurrency from 'currency-symbol-map'
-import clsx from 'clsx';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
@@ -489,7 +487,7 @@ class Payzod extends Component {
                                     inputProps: {
                                         step: 10,
                                         min: 200,
-                                        min: 950000,
+                                        max: 950000,
                                         style: { textAlign: 'right' },
                                         currency: currency
                                     },
@@ -573,6 +571,8 @@ class Payzod extends Component {
                         <Grid item xs={3}></Grid>
                     </Grid>
                 );
+            default:
+                return <div></div>;
         }
     }
 

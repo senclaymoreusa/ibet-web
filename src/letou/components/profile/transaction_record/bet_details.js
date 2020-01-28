@@ -329,6 +329,7 @@ export class BetDetails extends Component {
                                 itemArray.push(temp1);
                             }
                         }
+                        return null;
                     });
                     this.setState({ items: itemArray });
                 }

@@ -276,7 +276,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class Astropay_CH extends Component {
+class AstropayCH extends Component {
     constructor(props) {
         super(props);
 
@@ -696,6 +696,6 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Astropay_CH))
+        injectIntl(connect(mapStateToProps, { authCheckState })(AstropayCH))
     )
 );

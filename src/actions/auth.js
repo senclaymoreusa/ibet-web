@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { config } from '../util_config';
 import { errors } from '../ibet/components/errors';
-import { getOverlappingDaysInIntervals } from 'date-fns';
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
@@ -349,7 +348,7 @@ function parseUser(data) {
         phoneVerified: data.phone_verified,
         hasWithdrawPassword:
             data.withdraw_password != null &&
-            data.withdraw_password != undefined &&
-            data.withdraw_password != ''
+            data.withdraw_password !== undefined &&
+            data.withdraw_password !== ''
     };
 }
