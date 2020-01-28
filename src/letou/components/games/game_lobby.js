@@ -22,7 +22,6 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Typography from '@material-ui/core/Typography';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Link from '@material-ui/core/Link';
