@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState, handle_referid, hide_landing_page } from '../../../actions';
-import { fade, withStyles } from '@material-ui/core/styles';
+import {  withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -89,7 +89,6 @@ const styles = theme => ({
 
   formControl: {
     margin: theme.spacing(1),
-    width: '80%',
     border: '1px solid',
     width: 200,
     height: 48,
@@ -144,15 +143,15 @@ const styles = theme => ({
 
 });
 
-const StyledButtonGroup = withStyles({
-    root: {
-      borderRadius: 3,
-      borderColor: '#53abe0',
-    //   color: 'red',
-      height: 48,
-      padding: '0 30px',
-    }
-  })(ButtonGroup);
+// const StyledButtonGroup = withStyles({
+//     root: {
+//       borderRadius: 3,
+//       borderColor: '#53abe0',
+//     //   color: 'red',
+//       height: 48,
+//       padding: '0 30px',
+//     }
+//   })(ButtonGroup);
 
 export class FilterSearchBar extends Component {
 
@@ -242,6 +241,7 @@ export class FilterSearchBar extends Component {
                 if (value[0] === 'Sort') {
                     this.setState({ sortArr: value[1] }); 
                 }
+                return null;
             })
             this.setState({expandOpen: obj});
 
@@ -258,7 +258,6 @@ export class FilterSearchBar extends Component {
                     providerFilter: [],
                     featuresFilter: [],
                     themeFilter: [],
-                    featuresFilter: [],
                 }) 
             } else {
                 var filterList = search.split('&');
@@ -458,10 +457,12 @@ export class FilterSearchBar extends Component {
 
     handleToggle = (value, type) => () => {
 
+        var currentIndex = "";
+        var newChecked = "";
         switch(type) {
             case 'Providers':
-                var currentIndex = this.state.providerFilter.indexOf(value);
-                var newChecked = [...this.state.providerFilter];
+                currentIndex = this.state.providerFilter.indexOf(value);
+                newChecked = [...this.state.providerFilter];
                 if (currentIndex === -1) {
                     newChecked.push(value);
                 } else {
@@ -474,8 +475,8 @@ export class FilterSearchBar extends Component {
                 });
                 break;
             case 'Theme':
-                var currentIndex = this.state.themeFilter.indexOf(value);
-                var newChecked = [...this.state.themeFilter];
+                currentIndex = this.state.themeFilter.indexOf(value);
+                newChecked = [...this.state.themeFilter];
                 if (currentIndex === -1) {
                     newChecked.push(value);
                 } else {
@@ -488,8 +489,8 @@ export class FilterSearchBar extends Component {
                 });
                 break;
             case 'Jackpot':
-                var currentIndex = this.state.jackpotFilter.indexOf(value);
-                var newChecked = [...this.state.jackpotFilter];
+                currentIndex = this.state.jackpotFilter.indexOf(value);
+                newChecked = [...this.state.jackpotFilter];
                 if (currentIndex === -1) {
                     newChecked.push(value);
                 } else {
@@ -502,8 +503,8 @@ export class FilterSearchBar extends Component {
                 });
                 break;
             case 'Features':
-                var currentIndex = this.state.featuresFilter.indexOf(value);
-                var newChecked = [...this.state.featuresFilter];
+                currentIndex = this.state.featuresFilter.indexOf(value);
+                newChecked = [...this.state.featuresFilter];
                 if (currentIndex === -1) {
                     newChecked.push(value);
                 } else {
@@ -617,7 +618,7 @@ export class FilterSearchBar extends Component {
                     // aria-label="large outlined secondary button group"
                     >
                     <Button onClick={(event) => {
-                        if (this.props.windowSize == 'xs') {
+                        if (this.props.windowSize === 'xs') {
                             this.setState({ 
                                 menuAnchorEl: event.currentTarget,
                                 open: !this.state.open,
@@ -817,7 +818,8 @@ export class FilterSearchBar extends Component {
 
                                     }
                                     
-                                }
+                                } 
+                                return null;
                             })
                         }
                         </List>
@@ -851,6 +853,7 @@ export class FilterSearchBar extends Component {
                                     </Grid>
                                 )
                             }
+                            return null;
                         })
                     }
                     </Grid>

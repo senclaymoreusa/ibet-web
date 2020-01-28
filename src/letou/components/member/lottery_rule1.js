@@ -97,37 +97,37 @@ export class LotteryRuleOne extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
-                                <a>名词解释</a>
+                                <a href="/">名词解释</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
-                                <a>香港六合彩</a>
+                                <a href="/">香港六合彩</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
-                                <a>新加坡多多</a>
+                                <a href="/">新加坡多多</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
-                                <a>中国七乐彩</a>
+                                <a href="/">中国七乐彩</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
-                                <a>新西兰乐透</a>
+                                <a href="/">新西兰乐透</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
-                                <a>德国乐透</a>
+                                <a href="/">德国乐透</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
-                                <a>英国国家乐透</a>
+                                <a href="/">英国国家乐透</a>
                             </li>
                             <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
-                                <a>西班牙乐透</a>
+                                <a href="/">西班牙乐透</a>
                             </li>
                             <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
-                                <a>南非国家乐透</a>
+                                <a href="/">南非国家乐透</a>
                             </li>
                             <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
-                                <a>加拿大乐透</a>
+                                <a href="/">加拿大乐透</a>
                             </li>
                             <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
-                                <a>美国纽约乐透</a>
+                                <a href="/">美国纽约乐透</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

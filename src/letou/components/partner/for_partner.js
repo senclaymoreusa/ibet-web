@@ -68,10 +68,7 @@ const styles = () => ({
 })
 
 export class ForPartner extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
+    
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });

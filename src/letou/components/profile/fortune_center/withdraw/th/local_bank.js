@@ -10,15 +10,12 @@ import Grid from '@material-ui/core/Grid';
 import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map'
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Divider } from '@material-ui/core';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
@@ -483,7 +480,7 @@ class ThaiLocalBank extends Component {
         let currentComponent = this;
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
-        let userid = this.state.data.pk;
+        
         const body = JSON.stringify({
             type: '1',
             username: this.state.data.username,
@@ -501,7 +498,7 @@ class ThaiLocalBank extends Component {
                 config
             )
             .then((res) => {
-                if(res.statusText=="OK"){
+                if(res.statusText==="OK"){
                     return res.data;
                 }else{
                     currentComponent.props.callbackFromParent("error", "Transaction failed.");
@@ -689,7 +686,7 @@ class ThaiLocalBank extends Component {
                                     inputProps: {
                                         step: 10,
                                         min: 200,
-                                        min: 950000,
+                                        max: 950000,
                                         style: { textAlign: 'right' },
                                         currency: currency
                                     },
@@ -738,7 +735,7 @@ class ThaiLocalBank extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
                             onClick={this.handleClick.bind(this)}
-                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.bankAccountHolder == '' || this.state.bankAccountNumber == ''}
+                            disabled={this.state.amountInvalid || this.state.selectedBankOption === 'none' || this.state.bankAccountHolder === '' || this.state.bankAccountNumber === ''}
                         >{this.getLabel('next-label')}</Button>
                     </Grid>
                 </Grid>

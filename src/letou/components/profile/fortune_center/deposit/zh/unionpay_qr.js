@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
@@ -16,7 +15,7 @@ import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog,  AUTH_RESULT_FAIL } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -327,7 +326,7 @@ class UnionPayQr extends Component {
                 let redirectUrl = data.paymentPageSession.paymentPageUrl;
                 if (redirectUrl != null) {
                     const mywin = window.open(redirectUrl, 'qaicash-unionpay');
-                    currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
+                    //currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
                     var timer = setInterval(function() {
                         //console.log('checking..');
                         if (mywin.closed) {

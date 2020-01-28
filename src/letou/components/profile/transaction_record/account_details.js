@@ -27,8 +27,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
-import { config } from '../../../../util_config';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
     MuiPickersUtilsProvider,

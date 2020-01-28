@@ -117,7 +117,7 @@ export class WithdrawError extends Component {
         //var path = parts.slice(1, 3).join('/');
         //url = url + path;
         //this.props.history.push(url);
-        var path = parts.slice(4);
+        
         let currentComponent = this;
         currentComponent.props.callbackFromParent(parts[4]);
     }

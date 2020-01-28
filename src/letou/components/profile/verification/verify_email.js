@@ -35,7 +35,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Info from '@material-ui/icons/InfoOutlined';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 import axios from 'axios'
-import Divider from '@material-ui/core/Divider';
+
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -343,7 +343,7 @@ export class VerifyEmail extends Component {
 
                             currentComponent.setState({ email: res.data.email });
 
-                            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                            let re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                             this.setState({ emailInvalid: !res.data.email.match(re) })
 
                         }).catch(function (err) {
@@ -414,7 +414,7 @@ export class VerifyEmail extends Component {
 
         this.setState({ email: event.target.value });
 
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)) {
             this.setState({ emailInvalid: true })
         } else {
@@ -552,6 +552,8 @@ export class VerifyEmail extends Component {
                         </Grid>
                     </Grid>
                 );
+            default:
+                return <div></div>;
         }
     }
 
