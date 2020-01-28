@@ -105,7 +105,6 @@ export const FacebookauthLogin = (username, email) => {
             )
             .then(res => {
                 if (res.data.errorCode) {
-                    // return Promise.resolve(AUTH_RESULT_FAIL);
                     dispatch(authFail(res.data.errorMsg));
                     return Promise.resolve(res.data);
                 }
@@ -147,12 +146,6 @@ export const authSignup = (
     referralCode
 ) => {
     return dispatch => {
-        // dispatch(authStart());
-        // const config = {
-        //   headers: {
-        //     "Content-Type": "application/json"
-        //   }
-        // };
         const body = JSON.stringify({
             username,
             email,
@@ -237,7 +230,6 @@ export const checkAuthTimeout = expirationTime => {
 };
 
 export const postLogout = () => {
-    // document.location.href="/";
     return dispatch => {
         const token = localStorage.getItem('token');
         const body = JSON.stringify({});
@@ -298,7 +290,6 @@ export const authCheckState = () => {
                 localStorage.getItem('expirationDate')
             );
             if (expirationDate <= new Date()) {
-                // postLogout();
                 dispatch(postLogout());
                 return Promise.resolve(AUTH_RESULT_FAIL);
             } else {
@@ -315,14 +306,13 @@ export const authCheckState = () => {
                             dispatch(postLogout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
+                            dispatch(authGetUser(parseUser(res.data)));
                             dispatch(authSuccess(token));
                             dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);
                         }
                     })
                     .catch(() => {
-                        // dispatch(logout());
-                        // postLogout();
                         dispatch(postLogout());
                         delete config.headers['Authorization'];
                         return Promise.resolve(AUTH_RESULT_FAIL);
@@ -332,7 +322,7 @@ export const authCheckState = () => {
     };
 };
 
-function parseUser(data) { 
+function parseUser(data) {
     return {
         userId: data.pk,
         currency: data.currency,
