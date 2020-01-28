@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 
 import { connect } from 'react-redux';
-import { authCheckState, handle_inbox_value, sendingLog, logout, postLogout } from '../../../../actions';
+import { authCheckState, sendingLog} from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { errors } from '../../errors';
 import { withRouter } from 'react-router-dom';
@@ -13,10 +13,7 @@ import moment from 'moment';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import Fade from '@material-ui/core/Fade';
-import IconButton from '@material-ui/core/IconButton';
+
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -146,7 +143,7 @@ export class MessageNotification extends Component {
                                         // postLogout();
                                         return;
                                     }
-                                    if(res.data.length == 0) {
+                                    if(res.data.length === 0) {
                                         this.setState({noMessage: "You don't have any message yet"});
                                     }
                                     
@@ -194,7 +191,7 @@ export class MessageNotification extends Component {
     render() {
         const { classes } = this.props;
 
-        const { Messages, showMessage, messageText } = this.state;
+        const { Messages } = this.state;
 
         Messages.forEach(message => {
             let publish_on = moment(message.publish_on);
@@ -244,6 +241,7 @@ export class MessageNotification extends Component {
                                 )
                             }
                         }
+                        return null;
                     })
                     }
                 </Grid>

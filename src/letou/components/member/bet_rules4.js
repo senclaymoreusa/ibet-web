@@ -60,7 +60,6 @@ export class BetRuleFour extends React.Component {
   
       const { classes } = this.props;
       
-      
       return (
        
         <div className={classes.root}> 
@@ -97,70 +96,70 @@ export class BetRuleFour extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>网球</a>
+                                <a href="/">网球</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>篮球</a>
+                                <a href="/">篮球</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>美式足球</a>
+                                <a href="/">美式足球</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>冰上曲棍球</a>
+                                <a href="/">冰上曲棍球</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>棒球</a>
+                                <a href="/">棒球</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>手球</a>
+                                <a href="/">手球</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>排球</a>
+                                <a href="/">排球</a>
                             </li>
                             <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>沙滩排球</a>
+                                <a href="/">沙滩排球</a>
                             </li>
                             <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>室内足球</a>
+                                <a href="/">室内足球</a>
                             </li>
                             <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>羽毛球</a>
+                                <a href="/">羽毛球</a>
                             </li>
                             <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>英式橄榄球联赛联盟</a>
+                                <a href="/">英式橄榄球联赛联盟</a>
                             </li>
                             <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>飞镖</a>
+                                <a href="/">飞镖</a>
                             </li>
                             <li className={this.state.current === 13 ? "Active" : ""} onClick={this.onClick.bind(this,13)}>
-                                <a>斯诺克</a>
+                                <a href="/">斯诺克</a>
                             </li>
                             <li className={this.state.current === 14 ? "Active" : ""} onClick={this.onClick.bind(this,14)}>
-                                <a>乒乓球</a>
+                                <a href="/">乒乓球</a>
                             </li>
                             <li className={this.state.current === 15 ? "Active" : ""} onClick={this.onClick.bind(this,15)}>
-                                <a>高尔夫球镖</a>
+                                <a href="/">高尔夫球镖</a>
                             </li>
                             <li className={this.state.current === 16 ? "Active" : ""} onClick={this.onClick.bind(this,16)}>
-                                <a>板球</a>
+                                <a href="/">板球</a>
                             </li>
                             <li className={this.state.current === 17 ? "Active" : ""} onClick={this.onClick.bind(this,17)}>
-                                <a>虚拟足球联赛 (VFL)</a>
+                                <a href="/">虚拟足球联赛 (VFL)</a>
                             </li>
                             <li className={this.state.current === 18 ? "Active" : ""} onClick={this.onClick.bind(this,18)}>
-                                <a>电子竞技</a>
+                                <a href="/">电子竞技</a>
                             </li>
                             <li className={this.state.current === 19 ? "Active" : ""} onClick={this.onClick.bind(this,19)}>
-                                <a>刀塔</a>
+                                <a href="/">刀塔</a>
                             </li>
                             <li className={this.state.current === 20 ? "Active" : ""} onClick={this.onClick.bind(this,20)}>
-                                <a>反恐精英:全球攻势</a>
+                                <a href="/">反恐精英:全球攻势</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail" >
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>网球</h2>
                             <h1>重要提醒</h1>
                             <p>如出现选手退赛或不战而胜，所有未决投注视为无效。
@@ -207,7 +206,7 @@ export class BetRuleFour extends React.Component {
                             <h1>滚球：总局大小盘 (包括赛盘1-5盘的投注)</h1>
                             <p>以比赛最终局数来确定。如果局数超过大小盘指定的局数，则投注”大于”者为赢；如果局数低于大小盘指定的局数，则投注”小于”者为赢。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                             <h2>篮球</h2>
                             <h1>重要提醒</h1>
                             <p>除非明确说明，所有盘口不考虑加时。</p>
@@ -326,7 +325,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                             <h2>美式足球</h2>
                             <h1>重要提醒</h1>
                             <p>如遇任何延迟（降雨，天色过暗）所有未结算盘口以及交易在比赛恢复时继续有效。
@@ -399,7 +398,7 @@ export class BetRuleFour extends React.Component {
                             <h1>滚球：下一得分方式 (含延长)</h1>
                             <p>表示投注由当下开始计算，下一个得分的方式。可下注的选项有：达阵、射门得分、安全罚分或无进球。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                             <h2>冰上曲棍球</h2>
                             <h1>重要提醒</h1>
                             <p>除明确说明外，所述盘口皆为常规赛时（除小节超时，罚球盘）。
@@ -517,7 +516,7 @@ export class BetRuleFour extends React.Component {
                             <h1>滚球：获胜队伍 (PK)</h1>
                             <p>投注赢得任意球(PK)的球队。可下注的选项有：主队、客队。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                             <h2>棒球</h2>
                             <h1>重要提醒</h1>
                             <p>除非明确说明，否则可能存在的加时赛不计入任何盘口之内，“率先到达X分 队伍”或“取得第X分者”除外。
@@ -597,7 +596,7 @@ export class BetRuleFour extends React.Component {
                             <h1>滚球：亚洲让分盘</h1>
                             <p>所有滚球的亚洲让分盘的投注，结算将以投注被接受后，赛事剩下时间内的得分为准。在投注被接受前任何得分均无计算在内。延长赛的得分也计算在内。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                             <h2>手球</h2>
                             <h1>重要提醒</h1>
                             <p>所有盘口仅计算常规赛时（”半场”玩法、”上半场”、“率先到达X分队伍”或“取得第X分者”除外。）
@@ -675,7 +674,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                             <h2>排球</h2>
                             <h1>重要提醒</h1>
                             <p>如果比赛未能完成，所有未结盘口视为无效。
@@ -727,7 +726,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 8}>
+                        <div className="centerDetail" hidden={this.state.current !== 8}>
                             <h2>沙滩排球</h2>
                             <h1>重要提醒</h1>
                             <p>如比赛未能完成，所有未结赌盘视为无效。
@@ -780,7 +779,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 如比赛结束时，无任何球队达到X分，盘口将视为取消。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 9}>
+                        <div className="centerDetail" hidden={this.state.current !== 9}>
                             <h2>室内足球</h2>
                             <h1>重要提醒</h1>
                             <p>所有盘口（除”半场”，”上半场”盘口，”加时”及”罚球”）仅计算常规赛时。
@@ -798,7 +797,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 所有滚球的亚洲让分盘的投注，结算将以投注被接受后，赛事/半场剩下时间内的进球为准。在投注被接受前所进的任何球均无计算在内。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 10}>
+                        <div className="centerDetail" hidden={this.state.current !== 10}>
                             <h2>羽毛球</h2>
                             <h1>重要提醒</h1>
                             <p>如果比赛未能完成，所有未决盘口视为无效。</p>
@@ -809,7 +808,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 如果球员退赛，所有未决盘口视为无效。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 11}>
+                        <div className="centerDetail" hidden={this.state.current !== 11}>
                             <h2>英式橄榄球联赛&amp;联盟</h2>
                             <h1>重要提醒</h1>
                             <p>所有盘口只计算常规赛时（半场，上半场盘口加时及罚球除外）。
@@ -878,7 +877,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 小盘且主队获胜：如果主队赢且总进球数在预先指定的进球数基线之下，则此投注赢
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 12}>
+                        <div className="centerDetail" hidden={this.state.current !== 12}>
                             <h2>飞镖</h2>
                             <h1>重要提醒</h1>
                             <p>如果比赛未能完成，所有未决盘口视为无效。</p>
@@ -889,7 +888,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> “牛眼（Bulleye）”将计为红色。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 13}>
+                        <div className="centerDetail" hidden={this.state.current !== 13}>
                             <h2>斯诺克</h2>
                             <h1>重要提醒</h1>
                             <p>如球员退赛或不合格，所有未决盘口视为无效。</p>
@@ -899,7 +898,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 如果比赛或相关比赛没有进行完毕，则所有未决投注，将计为无效。
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 14}>
+                        <div className="centerDetail" hidden={this.state.current !== 14}>
                             <h2>乒乓球</h2>
                             <h1>重要提醒</h1>
                             <p>如比赛未能完成，所有未决盘口视为无效。</p>
@@ -913,7 +912,7 @@ export class BetRuleFour extends React.Component {
                             <h1>多少局超过分数限制（所有局数-五战三胜）</h1>
                             <p>在多少局至少一队超过11分的比分限制。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 15}>
+                        <div className="centerDetail" hidden={this.state.current !== 15}>
                             <h2>高尔夫球</h2>
                             <h1>重要提醒</h1>
                             <p>所有高尔夫球投注都是按照官方锦标赛的结果来结算的。
@@ -921,7 +920,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 如果一场锦标赛或特定回合延期或暂停，则所有投注将在预定结束时间后的四十八小时内有效。
                             </p>
                         </div>
-                        <div className="centerDetail"hidden={this.state.current != 16}>
+                        <div className="centerDetail"hidden={this.state.current !== 16}>
                             <h2>板球</h2>
                             <h1>重要提醒</h1>
                             <p>除非明确说明，所有盘口不考虑超级轮。
@@ -981,7 +980,7 @@ export class BetRuleFour extends React.Component {
                             <h1>滚球：下一个出局方式(接杀/非接杀)</h1>
                             <p>可投注的选项有：接杀或非接杀。如果没有下一个出局，所有的投注都将被取消。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 17}>
+                        <div className="centerDetail" hidden={this.state.current !== 17}>
                             <h2>虚拟足球联赛 (VFL)</h2>
                             <h1>如何玩</h1>
                             <p>VFL提供全天候虚拟足球投注体验，该联赛由16支队伍进行每季的赛事，每一季包含30天比赛日(主、客场比赛)，赛季任何时间都能接受投注。</p>
@@ -1006,7 +1005,7 @@ export class BetRuleFour extends React.Component {
                             <p>所有的虚拟赛事的直播将藉由媒体播放器在你的浏览器播放。你可以在每个比赛日随意切换可供投注的8场比赛或仅选择你所喜欢的比赛。
                                 <br /> 该比赛藉由人工智能和独立的随机变量生成组合来仿真。同时，VFL球员表现的参数是根据职业足球选手所设定 (例如得分、身体素质、持续比赛的数据统计等各方面)。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 18}>
+                        <div className="centerDetail" hidden={this.state.current !== 18}>
                             <h2>电子竞技&nbsp;</h2>
                             <h1>一般盘口规则</h1>
                             <p>● 如果一个盘口涉及两位选手或队伍进行复数场比赛或地图，以”best of 3”为例，当赛事结果已经确定，导致一场或多场比赛/地图没有进行时，则所有未进行的比赛/地图投注将计为作废，投注金退还。</p>
@@ -1029,7 +1028,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 4. 例如，如果输的队伍的水晶在投降时已被摧毁，那么其他的水晶将不会被视为被摧毁。如果输的队伍的水晶没有被摧毁，则获胜队伍被视为摧毁一个额外的水晶。优先计算曾经被摧毁的水晶，当水晶有存在并已重生。
                                 <br /> 5. 如果获胜队伍已经摧毁所有第一层防御塔和一座第二层防御塔，那么将被视为已经摧毁另外三座防御塔(总计为七座)，因为依据规则通常获胜队伍至少需要摧毁一座第三层防御塔和两座主堡防御塔。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 19}>
+                        <div className="centerDetail" hidden={this.state.current !== 19}>
                             <h2>刀塔</h2>
                             <p>● 有关防御塔(towers)的投注，所有被摧毁的防御塔都将被计为敌对方队伍所摧毁，即使最后一次命中是来自于小兵(minion)。
                                 <br /> ● 有关兵营(barracks)的投注，所有被摧毁的兵营都将被计为敌对方队伍所摧毁，即使最后一次命中是来自于小兵(minion)。每一个近战兵营和远程兵营都视为独立的兵营，每个队伍共有6个兵营。
@@ -1043,7 +1042,7 @@ export class BetRuleFour extends React.Component {
                                 <br /> 3. 有关防御塔的投注结算，如果出现投降情况，摧毁的防御塔的数量将根据理论上赢得比赛所需防御塔的最少数量进行结算。
                                 <br /> 4. 例如，如果获胜队伍已经摧毁所有第一层防御塔和一座第二层防御塔，那么将被视为已经摧毁另外三座防御塔(总计为七座)，因为依据规则通常获胜队伍至少需要摧毁一座第三层防御塔和两座遗迹防御塔。</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 20}>
+                        <div className="centerDetail" hidden={this.state.current !== 20}>
                             <h2>反恐精英:全球攻势</h2>
                             <p>● 大多数地图投注是基于预定的回合数(通常为30回合)，不包括在平手情况时进行的额外回合。然而，如果地图获胜者的盘口没有提供”平手”选项，那么结算将包含平手时所进行的额外回合。
                                 <br /> ● 手枪局：指的是一张地图中的第一和第十六回合。</p>

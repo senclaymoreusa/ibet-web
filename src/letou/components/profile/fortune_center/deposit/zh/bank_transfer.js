@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../../util_config';
+import { config } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -17,7 +17,7 @@ import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog,  AUTH_RESULT_FAIL } from '../../../../../../actions';
 import { withRouter } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -332,7 +332,7 @@ class BankTransfer extends Component {
         this.state = {
             amount: '',
             currency: '',
-            bank: 'none',
+            bank: '',
             amountFocused: false,
             amountInvalid: true,
 
@@ -413,7 +413,8 @@ class BankTransfer extends Component {
     };
 
     handleClick() {
-        {/*
+        
+        /*    
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('no token -- user is not logged in');
@@ -437,9 +438,9 @@ class BankTransfer extends Component {
             )
             .then((res, err) => {
                 console.log(res);
-            });
-       */}
-        {
+            });*/
+       
+        
             let currentComponent = this;
 
             currentComponent.setState({ showLinearProgressBar: true });
@@ -450,7 +451,7 @@ class BankTransfer extends Component {
                 "currency": "0",
                 "language": "zh-Hans",
                 "method": "BANK_TRANSFER",
-                "bank": this.state.selectedBankOption,
+                "bank": this.state.bank,
             }
             //console.log(this.state.amount)
             //console.log(currentComponent.state.data.username)
@@ -470,6 +471,7 @@ class BankTransfer extends Component {
             }).then(function (res) {
                 return res.json();
             }).then(function (data) {
+                //console.log(data)
                 let redirectUrl = data.paymentPageSession.paymentPageUrl
                 //console.log(redirectUrl)
 
@@ -541,7 +543,7 @@ class BankTransfer extends Component {
                 currentComponent.props.callbackFromParent("error", "Something is wrong");
                 sendingLog(err);
             });
-        }
+        
     }
 
     getLabel(labelId) {

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from './components/home';
 import Register from './components/login-register/register';
 import live_casino from './components/live_casino';
@@ -168,6 +168,7 @@ import GameLobby from './components/games/game_lobby';
 import GameDetail from './components/games/game_detail';
 
 import Promotion from './components/promotion';
+import NoMatch from './ErrorBoundary/NoMatch';
 
 const containerStyle = {
     minHeight: '100%'
@@ -175,6 +176,7 @@ const containerStyle = {
 
 const BaseRouter = () => (
     <div style={containerStyle}>
+        <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/live_casino" component={live_casino} />
@@ -353,6 +355,8 @@ const BaseRouter = () => (
 
         <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
         <Route exact path="/promotions" component={Promotion} />
+        <Route path="*" component={NoMatch} />
+        </Switch>
     </div>
 );
 

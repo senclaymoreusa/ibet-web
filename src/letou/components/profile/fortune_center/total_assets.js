@@ -309,14 +309,11 @@ function LetouWallet(props) {
                     {wallet.amount}
                 </Typography>
                 <Typography className={classes.name}>
-                    {wallet.isMain == 'true' ? (
-                        <FormattedMessage
-                            id="main-wallet"
-                            defaultMessage="Main Wallet"
-                        />
-                    ) : (
-                            wallet.code
-                        )}
+
+                    {wallet.isMain === 'true' ?
+                        <FormattedMessage id="main-wallet" defaultMessage="Main Wallet" />
+                        :
+                        wallet.code}
                 </Typography>
                 {closeClick !== undefined && (
                     <Button className={classes.close} onClick={closeClick}>
@@ -424,9 +421,9 @@ export class TotalAssets extends Component {
         const { classes } = this.props;
         const { walletObjs, currency, totalBalance, loading } = this.state;
 
-        let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
+        let mainWalletObj = walletObjs.filter(item => item.isMain === true)[0];
 
-        let otherWalletObjs = walletObjs.filter(item => item.isMain == false);
+        let otherWalletObjs = walletObjs.filter(item => item.isMain === false);
 
         let mainWallet = mainWalletObj ? (
             <LetouWallet
