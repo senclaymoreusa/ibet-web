@@ -4,14 +4,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
-import axios from 'axios';
-import { config } from '../../util_config';
+
+
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import { withRouter } from 'react-router-dom';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+
 
 class SelectFieldExampleMultiSelect extends Component {
     constructor(props) {

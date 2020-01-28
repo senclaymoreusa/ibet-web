@@ -97,11 +97,11 @@ export class GameNiuniuTh extends React.Component {
                             <br/>
                             <br/> ไพ่ใบแรก: ดีลเลอร์จะแสดง "ไพ่ใบแรก" เมื่อเริ่มเล่นเกมกัน ตามอันดับของ "ไพ่ใบแรก" ให้ตัดสินใจเลือกตำแหน่งการซื้อขาย (เริ่มจากตัวแทนจำหน่ายในทิศทางทวนเข็มนาฬิกา)
                             <br/>
-                            <img src="http://i.imgur.com/sJzs2gw.jpg"></img>
+                            <img src="http://i.imgur.com/sJzs2gw.jpg" alt=""></img>
                             <br/>
                             <br/> ลำดับการซื้อขาย: ในทิศทางทวนเข็มนาฬิกา
                             <br/>
-                            <img src="http://i.imgur.com/dJmqONC.png"></img>
+                            <img src="http://i.imgur.com/dJmqONC.png" alt=""></img>
                             <br/>
                             <br/> - การนับใหญ่และเล็ก
                             <br/> ในระหว่างเกมถ้าคะแนนเท่ากันผู้เล่นจะต้องเลือกไพ่อันดับสูงสุดจากไพ่ 5 ใบเพื่อเปรียบเทียบ ผู้เล่นที่มีบัตรอันดับสูงสุดจะชนะ
@@ -109,22 +109,22 @@ export class GameNiuniuTh extends React.Component {
                             <br/>
                             <br/> ชนิดของไพ่:
                             <br/>
-                            <img src="http://i.imgur.com/kFgcRVR.png "></img>
+                            <img src="http://i.imgur.com/kFgcRVR.png" alt=""></img>
                             <br/>
                             <br/> ใหญ่/เล็ก:
                             <br/>
-                            <img src="http://i.imgur.com/sRZf7W7.png "></img>
+                            <img src="http://i.imgur.com/sRZf7W7.png" alt=""></img>
                             <br/>
                             <br/>
                             <br/>
                             <br/> - อัตราการจ่าย
                             <br/> โอกาสในการชนะ:
                             <br/>
-                            <img src="http://i.imgur.com/paep88b.png "></img>
+                            <img src="http://i.imgur.com/paep88b.png" alt=""></img>
                             <br/>
                             <br/> โอกาสในการแพ้:
                             <br/>
-                            <img src="http://i.imgur.com/Hnj7FPY.png "></img>
+                            <img src="http://i.imgur.com/Hnj7FPY.png" alt=""></img>
                         </p>
                         </div>
 

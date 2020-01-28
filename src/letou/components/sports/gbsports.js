@@ -129,11 +129,11 @@ export class gbsports extends React.Component {
     }
   }
   game_url(gamename){
-    
+    var URL = "";
     var token = localStorage.getItem('token')  
     if (token){
         config.headers["Authorization"] = `Token ${token}`;
-        var URL = API_URL + 'games/api/gb/generategameurl/?game=' + gamename
+        URL = API_URL + 'games/api/gb/generategameurl/?game=' + gamename
         axios.get(URL, config)
         .then(res => {
             var Game_URL = res.data.game_url
@@ -160,7 +160,7 @@ export class gbsports extends React.Component {
             language = 'zh-cn';
             break;
         }
-        var URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename + '&language=' + language
+        URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename + '&language=' + language
         axios.get(URL, config)
         .then(res => {
             var Game_URL = res.data.game_url

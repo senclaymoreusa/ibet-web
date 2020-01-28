@@ -15,7 +15,6 @@ import {
     authCheckState,
     sendingLog,
     AUTH_RESULT_FAIL,
-    postLogout,
     logout
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';

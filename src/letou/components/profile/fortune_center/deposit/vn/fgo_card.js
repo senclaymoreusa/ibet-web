@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import getSymbolFromCurrency from 'currency-symbol-map';
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
@@ -18,7 +17,6 @@ import {
     authCheckState,
     sendingLog,
     AUTH_RESULT_FAIL,
-    postLogout,
     logout
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
@@ -42,23 +40,23 @@ const styles = theme => ({
         paddingTop: 50,
         paddingBottom: 50
     },
-    actionButton: {
-        width: 324,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#4DA9DF',
-        color: '#fff',
-        '&:hover': {
-            backgroundColor: '#57b9f2',
-            color: '#fff'
-        },
-        '&:focus': {
-            backgroundColor: '#57b9f2',
-            color: '#fff'
-        },
-        textTransform: 'capitalize'
-    },
-    buttonCell: {
+    // actionButton: {
+    //     width: 324,
+    //     height: 44,
+    //     borderRadius: 22,
+    //     backgroundColor: '#4DA9DF',
+    //     color: '#fff',
+    //     '&:hover': {
+    //         backgroundColor: '#57b9f2',
+    //         color: '#fff'
+    //     },
+    //     '&:focus': {
+    //         backgroundColor: '#57b9f2',
+    //         color: '#fff'
+    //     },
+    //     textTransform: 'capitalize'
+    // },
+     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
