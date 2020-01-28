@@ -12,20 +12,57 @@ import '../../../css/help.css'
 
 import { show_letou_announcements} from '../../../../actions';
 
+const styles = theme => ({
+    root: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        backgroundColor: theme.palette.background.paper,
 
-const styles = () => ({
+    },
     content: {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
+       
     },
     infoSelect: {
         paddingLeft: 300,
         display: 'flex',
-        flexDirection: 'column',
+      
+
+        [theme.breakpoints.down('md')]: {
+            display: 'none',
+            paddingLeft: 3
+         
+        }
     },
+    
     aboutUsDetail: {
         fontSize: '14px',
+    },
+    desktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+            flexDirection: 'column',
+         
+        }
+    },
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'column',
+         
+        }
     }
+
 })
 
 export class AboutUs extends React.Component {
@@ -44,8 +81,22 @@ export class AboutUs extends React.Component {
             <div className={classes.root}>
                 <IconHeader />
                 <Grid container className={classes.content}>
-                    <Grid item xs={5} className={classes.infoSelect}>
-                        <div className="HelpCenterLeftNav">
+                    <div className={classes.desktop}>
+                        <Grid item xs={5} className={classes.infoSelect}>
+                            <div className="HelpCenterLeftNav">
+                                <ul>
+                                    <li>
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </Grid>
+                    </div>
+                    <div className={classes.mobile}>
+                        
                             <ul>
                                 <li>
                                     <a href="/zh/for_member">{this.getLabel('for-member')}</a>
@@ -54,8 +105,9 @@ export class AboutUs extends React.Component {
                                     <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
-                        </div>
-                    </Grid>
+                    
+
+                    </div>
 
                     <Grid item xs={7} className={classes.detail}>
                         <div className="HelpCenterList">
