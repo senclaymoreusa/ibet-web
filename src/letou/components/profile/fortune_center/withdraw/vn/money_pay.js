@@ -444,7 +444,10 @@ class MoneyPay extends Component {
             amountInvalid: true,
 
             bankAccountNumber: '',
+            bankAccountHolder: '',
             withdrawPassword: '',
+
+            activeStep: 0,
             currency: 'VND',
             currencyCode: 'VND',
             isFavorite: false
@@ -484,8 +487,8 @@ class MoneyPay extends Component {
                 this.setState({
                     amount: event.target.value,
                     amountInvalid:
-                        parseFloat(event.target.value) < 200000 ||
-                        parseFloat(event.target.value) > 50000000
+                        parseFloat(event.target.value) < 300000 ||
+                        parseFloat(event.target.value) > 300000000
                 });
             } else {
                 this.setState({ amountInvalid: true });
@@ -497,135 +500,69 @@ class MoneyPay extends Component {
         this.setState({ selectedBankOption: event.target.value });
     };
 
-    handleClick() {
+    async handleClick() {
         let currentComponent = this;
 
         var postData = {
             amount: this.state.amount,
-            user_id: this.state.data.pk,
-            currency: 8,
+            username: this.state.data.username,
+            toBankAccountName: this.state.bankAccountHolder,
+            toBankAccountNumber: this.state.bankAccountNumber,
+            withdrawPassword: this.state.withdrawPassword,
             bank: this.state.selectedBankOption,
-            language: 'en-Us',
-            order_id: this.state.order_id
+            currency: 8
         };
 
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + '=' + encodedValue);
+        let res = await axios.post(
+            API_URL + 'accounting/api/help2pay/submit_payout',
+            postData,
+            config
+        );
+        if (res.status === 200) {
+            if (
+                res.data.status_code &&
+                (res.data.status_code === 101 || res.data.status_code === 107)
+            ) {
+                currentComponent.props.callbackFromParent(
+                    'error',
+                    res.data.message
+                );
+                return;
+            }
+            if (res.data.indexOf('000') !== -1) {
+                currentComponent.props.callbackFromParent(
+                    'success',
+                    postData.amount
+                );
+                return;
+            } else {
+                let d = res.data;
+                var errMsg = d.slice(
+                    d.indexOf('<message>') + 9,
+                    d.indexOf('</message>')
+                );
+                currentComponent.props.callbackFromParent('error', errMsg);
+                return;
+            }
+        } else {
+            currentComponent.props.callbackFromParent(
+                'error',
+                'Something went wrong, please try again later'
+            );
+            return;
         }
-        formBody = formBody.join('&');
-        const token = localStorage.getItem('token');
-
-        return fetch(API_URL + 'accounting/api/help2pay/deposit', {
-            method: 'POST',
-            withCredentials: true,
-            headers: {
-                'content-type':
-                    'application/x-www-form-urlencoded; charset=UTF-8',
-                Authorization: 'Token ' + token
-            },
-            body: formBody
-        })
-            .then(function(res) {
-                if (res.ok) {
-                    return res.text();
-                }
-
-                currentComponent.props.callbackFromParent(
-                    'error',
-                    '渠道维护中'
-                );
-
-                throw new Error('Something went wrong.');
-            })
-            .then(function(data) {
-                let newwin = window.open('');
-                newwin.document.write(data);
-                var timer = setInterval(function() {
-                    if (newwin.closed) {
-                        clearInterval(timer);
-                        const pd = JSON.stringify({
-                            order_id: currentComponent.state.order_id
-                        });
-
-                        return fetch(
-                            API_URL + 'accounting/api/help2pay/deposit_status',
-                            {
-                                method: 'POST',
-                                withCredentials: true,
-                                headers: {
-                                    'content-type': 'application/json',
-                                    Authorization: 'Token ' + token
-                                },
-                                body: pd
-                            }
-                        )
-                            .then(function(res) {
-                                return res.text();
-                            })
-                            .then(function(data) {
-                                //console.log(data)
-
-                                if (data === '0') {
-                                    const body = JSON.stringify({
-                                        type: 'add',
-                                        username: this.state.data.username,
-                                        balance: this.state.amount
-                                    });
-                                    //console.log(body)
-                                    axios
-                                        .post(
-                                            API_URL +
-                                                `users/api/addorwithdrawbalance/`,
-                                            body,
-                                            config
-                                        )
-                                        .then(res => {
-                                            if (res.data === 'Failed') {
-                                                currentComponent.props.callbackFromParent(
-                                                    'error',
-                                                    'Transaction failed.'
-                                                );
-                                            } else if (
-                                                res.data ===
-                                                'The balance is not enough'
-                                            ) {
-                                                currentComponent.props.callbackFromParent(
-                                                    'error',
-                                                    'Cannot withdraw this amount.'
-                                                );
-                                            } else {
-                                                currentComponent.props.callbackFromParent(
-                                                    'success',
-                                                    'Transaction completed.'
-                                                );
-                                            }
-                                        });
-                                } else {
-                                    currentComponent.props.callbackFromParent(
-                                        'error',
-                                        '渠道维护中'
-                                    );
-                                }
-                            });
-                    }
-                }, 1000);
-            })
-            .catch(function(err) {
-                //console.log('Request failed', err);
-                currentComponent.props.callbackFromParent(
-                    'error',
-                    'Something is wrong'
-                );
-                sendingLog(err);
-            });
     }
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
+    }
+
+    bankAccountHolderChanged(event) {
+        this.setState({
+            bankAccountHolder: event.target.value,
+            bankAccountHolderFocused: true
+        });
     }
 
     bankAccountNumberChanged(event) {
@@ -659,8 +596,10 @@ class MoneyPay extends Component {
         const {
             selectedBankOption,
             bankAccountNumber,
+            bankAccountHolder,
             amount,
-            currency
+            currency,
+            withdrawPassword
         } = this.state;
 
         return (
@@ -699,6 +638,31 @@ class MoneyPay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
+                            placeholder={this.getLabel('bank-holder')}
+                            onChange={this.bankAccountHolderChanged.bind(this)}
+                            value={bankAccountHolder}
+                            error={
+                                this.state.bankAccountHolderFocused &&
+                                bankAccountHolder.length === 0
+                            }
+                            helperText={
+                                this.state.bankAccountHolderFocused &&
+                                bankAccountHolder.length === 0
+                            } // ? this.getLabel('invalid-bank-number') : ' '}
+                            InputProps={{
+                                disableUnderline: true
+                                // endAdornment: (
+
+                                //     <InputAdornment position="end" >
+                                //     </InputAdornment>
+
+                                // ),
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <TextField
+                            className={classes.detailText}
                             placeholder={this.getLabel('bank-number')}
                             onChange={this.bankAccountNumberChanged.bind(this)}
                             value={bankAccountNumber}
@@ -732,7 +696,9 @@ class MoneyPay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder="₫200 - 50,000"
+                            placeholder={this.getLabel(
+                                'vn-moneypay-placeholder-withdraw'
+                            )}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -743,7 +709,7 @@ class MoneyPay extends Component {
                                 this.state.amountInvalid &&
                                 this.state.amountFocused
                                     ? this.getLabel('valid-amount')
-                                    : ' '
+                                    : ''
                             }
                             InputProps={{
                                 disableUnderline: true,
@@ -771,15 +737,15 @@ class MoneyPay extends Component {
                             marginTop: -10
                         }}
                     >
-                        <span className={classes.span}>
-                            {this.getLabel('moneypay-daily-limit')}
-                        </span>
+                        {/* <span className={classes.span}>
+                        {this.getLabel('moneypay-daily-limit')}
+                    </span> */}
                     </Grid>
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
                             placeholder={this.getLabel('withdrawal-password')}
-                            value={this.state.withdrawalPassword}
+                            value={this.state.withdrawPassword}
                             onChange={this.withdrawPasswordChanged.bind(this)}
                             type={
                                 this.state.showWithdrawPassword
