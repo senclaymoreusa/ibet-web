@@ -1,8 +1,6 @@
 import React from 'react';
 import TopNavbar from '../top_navbar';
 import Footer from '../footer';
-import BannerImage from '../../assets/img/bonus_images/VN200slots.jpg';
-import LetouLogo from '../../assets/img/bonus_images/letou_logo.png'
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
@@ -57,9 +55,9 @@ const styles = {
         height: 55,
     },
     mainLogo: {
-        height: 25,
+        height: 33,
         paddingLeft: 250,
-        marginTop: 13,
+        marginTop: 11,
     },
     button: {
         width: 95,
@@ -97,13 +95,13 @@ class VNFirst200SlotBonus extends React.Component {
             <div>
 
                 <div className={classes.offerHeader}>
-                    <img className={classes.mainLogo} src={LetouLogo} alt="Main Logo"/>
+                    <img className={classes.mainLogo} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/logo_vi.png" alt="Main Logo"/>
                     <div className={classes.button}>
                         <a className={classes.buttonText}>Xem thêm</a>
                     </div>
                 </div>
 
-                <img className={classes.bannerImg} src={BannerImage} alt="Banner Image"/>
+                <img className={classes.bannerImg} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/bonus_images/VN200slots.jpg" alt="Banner Image"/>
                 <div className={classes.content}>
 
                     <h3 className={classes.mainHeading}>200% THƯỞNG CHÀO MỪNG TẠI SLOT GAMES</h3>
