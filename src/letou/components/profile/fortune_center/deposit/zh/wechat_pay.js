@@ -359,7 +359,7 @@ class WechatPay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            //console.log(data.status)
+                            console.log(data.status)
                             if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
