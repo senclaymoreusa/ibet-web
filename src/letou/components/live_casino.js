@@ -240,7 +240,6 @@ export class live_casino extends React.Component {
     }
 
     handleGPIClick() {
-        let username = this.state.data.username;
         let token = localStorage.getItem('token');
         let gpiUrl = "";
         let language = 'us-en';
@@ -460,7 +459,7 @@ export class live_casino extends React.Component {
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a onClick={(e) => {this.handleGPIClick()}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
+                            <a href="/" onClick={(e) => {this.handleGPIClick()}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
                         </Grid>
                         </div>
                     </div>
