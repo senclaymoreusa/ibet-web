@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
@@ -524,6 +524,7 @@ class ThaiLocalBank extends Component {
                                 currentComponent.props.callbackFromParent("error", 'Cannot withdraw this amount!');
     
                             } else {
+                                currentComponent.props.authUserUpdate(); 
                                 currentComponent.props.callbackFromParent("success", 'Your balance is updated.');
     
                                 // alert("your balance is updated")
@@ -753,4 +754,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(ThaiLocalBank))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, sendingLog, authUserUpdate })(ThaiLocalBank))));

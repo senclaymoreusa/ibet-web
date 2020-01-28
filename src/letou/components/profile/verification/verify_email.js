@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, authUserUpdate } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -354,6 +354,7 @@ export class VerifyEmail extends Component {
     }
 
     sendVerificationCodeToEmail() {
+        let currentComponent = this;
         axios.post(API_URL + `users/api/generateactivationcode/`, {
             type: 'change_member_email',
             username: this.state.username,
@@ -365,6 +366,7 @@ export class VerifyEmail extends Component {
                     this.setState({ snackMessage: this.getLabel('verification-code-sent') });
                     this.setState({ showSnackbar: true });
                     this.setState({ activeStep: 1 });
+                    currentComponent.props.authUserUpdate();
                 } if (res.data === 104) {
                     this.setState({ snackType: 'warning' });
                     this.setState({ snackMessage: this.getLabel('reached-verification-limit') });
@@ -392,7 +394,8 @@ export class VerifyEmail extends Component {
                     currentComponent.setState({ snackMessage: this.getLabel('email-verification-success-message') });
                     currentComponent.setState({ showSnackbar: true });
                     currentComponent.setState({ activeStep: 2 });
-          }
+                    currentComponent.props.authUserUpdate();
+                }
             }).catch(function (err) {
                 sendingLog(err);
                 currentComponent.setState({ snackType: 'error' });
@@ -608,4 +611,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(VerifyEmail))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, sendingLog, authUserUpdate })(VerifyEmail))));

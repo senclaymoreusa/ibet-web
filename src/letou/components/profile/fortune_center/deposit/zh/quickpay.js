@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
@@ -406,6 +405,7 @@ class QuickPay extends Component {
                                                         'Cannot deposit this amount.'
                                                     );
                                                 } else {
+                                                    currentComponent.props.authUserUpdate();    
                                                     currentComponent.props.callbackFromParent(
                                                         'success',
                                                         currentComponent.state

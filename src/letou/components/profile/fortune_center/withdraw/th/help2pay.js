@@ -10,7 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -442,9 +443,6 @@ class Help2Pay extends Component {
             bankAccountHolder: '',
             withdrawpassword: '',
 
-            //withdrawpasswordFocused: false,
-            //withdrawpasswordInvalid: true,
-
             activeStep: 0,
             currency: 'THB',
             currencyCode: 'THB',
@@ -503,36 +501,11 @@ class Help2Pay extends Component {
     }
 
     bankAccountHolderChanged(event) {
-        this.setState({ bankAccountHolderFocused: true });
-        {
-            /*
-        const re = /^[0-9\b]+$/;
-
-        if (re.test(event.target.value))
-            this.setState({ bankAccountHolder: event.target.value });
-        else if (event.target.value.length === 0)
-            this.setState({ bankAccountHolder: '' });
-        */
-        }
-        this.setState({ bankAccountHolder: event.target.value });
-        this.setState({ bankAccountHolderFocused: true });
-        //this.setState({ pinInvalid: (event.target.value.length < 2) });
+        this.setState({ bankAccountHolderFocused: true , bankAccountHolder: event.target.value , bankAccountHolderFocused: true });
     }
 
     withdrawpasswordChanged(event) {
-        this.setState({ withdrawpasswordFocused: true });
-        {
-            /*}
-        const re = /^[0-9]+(\.[0-9]{0,2})?$/;
-
-        if (re.test(event.target.value))
-            this.setState({ withdrawpassword: event.target.value });
-        else if (event.target.value.length === 0)
-            this.setState({ bwithdrawpassword: '' });
-        */
-        }
-        this.setState({ withdrawpassword: event.target.value });
-        this.setState({ withdrawpasswordFocused: true });
+        this.setState({ withdrawpasswordFocused: true , withdrawpassword: event.target.value , withdrawpasswordFocused: true });
     }
 
     handleBankChange = event => {
@@ -540,13 +513,9 @@ class Help2Pay extends Component {
     };
 
     async handleClick() {
-        let currentComponent = this;
-
         var postData = {
             amount: this.state.amount,
             username: this.state.data.username,
-            // "user_id": this.state.data.pk,
-            // "language": "en-Us",
             toBankAccountName: this.state.bankAccountHolder,
             toBankAccountNumber: this.state.bankAccountNumber,
             toBankAccountNumber: this.state.bankAccountNumber,
@@ -560,16 +529,16 @@ class Help2Pay extends Component {
             postData,
             config
         );
-        console.log(res);
 
         if (res.status == 200) {
             if (res.data.indexOf('000') !== -1) {
-                currentComponent.props.callbackFromParent(
+                this.props.authUserUpdate(); 
+                this.props.callbackFromParent(
                     'success',
                     postData.amount
                 );
             } else {
-                currentComponent.props.callbackFromParent(
+                this.props.callbackFromParent(
                     'error',
                     'Error message goes here'
                 );
@@ -670,7 +639,7 @@ class Help2Pay extends Component {
                                 }
                                 helperText={
                                     this.state.amountInvalid &&
-                                    this.state.amountFocused
+                                        this.state.amountFocused
                                         ? this.getLabel('valid-amount')
                                         : ' '
                                 }
@@ -730,7 +699,7 @@ class Help2Pay extends Component {
                             }
                             helperText={
                                 this.state.bankAccountNumberFocused &&
-                                bankAccountNumber.length === 0
+                                    bankAccountNumber.length === 0
                                     ? this.getLabel('invalid-bank-number')
                                     : ' '
                             }
@@ -763,7 +732,7 @@ class Help2Pay extends Component {
                             }
                             helperText={
                                 this.state.amountInvalid &&
-                                this.state.amountFocused
+                                    this.state.amountFocused
                                     ? this.getLabel('valid-amount')
                                     : ' '
                             }
@@ -826,8 +795,8 @@ class Help2Pay extends Component {
                                             {this.state.showwithdrawPassword ? (
                                                 <Visibility />
                                             ) : (
-                                                <VisibilityOff />
-                                            )}
+                                                    <VisibilityOff />
+                                                )}
                                         </IconButton>
                                     </InputAdornment>
                                 )
@@ -872,6 +841,6 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Help2Pay))
+        injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(Help2Pay))
     )
 );

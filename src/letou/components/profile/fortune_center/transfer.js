@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { config, images } from '../../../../util_config';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../actions';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -565,11 +565,7 @@ class Transfer extends Component {
             }, config)
             .then(res => {
                 if (res.data.status_code === 1) {
-                    // this.setState({ snackType: 'success' });
-                    // this.setState({ snackMessage: this.getLabel('transfer-successful') });
-                    // this.setState({ showSnackbar: true });
-
-                    this.setState({ activeContent: 1 });
+                  this.setState({ activeContent: 1 });
                 } else if (res.data.status_code === 107) {
                     this.setState({ snackType: 'error' });
                     this.setState({ snackMessage: res.data.error_message });
@@ -1030,4 +1026,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Transfer))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState,authUserUpdate })(Transfer))));
