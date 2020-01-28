@@ -474,8 +474,8 @@ class Help2Pay extends Component {
             const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(event.target.value)) {
-                this.setState({ amount: event.target.value });
                 this.setState({
+                    amount: event.target.value,
                     amountInvalid:
                         parseFloat(event.target.value) < 500 ||
                         parseFloat(event.target.value) > 500000
@@ -559,7 +559,10 @@ class Help2Pay extends Component {
             console.log(res);
             console.log('res.data');
             console.log(res.data);
-            if (res.data.status_code && res.data.status_code == 101) {
+            if (
+                res.data.status_code &&
+                (res.data.status_code == 101 || res.data.status_code == 107)
+            ) {
                 let errMsg = res.data.message;
                 currentComponent.props.callbackFromParent('error', errMsg);
                 return;
