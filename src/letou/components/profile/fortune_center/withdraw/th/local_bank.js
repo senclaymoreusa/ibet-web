@@ -469,8 +469,8 @@ class ThaiLocalBank extends Component {
             const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(event.target.value)) {
-                this.setState({ amount: event.target.value });
                 this.setState({
+                    amount: event.target.value,
                     amountInvalid:
                         parseFloat(event.target.value) < 500 ||
                         parseFloat(event.target.value) > 500000
@@ -494,7 +494,6 @@ class ThaiLocalBank extends Component {
 
     bankAccountHolderChanged(event) {
         this.setState({
-            bankAccountHolderFocused: true,
             bankAccountHolder: event.target.value,
             bankAccountHolderFocused: true
         });
@@ -792,8 +791,8 @@ class ThaiLocalBank extends Component {
                                 inputComponent: NumberFormatCustom,
                                 inputProps: {
                                     step: 10,
-                                    min: 200,
-                                    min: 950000,
+                                    min: 500,
+                                    max: 500000,
                                     style: { textAlign: 'right' },
                                     currency: currency
                                 },
@@ -852,8 +851,8 @@ class ThaiLocalBank extends Component {
                             disabled={
                                 this.state.amountInvalid ||
                                 this.state.selectedBankOption === 'none' ||
-                                this.state.bankAccountHolder == '' ||
-                                this.state.bankAccountNumber == ''
+                                this.state.bankAccountHolder === '' ||
+                                this.state.bankAccountNumber === ''
                             }
                         >
                             {this.getLabel('next-label')}

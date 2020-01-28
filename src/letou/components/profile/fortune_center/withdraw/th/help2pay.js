@@ -561,7 +561,7 @@ class Help2Pay extends Component {
             console.log(res.data);
             if (
                 res.data.status_code &&
-                (res.data.status_code == 101 || res.data.status_code == 107)
+                (res.data.status_code === 101 || res.data.status_code === 107)
             ) {
                 let errMsg = res.data.message;
                 currentComponent.props.callbackFromParent('error', errMsg);
