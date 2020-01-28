@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
@@ -365,7 +364,7 @@ class QuickPay extends Component {
                                 }
                             )
                                 .then(function (res) {
-                                    if (res.status == 200) {
+                                    if (res.status === 200) {
                                         return res.json();
                                     } else {
                                         currentComponent.props.callbackFromParent("error", "Transaction failed.");

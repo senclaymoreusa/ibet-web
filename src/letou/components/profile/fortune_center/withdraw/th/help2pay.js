@@ -9,7 +9,6 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
-    sendingLog,
     AUTH_RESULT_FAIL
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
@@ -18,7 +17,6 @@ import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import NumberFormat from 'react-number-format';
-import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map';
@@ -504,16 +502,16 @@ class Help2Pay extends Component {
 
     bankAccountHolderChanged(event) {
         this.setState({ bankAccountHolderFocused: true });
-        {
-            /*
+        /*{
+            
         const re = /^[0-9\b]+$/;
 
         if (re.test(event.target.value))
             this.setState({ bankAccountHolder: event.target.value });
         else if (event.target.value.length === 0)
             this.setState({ bankAccountHolder: '' });
-        */
-        }
+        
+        }*/
         this.setState({ bankAccountHolder: event.target.value });
         this.setState({ bankAccountHolderFocused: true });
         //this.setState({ pinInvalid: (event.target.value.length < 2) });
@@ -521,16 +519,16 @@ class Help2Pay extends Component {
 
     withdrawpasswordChanged(event) {
         this.setState({ withdrawpasswordFocused: true });
-        {
-            /*}
+        /*{
+            }
         const re = /^[0-9]+(\.[0-9]{0,2})?$/;
 
         if (re.test(event.target.value))
             this.setState({ withdrawpassword: event.target.value });
         else if (event.target.value.length === 0)
             this.setState({ bwithdrawpassword: '' });
-        */
-        }
+        
+        }*/
         this.setState({ withdrawpassword: event.target.value });
         this.setState({ withdrawpasswordFocused: true });
     }
@@ -549,7 +547,6 @@ class Help2Pay extends Component {
             // "language": "en-Us",
             toBankAccountName: this.state.bankAccountHolder,
             toBankAccountNumber: this.state.bankAccountNumber,
-            toBankAccountNumber: this.state.bankAccountNumber,
             withdrawPassword: this.state.withdrawpassword,
             bank: this.state.selectedBankOption,
             currency: 2
@@ -562,7 +559,7 @@ class Help2Pay extends Component {
         );
         console.log(res);
 
-        if (res.status == 200) {
+        if (res.status === 200) {
             if (res.data.indexOf('000') !== -1) {
                 currentComponent.props.callbackFromParent(
                     'success',
@@ -773,7 +770,7 @@ class Help2Pay extends Component {
                                 inputProps: {
                                     step: 10,
                                     min: 200,
-                                    min: 950000,
+                                    max: 950000,
                                     style: { textAlign: 'right' },
                                     currency: currency
                                 },
@@ -850,9 +847,9 @@ class Help2Pay extends Component {
                             disabled={
                                 this.state.amountInvalid ||
                                 this.state.selectedBankOption === 'none' ||
-                                this.state.bankAccountNumber == '' ||
-                                this.state.bankAccountHolder == '' ||
-                                this.state.withdrawpassword == ''
+                                this.state.bankAccountNumber === '' ||
+                                this.state.bankAccountHolder === '' ||
+                                this.state.withdrawpassword === ''
                             }
                         >
                             {this.getLabel('next-label')}

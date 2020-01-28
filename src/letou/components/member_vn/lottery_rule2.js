@@ -97,10 +97,10 @@ export class LotteryRuleTwoVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>KENO Introduction</a>
+                                <a href="/">KENO Introduction</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>Luật Chơi KENO</a>
+                                <a href="/">Luật Chơi KENO</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

@@ -17,13 +17,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
 import 'react-image-picker/dist/index.css';
-import InputBase from '@material-ui/core/InputBase';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Timer from 'react-compound-timer';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -308,7 +302,7 @@ class DepositAsiapayBT extends Component {
     handleClick = () => {
         let currentComponent = this;
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+        
         var postData = {
             amount: this.state.amount,
             userid: this.state.data.pk,
@@ -335,7 +329,7 @@ class DepositAsiapayBT extends Component {
         })
             .then(function(res) {
                 console.log(res)
-                if(res.status == 200){
+                if(res.status === 200){
                     return res.json();
                 }else{
                     currentComponent.props.callbackFromParent("error", "Transaction failed.");
@@ -349,7 +343,7 @@ class DepositAsiapayBT extends Component {
                 }
                 currentComponent.setState({ showLinearProgressBar: false });
                 //console.log(data.order_id);
-                if(data.StatusMsg == 'OK'){
+                if(data.StatusMsg === 'OK'){
                     
                     // currentComponent.setState({ order_id: data.order_id});
                     // currentComponent.setState({ CardNumber: data.CardNumber});
@@ -460,9 +454,9 @@ class DepositAsiapayBT extends Component {
                                         return (
                                             <Button
                                                 className={
-                                                    i == 0
+                                                    i === 0
                                                         ? classes.leftButton
-                                                        : i == 3
+                                                        : i === 3
                                                         ? classes.rightButton
                                                         : classes.middleButton
                                                 }
