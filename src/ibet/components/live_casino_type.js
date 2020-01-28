@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { live_casino_type, authCheckState } from '../../actions';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -7,7 +6,7 @@ import TopNavbar from './top_navbar';
 import '../css/slot_type.css';
 import axios from 'axios';
 import { config } from '../../util_config';
-import SelectFieldExampleMultiSelect from './filter_bar';
+
 
 import Footer from './footer';
 
@@ -179,9 +178,7 @@ class LiveCasino_Type extends Component {
 
     async componentDidMount() {
         this.props.authCheckState();
-        const { type } = this.props.match.params;
-        const { sub } = this.props.match.params;
-        const { filter } = this.props.match.params;
+        
 
         this.setState({ urlPath: this.props.history.location.pathname });
 

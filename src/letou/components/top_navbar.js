@@ -35,7 +35,6 @@ import Person from '@material-ui/icons/Person';
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios';
 import { config } from '../../util_config';
-import NavigationIcon from '@material-ui/icons/Navigation';
 import Typography from '@material-ui/core/Typography';
 
 import {
@@ -430,9 +429,9 @@ class TopNavbar extends React.Component {
 
     // }
     render() {
-        const { classes, user } = this.props;
+        const { classes } = this.props;
         const { anchorEl, anchorElLang, dropdownMenu } = this.state;
-        const token = localStorage.getItem('token');
+        
 
         let flag = '';
 

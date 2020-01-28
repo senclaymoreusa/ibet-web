@@ -98,10 +98,10 @@ export class BetRuleTwoVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>Điều khoản chung</a>
+                                <a href="/">Điều khoản chung</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>Cược xiên</a>
+                                <a href="/">Cược xiên</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

@@ -370,9 +370,9 @@ class DepositHelp2pay extends Component {
             body: formBody
         }).then(function (res) {
         
-            if (res.status == 200) {
+            if (res.status === 200) {
                 return res.text();
-            }else if(res.status == 401){
+            }else if(res.status === 401){
                 currentComponent.props.logout();
                 postLogout();
                 return;
