@@ -583,17 +583,24 @@ export const messages = {
         'balance-not-enough': 'Balance is not enough',
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
-        'safety-rate':'Safety Rate',
-        'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
+        'safety-rate': 'Safety Rate',
+        'vn-localbank-placeholder-withdraw': '₫300,000 - 300,000,000',
+        'vn-moneypay-placeholder-withdraw': '₫300,000 - 300,000,000',
         'page-not-found': 'Oops, this page does not exist',
         'error-message': 'Oops, something went wrong',
-        'contact-message': 'if you have any question please contact cs@letou.me',
-        'verification-status':'Verification Status',
-        'sport-description': 'Football in football, insurance cashes in with zero risk. Mobile betting, mobile time difference',
-        'live-casino-description': 'Stable platform, rich gameplay, fair and open game experience',
-        'games-description': 'A variety of games, the exclusive hero slot machine is easy to use',
-        'lottery-description': 'Exclusive support for any double investment number tracking function, no longer complicated profitability',
-        'promotion-description': 'A variety of bonuses will support you, betting is not afraid of not backing up'
+        'contact-message':
+            'if you have any question please contact cs@letou.me',
+        'verification-status': 'Verification Status',
+        'sport-description':
+            'Football in football, insurance cashes in with zero risk. Mobile betting, mobile time difference',
+        'live-casino-description':
+            'Stable platform, rich gameplay, fair and open game experience',
+        'games-description':
+            'A variety of games, the exclusive hero slot machine is easy to use',
+        'lottery-description':
+            'Exclusive support for any double investment number tracking function, no longer complicated profitability',
+        'promotion-description':
+            'A variety of bonuses will support you, betting is not afraid of not backing up'
     },
     zh: {
         'help-title': '我们在此竭诚服务',
@@ -1124,7 +1131,8 @@ export const messages = {
         'video-poker': '视频扑克',
         'fishing-games': '捕鱼游戏',
         'view-all': '查看全部 >',
-        'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
+        'vn-localbank-placeholder-withdraw': '₫300,000 - 300,000,000',
+        'vn-moneypay-placeholder-withdraw': '₫300,000 - 300,000,000',
         'page-not-found': '頁面不存在',
         'error-message': '內部異常',
         'contact-message': '如有任何疑问请发邮件到cs@letou.me',
