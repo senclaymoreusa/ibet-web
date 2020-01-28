@@ -553,8 +553,8 @@ class MoneyPay extends Component {
                                     } else if (res.data === 'The balance is not enough') {
                                         currentComponent.props.callbackFromParent("error", "Cannot withdraw this amount.");
                                     } else {
-                                        currentComponent.props.callbackFromParent("success", "Transaction completed.");
                                         currentComponent.props.authUserUpdate();    
+                                        currentComponent.props.callbackFromParent("success", "Transaction completed.");
                                     }
                                 });
                         } else {

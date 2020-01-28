@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../../util_config';
+import { config } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -18,34 +18,19 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL,authUserUpdate } from '../../../../../../actions';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const bank_options = [
     { label: 'Industrial and Commercial Bank of China', value: '1' },
-    // { label: '建设银行', value: '2' },
-    // { label: '农业银行', value: '3' },
-    // { label: '招商银行', value: '4' },
-    { label: 'China Guangfa Bank', value: '6' },
+   { label: 'China Guangfa Bank', value: '6' },
     { label: 'Bank of China', value: '7' },
     { label: 'Postal Savings Bank of China', value: '9' },
     { label: 'China CITIC Bank', value: '10' },
-    // { label: '光大银行', value: '11' },
     { label: 'China Minsheng Bank', value: '12' },
-    // { label: '兴业银行', value: '16' },
-    // { label: '华夏银行', value: '17' },
-    // { label: '平安银行', value: '23' },
     { label: 'Bank of Shanghai ', value: '21' },
-    //{ value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
-    //{ value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
-    //{ value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
-    //{ value: 'EXIM', label: 'Eximbank Vietnam', img: 'letou/eximbank.png', code: 'VND' },
-    //{ value: 'SACOM', label: 'Sacom Bank', img: 'letou/sacombank.png', code: 'VND' },
-    //{ value: 'TCB', label: 'Techcom Bank', img: 'letou/techcombank.png', code: 'VND' },
-    //{ value: 'VCB', label: 'Vietcom Bank', img: 'letou/vietcombank.png', code: 'VND' },
-    //{ value: 'VTB', label: 'Vietin Bank', img: 'letou/vietinbank.png', code: 'VND' },
-];
+   ];
 
 const styles = theme => ({
     root: {
@@ -449,12 +434,9 @@ class OnlinePay extends Component {
                             .then(function(data) {
                                 if(data.errorCode){
                                     currentComponent.props.postLogout();
-                                    // postLogout();
                                     return;
                                 }
-                                //console.log(data.status);
                                 if (data.status === '001') {
-                                    //alert('Transaction is approved.');
                                     const body = JSON.stringify({
                                         type: 'add',
                                         username:
@@ -462,7 +444,7 @@ class OnlinePay extends Component {
                                                 .username,
                                         balance: currentComponent.state.amount
                                     });
-                                    //console.log(body);
+                                   
                                     axios
                                         .post(
                                             API_URL +
@@ -472,8 +454,7 @@ class OnlinePay extends Component {
                                         )
                                         .then(res => {
                                             if (res.data === 'Failed') {
-                                                //currentComponent.setState({ error: true });
-                                                currentComponent.props.callbackFromParent(
+                                               currentComponent.props.callbackFromParent(
                                                     'error',
                                                     'Transaction failed.'
                                                 );
@@ -486,6 +467,7 @@ class OnlinePay extends Component {
                                                     'Cannot deposit this amount.'
                                                 );
                                             } else {
+                                                currentComponent.props.authUserUpdate();    
                                                 currentComponent.props.callbackFromParent(
                                                     'success',
                                                     currentComponent.state
@@ -519,7 +501,8 @@ class OnlinePay extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'onlinepay' : null,
         })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();      
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -655,4 +638,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(OnlinePay))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState,authUserUpdate })(OnlinePay))));

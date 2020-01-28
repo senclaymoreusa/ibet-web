@@ -10,7 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -553,7 +554,7 @@ class Help2pay extends Component {
             },
             body: formBody
         })
-            .then(function(res) {
+            .then(function (res) {
                 if (res.ok) {
                     return res.text();
                 }
@@ -566,7 +567,7 @@ class Help2pay extends Component {
                 //alert("渠道维护中");
                 throw new Error('Something went wrong.');
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log('Request failed', err);
                 currentComponent.props.callbackFromParent('error', err.message);
                 sendingLog(err);
@@ -584,11 +585,12 @@ class Help2pay extends Component {
                 user_id: this.state.data.pk,
                 payment: event.target.checked ? 'help2pay' : null
             })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 sendingLog(err);
             });
     }
@@ -653,7 +655,7 @@ class Help2pay extends Component {
                             }
                             helperText={
                                 this.state.amountInvalid &&
-                                this.state.amountFocused
+                                    this.state.amountFocused
                                     ? this.getLabel('valid-amount')
                                     : ' '
                             }
@@ -724,6 +726,6 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Help2pay))
+        injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(Help2pay))
     )
 );

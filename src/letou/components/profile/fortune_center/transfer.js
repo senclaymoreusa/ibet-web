@@ -545,6 +545,7 @@ class Transfer extends Component {
     }
 
     sendClicked() {
+         
         if (parseInt(this.state.from.amount) < parseInt(this.state.amount)) {
             this.setState({ snackType: 'error' });
             this.setState({ snackMessage: this.getLabel('balance-not-enough') });
@@ -555,7 +556,8 @@ class Transfer extends Component {
         this.setState({ loading: true });
 
         const { user } = this.props;
-        
+        let currentComponent = this;
+      
         axios.post(API_URL + 'users/api/transfer/',
             {
                 'user_id': user.userId,
@@ -575,6 +577,7 @@ class Transfer extends Component {
                 this.getWalletsByUsername(this.props.user.userId);
 
                 this.setState({ loading: false });
+                currentComponent.props.authUserUpdate();    
             }).catch(err => {
                 sendingLog(err);
                 this.setState({ loading: false });
