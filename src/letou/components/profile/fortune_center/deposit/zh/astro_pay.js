@@ -697,6 +697,6 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(Astropay_CH))
+        injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(AstropayCH))
     )
 );

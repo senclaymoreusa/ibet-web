@@ -86,6 +86,7 @@ export const authUserUpdate = () => {
         config.headers['Authorization'] = `Token ${getState().auth.token}`;
 
         axios.get(API_URL + 'users/api/user/', config).then(res => {
+            console.log(res);
             dispatch(authGetUser(parseUser(res.data)));
         });
     };
@@ -306,6 +307,7 @@ export const authCheckState = () => {
                             dispatch(postLogout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
+                            dispatch(authGetUser(parseUser(res.data)));
                             dispatch(authSuccess(token));
                             dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);

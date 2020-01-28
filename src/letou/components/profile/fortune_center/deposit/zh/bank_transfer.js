@@ -413,7 +413,6 @@ class BankTransfer extends Component {
     };
 
     handleClick() {
-        {
             let currentComponent = this;
 
             var postData = {
