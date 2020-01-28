@@ -17,8 +17,8 @@ const styles = {
     },
     content: {
         margin: 15,
-        paddingLeft: 100,
-        paddingRight: 100,
+        paddingLeft: 250,
+        paddingRight: 250,
         paddingBottom: 50,
         lineHeight: 2,
         color: 'grey',
@@ -58,9 +58,33 @@ const styles = {
     },
     mainLogo: {
         height: 25,
-        paddingLeft: 100,
+        paddingLeft: 250,
         marginTop: 13,
-    }
+    },
+    button: {
+        width: 95,
+        height: 30,
+        backgroundColor: '#FF9E00',
+        borderRadius: 5,
+        float: 'right',
+        marginRight: 250,
+        marginTop: 13,
+        '&:hover': {
+            backgroundColor: '#ff8a00'
+        },
+        color: 'white',
+        fontSize: 14,
+        textAlign: 'center',
+        lineHeight: 2.0,
+    },
+    footer: {
+        backgroundColor: '#f5f5f5',
+        borderTop: '1px solid #ddd',
+        fontSize: 12,
+        textAlign: 'center',
+        paddingTop: 20,
+        paddingBottom: 30,
+    },
 };
 
 
@@ -74,9 +98,10 @@ class VNFirst200SlotBonus extends React.Component {
 
                 <div className={classes.offerHeader}>
                     <img className={classes.mainLogo} src={LetouLogo} alt="Main Logo"/>
-
+                    <div className={classes.button}>
+                        <a className={classes.buttonText}>Xem thêm</a>
+                    </div>
                 </div>
-
 
                 <img className={classes.bannerImg} src={BannerImage} alt="Banner Image"/>
                 <div className={classes.content}>
@@ -127,7 +152,11 @@ class VNFirst200SlotBonus extends React.Component {
                     </ul>
                 </div>
 
-                <Footer />
+                <div className={classes.footer}>
+                    Letou.com được cấp phép bởi Pagcor Philippines Offshore Gaming.
+                    <br/>
+                    Bản quyền thuộc về LETOU.
+                </div>
 
             </div>
         );
