@@ -15,9 +15,9 @@ import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -293,10 +293,7 @@ class WechatPay extends Component {
     };
 
     handleClick() {
-        //Qaicash
         let currentComponent = this;
-
-        currentComponent.setState({ showLinearProgressBar: true });
 
         var postData = {
             "amount": this.state.amount,
@@ -305,8 +302,7 @@ class WechatPay extends Component {
             "language": "zh-Hans",
             "method": "WECHAT_PAY",
         }
-        //console.log(this.state.amount)
-        //console.log(this.state.data.pk)
+        
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -323,20 +319,16 @@ class WechatPay extends Component {
         }).then(function (res) {
             return res.json();
         }).then(function (data) {
-            if(data.errorCode){
+            if (data.errorCode) {
                 currentComponent.props.postLogout();
-                // postLogout();
                 return;
             }
             let redirectUrl = data.paymentPageSession.paymentPageUrl
-            //console.log(redirectUrl)
-
+           
 
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Wechatpay');
-                //currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
                 var timer = setInterval(function () {
-                    //console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
@@ -359,23 +351,21 @@ class WechatPay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            //console.log(data.status)
                             if (data.status === 0) {
-                                //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
                                     username: currentComponent.state.data.username,
                                     balance: currentComponent.state.amount,
                                 });
-                                //console.log(body)
+
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
                                             currentComponent.props.callbackFromParent("error", "Transaction failed.");
                                         } else if (res.data === "The balance is not enough") {
                                             currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                         } else {
+                                            currentComponent.props.authUserUpdate();    
                                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                         }
                                     });
@@ -386,128 +376,14 @@ class WechatPay extends Component {
                     }
                 }, 1000);
             } else {
-                currentComponent.setState({ showLinearProgressBar: false });
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
-                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
-        }).catch(function (err) {  
-            //console.log('Request failed', err);
+        }).catch(function (err) {
             currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
         });
     }
 
-    /*
-    handleClick = () => {
-        //asianpay
-        let currentComponent = this;
-        
-        currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
-        var postData = {
-            "amount": this.state.amount,
-            "userid": this.state.data.pk,
-            "currency": "0",
-            "PayWay": "30", //在线支付
-            "method": "38", //wechat
-        }
-        //console.log(this.state.data.pk)
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
-        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            body: formBody
-        }).then(function (res) {
-            //console.log(res);
-
-            currentComponent.setState({ showLinearProgressBar: false });
-
-            
-            return res.json();
-
-        }).then(function (data) {
-            //console.log(data)
-            let qrurl = data.qr;
-            //console.log(qrurl)
-            if(qrurl != null){
-                const mywin = window.open(qrurl, 'asiapay-wechatpay')
-                var timer = setInterval(function () {
-                    
-                    if (mywin.closed) {
-                        clearInterval(timer);
-                        var postData = {
-                            "order_id": data.oid,
-                            "userid": "n" + userid,
-                            "CmdType": "01",
-                        }
-                        var formBody = [];
-                        for (var pd in postData) {
-                            var encodedKey = encodeURIComponent(pd);
-                            var encodedValue = encodeURIComponent(postData[pd]);
-                            formBody.push(encodedKey + "=" + encodedValue);
-                        }
-                        formBody = formBody.join("&");
-
-                        return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
-                            method: "POST",
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: formBody
-                        }).then(function (res) {
-                            return res.json();
-                        }).then(function (data) {
-                            if(data.errorCode){
-                                currentComponent.props.logout();
-                                postLogout();
-                                return;
-                            }
-                            //console.log(data.status)
-                            if (data.status === "001") {
-                                //alert('Transaction is approved.');
-                                const body = JSON.stringify({
-                                    type: 'add',
-                                    username: currentComponent.state.data.username,
-                                    balance: currentComponent.state.amount,
-                                });
-                                //console.log(body)
-                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                    .then(res => {
-                                        if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                        } else if (res.data === "The balance is not enough") {
-                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                        } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                        } });
-                            } else {
-                                currentComponent.props.callbackFromParent("error", data.StatusMsg);
-                            }
-                        });
-                    }
-                }, 1000);
-                
-            }else{
-                currentComponent.props.callbackFromParent("error", data.StatusMsg);
-            }
-            
-        }).catch(function (err) {  
-            //console.log('Request failed', err);
-            currentComponent.props.callbackFromParent("error", "Something is wrong.");
-            sendingLog(err);
-            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-        });
-    }
-    */
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
@@ -518,7 +394,8 @@ class WechatPay extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'wechatpay' : null,
         })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();    
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -627,4 +504,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(WechatPay))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(WechatPay))));

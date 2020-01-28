@@ -9,7 +9,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -440,9 +441,6 @@ class Help2Pay extends Component {
             bankAccountHolder: '',
             withdrawpassword: '',
 
-            //withdrawpasswordFocused: false,
-            //withdrawpasswordInvalid: true,
-
             activeStep: 0,
             currency: 'THB',
             currencyCode: 'THB',
@@ -538,13 +536,9 @@ class Help2Pay extends Component {
     };
 
     async handleClick() {
-        let currentComponent = this;
-
         var postData = {
             amount: this.state.amount,
             username: this.state.data.username,
-            // "user_id": this.state.data.pk,
-            // "language": "en-Us",
             toBankAccountName: this.state.bankAccountHolder,
             toBankAccountNumber: this.state.bankAccountNumber,
             withdrawPassword: this.state.withdrawpassword,
@@ -557,16 +551,16 @@ class Help2Pay extends Component {
             postData,
             config
         );
-        console.log(res);
 
         if (res.status === 200) {
             if (res.data.indexOf('000') !== -1) {
-                currentComponent.props.callbackFromParent(
+                this.props.authUserUpdate(); 
+                this.props.callbackFromParent(
                     'success',
                     postData.amount
                 );
             } else {
-                currentComponent.props.callbackFromParent(
+                this.props.callbackFromParent(
                     'error',
                     'Error message goes here'
                 );
@@ -667,7 +661,7 @@ class Help2Pay extends Component {
                                 }
                                 helperText={
                                     this.state.amountInvalid &&
-                                    this.state.amountFocused
+                                        this.state.amountFocused
                                         ? this.getLabel('valid-amount')
                                         : ' '
                                 }
@@ -727,7 +721,7 @@ class Help2Pay extends Component {
                             }
                             helperText={
                                 this.state.bankAccountNumberFocused &&
-                                bankAccountNumber.length === 0
+                                    bankAccountNumber.length === 0
                                     ? this.getLabel('invalid-bank-number')
                                     : ' '
                             }
@@ -760,7 +754,7 @@ class Help2Pay extends Component {
                             }
                             helperText={
                                 this.state.amountInvalid &&
-                                this.state.amountFocused
+                                    this.state.amountFocused
                                     ? this.getLabel('valid-amount')
                                     : ' '
                             }
@@ -823,8 +817,8 @@ class Help2Pay extends Component {
                                             {this.state.showwithdrawPassword ? (
                                                 <Visibility />
                                             ) : (
-                                                <VisibilityOff />
-                                            )}
+                                                    <VisibilityOff />
+                                                )}
                                         </IconButton>
                                     </InputAdornment>
                                 )
@@ -869,6 +863,6 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Help2Pay))
+        injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(Help2Pay))
     )
 );

@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputBase from '@material-ui/core/InputBase';
@@ -391,9 +391,9 @@ class VietnamHelp2pay extends Component {
                         this.setState({ currencyCode: res.data.currency });
                         this.setState({ isFavorite: res.data.favorite_payment_method === 'vietnamhelp2pay' });
                     });
-                }
+            }
         })
-        
+
     }
 
     componentDidMount() {
@@ -447,7 +447,7 @@ class VietnamHelp2pay extends Component {
             "language": "en-Us",
             "order_id": this.state.order_id,
         }
-       
+
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -467,7 +467,7 @@ class VietnamHelp2pay extends Component {
             body: formBody
         }).then(function (res) {
             if (res.ok) {
-                
+
                 return res.text();
             }
 
@@ -499,9 +499,6 @@ class VietnamHelp2pay extends Component {
                     }).then(function (res) {
                         return res.text();
                     }).then(function (data) {
-                        //console.log(data)
-
-
                         if (data === '0') {
 
                             const body = JSON.stringify({
@@ -509,7 +506,6 @@ class VietnamHelp2pay extends Component {
                                 username: this.state.data.username,
                                 balance: this.state.amount,
                             });
-                            //console.log(body)
                             axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                 .then(res => {
                                     if (res.data === 'Failed') {
@@ -517,6 +513,7 @@ class VietnamHelp2pay extends Component {
                                     } else if (res.data === 'The balance is not enough') {
                                         currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                     } else {
+                                        currentComponent.props.authUserUpdate();
                                         currentComponent.props.callbackFromParent("success", "Transaction completed.");
                                     }
                                 });
@@ -545,6 +542,7 @@ class VietnamHelp2pay extends Component {
             payment: event.target.checked ? 'vietnamhelp2pay' : null,
         })
             .then(res => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -566,7 +564,7 @@ class VietnamHelp2pay extends Component {
         const { classes } = this.props;
         const { selectedBankOption, isFavorite, amount, currency } = this.state;
 
-       // const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
+        // const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
 
         return (
             <div className={classes.root}>
@@ -654,4 +652,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(VietnamHelp2pay))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(VietnamHelp2pay))));

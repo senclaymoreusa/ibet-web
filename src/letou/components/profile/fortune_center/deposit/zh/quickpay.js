@@ -405,6 +405,7 @@ class QuickPay extends Component {
                                                         'Cannot deposit this amount.'
                                                     );
                                                 } else {
+                                                    currentComponent.props.authUserUpdate();    
                                                     currentComponent.props.callbackFromParent(
                                                         'success',
                                                         currentComponent.state
@@ -449,7 +450,7 @@ class QuickPay extends Component {
         })
             .then(res => {
                 if(res.status === 200){
-                    this.setState({ isFavorite: !this.state.isFavorite });
+                     this.setState({ isFavorite: !this.state.isFavorite });
                     currentComponent.props.authUserUpdate();    
                 }
             })

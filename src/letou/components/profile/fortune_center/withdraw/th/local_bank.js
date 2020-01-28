@@ -11,7 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -361,7 +362,6 @@ class ThaiLocalBank extends Component {
         this.state = {
             amount: '',
             selectedBank: 'none',
-            order_id: '', //"letou" + new Date().toISOString().replace(/-/g, '').replace('T', '').replace(/:/g, '').split('.')[0],
             accountNumber: '',
             password: '',
             showPassword: false,
@@ -465,12 +465,12 @@ class ThaiLocalBank extends Component {
                             } else if (
                                 res.data === 'The balance is not enough'
                             ) {
-                                //    // alert("cannot withdraw this amount")
                                 currentComponent.props.callbackFromParent(
                                     'error',
                                     'Cannot withdraw this amount!'
                                 );
                             } else {
+                                currentComponent.props.authUserUpdate();
                                 currentComponent.props.callbackFromParent(
                                     'success',
                                     'Your balance is updated.'
@@ -970,6 +970,12 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(ThaiLocalBank))
+        injectIntl(
+            connect(mapStateToProps, {
+                authCheckState,
+                sendingLog,
+                authUserUpdate
+            })(ThaiLocalBank)
+        )
     )
 );
