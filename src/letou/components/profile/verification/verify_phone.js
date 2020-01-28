@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import {
+    authCheckState,
+    sendingLog,
+    authUserUpdate
+} from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -88,7 +92,7 @@ const styles = () => ({
         fontSize: 15,
         whiteSpace: 'nowrap',
         width: 140,
-        minWidth:140,
+        minWidth: 140,
     },
     button: {
         textTransform: 'capitalize',
@@ -110,7 +114,7 @@ const styles = () => ({
     },
     textField: {
         fontSize: 12,
-        width:'100%',
+        width: '100%',
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -353,7 +357,7 @@ export class VerifyPhone extends Component {
                 } else {
                     const token = localStorage.getItem('token');
                     config.headers["Authorization"] = `Token ${token}`;
-            
+
                     axios.get(API_URL + 'users/api/user/', config)
                         .then(res => {
                             this.setState({ username: res.data.username });
@@ -363,7 +367,7 @@ export class VerifyPhone extends Component {
                             sendingLog(err);
                         });
                 }
-            }) 
+            })
     }
 
     phoneChanged(event) {
@@ -393,6 +397,7 @@ export class VerifyPhone extends Component {
                     currentComponent.setState({ snackMessage: this.getLabel('phone-verification-success-message') });
                     currentComponent.setState({ showSnackbar: true });
                     currentComponent.setState({ activeStep: 1 });
+                    currentComponent.props.authUserUpdate();
                 }
             }).catch(function (err) {
                 sendingLog(err);
@@ -411,6 +416,8 @@ export class VerifyPhone extends Component {
     }
 
     sendVerificationCode() {
+        let currentComponent = this;
+
         axios.post(API_URL + `users/api/generateactivationcode/`, {
             type: 'change_member_phone_num',
             username: this.state.username,
@@ -421,7 +428,7 @@ export class VerifyPhone extends Component {
                     this.setState({ snackType: 'success' });
                     this.setState({ snackMessage: this.getLabel('verification-code-sent') });
                     this.setState({ showSnackbar: true });
-
+                    currentComponent.props.authUserUpdate();
                 } if (res.data === 104) {
                     this.setState({ snackType: 'warning' });
                     this.setState({ snackMessage: this.getLabel('reached-verification-limit') });
@@ -442,7 +449,7 @@ export class VerifyPhone extends Component {
                     <Grid container style={{ maxWidth: 500, margin: '0 auto' }}>
                         <Grid item xs={12} className={classes.codeRow}>
                             <PhoneInput
-                            style={{width:'100%'}}
+                                style={{ width: '100%' }}
                                 value={this.state.phone}
                                 onChange={(event) => {
                                     this.setState({ phone: event });
@@ -567,4 +574,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(VerifyPhone))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(VerifyPhone))));

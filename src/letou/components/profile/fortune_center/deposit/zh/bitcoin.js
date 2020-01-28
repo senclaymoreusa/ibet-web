@@ -16,7 +16,7 @@ import NumberFormat from 'react-number-format';
 
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -362,24 +362,21 @@ class BitcoinDeposit extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            //console.log(data.status)
                             if (data.status === "001") {
-                                //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
                                     username: currentComponent.state.data.username,
                                     balance: currentComponent.state.amount,
                                 });
-                                //console.log(body)
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
                                             currentComponent.props.callbackFromParent("error", "Transaction failed.");
                                         } else if (res.data === "The balance is not enough") {
                                             currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                         } else {
-                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                            currentComponent.props.authUserUpdate();    
+                                        currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                         }
                                     });
                             } else {
@@ -394,10 +391,8 @@ class BitcoinDeposit extends Component {
             }
 
         }).catch(function (err) {
-            //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", err.message);
             sendingLog(err);
-            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
 
@@ -412,6 +407,7 @@ class BitcoinDeposit extends Component {
             payment: event.target.checked ? 'bitcoin' : null,
         })
             .then(res => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -512,4 +508,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(BitcoinDeposit)));
+export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(BitcoinDeposit)));

@@ -17,7 +17,7 @@ import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog,  AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 import { withRouter } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -350,22 +350,22 @@ class BankTransfer extends Component {
                 const token = localStorage.getItem('token');
                 config.headers["Authorization"] = `Token ${token}`;
                 axios.get(API_URL + 'users/api/user/', config)
-                .then(res => {
-                    if (this._isMounted) {
-                        this.setState({
-                            data: res.data,
-                            currency: getSymbolFromCurrency(res.data.currency),
-                            isFavorite: res.data.favorite_payment_method === 'chinabanktransfer'
-                        });
-                    }
-                });
+                    .then(res => {
+                        if (this._isMounted) {
+                            this.setState({
+                                data: res.data,
+                                currency: getSymbolFromCurrency(res.data.currency),
+                                isFavorite: res.data.favorite_payment_method === 'chinabanktransfer'
+                            });
+                        }
+                    });
             }
         })
     }
 
     componentDidMount() {
         this._isMounted = true;
-        
+
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
@@ -389,7 +389,7 @@ class BankTransfer extends Component {
     componentWillUnmount() {
         this._isMounted = false;
     }
-    
+
     amountChanged = e => {
         this.setState({ amountFocused: true });
 
@@ -413,37 +413,7 @@ class BankTransfer extends Component {
     };
 
     handleClick() {
-        
-        /*    
-        const token = localStorage.getItem('token');
-        if (!token) {
-            console.log('no token -- user is not logged in');
-        }
-        config.headers['Authorization'] = `Token ${token}`;
-        let userid = this.state.data.pk;
-        var postData = {
-            amount: this.state.amount,
-            userid: userid,
-            currency: 7,
-            real_name: this.state.name,
-            bank_acc_no: this.state.bankAccountNumber,
-            bank: this.state.bank,
-            type: 0 // 0 = deposit
-        };
-        return axios
-            .post(
-                API_URL + 'accounting/api/transactions/save_transaction',
-                postData,
-                config
-            )
-            .then((res, err) => {
-                console.log(res);
-            });*/
-       
-        
             let currentComponent = this;
-
-            currentComponent.setState({ showLinearProgressBar: true });
 
             var postData = {
                 "amount": this.state.amount,
@@ -453,8 +423,7 @@ class BankTransfer extends Component {
                 "method": "BANK_TRANSFER",
                 "bank": this.state.bank,
             }
-            //console.log(this.state.amount)
-            //console.log(currentComponent.state.data.username)
+
             var formBody = [];
             for (var pd in postData) {
                 var encodedKey = encodeURIComponent(pd);
@@ -504,26 +473,24 @@ class BankTransfer extends Component {
                             }).then(function (data) {
                                 if (data.errorCode) {
                                     currentComponent.props.postLogout();
-                                    // postLogout();
                                     return;
                                 }
-                                //console.log(data.status)
+
                                 if (data.status === 0) {
-                                    //alert('Transaction is approved.');
                                     const body = JSON.stringify({
                                         type: 'add',
                                         username: currentComponent.state.data.username,
                                         balance: currentComponent.state.amount,
                                     });
-                                    //console.log(body)
+
                                     axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                         .then(res => {
                                             if (res.data === 'Failed') {
-                                                //currentComponent.setState({ error: true });
                                                 currentComponent.props.callbackFromParent("error", "Transaction failed.");
                                             } else if (res.data === "The balance is not enough") {
                                                 currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                             } else {
+                                                currentComponent.props.authUserUpdate();
                                                 currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                             }
                                         });
@@ -534,12 +501,9 @@ class BankTransfer extends Component {
                         }
                     }, 1000);
                 } else {
-                    currentComponent.setState({ showLinearProgressBar: false });
                     currentComponent.props.callbackFromParent("error", data.returnMessage);
-                    //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
-                }
+                 }
             }).catch(function (err) {
-                //console.log('Request failed', err);
                 currentComponent.props.callbackFromParent("error", "Something is wrong");
                 sendingLog(err);
             });
@@ -556,7 +520,8 @@ class BankTransfer extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'chinabanktransfer' : null,
         })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -692,4 +657,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(BankTransfer))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(BankTransfer))));

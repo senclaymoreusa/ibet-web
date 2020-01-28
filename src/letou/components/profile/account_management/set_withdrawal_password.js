@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, authUserUpdate } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -32,7 +32,7 @@ import { TextField } from '@material-ui/core';
 
 import PasswordStrengthMeter from '../../../../commons/PasswordStrengthMeter';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -354,6 +354,7 @@ export class SetWithdrawalPassword extends Component {
     }
 
     setWithdrawalPassword() {
+        let currentComponent = this;
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
@@ -368,9 +369,11 @@ export class SetWithdrawalPassword extends Component {
                 this.setState({ snackMessage: this.getLabel('withdrawal-password-success') });
                 this.setState({ showSnackbar: true });
                 this.setState({ activeStep: 1 });
+                currentComponent.props.authUserUpdate();
+
             }).catch(err => {
                 sendingLog(err);
-               
+
                 this.setState({ snackMessage: this.getLabel('password-update-failed') });
 
                 this.setState({ snackType: 'error' });
@@ -403,7 +406,7 @@ export class SetWithdrawalPassword extends Component {
                 }
             })
 
-        
+
     }
 
 
@@ -633,4 +636,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(SetWithdrawalPassword))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(SetWithdrawalPassword))));
