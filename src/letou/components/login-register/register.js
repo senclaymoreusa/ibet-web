@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import {
     authLogin,
     authCheckState,
-    AUTH_RESULT_SUCCESS,
     authSignup,
     handle_referid,
     hide_landing_page,
@@ -318,7 +317,7 @@ export class Register extends Component {
         this.setState({
             password: event.target.value,
             passwordInvalid: !(
-                testedResult.score == 3 || testedResult.score == 4
+                testedResult.score === 3 || testedResult.score === 4
             ),
             confirmPasswordInvalid:
                 this.state.confirmPassword !== event.target.value
@@ -335,7 +334,7 @@ export class Register extends Component {
     emailChanged(event) {
         this.setState({ email: event.target.value });
 
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)) {
             this.setState({ emailInvalid: true });
         } else {

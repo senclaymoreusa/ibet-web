@@ -37,25 +37,7 @@ const styles = theme => ({
         paddingTop: 50,
         paddingBottom: 50,
     },
-    actionButton: {
-        width: 324,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#4DA9DF',
-        color: '#fff',
-        "&:hover": {
-            backgroundColor: '#57b9f2',
-            color: '#fff',
-
-        },
-        "&:focus": {
-            backgroundColor: '#57b9f2',
-            color: '#fff',
-
-        },
-        textTransform: 'capitalize',
-
-    },
+    
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',

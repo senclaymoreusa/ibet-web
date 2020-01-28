@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
@@ -16,7 +15,7 @@ import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog,  postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -330,7 +329,7 @@ class AliPay extends Component {
             .then(function(res) {
                 //console.log(res);
                 currentComponent.setState({ showLinearProgressBar: false });
-                if(res.status == 200){
+                if(res.status === 200){
                     return res.json();
                 }else{
                     currentComponent.props.callbackFromParent("error", "Transaction failed.");
@@ -379,7 +378,7 @@ class AliPay extends Component {
                                 }
                             )
                                 .then(function(res) {
-                                    if(res.status == 200){
+                                    if(res.status === 200){
                                         return res.json();
                                     }else{
                                         currentComponent.props.callbackFromParent("error", "Transaction failed.");
@@ -439,7 +438,7 @@ class AliPay extends Component {
                         }
                     }, 1000);
                 }else{
-                    if(data.StatusCode == ('00005' || '100504' || '100505' || '00800' || '100803' || '000008' || '100305' || '100306' || '100307'
+                    if(data.StatusCode === ('00005' || '100504' || '100505' || '00800' || '100803' || '000008' || '100305' || '100306' || '100307'
                         || '100606' || '100608' || '100603' || '100604' || '100605' || '100901' || '100902' || '100803' || '00050' || '00003' || '00002')){
                         currentComponent.props.callbackFromParent(
                                                         'error',

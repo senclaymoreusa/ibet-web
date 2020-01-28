@@ -342,7 +342,7 @@ export class SetWithdrawalPassword extends Component {
 
         let testedResult = zxcvbn(event.target.value);
 
-        this.setState({ newPasswordInvalid: !(testedResult.score == 3 || testedResult.score == 4) })
+        this.setState({ newPasswordInvalid: !(testedResult.score === 3 || testedResult.score === 4) })
         this.setState({ confirmPasswordInvalid: (event.target.value !== this.state.confirmPassword) })
 
     }
