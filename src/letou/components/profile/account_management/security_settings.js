@@ -14,7 +14,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -220,8 +220,7 @@ export class SecuritySettings extends Component {
         const { classes } = this.props;
         const {
             lastLoginTime,
-            securityQuestionHasBeenset,
-            withdrawalPasswordHasBeenset
+            securityQuestionHasBeenset
         } = this.state;
 
         return (

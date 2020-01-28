@@ -104,7 +104,7 @@ const styles = theme => ({
 });
 
 function NextArrow(props) {
-    const { className, style, onClick } = props;
+    const { className, onClick } = props;
     return (
         <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
             <ArrowForwardIosIcon style={{color: '#f28f22'}} fontSize="large">  </ArrowForwardIosIcon>
@@ -113,7 +113,7 @@ function NextArrow(props) {
   }
   
 function PrevArrow(props) {
-    const { className, style, onClick } = props;
+    const { className,  onClick } = props;
     return (
         <button type="button" onClick={onClick} className={`button button--text button--icon ${className}`} aria-label={"prev"}>
             <ArrowBackIosIcon style={{color: '#f28f22'}} fontSize="large">  </ArrowBackIosIcon>
@@ -191,16 +191,16 @@ export class GameLobby extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        var { category, search } = this.props.match.params;
+        var { category } = this.props.match.params;
         if (this.props.match.params.category !== prevProps.match.params.category || (this.props.match.params.search !==  prevProps.match.params.search )) {
-            var category = this.props.match.params.category;
+            // var category = this.props.match.params.category;
 
             if (category) {
                 this.setState({ value: category.toLowerCase() });
             } else {
                 this.setState({ value: "all" });
             }
-            if (category && category != "all") {
+            if (category && category !== "all") {
                 axios.get(API_URL + 'games/api/games/?category=' + category, config).then(res => {
                     this.generateGameList(res.data);
                     this.setState({ isFilter: true });
@@ -227,7 +227,7 @@ export class GameLobby extends React.Component {
 
     componentDidMount() {
 
-        var { category, search } = this.props.match.params;
+        var { category} = this.props.match.params;
 
         if (category) {
             this.setState({ value: category.toLowerCase() });
@@ -235,9 +235,10 @@ export class GameLobby extends React.Component {
             this.setState({ value: "all" });
         }
         if (!this.props.isAuthenticated) {
-            this.state.freegame = true;
+            this.setState({freegame:true});
+            
         } else {
-            this.state.freegame = false;
+            this.setState({freegame:false});
             const token = localStorage.getItem('token');
             config.headers['Authorization'] = `Token ${token}`;
             axios.get(API_URL + 'users/api/user/', config).then(res => {
@@ -253,7 +254,7 @@ export class GameLobby extends React.Component {
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
-        if (category && category != "all") {
+        if (category && category !== "all") {
             axios.get(API_URL + 'games/api/games/?category=' + category, config).then(res => {
                 this.generateGameList(res.data);
                 this.setState({isFilter: true})
@@ -280,8 +281,9 @@ export class GameLobby extends React.Component {
     }
 
     handleToUpdate(filterKey, filterValue) {
+        var key = "";
         if (filterKey === 'providers') {
-            var key = filterValue.join('+');
+            key = filterValue.join('+');
             this.setState({
                 value: 'all',
                 isFilter: true,
@@ -291,7 +293,7 @@ export class GameLobby extends React.Component {
 
         }
         if (filterKey === 'theme') {
-            var key = filterValue.join('+');
+            key = filterValue.join('+');
             this.setState({themeFilterStr: key,
             value: 'all',
             isFilter: true}, () => {
@@ -346,10 +348,10 @@ export class GameLobby extends React.Component {
         for (var i = 0; i < categoriesList.length; i++) {
             gameMap[categoriesList[i]] = [];
         }
-        for (var i = 0; i < games.length; i++) {
-            var key = games[i]['fields']['category_name'];
+        for (var j = 0; j < games.length; j++) {
+            var key = games[j]['fields']['category_name'];
             if (key && key !== 'undefined') {
-                gameMap[key].push(games[i])
+                gameMap[key].push(games[j])
             }
         }
         this.setState({ games: gameMap });
@@ -433,6 +435,7 @@ export class GameLobby extends React.Component {
                                     </div>
                                 )
                             }
+                            return null;
                         })
                     }
                 </div>
@@ -483,7 +486,7 @@ export class GameLobby extends React.Component {
     render() {
 
         const { classes } = this.props;
-        var handleToUpdate  =  this.handleToUpdate;
+        
         let tabs = (
             <StyledTabs centered
                 value={this.state.value}
@@ -504,7 +507,7 @@ export class GameLobby extends React.Component {
                                 value={cateStr.toLowerCase()}
                                 onClick={() => {
                                     var categoryStr = this.props.match.params.category;
-                                    var categoryStr = categoryStr.charAt(0).toUpperCase() + categoryStr.slice(1);
+                                    categoryStr = categoryStr.charAt(0).toUpperCase() + categoryStr.slice(1);
                                     if (categoryStr !== cateStr) {
                                         this.handle_category_change({ cateStr });
                                     }
@@ -519,7 +522,7 @@ export class GameLobby extends React.Component {
             <div className={classes.rootDesktop}>
                 <TopNavbar />
                 <div className={classes.banner}>
-                    <img src="https://d18z3w7mepzcqu.cloudfront.net/banner/jptbanner01.jpg"></img>
+                    <img src="https://d18z3w7mepzcqu.cloudfront.net/banner/jptbanner01.jpg" alt=""></img>
                 </div>
                 <div className={classes.banner}>
                     <Paper style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>

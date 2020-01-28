@@ -97,70 +97,70 @@ export class BetRuleFourVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>Tennis</a>
+                                <a href="/">Tennis</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>Bóng rổ</a>
+                                <a href="/">Bóng rổ</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>Bóng bầu dục Mỹ</a>
+                                <a href="/">Bóng bầu dục Mỹ</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>Hockey trên băng</a>
+                                <a href="/">Hockey trên băng</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>Bóng rổ</a>
+                                <a href="/">Bóng rổ</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>Bóng ném</a>
+                                <a href="/">Bóng ném</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>Bóng chuyền</a>
+                                <a href="/">Bóng chuyền</a>
                             </li>
                             <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>Bóng chuyền bãi biển</a>
+                                <a href="/">Bóng chuyền bãi biển</a>
                             </li>
                             <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>Futsal</a>
+                                <a href="/">Futsal</a>
                             </li>
                             <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>Cầu lông</a>
+                                <a href="/">Cầu lông</a>
                             </li>
                             <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>Rugby Union League</a>
+                                <a href="/">Rugby Union League</a>
                             </li>
                             <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>Phi tiêu</a>
+                                <a href="/">Phi tiêu</a>
                             </li>
                             <li className={this.state.current === 13 ? "Active" : ""} onClick={this.onClick.bind(this,13)}>
-                                <a>Bida</a>
+                                <a href="/">Bida</a>
                             </li>
                             <li className={this.state.current === 14 ? "Active" : ""} onClick={this.onClick.bind(this,14)}>
-                                <a>Table Tennis</a>
+                                <a href="/">Table Tennis</a>
                             </li>
                             <li className={this.state.current === 15 ? "Active" : ""} onClick={this.onClick.bind(this,15)}>
-                                <a>Golf</a>
+                                <a href="/">Golf</a>
                             </li>
                             <li className={this.state.current === 16 ? "Active" : ""} onClick={this.onClick.bind(this,16)}>
-                                <a>Cricket</a>
+                                <a href="/">Cricket</a>
                             </li>
                             <li className={this.state.current === 17 ? "Active" : ""} onClick={this.onClick.bind(this,17)}>
-                                <a>Bóng đá ảo League(VFL)</a>
+                                <a href="/">Bóng đá ảo League(VFL)</a>
                             </li>
                             <li className={this.state.current === 18 ? "Active" : ""} onClick={this.onClick.bind(this,18)}>
-                                <a>E-Sports</a>
+                                <a href="/">E-Sports</a>
                             </li>
                             <li className={this.state.current === 19 ? "Active" : ""} onClick={this.onClick.bind(this,19)}>
-                                <a>DOTA2</a>
+                                <a href="/">DOTA2</a>
                             </li>
                             <li className={this.state.current === 20 ? "Active" : ""} onClick={this.onClick.bind(this,20)}>
-                                <a>Counter Strike: GO</a>
+                                <a href="/">Counter Strike: GO</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
                     <div id="HelperCenterDetail" >
-                        <div className="centerDetail" hidden={this.state.current != 1}>
+                        <div className="centerDetail" hidden={this.state.current !== 1}>
                         <h2>Tennis</h2>
                             <p> QUAN TRỌNG
                                 <br />
@@ -227,7 +227,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> Dự đoán trận đấu cuối cùng của đội. Nếu số game nhiều hơn đường Over / under line đã được chỉ định thì kết quả
                                 thắng sẽ kết thúc; nếu số game nhỏ hơn đường Over / under line đã được chỉ định thì kết quả chiến thắng là dưới.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 2}>
+                        <div className="centerDetail" hidden={this.state.current !== 2}>
                         <h2>Bóng Rổ</h2>
                             <p>QUAN TRỌNG
                                 <br />
@@ -352,7 +352,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> X là: 10,15,20,25 ... etc.
                                 <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 3}>
+                        <div className="centerDetail" hidden={this.state.current !== 3}>
                         <h2>Bóng bầu dục Mỹ</h2>
                             <p>Các Điều Quan Trọng
                                 <br />
@@ -459,7 +459,7 @@ export class BetRuleFourVn extends React.Component {
                                 goal, safety và không có. Việc đặt cược này bao gồm cả làm thêm giờ.
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 4}>
+                        <div className="centerDetail" hidden={this.state.current !== 4}>
                         <h2>Hockey trên băng</h2>
                             <p>Quan Trọng
                                 <br />
@@ -609,7 +609,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> In-Play - Đội nào sẽ giành chiến thắng trong loạt đá luân lưu phạt?
                                 <br /> Cá cược rằng đội giành được chiến thắng trong luân lưu. Có thể đặt cược các lựa chọn là: đội nhà, đội khách.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 5}>
+                        <div className="centerDetail" hidden={this.state.current !== 5}>
                         <h2>Bóng Rổ</h2>
                             <p>QUAN TRỌNG
                                 <br />
@@ -734,7 +734,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> X là: 10,15,20,25 ... etc.
                                 <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 6}>
+                        <div className="centerDetail" hidden={this.state.current !== 6}>
                         <h2>Bóng Ném</h2>
                             <p>CÁC ĐIỀU QUAN TRỌNG
                                 <br />
@@ -840,7 +840,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> X là: 10,15,20,25 ... etc.
                                 <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy .</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 7}>
+                        <div className="centerDetail" hidden={this.state.current !== 7}>
                         <h2>Bóng chuyền</h2>
                             <p> QUAN TRỌNG
                                 <br />
@@ -897,7 +897,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> Vào cuối trò chơi, không có đội nào có được điểm X, tỷ lệ cược sẽ được xem là bị hủy
                                 </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 8}>
+                        <div className="centerDetail" hidden={this.state.current !== 8}>
                         <h2>Bóng Chuyền Bãi Biển</h2>
                             <p>QUAN TRỌNG
                                 <br />
@@ -954,7 +954,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> X là: 20, 30, 40 ... vv.
                                 <br /> Khi kết thúc trò chơi, không có đội nào đạt X điểm, các cược sẽ được coi là hủy.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 9}>
+                        <div className="centerDetail" hidden={this.state.current !== 9}>
                         <h2>Bóng Đá Trong Nhà</h2>
                             <p>QUAN TRỌNG
                                 <br />
@@ -989,7 +989,7 @@ export class BetRuleFourVn extends React.Component {
                                 của giải đấu sau khi vé cược đã được đặt,Khi thanh toán cược bất cứ bàn thắng nào xảy ra trước khi vé cược được
                                 đặt sẽ bị bỏ qua.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 10}>
+                        <div className="centerDetail" hidden={this.state.current !== 10}>
                         <h2>Cầu lông</h2>
                             <p>QUAN TRỌNG
                                 <br />
@@ -1008,7 +1008,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> ※ Nếu một người chơi nghỉ không thi đấu tất cả các thị trường chưa được quyết định sẽ bị coi là vô hiệu.
                             </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 11}>
+                        <div className="centerDetail" hidden={this.state.current !== 11}>
                         <h2>Rugby Union &amp; League</h2>
                             <p>Quan Trọng
                                 <br />
@@ -1112,7 +1112,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> Hòa – dưới:cược thắng nếu trận đấu hòa và tổng số bàn thắng dưới dòng được chỉ định.
                                 <br /> Đội chủ nhà – dưới :cược thắng nếu đội chủ nhà thắng và tổng số bàn thắng dưới dòng được chỉ định.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 12}>
+                        <div className="centerDetail" hidden={this.state.current !== 12}>
                         <h2>Phi tiêu</h2>
                             <p>QUAN TRỌNG
                                 <br />
@@ -1129,7 +1129,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br />
                                 <br /> ※ Sự kiện đặc biệt sẽ được tính bằng cách kiểm tra màu sắc .</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 13}>
+                        <div className="centerDetail" hidden={this.state.current !== 13}>
                         <h2>Bida</h2>
                             <p>QUAN TRỌNG
                                 <br />
@@ -1145,7 +1145,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br />
                                 <br /> ※ Nếu trận đấu không kết thúc, tất cả các giải đấu chưa quyết định đều bị coi là vô hiệu hóa.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 14}>
+                        <div className="centerDetail" hidden={this.state.current !== 14}>
                         <h2>Table Tennis</h2>
                             <p>QUAN TRỌNG
                                 <br />
@@ -1169,7 +1169,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> Có bao nhiêu séc sẽ vượt quá giới hạn về điểm
                                 <br /> Có bao nhiêu séc có ít nhất vượt quá giới hạn 11 điểm.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 15}>
+                        <div className="centerDetail" hidden={this.state.current !== 15}>
                         <h2>Golf</h2>
                             <p>QUAN TRỌNG
                                 <br />
@@ -1183,7 +1183,7 @@ export class BetRuleFourVn extends React.Component {
                                 <br /> ※ Nếu một giải đấu hoặc vòng đấu cụ thể được hoãn hoặc bị treo thì tất cả cược sẽ có hiệu lực trong vòng 48
                                 giờ sau khi thời gian kết thúc dự kiến..</p>
                         </div>
-                        <div className="centerDetail"hidden={this.state.current != 16}>
+                        <div className="centerDetail"hidden={this.state.current !== 16}>
                         <h2>Cricket</h2>
                             &nbsp;
                             <h1>Các điều quan trọng </h1>
@@ -1269,7 +1269,7 @@ export class BetRuleFourVn extends React.Component {
                             <h1>Trong trận – lượt bỏ lỡ tiếp theo (bị bắt/không bị bắt)</h1>
                             <p>Các lựa chọn có sẵn là: Bị bắt và không bị bắt. Nếu không có bóng rơi xuống thì tất cả cược sẽ bị hủy.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 17}>
+                        <div className="centerDetail" hidden={this.state.current !== 17}>
                         <h2>Bóng đá ảo League (VFL)</h2>
                             <h1>Cách chơi</h1>
                             <p>VFL cung cấp trải nghiệm cược tiền thật 24/7/365 cho bóng đá ảo. Giải đấu bao gồm 16 đội và mùa chạy liên tục. Mỗi
@@ -1304,7 +1304,7 @@ export class BetRuleFourVn extends React.Component {
                                 với nhau. Đồng thời, thông số hoạt động của các cầu thủ VFL được dựa trên thông tin cầu thủ của bóng đá chuyên
                                 nghiệp (ví dụ: về số bán thắng, thể lực, thống kê trận đấu liên tiếp, v.v.).</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 18}>
+                        <div className="centerDetail" hidden={this.state.current !== 18}>
                         <h2>E-Sports</h2>
                             <h1> Quy tắc Chung </ h1>
                                 <p>● Trường hợp có một sự kiện nào đó ảnh hưởng giống nhau đến 2 cầu thủ hoặc các đội và bản đồ, ví dụ: “best of
@@ -1370,7 +1370,7 @@ export class BetRuleFourVn extends React.Component {
                                         phá hủy ba tháp kế tiếp (tổng cộng bảy), vì nó cần phải tiêu diệt ít nhất một tháp cấp 3 và hai tháp
                                         nexus để có được chiến thắng bình thường từ vị trí đó.</p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 19}>
+                        <div className="centerDetail" hidden={this.state.current !== 19}>
                         <h2>DOTA2</h2>
                             <p>● Đối với cược liên quan đến tháp, tất cả các tháp bị phá hủy tính là đã bị phá hủy bởi đội đối lập ngay cả khi đạt
                                 được cuối cùng từ một quân lính.
@@ -1405,7 +1405,7 @@ export class BetRuleFourVn extends React.Component {
                                 hủy ba tháp tiếp theo (tổng cộng bảy), vì nó cần phải phá hủy ít nhất một tháp cấp 3 và hai ngọn tháp cổ đã thắng
                                 được trò chơi bình thường từ vị trí đó. </p>
                         </div>
-                        <div className="centerDetail" hidden={this.state.current != 20}>
+                        <div className="centerDetail" hidden={this.state.current !== 20}>
                         <h2>Counter Strike: GO</h2>
                             <p>● Hầu hết các đặt cược vào bản đồ đều dựa trên số vòng dự kiến (thường là 30) trừ các vòng chơi thêm trong trường
                                 hợp hòa. Tuy nhiên, nếu một thị trường chiến thắng của bản đồ được cung cấp mà không có lựa chọn "được đội thắng"

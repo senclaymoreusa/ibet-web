@@ -17,7 +17,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Radio from '@material-ui/core/Radio';
 import 'react-image-picker/dist/index.css';
-import InputBase from '@material-ui/core/InputBase';
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const bankList = [
@@ -338,7 +338,7 @@ class DepositAsiapayOnlinePay extends Component {
         })
             .then(function(res) {
                 
-                if(res.status == 200){
+                if(res.status === 200){
                     return res.text();
                 }
                 else{

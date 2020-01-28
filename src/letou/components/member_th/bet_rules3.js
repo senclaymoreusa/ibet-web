@@ -98,25 +98,25 @@ export class BetRuleThreeTh extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>แฮนดิแคปเอเชีย</a>
+                                <a href="/">แฮนดิแคปเอเชีย</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>ผลสกอร์ที่ถูกต้อง</a>
+                                <a href="/">ผลสกอร์ที่ถูกต้อง</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>การนับผลชนะ</a>
+                                <a href="/">การนับผลชนะ</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>ครึ่งเวลา/เต็มเวลา</a>
+                                <a href="/">ครึ่งเวลา/เต็มเวลา</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>การชนะเดิมพันในเวลา</a>
+                                <a href="/">การชนะเดิมพันในเวลา</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>Next</a>
+                                <a href="/">Next</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>ประตูจากผู้เล่น</a>
+                                <a href="/">ประตูจากผู้เล่น</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

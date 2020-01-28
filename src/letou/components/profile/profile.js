@@ -28,8 +28,7 @@ import SharingPlan from './sharing_plan/sharing_plan';
 import Button from '@material-ui/core/Button';
 import TransactionRecord from './transaction_record/transaction_record';
 import { images } from '../../../util_config';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
 import Person from '@material-ui/icons/Person';
 import Smartphone from '@material-ui/icons/PhoneAndroid';
 import Email from '@material-ui/icons/Email';
@@ -378,7 +377,7 @@ export class Profile extends Component {
         if (user && user.emailVerified) rate += 33;
         if (user && user.nameVerified) rate += 33;
         if (user && user.nameVerified) rate += 33;
-        if (rate == 99) rate = 100;
+        if (rate === 99) rate = 100;
 
         return (
             <div className={classes.root}>
@@ -521,7 +520,7 @@ export class Profile extends Component {
                                                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                                                     <Tooltip
                                                         title={
-                                                            user.nameVerified
+                                                            user && user.nameVerified
                                                                 ? this.getLabel(
                                                                     'name-verified'
                                                                 )
@@ -534,7 +533,7 @@ export class Profile extends Component {
                                                             className={clsx({
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
-                                                                    user.nameVerified
+                                                                    user && user.nameVerified ? user.nameVerified : false
                                                             })}
                                                             onClick={() => {
                                                                 if (
@@ -554,7 +553,7 @@ export class Profile extends Component {
                                                     </Tooltip>
                                                     <Tooltip
                                                         title={
-                                                            user.phoneVerified
+                                                            user && user.phoneVerified
                                                                 ? this.getLabel(
                                                                     'phone-verified'
                                                                 )
@@ -567,7 +566,7 @@ export class Profile extends Component {
                                                             className={clsx({
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
-                                                                    user.phoneVerified
+                                                                    user && user.phoneVerified ? user.phoneVerified : false
                                                             })}
                                                             onClick={() => {
                                                                 if (
@@ -587,7 +586,7 @@ export class Profile extends Component {
                                                     </Tooltip>
                                                     <Tooltip
                                                         title={
-                                                            user.emailVerified
+                                                            user && user.emailVerified
                                                                 ? this.getLabel(
                                                                     'email-verified'
                                                                 )
@@ -600,7 +599,7 @@ export class Profile extends Component {
                                                             className={clsx({
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
-                                                                    user.emailVerified
+                                                                    user && user.emailVerified ? user.emailVerified : false
                                                             })}
                                                             onClick={() => {
                                                                 if (

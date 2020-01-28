@@ -510,6 +510,8 @@ export class VerifyPhone extends Component {
                         </Grid>
                     </Grid>
                 );
+            default:
+                return <div></div>;
         }
     }
 

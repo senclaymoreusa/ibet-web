@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import { logout, handle_search, setLanguage, authCheckState } from '../../../actions';
 import { withStyles } from '@material-ui/core/styles';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios';

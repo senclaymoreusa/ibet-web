@@ -13,10 +13,10 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
-const CLIENT = {
-    sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
-    production: 'xxxXXX',
-};
+// const CLIENT = {
+//     sandbox: 'AXoM7FKTdT8rfh-SI66SlAWd_P85YSsNfTvm0zjB0-AhJhUhUHTuXi4L87DcgkxLSLPYKCMO5DVl2pDD',
+//     production: 'xxxXXX',
+// };
 
 
 const styles = theme => ({
@@ -306,9 +306,9 @@ class DepositPaypal extends Component {
             </Button>);
 
 
-        let amount = this.state.amount;
-        let user = this.state.data.username;
-        let currentComponent = this;
+        // let amount = this.state.amount;
+        // let user = this.state.data.username;
+        // let currentComponent = this;
 
         return (
             <div className={classes.root}>
