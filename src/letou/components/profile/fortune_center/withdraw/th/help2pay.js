@@ -536,6 +536,7 @@ class Help2Pay extends Component {
     };
 
     async handleClick() {
+        let currentComponent = this;
         var postData = {
             amount: this.state.amount,
             username: this.state.data.username,
