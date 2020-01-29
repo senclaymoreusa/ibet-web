@@ -7,7 +7,7 @@ import {
     handle_signup_over18, authSignup,
     sendingLog
 } from '../../actions';
-import { config, images } from '../../util_config';
+import {  images } from '../../util_config';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { FormattedMessage, injectIntl } from 'react-intl';

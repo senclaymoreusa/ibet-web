@@ -13,7 +13,6 @@ import {
 } from '../../../actions';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import { config } from '../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 

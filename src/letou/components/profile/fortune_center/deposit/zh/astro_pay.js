@@ -12,7 +12,8 @@ import InputMask from 'react-input-mask';
 import {
     authCheckState,
     AUTH_RESULT_FAIL,
-    sendingLog
+    sendingLog,
+    authUserUpdate
 } from '../../../../../../actions';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -276,7 +277,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class Astropay_CH extends Component {
+class AstropayCH extends Component {
     constructor(props) {
         super(props);
 
@@ -466,10 +467,11 @@ class Astropay_CH extends Component {
                             'Cannot withdraw this amount'
                         );
                     } else {
+                        currentComponent.props.authUserUpdate();    
                         currentComponent.props.callbackFromParent('success');
                     }
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     currentComponent.props.callbackFromParent(
                         'error',
                         'Something is wrong.'
@@ -497,10 +499,11 @@ class Astropay_CH extends Component {
                 payment: event.target.checked ? 'astropay_ch' : null
             })
             .then(res => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 sendingLog(err);
             });
     }
@@ -539,7 +542,7 @@ class Astropay_CH extends Component {
                                     }
                                     helperText={
                                         this.state.numberInvalid &&
-                                        this.state.numberFocused
+                                            this.state.numberFocused
                                             ? this.getLabel('16-digit-number')
                                             : ' '
                                     }
@@ -569,7 +572,7 @@ class Astropay_CH extends Component {
                                     }
                                     helperText={
                                         this.state.expireDateInvalid &&
-                                        this.state.expireDateFocused
+                                            this.state.expireDateFocused
                                             ? this.getLabel('date-invalid')
                                             : ' '
                                     }
@@ -599,7 +602,7 @@ class Astropay_CH extends Component {
                                     }
                                     helperText={
                                         this.state.cvvInvalid &&
-                                        this.state.cvvFocused
+                                            this.state.cvvFocused
                                             ? this.getLabel('cvv-invalid')
                                             : ' '
                                     }
@@ -622,7 +625,7 @@ class Astropay_CH extends Component {
                             }
                             helperText={
                                 this.state.amountInvalid &&
-                                this.state.amountFocused
+                                    this.state.amountFocused
                                     ? this.getLabel('valid-amount')
                                     : ' '
                             }
@@ -673,8 +676,6 @@ class Astropay_CH extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
-                        {/*<Button variant="contained" className={classes.cancelButton}
-                         */}
                         <Button
                             className={classes.actionButton}
                             onClick={this.cancelClicked.bind(this)}
@@ -696,6 +697,6 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Astropay_CH))
+        injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(AstropayCH))
     )
 );

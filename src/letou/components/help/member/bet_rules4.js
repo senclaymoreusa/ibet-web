@@ -81,7 +81,6 @@ export class BetRuleFour extends React.Component {
   
       const { classes } = this.props;
       
-      
       return (
        
         <div className={classes.root}> 
@@ -130,69 +129,72 @@ export class BetRuleFour extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>网球</a>
+                                <a href="/">网球</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>篮球</a>
+                                <a href="/">篮球</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>美式足球</a>
+                                <a href="/">美式足球</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>冰上曲棍球</a>
+                                <a href="/">冰上曲棍球</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>棒球</a>
+                                <a href="/">棒球</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>手球</a>
+                                <a href="/">手球</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>排球</a>
+                                <a href="/">排球</a>
                             </li>
                             <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a>沙滩排球</a>
+                                <a href="/">沙滩排球</a>
                             </li>
                             <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a>室内足球</a>
+                                <a href="/">室内足球</a>
                             </li>
                             <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a>羽毛球</a>
+                                <a href="/">羽毛球</a>
                             </li>
                             <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a>英式橄榄球联赛联盟</a>
+                                <a href="/">英式橄榄球联赛联盟</a>
                             </li>
                             <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a>飞镖</a>
+                                <a href="/">飞镖</a>
                             </li>
                             <li className={this.state.current === 13 ? "Active" : ""} onClick={this.onClick.bind(this,13)}>
-                                <a>斯诺克</a>
+                                <a href="/">斯诺克</a>
                             </li>
                             <li className={this.state.current === 14 ? "Active" : ""} onClick={this.onClick.bind(this,14)}>
-                                <a>乒乓球</a>
+                                <a href="/">乒乓球</a>
                             </li>
                             <li className={this.state.current === 15 ? "Active" : ""} onClick={this.onClick.bind(this,15)}>
-                                <a>高尔夫球镖</a>
+                                <a href="/">高尔夫球镖</a>
                             </li>
                             <li className={this.state.current === 16 ? "Active" : ""} onClick={this.onClick.bind(this,16)}>
-                                <a>板球</a>
+                                <a href="/">板球</a>
                             </li>
                             <li className={this.state.current === 17 ? "Active" : ""} onClick={this.onClick.bind(this,17)}>
-                                <a>虚拟足球联赛 (VFL)</a>
+                                <a href="/">虚拟足球联赛 (VFL)</a>
                             </li>
                             <li className={this.state.current === 18 ? "Active" : ""} onClick={this.onClick.bind(this,18)}>
-                                <a>电子竞技</a>
+                                <a href="/">电子竞技</a>
                             </li>
                             <li className={this.state.current === 19 ? "Active" : ""} onClick={this.onClick.bind(this,19)}>
-                                <a>刀塔</a>
+                                <a href="/">刀塔</a>
                             </li>
                             <li className={this.state.current === 20 ? "Active" : ""} onClick={this.onClick.bind(this,20)}>
-                                <a>反恐精英:全球攻势</a>
+                                <a href="/">反恐精英:全球攻势</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
+
                     <div id="HelperCenterDetail" className={classes.detail}>
+
+
                         <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>网球</h2>
                             <h1>重要提醒</h1>

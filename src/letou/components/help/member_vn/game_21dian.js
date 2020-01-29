@@ -95,10 +95,10 @@ export class Game21dianVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>Blackjack</a>
+                                <a href="/">Blackjack</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>Crazy Blackjack</a>
+                                <a href="/">Crazy Blackjack</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

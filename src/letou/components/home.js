@@ -10,7 +10,7 @@ import {
 } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import { Slide } from 'react-slideshow-image';
-import { images, config } from '../../util_config';
+import { images } from '../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
@@ -129,7 +129,6 @@ export class Home extends Component {
 
   render() {
     const { classes } = this.props;
-    const { width } = this.state;
 
     const bannerImages = [
       images.src + 'letou/banner1.jpg',

@@ -84,7 +84,12 @@ export class SpecialRulesVn extends React.Component {
                                 <ul>
                                     <li ng-click="helpCtrl.goToUrl('help_about_rule')">Cách thức cược thế nào</li>
                                     <li ng-click="helpCtrl.goToUrl('help_about_rule_second')">Quy tắc đặt cược</li>
-                                    <li ng-click="helpCtrl.goToUrl('help_about_rule_second03')">Quy tắc đặt cược đặc biệt</li>
+
+
+                                    <li ng-click="helpCtrl.goToUrl('help_about_rule_second03')">Quy tắc đặt cược đặc biệt
+                                        <a href="/">1/4）</a>
+                                    </li>
+
                                 </ul>
                                 <div class="ClearBoth">&nbsp;</div>
                             </div>

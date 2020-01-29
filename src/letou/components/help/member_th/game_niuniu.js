@@ -107,22 +107,25 @@ export class GameNiuniuTh extends React.Component {
                             <br/>
                             <br/> ชนิดของไพ่:
                             <br/>
-                            <img src="http://i.imgur.com/kFgcRVR.png " alt=""></img>
+
+                            <img src="http://i.imgur.com/kFgcRVR.png" alt=""></img>
                             <br/>
                             <br/> ใหญ่/เล็ก:
                             <br/>
-                            <img src="http://i.imgur.com/sRZf7W7.png " alt=""></img>
+                            <img src="http://i.imgur.com/sRZf7W7.png" alt=""></img>
                             <br/>
                             <br/>
                             <br/>
                             <br/> - อัตราการจ่าย
                             <br/> โอกาสในการชนะ:
                             <br/>
-                            <img src="http://i.imgur.com/paep88b.png " alt=""></img>
+
+                            <img src="http://i.imgur.com/paep88b.png" alt=""></img>
                             <br/>
                             <br/> โอกาสในการแพ้:
                             <br/>
-                            <img src="http://i.imgur.com/Hnj7FPY.png " alt=""></img>
+                            <img src="http://i.imgur.com/Hnj7FPY.png" alt=""></img>
+
                         </p>
                         </div>
 

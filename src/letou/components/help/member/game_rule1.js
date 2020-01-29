@@ -131,19 +131,19 @@ export class GameRuleOne extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>奇迹大奖</a>
+                                <a href="/">奇迹大奖</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>5-10条线</a>
+                                <a href="/">5-10条线</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>15-20条线</a>
+                                <a href="/">15-20条线</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>25+条线</a>
+                                <a href="/">25+条线</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>多旋转</a>
+                                <a href="/">多旋转</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

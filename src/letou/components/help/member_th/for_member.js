@@ -71,7 +71,6 @@ const styles = theme => ({
 })
 
 export class ForMemberTh extends React.Component {
-   
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;

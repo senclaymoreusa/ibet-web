@@ -130,10 +130,10 @@ export class LotteryRuleTwo extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>快乐彩介绍</a>
+                                <a href="/">快乐彩介绍</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>快乐彩规则</a>
+                                <a href="/">快乐彩规则</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

@@ -97,7 +97,7 @@ export class MemberRuleTwo extends React.Component {
                             <ul className={classes.helpCenterArticleColumn}>
                             <li>• 1. 立即
                                 {/* <a style="cursor: pointer" onclick="getAffDomain()">成为合作伙伴</a>  */}
-								<a href="https://affiliates.letou.com/cn/" target="_blank">成为合作伙伴</a>
+								<a href="https://affiliates.letou.com/cn/" target="_blank" rel="noopener noreferrer">成为合作伙伴</a>
                             </li>
                             {/* <!--<li>• 2. 任何代理咨询请联系在线客服 </li>--> */}
 							<li>• 2. 代理专员QQ：3007282086</li>

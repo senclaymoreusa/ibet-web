@@ -95,10 +95,10 @@ export class GameRuleThreeTh extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>21แต้ม Blackjack</a>
+                                <a href="/">21แต้ม Blackjack</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>การเดิมพันรูเล็ต</a>
+                                <a href="/">การเดิมพันรูเล็ต</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

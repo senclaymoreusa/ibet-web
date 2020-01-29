@@ -12,10 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import ArrowForward from '@material-ui/icons/ArrowForward';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import ReactMinimalPieChart from 'react-minimal-pie-chart';
 import clsx from 'clsx';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
@@ -295,7 +291,7 @@ function LetouWallet(props) {
                 </Typography>
                 <Typography className={classes.name}>
 
-                    {wallet.isMain == 'true' ?
+                    {wallet.isMain === 'true' ?
                         <FormattedMessage id="main-wallet" defaultMessage="Main Wallet" />
                         :
                         wallet.code}
@@ -495,8 +491,8 @@ export class TotalAssets extends Component {
 
         let currentComponent = this;
 
-        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain == true)[0];
-        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain == false && parseFloat(item.amount) > 10.00);
+        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain === true)[0];
+        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain === false && parseFloat(item.amount) > 10.00);
 
         walletsWithAmount.forEach(wallet => {
 
@@ -584,11 +580,11 @@ export class TotalAssets extends Component {
 
     render() {
         const { classes } = this.props;
-        const { from, to, amount, walletObjs, currency, showConfirmationDialog } = this.state;
+        const { walletObjs, currency, showConfirmationDialog } = this.state;
 
-        let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
+        let mainWalletObj = walletObjs.filter(item => item.isMain === true)[0];
 
-        let otherWalletObjs = walletObjs.filter(item => item.isMain == false);
+        let otherWalletObjs = walletObjs.filter(item => item.isMain === false);
 
         let mainWallet = (
             mainWalletObj ?
@@ -597,19 +593,19 @@ export class TotalAssets extends Component {
                 null
         );
 
-        const fromWallet = (
-            (from) ?
-                <LetouWallet wallet={from} currency={currency} closeClick={() => { this.setState(() => ({ from: null })) }} />
-                :
-                <Button className={classes.walletButton}>{this.getLabel('from-label')}</Button>
-        );
+        // const fromWallet = (
+        //     (from) ?
+        //         <LetouWallet wallet={from} currency={currency} closeClick={() => { this.setState(() => ({ from: null })) }} />
+        //         :
+        //         <Button className={classes.walletButton}>{this.getLabel('from-label')}</Button>
+        // );
 
-        const toWallet = (
-            (to) ?
-                <LetouWallet wallet={to} currency={currency} closeClick={() => { this.setState(() => ({ to: null })) }} />
-                :
-                <Button className={classes.walletButton}>{this.getLabel('to-label')}</Button>
-        );
+        // const toWallet = (
+        //     (to) ?
+        //         <LetouWallet wallet={to} currency={currency} closeClick={() => { this.setState(() => ({ to: null })) }} />
+        //         :
+        //         <Button className={classes.walletButton}>{this.getLabel('to-label')}</Button>
+        // );
 
         return (
             <div className={classes.root}>

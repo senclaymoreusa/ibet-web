@@ -95,19 +95,19 @@ export class GameRuleOneTh extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>Marvel Jackpot</a>
+                                <a href="/">Marvel Jackpot</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>5-10 ไลน์ที่เล่น</a>
+                                <a href="/">5-10 ไลน์ที่เล่น</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>15-20 ไลน์เดิมพัน</a>
+                                <a href="/">15-20 ไลน์เดิมพัน</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>25+ Play-lines</a>
+                                <a href="/">25+ Play-lines</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>Multi-Spin</a>
+                                <a href="/">Multi-Spin</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

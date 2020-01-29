@@ -95,10 +95,10 @@ export class LotteryRuleThreeVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>SSC Introduction</a>
+                                <a href="/">SSC Introduction</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>Luật Chơi SSC</a>
+                                <a href="/">Luật Chơi SSC</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

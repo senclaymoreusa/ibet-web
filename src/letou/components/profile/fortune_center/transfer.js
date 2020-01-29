@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { config, images } from '../../../../util_config';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../actions';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -374,7 +374,7 @@ function LetouWallet(props) {
                 </Typography>
                 <Typography className={classes.name}>
 
-                    {wallet.isMain == 'true' ?
+                    {wallet.isMain === 'true' ?
                         <FormattedMessage id="main-wallet" defaultMessage="Main Wallet" />
                         :
                         wallet.code}
@@ -545,6 +545,7 @@ class Transfer extends Component {
     }
 
     sendClicked() {
+         
         if (parseInt(this.state.from.amount) < parseInt(this.state.amount)) {
             this.setState({ snackType: 'error' });
             this.setState({ snackMessage: this.getLabel('balance-not-enough') });
@@ -555,7 +556,8 @@ class Transfer extends Component {
         this.setState({ loading: true });
 
         const { user } = this.props;
-        
+        let currentComponent = this;
+      
         axios.post(API_URL + 'users/api/transfer/',
             {
                 'user_id': user.userId,
@@ -565,11 +567,7 @@ class Transfer extends Component {
             }, config)
             .then(res => {
                 if (res.data.status_code === 1) {
-                    // this.setState({ snackType: 'success' });
-                    // this.setState({ snackMessage: this.getLabel('transfer-successful') });
-                    // this.setState({ showSnackbar: true });
-
-                    this.setState({ activeContent: 1 });
+                  this.setState({ activeContent: 1 });
                 } else if (res.data.status_code === 107) {
                     this.setState({ snackType: 'error' });
                     this.setState({ snackMessage: res.data.error_message });
@@ -579,6 +577,7 @@ class Transfer extends Component {
                 this.getWalletsByUsername(this.props.user.userId);
 
                 this.setState({ loading: false });
+                currentComponent.props.authUserUpdate();    
             }).catch(err => {
                 sendingLog(err);
                 this.setState({ loading: false });
@@ -594,8 +593,8 @@ class Transfer extends Component {
 
         let currentComponent = this;
 
-        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain == true)[0];
-        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain == false && parseFloat(item.amount) > 10.00);
+        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain === true)[0];
+        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain === false && parseFloat(item.amount) > 10.00);
 
         walletsWithAmount.forEach(wallet => {
 
@@ -661,7 +660,7 @@ class Transfer extends Component {
         let wallet = this.state.walletObjs.filter(item => item.code === id)[0];
 
         if (this.state.from === null && this.state.to === null) {
-            if (wallet.amount == 0) {
+            if (wallet.amount === 0) {
                 this.setState({ snackType: 'warning' });
                 this.setState({ snackMessage: this.getLabel('empty-wallet-message') });
                 this.setState({ showSnackbar: true });
@@ -670,7 +669,7 @@ class Transfer extends Component {
 
             this.setState({ from: wallet });
         } else if (this.state.from === null && this.state.to.code !== wallet.code) {
-            if (wallet.amount == 0) {
+            if (wallet.amount === 0) {
                 this.setState({ snackType: 'warning' });
                 this.setState({ snackMessage: this.getLabel('empty-wallet-message') });
                 this.setState({ showSnackbar: true });
@@ -699,9 +698,9 @@ class Transfer extends Component {
         let otherWalletObjs = [];
 
         if (activeContent === 0) {
-            let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
+            let mainWalletObj = walletObjs.filter(item => item.isMain === true)[0];
 
-            otherWalletObjs = walletObjs.filter(item => item.isMain == false);
+            otherWalletObjs = walletObjs.filter(item => item.isMain === false);
 
              mainWallet = (
                 mainWalletObj ?
@@ -1030,4 +1029,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Transfer))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState,authUserUpdate })(Transfer))));

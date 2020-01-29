@@ -68,6 +68,7 @@ const styles = () => ({
 })
 
 export class ForPartnerVn extends React.Component {
+
     // constructor(props) {
     //     super(props);
     // }

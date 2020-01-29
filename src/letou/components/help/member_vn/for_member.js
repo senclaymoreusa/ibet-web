@@ -71,10 +71,13 @@ const styles = theme => ({
 })
 
 export class ForMemberVn extends React.Component {
+
     // constructor(props) {
     //     super(props);
     // }
 
+
+    
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });

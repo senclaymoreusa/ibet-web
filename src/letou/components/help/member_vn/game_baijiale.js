@@ -98,7 +98,7 @@ export class BaijialeVn extends React.Component {
                                 <a href="/">Super 6 Baccarat</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>Baccarat truyền thống</a>
+                                <a href="/">Baccarat truyền thống</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
                                 <a href="/">Super Baccarat</a>

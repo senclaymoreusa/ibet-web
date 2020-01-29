@@ -130,10 +130,10 @@ export class Game21dian extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>21点</a>
+                                <a href="/">21点</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>国际轮盘</a>
+                                <a href="/">国际轮盘</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

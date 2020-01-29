@@ -97,9 +97,7 @@ const styles = theme => ({
 });
 
 export class SportsBetDetails extends Component {
-    constructor(props) {
-        super(props);
-    }
+    
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;

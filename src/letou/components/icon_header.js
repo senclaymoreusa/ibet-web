@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 
 
-import { config, images } from '../../util_config';
+import { images } from '../../util_config';
 import IconButton from '@material-ui/core/IconButton';
 
 import {

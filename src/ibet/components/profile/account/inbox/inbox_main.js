@@ -308,6 +308,7 @@ export class InboxMain extends Component {
                                             )
                                         }
                                     }
+                                    return null;
                                 })
                                 }
                             </Grid>

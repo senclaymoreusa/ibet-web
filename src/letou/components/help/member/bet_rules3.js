@@ -127,25 +127,25 @@ export class BetRuleThree extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>亚洲让分盘</a>
+                                <a href="/">亚洲让分盘</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>亚洲大小盘</a>
+                                <a href="/">亚洲大小盘</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>三項让分盘</a>
+                                <a href="/">三項让分盘</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>一般盘口</a>
+                                <a href="/">一般盘口</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>角球盘口</a>
+                                <a href="/">角球盘口</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>罚牌盘口</a>
+                                <a href="/">罚牌盘口</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>滚球盘口</a>
+                                <a href="/">滚球盘口</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
