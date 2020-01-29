@@ -593,7 +593,9 @@ export const messages = {
         'live-casino-description': 'Stable platform, rich gameplay, fair and open game experience',
         'games-description': 'A variety of games, the exclusive hero slot machine is easy to use',
         'lottery-description': 'Exclusive support for any double investment number tracking function, no longer complicated profitability',
-        'promotion-description': 'A variety of bonuses will support you, betting is not afraid of not backing up'
+        'promotion-description': 'A variety of bonuses will support you, betting is not afraid of not backing up',
+        'filter-label':'Filter',
+        'sort-label':'Sort',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
