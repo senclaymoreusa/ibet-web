@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
@@ -390,8 +391,8 @@ class ThaiLocalBank extends Component {
                 this.setState({
                     amount: event.target.value,
                     amountInvalid:
-                        (parseFloat(event.target.value) < 200 ||
-                            parseFloat(event.target.value) > 500000)
+                        parseFloat(event.target.value) < 200 ||
+                        parseFloat(event.target.value) > 500000
                 });
             } else {
                 this.setState({ amountInvalid: true });
@@ -441,7 +442,7 @@ class ThaiLocalBank extends Component {
                     );
                 }
             })
-            .then(function (data) {
+            .then(function(data) {
                 let status = data.success;
                 if (status) {
                     const sbody = JSON.stringify({
@@ -597,7 +598,7 @@ class ThaiLocalBank extends Component {
                                 }
                                 helperText={
                                     this.state.accountNumberFocused &&
-                                        accountNumber.length === 0
+                                    accountNumber.length === 0
                                         ? this.getLabel('invalid-bank-number')
                                         : ' '
                                 }
@@ -646,8 +647,8 @@ class ThaiLocalBank extends Component {
                                                 {this.state.showPassword ? (
                                                     <VisibilityOff />
                                                 ) : (
-                                                        <Visibility />
-                                                    )}
+                                                    <Visibility />
+                                                )}
                                             </IconButton>
                                         </InputAdornment>
                                     )
@@ -838,7 +839,7 @@ class ThaiLocalBank extends Component {
                                 }
                                 helperText={
                                     this.state.amountInvalid &&
-                                        this.state.amountFocused
+                                    this.state.amountFocused
                                         ? this.getLabel('valid-amount')
                                         : ' '
                                 }
