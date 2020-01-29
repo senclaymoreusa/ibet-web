@@ -337,7 +337,12 @@ function parseUser(data) {
         nameVerified: data.id_verified,
         emailVerified: data.email_verified,
         phoneVerified: data.phone_verified,
+        lastLoginTime: data.last_login,
         registrationTime: data.time_of_registration,
+        hasSecurityQuestion:
+            data.security_question != null &&
+            data.security_question !== undefined &&
+            data.security_question !== '',
         hasWithdrawPassword:
             data.withdraw_password != null &&
             data.withdraw_password !== undefined &&
