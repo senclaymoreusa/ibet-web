@@ -536,6 +536,9 @@ export class Register extends Component {
                                                         : ' '
                                                 }
                                                 InputProps={{
+                                                    inputProps: {
+                                                        maxLength: 16
+                                                    },
                                                     disableUnderline: true,
                                                     startAdornment: (
                                                         <InputAdornment position="start">
@@ -863,6 +866,9 @@ export class Register extends Component {
                                                         : ' '
                                                 }
                                                 InputProps={{
+                                                    inputProps: {
+                                                        maxLength: 11
+                                                    },
                                                     disableUnderline: true,
                                                     startAdornment: (
                                                         <InputAdornment position="start">

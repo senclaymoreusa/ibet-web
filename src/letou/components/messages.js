@@ -216,8 +216,7 @@ export const messages = {
         'register-policy-text':
             'By clicking the button confirming the application. You confirm that you are 18 years old and you have read, accepted and agreed to the terms and conditions.',
         'rules-privacy-policy': 'LETOU Gambling Rules and Privacy Policy',
-        'username-limit':
-            'Username requires 8-16 digits with letters or numbers.',
+        'username-limit': 'Requires 8-16 digits with letters or numbers.',
         'please-strong-password':
             'Your password strength should be at least good.',
         'please-confirm-password': 'Please confirm your password.',
@@ -583,19 +582,25 @@ export const messages = {
         'balance-not-enough': 'Balance is not enough',
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
-        'safety-rate':'Safety Rate',
+        'safety-rate': 'Safety Rate',
         'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
         'page-not-found': 'Oops, this page does not exist',
         'error-message': 'Oops, something went wrong',
-        'contact-message': 'if you have any question please contact cs@letou.me',
-        'verification-status':'Verification Status',
-        'sport-description': 'Football in football, insurance cashes in with zero risk. Mobile betting, mobile time difference',
-        'live-casino-description': 'Stable platform, rich gameplay, fair and open game experience',
-        'games-description': 'A variety of games, the exclusive hero slot machine is easy to use',
-        'lottery-description': 'Exclusive support for any double investment number tracking function, no longer complicated profitability',
-        'promotion-description': 'A variety of bonuses will support you, betting is not afraid of not backing up',
-        'filter-label':'Filter',
-        'sort-label':'Sort',
+        'contact-message':
+            'if you have any question please contact cs@letou.me',
+        'verification-status': 'Verification Status',
+        'sport-description':
+            'Football in football, insurance cashes in with zero risk. Mobile betting, mobile time difference',
+        'live-casino-description':
+            'Stable platform, rich gameplay, fair and open game experience',
+        'games-description':
+            'A variety of games, the exclusive hero slot machine is easy to use',
+        'lottery-description':
+            'Exclusive support for any double investment number tracking function, no longer complicated profitability',
+        'promotion-description':
+            'A variety of bonuses will support you, betting is not afraid of not backing up',
+        'filter-label': 'Filter',
+        'sort-label': 'Sort'
     },
     zh: {
         'help-title': '我们在此竭诚服务',
