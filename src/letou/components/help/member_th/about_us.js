@@ -14,17 +14,41 @@ import { show_letou_announcements} from '../../../../actions';
 
 
 const styles = theme => ({
-    content : {
+    
+    content: {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
+       
     },
-    infoSelect : {
+    infoSelect: {
         paddingLeft: 300,
         display: 'flex',
-        flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     }
 })
 
@@ -44,7 +68,7 @@ export class AboutUsTh extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -57,7 +81,19 @@ export class AboutUsTh extends React.Component {
                         </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     <div className="HelpCenterList">
                         <ul>
                             <li>
