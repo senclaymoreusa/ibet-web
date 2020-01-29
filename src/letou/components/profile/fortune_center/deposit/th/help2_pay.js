@@ -10,7 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -566,13 +567,6 @@ class Help2pay extends Component {
                 //alert("渠道维护中");
                 throw new Error('Something went wrong.');
             })
-            .then(function(data) {
-                if (data.errorCode) {
-                    throw new Error('Something went wrong.');
-                }
-                let newwin = window.open('');
-                newwin.document.write(data);
-            })
             .catch(function(err) {
                 console.log('Request failed', err);
                 currentComponent.props.callbackFromParent('error', err.message);
@@ -591,7 +585,8 @@ class Help2pay extends Component {
                 user_id: this.state.data.pk,
                 payment: event.target.checked ? 'help2pay' : null
             })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -731,6 +726,10 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Help2pay))
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, authUserUpdate })(
+                Help2pay
+            )
+        )
     )
 );

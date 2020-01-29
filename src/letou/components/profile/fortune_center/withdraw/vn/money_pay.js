@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate} from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputBase from '@material-ui/core/InputBase';
@@ -553,6 +553,7 @@ class MoneyPay extends Component {
                                     } else if (res.data === 'The balance is not enough') {
                                         currentComponent.props.callbackFromParent("error", "Cannot withdraw this amount.");
                                     } else {
+                                        currentComponent.props.authUserUpdate();    
                                         currentComponent.props.callbackFromParent("success", "Transaction completed.");
                                     }
                                 });
@@ -739,4 +740,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(MoneyPay))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, sendingLog, authUserUpdate })(MoneyPay))));
