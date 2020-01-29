@@ -30,17 +30,40 @@ const styles = theme => ({
         paddingTop: 20
       
     },
-    content : {
+    content: {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
+       
     },
-    infoSelect : {
+    infoSelect: {
         paddingLeft: 300,
         display: 'flex',
-        flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -64,7 +87,7 @@ export class DisclaimerVn extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -77,7 +100,19 @@ export class DisclaimerVn extends React.Component {
                         </div>
                 </Grid>
                 
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                        <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     <div className="HelpCenterList">
                         <ul>
                             <li>
@@ -92,7 +127,7 @@ export class DisclaimerVn extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <h2> Từ chối </h2>
                         <p> LETOU không cho phép – cố tình hay vô tình – tất cả các thông tin được đăng tải trên trang Web hoặc đường truyền liên kết đến LETOU.com bởi đối tác trung gian. Chúng tôi đã cố gắng cung cấp nội dung chính xác 100% về thông tin và  cập nhật nội dung phản ánh từ người chơi, LETOU.com không chịu trách nhiệm trước những thông tin sai lệch trong việc sử dụng trang Web </p>
                         <p>&nbsp;</p>
