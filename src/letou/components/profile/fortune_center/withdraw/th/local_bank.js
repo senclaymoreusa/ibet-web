@@ -387,11 +387,11 @@ class ThaiLocalBank extends Component {
             const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(event.target.value)) {
-                this.setState({ amount: event.target.value });
                 this.setState({
+                    amount: event.target.value,
                     amountInvalid:
-                        parseFloat(event.target.value) < 200 ||
-                        parseFloat(event.target.value) > 500000
+                        (parseFloat(event.target.value) < 200 ||
+                            parseFloat(event.target.value) > 500000)
                 });
             } else {
                 this.setState({ amountInvalid: true });
@@ -441,7 +441,7 @@ class ThaiLocalBank extends Component {
                     );
                 }
             })
-            .then(function(data) {
+            .then(function (data) {
                 let status = data.success;
                 if (status) {
                     const sbody = JSON.stringify({
@@ -597,7 +597,7 @@ class ThaiLocalBank extends Component {
                                 }
                                 helperText={
                                     this.state.accountNumberFocused &&
-                                    accountNumber.length === 0
+                                        accountNumber.length === 0
                                         ? this.getLabel('invalid-bank-number')
                                         : ' '
                                 }
@@ -646,8 +646,8 @@ class ThaiLocalBank extends Component {
                                                 {this.state.showPassword ? (
                                                     <VisibilityOff />
                                                 ) : (
-                                                    <Visibility />
-                                                )}
+                                                        <Visibility />
+                                                    )}
                                             </IconButton>
                                         </InputAdornment>
                                     )
@@ -838,7 +838,7 @@ class ThaiLocalBank extends Component {
                                 }
                                 helperText={
                                     this.state.amountInvalid &&
-                                    this.state.amountFocused
+                                        this.state.amountFocused
                                         ? this.getLabel('valid-amount')
                                         : ' '
                                 }
