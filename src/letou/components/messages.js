@@ -365,9 +365,10 @@ export const messages = {
         'timer-label': 'Timer',
         'placeholder-link': 'Placeholder Link',
         'thai-localbank-placeholder': 'Deposit ฿200 - ฿950,000',
-        'thai-localbank-placeholder-withdraw': 'Deposit ฿200 - ฿950,000',
+        'thai-localbank-placeholder-withdraw': 'Withdraw ฿200 - ฿950,000',
         'astropay-placeholder': 'Deposit ฿10 - ฿500,000',
         'help2pay-placeholder': 'Deposit ฿500 - ฿500,000',
+        'help2pay-withdraw-placeholder': 'Withdraw ฿500 - ฿500,000',
         'card-number': 'Card Number',
         '16-digit-number': '16-digit card number required',
         'invalid-expiration': 'Invalid expiration date',
@@ -384,7 +385,7 @@ export const messages = {
         'back-games-lobby': 'Back to Games Lobby',
         'deposit-failed-text':
             'Please check your details and try again or click cancel to return to deposit.',
-        'withdrawal-failed': 'withdraw failed',
+        'withdrawal-failed': 'Withdraw failed!',
         'withdrawal-failed-text':
             'Please check your details and try again or click cancel to return to withdraw.',
         'try-again': 'Try Again',
@@ -593,7 +594,9 @@ export const messages = {
         'live-casino-description': 'Stable platform, rich gameplay, fair and open game experience',
         'games-description': 'A variety of games, the exclusive hero slot machine is easy to use',
         'lottery-description': 'Exclusive support for any double investment number tracking function, no longer complicated profitability',
-        'promotion-description': 'A variety of bonuses will support you, betting is not afraid of not backing up'
+        'promotion-description': 'A variety of bonuses will support you, betting is not afraid of not backing up',
+        'filter-label':'Filter',
+        'sort-label':'Sort',
     },
     zh: {
         'help-title': '我们在此竭诚服务',
