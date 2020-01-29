@@ -12,19 +12,42 @@ import '../../../css/help.css'
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
    
-    content : {
+    content: {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
+       
     },
-    infoSelect : {
+    infoSelect: {
         paddingLeft: 300,
         display: 'flex',
-        flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -48,7 +71,7 @@ export class MemberRuleFive extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -61,7 +84,19 @@ export class MemberRuleFive extends React.Component {
                         </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                        <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li>
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li className="Active">
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     <div class="HelpCenterList">
                         <ul>
                             <li>
@@ -76,7 +111,7 @@ export class MemberRuleFive extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <h2>代理FAQ</h2>
 
                         <p>LETOU加盟计划作为一种营销计划，一项寻找“合作伙伴”的活动，鼓励拥有自己网站的个人及公司，推广我们这个最为创新的博彩公司。成为乐投国际代理商，您只需向您的客户群推广我们的产品，如：体育项目、在线真人娱乐场、小游戏、快乐彩KENO和香港乐透KENO。为LETOU提供客户，您即可从中获得相应的回报，并在我们每一个产品上下注的客户，可得相当的利润回馈。您介绍的会员越多，您所得到的回报也越大，且沒有最高限制的。作为LETOU的加盟商，您将与业内最新品牌合作，并根据您推荐的每一个客户进行回馈。

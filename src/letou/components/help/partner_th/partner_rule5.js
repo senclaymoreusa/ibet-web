@@ -12,19 +12,42 @@ import '../../../css/help.css'
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
    
-    content : {
+    content: {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
+       
     },
-    infoSelect : {
+    infoSelect: {
         paddingLeft: 300,
         display: 'flex',
-        flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -48,7 +71,7 @@ export class MemberRuleFiveTh extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -61,7 +84,19 @@ export class MemberRuleFiveTh extends React.Component {
                 </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                        <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li>
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li className="Active">
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     <div class="HelpCenterList">
                         <ul>
                             <li>
@@ -76,7 +111,7 @@ export class MemberRuleFiveTh extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                     <h2>คำถามที่พบบ่อยเกี่ยวกับโปรแกรมพันธมิตร</h2>
                         <p>โปรแกรมพันธมิตร Letou เป็นโปรแกรม co-marketing เรายินดีต้อนรับบุคคลและ บริษัท ที่มีช่องของตัวเองเพื่อโปรโมตแพลตฟอร์มเดิมพันออนไลน์ที่ได้รับการรับรองคุณภาพสูงของเรา
                             เข้าร่วมโปรแกรมพันธมิตร LETOU และเริ่มได้รับผลตอบแทนที่ร่ำรวยกับสมาชิกทุกคนที่คุณเชิญชวนให้เข้าร่วมการเดิมพันผลิตภัณฑ์หลากหลายประเภทของเราเช่น:
