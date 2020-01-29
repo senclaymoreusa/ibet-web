@@ -18,7 +18,7 @@ import {
 } from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
     logoHeader: {
         height: '20px',
         padding: '10px'
@@ -37,16 +37,27 @@ const styles = () => ({
     },
     all : {
         display: 'flex',
+        [theme.breakpoints.down('md')]: {
+            flexDirection: 'column'
+        },
     },
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
         color:'#666666',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
     infoItem : {
         textColor:'#666666',
@@ -59,11 +70,33 @@ const styles = () => ({
     },
     list : {
         padding: 0,
+        [theme.breakpoints.down('md')]: {
+            padding: 1,
+           
+        }
     },
     listItemText:{
         fontSize:'14px',
         color:'#333333',
-      }
+        [theme.breakpoints.down('md')]: {
+            border: '1px solid #dddddd',
+            height: '35px',
+            padding: 8,
+
+       }
+      },
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+            paddingLeft: 20,
+            paddingRight: 20
+        },
     
 })
 
@@ -91,7 +124,7 @@ export class ForPartner extends React.Component {
         <InfoSelect/>
     
         <Grid container className={classes.content}>
-            <Grid item xs={5} className={classes.infoSelect}>
+            <Grid item md={5} className={classes.infoSelect}>
                     <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -103,7 +136,19 @@ export class ForPartner extends React.Component {
                             </ul>
                         </div>
             </Grid>
-            <Grid item xs={7} className={classes.detail}>
+            <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li >
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li className="Active">
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
             <div className={classes.all}>
                 <div className={classes.first}>
                 <Typography variant="h6" className={classes.title}>

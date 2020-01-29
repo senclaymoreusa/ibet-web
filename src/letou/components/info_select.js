@@ -18,7 +18,12 @@ import {
 const styles = theme => ({
     logoHeader: {
         height: '20px',
-        padding: '10px'
+        padding: '10px',
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+         
+        }
     },
     header : {
         fontSize: '36px',
@@ -33,7 +38,11 @@ const styles = theme => ({
         marginBottom: '50px',
         marginTop: '20px',
         paddingLeft: 450,
-        paddingTop: 80
+        paddingTop: 80,
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        }
       
     }
 })
