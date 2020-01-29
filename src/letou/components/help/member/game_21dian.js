@@ -12,19 +12,42 @@ import '../../../css/help.css'
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
    
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+        
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -64,7 +87,7 @@ export class Game21dian extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                         <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -77,7 +100,19 @@ export class Game21dian extends React.Component {
                         </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
                     <div className="HelpCenterList">
                         <ul>
                             <li>
@@ -103,7 +138,7 @@ export class Game21dian extends React.Component {
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" lassName={classes.detail}>
                         <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>21点</h2>
                             <p>游戏目的是取得越接近21点且不超过21点的点数，最终比庄家点数高即可获胜。黑杰克〔Blackjack〕为一张A和任一张点数为10的牌组合而成，点数总和一样是21点，但黑杰克〔Blackjack〕比一般点数总和为21点的牌还要大。

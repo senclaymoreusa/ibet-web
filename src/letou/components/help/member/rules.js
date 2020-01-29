@@ -17,14 +17,37 @@ const styles = theme => ({
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -48,7 +71,7 @@ export class Rules extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -61,7 +84,19 @@ export class Rules extends React.Component {
                         </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
                     <div className="HelpCenterList">
                         <ul>
                             <li>
@@ -76,7 +111,7 @@ export class Rules extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <h2>投注规则与规定</h2>
 
                         <p>某些赛事和赌盘有不同的规则，下述内容为适用于所有赛事和赌盘/投注类型的一般规则，必须完全遵守。在适用的情况下，本公司网站公布的“条款和条件”中所列规定与定义应当适用于本“投注规则与规定”。</p>

@@ -34,38 +34,35 @@ const styles = theme => ({
     infoSelect: {
         paddingLeft: 300,
         display: 'flex',
-      
-
         [theme.breakpoints.down('md')]: {
-            display: 'none',
-            paddingLeft: 3
-         
+            display: 'none' 
         }
     },
-    
-    aboutUsDetail: {
+    detail: {
         fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
     },
-    desktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-            flexDirection: 'column',
-         
-        }
-    },
+ 
     mobile: {
         display: 'none',
         [theme.breakpoints.down('md')]: {
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row'
          
         }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     }
+   
 
 })
 
 export class AboutUs extends React.Component {
+
+  
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -81,11 +78,11 @@ export class AboutUs extends React.Component {
             <div className={classes.root}>
                 <IconHeader />
                 <Grid container className={classes.content}>
-                    <div className={classes.desktop}>
-                        <Grid item xs={5} className={classes.infoSelect}>
+                   
+                    <Grid item md={5}  className={classes.infoSelect}>
                             <div className="HelpCenterLeftNav">
                                 <ul>
-                                    <li>
+                                    <li >
                                         <a href="/zh/for_member">{this.getLabel('for-member')}</a>
                                     </li>
                                     <li>
@@ -94,22 +91,22 @@ export class AboutUs extends React.Component {
                                 </ul>
                             </div>
                         </Grid>
-                    </div>
-                    <div className={classes.mobile}>
-                        
-                            <ul>
-                                <li>
-                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
-                                </li>
-                                <li>
-                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
-                                </li>
-                            </ul>
+                   
                     
 
-                    </div>
-
-                    <Grid item xs={7} className={classes.detail}>
+                    <Grid item md={7} xs={12} className={classes.mainCont}>
+                        <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <div className="HelpCenterList">
                             <ul>
                                 <li>
@@ -124,22 +121,28 @@ export class AboutUs extends React.Component {
                                 </li>
                             </ul>
                         </div>
-                        <Typography component="p" variant="h6">
-                            {this.getLabel('about-letou')}
-                        </Typography>
-                        {'\n'}{'\n'}
-                        <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                            {this.getLabel('aboutUs-detail-text-one')}
-                        </Typography>
-                        <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                            {this.getLabel('aboutUs-detail-text-two')}
-                        </Typography>
-                        <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                            {this.getLabel('aboutUs-detail-text-three')}
-                        </Typography>
-                        <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                            {this.getLabel('aboutUs-detail-text-four')}
-                        </Typography>
+                        <h2 >
+                                {this.getLabel('about-letou')}
+                            </h2>
+                        <div className={classes.detail}>
+                           
+                            <p>&nbsp;</p>
+                            <p>
+                                {this.getLabel('aboutUs-detail-text-one')}
+                            </p>
+                            <p>&nbsp;</p>
+                            <p>
+                                {this.getLabel('aboutUs-detail-text-two')}
+                            </p>
+                            <p>&nbsp;</p>
+                            <p>
+                                {this.getLabel('aboutUs-detail-text-three')}
+                            </p>
+                            <p>&nbsp;</p>
+                            <p>
+                                {this.getLabel('aboutUs-detail-text-four')}
+                            </p>
+                        </div>
                     </Grid>
                 </Grid>
 

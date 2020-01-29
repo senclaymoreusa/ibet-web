@@ -12,19 +12,42 @@ import '../../../css/help.css'
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
    
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -49,7 +72,7 @@ export class GamePoker extends React.Component {
             <IconHeader/>
             <Grid container className={classes.content}>
                 <Grid item xs={5} className={classes.infoSelect}>
-                <div className="HelpCenterLeftNav">
+                    <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
                                     <a href="/zh/for_member">{this.getLabel('for-member')}</a>
@@ -58,10 +81,22 @@ export class GamePoker extends React.Component {
                                     <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
                                 </li>
                             </ul>
-                        </div>
+                    </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
                     <div className="HelpCenterList">
                         <ul>
                             <li>
@@ -76,7 +111,7 @@ export class GamePoker extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <h2>德州扑克</h2>
                         <p>视讯德州扑克Texas Hold'em，使用52张扑克牌，玩法是利用2张底牌与牌桌上的5张公牌，共7张牌，再取其中5张组成最佳牌组，玩家单纯与庄家比拚牌型大小而不用考虑花色，是一款考验智力与运气的扑克游戏。</p>
                         <p>- 游戏玩法

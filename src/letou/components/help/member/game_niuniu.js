@@ -12,19 +12,42 @@ import '../../../css/help.css'
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
    
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -48,7 +71,7 @@ export class GameNiuniu extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                         <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -61,7 +84,19 @@ export class GameNiuniu extends React.Component {
                         </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
                     <div class="HelpCenterList">
                         <ul>
                             <li>
@@ -76,7 +111,7 @@ export class GameNiuniu extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                     <p>-游戏玩法
                     <ul className={classes.helpCenterArticleColumn}>
                             <li> 游戏使用扑克牌中52张牌（不含鬼牌），每局每家派发5张牌，先从5张牌中找出3张可成10或10的倍数组合，剩余2张牌相 加，如遇点数相加超过10点则减去10点，为该局之点数，与庄家比点数大小决定胜负。

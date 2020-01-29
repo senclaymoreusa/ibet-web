@@ -12,19 +12,42 @@ import '../../../css/help.css'
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles =  theme => ({
    
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -48,7 +71,7 @@ export class LotteryRuleFour extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -61,7 +84,19 @@ export class LotteryRuleFour extends React.Component {
                         </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
                     <div className="HelpCenterList">
                         <ul>
                             <li>
@@ -76,7 +111,7 @@ export class LotteryRuleFour extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <h2>PK拾游戏规则</h2>
                         <h2>一、 名次定位</h2>
                         <p>名次定位玩法：选择一个名次后，投注该名次的车号，若开奖结果“投注车号”对应所投名次相符视为中奖，其余视为不中奖。

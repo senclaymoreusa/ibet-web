@@ -13,7 +13,7 @@ import IconHeader from "../../icon_header";
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
     logoHeader: {
         height: '20px',
         padding: '10px'
@@ -33,14 +33,37 @@ const styles = () => ({
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     }
 })
 
@@ -60,7 +83,7 @@ export class ContactUs extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                     <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -73,8 +96,22 @@ export class ContactUs extends React.Component {
                         </div>
                 </Grid>
                 
-                <Grid item xs={7} className={classes.detail}>
-                <div className="HelpCenterList">
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        
+
+                        </div>
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/zh/for_member">{this.getLabel('for-member')}  >
@@ -88,20 +125,20 @@ export class ContactUs extends React.Component {
                             </li>
                         </ul>
                     </div>
-                <Typography component="p" variant="h6">
-                联络我们
-                </Typography>
-                
-                
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                客户服务  cs@letou.me
-                </Typography>
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                热线电话  4001208588   
-                </Typography>
-                <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
-                注册办公地址 Pareraweg 45, Curacao
-                </Typography> 
+                    <Typography component="p" variant="h6">
+                    联络我们
+                    </Typography>
+                    
+                    
+                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                    客户服务  cs@letou.me
+                    </Typography>
+                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                    热线电话  4001208588   
+                    </Typography>
+                    <Typography component="p" paragraph={true} className={classes.aboutUsDetail}>
+                    注册办公地址 Pareraweg 45, Curacao
+                    </Typography> 
                 
                 </Grid>
             </Grid>

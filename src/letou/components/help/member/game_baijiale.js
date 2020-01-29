@@ -12,19 +12,42 @@ import '../../../css/help.css'
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
    
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -64,7 +87,7 @@ export class Baijiale extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                         <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -77,7 +100,19 @@ export class Baijiale extends React.Component {
                         </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
                     <div className="HelpCenterList">
                         <ul>
                             <li>
@@ -133,7 +168,7 @@ export class Baijiale extends React.Component {
                         </ul>
                         <div className="ClearBoth"></div>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>免佣百家乐</h2>
                             <p>免佣百家乐是由传统百家乐演变而来，兩者的玩法非常相似，不同的是免佣百家乐增加了一项超6的特别投注，庄家的赔率也有别于传统百家乐。

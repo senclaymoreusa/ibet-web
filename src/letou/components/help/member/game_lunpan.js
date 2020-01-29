@@ -92,18 +92,12 @@ export class Lunpan extends React.Component {
                         </div>
                         <div className="HelpCenterSmNav">
                             <ul>
-                                <li
-                                    className={
-                                        this.state.current === 1 ? 'Active' : ''
-                                    }
+                                <li className={this.state.current === 1 ? 'Active' : ''}
                                     onClick={this.onClick.bind(this, 1)}
                                 >
                                     <a href="/">亚洲轮盘</a>
                                 </li>
-                                <li
-                                    className={
-                                        this.state.current === 2 ? 'Active' : ''
-                                    }
+                                <li className={this.state.current === 2 ? 'Active' : ''}
                                     onClick={this.onClick.bind(this, 2)}
                                 >
                                     <a href="/">国际轮盘</a>

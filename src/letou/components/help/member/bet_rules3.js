@@ -12,23 +12,42 @@ import '../../../css/help.css'
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
    
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
-    },
-    helpCenterArticleColumn: {
+    detail: {
         fontSize: '14px',
-        listStyleType: 'none',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     }
 })
 
@@ -64,20 +83,32 @@ export class BetRuleThree extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
-                <div className="HelpCenterLeftNav">
-                            <ul>
-                                <li>
-                                    <a href="/zh/for_member">{this.getLabel('for-member')}</a>
-                                </li>
-                                <li>
-                                    <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
-                                </li>
-                            </ul>
-                        </div>
+                <Grid item md={5} className={classes.infoSelect}>
+                    <div className="HelpCenterLeftNav">
+                                <ul>
+                                    <li>
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                    </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7}  xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
                     <div className="HelpCenterList">
                         <ul>
                             <li>
@@ -120,7 +151,7 @@ export class BetRuleThree extends React.Component {
                         <div className="ClearBoth"></div>
                     </div>
 
-                    <div id="HelperCenterDetail" >
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <div className="centerDetail" hidden={this.state.current !== 1}>
                             <h2>亚洲让分盘 (包括上/下半场投注)</h2>
 

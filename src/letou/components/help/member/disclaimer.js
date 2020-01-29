@@ -11,7 +11,7 @@ import IconHeader from "../../icon_header";
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
     logoHeader: {
         height: '20px',
         padding: '10px'
@@ -31,14 +31,37 @@ const styles = () => ({
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -62,7 +85,7 @@ export class Disclaimer extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                         <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -75,8 +98,20 @@ export class Disclaimer extends React.Component {
                         </div>
                 </Grid>
                 
-                <Grid item xs={7} className={classes.detail}>
-                <div className="HelpCenterList">
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/zh/for_member">供会员使用  >
@@ -90,7 +125,7 @@ export class Disclaimer extends React.Component {
                             </li>
                         </ul>
                     </div>
-                <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <h2>免责声明</h2>
 
                         <p>尊敬的用户，LETOU 对任何由本站链接到的外部网站，所含内容准确性或时效性不作任何管制，且不负任何责任。</p>

@@ -12,7 +12,7 @@ import '../../../css/help.css'
 import { show_letou_announcements} from '../../../../actions';
 
 
-const styles = () => ({
+const styles = theme => ({
     logoHeader: {
         height: '20px',
         padding: '10px'
@@ -32,19 +32,41 @@ const styles = () => ({
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
         listStyleType: 'none',
-        
     }
     
 })
@@ -65,7 +87,7 @@ export class Virtual extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
+                <Grid item md={5} className={classes.infoSelect}>
                 <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
@@ -78,8 +100,20 @@ export class Virtual extends React.Component {
                         </div>
                 </Grid>
                 
-                <Grid item xs={7} className={classes.detail}>
-                <div className="HelpCenterList">
+                <Grid item md={7} xs={12} className={classes.mainCont}>
+                    <div className={classes.mobile}>
+                            <div className="HelpCenter">
+                                <ul >
+                                    <li className="Active">
+                                        <a href="/zh/for_member">{this.getLabel('for-member')}</a>
+                                    </li>
+                                    <li>
+                                        <a href="/zh/for_partner">{this.getLabel('for-partner')}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
+                    <div className="HelpCenterList">
                         <ul>
                             <li>
                                 <a href="/zh/for_member">供会员使用  >
@@ -93,7 +127,7 @@ export class Virtual extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <h1>• 4.1.一般规定</h1>
                         &nbsp;
                         <p>• 4.1.1.虚拟运动游戏是电脑生成的演示，随机抽取的数字结果可决定哪队赢得比赛或赛事，或者哪一位参赛者将在比赛或赛事中获得第一名、第二名、第三名等等。 比赛或赛事的结果由通过认证测试公司单独测试的随机号码生成器 (RNG) 控制。

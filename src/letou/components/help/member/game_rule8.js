@@ -17,14 +17,37 @@ const styles = theme => ({
     content : {
         display: 'flex',
         paddingRight: 400,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 2,
+            flexDirection: 'column'
+         
+        },
     },
     infoSelect : {
         paddingLeft: 300,
         display: 'flex',
         flexDirection: 'column',
+        [theme.breakpoints.down('md')]: {
+            display: 'none' 
+        }
     },
-    aboutUsDetail : {
-       fontSize: '14px',
+    detail: {
+        fontSize: '14px',
+        color: '#666666',
+        fontFamily: 'Microsoft YaHei'
+    },
+ 
+    mobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+            flexDirection: 'row'
+         
+        }
+    },
+    mainCont: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     helpCenterArticleColumn: {
         fontSize: '14px',
@@ -48,8 +71,8 @@ export class GameRuleEight extends React.Component {
         <div className={classes.root}> 
             <IconHeader/>
             <Grid container className={classes.content}>
-                <Grid item xs={5} className={classes.infoSelect}>
-                <div className="HelpCenterLeftNav">
+                <Grid item md={5} className={classes.infoSelect}>
+                    <div className="HelpCenterLeftNav">
                             <ul>
                                 <li>
                                     <a href="/zh/for_member">{this.getLabel('for-member')}</a>
@@ -61,7 +84,7 @@ export class GameRuleEight extends React.Component {
                         </div>
                 </Grid>
             
-                <Grid item xs={7} className={classes.detail}>
+                <Grid item md={7} xs={12} className={classes.mainCont}>
                     <div class="HelpCenterList">
                         <ul>
                             <li>
@@ -76,7 +99,7 @@ export class GameRuleEight extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div id="HelperCenterDetail">
+                    <div id="HelperCenterDetail" className={classes.detail}>
                         <p align="center">
                             <strong>Terms &amp; Conditions for NetEnt games
                                 <br /> Updated: 5
