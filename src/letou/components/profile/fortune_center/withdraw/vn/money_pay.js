@@ -7,11 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import {
-    authCheckState,
-    sendingLog,
-    AUTH_RESULT_FAIL
-} from '../../../../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputBase from '@material-ui/core/InputBase';
@@ -745,7 +741,7 @@ class MoneyPay extends Component {
                         <TextField
                             className={classes.detailText}
                             placeholder={this.getLabel('withdrawal-password')}
-                            value={this.state.withdrawPassword}
+                            value={withdrawPassword}
                             onChange={this.withdrawPasswordChanged.bind(this)}
                             type={
                                 this.state.showWithdrawPassword
