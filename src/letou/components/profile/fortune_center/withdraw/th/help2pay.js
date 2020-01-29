@@ -552,10 +552,10 @@ class Help2Pay extends Component {
             config
         );
 
-        if (res.status == 200) {
-            console.log(res);
-            console.log('res.data');
-            console.log(res.data);
+        if (res.status === 200) {
+            // console.log(res);
+            // console.log('res.data');
+            // console.log(res.data);
             if (
                 res.data.status_code &&
                 (res.data.status_code === 101 || res.data.status_code === 107)
