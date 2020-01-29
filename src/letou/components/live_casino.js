@@ -238,6 +238,29 @@ export class live_casino extends React.Component {
             window.open(url, "ea-live",'width=1000,height=800')
         }
     }
+
+    handleGPIClick() {
+        let token = localStorage.getItem('token');
+        let gpiUrl = "";
+        let language = 'us-en';
+
+        if (this.props.lang === "zh") {
+            language = "zh-cn";
+        }
+        else if (this.props.lang === "th") {
+            language = "th-th";
+        }
+        else if (this.props.lang === "vi") {
+            language = "vi-vn";
+        }
+
+        if (!token) {
+            this.props.history.push('/register');
+        } else {
+            gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language;
+            window.open(gpiUrl);
+        }
+    }
     
     render() {
         const { classes } = this.props;
@@ -436,8 +459,7 @@ export class live_casino extends React.Component {
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/"><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
-                        </div>
+                            <a href="/" onClick={(e) => {this.handleGPIClick()}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
                         </Grid>
                         </div>
                     </div>
