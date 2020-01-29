@@ -365,9 +365,10 @@ export const messages = {
         'timer-label': 'Timer',
         'placeholder-link': 'Placeholder Link',
         'thai-localbank-placeholder': 'Deposit ฿200 - ฿950,000',
-        'thai-localbank-placeholder-withdraw': 'Deposit ฿200 - ฿950,000',
+        'thai-localbank-placeholder-withdraw': 'Withdraw ฿200 - ฿950,000',
         'astropay-placeholder': 'Deposit ฿10 - ฿500,000',
         'help2pay-placeholder': 'Deposit ฿500 - ฿500,000',
+        'help2pay-withdraw-placeholder': 'Withdraw ฿500 - ฿500,000',
         'card-number': 'Card Number',
         '16-digit-number': '16-digit card number required',
         'invalid-expiration': 'Invalid expiration date',
@@ -384,7 +385,7 @@ export const messages = {
         'back-games-lobby': 'Back to Games Lobby',
         'deposit-failed-text':
             'Please check your details and try again or click cancel to return to deposit.',
-        'withdrawal-failed': 'withdraw failed',
+        'withdrawal-failed': 'Withdraw failed!',
         'withdrawal-failed-text':
             'Please check your details and try again or click cancel to return to withdraw.',
         'try-again': 'Try Again',
