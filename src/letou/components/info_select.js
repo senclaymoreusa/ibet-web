@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 
 
-import { config, images } from '../../util_config';
+import { images } from '../../util_config';
 import IconButton from '@material-ui/core/IconButton';
 
 import {
@@ -29,7 +29,7 @@ const styles = theme => ({
         width: '100%',
         height: '400px',
         backgroundColor: '#fcf2dc',
-        backgroundImage: 'url(' + images.src + 'hpbanner.jpg' + ')',
+        backgroundImage: 'url(' + images.src + 'hpbanner.jpg)',
         marginBottom: '50px',
         marginTop: '20px',
         paddingLeft: 450,
