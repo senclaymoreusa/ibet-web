@@ -353,7 +353,7 @@ class OnlinePay extends Component {
     handleClick() {
         let currentComponent = this;
         currentComponent.setState({ showLinearProgressBar: true });
-        
+        console.log(currentComponent.state.data);
         let userid = currentComponent.state.data.pk
         var postData = {
             amount: currentComponent.state.amount,
@@ -361,7 +361,7 @@ class OnlinePay extends Component {
             currency: '0',
             PayWay: '30', //online bank
             method: currentComponent.state.bankid, //银行卡
-            RealName : currentComponent.state.realname,
+            RealName : currentComponent.state.data.last_name + currentComponent.state.data.first_name,
         };
 
         var formBody = [];
@@ -392,7 +392,7 @@ class OnlinePay extends Component {
             })
             .then(function(data) {
                 currentComponent.setState({ showLinearProgressBar: false });
-                //console.log(data);
+                console.log(data);
                 // let url = data.url;
                 // let order_id = data.order_id;
                 // const mywin = window.open(
