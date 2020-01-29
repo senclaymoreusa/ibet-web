@@ -35,13 +35,13 @@ function ptCalloutLogin(response, gameId) {
     }
   }
 
-function ptLogintest(realMode, username, password) {
+// function ptLogintest(realMode, username, password) {
     
-    // console.log(window.iapiLogin);
-    let x = window.iapiLogin(username, password, realMode, "en");
-    // console.log(x);
-    // calloutLogin(x);
-}
+//     // console.log(window.iapiLogin);
+//     let x = window.iapiLogin(username, password, realMode, "en");
+//     // console.log(x);
+//     // calloutLogin(x);
+// }
 
 class GameDetail extends Component {
     constructor(props) {
@@ -102,7 +102,7 @@ class GameDetail extends Component {
                             this.launchPNGGame(gameId, 'en_GB', res.data.ticket, true);
                         });
                         
-                    } else if (data.provider.provider_name == 'PT') {
+                    } else if (data.provider.provider_name === 'PT') {
                         this.launchPTGame(gameId);
 
                     } else {
@@ -118,8 +118,8 @@ class GameDetail extends Component {
                         this.generateQTURL(gameId, false);
                     } else if (data.provider.provider_name === 'PLAYNGO') {
                         this.launchPNGGame(gameId, 'en_GB', '', false);
-                    } else if (data.provider.provider_name == 'PT') {
-                        var gameUrl = LAUNCH_GAME_URL[providerName]['free'];
+                    } else if (data.provider.provider_name === 'PT') {
+                        gameUrl = LAUNCH_GAME_URL[providerName]['free'];
                         gameUrl = gameUrl.replace('{lang}', 'en');
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         window.open(gameUrl);
@@ -225,11 +225,11 @@ class GameDetail extends Component {
         axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
         .then(res => {
             // console.log(res.data)
-            if (res.data.status == 0) {
+            if (res.data.status === 0) {
                 // balance enough, can launch game.
                 // ptLogintest(1, res.data.playername, this.state.user.username)
                 window.iapiSetCallout('Login', ptCalloutLogin(window.iapiLogin(res.data.playername, this.state.user.username, 1, "en"), gameId)); 
-            } else if (res.data.state == 1) {
+            } else if (res.data.state === 1) {
                 alert("General error in launchPT!");
             } else {
                 //balance not enough, go to deposit.
