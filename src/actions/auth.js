@@ -325,14 +325,19 @@ export const authCheckState = () => {
 function parseUser(data) {
     return {
         userId: data.pk,
-        currency: data.currency,
-        favoriteDepositMethod: data.favorite_payment_method,
+        username: data.username,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        phone: data.phone,
+        email: data.email,
         country: data.country,
         balance: data.main_wallet,
-        username: data.username,
+        currency: data.currency,
+        favoriteDepositMethod: data.favorite_payment_method,
         nameVerified: data.id_verified,
         emailVerified: data.email_verified,
         phoneVerified: data.phone_verified,
+        registrationTime: data.time_of_registration,
         hasWithdrawPassword:
             data.withdraw_password != null &&
             data.withdraw_password !== undefined &&
