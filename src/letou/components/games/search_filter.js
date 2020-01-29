@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState, handle_referid, hide_landing_page } from '../../../actions';
-import { fade, withStyles } from '@material-ui/core/styles';
+import {  withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -63,7 +63,6 @@ const styles = theme => ({
 
   formControl: {
     margin: theme.spacing(1),
-    width: '80%',
     border: '1px solid',
     width: 200,
     height: 48,
@@ -75,15 +74,15 @@ const styles = theme => ({
   },
 });
 
-const StyledButtonGroup = withStyles({
-    root: {
-      borderRadius: 3,
-      borderColor: '#53abe0',
-    //   color: 'red',
-      height: 48,
-      padding: '0 30px',
-    }
-  })(ButtonGroup);
+// const StyledButtonGroup = withStyles({
+//     root: {
+//       borderRadius: 3,
+//       borderColor: '#53abe0',
+//     //   color: 'red',
+//       height: 48,
+//       padding: '0 30px',
+//     }
+//   })(ButtonGroup);
 
 export class FilterSearchBar extends Component {
 
@@ -127,7 +126,7 @@ export class FilterSearchBar extends Component {
     }
 
     async componentDidMount() {
-        var { category, search } = this.props.match.params;
+        var {  search } = this.props.match.params;
 
         if (!search) {
             this.setState({ jackpotFilter: [] });
@@ -170,6 +169,7 @@ export class FilterSearchBar extends Component {
                 if (value[0] === 'Sort') {
                     this.setState({ sortArr: value[1] }); 
                 }
+                return null;
             })
         })
     }
@@ -177,13 +177,12 @@ export class FilterSearchBar extends Component {
 
     componentDidUpdate(prevProps) {
         if ((this.props.match.params.category !== prevProps.match.params.category) || (this.props.match.params.search !== prevProps.match.params.search)) {
-            var { category, search } = this.props.match.params;
+            var {  search } = this.props.match.params;
             if (!search) {
                 this.setState({ 
                     providerFilter: [],
                     featuresFilter: [],
                     themeFilter: [],
-                    featuresFilter: [],
                 }) 
             } else {
                 var filterList = search.split('&');
@@ -507,6 +506,7 @@ export class FilterSearchBar extends Component {
                                     </Grid>
                                 )
                             }
+                            return null;
                         })
                     }
                     </Grid>

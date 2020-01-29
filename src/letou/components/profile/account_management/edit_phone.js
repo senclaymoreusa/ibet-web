@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, authUserUpdate } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +10,6 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import { config } from '../../../../util_config';
 import axios from 'axios'
-import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -325,7 +324,7 @@ export class EditPhone extends Component {
                             color="default"
                             onClick={this.sendVerificationCode}
                             className={classes.sendButton}>{
-                                ((this.timeIntervalID != 0 && this.state.remainingTime) > 0 ?
+                                ((this.timeIntervalID !== 0 && this.state.remainingTime) > 0 ?
                                     this.getLabel('enter-code') + ' ' + this.state.remainingTime :
                                     this.getLabel('send-code'))
                             }</Button>
@@ -480,7 +479,8 @@ export class EditPhone extends Component {
                     this.setState({ snackMessage: this.getLabel('verification-code-sent') });
                     this.setState({ showSnackbar: true });
                     this.setState({ activeStep: 1 });
-          
+                    currentComponent.props.authUserUpdate();    
+                                        
                 }
             }).catch(function (err) {
                 sendingLog(err);
@@ -553,4 +553,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(EditPhone))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(EditPhone))));

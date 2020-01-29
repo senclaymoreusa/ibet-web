@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, authUserUpdate } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -32,7 +32,7 @@ import { TextField } from '@material-ui/core';
 
 import PasswordStrengthMeter from '../../../../commons/PasswordStrengthMeter';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -342,7 +342,7 @@ export class SetWithdrawalPassword extends Component {
 
         let testedResult = zxcvbn(event.target.value);
 
-        this.setState({ newPasswordInvalid: (testedResult.score !== 4) })
+        this.setState({ newPasswordInvalid: !(testedResult.score === 3 || testedResult.score === 4) })
         this.setState({ confirmPasswordInvalid: (event.target.value !== this.state.confirmPassword) })
 
     }
@@ -354,6 +354,7 @@ export class SetWithdrawalPassword extends Component {
     }
 
     setWithdrawalPassword() {
+        let currentComponent = this;
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
@@ -368,9 +369,11 @@ export class SetWithdrawalPassword extends Component {
                 this.setState({ snackMessage: this.getLabel('withdrawal-password-success') });
                 this.setState({ showSnackbar: true });
                 this.setState({ activeStep: 1 });
+                currentComponent.props.authUserUpdate();
+
             }).catch(err => {
                 sendingLog(err);
-               
+
                 this.setState({ snackMessage: this.getLabel('password-update-failed') });
 
                 this.setState({ snackType: 'error' });
@@ -399,18 +402,11 @@ export class SetWithdrawalPassword extends Component {
                 if (res === 1) {
                     this.props.history.push('/');
                 } else {
-                    const token = localStorage.getItem('token');
-                    config.headers["Authorization"] = `Token ${token}`;
-
-                    axios.get(API_URL + 'users/api/user/', config)
-                        .then(res => {
-                            this.setState({ userId: res.data.pk });
-                            this.setState({ activeStep: res.data.withdraw_password ? 1 : 0 })
-                        })
+                    this.setState({ activeStep: this.props.user.hasWithdrawPassword ? 1 : 0 })
                 }
             })
 
-        
+
     }
 
 
@@ -436,7 +432,7 @@ export class SetWithdrawalPassword extends Component {
                     <Grid container>
                         <Grid item xs={12} className={classes.row}>
                             <span className={classes.label}>
-                                {this.getLabel('type-strong-password')}
+                                {this.getLabel('type-withdraw-password')}
                             </span>
                         </Grid>
                         <Grid item xs={12}>
@@ -631,10 +627,13 @@ export class SetWithdrawalPassword extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        lang: state.language.lang
-    }
-}
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(SetWithdrawalPassword))));
+const mapStateToProps = state => {
+    const { token, user } = state.auth;
+    return {
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
+    };
+};
+
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(SetWithdrawalPassword))));

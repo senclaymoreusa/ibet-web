@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, authUserUpdate } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -35,7 +35,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Info from '@material-ui/icons/InfoOutlined';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 import axios from 'axios'
-import Divider from '@material-ui/core/Divider';
+
 
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
@@ -343,7 +343,7 @@ export class VerifyEmail extends Component {
 
                             currentComponent.setState({ email: res.data.email });
 
-                            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                            let re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                             this.setState({ emailInvalid: !res.data.email.match(re) })
 
                         }).catch(function (err) {
@@ -354,6 +354,7 @@ export class VerifyEmail extends Component {
     }
 
     sendVerificationCodeToEmail() {
+        let currentComponent = this;
         axios.post(API_URL + `users/api/generateactivationcode/`, {
             type: 'change_member_email',
             username: this.state.username,
@@ -365,6 +366,7 @@ export class VerifyEmail extends Component {
                     this.setState({ snackMessage: this.getLabel('verification-code-sent') });
                     this.setState({ showSnackbar: true });
                     this.setState({ activeStep: 1 });
+                    currentComponent.props.authUserUpdate();
                 } if (res.data === 104) {
                     this.setState({ snackType: 'warning' });
                     this.setState({ snackMessage: this.getLabel('reached-verification-limit') });
@@ -392,7 +394,8 @@ export class VerifyEmail extends Component {
                     currentComponent.setState({ snackMessage: this.getLabel('email-verification-success-message') });
                     currentComponent.setState({ showSnackbar: true });
                     currentComponent.setState({ activeStep: 2 });
-          }
+                    currentComponent.props.authUserUpdate();
+                }
             }).catch(function (err) {
                 sendingLog(err);
                 currentComponent.setState({ snackType: 'error' });
@@ -414,7 +417,7 @@ export class VerifyEmail extends Component {
 
         this.setState({ email: event.target.value });
 
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)) {
             this.setState({ emailInvalid: true })
         } else {
@@ -552,6 +555,8 @@ export class VerifyEmail extends Component {
                         </Grid>
                     </Grid>
                 );
+            default:
+                return <div></div>;
         }
     }
 
@@ -608,4 +613,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(VerifyEmail))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, sendingLog, authUserUpdate })(VerifyEmail))));

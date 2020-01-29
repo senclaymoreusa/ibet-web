@@ -97,7 +97,7 @@ export class GameErbagang extends React.Component {
                             </li><li> 图示点数大小：
                             </li><li> 点数大小如下图所示：〔排序由最大点数依次排由左至右到最下方最小点数〕
                             </li>
-                            <img src="http://i.imgur.com/xXkvekX.jpg"></img>
+                            <img src="http://i.imgur.com/xXkvekX.jpg" alt=""></img>
                             <li>
                             </li><li> 和局：庄家与闲家所持牌的组合完全相同时，该局即为和局，退还本金。
                             </li><li>

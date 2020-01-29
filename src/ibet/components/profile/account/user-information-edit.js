@@ -545,7 +545,7 @@ class UserInformationEdit extends Component {
 
         const { classes } = this.props;
         const { formatMessage } = this.props.intl;
-        const { password, newPassword, confirmPassword, countries, username, userId, firstName, lastName, email, phone, address1, address2, zipCode, city, state, country, registrationDate } = this.state;
+        const { password, newPassword, confirmPassword, countries, username, userId, firstName, lastName, email, address1, address2, zipCode, city, state, country, registrationDate } = this.state;
         const { showLinearProgressBar } = this.state;
 
         let titleMessage = formatMessage({ id: "user_information.user_information" });

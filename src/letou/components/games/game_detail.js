@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { config } from '../../../util_config';
-import { FormattedMessage } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import Iframe from 'react-iframe';
 import { GAME_URLS } from '../../../game_constant';
@@ -78,6 +77,7 @@ class GameDetail extends Component {
                 var data = res.data[0];
                 var providerName = data.provider.provider_name;
                 var gameId = data.smallgame_id;
+                var gameUrl = "";
                 data.categoryName = data.category_id.name;
                 if (token) {
                     config.headers['Authorization'] = `Token ${token}`;
@@ -86,11 +86,11 @@ class GameDetail extends Component {
                         .then(res => {
                             this.setState({ user: res.data });
                         });
-                    if (data.provider.provider_name == 'FG') {
+                    if (data.provider.provider_name === 'FG') {
                         this.generateFGURL(gameId, providerName);
-                    } else if (data.provider.provider_name == 'QTech') {
+                    } else if (data.provider.provider_name === 'QTech') {
                         this.generateQTURL(gameId, true);
-                    } else if (data.provider.provider_name == 'PLAYNGO') {
+                    } else if (data.provider.provider_name === 'PLAYNGO') {
 
                         axios.get(
                             API_URL +
@@ -106,7 +106,7 @@ class GameDetail extends Component {
                         this.launchPTGame(gameId);
 
                     } else {
-                        var gameUrl = LAUNCH_GAME_URL[providerName]['real'];
+                        gameUrl = LAUNCH_GAME_URL[providerName]['real'];
                         let token = localStorage.getItem('token');
                         gameUrl = gameUrl.replace('{token}', token);
                         gameUrl = gameUrl.replace('{lang}', 'en');
@@ -114,9 +114,9 @@ class GameDetail extends Component {
                         this.setState({ gameURL: gameUrl });
                     }
                 } else {
-                    if (data.provider.provider_name == 'QTech') {
+                    if (data.provider.provider_name === 'QTech') {
                         this.generateQTURL(gameId, false);
-                    } else if (data.provider.provider_name == 'PLAYNGO') {
+                    } else if (data.provider.provider_name === 'PLAYNGO') {
                         this.launchPNGGame(gameId, 'en_GB', '', false);
                     } else if (data.provider.provider_name == 'PT') {
                         var gameUrl = LAUNCH_GAME_URL[providerName]['free'];
@@ -124,7 +124,7 @@ class GameDetail extends Component {
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         window.open(gameUrl);
                     } else {
-                        var gameUrl = LAUNCH_GAME_URL[providerName]['free'];
+                        gameUrl = LAUNCH_GAME_URL[providerName]['free'];
                         gameUrl = gameUrl.replace('{lang}', 'en');
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         this.setState({ gameURL: gameUrl });
@@ -142,7 +142,7 @@ class GameDetail extends Component {
                 var gameUrl = LAUNCH_GAME_URL[providerName]['real'];
                 gameUrl = gameUrl.replace('{lang}', 'en');
                 gameUrl = gameUrl.replace('{gameId}', gameId);
-                if (res.data.sessionKey != null && res.data.alive == 'true') {
+                if (res.data.sessionKey != null && res.data.alive === 'true') {
                     gameUrl = gameUrl + '&sessionKey=' + res.data.sessionKey;
                     this.setState({ gameURL: gameUrl });
                 } else {

@@ -98,25 +98,25 @@ export class BetRuleThreeVn extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a>Cược chấp Châu Á</a>
+                                <a href="/">Cược chấp Châu Á</a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a>Bàn thắng hợp lệ</a>
+                                <a href="/">Bàn thắng hợp lệ</a>
                             </li>
                             <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a>Điểm thắng</a>
+                                <a href="/">Điểm thắng</a>
                             </li>
                             <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a>Nửa hiệp / Cả hiệp</a>
+                                <a href="/">Nửa hiệp / Cả hiệp</a>
                             </li>
                             <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a>Cược phạt góc</a>
+                                <a href="/">Cược phạt góc</a>
                             </li>
                             <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a>Cược thẻ phạt</a>
+                                <a href="/">Cược thẻ phạt</a>
                             </li>
                             <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a>Bàn thắng hơn bất cứ cầu thủ nào</a>
+                                <a href="/">Bàn thắng hơn bất cứ cầu thủ nào</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

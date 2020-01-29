@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { config } from '../util_config';
 import { errors } from '../ibet/components/errors';
-import { getOverlappingDaysInIntervals } from 'date-fns';
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
@@ -68,14 +67,7 @@ export const authLogin = (username, password, iovationData) => {
                 config.headers['Authorization'] = `Token ${token}`;
 
                 axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    let userData = {
-                        userId: res.data.pk,
-                        currency: res.data.currency,
-                        favoriteDepositMethod: res.data.favorite_payment_method,
-                        country: res.data.country
-                    };
-
-                    dispatch(authGetUser(userData));
+                    dispatch(authGetUser(parseUser(res.data)));
                 });
 
                 dispatch(authSuccess(token));
@@ -94,14 +86,7 @@ export const authUserUpdate = () => {
         config.headers['Authorization'] = `Token ${getState().auth.token}`;
 
         axios.get(API_URL + 'users/api/user/', config).then(res => {
-            let userData = {
-                userId: res.data.pk,
-                currency: res.data.currency,
-                favoriteDepositMethod: res.data.favorite_payment_method,
-                country: res.data.country
-            };
-
-            dispatch(authGetUser(userData));
+            dispatch(authGetUser(parseUser(res.data)));
         });
     };
 };
@@ -120,7 +105,6 @@ export const FacebookauthLogin = (username, email) => {
             )
             .then(res => {
                 if (res.data.errorCode) {
-                    // return Promise.resolve(AUTH_RESULT_FAIL);
                     dispatch(authFail(res.data.errorMsg));
                     return Promise.resolve(res.data);
                 }
@@ -162,12 +146,6 @@ export const authSignup = (
     referralCode
 ) => {
     return dispatch => {
-        // dispatch(authStart());
-        // const config = {
-        //   headers: {
-        //     "Content-Type": "application/json"
-        //   }
-        // };
         const body = JSON.stringify({
             username,
             email,
@@ -234,15 +212,15 @@ export const checkAuthTimeout = expirationTime => {
         setTimeout(() => {
             if (token) {
                 axios
-                .post(API_URL + 'users/api/logout/?token=' + token, config)
-                .then(() => {
-                    dispatch(logout());
-                    window.location.reload();
-                })
-                .catch(() => {
-                    dispatch(logout());
-                    window.location.reload();
-                });  
+                    .post(API_URL + 'users/api/logout/?token=' + token, config)
+                    .then(() => {
+                        dispatch(logout());
+                        window.location.reload();
+                    })
+                    .catch(() => {
+                        dispatch(logout());
+                        window.location.reload();
+                    });
             } else {
                 dispatch(logout());
                 window.location.reload();
@@ -252,21 +230,24 @@ export const checkAuthTimeout = expirationTime => {
 };
 
 export const postLogout = () => {
-    // document.location.href="/";
     return dispatch => {
         const token = localStorage.getItem('token');
         const body = JSON.stringify({});
         if (token) {
             axios
-            .post(API_URL + 'users/api/logout/?token=' + token, body, config)
-            .then(() => {
-                dispatch(logout());
-                window.location.reload();
-            })
-            .catch(() => {
-                dispatch(logout());
-                window.location.reload();
-            });
+                .post(
+                    API_URL + 'users/api/logout/?token=' + token,
+                    body,
+                    config
+                )
+                .then(() => {
+                    dispatch(logout());
+                    window.location.reload();
+                })
+                .catch(() => {
+                    dispatch(logout());
+                    window.location.reload();
+                });
         } else {
             dispatch(logout());
             window.location.reload();
@@ -294,7 +275,7 @@ export const sendingLog = err => {
             { line: err, source: 'Ibetweb' },
             config
         )
-        .then(() => {});
+        .then(() => { });
 };
 
 export const authCheckState = () => {
@@ -309,7 +290,6 @@ export const authCheckState = () => {
                 localStorage.getItem('expirationDate')
             );
             if (expirationDate <= new Date()) {
-                // postLogout();
                 dispatch(postLogout());
                 return Promise.resolve(AUTH_RESULT_FAIL);
             } else {
@@ -326,26 +306,13 @@ export const authCheckState = () => {
                             dispatch(postLogout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
-                            let userData = {
-                                userId: res.data.pk,
-                                currency: res.data.currency,
-                                favoriteDepositMethod:
-                                    res.data.favorite_payment_method,
-                                country: res.data.country,
-                                balance: res.data.main_wallet,
-                                username: res.data.username
-                            };
-
-                            dispatch(authGetUser(userData));
-
+                            dispatch(authGetUser(parseUser(res.data)));
                             dispatch(authSuccess(token));
                             dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);
                         }
                     })
                     .catch(() => {
-                        // dispatch(logout());
-                        // postLogout();
                         dispatch(postLogout());
                         delete config.headers['Authorization'];
                         return Promise.resolve(AUTH_RESULT_FAIL);
@@ -354,3 +321,21 @@ export const authCheckState = () => {
         }
     };
 };
+
+function parseUser(data) {
+    return {
+        userId: data.pk,
+        currency: data.currency,
+        favoriteDepositMethod: data.favorite_payment_method,
+        country: data.country,
+        balance: data.main_wallet,
+        username: data.username,
+        nameVerified: data.id_verified,
+        emailVerified: data.email_verified,
+        phoneVerified: data.phone_verified,
+        hasWithdrawPassword:
+            data.withdraw_password != null &&
+            data.withdraw_password !== undefined &&
+            data.withdraw_password !== ''
+    };
+}

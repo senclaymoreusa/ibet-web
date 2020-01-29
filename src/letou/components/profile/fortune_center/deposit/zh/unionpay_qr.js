@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
@@ -16,7 +15,7 @@ import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL,authUserUpdate} from '../../../../../../actions';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -327,7 +326,7 @@ class UnionPayQr extends Component {
                 let redirectUrl = data.paymentPageSession.paymentPageUrl;
                 if (redirectUrl != null) {
                     const mywin = window.open(redirectUrl, 'qaicash-unionpay');
-                    currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
+                    //currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
                     var timer = setInterval(function() {
                         //console.log('checking..');
                         if (mywin.closed) {
@@ -363,13 +362,10 @@ class UnionPayQr extends Component {
                                 .then(function(data) {
                                     if(data.errorCode){
                                         currentComponent.props.postLogout();
-                                        // postLogout();
                                         return;
                                     }
-                                    //console.log(data.status);
                                     if (data.status === 0) {
-                                        //alert('Transaction is approved.');
-                                        const body = JSON.stringify({
+                                       const body = JSON.stringify({
                                             type: 'add',
                                             username:
                                                 currentComponent.state.data
@@ -377,7 +373,6 @@ class UnionPayQr extends Component {
                                             balance:
                                                 currentComponent.state.amount
                                         });
-                                        //console.log(body);
                                         axios
                                             .post(
                                                 API_URL +
@@ -387,8 +382,7 @@ class UnionPayQr extends Component {
                                             )
                                             .then(res => {
                                                 if (res.data === 'Failed') {
-                                                    //currentComponent.setState({ error: true });
-                                                    currentComponent.props.callbackFromParent(
+                                                   currentComponent.props.callbackFromParent(
                                                         'error',
                                                         'Transaction failed.'
                                                     );
@@ -401,6 +395,7 @@ class UnionPayQr extends Component {
                                                         'Cannot deposit this amount.'
                                                     );
                                                 } else {
+                                                    currentComponent.props.authUserUpdate();    
                                                     currentComponent.props.callbackFromParent(
                                                         'success',
                                                         currentComponent.state
@@ -443,7 +438,8 @@ class UnionPayQr extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'unionpayqr' : null,
         })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();    
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -552,4 +548,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(UnionPayQr))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState,authUserUpdate })(UnionPayQr))));
