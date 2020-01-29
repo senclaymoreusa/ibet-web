@@ -153,6 +153,7 @@ import BaijialeVn from './components/member_vn/game_baijiale';
 import LunpanVn from './components/member_vn/game_lunpan';
 import Game21dianVn from './components/member_vn/game_21dian';
 import VirtualVn from './components/member_vn/virtual_sports';
+import VNPromotion from './components/promotions/vn_promotion';
 import gbsports from './components/sports/gbsports';
 import gbesports from './components/sports/gbesports';
 import onebook from './components/sports/onebook';
@@ -352,6 +353,8 @@ const BaseRouter = () => (
         <Route exact path="/vi/member_rule4" component={member_rule4Vn} />
         <Route exact path="/vi/member_rule5" component={member_rule5Vn} />
         <Route exact path="/vi/member_rule6" component={member_rule6Vn} />
+        <Route exact path="/vi/promotion" component={VNPromotion} />
+
 
         <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
         <Route exact path="/promotions" component={Promotion} />
