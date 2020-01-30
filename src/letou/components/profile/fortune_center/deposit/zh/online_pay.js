@@ -24,12 +24,12 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const bank_options = [
     { label: 'Industrial and Commercial Bank of China', value: '1' },
-   { label: 'China Guangfa Bank', value: '6' },
+    { label: 'China Guangfa Bank', value: '6' },
     { label: 'Bank of China', value: '7' },
     { label: 'Postal Savings Bank of China', value: '9' },
     { label: 'China CITIC Bank', value: '10' },
     { label: 'China Minsheng Bank', value: '12' },
-    { label: 'Bank of Shanghai ', value: '21' },
+    { label: 'Bank of Shanghai', value: '21' }
    ];
 
 const styles = theme => ({
@@ -293,7 +293,7 @@ class OnlinePay extends Component {
             data:'',
             amountFocused: false,
             amountInvalid: true,
-            bankid: '',
+            bankid: 'none',
             isFavorite: false,
         };
     }
@@ -522,7 +522,7 @@ class OnlinePay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { isFavorite, amount, currency, bank } = this.state;
+        const { isFavorite, amount, currency, bankid } = this.state;
 
         return (
             <div className={classes.root}>
@@ -530,7 +530,7 @@ class OnlinePay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <Select
                             className={classes.select}
-                            value={bank}
+                            value={bankid}
                             onChange={(event) => {
                                 this.setState({ bankid: event.target.value });
                             }}
@@ -540,7 +540,7 @@ class OnlinePay extends Component {
                             </MenuItem>
                             {
                                 bank_options.map(bank => (
-                                    <MenuItem key={bank.label} value={bank.value} >
+                                    <MenuItem key={bank.value} value={bank.value} >
                                         {/*
                                         <div style={{ width: 100 }}>
                                             
