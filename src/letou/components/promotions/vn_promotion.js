@@ -6,16 +6,32 @@ import { Typography } from '@material-ui/core';
 import { Fade } from 'react-slideshow-image';
 
 const styles = {
-    content: {
-        paddingTop: 300,
-        paddingBottom: 300,
-    },
     fadeContainer: {
         marginTop: 3,
     },
-    image: {
-        textAlign: "center",
+    mainContent: {
+        width: 1000,
+        display: "block",
+        marginLeft: "auto",
+        marginRight: "auto",
     },
+    welcomeHeader: {
+        color: "red",
+    },
+    rebateHeader: {
+        color: "green",
+    },
+    welcomeContent: {
+        height: 250,
+    },
+    rebateContent: {
+        height: 250,
+    },
+    image: {
+        display: "block",
+        marginLeft: "auto",
+        marginRight: "auto",
+    }
 };
 
 class VNPromotion extends React.Component {
@@ -28,7 +44,6 @@ class VNPromotion extends React.Component {
             'https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/promotion_images/vn_promo_2.jpg',
         ];
 
-
         const fadeProperties = {
             duration: 4000,
             transitionDuration: 500,
@@ -37,33 +52,38 @@ class VNPromotion extends React.Component {
         };
 
 
-
-
-
         return (
             <div>
                 <TopNavbar />
 
                 <div className={classes.fadeContainer}>
-
                     <Fade {...fadeProperties}>
                         {
                             fadeImages.map(imgSrc => <img src={imgSrc} className={classes.image} />)
                         }
                     </Fade>
-
                 </div>
 
                 <div className={classes.mainContent}>
-                    <p className={classes.content}>testing promotion page</p>
-                </div>
 
+                    <h3 className={classes.welcomeHeader}>Ưu Đãi Chào Mừng</h3>
+                    <hr></hr>
+                    <div className={classes.welcomeContent}>
+                    </div>
+
+
+                    <h3 className={classes.rebateHeader}>Hoàn trả không giới hạn ngay tức thì</h3>
+                    <hr></hr>
+                    <div className={classes.rebateContent}>
+                    </div>
+
+                </div>
 
                 <Footer />
             </div>
         );
-
     }
+    
 }
 
 export default withStyles(styles)(VNPromotion);
