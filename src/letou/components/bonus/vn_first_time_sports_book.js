@@ -34,6 +34,9 @@ const styles = {
         paddingTop: 20,
         paddingBottom: 30,
     },
+    bannerImg: {
+        width: '100%',
+    },
 };
 
 class VNFirstTimeSportsBookBonus extends React.Component {
@@ -49,6 +52,13 @@ class VNFirstTimeSportsBookBonus extends React.Component {
                         <a href="/">Xem thêm</a>
                     </div>
                 </div>
+
+
+                <img className={classes.bannerImg} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/bonus_images/VNSportsbook.jpg" alt="Banner"/>
+                <div className={classes.content}>
+
+                </div>
+
 
                 <div className={classes.footer}>
                     Letou.com được cấp phép bởi Pagcor Philippines Offshore Gaming.
