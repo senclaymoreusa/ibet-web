@@ -323,7 +323,7 @@ class QuickPay extends Component {
                 }
             })
             .then(function (data) {
-                console.log(data)
+                //console.log(data)
                 currentComponent.setState({ showLinearProgressBar: false });
                 //console.log(data);
                 // let url = data.url;

@@ -353,7 +353,7 @@ class OnlinePay extends Component {
     handleClick() {
         let currentComponent = this;
         currentComponent.setState({ showLinearProgressBar: true });
-        console.log(currentComponent.state.data);
+        //console.log(currentComponent.state.data);
         let userid = currentComponent.state.data.pk
         var postData = {
             amount: currentComponent.state.amount,
@@ -392,7 +392,7 @@ class OnlinePay extends Component {
             })
             .then(function(data) {
                 currentComponent.setState({ showLinearProgressBar: false });
-                console.log(data);
+                //console.log(data);
                 // let url = data.url;
                 // let order_id = data.order_id;
                 // const mywin = window.open(

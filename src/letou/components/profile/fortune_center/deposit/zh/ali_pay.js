@@ -342,7 +342,7 @@ class AliPay extends Component {
                     //console.log('checking..')
                     
                     if (mywin.closed) {
-                        console.log(mywin.closed)
+                        //console.log(mywin.closed)
                         clearInterval(timer);
                         var postData = {
                             "trans_id": data.paymentPageSession.orderId
@@ -366,8 +366,8 @@ class AliPay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            console.log(data.status)
-                            console.log(currentComponent.props)
+                            //console.log(data.status)
+                            //console.log(currentComponent.props)
                             if (data.status === 0) {
                                 //alert('Transaction is approved.');
                                 const body = JSON.stringify({
