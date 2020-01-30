@@ -211,7 +211,7 @@ export class live_casino extends React.Component {
             }).then(function (res){
                 return res.json();
             }).then(function(data) {
-                console.log(data);
+                
                 window.open(data.url, "aggames", 'width=1000,height=800');
             });
         } else {
