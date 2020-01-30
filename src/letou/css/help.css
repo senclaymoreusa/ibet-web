@@ -1,3 +1,7 @@
+.HelpCenterList {
+    padding-bottom: 20px;
+}
+
 .HelpCenterLeftNav ul{
     
     line-height: 40px;
@@ -22,7 +26,8 @@
 .HelpCenterList ul  {
     list-style-type: none;
     display: flex;
-    padding: 0;
+    padding: 10;
+    
 }
 
 .HelpCenterList ul li {
@@ -70,6 +75,53 @@
 .HelpCenterSmNav ul li.Active a {
     color: #fff;
 }
+
+
+.HelpCenter {
+    margin-bottom: 10px;
+  
+}
+.HelpCenter ul {
+    overflow: hidden;
+}
+.HelpCenter ul li {
+    height: 35px;
+    width: 160px;
+    font-size: 12px;
+    line-height: 35px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #3eace9;
+    border-radius: 2px;
+    float: left;
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    display: block;
+}
+.HelpCenter ul li a {
+    display: block;
+    color: #3eace9;
+    text-decoration: none;
+    padding: 0 15px;
+    cursor: pointer;
+}
+.HelpCenter ul li.Active {
+    background-color: #3eace9;
+    border: 1px solid #3eace9;
+}
+.HelpCenter ul li.Active a {
+    color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
 
 .columns {
     -webkit-column-count: 4;

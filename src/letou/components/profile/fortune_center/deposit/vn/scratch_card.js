@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
@@ -15,8 +16,8 @@ import {
     authCheckState,
     sendingLog,
     AUTH_RESULT_FAIL,
-    postLogout,
-    logout
+    logout,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -288,30 +289,30 @@ class ScratchCard extends Component {
                 axios.get(API_URL + 'users/api/user/', config).then(res => {
                     this.setState({ data: res.data });
                     this.setState({
-                        isFavorite: res.data.favorite_payment_method === 'scratchcard'
+                        isFavorite:
+                            res.data.favorite_payment_method === 'scratchcard'
                     });
                 });
             }
         });
-
-        
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
-            } else {   
+            } else {
                 const token = localStorage.getItem('token');
                 config.headers['Authorization'] = `Token ${token}`;
                 axios.get(API_URL + 'users/api/user/', config).then(res => {
                     this.setState({ data: res.data });
                     this.setState({
-                        isFavorite: res.data.favorite_payment_method === 'scratchcard'
+                        isFavorite:
+                            res.data.favorite_payment_method === 'scratchcard'
                     });
                 });
             }
-        });    
+        });
     }
 
     bankAccountNumberChanged(event) {
@@ -361,7 +362,6 @@ class ScratchCard extends Component {
             .then(function (data) {
                 if (data.errorCode) {
                     currentComponent.props.postLogout();
-                    // postLogout();
                     return;
                 }
                 if (data.error_code === '00' && data.status === '0') {
@@ -370,7 +370,6 @@ class ScratchCard extends Component {
                         data.message
                     );
                 } else if (data.error_code === '00' && data.status === '1') {
-                    //alert('Your fgo card is successfully deposit to your account!');
                     const body = JSON.stringify({
                         type: 'add',
                         username: username,
@@ -396,6 +395,7 @@ class ScratchCard extends Component {
                                     'Cannot deposit this amount.'
                                 );
                             } else {
+                                currentComponent.props.authUserUpdate();
                                 currentComponent.props.callbackFromParent(
                                     'success',
                                     data.amount
@@ -430,6 +430,7 @@ class ScratchCard extends Component {
                 payment: event.target.checked ? 'scratchcard' : null
             })
             .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -627,7 +628,7 @@ class ScratchCard extends Component {
                             disabled={
                                 this.state.provider === 'none' ||
                                 this.state.amount === 'none' ||
-                                 this.state.cardNumber.length === 0 ||
+                                this.state.cardNumber.length === 0 ||
                                 this.state.serialNumber.length === 0
                             }
                         >
@@ -679,10 +680,11 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState, logout }
-            )(ScratchCard)
+            connect(mapStateToProps, {
+                authCheckState,
+                logout,
+                authUserUpdate
+            })(ScratchCard)
         )
     )
 );

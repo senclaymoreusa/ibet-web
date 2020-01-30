@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../actions';
+import {
+    authCheckState,
+    AUTH_RESULT_FAIL,
+    sendingLog
+} from '../../../../../actions';
 import { injectIntl, FormattedNumber } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -12,6 +16,9 @@ import { config, images } from '../../../../../util_config';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
 import moment from 'moment';
+import getSymbolFromCurrency from 'currency-symbol-map'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -52,6 +59,14 @@ const styles = theme => ({
     row: {
         display: 'flex',
         flexDirection: 'row'
+    },
+    progress: {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        marginTop: 20,
+        marginLeft: -20,
+        zIndex: 2
     },
     prevLabel: {
         fontSize: 13,
@@ -123,6 +138,12 @@ const styles = theme => ({
             paddingTop: 20
         }
     },
+    chart:{
+        height: 20,
+        [theme.breakpoints.down('md')]: {
+            height: 100
+        }
+    },
     titleButton: {
         textTransform: 'capitalize',
         [theme.breakpoints.down('md')]: {
@@ -176,7 +197,7 @@ const styles = theme => ({
         lineHeight: 'normal',
         letterSpacing: 0.79,
         textAlign: 'center',
-        color: '#6dd400',
+        color: '#212121',
         display: 'inline',
         marginLeft: 4
     },
@@ -208,18 +229,37 @@ const styles = theme => ({
         color: 'rgba(0, 0, 0, 0.85)',
         marginLeft: 10
     },
+    betValue: {
+        [theme.breakpoints.down('md')]: {
+            fontSize: 14
+        },
+        fontSize: 18,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.7,
+        letterSpacing: 'normal',
+        textAlign: 'center',
+        color: 'rgba(0, 0, 0, 0.85)',
+    },
+    negativeValue: {
+        color: '#ff0000'
+    },
+    positiveValue: {
+        color: '#6dd400'
+    },
     value: {
         [theme.breakpoints.down('md')]: {
             fontSize: 14
         },
-        fontSize: 16,
-        fontWeight: 500,
+        fontSize: 18,
+        fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
-        lineHeight: 'normal',
+        lineHeight: 1.7,
         letterSpacing: 'normal',
         textAlign: 'center',
-        color: '#6dd400'
+        color: 'rgba(0, 0, 0, 0.85)',
     },
     leftTypeButton: {
         textTransform: 'capitalize',
@@ -259,95 +299,80 @@ const styles = theme => ({
     }
 });
 
-const monthNames = [
-    'january',
-    'february',
-    'march',
-    'april',
-    'may',
-    'june',
-    'july',
-    'august',
-    'september',
-    'october',
-    'november',
-    'december'
-];
-
 export class Analysis extends Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
         this.state = {
-            currency: 'USD',
             currentDate: moment(new Date()),
             chartData: [],
             chartLabels: [],
-            type: 'turnover'
+            type: 'turnover',
+            loading: false,
+
+            turnover: 0,
+            sportBets: 0,
+            casinoSpins: 0,
+            liveCasinoBets: 0,
+            deposit: 0,
+            withdraw: 0
         };
 
-        this.setChartLabels = this.setChartLabels.bind(this);
         this.setChartData = this.setChartData.bind(this);
     }
 
-    goToPreviousMonth() {
-        let month = this.getPreviusMonth(this.state.currentDate);
-        this.setState({ currentDate: month });
-        this.setChartData(month);
-        this.setChartLabels(month);
-    }
-
-    goToNextMonth() {
-        let month = this.getNextMonth(this.state.currentDate);
-        this.setState({ currentDate: month });
-        this.setChartData(month);
-        this.setChartLabels(month);
-    }
-
     componentDidMount() {
+        this._isMounted = true;
 
-                // this.setChartData(this.state.currentDate);
-                // this.setChartLabels(this.state.currentDate);
-    }
-
-    setChartData(month) {
-        let data = [];
-
-        let loopDate = new Date();
-        loopDate.setDate(month.getDate());
-        loopDate.setMonth(month.getMonth());
-        loopDate.setFullYear(month.getFullYear());
-        const min = 0;
-        const max = 100;
-
-        let today = new Date();
-        while (loopDate < this.getNextMonth(month)) {
-            if (loopDate < today) {
-                const rand = min + Math.random() * (max - min);
-                data.push(Number(rand.toFixed(0)));
+        this.props.authCheckState().then(async res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/');
             } else {
-                data.push(0);
+                if (this._isMounted) {
+                    this.setChartData();
+                }
             }
-            loopDate.setDate(loopDate.getDate() + 1);
-        }
-
-        this.setState({ chartData: data });
+        });
     }
 
-    setChartLabels(month) {
-        let labels = [];
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
-        let loopDate = new Date();
-        loopDate.setDate(1);
-        loopDate.setMonth(month.getMonth());
-        loopDate.setFullYear(month.getFullYear());
+    setChartData() {
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+        let username = 'kevin';
+        let startTime = this.state.currentDate.startOf('month').format('YYYY-MM-DD');
+        let endTime = this.state.currentDate.endOf('month').format('YYYY-MM-DD');
 
-        while (loopDate < this.getNextMonth(month)) {
-            labels.push(loopDate.getDate() + '/' + (loopDate.getMonth() + 1));
-            loopDate.setDate(loopDate.getDate() + 1);
-        }
+        let apiURL = `system/api/history-analysis?username=${username}&type=${this.state.type}&start_time=${startTime}&end_time=${endTime}`;
 
-        this.setState({ chartLabels: labels });
+        this.setState({ loading: true });
+
+        axios
+            .get(API_URL + apiURL, config)
+            .then(res => {
+                let dataList = res.data.data.sort((a, b) => moment(a.data).isAfter(b.data)).map(({ bet_amount }) => parseInt(bet_amount));
+                let labelList = res.data.data.sort((a, b) => moment(a.data).isAfter(b.data)).map(({ data }) => moment(data).format('D/MM'));
+
+                this.setState({
+                    loading: false,
+                    sportBets: res.data.overall_bet_sport,
+                    casinoSpins: res.data.overall_bet_games,
+                    liveCasinoBets: res.data.overall_bet_casino,
+                    deposit: res.data.overall_deposit,
+                    withdraw: res.data.overall_withdraw,
+                    turnover: res.data.overall_turnover,
+                    chartData: dataList,
+                    chartLabels: labelList
+                });
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
     }
 
     getLabel(labelId) {
@@ -356,16 +381,30 @@ export class Analysis extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const { type, currentDate } = this.state;
+        const { classes, user } = this.props;
+        const {
+            type,
+            loading,
+            currentDate,
+            turnover,
+            sportBets,
+            casinoSpins,
+            liveCasinoBets,
+            deposit,
+            withdraw } = this.state;
 
         const prevButton = (
             <Button
                 className={classes.titleButton}
                 onClick={() => {
-                    this.setState({
-                        currentDate: currentDate.clone().subtract(1, 'months')
-                    });
+                    this.setState(
+                        {
+                            currentDate: moment(currentDate).startOf('month').subtract(1, 'months')
+                        },
+                        () => {
+                            this.setChartData();
+                        }
+                    );
                 }}
             >
                 <img
@@ -374,14 +413,7 @@ export class Analysis extends Component {
                     height="24"
                 />
                 <span className={classes.prevLabel}>
-                    {this.getLabel(
-                        'month-' +
-                            currentDate
-                                .clone()
-                                .subtract(1, 'months')
-                                .format('MMMM')
-                                .toLowerCase()
-                    )}
+                    {moment(currentDate).startOf('month').subtract(1, 'month').format('MMM')}
                 </span>
             </Button>
         );
@@ -390,9 +422,14 @@ export class Analysis extends Component {
             <Button
                 className={classes.titleButton}
                 onClick={() => {
-                    this.setState({
-                        currentDate: currentDate.clone().add(1, 'months')
-                    });
+                    this.setState(
+                        {
+                            currentDate: moment(currentDate).startOf('month').add(1, 'months')
+                        },
+                        () => {
+                            this.setChartData();
+                        }
+                    );
                 }}
                 disabled={
                     currentDate.month() === moment().month() &&
@@ -401,16 +438,10 @@ export class Analysis extends Component {
             >
                 <span className={classes.nextLabel}>
                     {currentDate.month() === moment().month() &&
-                    currentDate.year() === moment().year()
+                        currentDate.year() === moment().year()
                         ? this.getLabel('life-time')
-                        : this.getLabel(
-                              'month-' +
-                                  currentDate
-                                      .clone()
-                                      .add(1, 'months')
-                                      .format('MMMM')
-                                      .toLowerCase()
-                          )}
+                        : moment(currentDate).startOf('month').add(1, 'month').format('MMM')
+                    }
                 </span>
                 <img
                     src={images.src + 'letou/next_step.svg'}
@@ -447,7 +478,6 @@ export class Analysis extends Component {
                     strokeColor: 'rgba(50, 197, 255,0.3)',
                     pointColor: 'rgba(220,220,220,1)',
                     pointStrokeColor: '#fff',
-
                     data: this.state.chartData,
                     legend: {
                         display: false
@@ -462,7 +492,7 @@ export class Analysis extends Component {
             },
             tooltips: {
                 callbacks: {
-                    label: function(tooltipItem, data) {
+                    label: function (tooltipItem, data) {
                         return data['datasets'][0]['data'][
                             tooltipItem['index']
                         ];
@@ -478,12 +508,14 @@ export class Analysis extends Component {
                 borderWidth: 1,
                 bodyFontColor: '#6dd400',
                 displayColors: false,
-                position: 'average'
+                position: 'average',
+                maintainAspectRatio: true
             }
         };
 
         return (
             <div className={classes.root}>
+                {loading && <CircularProgress className={classes.progress} />}
                 <div className={classes.main}>
                     <Grid container>
                         <Grid item xs={12} className={classes.barRow}>
@@ -493,9 +525,9 @@ export class Analysis extends Component {
                                 <span className={classes.currentLabel}>
                                     {this.getLabel(
                                         'month-' +
-                                            currentDate
-                                                .format('MMMM')
-                                                .toLowerCase()
+                                        currentDate
+                                            .format('MMMM')
+                                            .toLowerCase()
                                     )}{' '}
                                     {currentDate.format('YYYY')}
                                 </span>
@@ -510,7 +542,14 @@ export class Analysis extends Component {
                                     [classes.activeLeft]: type === 'turnover'
                                 })}
                                 onClick={() => {
-                                    this.setState({ type: 'turnover' });
+                                    this.setState(
+                                        {
+                                            type: 'turnover'
+                                        },
+                                        () => {
+                                            this.setChartData();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('turn-over')}
@@ -521,7 +560,14 @@ export class Analysis extends Component {
                                     [classes.activeRight]: type === 'deposit'
                                 })}
                                 onClick={() => {
-                                    this.setState({ type: 'deposit' });
+                                    this.setState(
+                                        {
+                                            type: 'deposit'
+                                        },
+                                        () => {
+                                            this.setChartData();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('deposit-label')}
@@ -534,20 +580,20 @@ export class Analysis extends Component {
                                         ? this.getLabel('turn-over')
                                         : this.getLabel('deposit-label')}
                                 </span>
-                                <div className={classes.titleValue}>
-                                    <FormattedNumber
-                                        maximumFractionDigits={2}
-                                        value={395}
-                                        style={`currency`}
-                                        currency={this.state.currency}
-                                    />
-                                </div>
+                                <span className={clsx({
+                                    [classes.titleValue]: true,
+                                    [classes.negativeValue]: parseFloat(liveCasinoBets) < 0,
+                                    [classes.positiveValue]: parseFloat(liveCasinoBets) > 0
+                                })}>
+
+                                    {getSymbolFromCurrency(user.currency)}{(type === 'turnover') ? turnover : deposit}
+                                </span>
                             </div>
                         </Grid>
                         <Grid item md={3} className={classes.desktop}></Grid>
-                        {/* <Grid item xs={12} className={classes.chartPane}>
-                            <Line data={data} options={options} />
-                        </Grid> */}
+                        <Grid item xs={12} className={classes.chartPane}>
+                            <Line data={data} options={options} className={classes.chart} height={70}/>
+                        </Grid>
                         <Grid
                             item
                             xs={12}
@@ -598,7 +644,10 @@ export class Analysis extends Component {
                             <Button
                                 className={classes.button}
                                 onClick={() => {
-                                    this.props.callbackFromParent('sports', currentDate);
+                                    this.props.callbackFromParent(
+                                        'sports',
+                                        currentDate
+                                    );
                                 }}
                             >
                                 <img
@@ -612,20 +661,18 @@ export class Analysis extends Component {
                                     {this.getLabel('sports-bets')}
                                 </div>
                                 <div className={classes.grow} />
-                                <div className={classes.sportValue}>
-                                    <FormattedNumber
-                                        maximumFractionDigits={2}
-                                        value={400}
-                                        style={`currency`}
-                                        currency={this.state.currency}
-                                    />
-                                </div>
+                                <span className={clsx({
+                                    [classes.betValue]: true,
+                                    [classes.negativeValue]: parseFloat(sportBets) < 0,
+                                    [classes.positiveValue]: parseFloat(sportBets) > 0
+                                })}>{getSymbolFromCurrency(user.currency)}{sportBets}</span>
                             </Button>
                             <Button
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'casino-spins', currentDate
+                                        'casino-spins',
+                                        currentDate
                                     );
                                 }}
                             >
@@ -640,20 +687,18 @@ export class Analysis extends Component {
                                     {this.getLabel('casino-spins')}
                                 </div>
                                 <div className={classes.grow} />
-                                <div className={classes.value}>
-                                    <FormattedNumber
-                                        maximumFractionDigits={2}
-                                        value={-5}
-                                        style={`currency`}
-                                        currency={this.state.currency}
-                                    />
-                                </div>
+                                <span className={clsx({
+                                    [classes.betValue]: true,
+                                    [classes.negativeValue]: parseFloat(casinoSpins) < 0,
+                                    [classes.positiveValue]: parseFloat(casinoSpins) > 0
+                                })}>{getSymbolFromCurrency(user.currency)}{casinoSpins}</span>
                             </Button>
                             <Button
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'live-casino-bets', currentDate
+                                        'live-casino-bets',
+                                        currentDate
                                     );
                                 }}
                             >
@@ -668,14 +713,11 @@ export class Analysis extends Component {
                                     {this.getLabel('live-casino-bets')}
                                 </div>
                                 <div className={classes.grow} />
-                                <div className={classes.value}>
-                                    <FormattedNumber
-                                        maximumFractionDigits={2}
-                                        value={0}
-                                        style={`currency`}
-                                        currency={this.state.currency}
-                                    />
-                                </div>
+                                <span className={clsx({
+                                    [classes.betValue]: true,
+                                    [classes.negativeValue]: parseFloat(liveCasinoBets) < 0,
+                                    [classes.positiveValue]: parseFloat(liveCasinoBets) > 0
+                                })}>{getSymbolFromCurrency(user.currency)}{liveCasinoBets}</span>
                             </Button>
                         </Grid>
                         <Grid
@@ -691,7 +733,9 @@ export class Analysis extends Component {
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'deposit-withdraw', currentDate, 0
+                                        'deposit-withdraw',
+                                        currentDate,
+                                        0
                                     );
                                 }}
                             >
@@ -703,20 +747,15 @@ export class Analysis extends Component {
                                     {this.getLabel('deposit-label')}
                                 </div>
                                 <div className={classes.grow} />
-                                <div className={classes.sportValue}>
-                                    <FormattedNumber
-                                        maximumFractionDigits={2}
-                                        value={400}
-                                        style={`currency`}
-                                        currency={this.state.currency}
-                                    />
-                                </div>
+                                <span className={classes.value}>{getSymbolFromCurrency(user.currency)}{deposit}</span>
                             </Button>
                             <Button
                                 className={classes.button}
                                 onClick={() => {
                                     this.props.callbackFromParent(
-                                        'deposit-withdraw', currentDate, 1
+                                        'deposit-withdraw',
+                                        currentDate,
+                                        1
                                     );
                                 }}
                             >
@@ -730,14 +769,7 @@ export class Analysis extends Component {
                                     {this.getLabel('withdraw-label')}
                                 </div>
                                 <div className={classes.grow} />
-                                <div className={classes.value}>
-                                    <FormattedNumber
-                                        maximumFractionDigits={2}
-                                        value={-5}
-                                        style={`currency`}
-                                        currency={this.state.currency}
-                                    />
-                                </div>
+                                <span className={classes.value}>{getSymbolFromCurrency(user.currency)}{withdraw}</span>
                             </Button>
                         </Grid>
                     </Grid>

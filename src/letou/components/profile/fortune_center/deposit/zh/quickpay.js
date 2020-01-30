@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
@@ -237,27 +236,24 @@ class QuickPay extends Component {
             isFavorite: false,
         };
     }
-
+    
     componentDidMount() {
-        this._isMounted = true;
-
-        this.props.authCheckState()
-            .then(res => {
-                if (res === AUTH_RESULT_FAIL) {
-                    this.props.history.push('/');
-                    sendingLog('authentication failure!!!');
-                } else {
-                    if (this._isMounted) {
-                        const { user } = this.props;
-
-                        this.setState({
-                            currency: getSymbolFromCurrency(user.currency),
-                            isFavorite: (user.favoriteDepositMethod === 'quickpay')
-                        });
-                    }
-                }
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'quickpay' });
+                    });
+            }
+        })
     }
+    
 
     componentWillUnmount() {
         this._isMounted = false;
@@ -287,10 +283,10 @@ class QuickPay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
-        let amount = this.state.amount;
-        let user = this.state.data.pk;
-
+        let userid = currentComponent.state.data.pk;
+        let amount = currentComponent.state.amount;
+        let user = currentComponent.state.data.pk;
+        
         let postData = {
             amount: amount,
             userid: user,
@@ -327,14 +323,17 @@ class QuickPay extends Component {
                 }
             })
             .then(function (data) {
+                //console.log(data)
                 currentComponent.setState({ showLinearProgressBar: false });
                 //console.log(data);
                 // let url = data.url;
                 // let order_id = data.order_id;
                 // const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
                 if (data.indexOf("其他错误|25") && data.includes("100309")) {
-                    currentComponent.props.callbackFromParent("error", "Something is wrong.");
-                } else {
+                    currentComponent.props.callbackFromParent("error", "快捷支付暂时关中");
+                } else if (data.indexOf("其他错误|45") && data.includes("00010")){
+                    currentComponent.props.callbackFromParent("error", "快捷支付维护时间");
+                }else {
                     //console.log(data.StatusCode)
                     let newwin = window.open('');
                     newwin.document.write(data);
@@ -367,7 +366,7 @@ class QuickPay extends Component {
                                 }
                             )
                                 .then(function (res) {
-                                    if (res.status == 200) {
+                                    if (res.status === 200) {
                                         return res.json();
                                     } else {
                                         currentComponent.props.callbackFromParent("error", "Transaction failed.");
@@ -408,6 +407,7 @@ class QuickPay extends Component {
                                                         'Cannot deposit this amount.'
                                                     );
                                                 } else {
+                                                    currentComponent.props.authUserUpdate();    
                                                     currentComponent.props.callbackFromParent(
                                                         'success',
                                                         currentComponent.state
@@ -452,7 +452,7 @@ class QuickPay extends Component {
         })
             .then(res => {
                 if(res.status === 200){
-                    this.setState({ isFavorite: !this.state.isFavorite });
+                     this.setState({ isFavorite: !this.state.isFavorite });
                     currentComponent.props.authUserUpdate();    
                 }
             })

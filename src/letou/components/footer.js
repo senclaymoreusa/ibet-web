@@ -307,7 +307,7 @@ export class Footer extends React.Component {
         if (parts.length >= 2) {
             let path = parts[1];
 
-            this.setState({ activeMenu: path == '' ? 'home' : path });
+            this.setState({ activeMenu: path === '' ? 'home' : path });
         } else if (parts.length >= 3) {
             let path = parts[2];
 
@@ -928,7 +928,7 @@ export class Footer extends React.Component {
                                     href="https://help.letou.com/cn/index.html?type=member_start_03"
                                     className={classes.footerlink}
                                 >
-                                    {this.getLabel('withdrawal-process')}
+                                    {this.getLabel('withdraw-process')}
                                 </Link>
                                 <Link
                                     target="_blank"

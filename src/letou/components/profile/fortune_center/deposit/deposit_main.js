@@ -40,7 +40,7 @@ import WechatPay from './zh/wechat_pay';
 import QuickPay from './zh/quickpay';
 import UnionPayQr from './zh/unionpay_qr';
 import JDPay from './zh/jd_pay';
-import Astropay_CH from './zh/astro_pay';
+import AstropayCH from './zh/astro_pay';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -48,8 +48,7 @@ const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
+        flexDirection: 'column'
     },
     rootDesktop: {
         display: 'none',
@@ -236,9 +235,7 @@ export class DepositMain extends Component {
         super(props);
 
         this.state = {
-            urlPath: '',
             contentValue: '',
-            selectedType: '',
         };
 
         this.setPage = this.setPage.bind(this);
@@ -276,7 +273,7 @@ export class DepositMain extends Component {
     }
 
     setPage = (page, msg) => {
-        console.log(page);
+        // console.log(page);
         if (msg)
             this.setState({ depositMessage: msg });
 
@@ -297,8 +294,11 @@ export class DepositMain extends Component {
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
         const { contentValue } = this.state;
-
-        switch (user.country.toLowerCase()) {
+        var country = "";
+        if (user && user.country) {
+            country = user.country;
+        }
+        switch (country.toLowerCase()) {
             case 'china':
                 return (
                     <div>
@@ -764,7 +764,7 @@ export class DepositMain extends Component {
         else if (operationProp === 'jdpay')
             return <JDPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
         else if (operationProp === 'astropay_ch')
-            return <Astropay_CH callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <AstropayCH callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
         else if (operationProp === 'vietnamhelp2pay')
             return <VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
         else if (operationProp === 'circlepay')
@@ -784,9 +784,7 @@ export class DepositMain extends Component {
         else if (operationProp === 'astropay')
             return <Astropay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
         else if (operationProp === 'help2pay')
-            return <Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
-        
-        
+            return <Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;    
     }
 
     render() {
