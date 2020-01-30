@@ -1,8 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
-
-
 const styles = {
     mainHeading: {
         fontSize: 25,
@@ -84,7 +82,7 @@ const styles = {
 };
 
 
-class VNFirst200SlotBonus extends React.Component {
+class VNFirstTime200SlotBonus extends React.Component {
 
     render() {
         const { classes } = this.props;
@@ -159,4 +157,4 @@ class VNFirst200SlotBonus extends React.Component {
     }
 }
 
-export default withStyles(styles)(VNFirst200SlotBonus);
+export default withStyles(styles)(VNFirstTime200SlotBonus);

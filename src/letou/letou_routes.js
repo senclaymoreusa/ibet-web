@@ -170,7 +170,7 @@ import GameDetail from './components/games/game_detail';
 import Promotion from './components/promotion';
 import NoMatch from './ErrorBoundary/NoMatch';
 
-import VNFirst200SlotBonus from './components/bonus/vn_first_200_slots';
+import VNFirstTime200SlotBonus from './components/bonus/vn_first_time_200_slots';
 
 const containerStyle = {
     minHeight: '100%'
@@ -355,7 +355,7 @@ const BaseRouter = () => (
         <Route exact path="/vi/member_rule5" component={member_rule5Vn} />
         <Route exact path="/vi/member_rule6" component={member_rule6Vn} />
 
-        <Route exact path="/vi/promotion/first_time_200Slotgames" component={VNFirst200SlotBonus} />
+        <Route exact path="/vi/promotion/first_time_200Slotgames" component={VNFirstTime200SlotBonus} />
 
         <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
         <Route exact path="/promotions" component={Promotion} />
