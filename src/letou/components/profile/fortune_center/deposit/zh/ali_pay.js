@@ -294,8 +294,120 @@ class AliPay extends Component {
             }
         }
     };
+    //qaicash alipay
+    handleClick_Qaicash() { 
+        
+        let currentComponent = this;
 
-    handleClick() {
+        currentComponent.setState({ showLinearProgressBar: true });
+
+        var postData = {
+            "amount": this.state.amount,
+            "user_id": this.state.data.pk,
+            "currency": "0",
+            "language": "zh-Hans",
+            "method": "ALIPAY",
+        }
+        //console.log(this.state.amount)
+        //console.log(this.state.data.pk)
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        return fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        }).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            if(data.errorCode){
+                currentComponent.props.postLogout();
+                // postLogout();
+                return;
+            }
+            let redirectUrl = data.paymentPageSession.paymentPageUrl
+            //console.log(redirectUrl)
+
+
+            if (redirectUrl != null) {
+                const mywin = window.open(redirectUrl, 'qaicash-Alipay');
+                //currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
+                var timer = setInterval(function () {
+                    //console.log('checking..')
+                    
+                    if (mywin.closed) {
+                        console.log(mywin.closed)
+                        clearInterval(timer);
+                        var postData = {
+                            "trans_id": data.paymentPageSession.orderId
+                        }
+                        
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
+                        
+
+                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: formBody
+                        }).then(function (res) {
+                            return res.json();
+                        }).then(function (data) {
+                            console.log(data.status)
+                            console.log(currentComponent.props)
+                            if (data.status === 0) {
+                                //alert('Transaction is approved.');
+                                const body = JSON.stringify({
+                                    type: 'add',
+                                    username: currentComponent.state.data.username,
+                                    balance: currentComponent.state.amount,
+                                });
+                                
+                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                    .then(res => {
+                                        
+                                        if (res.data === 'Failed') {
+                                            //currentComponent.setState({ error: true });
+                                            
+                                            currentComponent.props.callbackFromParent("error", 'Transaction failed.');
+                                        } else if (res.data === 'The balance is not enough') {
+                                            currentComponent.props.callbackFromParent("error", 'Cannot deposit this amount.');
+                                        } else {
+                                            currentComponent.props.callbackFromParent('success', 'Deposit Success');
+                                        }
+                                    });
+                            } else {
+                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
+                            }
+                        });
+                    }
+                }, 1000);
+            } else {
+                currentComponent.setState({ showLinearProgressBar: false });
+                currentComponent.props.callbackFromParent("error", data.returnMessage);
+            }
+        }).catch(function (err) {  
+            
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
+            sendingLog(err);
+        });
+    }
+
+    //asiapay alipay
+    handleClick_alipay() {
         let currentComponent = this;
 
         let userid = this.state.data.pk;
@@ -452,6 +564,7 @@ class AliPay extends Component {
             });
     };
 
+
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
@@ -551,7 +664,7 @@ class AliPay extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.handleClick.bind(this)}
+                            onClick={this.handleClick_Qaicash.bind(this)}
                             disabled={this.state.amountInvalid}
                         >{this.getLabel('deposit-label')}</Button>
                     </Grid>
