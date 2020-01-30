@@ -98,7 +98,21 @@ const styles = theme => ({
   },
   PgHallBtnLeft:{
     float: "left",
-  }
+  },
+
+  rootDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        flexDirection: 'column'
+    }
+},
+rootMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+        display: 'none'
+    }
+    },
 });
 
 export class live_casino extends React.Component {
@@ -247,7 +261,8 @@ export class live_casino extends React.Component {
             <div className={classes.root}>
                 <TopNavbar />
                 <div className={classes.grow} >
-                <Grid container className={classes.mainGrid}>
+                    <div className={classes.rootDesktop}>
+                    <Grid container className={classes.mainGrid}>
                     <Grid item xs={12} className={classes.mainRow}>
                     <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/banner.jpg" alt="live-casino banner" style={{ opacity: 1 }} className="BannerImg" />
                     </Grid>
@@ -530,9 +545,11 @@ export class live_casino extends React.Component {
                         </ul>
                     
                     </div>
-                    
-                
                 </Grid>
+                </div>
+                    <div className={classes.rootMobile}>
+
+                    </div>
                 {/* main end */}
                 </div>
                 
