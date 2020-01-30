@@ -32,7 +32,7 @@ import clsx from 'clsx';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
-const amounts = Object.freeze([20, 50, 100, 250]);
+const amounts = Object.freeze([250, 500, 1000, 2500]);
 
 const styles = theme => ({
     root: {
@@ -423,7 +423,7 @@ class ThaiLocalBank extends Component {
                 this.props.user.firstName + ' ' + this.props.user.lastName,
             username: this.props.user.username,
             amount: this.state.amount,
-            currency: 7,
+            currency: 2,
             type: '1'
         });
         return axios
@@ -433,7 +433,7 @@ class ThaiLocalBank extends Component {
                 config
             )
             .then(res => {
-                if (res.statusText == 'OK') {
+                if (res.statusText === 'OK') {
                     return res.data;
                 } else {
                     currentComponent.props.callbackFromParent(
@@ -674,7 +674,7 @@ class ThaiLocalBank extends Component {
                                 onClick={this.checkWithdrawPassword.bind(this)}
                                 disabled={
                                     selectedBank === 'none' ||
-                                    accountNumber == '' ||
+                                    accountNumber === '' ||
                                     password === ''
                                 }
                             >
@@ -829,7 +829,7 @@ class ThaiLocalBank extends Component {
                             <TextField
                                 className={classes.amountText}
                                 placeholder={this.getLabel(
-                                    'help2pay-placeholder'
+                                    'thai-localbank-placeholder-withdraw'
                                 )}
                                 onChange={this.amountChanged.bind(this)}
                                 value={amount}
@@ -942,8 +942,7 @@ class ThaiLocalBank extends Component {
                                 className={classes.actionButton}
                                 onClick={this.handleClick.bind(this)}
                                 disabled={
-                                    amount === '' ||
-                                    this.state.amountInvalid == ''
+                                    amount === '' || this.state.amountInvalid
                                 }
                             >
                                 {this.getLabel('confirm-label')}

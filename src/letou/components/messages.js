@@ -365,7 +365,7 @@ export const messages = {
         'timer-label': 'Timer',
         'placeholder-link': 'Placeholder Link',
         'thai-localbank-placeholder': 'Deposit ฿200 - ฿950,000',
-        'thai-localbank-placeholder-withdraw': 'Withdraw ฿200 - ฿950,000',
+        'thai-localbank-placeholder-withdraw': 'Withdraw ฿200 - ฿500,000',
         'astropay-placeholder': 'Deposit ฿10 - ฿500,000',
         'help2pay-placeholder': 'Deposit ฿500 - ฿500,000',
         'help2pay-withdraw-placeholder': 'Withdraw ฿500 - ฿500,000',
