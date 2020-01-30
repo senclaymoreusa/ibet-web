@@ -426,7 +426,28 @@ class VietnamHelp2pay extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
+    // componentWillReceiveProps(props) {
+    //     this.props.authCheckState().then(res => {
+    //         if (res === AUTH_RESULT_FAIL) {
+    //             this.props.history.push('/');
+    //         } else {
+    //             const token = localStorage.getItem('token');
+    //             config.headers['Authorization'] = `Token ${token}`;
+    //             axios.get(API_URL + 'users/api/user/', config).then(res => {
+    //                 this.setState({
+    //                     data: res.data,
+    //                     currency: getSymbolFromCurrency(res.data.currency),
+    //                     currencyCode: res.data.currency,
+    //                     isFavorite:
+    //                         res.data.favorite_payment_method ===
+    //                         'vietnamhelp2pay'
+    //                 });
+    //             });
+    //         }
+    //     });
+    // }
+
+    componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
@@ -438,29 +459,6 @@ class VietnamHelp2pay extends Component {
                         data: res.data,
                         currency: getSymbolFromCurrency(res.data.currency),
                         currencyCode: res.data.currency,
-                        isFavorite:
-                            res.data.favorite_payment_method ===
-                            'vietnamhelp2pay'
-                    });
-                });
-            }
-        });
-    }
-
-    componentDidMount() {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
-                    this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
-                    });
-                    this.setState({ currencyCode: res.data.currency });
-                    this.setState({
                         isFavorite:
                             res.data.favorite_payment_method ===
                             'vietnamhelp2pay'
@@ -535,86 +533,10 @@ class VietnamHelp2pay extends Component {
                     'error',
                     '渠道维护中'
                 );
-
-                throw new Error('Something went wrong.');
             })
             .then(function(data) {
                 let newwin = window.open('');
                 newwin.document.write(data);
-                var timer = setInterval(function() {
-                    if (newwin.closed) {
-                        clearInterval(timer);
-                        const pd = JSON.stringify({
-                            order_id: currentComponent.state.order_id
-                        });
-
-                        return fetch(
-                            API_URL + 'accounting/api/help2pay/deposit_status',
-                            {
-                                method: 'POST',
-                                withCredentials: true,
-                                headers: {
-                                    'content-type': 'application/json',
-                                    Authorization: 'Token ' + token
-                                },
-                                body: pd
-                            }
-                        )
-                            .then(function(res) {
-                                return res.text();
-                            })
-                            .then(function(data) {
-                                //console.log(data)
-
-                                if (data === '0') {
-                                    const body = JSON.stringify({
-                                        type: 'add',
-                                        username: this.state.data.username,
-                                        balance: this.state.amount
-                                    });
-                                    //console.log(body)
-                                    axios
-                                        .post(
-                                            API_URL +
-                                                `users/api/addorwithdrawbalance/`,
-                                            body,
-                                            config
-                                        )
-                                        .then(res => {
-                                            if (res.data === 'Failed') {
-                                                currentComponent.props.callbackFromParent(
-                                                    'error',
-                                                    'Transaction failed.'
-                                                );
-                                            } else if (
-                                                res.data ===
-                                                'The balance is not enough'
-                                            ) {
-                                                currentComponent.props.callbackFromParent(
-                                                    'error',
-                                                    'Cannot deposit this amount.'
-                                                );
-                                            } else {
-                                                currentComponent.props.callbackFromParent(
-                                                    'success',
-                                                    'Transaction completed.'
-                                                );
-                                            }
-                                        });
-                                } else {
-                                    currentComponent.props.callbackFromParent(
-                                        'error',
-                                        '渠道维护中'
-                                    );
-                                }
-                            });
-                    }
-                }, 1000);
-            })
-            .catch(function(err) {
-                console.log('Request failed', err);
-                currentComponent.props.callbackFromParent('error', err.message);
-                sendingLog(err);
             });
     }
 
@@ -630,6 +552,7 @@ class VietnamHelp2pay extends Component {
                 payment: event.target.checked ? 'vietnamhelp2pay' : null
             })
             .then(res => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })

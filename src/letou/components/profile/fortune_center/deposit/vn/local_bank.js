@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
@@ -17,7 +18,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -416,7 +418,6 @@ class VietnamLocalBank extends Component {
     }
 
     handleClick() {
-        // let currentComponent = this;
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -442,7 +443,7 @@ class VietnamLocalBank extends Component {
                 postData,
                 config
             )
-            .then((res, err) => {
+            .then(res => {
                 console.log(res);
             });
     }
@@ -459,6 +460,7 @@ class VietnamLocalBank extends Component {
                 payment: event.target.checked ? 'vietnamlocalbank' : null
             })
             .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -677,7 +679,9 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(mapStateToProps, { authCheckState })(VietnamLocalBank)
+            connect(mapStateToProps, { authCheckState, authUserUpdate })(
+                VietnamLocalBank
+            )
         )
     )
 );

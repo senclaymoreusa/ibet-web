@@ -9,7 +9,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -440,9 +441,6 @@ class Help2Pay extends Component {
             bankAccountHolder: '',
             withdrawpassword: '',
 
-            //withdrawpasswordFocused: false,
-            //withdrawpasswordInvalid: true,
-
             activeStep: 0,
             currency: 'THB',
             currencyCode: 'THB',
@@ -477,8 +475,8 @@ class Help2Pay extends Component {
             const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(event.target.value)) {
-                this.setState({ amount: event.target.value });
                 this.setState({
+                    amount: event.target.value,
                     amountInvalid:
                         parseFloat(event.target.value) < 500 ||
                         parseFloat(event.target.value) > 500000
@@ -539,12 +537,9 @@ class Help2Pay extends Component {
 
     async handleClick() {
         let currentComponent = this;
-
         var postData = {
             amount: this.state.amount,
             username: this.state.data.username,
-            // "user_id": this.state.data.pk,
-            // "language": "en-Us",
             toBankAccountName: this.state.bankAccountHolder,
             toBankAccountNumber: this.state.bankAccountNumber,
             withdrawPassword: this.state.withdrawpassword,
@@ -557,20 +552,38 @@ class Help2Pay extends Component {
             postData,
             config
         );
-        console.log(res);
 
         if (res.status === 200) {
-            if (res.data.indexOf('000') !== -1) {
-                currentComponent.props.callbackFromParent(
-                    'success',
-                    postData.amount
-                );
-            } else {
-                currentComponent.props.callbackFromParent(
-                    'error',
-                    'Error message goes here'
-                );
+            // console.log(res);
+            // console.log('res.data');
+            // console.log(res.data);
+            if (
+                res.data.status_code &&
+                (res.data.status_code === 101 || res.data.status_code === 107)
+            ) {
+                let errMsg = res.data.message;
+                currentComponent.props.callbackFromParent('error', errMsg);
+                return;
             }
+            if (res.data.indexOf('000') !== -1) {
+                this.props.authUserUpdate();
+                this.props.callbackFromParent('success', postData.amount);
+                return;
+            } else {
+                let d = res.data;
+                var errMsg = d.slice(
+                    d.indexOf('<message>') + 9,
+                    d.indexOf('</message>')
+                );
+                currentComponent.props.callbackFromParent('error', errMsg);
+                return;
+            }
+        } else {
+            currentComponent.props.callbackFromParent(
+                'error',
+                'Something went wrong, please try again later'
+            );
+            return;
         }
     }
 
@@ -657,7 +670,7 @@ class Help2Pay extends Component {
                             <TextField
                                 className={classes.amountText}
                                 placeholder={this.getLabel(
-                                    'help2pay-placeholder'
+                                    'help2pay-withdraw-placeholder'
                                 )}
                                 onChange={this.amountChanged.bind(this)}
                                 value={amount}
@@ -751,7 +764,9 @@ class Help2Pay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('help2pay-placeholder')}
+                            placeholder={this.getLabel(
+                                'help2pay-withdraw-placeholder'
+                            )}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -869,6 +884,10 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Help2Pay))
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, authUserUpdate })(
+                Help2Pay
+            )
+        )
     )
 );

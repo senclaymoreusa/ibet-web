@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, authUserUpdate } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -26,13 +26,11 @@ import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import StepConnector from '@material-ui/core/StepConnector';
-
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
-
 import PasswordStrengthMeter from '../../../../commons/PasswordStrengthMeter';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -43,6 +41,10 @@ const variantIcon = {
 
 const styles = () => ({
     root: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
     },
     label: {
         marginTop: 8,
@@ -342,41 +344,48 @@ export class SetWithdrawalPassword extends Component {
 
         let testedResult = zxcvbn(event.target.value);
 
-        this.setState({ newPasswordInvalid: !(testedResult.score === 3 || testedResult.score === 4) })
-        this.setState({ confirmPasswordInvalid: (event.target.value !== this.state.confirmPassword) })
-
+        this.setState({
+            newPasswordInvalid: !(testedResult.score === 3 || testedResult.score === 4),
+            confirmPasswordInvalid: (event.target.value !== this.state.confirmPassword)
+        });
     }
 
     confirmPasswordChanged(event) {
-        this.setState({ confirmPassword: event.target.value });
-
-        this.setState({ confirmPasswordInvalid: (this.state.newPassword !== event.target.value) });
+        this.setState({
+            confirmPassword: event.target.value,
+            confirmPasswordInvalid: (this.state.newPassword !== event.target.value)
+        });
     }
 
     setWithdrawalPassword() {
+        let currentComponent = this;
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
         axios.post(API_URL + 'users/api/setting-withdraw-password/',
             {
-                'userId': this.state.userId,
+                'userId': this.props.user.userId,
                 'withdrawPassword': this.state.newPassword
             }, config)
             .then(() => {
-                this.setState({ snackType: 'success' });
-                this.setState({ snackMessage: this.getLabel('withdrawal-password-success') });
-                this.setState({ showSnackbar: true });
-                this.setState({ activeStep: 1 });
+                this.setState({
+                    snackType: 'success',
+                    snackMessage: this.getLabel('withdrawal-password-success'),
+                    showSnackbar: true,
+                    activeStep: 1
+                });
+
+                currentComponent.props.authUserUpdate();
             }).catch(err => {
                 sendingLog(err);
-               
-                this.setState({ snackMessage: this.getLabel('password-update-failed') });
 
-                this.setState({ snackType: 'error' });
-                this.setState({ showSnackbar: true });
+                this.setState({
+                    snackMessage: this.getLabel('password-update-failed'),
+                    snackType: 'error',
+                    showSnackbar: true
+                });
             })
-
     }
 
     getLabel(labelId) {
@@ -393,7 +402,6 @@ export class SetWithdrawalPassword extends Component {
     }
 
     componentDidMount() {
-
         this.props.authCheckState()
             .then(res => {
                 if (res === 1) {
@@ -402,17 +410,13 @@ export class SetWithdrawalPassword extends Component {
                     this.setState({ activeStep: this.props.user.hasWithdrawPassword ? 1 : 0 })
                 }
             })
-
-        
     }
-
 
     getStepContent() {
         let currentComponent = this;
 
         const { classes } = this.props;
         const { activeStep } = this.state;
-
 
         let newPasswordErrorMessage = '';
 
@@ -580,9 +584,7 @@ export class SetWithdrawalPassword extends Component {
 
     render() {
         const { classes } = this.props;
-
         const { activeStep } = this.state;
-
 
         return (
             <div className={classes.root}>
@@ -624,7 +626,6 @@ export class SetWithdrawalPassword extends Component {
     }
 }
 
-
 const mapStateToProps = state => {
     const { token, user } = state.auth;
     return {
@@ -633,4 +634,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(SetWithdrawalPassword))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(SetWithdrawalPassword))));

@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -438,8 +438,9 @@ class Payzod extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'payzod' : null,
         })
-            .then(res => {
-                this.setState({ isFavorite: !this.state.isFavorite });
+            .then(() => {
+                this.props.authUserUpdate();    
+                                        this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
@@ -594,4 +595,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Payzod))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(Payzod))));
