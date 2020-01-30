@@ -1,8 +1,6 @@
 import React from 'react';
-import TopNavbar from '../top_navbar';
-import Footer from '../footer';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+
 
 
 const styles = {
@@ -97,11 +95,11 @@ class VNFirst200SlotBonus extends React.Component {
                 <div className={classes.offerHeader}>
                     <img className={classes.mainLogo} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/logo_vi.png" alt="Main Logo"/>
                     <div className={classes.button}>
-                        <a className={classes.buttonText}>Xem thêm</a>
+                        <a href="/" className={classes.buttonText}>Xem thêm</a>
                     </div>
                 </div>
 
-                <img className={classes.bannerImg} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/bonus_images/VN200slots.jpg" alt="Banner Image"/>
+                <img className={classes.bannerImg} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/bonus_images/VN200slots.jpg" alt="Banner"/>
                 <div className={classes.content}>
 
                     <h3 className={classes.mainHeading}>200% THƯỞNG CHÀO MỪNG TẠI SLOT GAMES</h3>

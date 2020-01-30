@@ -475,8 +475,8 @@ class Help2Pay extends Component {
             const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(event.target.value)) {
-                this.setState({ amount: event.target.value });
                 this.setState({
+                    amount: event.target.value,
                     amountInvalid:
                         parseFloat(event.target.value) < 500 ||
                         parseFloat(event.target.value) > 500000
@@ -536,6 +536,7 @@ class Help2Pay extends Component {
     };
 
     async handleClick() {
+        let currentComponent = this;
         var postData = {
             amount: this.state.amount,
             username: this.state.data.username,
@@ -553,18 +554,36 @@ class Help2Pay extends Component {
         );
 
         if (res.status === 200) {
-            if (res.data.indexOf('000') !== -1) {
-                this.props.authUserUpdate(); 
-                this.props.callbackFromParent(
-                    'success',
-                    postData.amount
-                );
-            } else {
-                this.props.callbackFromParent(
-                    'error',
-                    'Error message goes here'
-                );
+            // console.log(res);
+            // console.log('res.data');
+            // console.log(res.data);
+            if (
+                res.data.status_code &&
+                (res.data.status_code === 101 || res.data.status_code === 107)
+            ) {
+                let errMsg = res.data.message;
+                currentComponent.props.callbackFromParent('error', errMsg);
+                return;
             }
+            if (res.data.indexOf('000') !== -1) {
+                this.props.authUserUpdate();
+                this.props.callbackFromParent('success', postData.amount);
+                return;
+            } else {
+                let d = res.data;
+                var errMsg = d.slice(
+                    d.indexOf('<message>') + 9,
+                    d.indexOf('</message>')
+                );
+                currentComponent.props.callbackFromParent('error', errMsg);
+                return;
+            }
+        } else {
+            currentComponent.props.callbackFromParent(
+                'error',
+                'Something went wrong, please try again later'
+            );
+            return;
         }
     }
 
@@ -651,7 +670,7 @@ class Help2Pay extends Component {
                             <TextField
                                 className={classes.amountText}
                                 placeholder={this.getLabel(
-                                    'help2pay-placeholder'
+                                    'help2pay-withdraw-placeholder'
                                 )}
                                 onChange={this.amountChanged.bind(this)}
                                 value={amount}
@@ -661,7 +680,7 @@ class Help2Pay extends Component {
                                 }
                                 helperText={
                                     this.state.amountInvalid &&
-                                        this.state.amountFocused
+                                    this.state.amountFocused
                                         ? this.getLabel('valid-amount')
                                         : ' '
                                 }
@@ -721,7 +740,7 @@ class Help2Pay extends Component {
                             }
                             helperText={
                                 this.state.bankAccountNumberFocused &&
-                                    bankAccountNumber.length === 0
+                                bankAccountNumber.length === 0
                                     ? this.getLabel('invalid-bank-number')
                                     : ' '
                             }
@@ -745,7 +764,9 @@ class Help2Pay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.amountText}
-                            placeholder={this.getLabel('help2pay-placeholder')}
+                            placeholder={this.getLabel(
+                                'help2pay-withdraw-placeholder'
+                            )}
                             onChange={this.amountChanged.bind(this)}
                             value={amount}
                             error={
@@ -754,7 +775,7 @@ class Help2Pay extends Component {
                             }
                             helperText={
                                 this.state.amountInvalid &&
-                                    this.state.amountFocused
+                                this.state.amountFocused
                                     ? this.getLabel('valid-amount')
                                     : ' '
                             }
@@ -817,8 +838,8 @@ class Help2Pay extends Component {
                                             {this.state.showwithdrawPassword ? (
                                                 <Visibility />
                                             ) : (
-                                                    <VisibilityOff />
-                                                )}
+                                                <VisibilityOff />
+                                            )}
                                         </IconButton>
                                     </InputAdornment>
                                 )
@@ -863,6 +884,10 @@ const mapStateToProps = state => {
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(Help2Pay))
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, authUserUpdate })(
+                Help2Pay
+            )
+        )
     )
 );
