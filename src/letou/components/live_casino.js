@@ -211,6 +211,7 @@ export class live_casino extends React.Component {
             }).then(function (res){
                 return res.json();
             }).then(function(data) {
+                
                 window.open(data.url, "aggames", 'width=1000,height=800');
             });
         } else {
@@ -293,17 +294,17 @@ export class live_casino extends React.Component {
 
                         <ul>
 
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Jingmi')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Package')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-led')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Jingmi')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Package')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-led')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
                             
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/" onClick={(e) => {this.handleAGClick()}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/"  onClick={(e) => {this.handleAGClick();e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -348,7 +349,7 @@ export class live_casino extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            {<a href="/" onClick={() => {this.handleEAClick()}} ><span>{this.getLabel('Real-money')}</span></a>}
+                            {<a href="/" onClick={(e) => {this.handleEAClick();e.preventDefault();}} ><span>{this.getLabel('Real-money')}</span></a>}
                             {/* <a onClick={() => (this.state.data) ? window.open("https://178.claymoreasia.com/wkpibet/newlayout/index.php", "ealive"): this.props.history.push('/register')}><span><font style={{ verticalAlign: 'inherit' }}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</font></span></a> */}
                         </div>
                         </Grid>
@@ -370,7 +371,7 @@ export class live_casino extends React.Component {
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                             {/* <a onClick={() => window.open("https://666.claymoreasia.com/", "n2live")}><span>{this.getLabel('Real-money')}</span></a> */}
-                            <a href="/" onClick={() => {this.handleN2Click(username)}}><span>{this.getLabel('Real-money')}</span></a>
+                            <a href="/" onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}><span>{this.getLabel('Real-money')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -404,14 +405,14 @@ export class live_casino extends React.Component {
                         <div className="PgHallArticle">
                         <p>{this.getLabel('gd-words')}</p>
                         <ul>
-                            <li><a href="/" onClick={(e) => {this.handleGDClick("Baccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                            <li><a href="/"  onClick={(e) => {this.handleGDClick("BidmeBaccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
-                            <li><a href="/"  onClick={(e) => {this.handleGDClick("Roulette")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
-                            <li><a href="/"  onClick={(e) => {this.handleGDClick("SicBo")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                            <li><a href="/"  onClick={(e) => {this.handleGDClick("BidmeBaccarat");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
+                            <li><a href="/"  onClick={(e) => {this.handleGDClick("Roulette");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                            <li><a href="/"  onClick={(e) => {this.handleGDClick("SicBo");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/" onClick={(e) => {this.handleGDClick("Baccarat")}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/" onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -459,7 +460,7 @@ export class live_casino extends React.Component {
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/" onClick={(e) => {this.handleGPIClick()}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
+                            <a href="/" onClick={(e) => {this.handleGPIClick();e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
                         </Grid>
                         </div>
                     </div>
