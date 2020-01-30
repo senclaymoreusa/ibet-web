@@ -27,9 +27,7 @@ import Paper from '@material-ui/core/Paper';
 
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import Person from '@material-ui/icons/Person';
-import ContactSupport from '@material-ui/icons/ContactSupport';
 import MeetingRoom from '@material-ui/icons/MeetingRoom';
 
 import MobileLogin from './mobile/mobile_login';
@@ -104,8 +102,6 @@ const styles = theme => ({
         marginTop: 20
     },
     lang_button: {
-        // padding: 0,
-        // minWidth: 0
         border: '1px solid #363636',
         height: 48,
         borderRadius: 4,
@@ -300,10 +296,6 @@ export class Footer extends React.Component {
         this.getLabel = this.getLabel.bind(this);
     }
 
-    componentWillReceiveProps(props) {
-        this.setActiveMenuByPath();
-    }
-
     componentDidMount() {
         this.setActiveMenuByPath();
     }
@@ -315,7 +307,7 @@ export class Footer extends React.Component {
         if (parts.length >= 2) {
             let path = parts[1];
 
-            this.setState({ activeMenu: (path == '') ? 'home' : path });
+            this.setState({ activeMenu: path === '' ? 'home' : path });
         } else if (parts.length >= 3) {
             let path = parts[2];
 
@@ -936,7 +928,7 @@ export class Footer extends React.Component {
                                     href="https://help.letou.com/cn/index.html?type=member_start_03"
                                     className={classes.footerlink}
                                 >
-                                    {this.getLabel('withdrawal-process')}
+                                    {this.getLabel('withdraw-process')}
                                 </Link>
                                 <Link
                                     target="_blank"

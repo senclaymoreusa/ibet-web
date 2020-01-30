@@ -306,7 +306,7 @@ class DepositAsiapayJDPay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+        
         var postData = {
             amount: this.state.amount,
             userid: this.state.data.pk,

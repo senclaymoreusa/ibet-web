@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
@@ -16,9 +15,9 @@ import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -292,12 +291,9 @@ class WechatPay extends Component {
             }
         }
     };
-
-    handleClick() {
-        //Qaicash
+    //qaicash wechat pay
+    handleClick_qaicash() {
         let currentComponent = this;
-
-        currentComponent.setState({ showLinearProgressBar: true });
 
         var postData = {
             "amount": this.state.amount,
@@ -306,8 +302,7 @@ class WechatPay extends Component {
             "language": "zh-Hans",
             "method": "WECHAT_PAY",
         }
-        //console.log(this.state.amount)
-        //console.log(this.state.data.pk)
+        
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -324,20 +319,16 @@ class WechatPay extends Component {
         }).then(function (res) {
             return res.json();
         }).then(function (data) {
-            if(data.errorCode){
+            if (data.errorCode) {
                 currentComponent.props.postLogout();
-                // postLogout();
                 return;
             }
             let redirectUrl = data.paymentPageSession.paymentPageUrl
-            //console.log(redirectUrl)
-
+           
 
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Wechatpay');
-                currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
                 var timer = setInterval(function () {
-                    //console.log('checking..')
                     if (mywin.closed) {
                         clearInterval(timer);
                         var postData = {
@@ -360,23 +351,21 @@ class WechatPay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            //console.log(data.status)
                             if (data.status === 0) {
-                                //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
                                     username: currentComponent.state.data.username,
                                     balance: currentComponent.state.amount,
                                 });
-                                //console.log(body)
+
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
                                             currentComponent.props.callbackFromParent("error", "Transaction failed.");
                                         } else if (res.data === "The balance is not enough") {
                                             currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                         } else {
+                                            currentComponent.props.authUserUpdate();    
                                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                         }
                                     });
@@ -387,20 +376,16 @@ class WechatPay extends Component {
                     }
                 }, 1000);
             } else {
-                currentComponent.setState({ showLinearProgressBar: false });
                 currentComponent.props.callbackFromParent("error", data.returnMessage);
-                //this.setState({ qaicash_error: true, qaicash_error_msg: data.returnMessage });
             }
-        }).catch(function (err) {  
-            //console.log('Request failed', err);
+        }).catch(function (err) {
             currentComponent.props.callbackFromParent("error", "Something is wrong");
             sendingLog(err);
         });
     }
-
-    /*
-    handleClick = () => {
-        //asianpay
+//asiapay wechat pay
+    handleClick_asiapay = () => {
+        
         let currentComponent = this;
         
         currentComponent.setState({ showLinearProgressBar: true });
@@ -428,12 +413,9 @@ class WechatPay extends Component {
             body: formBody
         }).then(function (res) {
             //console.log(res);
-
             currentComponent.setState({ showLinearProgressBar: false });
-
             
             return res.json();
-
         }).then(function (data) {
             //console.log(data)
             let qrurl = data.qr;
@@ -456,7 +438,6 @@ class WechatPay extends Component {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
-
                         return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
                             method: "POST",
                             headers: {
@@ -466,9 +447,9 @@ class WechatPay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
+                            
                             if(data.errorCode){
-                                currentComponent.props.logout();
-                                postLogout();
+                                currentComponent.props.postLogout();
                                 return;
                             }
                             //console.log(data.status)
@@ -508,7 +489,7 @@ class WechatPay extends Component {
             // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
         });
     }
-    */
+    
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
@@ -519,7 +500,8 @@ class WechatPay extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'wechatpay' : null,
         })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();    
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -607,7 +589,7 @@ class WechatPay extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
                         <Button className={classes.actionButton}
-                            onClick={this.handleClick.bind(this)}
+                            onClick={this.handleClick_qaicash.bind(this)}
                             disabled={this.state.amountInvalid}
                         >{this.getLabel('deposit-label')}</Button>
                     </Grid>
@@ -628,4 +610,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(WechatPay))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(WechatPay))));

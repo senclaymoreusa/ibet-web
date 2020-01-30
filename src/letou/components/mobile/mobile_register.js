@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -7,8 +8,7 @@ import {
     hide_landing_page,
     show_letou_mobile_login,
     sendingLog,
-    hide_letou_mobile_signup,
-    
+    hide_letou_mobile_signup
 } from '../../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import { images } from '../../../util_config';
@@ -308,21 +308,21 @@ export class MobileRegister extends Component {
     }
 
     passwordChanged(event) {
-        this.setState({ password: event.target.value });
         let testedResult = zxcvbn(event.target.value);
 
-        this.setState({ passwordInvalid: testedResult.score !== 4 });
-
         this.setState({
+            password: event.target.value,
+            passwordInvalid: !(
+                testedResult.score === 3 || testedResult.score === 4
+            ),
             confirmPasswordInvalid:
                 this.state.confirmPassword !== event.target.value
         });
     }
 
     confirmPasswordChanged(event) {
-        this.setState({ confirmPassword: event.target.value });
-
         this.setState({
+            confirmPassword: event.target.value,
             confirmPasswordInvalid: this.state.password !== event.target.value
         });
     }
@@ -330,7 +330,7 @@ export class MobileRegister extends Component {
     emailChanged(event) {
         this.setState({ email: event.target.value });
 
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)) {
             this.setState({ emailInvalid: true });
         } else {
@@ -423,10 +423,10 @@ export class MobileRegister extends Component {
         return (
             <div className={classes.root}>
                 <Grid container>
-                <Grid item xs={2}></Grid>
+                    <Grid item xs={2}></Grid>
                     <Grid item xs={8} className={classes.titleRow}>
                         <span className={classes.title}>
-                        {this.getLabel('title-register')}
+                            {this.getLabel('title-register')}
                         </span>
                     </Grid>
                     <Grid item xs={2} className={classes.closeCell}>
@@ -593,6 +593,10 @@ export class MobileRegister extends Component {
                                     this.setState({
                                         confirmPasswordFocused: true
                                     });
+                                }}
+                                onPaste={event => {
+                                    event.preventDefault();
+                                    return false;
                                 }}
                                 error={
                                     this.state.confirmPasswordInvalid &&

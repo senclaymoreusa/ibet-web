@@ -51,6 +51,7 @@ export const authLogin = (username, password, iovationData) => {
             )
             .then(res => {
                 if (res.data.errorCode) {
+                    dispatch(authFail(res.data.errorMsg));
                     return Promise.resolve(res.data);
                 }
                 const token = res.data.key;
@@ -66,12 +67,7 @@ export const authLogin = (username, password, iovationData) => {
                 config.headers['Authorization'] = `Token ${token}`;
 
                 axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    let userData = {
-                        userId: res.data.pk,
-                        currency: res.data.currency
-                    };
-
-                    dispatch(authGetUser(userData));
+                    dispatch(authGetUser(parseUser(res.data)));
                 });
 
                 dispatch(authSuccess(token));
@@ -82,6 +78,16 @@ export const authLogin = (username, password, iovationData) => {
                 dispatch(authFail(err.response.data.detail));
                 return Promise.reject(err.response.data.detail);
             });
+    };
+};
+
+export const authUserUpdate = () => {
+    return (dispatch, getState) => {
+        config.headers['Authorization'] = `Token ${getState().auth.token}`;
+
+        axios.get(API_URL + 'users/api/user/', config).then(res => {
+            dispatch(authGetUser(parseUser(res.data)));
+        });
     };
 };
 
@@ -99,7 +105,6 @@ export const FacebookauthLogin = (username, email) => {
             )
             .then(res => {
                 if (res.data.errorCode) {
-                    // return Promise.resolve(AUTH_RESULT_FAIL);
                     dispatch(authFail(res.data.errorMsg));
                     return Promise.resolve(res.data);
                 }
@@ -141,12 +146,6 @@ export const authSignup = (
     referralCode
 ) => {
     return dispatch => {
-        // dispatch(authStart());
-        // const config = {
-        //   headers: {
-        //     "Content-Type": "application/json"
-        //   }
-        // };
         const body = JSON.stringify({
             username,
             email,
@@ -211,37 +210,49 @@ export const checkAuthTimeout = expirationTime => {
     const token = localStorage.getItem('token');
     return dispatch => {
         setTimeout(() => {
-            
-            axios
-            .post(API_URL + 'users/api/logout/?token=' + token, config)
-            .then(res => {
+            if (token) {
+                axios
+                    .post(API_URL + 'users/api/logout/?token=' + token, config)
+                    .then(() => {
+                        dispatch(logout());
+                        window.location.reload();
+                    })
+                    .catch(() => {
+                        dispatch(logout());
+                        window.location.reload();
+                    });
+            } else {
                 dispatch(logout());
                 window.location.reload();
-            })
-            .catch(err => {
-                dispatch(logout());
-                window.location.reload();
-            });
-            
+            }
         }, expirationTime * 1000);
     };
 };
 
 export const postLogout = () => {
-    // document.location.href="/";
     return dispatch => {
         const token = localStorage.getItem('token');
         const body = JSON.stringify({});
-        axios.post(API_URL + 'users/api/logout/?token=' + token, body, config)
-            .then(res => {
-                dispatch(logout());
-                window.location.reload();
-            })
-            .catch(err => {
-                dispatch(logout());
-                window.location.reload();
-            });
+        if (token) {
+            axios
+                .post(
+                    API_URL + 'users/api/logout/?token=' + token,
+                    body,
+                    config
+                )
+                .then(() => {
+                    dispatch(logout());
+                    window.location.reload();
+                })
+                .catch(() => {
+                    dispatch(logout());
+                    window.location.reload();
+                });
+        } else {
+            dispatch(logout());
+            window.location.reload();
         }
+    };
 };
 
 export const logout = () => {
@@ -279,7 +290,6 @@ export const authCheckState = () => {
                 localStorage.getItem('expirationDate')
             );
             if (expirationDate <= new Date()) {
-                // postLogout();
                 dispatch(postLogout());
                 return Promise.resolve(AUTH_RESULT_FAIL);
             } else {
@@ -296,21 +306,13 @@ export const authCheckState = () => {
                             dispatch(postLogout());
                             return Promise.resolve(AUTH_RESULT_FAIL);
                         } else {
-                            let userData = {
-                                userId: res.data.pk,
-                                currency: res.data.currency
-                            };
-
-                            dispatch(authGetUser(userData));
-
+                            dispatch(authGetUser(parseUser(res.data)));
                             dispatch(authSuccess(token));
                             dispatch(checkAuthTimeout(3600));
                             return Promise.resolve(AUTH_RESULT_SUCCESS);
                         }
                     })
                     .catch(() => {
-                        // dispatch(logout());
-                        // postLogout();
                         dispatch(postLogout());
                         delete config.headers['Authorization'];
                         return Promise.resolve(AUTH_RESULT_FAIL);
@@ -319,3 +321,31 @@ export const authCheckState = () => {
         }
     };
 };
+
+function parseUser(data) {
+    return {
+        userId: data.pk,
+        username: data.username,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        phone: data.phone,
+        email: data.email,
+        country: data.country,
+        balance: data.main_wallet,
+        currency: data.currency,
+        favoriteDepositMethod: data.favorite_payment_method,
+        nameVerified: data.id_verified,
+        emailVerified: data.email_verified,
+        phoneVerified: data.phone_verified,
+        lastLoginTime: data.last_login,
+        registrationTime: data.time_of_registration,
+        hasSecurityQuestion:
+            data.security_question != null &&
+            data.security_question !== undefined &&
+            data.security_question !== '',
+        hasWithdrawPassword:
+            data.withdraw_password != null &&
+            data.withdraw_password !== undefined &&
+            data.withdraw_password !== ''
+    };
+}

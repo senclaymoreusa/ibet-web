@@ -23,7 +23,6 @@ import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import StepConnector from '@material-ui/core/StepConnector';
-import InputBase from '@material-ui/core/InputBase';
 import { images } from '../../../../util_config';
 import AccountBox from '@material-ui/icons/AccountBox';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -406,6 +405,9 @@ export class VerifyActualName extends Component {
                         </Grid>
                     </Grid>
                 );
+            default:
+                return <div></div>;
+
         }
     }
     render() {

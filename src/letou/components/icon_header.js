@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 
 
-import { config, images } from '../../util_config';
+import { images } from '../../util_config';
 import IconButton from '@material-ui/core/IconButton';
 
 import {
@@ -18,7 +18,12 @@ import {
 const styles = theme => ({
     logoHeader: {
         height: '20px',
-        padding: '10px'
+        padding: '10px',
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+         
+        }
     },
     header : {
         fontSize: '24px',
@@ -30,7 +35,11 @@ const styles = theme => ({
         marginBottom: '50px',
         marginTop: '20px',
         paddingLeft: 300,
-        paddingTop: 20
+        paddingTop: 20,
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        }
       
     }
 })

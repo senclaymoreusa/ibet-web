@@ -164,7 +164,7 @@ export class live_casino extends React.Component {
         var token = localStorage.getItem('token');
         if (token) {
         window.open(
-            `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`
+            `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`,'n2','width=1000,height=800'
         );
         }
         else {
@@ -195,7 +195,7 @@ export class live_casino extends React.Component {
             this.props.history.push('/register');
         } else {
             url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
-            window.open(url, "gdcasino")
+            window.open(url, 'gdcasino','width=1000,height=800')
         }
     }
 
@@ -225,7 +225,8 @@ export class live_casino extends React.Component {
             }).then(function (res){
                 return res.json();
             }).then(function(data) {
-                window.open(data.url, "aggames");
+                
+                window.open(data.url, "aggames", 'width=1000,height=800');
             });
         } else {
             this.props.history.push('/register');
@@ -249,7 +250,30 @@ export class live_casino extends React.Component {
         } else {
         
             url = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=" + username + "&uuid=" + token + "&lang=" + language;
-            window.open(url, "ea-live")
+            window.open(url, "ea-live",'width=1000,height=800')
+        }
+    }
+
+    handleGPIClick() {
+        let token = localStorage.getItem('token');
+        let gpiUrl = "";
+        let language = 'us-en';
+
+        if (this.props.lang === "zh") {
+            language = "zh-cn";
+        }
+        else if (this.props.lang === "th") {
+            language = "th-th";
+        }
+        else if (this.props.lang === "vi") {
+            language = "vi-vn";
+        }
+
+        if (!token) {
+            this.props.history.push('/register');
+        } else {
+            gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language;
+            window.open(gpiUrl);
         }
     }
     
@@ -285,17 +309,17 @@ export class live_casino extends React.Component {
 
                         <ul>
 
-                            <li><a onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                            <li><a onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Jingmi')}</font></a></li>
-                            <li><a onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Package')}</font></a></li>
-                            <li><a onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-led')}</font></a></li>
-                            <li><a onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
-                            <li><a onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Jingmi')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Package')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-led')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
                             
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a onClick={(e) => {this.handleAGClick()}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/"  onClick={(e) => {this.handleAGClick();e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -307,14 +331,14 @@ export class live_casino extends React.Component {
                         <div className="PgHallArticle">
                         <p>{this.getLabel('ab-words')}</p>
                         <ul>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Julong')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Super')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Vip')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Jingmi')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Julong')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Super')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Vip')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ab-Jingmi')}</font></a></li>
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a><span>{(this.state.data) ? (this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/"><span>{(this.state.data) ? (this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -326,12 +350,12 @@ export class live_casino extends React.Component {
                         <div className="PgHallArticle">
                         <p>{this.getLabel('EA-words')}</p>
                         <ul>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-commission')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Super')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Dragon')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Longbao')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Pair')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Multi')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-commission')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Super')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Dragon')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Longbao')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Pair')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-Multi')}</font></a></li>
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtnLeft}>
                         <div className="PgHallBtn Active FloatLeft" style={{ cursor: 'pointer' }}>
@@ -340,7 +364,7 @@ export class live_casino extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            {<a onClick={() => {this.handleEAClick()}} ><span>{this.getLabel('Real-money')}</span></a>}
+                            {<a href="/" onClick={(e) => {this.handleEAClick();e.preventDefault();}} ><span>{this.getLabel('Real-money')}</span></a>}
                             {/* <a onClick={() => (this.state.data) ? window.open("https://178.claymoreasia.com/wkpibet/newlayout/index.php", "ealive"): this.props.history.push('/register')}><span><font style={{ verticalAlign: 'inherit' }}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</font></span></a> */}
                         </div>
                         </Grid>
@@ -354,15 +378,15 @@ export class live_casino extends React.Component {
                         <div className="PgHallArticle">
                         <p>{this.getLabel('n2live-words')}</p>
                         <ul>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-commission')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-commission')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                             {/* <a onClick={() => window.open("https://666.claymoreasia.com/", "n2live")}><span>{this.getLabel('Real-money')}</span></a> */}
-                            <a onClick={() => {this.handleN2Click(username)}}><span>{this.getLabel('Real-money')}</span></a>
+                            <a href="/" onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}><span>{this.getLabel('Real-money')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -374,16 +398,16 @@ export class live_casino extends React.Component {
                         <div className="PgHallArticle">
                         <p>{this.getLabel('OPUS-words')}</p>
                         <ul>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('OPUS-Qixi')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('OPUS-Texas')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('OPUS-21')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('OPUS-Qixi')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('OPUS-Texas')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('OPUS-21')}</font></a></li>
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/"><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -396,14 +420,14 @@ export class live_casino extends React.Component {
                         <div className="PgHallArticle">
                         <p>{this.getLabel('gd-words')}</p>
                         <ul>
-                            <li><a onClick={(e) => {this.handleGDClick("Baccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                            <li><a onClick={(e) => {this.handleGDClick("BidmeBaccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
-                            <li><a onClick={(e) => {this.handleGDClick("Roulette")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
-                            <li><a onClick={(e) => {this.handleGDClick("SicBo")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                            <li><a href="/"  onClick={(e) => {this.handleGDClick("BidmeBaccarat");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
+                            <li><a href="/"  onClick={(e) => {this.handleGDClick("Roulette");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                            <li><a href="/"  onClick={(e) => {this.handleGDClick("SicBo");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a onClick={(e) => {this.handleGDClick("Baccarat")}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/" onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -418,16 +442,16 @@ export class live_casino extends React.Component {
                         <div className="PgHallArticle">
                         <p>{this.getLabel('bbin-words')}</p>
                         <ul>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-words')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Two')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Sangong')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Wenzhou')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Texas')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Color')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-words')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Two')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Sangong')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Wenzhou')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Texas')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('bbin-Color')}</font></a></li>
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/"><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -441,18 +465,17 @@ export class live_casino extends React.Component {
                         <div className="PgHallArticle">
                         <p>{this.getLabel('gpi-words')}</p>
                         <ul>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Baccarat')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Qixi')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Dai')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Sangong')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Black')}</font></a></li>
-                            <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Super')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Baccarat')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Qixi')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Dai')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Sangong')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Black')}</font></a></li>
+                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Super')}</font></a></li>
                             
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
-                        </div>
+                            <a href="/" onClick={(e) => {this.handleGPIClick();e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
                         </Grid>
                         </div>
                     </div>
@@ -477,67 +500,67 @@ export class live_casino extends React.Component {
                     
                     <div className="PgHallListBox">
                         <ul className="List">
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Traditional')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-No')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Super')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Package')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Jingmi')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Traditional')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-No')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Super')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Package')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Jingmi')}</font></a></li>
                         </ul>
                         <ul className="List">
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Serial')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Longbao')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Pair')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Playboy')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Dragon')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Serial')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Longbao')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Pair')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Playboy')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Dragon')}</font></a></li>
                         </ul><ul className="List">
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Two')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Sangong')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Wenzhou')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Color')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Texas')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Two')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Sangong')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Wenzhou')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Color')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Texas')}</font></a></li>
                         </ul>
                         <ul className="List">
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Blackjack')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Cattle')}</font></a></li>
-                        <li><a><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Blackjack')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('rule-Cattle')}</font></a></li>
+                        <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
                         </ul>
                         <ul className="PgHallBrand">
-                        <li><a>
+                        <li><a href="/" >
                             <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo4.png" alt="HG platform" /></div>
                             <p><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('HG-platform')}</font></p>
                         </a>
                         </li>
-                        <li><a>
+                        <li><a href="/" >
                             <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo3.png" alt="OPUS platform" /></div>
                             <p><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('OPUS-platform')}</font></p>
                         </a>
                         </li>
-                        <li><a>
+                        <li><a href="/" >
                             <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo2.png" alt="EA platform" /></div>
                             <p><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EA-platform')}</font></p>
                         </a>
                         </li>
-                        <li><a>
+                        <li><a href="/" >
                             <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo1.png" alt="AG platform" /></div>
                             <p><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('AG-platform')}</font></p>
                         </a>
                         </li>
-                        <li><a>
+                        <li><a href="/" >
                             <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo8.png" alt="GD platform" /></div>
                             <p><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('GD-platform')}</font></p>
                         </a>
                         </li>
-                        <li><a>
+                        <li><a href="/" >
                             <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo7.png" alt="EV platform" /></div>
                             <p><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('EV-platform')}</font></p>
                         </a>
                         </li>
-                        <li><a>
+                        <li><a href="/" >
                             <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo6.png" alt="PT platform" /></div>
                             <p><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('PT-platform')}</font></p>
                         </a>
                         </li>
-                        <li><a>
+                        <li><a href="/" >
                             <div className="Pic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/clogo5.png" alt="W88 platform" /></div>
                             <p><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('W88-platform')}</font></p>
                         </a>

@@ -12,9 +12,9 @@ import LiveCasinoBets from './live_casino_bets';
 import DepositWithdraw from './deposit_withdraw';
 import DepositWithdrawDetails from './deposit_withdraw_detail';
 
-const styles = theme => ({
+const styles = () => ({
     root: {
-        width: '100%',
+        width: '100%'
     },
 });
 

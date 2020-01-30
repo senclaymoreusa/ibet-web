@@ -3,7 +3,11 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../actions';
+import {
+    authCheckState,
+    sendingLog,
+    AUTH_RESULT_FAIL
+} from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -23,7 +27,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
-import { config } from '../../../../util_config';
 
 import {
     MuiPickersUtilsProvider,
@@ -36,11 +39,9 @@ const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
+        flexDirection: 'column'
     },
     rootDesktop: {
-        height: 92,
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -187,7 +188,8 @@ export class AccountDetails extends Component {
             filterType: -1,
             filterStatus: -1,
             items: [],
-            userId: ''
+            userId: '',
+            loading: false
         };
     }
 
@@ -196,27 +198,20 @@ export class AccountDetails extends Component {
         return formatMessage({ id: labelId });
     }
 
-    async componentDidMount() {
-
-        this.props.authCheckState().then(async res => {
+    componentDidMount() {
+        this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
+                sendingLog('authentication failure!!!');
             } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-
-                await axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ userId: res.data.pk });
-
-                    this.getTransactions();
-                });
+                this.getTransactions();
             }
-        })
-            
+        });
     }
 
     getTransactions() {
-        let requestURL = `accounting/api/transactions/get_transactions?user_id=${this.state.userId}`;
+        const { user } = this.props;
+
+        let requestURL = `accounting/api/transactions/get_transactions?user_id=${user.userId}`;
         let typeStr =
             this.state.filterType !== -1
                 ? `&type=${this.state.filterType}`
@@ -228,15 +223,19 @@ export class AccountDetails extends Component {
                 : '';
 
         let fromStr = `&time_from=${this.state.startDate.format('l')}`;
-        let toStr = `&time_to=${this.state.startDate.format('l')}`;
+        let toStr = `&time_to=${this.state.endDate.format('l')}`;
 
         axios
             .get(API_URL + requestURL + typeStr + statusStr + fromStr + toStr)
             .then(res => {
-                if (res.status === 200)
+                if (res.status === 200) {
                     this.setState({ items: res.data.results });
+                } else {
+                    this.setState({ items: [] });
+                }
             })
             .catch(err => {
+                this.setState({ items: [] });
                 sendingLog(err);
             });
     }
@@ -266,18 +265,24 @@ export class AccountDetails extends Component {
                             </span>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
+                                    autoOk={true}
                                     disableToolbar
                                     variant="inline"
                                     className={classes.date}
+                                    maxDate={endDate}
                                     margin="normal"
                                     id="start-date"
                                     format="MM/dd/yyyy"
                                     value={startDate}
                                     onChange={date => {
-                                        this.setState({
-                                            startDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                startDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -287,6 +292,9 @@ export class AccountDetails extends Component {
                                     }}
                                 />
                                 <KeyboardDatePicker
+                                    maxDate={new Date()}
+                                    minDate={startDate}
+                                    autoOk={true}
                                     disableToolbar
                                     variant="inline"
                                     className={classes.date}
@@ -295,10 +303,14 @@ export class AccountDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={endDate}
                                     onChange={date => {
-                                        this.setState({
-                                            endDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                endDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -326,16 +338,16 @@ export class AccountDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'today'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date())
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'today',
+                                            startDate: moment(new Date()),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('today-label')}
@@ -357,19 +369,19 @@ export class AccountDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -7
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'oneweek',
+                                            startDate: moment(new Date()).add(
+                                                'days',
+                                                -7
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-week')}
@@ -391,19 +403,19 @@ export class AccountDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -30
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'onemonth',
+                                            startDate: moment(new Date()).add(
+                                                -30,
+                                                'days'
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-month')}
@@ -423,10 +435,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterType === -1
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterType: -1
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterType: -1
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('all-label')}
@@ -438,10 +454,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterType === 0
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterType: 0
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterType: 0
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('deposit-label')}
@@ -453,10 +473,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterType === 1
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterType: 1
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterType: 1
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('withdraw-label')}
@@ -468,10 +492,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterType === 2
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterType: 2
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterType: 2
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('transfer-label')}
@@ -483,10 +511,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterType === 3
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterType: 3
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterType: 3
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('bonus-label')}
@@ -498,10 +530,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterType === 4
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterType: 4
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterType: 4
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('adjustment-label')}
@@ -513,10 +549,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterType === 5
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterType: 5
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterType: 5
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('commission-label')}
@@ -537,10 +577,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterStatus === -1
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterStatus: -1
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterStatus: -1
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('all-label')}
@@ -552,10 +596,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterStatus === 0
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterStatus: 0
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterStatus: 0
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('success-label')}
@@ -567,10 +615,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterStatus === 1
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterStatus: 1
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterStatus: 1
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('pending-label')}
@@ -582,10 +634,14 @@ export class AccountDetails extends Component {
                                     [classes.active]: filterStatus === 2
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterStatus: 2
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterStatus: 2
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('fail-label')}
@@ -594,70 +650,83 @@ export class AccountDetails extends Component {
                                 variant="contained"
                                 className={clsx({
                                     [classes.filterButton]: true,
-                                    [classes.active]:
-                                        filterStatus === 'cancelled'
+                                    [classes.active]: filterStatus === 3
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterStatus: 'cancelled'
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterStatus: 3
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('cancelled-label')}
                             </Button>
                         </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <Paper style={{ marginTop: 20 }}>
+                                <Table className={classes.table}>
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell>
+                                                {this.getLabel(
+                                                    'transaction-number'
+                                                )}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel('time-label')}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel(
+                                                    'transaction-type'
+                                                )}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel('channel-label')}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel('amount-label')}
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                {this.getLabel('status-label')}
+                                            </StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {items.map(row => (
+                                            <StyledTableRow
+                                                key={row.transaction_id}
+                                            >
+                                                <StyledTableCell>
+                                                    {row.transaction_id}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {moment(
+                                                        row.request_time
+                                                    ).format('llll')}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {row.transaction_type}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {row.channel}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {row.amount}
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    {row.provider}
+                                                </StyledTableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Paper>
+                        </Grid>
                     </Grid>
-                    <Paper style={{ marginTop: 20 }}>
-                        <Table className={classes.table}>
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell>
-                                        {this.getLabel('transaction-number')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('time-label')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('transaction-type')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('content-label')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('amount-label')}
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        {this.getLabel('status-label')}
-                                    </StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {items.map(row => (
-                                    <StyledTableRow key={row.transaction_id}>
-                                        <StyledTableCell>
-                                            {row.transaction_id}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {row.arrive_time.toDateString()}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {row.transaction_type}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {row.method}
-                                        </StyledTableCell>
-                                        <StyledTableCell align="right">
-                                            {row.amount}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {row.status}
-                                        </StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Paper>
                 </div>
                 <div className={classes.rootMobile}>
                     <Grid container>
@@ -697,10 +766,14 @@ export class AccountDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={startDate}
                                     onChange={date => {
-                                        this.setState({
-                                            startDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                startDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -718,10 +791,14 @@ export class AccountDetails extends Component {
                                     format="MM/dd/yyyy"
                                     value={endDate}
                                     onChange={date => {
-                                        this.setState({
-                                            endDate: moment(date)
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                endDate: moment(date)
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date'
@@ -751,16 +828,16 @@ export class AccountDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'today'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date())
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'today',
+                                            startDate: moment(new Date()),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('today-label')}
@@ -781,19 +858,19 @@ export class AccountDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -7
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'oneweek',
+                                            startDate: moment(new Date()).add(
+                                                'days',
+                                                -7
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-week')}
@@ -814,19 +891,19 @@ export class AccountDetails extends Component {
                                                 .isSame(today.startOf('day')))
                                 })}
                                 onClick={() => {
-                                    this.setState({
-                                        filterRange: 'oneweek'
-                                    });
-                                    this.setState({
-                                        startDate: moment(new Date()).add(
-                                            'days',
-                                            -30
-                                        )
-                                    });
-                                    this.setState({
-                                        endDate: moment(new Date())
-                                    });
-                                    this.getTransactions();
+                                    this.setState(
+                                        {
+                                            filterRange: 'onemonth',
+                                            startDate: moment(new Date()).add(
+                                                'days',
+                                                -30
+                                            ),
+                                            endDate: moment(new Date())
+                                        },
+                                        () => {
+                                            this.getTransactions();
+                                        }
+                                    );
                                 }}
                             >
                                 {this.getLabel('one-month')}
@@ -851,10 +928,14 @@ export class AccountDetails extends Component {
                                     id="demo-simple-select"
                                     value={filterType}
                                     onChange={event => {
-                                        this.setState({
-                                            filterType: event.target.value
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                filterType: event.target.value
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                 >
                                     <MenuItem value={-1}>
@@ -896,10 +977,14 @@ export class AccountDetails extends Component {
                                     id="demo-simple-select"
                                     value={filterStatus}
                                     onChange={event => {
-                                        this.setState({
-                                            filterStatus: event.target.value
-                                        });
-                                        this.getTransactions();
+                                        this.setState(
+                                            {
+                                                filterStatus: event.target.value
+                                            },
+                                            () => {
+                                                this.getTransactions();
+                                            }
+                                        );
                                     }}
                                 >
                                     <MenuItem value={-1}>
@@ -940,7 +1025,9 @@ export class AccountDetails extends Component {
                                 {items.map(row => (
                                     <StyledTableRow key={row.transaction_id}>
                                         <StyledTableCell>
-                                            {row.arrive_time.toDateString()}
+                                            {moment(row.request_time).format(
+                                                'llll'
+                                            )}
                                         </StyledTableCell>
                                         <StyledTableCell>
                                             {row.transaction_type}
@@ -960,17 +1047,22 @@ export class AccountDetails extends Component {
 }
 
 const mapStateToProps = state => {
+    const { token, user } = state.auth;
+
     return {
-        lang: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
     };
 };
 
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(mapStateToProps, { authCheckState, sendingLog })(
-                AccountDetails
-            )
+            connect(mapStateToProps, {
+                authCheckState,
+                sendingLog,
+                AUTH_RESULT_FAIL
+            })(AccountDetails)
         )
     )
 );

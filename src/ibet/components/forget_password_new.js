@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { FormattedMessage } from 'react-intl';
 import axios from 'axios';
-import { images, config } from '../../util_config';
+import { images } from '../../util_config';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
