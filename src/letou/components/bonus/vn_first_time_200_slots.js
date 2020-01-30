@@ -95,7 +95,7 @@ class VNFirstTime200SlotBonus extends React.Component {
                 <div className={classes.offerHeader}>
                     <img className={classes.mainLogo} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/logo_vi.png" alt="Main Logo"/>
                     <div className={classes.button}>
-                        <a href="/" className={classes.buttonText}>Xem thêm</a>
+                        <a href="/">Xem thêm</a>
                     </div>
                 </div>
 
