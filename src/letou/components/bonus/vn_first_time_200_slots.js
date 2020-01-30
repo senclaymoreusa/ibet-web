@@ -11,8 +11,10 @@ const styles = {
     },
     content: {
         margin: 15,
-        paddingLeft: 250,
-        paddingRight: 250,
+        width: 1000,
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         paddingBottom: 50,
         lineHeight: 2,
         color: 'grey',
