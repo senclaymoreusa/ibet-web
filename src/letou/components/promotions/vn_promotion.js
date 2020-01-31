@@ -2,7 +2,6 @@ import React from 'react';
 import TopNavbar from '../top_navbar';
 import Footer from '../footer';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
 import { Fade } from 'react-slideshow-image';
 import { images } from '../../../util_config';
 
@@ -60,7 +59,7 @@ class VNPromotion extends React.Component {
                 <div className={classes.fadeContainer}>
                     <Fade {...fadeProperties}>
                         {
-                            fadeImages.map(imgSrc => <img src={imgSrc} className={classes.image} />)
+                            fadeImages.map(imgSrc => <img alt="" src={imgSrc} className={classes.image} />)
                         }
                     </Fade>
                 </div>
