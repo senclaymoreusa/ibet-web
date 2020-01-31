@@ -69,7 +69,8 @@ export class Baijiale extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    onClick(index) {
+    onClick(index, e) {
+        e.preventDefault()
         this.setState({
           hide: false,
           current: index
@@ -129,41 +130,41 @@ export class Baijiale extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a href="/">免佣百家乐</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}>免佣百家乐</a>
                             </li>
-                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a href="/">传统百家乐</a>
+                            <li className={this.state.current === 2 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(2, e);}}>传统百家乐</a>
                             </li>
-                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a href="/">超级百家乐</a>
+                            <li className={this.state.current === 3 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(3, e);}}>超级百家乐</a>
                             </li>
-                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a href="/">对子百家乐</a>
+                            <li className={this.state.current === 4 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(4, e);}}>对子百家乐</a>
                             </li>
-                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a href="/">14座甩牌百家乐</a>
+                            <li className={this.state.current === 5 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(5, e);}}>14座甩牌百家乐</a>
                             </li>
-                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a href="/">经典百家乐</a>
+                            <li className={this.state.current === 6 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(6, e);}}>经典百家乐</a>
                             </li>
-                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a href="/">包桌百家乐</a>
+                            <li className={this.state.current === 7 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(7, e);}}>包桌百家乐</a>
                             </li>
-                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a href="/">竞咪百家乐</a>
+                            <li className={this.state.current === 8 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(8, e);}}>竞咪百家乐</a>
                             </li>
-                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a href="/">连环百家乐</a>
+                            <li className={this.state.current === 9 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(9, e);}}>连环百家乐</a>
                             </li>
-                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a href="/">龙宝百家乐</a>
+                            <li className={this.state.current === 10 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(10, e);}}>龙宝百家乐</a>
                             </li>
-                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a href="/">Playboy百家乐</a>
+                            <li className={this.state.current === 11 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(11, e);}}>Playboy百家乐</a>
                             </li>
-                            <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a href="/">免佣点数百家乐</a>
+                            <li className={this.state.current === 12 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(12, e);}}>免佣点数百家乐</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
