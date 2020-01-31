@@ -330,8 +330,10 @@ class QuickPay extends Component {
                 // let order_id = data.order_id;
                 // const mywin = window.open(url + "?cid=BRANDCQNGHUA3&oid=" + order_id);
                 if (data.indexOf("其他错误|25") && data.includes("100309")) {
-                    currentComponent.props.callbackFromParent("error", "Something is wrong.");
-                } else {
+                    currentComponent.props.callbackFromParent("error", "快捷支付暂时关中");
+                } else if (data.indexOf("其他错误|45") && data.includes("00010")){
+                    currentComponent.props.callbackFromParent("error", "快捷支付维护时间");
+                }else {
                     //console.log(data.StatusCode)
                     let newwin = window.open('');
                     newwin.document.write(data);
