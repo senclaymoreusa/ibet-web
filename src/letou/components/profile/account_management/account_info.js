@@ -7,9 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
-
 import { withStyles } from '@material-ui/core/styles';
-
 
 const styles = () => ({
     root: {
