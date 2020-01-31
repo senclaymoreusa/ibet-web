@@ -18,6 +18,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Icon from '@material-ui/core/Icon';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
   gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
@@ -152,10 +153,19 @@ const styles = theme => ({
   },
   listItemText:{
       marginBottom: '18px'
+  },
+  app: {
+      position: 'absolute',
+      botton: '1px',
+      right: 0,
+      backgroundColor: '#ff9202',
+      padding: '4px 7px',
+      borderRadius: '50px',
+      textDecoration: 'none',
+      marginRight: '9px'
   }
   
 });
-
 
 export class live_casino extends React.Component {
     constructor(props) {
@@ -318,6 +328,7 @@ export class live_casino extends React.Component {
             window.open(gpiUrl);
         }
     }
+    
     
     render() {
         const { classes } = this.props;
@@ -614,8 +625,11 @@ export class live_casino extends React.Component {
                 </div>
                     <div className={classes.rootMobile}>
                         <Paper square className={classes.paper}>
-                        <Typography className={classes.mobileTitle} style={{ textAlign: "center" ,fontSize: "1.6rem"}}>
-                        {this.getLabel('Live-casino')}
+                        <Typography className={classes.mobileTitle} style={{ textAlign: "center" ,fontSize: "1.3rem"}}>
+                        <Icon>
+                            <img alt='pcasino-icon' style={{width: '16px', height: '17px', marginTop: '-2px', marginRight: '9px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/casino-icon.png"/>
+                        </Icon>
+                            {this.getLabel('Live-casino')}
                         </Typography>
                         <List className={classes.listRow1}>
                             <ListItem alignItems="flex-start">
@@ -628,7 +642,11 @@ export class live_casino extends React.Component {
                                         secondary={
                                             this.getLabel('EA-words')}
                                     />
-                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick();e.preventDefault();}} ><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>}
+                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick();e.preventDefault();}} >
+                                    <Icon>
+                                        <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                    </Icon>
+                                    <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>}
                                 </div>
                                 
                             </ListItem>
@@ -641,7 +659,11 @@ export class live_casino extends React.Component {
                                         primary={this.getLabel('ag-title')}
                                         secondary={this.getLabel('ag-words')}
                                     />
-                                    <a href="/"  style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleAGClick();e.preventDefault();}}><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                    <a href="/"  style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleAGClick();e.preventDefault();}}>
+                                    <Icon>
+                                        <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                    </Icon>
+                                    <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                                 </div>
                             </ListItem>
                             <ListItem alignItems="flex-start">
@@ -653,7 +675,18 @@ export class live_casino extends React.Component {
                                         primary={this.getLabel('n2live-title')}
                                         secondary={this.getLabel('n2live-words')}
                                     />
-                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}>
+                                    <Icon>
+                                        <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                    </Icon>
+                                    <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span>
+                                    </a>
+                                    <a href="/" className={classes.app}>
+                                        <Icon>
+                                            <img alt='download-icon' style={{width: '12px', height: '12px', marginRight: '5px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/download-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#fff', verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{this.getLabel('APP-Download')}</span>
+                                    </a>
                                 </div>
                             </ListItem>
                             <ListItem alignItems="flex-start">
@@ -665,7 +698,18 @@ export class live_casino extends React.Component {
                                         primary={this.getLabel('bbin-title')}
                                         secondary={this.getLabel('bbin-words')}
                                     />
-                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} ><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} >
+                                        <Icon>
+                                            <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span>
+                                    </a>
+                                    <a href="/" className={classes.app}>
+                                        <Icon>
+                                            <img alt='download-icon' style={{width: '12px', height: '12px', marginRight: '5px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/download-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#fff', verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{this.getLabel('APP-Download')}</span>
+                                    </a>
                                 </div>
                             </ListItem>
                             <ListItem alignItems="flex-start">
@@ -677,7 +721,12 @@ export class live_casino extends React.Component {
                                         primary={this.getLabel('gd-title')}
                                         secondary={this.getLabel('gd-words')}
                                     />
-                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}>
+                                        <Icon>
+                                            <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span>
+                                    </a>
                                 </div>
                                 
                             </ListItem>
@@ -690,7 +739,12 @@ export class live_casino extends React.Component {
                                         primary={this.getLabel('ab-title')}
                                         secondary={this.getLabel('ab-words')}
                                     />
-                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} ><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} >
+                                        <Icon>
+                                            <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span>
+                                    </a>
 
                                 </div>
                                 

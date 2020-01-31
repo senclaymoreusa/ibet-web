@@ -597,8 +597,10 @@ export const messages = {
         'promotion-description': 'A variety of bonuses will support you, betting is not afraid of not backing up',
         'filter-label':'Filter',
         'sort-label':'Sort',
+        'APP-Download': 'APP Download'
     },
     zh: {
+        'APP-Download': 'APP下载',
         'help-title': '我们在此竭诚服务',
         'for-member': '供会员使用',
         'for-partner': '供合作伙伴使用',
@@ -620,6 +622,7 @@ export const messages = {
         'sign-up': '注册',
         'log-in': '登录',
         'log-out': '登出',
+        'Register-Now': '现在注册',
         'nav-sports': '体育',
         'nav-gaming': '电竞',
         'nav-live-casino': '真人娱乐场',
@@ -700,7 +703,7 @@ export const messages = {
         'ab-Super': '超级多台厅',
         'ab-Vip': 'Vip厅',
         'ab-Jingmi': '竞咪厅',
-        'Real-money': '真钱游戏',
+        'Real-money': '直接游戏',
         'EA-title': 'EA瑞宝阁',
         'EA-words': '业界营运最久平台，现场感的操作体验，独创免佣点数玩法。',
         'EA-commission': '免佣百家乐',
