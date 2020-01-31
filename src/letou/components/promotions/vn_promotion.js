@@ -4,6 +4,7 @@ import Footer from '../footer';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import { Fade } from 'react-slideshow-image';
+import { images } from '../../../util_config';
 
 const styles = {
     fadeContainer: {
@@ -40,8 +41,8 @@ class VNPromotion extends React.Component {
         const { classes } = this.props;
 
         const fadeImages = [
-            'https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/promotion_images/vn_promo_1.jpg',
-            'https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/promotion_images/vn_promo_2.jpg',
+            images.src + 'letou/promotion_images/vn_promo_1.jpg',
+            images.src + 'letou/promotion_images/vn_promo_2.jpg',
         ];
 
         const fadeProperties = {
