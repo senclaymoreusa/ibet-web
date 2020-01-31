@@ -11,6 +11,13 @@ import Grid from '@material-ui/core/Grid';
 import sha256 from 'sha256';
 import { config} from '../../util_config';
 import axios from 'axios';
+import List from '@material-ui/core/List';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItem from '@material-ui/core/ListItem';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
   gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
@@ -98,8 +105,57 @@ const styles = theme => ({
   },
   PgHallBtnLeft:{
     float: "left",
+  },
+
+  rootDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        flexDirection: 'column'
+    }
+  },
+  rootMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+        display: 'none'
+    }
+  },
+  listRow1: {
+    height: '100%',
+    marginRight: 0,
+    MarginLeft: 0,
+    
+  },
+  image: {
+      float:'left',
+      width: '150px',
+      height: '100px',
+  },
+  listText: {
+    marginLeft:'10px',
+  },
+  mobileTitle: {
+    float: 'left',
+    width: '100%',
+    padding: '22px 0',
+    textAlign: 'center',
+  },
+  typography: {
+    fontSize: '1.6rem',
+    fontFamily: '微软雅黑',
+    letterSpacing: 0,
+    fontStyle : 'normal',
+    verticalAlign: 'middle',
+  },
+  paper: {
+    paddingBottom: 50,
+  },
+  listItemText:{
+      marginBottom: '18px'
   }
+  
 });
+
 
 export class live_casino extends React.Component {
     constructor(props) {
@@ -271,9 +327,10 @@ export class live_casino extends React.Component {
             <div className={classes.root}>
                 <TopNavbar />
                 <div className={classes.grow} >
-                <Grid container className={classes.mainGrid}>
+                    <div className={classes.rootDesktop}>
+                    <Grid container className={classes.mainGrid}>
                     <Grid item xs={12} className={classes.mainRow}>
-                    <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/banner.jpg" alt="live-casino banner" style={{ opacity: 1 }} className="BannerImg" />
+                    <img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/banner.jpg" alt="live-casino banner" style={{ opacity: 1 }} className="BannerImg" />
                     </Grid>
                     {/* main */}
                     <Grid item xs={12} className={classes.titleRow}>
@@ -287,7 +344,7 @@ export class live_casino extends React.Component {
 
                         <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
                         <div className="PgHallPic">
-                        <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ag.jpg" alt="ag" style={{ opacity: 1 }} className="PgHallPicImg" />
+                        <img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ag.jpg" alt="ag" style={{ opacity: 1 }} className="PgHallPicImg" />
                         </div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('ag-words')}</p>
@@ -312,7 +369,7 @@ export class live_casino extends React.Component {
 
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle">{this.getLabel('ab-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ab.jpg" alt="ab" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ab.jpg" alt="ab" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('ab-words')}</p>
                         <ul>
@@ -331,7 +388,7 @@ export class live_casino extends React.Component {
 
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle">{this.getLabel('EA-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ea.jpg" alt="ea" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ea.jpg" alt="ea" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('EA-words')}</p>
                         <ul>
@@ -349,7 +406,7 @@ export class live_casino extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            {<a href="/" onClick={(e) => {this.handleEAClick();e.preventDefault();}} ><span>{this.getLabel('Real-money')}</span></a>}
+                            {<a href="/" onClick={(e) => {this.handleEAClick();e.preventDefault();}} ><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>}
                             {/* <a onClick={() => (this.state.data) ? window.open("https://178.claymoreasia.com/wkpibet/newlayout/index.php", "ealive"): this.props.history.push('/register')}><span><font style={{ verticalAlign: 'inherit' }}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</font></span></a> */}
                         </div>
                         </Grid>
@@ -359,7 +416,7 @@ export class live_casino extends React.Component {
 
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle">{this.getLabel('n2live-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/n2live.jpg" alt="n2" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/n2live.jpg" alt="n2" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('n2live-words')}</p>
                         <ul>
@@ -371,7 +428,7 @@ export class live_casino extends React.Component {
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                             {/* <a onClick={() => window.open("https://666.claymoreasia.com/", "n2live")}><span>{this.getLabel('Real-money')}</span></a> */}
-                            <a href="/" onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}><span>{this.getLabel('Real-money')}</span></a>
+                            <a href="/" onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -379,7 +436,7 @@ export class live_casino extends React.Component {
 
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle">{this.getLabel('OPUS-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/opus.jpg" alt="opus" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/opus.jpg" alt="opus" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('OPUS-words')}</p>
                         <ul>
@@ -401,7 +458,7 @@ export class live_casino extends React.Component {
                 <Grid item xs={12}  className={classes.hallRow}> */}
                     <div className="PgHall">
                         <div className="PgHallTitle Color3">{this.getLabel('gd-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/gd.jpg" alt="gd" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/gd.jpg" alt="gd" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('gd-words')}</p>
                         <ul>
@@ -422,7 +479,7 @@ export class live_casino extends React.Component {
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle Color3">{this.getLabel('bbin-title')}</div>
                         <div className="PgHallPic">
-                        <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/bbin.jpg" style={{ opacity: 1 }}  alt="bbin" className="PgHallPicImg" />
+                        <img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/bbin.jpg" style={{ opacity: 1 }}  alt="bbin" className="PgHallPicImg" />
                         </div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('bbin-words')}</p>
@@ -445,7 +502,7 @@ export class live_casino extends React.Component {
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle Color3">{this.getLabel('gpi-title')}</div>
                         <div className="PgHallPic">
-                        <img src="https://www.178letou.com/static/styles/desktop/images/casino/gpi.jpg" style={{ opacity: 1 }}  alt="gpi" className="PgHallPicImg" />
+                        <img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/gpi.jpg" style={{ opacity: 1 }}  alt="gpi" className="PgHallPicImg" />
                         </div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('gpi-words')}</p>
@@ -553,9 +610,97 @@ export class live_casino extends React.Component {
                         </ul>
                     
                     </div>
-                    
-                
                 </Grid>
+                </div>
+                    <div className={classes.rootMobile}>
+                        <Paper square className={classes.paper}>
+                        <Typography className={classes.mobileTitle} style={{ textAlign: "center" ,fontSize: "1.6rem"}}>
+                        {this.getLabel('Live-casino')}
+                        </Typography>
+                        <List className={classes.listRow1}>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="ea" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ea.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText 
+                                        primary={this.getLabel('EA-title')}
+                                        secondary={
+                                            this.getLabel('EA-words')}
+                                    />
+                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick();e.preventDefault();}} ><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>}
+                                </div>
+                                
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="ag" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ag.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText 
+                                        primary={this.getLabel('ag-title')}
+                                        secondary={this.getLabel('ag-words')}
+                                    />
+                                    <a href="/"  style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleAGClick();e.preventDefault();}}><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                </div>
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="n2live" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/n2live.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText 
+                                        primary={this.getLabel('n2live-title')}
+                                        secondary={this.getLabel('n2live-words')}
+                                    />
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                </div>
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="bbin" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/bbin.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText
+                                        primary={this.getLabel('bbin-title')}
+                                        secondary={this.getLabel('bbin-words')}
+                                    />
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} ><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                </div>
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="gd" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/gd.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText
+                                        primary={this.getLabel('gd-title')}
+                                        secondary={this.getLabel('gd-words')}
+                                    />
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                </div>
+                                
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="ab" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ab.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText 
+                                        primary={this.getLabel('ab-title')}
+                                        secondary={this.getLabel('ab-words')}
+                                    />
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} ><span style={{color: '#3eace9'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+
+                                </div>
+                                
+                            </ListItem>
+                            
+
+                        </List>
+                        </Paper>
+
+                    </div>
                 {/* main end */}
                 </div>
                 
