@@ -1446,7 +1446,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/live_casino');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1470,7 +1470,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/game/all');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
