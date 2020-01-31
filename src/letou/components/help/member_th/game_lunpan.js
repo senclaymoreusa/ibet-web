@@ -69,13 +69,14 @@ export class LunpanTh extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    onClick(index) {
+    onClick(index, e) {
+        e.preventDefault()
         this.setState({
           hide: false,
           current: index
           
         })
-      }
+    }
     
     render() {
   
@@ -129,11 +130,11 @@ export class LunpanTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a href="/">บริการแก่สมาชิกใช้</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}>บริการแก่สมาชิกใช้</a>
                             </li>
-                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a href="/">กฎของคาสิโนสด</a>
+                            <li className={this.state.current === 2 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(2, e);}}>กฎของคาสิโนสด</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

@@ -68,13 +68,14 @@ export class GameRuleOneTh extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    onClick(index) {
+    onClick(index, e) {
+        e.preventDefault()
         this.setState({
           hide: false,
           current: index
           
         })
-      }
+    }
     
     render() {
   
@@ -128,20 +129,20 @@ export class GameRuleOneTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a href="/">Marvel Jackpot</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}>Marvel Jackpot</a>
                             </li>
-                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a href="/">5-10 ไลน์ที่เล่น</a>
+                            <li className={this.state.current === 2 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(2, e);}}>5-10 ไลน์ที่เล่น</a>
                             </li>
-                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a href="/">15-20 ไลน์เดิมพัน</a>
+                            <li className={this.state.current === 3 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(3, e);}}>15-20 ไลน์เดิมพัน</a>
                             </li>
-                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a href="/">25+ Play-lines</a>
+                            <li className={this.state.current === 4 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(4, e);}}>25+ Play-lines</a>
                             </li>
-                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a href="/">Multi-Spin</a>
+                            <li className={this.state.current === 5 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(5, e);}}>Multi-Spin</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

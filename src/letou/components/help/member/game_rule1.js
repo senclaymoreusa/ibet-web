@@ -70,13 +70,15 @@ export class GameRuleOne extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    onClick(index) {
-        this.setState({
-          hide: false,
-          current: index
-          
-        })
-      }
+    
+    onClick(index, e) {
+            e.preventDefault()
+            this.setState({
+              hide: false,
+              current: index
+              
+            })
+    }
     
     render() {
   
@@ -130,20 +132,20 @@ export class GameRuleOne extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a href="/">奇迹大奖</a>
+                            <li className={this.state.current === 1 ? "Active" : ""}>
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}>奇迹大奖</a>
                             </li>
-                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a href="/">5-10条线</a>
+                            <li className={this.state.current === 2 ? "Active" : ""}>
+                                <a href="/" onClick={(e) => {this.onClick(2, e);}}>5-10条线</a>
                             </li>
-                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a href="/">15-20条线</a>
+                            <li className={this.state.current === 3 ? "Active" : ""}>
+                                <a href="/" onClick={(e) => {this.onClick(3, e);}}>15-20条线</a>
                             </li>
-                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a href="/">25+条线</a>
+                            <li className={this.state.current === 4 ? "Active" : ""}>
+                                <a href="/" onClick={(e) => {this.onClick(4, e);}}>25+条线</a>
                             </li>
-                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a href="/">多旋转</a>
+                            <li className={this.state.current === 5 ? "Active" : ""}>
+                                <a href="/" onClick={(e) => {this.onClick(5, e);}}>多旋转</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

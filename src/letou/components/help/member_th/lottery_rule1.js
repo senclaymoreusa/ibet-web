@@ -69,13 +69,14 @@ export class LotteryRuleOneTh extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    onClick(index) {
+    onClick(index, e) {
+        e.preventDefault()
         this.setState({
           hide: false,
           current: index
           
         })
-      }
+    }
     
     render() {
   
@@ -129,38 +130,38 @@ export class LotteryRuleOneTh extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
-                                <a href="/">Glossary</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}>Glossary</a>
                             </li>
-                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
-                                <a href="/">ฮ่องกง ล็อตโต้</a>
+                            <li className={this.state.current === 2 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(2, e);}}>ล็อตโต้สิงค์โปร</a>
                             </li>
-                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
-                                <a href="/">ล็อตโต้สิงค์โปร</a>
+                            <li className={this.state.current === 3 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(3, e);}}>ล็อตโต้สิงค์โปร</a>
                             </li>
-                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
-                                <a href="/">ล็อตโต้จีน</a>
+                            <li className={this.state.current === 4 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(4, e);}}>ล็อตโต้จีน</a>
                             </li>
-                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
-                                <a href="/">ล็อตโต้นิวซีแลนด์</a>
+                            <li className={this.state.current === 5 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(5, e);}}>ล็อตโต้นิวซีแลนด์</a>
                             </li>
-                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
-                                <a href="/">ล็อตโต้เยอรมัน</a>
+                            <li className={this.state.current === 6 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(6, e);}}>ล็อตโต้เยอรมัน</a>
                             </li>
-                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
-                                <a href="/">ล็อตโต้อังกฤษ</a>
+                            <li className={this.state.current === 7 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(7, e);}}>ล็อตโต้อังกฤษ</a>
                             </li>
-                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
-                                <a href="/">ล็อตโต้สเปน</a>
+                            <li className={this.state.current === 8 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(8, e);}}>ล็อตโต้สเปน</a>
                             </li>
-                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
-                                <a href="/">ล็อตโต้แอฟริกาใต้</a>
+                            <li className={this.state.current === 9 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(9, e);}}>ล็อตโต้แอฟริกาใต้</a>
                             </li>
-                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
-                                <a href="/">ล็อตโต้แคนนาดา</a>
+                            <li className={this.state.current === 10 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(10, e);}}>ล็อตโต้แคนนาดา</a>
                             </li>
-                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
-                                <a href="/">อเมริกัน ล็อตโต้</a>
+                            <li className={this.state.current === 11 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(11, e);}}>อเมริกัน ล็อตโต้</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
