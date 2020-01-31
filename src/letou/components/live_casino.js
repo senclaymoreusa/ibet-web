@@ -240,10 +240,11 @@ export class live_casino extends React.Component {
         }
     }
 
-    handleGPIClick() {
+    handleGPIClick(gameName) {
         let token = localStorage.getItem('token');
         let gpiUrl = "";
         let language = 'us-en';
+        let suffix = "";
 
         if (this.props.lang === "zh") {
             language = "zh-cn";
@@ -255,10 +256,24 @@ export class live_casino extends React.Component {
             language = "vi-vn";
         }
 
+        if(gameName === "gpi-Baccarat") {
+            suffix = "&tab=5";
+        } else if(gameName === "gpi-Qixi") {
+            suffix = "&tab=8";
+        } else if(gameName === "gpi-Dai") {
+            suffix = "&tab=6";
+        } else if(gameName === "gpi-Sangong") {
+            suffix = "&tab=1";
+        } else if(gameName === "gpi-Black") {
+            suffix = "&tab=3";
+        } else if(gameName === "gpi-Super") {
+            suffix = "&tab=7";
+        }
+
         if (!token) {
             this.props.history.push('/register');
         } else {
-            gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language;
+            gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language + suffix;
             window.open(gpiUrl);
         }
     }
@@ -450,17 +465,17 @@ export class live_casino extends React.Component {
                         <div className="PgHallArticle">
                         <p>{this.getLabel('gpi-words')}</p>
                         <ul>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Baccarat')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Qixi')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Dai')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Sangong')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Black')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Super')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Baccarat"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Baccarat')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Qixi"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Qixi')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Dai"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Dai')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Sangong"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Sangong')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Black"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Black')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Super"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Super')}</font></a></li>
                             
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/" onClick={(e) => {this.handleGPIClick();e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
+                            <a href="/" onClick={(e) => {this.handleGPIClick(); e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
                         </Grid>
                         </div>
                     </div>
