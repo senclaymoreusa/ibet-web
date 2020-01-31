@@ -365,9 +365,10 @@ export const messages = {
         'timer-label': 'Timer',
         'placeholder-link': 'Placeholder Link',
         'thai-localbank-placeholder': 'Deposit ฿200 - ฿950,000',
-        'thai-localbank-placeholder-withdraw': 'Deposit ฿200 - ฿950,000',
+        'thai-localbank-placeholder-withdraw': 'Withdraw ฿200 - ฿950,000',
         'astropay-placeholder': 'Deposit ฿10 - ฿500,000',
         'help2pay-placeholder': 'Deposit ฿500 - ฿500,000',
+        'help2pay-withdraw-placeholder': 'Withdraw ฿500 - ฿500,000',
         'card-number': 'Card Number',
         '16-digit-number': '16-digit card number required',
         'invalid-expiration': 'Invalid expiration date',
@@ -384,7 +385,7 @@ export const messages = {
         'back-games-lobby': 'Back to Games Lobby',
         'deposit-failed-text':
             'Please check your details and try again or click cancel to return to deposit.',
-        'withdrawal-failed': 'withdraw failed',
+        'withdrawal-failed': 'Withdraw failed!',
         'withdrawal-failed-text':
             'Please check your details and try again or click cancel to return to withdraw.',
         'try-again': 'Try Again',
@@ -1134,7 +1135,9 @@ export const messages = {
         'live-casino-description': '平台稳定，玩法丰富，公平公正公开的游戏体验',
         'games-description': '游戏种类多样丰富，独家英雄老虎机容易上手',
         'lottery-description': '独家支持任何倍投追号功能，盈利不再复杂',
-        'promotion-description': '各种红利流水为您撑腰，投注不怕没靠山'
+        'promotion-description': '各种红利流水为您撑腰，投注不怕没靠山',
+        'help-problem': '遇到问题吗？',
+        'help-service': '我们随时随刻为您服务'
     },
 
     vi: {},
