@@ -69,13 +69,14 @@ export class LotteryRuleOne extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    onClick(index) {
+    onClick(index, e) {
+        e.preventDefault()
         this.setState({
           hide: false,
           current: index
           
         })
-      }
+    }
     
     render() {
   
@@ -129,38 +130,38 @@ export class LotteryRuleOne extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)} >
-                                <a href="/">名词解释</a>
+                            <li className={this.state.current === 1 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}>名词解释</a>
                             </li>
-                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)} >
-                                <a href="/">香港六合彩</a>
+                            <li className={this.state.current === 2 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(2, e);}}>香港六合彩</a>
                             </li>
-                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)} >
-                                <a href="/">新加坡多多</a>
+                            <li className={this.state.current === 3 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(3, e);}}>新加坡多多</a>
                             </li>
-                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)} >
-                                <a href="/">中国七乐彩</a>
+                            <li className={this.state.current === 4 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(4, e);}}>中国七乐彩</a>
                             </li>
-                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)} >
-                                <a href="/">新西兰乐透</a>
+                            <li className={this.state.current === 5 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(5, e);}}>新西兰乐透</a>
                             </li>
-                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)} >
-                                <a href="/">德国乐透</a>
+                            <li className={this.state.current === 6 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(6, e);}}>德国乐透</a>
                             </li>
-                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)} >
-                                <a href="/">英国国家乐透</a>
+                            <li className={this.state.current === 7 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(7, e);}}>英国国家乐透</a>
                             </li>
-                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)} >
-                                <a href="/">西班牙乐透</a>
+                            <li className={this.state.current === 8 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(8, e);}}>西班牙乐透</a>
                             </li>
-                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)} >
-                                <a href="/">南非国家乐透</a>
+                            <li className={this.state.current === 9 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(9, e);}}>南非国家乐透</a>
                             </li>
-                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)} >
-                                <a href="/">加拿大乐透</a>
+                            <li className={this.state.current === 10 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(10, e);}}>加拿大乐透</a>
                             </li>
-                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)} >
-                                <a href="/">美国纽约乐透</a>
+                            <li className={this.state.current === 11 ? "Active" : ""}  >
+                                <a href="/" onClick={(e) => {this.onClick(11, e);}}>美国纽约乐透</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>
