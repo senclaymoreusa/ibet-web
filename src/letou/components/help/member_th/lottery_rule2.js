@@ -131,7 +131,7 @@ export class LotteryRuleTwoTh extends React.Component {
                     <div className="HelpCenterSmNav">
                         <ul>
                             <li className={this.state.current === 1 ? "Active" : ""} >
-                                <a href="/" onClick={(e) => {this.onClick(1, e);}}></a>
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}> </a>
                             </li>
                             <li className={this.state.current === 2 ? "Active" : ""} >
                                 <a href="/" onClick={(e) => {this.onClick(1, e);}}>กติกา คีโน</a>
