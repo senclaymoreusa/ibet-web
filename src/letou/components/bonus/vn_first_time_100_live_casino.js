@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { images } from '../../../util_config';
 
 const styles = {
     offerHeader: {
@@ -93,13 +94,13 @@ class VNFirstTime100LiveCasinoBonus extends React.Component {
         return (
             <div>
                 <div className={classes.offerHeader}>
-                    <img className={classes.mainLogo} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/logo_vi.png" alt="Main Logo"/>
+                    <img className={classes.mainLogo} src={ images.src + "letou/logo_vi.png" } alt="Main Logo"/>
                     <div className={classes.button}>
                         <a href="/">Xem thêm</a>
                     </div>
                 </div>
 
-                <img className={classes.bannerImg} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/bonus_images/VNLiveCasino.jpg" alt="Banner"/>
+                <img className={classes.bannerImg} src={ images.src + "letou/bonus_images/VNLiveCasino.jpg" } alt="Banner"/>
 
                 <div className={classes.content}>
                     <h3 className={classes.mainHeading}>100% TIỀN THƯỞNG CHÀO MỪNG TẠI CASINO TRỰC TUYẾN</h3>
