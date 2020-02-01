@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import BaseRouter from './letou_routes';
 import { IntlProvider } from 'react-intl';
 import { messages } from './components/messages';
-import { getLanguage } from '../actions/language';
+import { setLanguage } from '../actions/language';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 
@@ -20,7 +20,9 @@ class LetouApp extends Component {
     }
 
     componentDidMount() {
-        this.props.getLanguage();
+        //this.props.getLanguage();
+        this.props.setLanguage("th")
+
     }
 
     render() {
@@ -49,4 +51,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, { getLanguage })(LetouApp);
+export default connect(mapStateToProps, { setLanguage })(LetouApp);
