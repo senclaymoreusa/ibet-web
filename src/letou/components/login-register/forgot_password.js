@@ -16,6 +16,8 @@ import { Grid } from '@material-ui/core';
 import PermIdentity from '@material-ui/icons/PermIdentity';
 import Clear from '@material-ui/icons/Clear';
 
+import { images, config } from '../../../util_config';
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = () => ({
@@ -125,6 +127,22 @@ const styles = () => ({
         fontStretch: 'normal',
         lineHeight: 1.5,
         color: '#212121',
+    },
+    retrieveMethods: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    retrieveButtons: {
+        width: '100%',
+        height: 150,
+        borderRadius: 4,
+        color: 'white',
+        "&:hover": {
+            backgroundColor: '#f79c25',
+        },
+        "&:focus": {
+            backgroundColor: '#f79c25',
+        },
     }
 });
 
@@ -349,6 +367,54 @@ export class ForgotPassword extends React.Component {
                             >{this.getLabel('retrieve-password')}</Button>
                         </Grid>
                     </form>
+                   <Grid item xs={12} style={{ paddingTop: 10 }}>
+                        <span className={classes.loginQuestionText}>{this.getLabel('login-question-text')}</span>
+                    </Grid>
+                </Grid>
+                <Grid container>
+                    <Grid item xs={2} >
+                    </Grid>
+                    <Grid item xs={8} className={classes.titleRow}>
+                        <span className={classes.title}>
+                            {this.getLabel('forgot-password')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={2} className={classes.closeCell}>
+                        <IconButton className={classes.closeButton} onClick={() => {
+                            this.props.hide_letou_forgot_password()
+                        }}>
+                            <Clear />
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={12} className={classes.retrieveMethods}>
+                        <Button className={classes.retrieveButtons}
+                            onClick={this.handleClick}
+                            disabled={this.state.usernameInvalid}
+                            >
+                                <img
+                                    src={images.src + 'check_circle-24px.svg'}
+                                    alt='letou'
+                                />   
+                        </Button>
+                        <Button className={classes.retrieveButtons}
+                            onClick={this.handleClick}
+                            disabled={this.state.usernameInvalid}
+                            >
+                                <img
+                                    src={images.src + 'email-24px.svg'}
+                                    alt='letou'
+                                />
+                        </Button>
+                        <Button className={classes.retrieveButtons}
+                            onClick={this.handleClick}
+                            disabled={this.state.usernameInvalid}
+                            >
+                                <img
+                                    src={images.src + 'phone_iphone-24px.svg'}
+                                    alt='letou'
+                                />
+                        </Button>
+                    </Grid>
                    <Grid item xs={12} style={{ paddingTop: 10 }}>
                         <span className={classes.loginQuestionText}>{this.getLabel('login-question-text')}</span>
                     </Grid>
