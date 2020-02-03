@@ -345,7 +345,6 @@ class ScratchCard extends Component {
         }
         config.headers['Authorization'] = `Token ${token}`;
 
-
         let postData = {
             serial: serialNumber.replace(/\s/g, ''),
             pin: pinNumber.replace(/\s/g, ''),
@@ -405,7 +404,7 @@ class ScratchCard extends Component {
                     } else {
                         currentComponent.props.callbackFromParent(
                             'error',
-                            res.data.msg.eng + " | " + res.data.msg.vn
+                            res.data.msg.eng + ' | ' + res.data.msg.vn
                         );
                     }
                     currentComponent.setState({ showLinearProgressBar: false });
@@ -648,7 +647,7 @@ class ScratchCard extends Component {
                                 this.state.provider === 'none' ||
                                 this.state.amount === 'none' ||
                                 this.state.pinNumberInvalid ||
-                                this.state.serialNumber.length === 0
+                                this.state.numberInvalid
                             }
                         >
                             {this.getLabel('deposit-label')}
@@ -669,7 +668,7 @@ class ScratchCard extends Component {
                             label={this.getLabel('add-favourite-deposit')}
                         />
                     </Grid>
-                    <Grid
+                    {/* <Grid
                         item
                         xs={12}
                         className={classes.detailRow}
@@ -683,7 +682,7 @@ class ScratchCard extends Component {
                         <span className={classes.info}>
                             {this.getLabel('fgo-wrong')}
                         </span>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </div>
         );
