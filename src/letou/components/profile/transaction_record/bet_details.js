@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
@@ -353,15 +353,7 @@ export class BetDetails extends Component {
             providers
         } = this.state;
         var today = moment(new Date());
-        console.log('ITEMS IS:');
-        console.log(items);
-        // items.push({amount_wagered: "70.0000",
-        // amount_won: "70.0000",
-        // category: "Sicbo",
-        // date: "2019-12-05T17:40:35.617Z",
-        // outcome: "Void",
-        // provider: "N2 Games",
-        // ref_no: "848263"})
+      
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>

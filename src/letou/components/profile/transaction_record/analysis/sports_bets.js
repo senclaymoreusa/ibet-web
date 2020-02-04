@@ -16,6 +16,9 @@ import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios';
 import { config } from '../../../../../util_config';
 import TableContainer from '@material-ui/core/TableContainer';
+import queryString from 'query-string';
+import moment from 'moment';
+import { withRouter } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -136,40 +139,24 @@ const styles = theme => ({
 });
 
 export class SportsBets extends Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
-        this.backClicked = this.backClicked.bind(this);
-        this.goToDetailAnalysis = this.goToDetailAnalysis.bind(this);
+        this.state = {
+            items: []
+        };
     }
 
     componentDidMount() {
-        const { user, date } = this.props;
+        this._isMounted = true;
 
-        let apiURL = `games/api/bets/getall?userid=${user.userId}`;
-
-        let startStr = `&start=${date.startOf('month').format('YYYY/MM/DD')}`;
-        let endStr = `&end=${date.endOf('month').format('YYYY/MM/DD')}`;
-
-        let requestURL = API_URL + apiURL + startStr + endStr;
-
-        console.log(requestURL)
-        axios
-            .get(requestURL, config)
-            .then(res => {
-                console.log(res)
-            })
-            .catch(err => {
-                sendingLog(err);
-            });
+        this.getSportsBet();
     }
 
-    backClicked(ev) {
-        this.props.callbackFromParent(1);
-    }
-
-    goToDetailAnalysis() {
-        this.props.callbackFromParent(3);
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     getLabel(labelId) {
@@ -178,85 +165,86 @@ export class SportsBets extends Component {
     }
 
     getSportsBet() {
-        const { classes } = this.props;
+        if (!this._isMounted) return;
 
-        return (
-            <TableContainer component={Paper} className={classes.contentPaper}>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>
-                                <span className={classes.titleLabel}>
-                                    15 Jul
-                                </span>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <span className={classes.titleLabel}>
-                                    {this.getLabel('sports-bet-total')}
-                                </span>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <span className={classes.titleLabel}>200</span>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <span className={classes.titleLabel}>500</span>
-                            </StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <StyledTableRow key={Math.random()}>
-                            <StyledTableCell>
-                                <span className={classes.subtitleLabel}>
-                                    {this.getLabel('placed-label')}
-                                </span>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <span className={classes.subtitleLabel}>
-                                    {this.getLabel('category-label')}
-                                </span>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <span className={classes.subtitleLabel}>
-                                    {this.getLabel('win-loss')}
-                                </span>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <span className={classes.subtitleLabel}>
-                                    {this.getLabel('balance-label')}
-                                </span>
-                            </StyledTableCell>
-                        </StyledTableRow>
-                        <StyledTableRow
-                            key={Math.random()}
-                            onClick={() => {
-                                this.props.callbackFromParent('sports-detail');
-                            }}
-                        >
-                            <StyledTableCell>
-                                <span className={classes.label}>15:00</span>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <span className={classes.link}>
-                                    Single NBA Knicks vs Celtics
-                                </span>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <span className={classes.label}>100</span>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <span className={classes.label}>200</span>
-                            </StyledTableCell>
-                        </StyledTableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        );
+        const { user } = this.props;
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        let apiURL = `games/api/bets/getall?userid=${user.userId}`;
+
+        let startStr = `&start=${moment()
+            .startOf('month')
+            .format('YYYY/MM/DD')}`;
+        let endStr = `&end=${moment()
+            .endOf('month')
+            .format('YYYY/MM/DD')}`;
+
+        const values = queryString.parse(this.props.location.search);
+
+        if (values.date) {
+            startStr = `&start=${moment(values.date, 'MM-YYYY')
+                .startOf('month')
+                .format('YYYY/MM/DD')}`;
+            endStr = `&end=${moment(values.date, 'MM-YYYY')
+                .endOf('month')
+                .format('YYYY/MM/DD')}`;
+        }
+
+        let requestURL = API_URL + apiURL + startStr + endStr;
+
+        axios
+            .get(requestURL, config)
+            .then(res => {
+                if (res.status === 200) {
+                    let itemArray = [];
+                    console.log('items')
+                    console.log(res.data.results)
+                    Object.keys(res.data.results).map(function (refNum) {
+                        let result = res.data.results[refNum];
+
+                        if (result.length === 1) {
+                            itemArray.push(result[0]);
+                        } else if (result.length > 1) {
+                            let temp1 = result.filter(r => {
+                                return r.outcome != null;
+                            })[0];
+
+                            let temp2 = result.filter(r => {
+                                return r.outcome == null;
+                            })[0];
+                            if (temp1 && temp2) {
+                                temp1['amount_wagered'] =
+                                    temp2['amount_wagered'];
+                                temp1['date'] = temp2['date'];
+                                itemArray.push(temp1);
+                            }
+                        }
+                        return null;
+                    });
+
+                    const cats = itemArray.reduce(
+                        (itemSoFar, { date, ref_no, amount_won }) => {
+                            let d = moment(date).format('DD-MM-YYYY');
+                            if (!itemSoFar[d]) itemSoFar[d] = [];
+                            itemSoFar[d].push({ date, ref_no, amount_won });
+                            return itemSoFar;
+                        },
+                        {}
+                    );
+
+                    this.setState({ items: cats });
+                }
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
     }
 
     render() {
         const { classes } = this.props;
-
-        console.log(this.props.date);
+        const { items } = this.state;
+        const currentComponent = this;
 
         return (
             <div className={classes.root}>
@@ -269,23 +257,144 @@ export class SportsBets extends Component {
                         <Button
                             className={classes.prevButton}
                             onClick={() => {
-                                this.props.callbackFromParent('main');
+                                this.props.history.push(`/p/transaction-records/analysis/`);
                             }}
                         >
                             <img src={images.src + 'letou/close.svg'} alt="" />
                         </Button>
                     </Grid>
                     <Grid item xs={12} className={classes.contentRow}>
-                        {this.getSportsBet()}
-                    </Grid>
-                    <Grid item xs={12} className={classes.contentRow}>
-                        {this.getSportsBet()}
-                    </Grid>
-                    <Grid item xs={12} className={classes.contentRow}>
-                        {this.getSportsBet()}
-                    </Grid>
-                    <Grid item xs={12} className={classes.contentRow}>
-                        {this.getSportsBet()}
+                        {Object.keys(items).map(function (d) {
+                            return (<TableContainer
+                                key={d}
+                                component={Paper}
+                                className={classes.contentPaper}
+                            >
+                                <Table className={classes.table}>
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell>
+                                                <span
+                                                    className={classes.titleLabel}
+                                                >
+                                                    {moment(d, 'DD-MM-YYYY').format('DD MMM')}
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span
+                                                    className={classes.titleLabel}
+                                                >
+                                                    {currentComponent.getLabel(
+                                                        'sports-bet-total'
+                                                    )}
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span
+                                                    className={classes.titleLabel}
+                                                >
+                                                    200
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span
+                                                    className={classes.titleLabel}
+                                                >
+                                                    500
+                                                </span>
+                                            </StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <StyledTableRow key={Math.random()}>
+                                            <StyledTableCell>
+                                                <span
+                                                    className={
+                                                        classes.subtitleLabel
+                                                    }
+                                                >
+                                                    {currentComponent.getLabel('placed-label')}
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span
+                                                    className={
+                                                        classes.subtitleLabel
+                                                    }
+                                                >
+                                                    {currentComponent.getLabel(
+                                                        'category-label'
+                                                    )}
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span
+                                                    className={
+                                                        classes.subtitleLabel
+                                                    }
+                                                >
+                                                    {currentComponent.getLabel('win-loss')}
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span
+                                                    className={
+                                                        classes.subtitleLabel
+                                                    }
+                                                >
+                                                    {currentComponent.getLabel('balance-label')}
+                                                </span>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                        {items[d].map(item => (
+                                            <StyledTableRow key={item.ref_no}>
+                                                <StyledTableCell>
+                                                    <span
+                                                        className={
+                                                            classes.label
+                                                        }
+                                                    >
+                                                        {moment(item.date).format('HH:mm')}
+                                                    </span>
+                                                </StyledTableCell>
+                                                <StyledTableCell
+                                                style={{cursor:'pointer'}}
+                                                    onClick={() => {
+                                                        currentComponent.props.history.push(`/p/transaction-records/analysis/sports-detail?id=${item.transaction_id}`);
+                                                    }}>
+                                                    <span
+                                                        className={
+                                                            classes.label
+                                                        }
+                                                    >
+                                                        {item.ref_no}
+                                                    </span>
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    <span
+                                                        className={
+                                                            classes.label
+                                                        }
+                                                    >
+                                                        {Number(item.amount_won).toFixed(2)}
+                                                    </span>
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    <span
+                                                        className={
+                                                            classes.label
+                                                        }
+                                                    >
+                                                        {Number(item.amount_won).toFixed(2)}
+                                                    </span>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>);
+                        })
+                        }
                     </Grid>
                 </Grid>
             </div>
@@ -301,7 +410,9 @@ const mapStateToProps = state => {
 };
 
 export default withStyles(styles)(
-    injectIntl(
-        connect(mapStateToProps, { authCheckState, sendingLog })(SportsBets)
+    withRouter(
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, sendingLog })(SportsBets)
+        )
     )
 );

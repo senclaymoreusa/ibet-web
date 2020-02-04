@@ -354,7 +354,7 @@ const BaseRouter = () => (
 
         <Route exact path="/vi/promotion/first_time_200Slotgames" component={VNFirst200SlotBonus} />
 
-        <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
+        <Route exact path="/p/:type?/:sub?/:operation?/" component={Profile} />
         <Route exact path="/promotions" component={Promotion} />
         <Route path="*" component={NoMatch} />
         </Switch>
