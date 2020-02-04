@@ -153,7 +153,7 @@ import BaijialeVn from './components/help/member_vn/game_baijiale';
 import LunpanVn from './components/help/member_vn/game_lunpan';
 import Game21dianVn from './components/help/member_vn/game_21dian';
 import VirtualVn from './components/help/member_vn/virtual_sports';
-
+import VNPromotion from './components/promotions/vn_promotion';
 import gbsports from './components/sports/gbsports';
 import gbesports from './components/sports/gbesports';
 import onebook from './components/sports/onebook';
@@ -171,7 +171,14 @@ import GameDetail from './components/games/game_detail';
 import Promotion from './components/promotion';
 import NoMatch from './ErrorBoundary/NoMatch';
 
-import VNFirst200SlotBonus from './components/bonus/vn_first_200_slots';
+import VNFirstTime200SlotBonus from './components/bonus/vn_first_time_200_slots';
+import VNFirstTimeGameBonus from './components/bonus/vn_first_time_game';
+import VNFirstTime120SportsBonus from './components/bonus/vn_first_time_120_sports';
+import VNFirstTimeSportsBookBonus from './components/bonus/vn_first_time_sports_book';
+import VNFirstTime100LiveCasinoBonus from './components/bonus/vn_first_time_100_live_casino';
+import VNFirstTime200ScratchCardBonus from './components/bonus/vn_first_time_200_scratch_card';
+import VNFirstTime200FGOBonus from './components/bonus/vn_first_time_200_fgo';
+
 
 const containerStyle = {
     minHeight: '100%'
@@ -351,8 +358,16 @@ const BaseRouter = () => (
         <Route exact path="/vi/member_rule4" component={member_rule4Vn} />
         <Route exact path="/vi/member_rule5" component={member_rule5Vn} />
         <Route exact path="/vi/member_rule6" component={member_rule6Vn} />
+        <Route exact path="/vi/promotion" component={VNPromotion} />
 
-        <Route exact path="/vi/promotion/first_time_200Slotgames" component={VNFirst200SlotBonus} />
+
+        <Route exact path="/vi/promotion/first_time_200Slotgames" component={VNFirstTime200SlotBonus} />
+        <Route exact path="/vi/promotion/first_time_game" component={VNFirstTimeGameBonus} />
+        <Route exact path="/vi/promotion/first_time_120sports" component={VNFirstTime120SportsBonus} />
+        <Route exact path="/vi/promotion/first_time_sports_book" component={VNFirstTimeSportsBookBonus} />
+        <Route exact path="/vi/promotion/first_time_100live_casion" component={VNFirstTime100LiveCasinoBonus} />
+        <Route exact path="/vi/promotion/first_time_200scratchcard" component={VNFirstTime200ScratchCardBonus} />
+        <Route exact path="/vi/promotion/first_time_200FGo" component={VNFirstTime200FGOBonus} />
 
         <Route exact path="/p/:type?/:sub?/:operation?/" component={Profile} />
         <Route exact path="/promotions" component={Promotion} />

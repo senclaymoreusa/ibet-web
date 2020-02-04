@@ -6,7 +6,7 @@ import {
     AUTH_RESULT_FAIL,
     sendingLog
 } from '../../../../../actions';
-import { injectIntl, FormattedNumber } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { Line } from 'react-chartjs-2';
