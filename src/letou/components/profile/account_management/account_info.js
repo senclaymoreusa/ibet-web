@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { authCheckState } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
-l;
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 // import { config } from '../../../../util_config';
