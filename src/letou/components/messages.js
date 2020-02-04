@@ -1168,7 +1168,7 @@ export const messages = {
         'help-service': '我们随时随刻为您服务'
     },
 
-    vi: {
+    th: {
         'help-title': 'พวกเรามีบริการครอบคลุม',
         'for-member': 'บริการแก่สมาชิกใช้',
         'for-partner': 'สำหรับคู่ค้า',
