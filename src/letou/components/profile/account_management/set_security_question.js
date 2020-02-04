@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../actions';
+import { authCheckState, sendingLog, authUserUpdate } from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -339,39 +339,41 @@ export class SetSecurityQuestion extends Component {
     async componentDidMount() {
 
         this.props.authCheckState()
-            .then(res => {
+            .then(async res => {
                 if (res === 1) {
                     this.props.history.push('/');
+                } else {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+
+
+                    let currentComponent = this;
+
+                    axios.get(API_URL + 'users/api/security-question/', config)
+                        .then(res => {
+                            this.setState({ questionList: res.data });
+                        }).catch(function (err) {
+                            sendingLog(err);
+                        });
+
+                    await axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            currentComponent.setState({ userId: res.data.pk });
+                            currentComponent.setState({ securityQuestion: res.data.security_question });
+                            axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
+                                .then(res => {
+                                    if (res.data.errorCode !== 105)
+                                        this.setState({ securityQuestion: res.data.value });
+                                }).catch(function (err) {
+                                    sendingLog(err);
+                                });
+                        }).catch(function (err) {
+                            sendingLog(err);
+                        });
                 }
             })
 
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
 
-
-        let currentComponent = this;
-
-        axios.get(API_URL + 'users/api/security-question/', config)
-            .then(res => {
-                this.setState({ questionList: res.data });
-            }).catch(function (err) {
-                sendingLog(err);
-            });
-
-        await axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                currentComponent.setState({ userId: res.data.pk });
-                currentComponent.setState({ securityQuestion: res.data.security_question });
-                axios.get(API_URL + 'users/api/user-security-question/?userId=' + res.data.pk, config)
-                    .then(res => {
-                        if (res.data.errorCode !== 105)
-                            this.setState({ securityQuestion: res.data.value });
-                    }).catch(function (err) {
-                        sendingLog(err);
-                    });
-            }).catch(function (err) {
-                sendingLog(err);
-            });
     }
 
     setSecurityAnswer() {
@@ -389,6 +391,7 @@ export class SetSecurityQuestion extends Component {
                         this.setState({ snackMessage: this.getLabel('security-question-set-success') });
                         this.setState({ showSnackbar: true });
                         this.setState({ activeStep: 2 });
+                        currentComponent.props.authUserUpdate();
                     }
                 }
             }).catch(function (err) {
@@ -479,11 +482,13 @@ export class SetSecurityQuestion extends Component {
                         </Grid>
                     </Grid>
                 );
+            default:
+                return <div></div>;
         }
     }
     render() {
         const { classes } = this.props;
-        const { activeStep, securityAnswer, securityQuestion, questionList } = this.state;
+        const { activeStep } = this.state;
 
         return (
             <div className={classes.root}>
@@ -534,4 +539,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(SetSecurityQuestion))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(SetSecurityQuestion))));

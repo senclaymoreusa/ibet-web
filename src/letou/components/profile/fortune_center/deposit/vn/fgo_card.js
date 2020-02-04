@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
@@ -8,7 +9,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import getSymbolFromCurrency from 'currency-symbol-map';
 import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
@@ -18,8 +18,8 @@ import {
     authCheckState,
     sendingLog,
     AUTH_RESULT_FAIL,
-    postLogout,
-    logout
+    logout,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -42,22 +42,22 @@ const styles = theme => ({
         paddingTop: 50,
         paddingBottom: 50
     },
-    actionButton: {
-        width: 324,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#4DA9DF',
-        color: '#fff',
-        '&:hover': {
-            backgroundColor: '#57b9f2',
-            color: '#fff'
-        },
-        '&:focus': {
-            backgroundColor: '#57b9f2',
-            color: '#fff'
-        },
-        textTransform: 'capitalize'
-    },
+    // actionButton: {
+    //     width: 324,
+    //     height: 44,
+    //     borderRadius: 22,
+    //     backgroundColor: '#4DA9DF',
+    //     color: '#fff',
+    //     '&:hover': {
+    //         backgroundColor: '#57b9f2',
+    //         color: '#fff'
+    //     },
+    //     '&:focus': {
+    //         backgroundColor: '#57b9f2',
+    //         color: '#fff'
+    //     },
+    //     textTransform: 'capitalize'
+    // },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
@@ -319,16 +319,17 @@ class FgoCard extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({
+                        isFavorite:
+                            res.data.favorite_payment_method === 'fgocard'
+                    });
+                });
             }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'fgocard'
-            });
         });
     }
 
@@ -336,16 +337,17 @@ class FgoCard extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({
+                        isFavorite:
+                            res.data.favorite_payment_method === 'fgocard'
+                    });
+                });
             }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'fgocard'
-            });
         });
     }
 
@@ -392,7 +394,6 @@ class FgoCard extends Component {
             .then(function(data) {
                 if (data.errorCode) {
                     currentComponent.props.postLogout();
-                    // postLogout();
                     return;
                 }
                 if (data.error_code === '00' && data.status === '0') {
@@ -426,6 +427,7 @@ class FgoCard extends Component {
                                     'Cannot deposit this amount.'
                                 );
                             } else {
+                                currentComponent.props.authUserUpdate();
                                 currentComponent.props.callbackFromParent(
                                     'success',
                                     data.amount
@@ -459,7 +461,8 @@ class FgoCard extends Component {
                 user_id: this.state.data.pk,
                 payment: event.target.checked ? 'fgocard' : null
             })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -667,10 +670,11 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState, logout }
-            )(FgoCard)
+            connect(mapStateToProps, {
+                authCheckState,
+                logout,
+                authUserUpdate
+            })(FgoCard)
         )
     )
 );

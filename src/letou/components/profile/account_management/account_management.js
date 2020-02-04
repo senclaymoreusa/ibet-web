@@ -37,10 +37,11 @@ const styles = theme => ({
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh'
+        alignItems: 'center'
     },
     rootDesktop: {
-        height: 92,
+        maxWidth: 1400,
+        width: '100%',
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -50,7 +51,6 @@ const styles = theme => ({
     rootMobile: {
         minHeight: '100vh',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'

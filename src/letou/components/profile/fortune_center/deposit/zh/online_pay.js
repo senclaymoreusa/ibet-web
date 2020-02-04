@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../../util_config';
+import { config } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -18,34 +18,19 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL,authUserUpdate } from '../../../../../../actions';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const bank_options = [
     { label: 'Industrial and Commercial Bank of China', value: '1' },
-    // { label: '建设银行', value: '2' },
-    // { label: '农业银行', value: '3' },
-    // { label: '招商银行', value: '4' },
     { label: 'China Guangfa Bank', value: '6' },
     { label: 'Bank of China', value: '7' },
     { label: 'Postal Savings Bank of China', value: '9' },
     { label: 'China CITIC Bank', value: '10' },
-    // { label: '光大银行', value: '11' },
     { label: 'China Minsheng Bank', value: '12' },
-    // { label: '兴业银行', value: '16' },
-    // { label: '华夏银行', value: '17' },
-    // { label: '平安银行', value: '23' },
-    { label: 'Bank of Shanghai ', value: '21' },
-    //{ value: 'ACB', label: 'Asia Commercial Bank', img: 'letou/acb.png', code: 'VND' },
-    //{ value: 'BIDV', label: 'Bank for Investment and Development of Vietnam', img: 'letou/bidv.png', code: 'VND' },
-    //{ value: 'DAB', label: 'DongA Bank', img: 'letou/donga.png', code: 'VND' },
-    //{ value: 'EXIM', label: 'Eximbank Vietnam', img: 'letou/eximbank.png', code: 'VND' },
-    //{ value: 'SACOM', label: 'Sacom Bank', img: 'letou/sacombank.png', code: 'VND' },
-    //{ value: 'TCB', label: 'Techcom Bank', img: 'letou/techcombank.png', code: 'VND' },
-    //{ value: 'VCB', label: 'Vietcom Bank', img: 'letou/vietcombank.png', code: 'VND' },
-    //{ value: 'VTB', label: 'Vietin Bank', img: 'letou/vietinbank.png', code: 'VND' },
-];
+    { label: 'Bank of Shanghai', value: '21' }
+   ];
 
 const styles = theme => ({
     root: {
@@ -305,34 +290,46 @@ class OnlinePay extends Component {
         this.state = {
             amount: '',
             currency: '',
-            bank: 'none',
+            data:'',
             amountFocused: false,
             amountInvalid: true,
-
+            bankid: 'none',
             isFavorite: false,
         };
     }
-
+    
     componentWillReceiveProps(props) {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'onlinepay' });
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'onlinepay' });
+                    });
+            }
+        })
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'onlinepay' });
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'onlinepay' });
+                    });
+            }
+        })
     }
 
     amountChanged = e => {
@@ -356,14 +353,15 @@ class OnlinePay extends Component {
     handleClick() {
         let currentComponent = this;
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+        //console.log(currentComponent.state.data);
+        let userid = currentComponent.state.data.pk
         var postData = {
-            amount: this.state.amount,
-            userid: this.state.data.pk,
+            amount: currentComponent.state.amount,
+            userid: currentComponent.state.data.pk,
             currency: '0',
             PayWay: '30', //online bank
-            method: this.state.bankid, //银行卡
-            RealName : this.state.realname,
+            method: currentComponent.state.bankid, //银行卡
+            RealName : currentComponent.state.data.last_name + currentComponent.state.data.first_name,
         };
 
         var formBody = [];
@@ -383,7 +381,7 @@ class OnlinePay extends Component {
         })
             .then(function(res) {
                 
-                if(res.status == 200){
+                if(res.status === 200){
                     return res.text();
                 }
                 else{
@@ -436,12 +434,9 @@ class OnlinePay extends Component {
                             .then(function(data) {
                                 if(data.errorCode){
                                     currentComponent.props.postLogout();
-                                    // postLogout();
                                     return;
                                 }
-                                //console.log(data.status);
                                 if (data.status === '001') {
-                                    //alert('Transaction is approved.');
                                     const body = JSON.stringify({
                                         type: 'add',
                                         username:
@@ -449,7 +444,7 @@ class OnlinePay extends Component {
                                                 .username,
                                         balance: currentComponent.state.amount
                                     });
-                                    //console.log(body);
+                                   
                                     axios
                                         .post(
                                             API_URL +
@@ -459,8 +454,7 @@ class OnlinePay extends Component {
                                         )
                                         .then(res => {
                                             if (res.data === 'Failed') {
-                                                //currentComponent.setState({ error: true });
-                                                currentComponent.props.callbackFromParent(
+                                               currentComponent.props.callbackFromParent(
                                                     'error',
                                                     'Transaction failed.'
                                                 );
@@ -473,6 +467,7 @@ class OnlinePay extends Component {
                                                     'Cannot deposit this amount.'
                                                 );
                                             } else {
+                                                currentComponent.props.authUserUpdate();    
                                                 currentComponent.props.callbackFromParent(
                                                     'success',
                                                     currentComponent.state
@@ -506,7 +501,8 @@ class OnlinePay extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'onlinepay' : null,
         })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();      
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -526,7 +522,7 @@ class OnlinePay extends Component {
 
     render() {
         const { classes } = this.props;
-        const { isFavorite, amount, currency, bank } = this.state;
+        const { isFavorite, amount, currency, bankid } = this.state;
 
         return (
             <div className={classes.root}>
@@ -534,9 +530,9 @@ class OnlinePay extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <Select
                             className={classes.select}
-                            value={bank}
+                            value={bankid}
                             onChange={(event) => {
-                                this.setState({ bank: event.target.value });
+                                this.setState({ bankid: event.target.value });
                             }}
                             input={<BootstrapInput name="bank" id="bank-select" />}>
                             <MenuItem key='none' value='none' disabled>
@@ -544,7 +540,7 @@ class OnlinePay extends Component {
                             </MenuItem>
                             {
                                 bank_options.map(bank => (
-                                    <MenuItem key={bank.label} value={bank.value} >
+                                    <MenuItem key={bank.value} value={bank.value} >
                                         {/*
                                         <div style={{ width: 100 }}>
                                             
@@ -642,4 +638,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(OnlinePay))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState,authUserUpdate })(OnlinePay))));

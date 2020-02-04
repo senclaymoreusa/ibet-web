@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../../util_config';
+import { config } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { authCheckState, sendingLog } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 import getSymbolFromCurrency from 'currency-symbol-map'
-import clsx from 'clsx';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
@@ -317,25 +315,37 @@ class Payzod extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
+                    });
+            }
+        })
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
+                    });
+            }
+        })
     }
 
     amountChanged(event) {
@@ -428,8 +438,9 @@ class Payzod extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'payzod' : null,
         })
-            .then(res => {
-                this.setState({ isFavorite: !this.state.isFavorite });
+            .then(() => {
+                this.props.authUserUpdate();    
+                                        this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
@@ -477,7 +488,7 @@ class Payzod extends Component {
                                     inputProps: {
                                         step: 10,
                                         min: 200,
-                                        min: 950000,
+                                        max: 950000,
                                         style: { textAlign: 'right' },
                                         currency: currency
                                     },
@@ -561,6 +572,8 @@ class Payzod extends Component {
                         <Grid item xs={3}></Grid>
                     </Grid>
                 );
+            default:
+                return <div></div>;
         }
     }
 
@@ -582,4 +595,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Payzod))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(Payzod))));

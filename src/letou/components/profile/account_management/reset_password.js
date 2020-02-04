@@ -28,7 +28,7 @@ import { TextField } from '@material-ui/core';
 
 import PasswordStrengthMeter from '../../../../commons/PasswordStrengthMeter';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -247,15 +247,17 @@ export class ResetPassword extends Component {
         this.setState({ newPassword: event.target.value });
         let testedResult = zxcvbn(event.target.value);
 
-        this.setState({ newPasswordInvalid: (testedResult.score !== 4) })
-
-        this.setState({ confirmPasswordInvalid: (this.state.confirmPassword !== event.target.value) });
+        this.setState({
+            newPasswordInvalid: !(testedResult.score === 3 || testedResult.score === 4),
+            confirmPasswordInvalid: (this.state.confirmPassword !== event.target.value)
+        });
     }
 
     confirmPasswordChanged(event) {
-        this.setState({ confirmPassword: event.target.value });
-
-        this.setState({ confirmPasswordInvalid: (this.state.newPassword !== event.target.value) });
+        this.setState({
+            confirmPassword: event.target.value,
+            confirmPasswordInvalid: (this.state.newPassword !== event.target.value)
+        });
     }
 
     async onFormSubmit(event) {
@@ -264,16 +266,20 @@ export class ResetPassword extends Component {
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
+        const { user } = this.props;
+
         await axios.post(API_URL + 'users/api/validateandresetpassword/',
             {
-                'username': this.state.username,
+                'username': user.username,
                 'current_password': this.state.password,
                 'new_password': this.state.newPassword
             }, config)
             .then(() => {
-                this.setState({ snackType: 'success' });
-                this.setState({ snackMessage: this.getLabel('password-reset-successful') });
-                this.setState({ showSnackbar: true });
+                this.setState({
+                    snackType: 'success',
+                    snackMessage: this.getLabel('password-reset-successful'),
+                    showSnackbar: true
+                });
             }).catch(err => {
                 sendingLog(err);
                 if (err.response.status === 400)
@@ -281,8 +287,10 @@ export class ResetPassword extends Component {
                 else
                     this.setState({ snackMessage: this.getLabel('password-update-failed') });
 
-                this.setState({ snackType: 'error' });
-                this.setState({ showSnackbar: true });
+                this.setState({
+                    snackType: 'error',
+                    showSnackbar: true
+                });
             })
 
     }
@@ -301,20 +309,11 @@ export class ResetPassword extends Component {
     }
 
     componentDidMount() {
-
         this.props.authCheckState()
             .then(res => {
                 if (res === 1) {
                     this.props.history.push('/');
                 }
-            })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ phone: res.data.phone });
             })
     }
 
@@ -494,8 +493,10 @@ export class ResetPassword extends Component {
 }
 
 const mapStateToProps = (state) => {
+    const { token, user } = state.auth;
     return {
-        lang: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
     }
 }
 

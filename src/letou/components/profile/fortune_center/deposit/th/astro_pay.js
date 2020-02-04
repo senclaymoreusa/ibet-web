@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputMask from 'react-input-mask';
-import { authCheckState, AUTH_RESULT_FAIL, sendingLog } from '../../../../../../actions';
+import { authCheckState, AUTH_RESULT_FAIL, sendingLog, authUserUpdate } from '../../../../../../actions';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
@@ -309,32 +309,35 @@ class Astropay extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'astropay' });
+                    });
             }
         })
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'astropay' });
-            });
+
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'astropay' });
+                    });
             }
         })
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'astropay' });
-            });
     }
 
     amountChanged(event) {
@@ -425,7 +428,8 @@ class Astropay extends Component {
             card_num: this.state.number.replace(/\s+/g, ''),
             card_code: this.state.cvv,
             exp_date: this.state.expireDate,
-            amount: this.state.amount
+            amount: this.state.amount,
+            currency: "THB"
         };
 
         var res = await axios.post(
@@ -433,8 +437,7 @@ class Astropay extends Component {
             postData,
             config
         );
-        console.log('result of deposit: ');
-        console.log(res);
+
         if (res.data.response_msg.slice(0, 5) === '1|1|1') {
             const body = JSON.stringify({
                 type: 'add',
@@ -449,6 +452,7 @@ class Astropay extends Component {
                     } else if (res.data === 'The balance is not enough') {
                         currentComponent.props.callbackFromParent('error', 'Cannot withdraw this amount');
                     } else {
+                        currentComponent.props.authUserUpdate();
                         currentComponent.props.callbackFromParent("success");
                     }
                 }).catch(function (err) {
@@ -471,7 +475,8 @@ class Astropay extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'astropay' : null,
         })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -662,7 +667,7 @@ export default withStyles(styles)
         injectIntl(
             connect(
                 mapStateToProps,
-                { authCheckState }
+                { authCheckState, authUserUpdate }
             )(Astropay)
         ))
     );

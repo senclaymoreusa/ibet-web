@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 
 import { connect } from 'react-redux';
-import { authCheckState, handle_inbox_value, sendingLog, logout, postLogout } from '../../../../actions';
+import { authCheckState, sendingLog} from '../../../../actions';
 import { injectIntl } from 'react-intl';
 import { errors } from '../../errors';
 import { withRouter } from 'react-router-dom';
@@ -13,10 +13,7 @@ import moment from 'moment';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import Fade from '@material-ui/core/Fade';
-import IconButton from '@material-ui/core/IconButton';
+
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -132,32 +129,32 @@ export class MessageNotification extends Component {
         this.props.authCheckState()
             .then(res => {
                 if (res === 1) {
-                    window.location.reload();
+                    this.props.history.push('/');
+                } else {
+                    const token = localStorage.getItem('token');
+                    config.headers["Authorization"] = `Token ${token}`;
+                    
+                    axios.get(API_URL + 'users/api/user/', config)
+                        .then(res => {
+                            axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
+                                .then(res => {
+                                    if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                                        this.props.postLogout();
+                                        // postLogout();
+                                        return;
+                                    }
+                                    if(res.data.length === 0) {
+                                        this.setState({noMessage: "You don't have any message yet"});
+                                    }
+                                    
+                                    this.setState({Messages: res.data});
+                                }).catch(err => {
+                                    // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
+                                    sendingLog(err);
+                                })
+                        })
                 }
-            })
-
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                axios.get(API_URL + 'operation/api/notification-users/' + res.data.pk, config)
-                    .then(res => {
-                        if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                            this.props.postLogout();
-                            // postLogout();
-                            return;
-                        }
-                        if(res.data.length == 0) {
-                            this.setState({noMessage: "You don't have any message yet"});
-                        }
-                        
-                        this.setState({Messages: res.data});
-                    }).catch(err => {
-                        // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
-                        sendingLog(err);
-                    })
-            })
+            }) 
     }
 
     detailClicked(msg) {
@@ -194,7 +191,7 @@ export class MessageNotification extends Component {
     render() {
         const { classes } = this.props;
 
-        const { Messages, showMessage, messageText } = this.state;
+        const { Messages } = this.state;
 
         Messages.forEach(message => {
             let publish_on = moment(message.publish_on);
@@ -244,6 +241,7 @@ export class MessageNotification extends Component {
                                 )
                             }
                         }
+                        return null;
                     })
                     }
                 </Grid>

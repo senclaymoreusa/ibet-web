@@ -14,7 +14,7 @@ import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
@@ -37,25 +37,7 @@ const styles = theme => ({
         paddingTop: 50,
         paddingBottom: 50,
     },
-    actionButton: {
-        width: 324,
-        height: 44,
-        borderRadius: 22,
-        backgroundColor: '#4DA9DF',
-        color: '#fff',
-        "&:hover": {
-            backgroundColor: '#57b9f2',
-            color: '#fff',
-
-        },
-        "&:focus": {
-            backgroundColor: '#57b9f2',
-            color: '#fff',
-
-        },
-        textTransform: 'capitalize',
-
-    },
+    
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
@@ -322,32 +304,36 @@ class ThaiLocalBank extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'thailocalbank' });
+                    });
             }
         })
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'thailocalbank' });
-            });
+
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers["Authorization"] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ data: res.data });
+                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
+                        this.setState({ isFavorite: res.data.favorite_payment_method === 'thailocalbank' });
+                    });
             }
         })
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'thailocalbank' });
-            });
+
     }
 
     amountChanged(event) {
@@ -440,23 +426,21 @@ class ThaiLocalBank extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            //console.log(data.status)
                             if (data.status === "001") {
-                                //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
                                     username: currentComponent.state.data.username,
                                     balance: currentComponent.state.amount,
                                 });
-                                //console.log(body)
+
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
                                         if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
                                             currentComponent.props.callbackFromParent("error", "Transaction failed.");
                                         } else if (res.data === "The balance is not enough") {
                                             currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
                                         } else {
+                                            currentComponent.props.authUserUpdate();
                                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
                                         }
                                     });
@@ -487,7 +471,8 @@ class ThaiLocalBank extends Component {
             user_id: this.state.data.pk,
             payment: event.target.checked ? 'thailocalbank' : null,
         })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -641,4 +626,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(ThaiLocalBank))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(ThaiLocalBank))));

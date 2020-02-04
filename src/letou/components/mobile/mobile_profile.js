@@ -168,24 +168,25 @@ export class MobileMainProfile extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios
+                    .get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        if (this._isMounted) {
+                            this.setState({ username: res.data.username });
+                            this.setState({ mainWallet: res.data.main_wallet });
+                            this.setState({ currency: res.data.currency });
+                        }
+                    })
+                    .catch(function (err) {
+                        sendingLog(err);
+                    });
             }
         });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                if (this._isMounted) {
-                    this.setState({ username: res.data.username });
-                    this.setState({ mainWallet: res.data.main_wallet });
-                    this.setState({ currency: res.data.currency });
-                }
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
+        
     }
 
 
@@ -263,7 +264,7 @@ export class MobileMainProfile extends Component {
                     <Grid item xs={4} style={{ textAlign: 'center' }}>
                         <Button className={classes.mobileTabTitleButton}
                         onClick={() => {
-                            this.props.history.push('/p/fortune-center/withdrawal');
+                            this.props.history.push('/p/fortune-center/withdraw');
                        }}>
                             <div className={classes.column}>
                                 <img
@@ -273,7 +274,7 @@ export class MobileMainProfile extends Component {
                                     alt="LETOU"
                                     height="20"
                                 />
-                                {this.getLabel('title-withdrawal')}
+                                {this.getLabel('withdraw-label')}
                             </div>
                         </Button>
                     </Grid>

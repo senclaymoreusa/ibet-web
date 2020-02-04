@@ -5,7 +5,6 @@ import { injectIntl } from 'react-intl';
 import {
     authLogin,
     authCheckState,
-    AUTH_RESULT_SUCCESS,
     show_letou_forgot_password,
     hide_letou_login,
     show_signup,
@@ -13,7 +12,6 @@ import {
 } from '../../../actions';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import { config } from '../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
@@ -261,6 +259,7 @@ export class Login extends React.Component {
                                 });
                             } else {
                                 this.props.hide_letou_login();
+                                this.props.history.push('/');
                             }
                         })
                         .catch(err => {

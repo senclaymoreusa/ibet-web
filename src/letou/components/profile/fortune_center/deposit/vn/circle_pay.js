@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
@@ -11,7 +12,7 @@ import {
     authCheckState,
     sendingLog,
     AUTH_RESULT_FAIL,
-    postLogout
+    authUserUpdate
 } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import NumberFormat from 'react-number-format';
@@ -361,20 +362,21 @@ class CirclePay extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({
+                        currency: getSymbolFromCurrency(res.data.currency)
+                    });
+                    this.setState({ currencyCode: res.data.currency });
+                    this.setState({
+                        isFavorite:
+                            res.data.favorite_payment_method === 'circlepay'
+                    });
+                });
             }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                currency: getSymbolFromCurrency(res.data.currency)
-            });
-            this.setState({ currencyCode: res.data.currency });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'circlepay'
-            });
         });
     }
 
@@ -382,20 +384,21 @@ class CirclePay extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                    this.setState({ data: res.data });
+                    this.setState({
+                        currency: getSymbolFromCurrency(res.data.currency)
+                    });
+                    this.setState({ currencyCode: res.data.currency });
+                    this.setState({
+                        isFavorite:
+                            res.data.favorite_payment_method === 'circlepay'
+                    });
+                });
             }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                currency: getSymbolFromCurrency(res.data.currency)
-            });
-            this.setState({ currencyCode: res.data.currency });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'circlepay'
-            });
         });
     }
 
@@ -486,8 +489,6 @@ class CirclePay extends Component {
                 config
             )
             .then(res => {
-                console.log('result of deposit: ');
-                console.log(res);
                 if (res.status !== 200) {
                     this.setState({
                         error: true,
@@ -498,10 +499,10 @@ class CirclePay extends Component {
                         JSON.stringify(res)
                     );
                 } else {
-                    console.log(res);
+                    currentComponent.props.authUserUpdate();
+
                     if (res.data.errorCode) {
                         currentComponent.props.postLogout();
-                        // postLogout();
                         return;
                     }
                     window.open(postURL);
@@ -528,6 +529,7 @@ class CirclePay extends Component {
                 payment: event.target.checked ? 'circlepay' : null
             })
             .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
@@ -662,10 +664,9 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState }
-            )(CirclePay)
+            connect(mapStateToProps, { authCheckState, authUserUpdate })(
+                CirclePay
+            )
         )
     )
 );
