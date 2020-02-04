@@ -69,13 +69,14 @@ export class BaijialeVn extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    onClick(index) {
+    onClick(index, e) {
+        e.preventDefault()
         this.setState({
           hide: false,
           current: index
           
         })
-      }
+    }
     
     render() {
   
@@ -129,41 +130,41 @@ export class BaijialeVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a href="/">Super 6 Baccarat</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}>Super 6 Baccarat</a>
                             </li>
-                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a href="/">Baccarat truyền thống</a>
+                            <li className={this.state.current === 2 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(2, e);}}>Baccarat truyền thống</a>
                             </li>
-                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a href="/">Super Baccarat</a>
+                            <li className={this.state.current === 3 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(3, e);}}>Super Baccarat</a>
                             </li>
-                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a href="/">Baccarat Cặp</a>
+                            <li className={this.state.current === 4 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(4, e);}}>Baccarat Cặp</a>
                             </li>
-                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a href="/">Baccarat 14 người chơi</a>
+                            <li className={this.state.current === 5 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(5, e);}}>Baccarat 14 người chơi</a>
                             </li>
-                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a href="/">Classic Baccarat</a>
+                            <li className={this.state.current === 6 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(6, e);}}>Classic Baccarat</a>
                             </li>
-                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a href="/">VIP Baccarat</a>
+                            <li className={this.state.current === 7 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(7, e);}}>VIP Baccarat</a>
                             </li>
-                            <li className={this.state.current === 8 ? "Active" : ""} onClick={this.onClick.bind(this,8)}>
-                                <a href="/">Bid Baccarat</a>
+                            <li className={this.state.current === 8 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(8, e);}}>Bid Baccarat</a>
                             </li>
-                            <li className={this.state.current === 9 ? "Active" : ""} onClick={this.onClick.bind(this,9)}>
-                                <a href="/">Baccarat nhiều bàn chơi</a>
+                            <li className={this.state.current === 9 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(9, e);}}>Baccarat nhiều bàn chơi</a>
                             </li>
-                            <li className={this.state.current === 10 ? "Active" : ""} onClick={this.onClick.bind(this,10)}>
-                                <a href="/">Dragon Bonus Baccarat</a>
+                            <li className={this.state.current === 10 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(10, e);}}>Dragon Bonus Baccarat</a>
                             </li>
-                            <li className={this.state.current === 11 ? "Active" : ""} onClick={this.onClick.bind(this,11)}>
-                                <a href="/">Playboy Baccarat</a>
+                            <li className={this.state.current === 11 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(11, e);}}>Playboy Baccarat</a>
                             </li>
-                            <li className={this.state.current === 12 ? "Active" : ""} onClick={this.onClick.bind(this,12)}>
-                                <a href="/">Points Baccarat</a>
+                            <li className={this.state.current === 12 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(12, e);}}>Points Baccarat</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

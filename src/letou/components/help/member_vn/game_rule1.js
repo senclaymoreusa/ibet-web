@@ -69,13 +69,14 @@ export class GameRuleOneVn extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    onClick(index) {
+    onClick(index, e) {
+        e.preventDefault()
         this.setState({
           hide: false,
           current: index
           
         })
-      }
+    }
     
     render() {
   
@@ -129,20 +130,20 @@ export class GameRuleOneVn extends React.Component {
                     </div>
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a href="/">Marvel Jackpot</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}>Marvel Jackpot</a>
                             </li>
-                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a href="/">5-10 Hàng thanh toán</a>
+                            <li className={this.state.current === 2 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(2, e);}}>5-10 Hàng thanh toán</a>
                             </li>
-                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a href="/">15-20 Hàng thanh toán</a>
+                            <li className={this.state.current === 3 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(3, e);}}>15-20 Hàng thanh toán</a>
                             </li>
-                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a href="/">25+ Hàng thanh toán</a>
+                            <li className={this.state.current === 4 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(4, e);}}>25+ Hàng thanh toán</a>
                             </li>
-                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a href="/">Luật chơi</a>
+                            <li className={this.state.current === 5 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(5, e);}}>Luật chơi</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

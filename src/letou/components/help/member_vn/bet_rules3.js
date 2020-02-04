@@ -69,13 +69,14 @@ export class BetRuleThreeVn extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    onClick(index) {
+    onClick(index, e) {
+        e.preventDefault()
         this.setState({
           hide: false,
           current: index
           
         })
-      }
+    }
     
     render() {
   
@@ -130,26 +131,26 @@ export class BetRuleThreeVn extends React.Component {
                   
                     <div className="HelpCenterSmNav">
                         <ul>
-                            <li className={this.state.current === 1 ? "Active" : ""} onClick={this.onClick.bind(this,1)}>
-                                <a href="/">Cược chấp Châu Á</a>
+                            <li className={this.state.current === 1 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(1, e);}}>Cược chấp Châu Á</a>
                             </li>
-                            <li className={this.state.current === 2 ? "Active" : ""} onClick={this.onClick.bind(this,2)}>
-                                <a href="/">Bàn thắng hợp lệ</a>
+                            <li className={this.state.current === 2 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(2, e);}}>Bàn thắng hợp lệ</a>
                             </li>
-                            <li className={this.state.current === 3 ? "Active" : ""} onClick={this.onClick.bind(this,3)}>
-                                <a href="/">Điểm thắng</a>
+                            <li className={this.state.current === 3 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(3, e);}}>Điểm thắng</a>
                             </li>
-                            <li className={this.state.current === 4 ? "Active" : ""} onClick={this.onClick.bind(this,4)}>
-                                <a href="/">Nửa hiệp / Cả hiệp</a>
+                            <li className={this.state.current === 4 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(4, e);}}>Nửa hiệp / Cả hiệp</a>
                             </li>
-                            <li className={this.state.current === 5 ? "Active" : ""} onClick={this.onClick.bind(this,5)}>
-                                <a href="/">Cược phạt góc</a>
+                            <li className={this.state.current === 5 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(5, e);}}>Cược phạt góc</a>
                             </li>
-                            <li className={this.state.current === 6 ? "Active" : ""} onClick={this.onClick.bind(this,6)}>
-                                <a href="/">Cược thẻ phạt</a>
+                            <li className={this.state.current === 6 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(6, e);}}>Cược thẻ phạt</a>
                             </li>
-                            <li className={this.state.current === 7 ? "Active" : ""} onClick={this.onClick.bind(this,7)}>
-                                <a href="/">Bàn thắng hơn bất cứ cầu thủ nào</a>
+                            <li className={this.state.current === 7 ? "Active" : ""} >
+                                <a href="/" onClick={(e) => {this.onClick(7, e);}}>Bàn thắng hơn bất cứ cầu thủ nào</a>
                             </li>
                         </ul>
                         <div className="ClearBoth"></div>

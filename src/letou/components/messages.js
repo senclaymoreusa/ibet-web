@@ -365,7 +365,7 @@ export const messages = {
         'timer-label': 'Timer',
         'placeholder-link': 'Placeholder Link',
         'thai-localbank-placeholder': 'Deposit ฿200 - ฿950,000',
-        'thai-localbank-placeholder-withdraw': 'Withdraw ฿200 - ฿950,000',
+        'thai-localbank-placeholder-withdraw': 'Withdraw ฿200 - ฿500,000',
         'astropay-placeholder': 'Deposit ฿10 - ฿500,000',
         'help2pay-placeholder': 'Deposit ฿500 - ฿500,000',
         'help2pay-withdraw-placeholder': 'Withdraw ฿500 - ฿500,000',
@@ -407,6 +407,7 @@ export const messages = {
         'select-amount': 'Select Amount',
         'serial-number': 'Serial Number',
         'invalid-card-number': 'Invalid Card Number',
+        'invalid-pin': 'PIN must be 10-17 digits',
         'invalid-serial-number': 'Invalid Serial Number',
         'internet-banking': 'Internet Banking',
         'bank-fee': '0 Fees | 200-200,000 vnd',
@@ -442,6 +443,7 @@ export const messages = {
         'change-mobile': 'Change mobile number method',
         'through-original': 'Through the original mobile',
         'select-provider': 'Select Provider',
+        'select-operator': 'Select Operator',
         'money-pay': 'MoneyPay',
         'moneypay-daily-limit': 'Daily Max Limit: ₫500,000',
         'bank-account': 'Bank Account',
@@ -592,6 +594,23 @@ export const messages = {
         'contact-message':
             'if you have any question please contact cs@letou.me',
         'verification-status': 'Verification Status',
+        'account-number': 'Account Number',
+        'verification-status': 'Verification Status',
+        'error-label': 'Error',
+        'withdrawal-balance': 'Withdrawal Balance',
+        'locked-balance': 'Locked Balance',
+        'free-withdrawals-remaining': 'Free Withdrawals Remaining',
+        'withdraw-fee-text':
+            '% based on the maximum withdrawal amount allowed by your bank.',
+        'fees-label': 'Fees',
+        'free-label': 'Free',
+        'confirm-label': 'Confirm',
+        'receive-amount': 'Receive Amount',
+        'page-not-found': 'Oops, this page does not exist',
+        'error-message': 'Oops, something went wrong',
+        'APP-Download': 'APP Download',
+        'contact-message':
+            'if you have any question please contact cs@letou.me',
         'sport-description':
             'Football in football, insurance cashes in with zero risk. Mobile betting, mobile time difference',
         'live-casino-description':
@@ -606,6 +625,7 @@ export const messages = {
         'sort-label': 'Sort'
     },
     zh: {
+        'APP-Download': 'APP下载',
         'help-title': '我们在此竭诚服务',
         'for-member': '供会员使用',
         'for-partner': '供合作伙伴使用',
@@ -627,6 +647,7 @@ export const messages = {
         'sign-up': '注册',
         'log-in': '登录',
         'log-out': '登出',
+        'Register-Now': '现在注册',
         'nav-sports': '体育',
         'nav-gaming': '电竞',
         'nav-live-casino': '真人娱乐场',
@@ -707,7 +728,7 @@ export const messages = {
         'ab-Super': '超级多台厅',
         'ab-Vip': 'Vip厅',
         'ab-Jingmi': '竞咪厅',
-        'Real-money': '真钱游戏',
+        'Real-money': '直接游戏',
         'EA-title': 'EA瑞宝阁',
         'EA-words': '业界营运最久平台，现场感的操作体验，独创免佣点数玩法。',
         'EA-commission': '免佣百家乐',
@@ -954,6 +975,7 @@ export const messages = {
         'help2pay-placeholder': '存入 ฿500 - ฿500,000',
         'card-number': '卡号',
         '16-digit-number': '需要16-位卡号',
+        'invalid-pin': 'PIN需要10-17位卡号',
         'invalid-expiration': '无效的截止日期',
         'date-invalid': '无效时间',
         'cvv-invalid': '无效CVV',
@@ -1014,6 +1036,8 @@ export const messages = {
         'change-mobile': '更改手机号方式',
         'through-original': '通过原手机号',
         'select-provider': '选择厂商',
+        'select-operator': 'Select Operator',
+
         'circlepay-placeholder': '存入 ₫20,000 - ₫100,000,000',
         'vn-localbank-placeholder': '存入 ₫200,000 - ₫100,000,000',
         'qr-will-needed':

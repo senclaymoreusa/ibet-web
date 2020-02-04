@@ -1,7 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-
-
+import { images } from '../../../util_config';
 
 const styles = {
     mainHeading: {
@@ -13,8 +12,10 @@ const styles = {
     },
     content: {
         margin: 15,
-        paddingLeft: 250,
-        paddingRight: 250,
+        width: 1000,
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         paddingBottom: 50,
         lineHeight: 2,
         color: 'grey',
@@ -84,7 +85,7 @@ const styles = {
 };
 
 
-class VNFirst200SlotBonus extends React.Component {
+class VNFirstTime200SlotBonus extends React.Component {
 
     render() {
         const { classes } = this.props;
@@ -93,13 +94,13 @@ class VNFirst200SlotBonus extends React.Component {
             <div>
 
                 <div className={classes.offerHeader}>
-                    <img className={classes.mainLogo} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/logo_vi.png" alt="Main Logo"/>
+                    <img className={classes.mainLogo} src={ images.src + "letou/logo_vi.png" } alt="Main Logo"/>
                     <div className={classes.button}>
-                        <a href="/" className={classes.buttonText}>Xem thêm</a>
+                        <a href="/">Xem thêm</a>
                     </div>
                 </div>
 
-                <img className={classes.bannerImg} src="https://ibet-web.s3-us-west-1.amazonaws.com/public_images/letou/bonus_images/VN200slots.jpg" alt="Banner"/>
+                <img className={classes.bannerImg} src={ images.src + "letou/bonus_images/VN200slots.jpg" } alt="Banner"/>
                 <div className={classes.content}>
 
                     <h3 className={classes.mainHeading}>200% THƯỞNG CHÀO MỪNG TẠI SLOT GAMES</h3>
@@ -159,4 +160,4 @@ class VNFirst200SlotBonus extends React.Component {
     }
 }
 
-export default withStyles(styles)(VNFirst200SlotBonus);
+export default withStyles(styles)(VNFirstTime200SlotBonus);
