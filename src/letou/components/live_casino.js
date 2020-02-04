@@ -287,10 +287,15 @@ export class live_casino extends React.Component {
     }
 
 
-    handleEAClick() {
+    handleEAClick(mobile) {
         
         // console.log("lang: " + this.props.lang);
         // console.log(this.state.data);
+        domainUrl = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
+        if (mobile) {
+            domainUrl = "https://178-mobile.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
+        }
+
         var language = 3;
         if (this.props.lang === "zh") {
             language = 1;
@@ -302,7 +307,7 @@ export class live_casino extends React.Component {
             this.props.history.push('/register');
         } else {
         
-            url = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=" + username + "&uuid=" + token + "&lang=" + language;
+            url = domainUrl + username + "&uuid=" + token + "&lang=" + language;
             window.open(url, "ea-live",'width=1000,height=800')
         }
     }
@@ -658,7 +663,7 @@ export class live_casino extends React.Component {
                                         secondary={
                                             this.getLabel('EA-words')}
                                     />
-                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick();e.preventDefault();}} >
+                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick('mobile');e.preventDefault();}} >
                                     <Icon>
                                         <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
                                     </Icon>
