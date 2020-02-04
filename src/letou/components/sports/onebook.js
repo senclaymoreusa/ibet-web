@@ -199,7 +199,12 @@ handleOnebookClick() {
                 return res.json();
             }).then(function(data){
                 //console.log(data);
-                Game_URL = data.login_url;
+                if(isBrowser){
+                  Game_URL = data.login_url;
+                }else{
+                  Game_URL = data.mobile_login;
+                }
+                
                 console.log(Game_URL)
                 // window.open(url, "onebook_url")
                 currentComponent.setState({url : Game_URL});
