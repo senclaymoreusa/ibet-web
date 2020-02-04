@@ -9,7 +9,8 @@ import '../../css/banner.css';
 import { withRouter } from 'react-router-dom';
 import { config} from '../../../util_config';
 import axios from 'axios';
-import Iframe from 'react-iframe'
+import Iframe from 'react-iframe';
+import { isBrowser} from 'react-device-detect';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -21,13 +22,22 @@ document.body.style = 'background: #f1f1f1;';
 
 const styles = theme => ({
   root: {
+    width: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-    
-    alignItems: 'center',
-    backgroundColor: theme.palette.background.paper,
-
+    flexDirection: 'column'
+  },
+  rootDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        flexDirection: 'column'
+    }
+  },
+  rootMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+        display: 'none'
+    }
   },
   grow: {
     flexGrow: 1,
@@ -151,7 +161,13 @@ handleOnebookClick() {
     let currentComponent = this;
     let token = localStorage.getItem('token');
     if(!token){
-        Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language + '&act=esports';
+        if(isBrowser){
+          Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language + '&act=esports';
+          
+        }else{
+          Game_URL = 'https://ismart.claymoreasia.com/DepositLogin/bfindex?lang=' + language + '&homeUrl=https://ibet-web-apdev.claymoreasia.com&signupUrl=https://ibet-web-apdev.claymoreasia.com/register&LoginUrl=https://ibet-web-apdev.claymoreasia.com&act=esports';
+        }
+        
         currentComponent.setState({url : Game_URL});
         // window.open(url, "onebook_url");
     }else{
@@ -199,15 +215,33 @@ handleOnebookClick() {
       <div className={classes.root}>
         <TopNavbar />
         
-        <Iframe url={this.state.url}
-            width='100%'
-            height="1500px"
-            id="myId"
-            className="myClassname"
-            display="initial"
-            position="relative"
-            scrolling="auto"
-            loading='auto' />
+        <div className={classes.grow} >
+          <div className={classes.rootDesktop}>
+            <Iframe url={this.state.url}
+                width='100%'
+                height="1500px"
+                id="myId"
+                className="myClassname"
+                display="initial"
+                position="relative"
+                scrolling="auto"
+                loading='auto' />
+
+          
+          </div>
+          <div className={classes.rootMobile}>
+            <Iframe url={this.state.url}
+                  width='100%'
+                  height="1000px"
+                  id="myId"
+                  className="myClassname"
+                  display="initial"
+                  position="relative"
+                  scrolling="auto"
+                  loading='auto' />
+
+          </div>
+        </div>
 
         
         
