@@ -407,6 +407,7 @@ export const messages = {
         'select-amount': 'Select Amount',
         'serial-number': 'Serial Number',
         'invalid-card-number': 'Invalid Card Number',
+        'invalid-pin': 'PIN must be 10-17 digits',
         'invalid-serial-number': 'Invalid Serial Number',
         'internet-banking': 'Internet Banking',
         'bank-fee': '0 Fees | 200-200,000 vnd',
@@ -442,6 +443,7 @@ export const messages = {
         'change-mobile': 'Change mobile number method',
         'through-original': 'Through the original mobile',
         'select-provider': 'Select Provider',
+        'select-operator': 'Select Operator',
         'money-pay': 'MoneyPay',
         'moneypay-daily-limit': 'Daily Max Limit: ₫500,000',
         'bank-account': 'Bank Account',
@@ -967,6 +969,7 @@ export const messages = {
         'help2pay-placeholder': '存入 ฿500 - ฿500,000',
         'card-number': '卡号',
         '16-digit-number': '需要16-位卡号',
+        'invalid-pin': 'PIN需要10-17位卡号',
         'invalid-expiration': '无效的截止日期',
         'date-invalid': '无效时间',
         'cvv-invalid': '无效CVV',
@@ -1027,6 +1030,8 @@ export const messages = {
         'change-mobile': '更改手机号方式',
         'through-original': '通过原手机号',
         'select-provider': '选择厂商',
+        'select-operator': 'Select Operator',
+
         'circlepay-placeholder': '存入 ₫20,000 - ₫100,000,000',
         'vn-localbank-placeholder': '存入 ₫200,000 - ₫100,000,000',
         'qr-will-needed':
