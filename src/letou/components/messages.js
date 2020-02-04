@@ -595,7 +595,6 @@ export const messages = {
             'if you have any question please contact cs@letou.me',
         'verification-status': 'Verification Status',
         'account-number': 'Account Number',
-        'verification-status': 'Verification Status',
         'error-label': 'Error',
         'withdrawal-balance': 'Withdrawal Balance',
         'locked-balance': 'Locked Balance',
@@ -606,11 +605,7 @@ export const messages = {
         'free-label': 'Free',
         'confirm-label': 'Confirm',
         'receive-amount': 'Receive Amount',
-        'page-not-found': 'Oops, this page does not exist',
-        'error-message': 'Oops, something went wrong',
         'APP-Download': 'APP Download',
-        'contact-message':
-            'if you have any question please contact cs@letou.me',
         'sport-description':
             'Football in football, insurance cashes in with zero risk. Mobile betting, mobile time difference',
         'live-casino-description':
