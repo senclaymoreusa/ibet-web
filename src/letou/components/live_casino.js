@@ -19,7 +19,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
-
+import { isBrowser} from 'react-device-detect';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
   gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
@@ -247,7 +247,12 @@ export class live_casino extends React.Component {
         if(!token) {
             this.props.history.push('/register');
         } else {
-            url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+            if(isBrowser){
+                url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+                
+            }else{
+                url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default&mobile=1";
+            }
             window.open(url, 'gdcasino','width=1000,height=800')
         }
     }
@@ -255,6 +260,7 @@ export class live_casino extends React.Component {
     handleAGClick(){
         
         var token = localStorage.getItem('token')
+        var url = "";
         if(token){
             var postData = {
                 "username": this.state.data.username,
@@ -278,8 +284,12 @@ export class live_casino extends React.Component {
             }).then(function (res){
                 return res.json();
             }).then(function(data) {
-                
-                window.open(data.url, "aggames", 'width=1000,height=800');
+                if(isBrowser){
+                    url = data.url;
+                }else{
+                    url = data.mobile_url;
+                }
+                window.open(url, "aggames", 'width=1000,height=800');
             });
         } else {
             this.props.history.push('/register');
