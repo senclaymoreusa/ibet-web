@@ -80,6 +80,7 @@ const styles = theme => ({
         }
     },
     paper: {
+        backgroundColor:'#fff',
         overflowX: 'scroll',
         width: '100%',
         paddingLeft: 10,

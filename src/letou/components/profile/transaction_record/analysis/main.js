@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 
 import Analysis from './analysis';
 import SportsBets from './sports_bets';
-import SportsBetDetails from './sports_bet_detail';
+import BetDetails from './bet_detail';
 import CasinoSpins from './casino_spins';
 import LiveCasinoBets from './live_casino_bets';
 import DepositWithdraw from './deposit_withdraw';
@@ -43,15 +43,11 @@ export class Main extends Component {
             <div className={classes.root}>
                 {(operationProp == undefined || operationProp == '') && <Analysis callbackFromParent={this.setContent} />}
                 {operationProp === 'sports' && <SportsBets />}
-                {operationProp === 'sports-detail' && <SportsBetDetails />}
+                {operationProp === 'bet-detail' && <BetDetails />}
                 {operationProp === 'deposit-withdraw' && <DepositWithdraw />}
                 {operationProp === 'transaction-detail' && <DepositWithdrawDetails />}
-
-                {/* 
-                {contentValue === 'casino-spins' && <CasinoSpins callbackFromParent={this.setContent} />}
-                {contentValue === 'live-casino-bets' && <LiveCasinoBets callbackFromParent={this.setContent} />}
-                {contentValue === 'deposit-withdraw' && <DepositWithdraw callbackFromParent={this.setContent} date={dateValue} opType={operationType}/>}
-                {contentValue === 'deposit-withdraw-detail' && <DepositWithdrawDetails callbackFromParent={this.setContent} />} */}
+                {operationProp === 'casino-spins' && <CasinoSpins />}
+                {operationProp === 'live-casino-bets' && <LiveCasinoBets />}
             </div>
         );
     }

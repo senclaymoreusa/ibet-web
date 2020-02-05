@@ -145,14 +145,23 @@ export class SportsBets extends Component {
         super(props);
 
         this.state = {
-            items: []
+            items: [],
+            categoryId:''
         };
     }
 
     componentDidMount() {
         this._isMounted = true;
 
-        this.getSportsBet();
+        axios
+        .get(API_URL + 'games/api/bets/getprovandcats', config)
+        .then(res => {
+            this.setState({
+                categoryId: res.data.categories.filter((c) => c.name.toLowerCase() === 'sports')[0].category_id
+            });
+
+            this.getSportsBets();
+        });
     }
 
     componentWillUnmount() {
@@ -164,14 +173,14 @@ export class SportsBets extends Component {
         return formatMessage({ id: labelId });
     }
 
-    getSportsBet() {
+    getSportsBets() {
         if (!this._isMounted) return;
 
         const { user } = this.props;
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
-        let apiURL = `games/api/bets/getall?userid=${user.userId}`;
+        let apiURL = `games/api/bets/getall?userid=${user.userId}&category=${this.state.categoryId}`;
 
         let startStr = `&start=${moment()
             .startOf('month')
@@ -192,15 +201,13 @@ export class SportsBets extends Component {
         }
 
         let requestURL = API_URL + apiURL + startStr + endStr;
-
+        
         axios
             .get(requestURL, config)
             .then(res => {
                 if (res.status === 200) {
                     let itemArray = [];
-                    console.log('items')
-                    console.log(res.data.results)
-                    Object.keys(res.data.results).map(function (refNum) {
+                   Object.keys(res.data.results).map(function (refNum) {
                         let result = res.data.results[refNum];
 
                         if (result.length === 1) {
@@ -226,8 +233,17 @@ export class SportsBets extends Component {
                     const cats = itemArray.reduce(
                         (itemSoFar, { date, ref_no, amount_won }) => {
                             let d = moment(date).format('DD-MM-YYYY');
-                            if (!itemSoFar[d]) itemSoFar[d] = [];
-                            itemSoFar[d].push({ date, ref_no, amount_won });
+
+                            if (!itemSoFar[d])
+                                itemSoFar[d] = {
+                                    win: 0,
+                                    balance: 0,
+                                    records:[]
+                                };
+
+                            itemSoFar[d].win = itemSoFar[d].win + parseFloat(amount_won);
+                            itemSoFar[d].records.push({ date, ref_no, amount_won });
+
                             return itemSoFar;
                         },
                         {}
@@ -293,16 +309,16 @@ export class SportsBets extends Component {
                                                 <span
                                                     className={classes.titleLabel}
                                                 >
-                                                    200
+                                                    {items[d].win}
                                                 </span>
                                             </StyledTableCell>
-                                            <StyledTableCell>
+                                            {/* <StyledTableCell>
                                                 <span
                                                     className={classes.titleLabel}
                                                 >
-                                                    500
+                                                0
                                                 </span>
-                                            </StyledTableCell>
+                                            </StyledTableCell> */}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -336,7 +352,7 @@ export class SportsBets extends Component {
                                                     {currentComponent.getLabel('win-loss')}
                                                 </span>
                                             </StyledTableCell>
-                                            <StyledTableCell>
+                                            {/* <StyledTableCell>
                                                 <span
                                                     className={
                                                         classes.subtitleLabel
@@ -344,9 +360,9 @@ export class SportsBets extends Component {
                                                 >
                                                     {currentComponent.getLabel('balance-label')}
                                                 </span>
-                                            </StyledTableCell>
+                                            </StyledTableCell> */}
                                         </StyledTableRow>
-                                        {items[d].map(item => (
+                                        {items[d].records.map(item => (
                                             <StyledTableRow key={item.ref_no}>
                                                 <StyledTableCell>
                                                     <span
@@ -358,13 +374,13 @@ export class SportsBets extends Component {
                                                     </span>
                                                 </StyledTableCell>
                                                 <StyledTableCell
-                                                style={{cursor:'pointer'}}
+                                                    style={{ cursor: 'pointer' }}
                                                     onClick={() => {
-                                                        currentComponent.props.history.push(`/p/transaction-records/analysis/sports-detail?id=${item.transaction_id}`);
+                                                        currentComponent.props.history.push(`/p/transaction-records/analysis/bet-detail?id=${item.ref_no}`);
                                                     }}>
                                                     <span
                                                         className={
-                                                            classes.label
+                                                            classes.link
                                                         }
                                                     >
                                                         {item.ref_no}
@@ -379,7 +395,7 @@ export class SportsBets extends Component {
                                                         {Number(item.amount_won).toFixed(2)}
                                                     </span>
                                                 </StyledTableCell>
-                                                <StyledTableCell>
+                                                {/* <StyledTableCell>
                                                     <span
                                                         className={
                                                             classes.label
@@ -387,7 +403,7 @@ export class SportsBets extends Component {
                                                     >
                                                         {Number(item.amount_won).toFixed(2)}
                                                     </span>
-                                                </StyledTableCell>
+                                                </StyledTableCell> */}
                                             </StyledTableRow>
                                         ))}
                                     </TableBody>
