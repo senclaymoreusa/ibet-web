@@ -291,7 +291,8 @@ export class live_casino extends React.Component {
         
         // console.log("lang: " + this.props.lang);
         // console.log(this.state.data);
-        domainUrl = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
+        
+        var domainUrl = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
         if (mobile) {
             domainUrl = "https://178-mobile.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
         }
