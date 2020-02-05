@@ -19,6 +19,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
+import { isBrowser} from 'react-device-detect';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
   gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
@@ -246,7 +247,12 @@ export class live_casino extends React.Component {
         if(!token) {
             this.props.history.push('/register');
         } else {
-            url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+            if(isBrowser){
+                url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+                
+            }else{
+                url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default&mobile=1";
+            }
             window.open(url, 'gdcasino','width=1000,height=800')
         }
     }
@@ -254,6 +260,7 @@ export class live_casino extends React.Component {
     handleAGClick(){
         
         var token = localStorage.getItem('token')
+        var url = "";
         if(token){
             var postData = {
                 "username": this.state.data.username,
@@ -277,8 +284,12 @@ export class live_casino extends React.Component {
             }).then(function (res){
                 return res.json();
             }).then(function(data) {
-                
-                window.open(data.url, "aggames", 'width=1000,height=800');
+                if(isBrowser){
+                    url = data.url;
+                }else{
+                    url = data.mobile_url;
+                }
+                window.open(url, "aggames", 'width=1000,height=800');
             });
         } else {
             this.props.history.push('/register');
@@ -286,10 +297,16 @@ export class live_casino extends React.Component {
     }
 
 
-    handleEAClick() {
+    handleEAClick(mobile) {
         
         // console.log("lang: " + this.props.lang);
         // console.log(this.state.data);
+        
+        var domainUrl = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
+        if (mobile) {
+            domainUrl = "https://178-mobile.claymoreasia.com/mobile/src/mobile.php?userid=";
+        }
+
         var language = 3;
         if (this.props.lang === "zh") {
             language = 1;
@@ -301,7 +318,7 @@ export class live_casino extends React.Component {
             this.props.history.push('/register');
         } else {
         
-            url = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=" + username + "&uuid=" + token + "&lang=" + language;
+            url = domainUrl + username + "&uuid=" + token + "&lang=" + language;
             window.open(url, "ea-live",'width=1000,height=800')
         }
     }
@@ -657,7 +674,7 @@ export class live_casino extends React.Component {
                                         secondary={
                                             this.getLabel('EA-words')}
                                     />
-                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick();e.preventDefault();}} >
+                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick('mobile');e.preventDefault();}} >
                                     <Icon>
                                         <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
                                     </Icon>

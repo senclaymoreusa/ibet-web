@@ -24,11 +24,7 @@ const StyledTableCell = withStyles(theme => ({
     },
     body: {
         fontSize: 14,
-        whiteSpace: 'nowrap',
-        paddingLeft: 4,
-        paddingRight: 4,
-        paddingBottom: 8,
-        paddingTop: 8
+        padding: 10
     }
 }))(TableCell);
 
@@ -164,6 +160,8 @@ const styles = theme => ({
 });
 
 export class CasinoSpins extends Component {
+    _isMounted = false;
+    
     constructor(props) {
         super(props);
 
@@ -207,7 +205,9 @@ export class CasinoSpins extends Component {
                         <Button
                             className={classes.prevButton}
                             onClick={() => {
-                                this.props.callbackFromParent('main');
+                                this.props.history.push(
+                                    `/p/transaction-records/analysis/`
+                                );
                             }}
                         >
                             <img src={images.src + 'letou/close.svg'} alt="" />
