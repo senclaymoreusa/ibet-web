@@ -9,8 +9,8 @@ import '../../css/banner.css';
 import { withRouter } from 'react-router-dom';
 import { config} from '../../../util_config';
 import axios from 'axios';
-import Iframe from 'react-iframe'
-
+import Iframe from 'react-iframe';
+import { isBrowser} from 'react-device-detect';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
@@ -21,13 +21,22 @@ document.body.style = 'background: #f1f1f1;';
 
 const styles = theme => ({
   root: {
+    width: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-    
-    alignItems: 'center',
-    backgroundColor: theme.palette.background.paper,
-
+    flexDirection: 'column'
+  },
+  rootDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        flexDirection: 'column'
+    }
+  },
+  rootMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+        display: 'none'
+    }
   },
   grow: {
     flexGrow: 1,
@@ -127,13 +136,18 @@ componentDidUpdate(prevProps){
 }
   game_url(gamename){
     var URL = "";
-    var token = localStorage.getItem('token')  
+    var token = localStorage.getItem('token');
+    var Game_URL = "";
     if (token){
         config.headers["Authorization"] = `Token ${token}`;
         URL = API_URL + 'games/api/gb/generategameurl/?game=' + gamename
         axios.get(URL, config)
         .then(res => {
-            var Game_URL = res.data.game_url
+            if(isBrowser){
+              Game_URL = res.data.game_url;
+            }else{
+              Game_URL = res.data.mobile_url;
+            }
             //console.log(Game_URL);
             // this.state.url =Game_URL
             this.setState({url : Game_URL});
@@ -160,7 +174,11 @@ componentDidUpdate(prevProps){
         URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename + '&language=' + language
         axios.get(URL, config)
         .then(res => {
-            var Game_URL = res.data.game_url
+            if(isBrowser){
+              Game_URL = res.data.game_url;
+            }else{
+              Game_URL = res.data.mobile_url;
+            }
             // console.log("fake");
             // console.log(Game_URL);
             // return Game_URL;
@@ -178,15 +196,31 @@ componentDidUpdate(prevProps){
       <div className={classes.root}>
         <TopNavbar />
         
-        <Iframe url={this.state.url}
-            width='100%'
-            height="1500px"
-            id="myId"
-            className="myClassname"
-            display="initial"
-            position="relative"
-            scrolling="auto"
-            loading='auto' />
+        <div className={classes.grow} >
+          <div className={classes.rootDesktop}>
+            <Iframe url={this.state.url}
+              width='100%'
+              height="1500px"
+              id="myId"
+              className="myClassname"
+              display="initial"
+              position="relative"
+              scrolling="auto"
+              loading='auto' />
+          </div>
+          <div className={classes.rootMobile}>
+            <Iframe url={this.state.url}
+                  width='100%'
+                  height="1000px"
+                  id="myId"
+                  className="myClassname"
+                  display="initial"
+                  position="relative"
+                  scrolling="auto"
+                  loading='auto' />
+
+          </div>
+        </div>
 
         
         
