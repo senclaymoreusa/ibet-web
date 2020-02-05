@@ -511,7 +511,7 @@ class CirclePay extends Component {
                     );
                     console.log('opening window');
                     currentComponent.props.callbackFromParent(
-                        'inprogress',
+                        'pending',
                         "Please continue through the opened provider's portal"
                     );
                     let timer = setInterval(function() {
