@@ -63,6 +63,27 @@ const styles = {
     bolded: {
         fontWeight: 900,
     },
+    bannerImg: {
+        width: '100%',
+    },
+    tableHeader: {
+        backgroundColor: 'orange',
+        color: 'white',
+    },
+    table: {
+        borderSpacing: 0,
+        marginTop: 15,
+        marginBottom: 15,
+    },
+    tableCell: {
+        border: '1px solid grey',
+        width: 480,
+        textAlign: 'center',
+        paddingLeft: 50,
+        paddingRight: 50,
+        paddingTop: 6,
+        paddingBottom: 6,
+    },
 };
 
 
@@ -80,6 +101,8 @@ class VNSpecialSlotBonus extends React.Component {
                     </div>
                 </div>
 
+                <img className={classes.bannerImg} src={ images.src + "letou/bonus_images/VNSpecialSlot.jpg" } alt="Banner"/>
+
                 <div className={classes.content}>
 
                     <h3 className={classes.mainHeading}>SIÊU HOÀN TRẢ 1.3% TẠI SLOT GAMES</h3>
@@ -92,6 +115,46 @@ class VNSpecialSlotBonus extends React.Component {
                         <li>- Số di động.</li>
                         <li>- Địa chỉ email.</li>
                         <li>2. Tiền hoàn trả sẽ dựa trên tổng số tiền đặt cược hợp lệ (doanh thu cược) của thành viên tại sản phẩm Slot Games theo từng kèo, từng trận đấu và từng cấp độ thành viên như sau:</li>
+
+
+                        <div>
+                            <table className={classes.table}>
+                                <tr className={classes.tableHeader}>
+                                    <th className={classes.tableCell}>Cấp độ</th>
+                                    <th className={classes.tableCell}>Hoàn trả</th>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCell}>Thành viên thường</td>
+                                    <td className={classes.tableCell}>0.5%</td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCell}>Thành viên đồng</td>
+                                    <td className={classes.tableCell}>0.6%</td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCell}>Thành viên bạc</td>
+                                    <td className={classes.tableCell}>0.7%</td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCell}>Thành viên vàng</td>
+                                    <td className={classes.tableCell}>0.8%</td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCell}>Thành viên bạch kim</td>
+                                    <td className={classes.tableCell}>1.00%</td>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCell}>Thành viên kim cương</td>
+                                    <td className={classes.tableCell}>1.30%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+
+
+
                         <li>3. Mức hoàn trả tối thiểu 0.01 VND và không giới hạn mức hoàn trả tối đa.</li>
                         <li>4. Số tiền hoàn trả không cần cược lại.</li>
                         <li>5. Mức hoàn trả được tính như sau:</li>

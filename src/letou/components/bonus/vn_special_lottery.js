@@ -63,6 +63,28 @@ const styles = {
     bolded: {
         fontWeight: 900,
     },
+    bannerImg: {
+        width: '100%',
+    },
+    tableHeader: {
+        backgroundColor: 'orange',
+        color: 'white',
+    },
+    table: {
+        borderSpacing: 0,
+        marginTop: 15,
+        marginBottom: 15,
+    },
+    tableCell: {
+        border: '1px solid grey',
+        width: 480,
+        textAlign: 'center',
+        paddingLeft: 50,
+        paddingRight: 50,
+        paddingTop: 6,
+        paddingBottom: 6,
+        verticalAlign: 'middle',
+    },
 };
 
 
@@ -80,6 +102,8 @@ class VNSpecialLotteryBonus extends React.Component {
                     </div>
                 </div>
 
+                <img className={classes.bannerImg} src={ images.src + "letou/bonus_images/VNSpecialLottery.jpg" } alt="Banner"/>
+
                 <div className={classes.content}>
 
                     <h3 className={classes.mainHeading}>5% HOÀN TRẢ HÀNG TUẦN TẠI XỔ SỐ</h3>
@@ -92,6 +116,32 @@ class VNSpecialLotteryBonus extends React.Component {
                         <li>- Số di động</li>
                         <li>- Địa chỉ email</li>
                         <li>2. Tiền hoàn trả hàng tuần của thành viên sẽ dựa trên tổng số tiền đặt cược hợp lệ tính từ 00:00:00 (GMT+8) thứ 2 đến 23:59:59 (GMT+8) chủ nhật tại sản phẩm Xổ số sau:</li>
+                        
+                        
+                        <div>
+                            <table className={classes.table}>
+                                <tr className={classes.tableHeader}>
+                                    <th className={classes.tableCell}>Sản phẩm Xổ số</th>
+                                    <th className={classes.tableCell}>Cấp độ</th>
+                                    <th className={classes.tableCell}>Hoàn trả</th>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCell} rowspan={2}>Lotto, SSC, PK10</td>
+                                    <td className={classes.tableCell}>Thành viên thường</td>
+                                    <th className={classes.tableCell}>3%</th>
+                                </tr>
+                                <tr>
+                                    <td className={classes.tableCell}>Thành viên VIP</td>
+                                    <td className={classes.tableCell}>5%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                        
+                        
+                        
+                        
                         <li>3. Tiền thưởng tối thiểu 1VND, tối đa hoàn trả 1,500VND.</li>
                         <li>4. Số tiền hoàn trả không cần cược lại.</li>
                         <li>5. Mức hoàn trả được tính như sau:</li>
