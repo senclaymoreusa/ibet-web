@@ -119,7 +119,7 @@ export class gblotto extends React.Component {
     super(props);
 
     this.state = {
-    //   url : ""
+      url : ""
 
     };
 
@@ -184,7 +184,7 @@ componentDidUpdate(prevProps){
               Game_URL = res.data.mobile_url;
             }
             // console.log("fake");
-            // console.log(Game_URL);
+            //console.log(Game_URL);
             // return Game_URL;
             this.setState({url : Game_URL});
         })

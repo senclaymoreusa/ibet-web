@@ -126,18 +126,14 @@ export class gbsports extends React.Component {
     
   }
   componentDidMount() {
-    // this.props.authCheckState()
-    //     .then(() => {
-    //         this.setState({ showSoggedinStatus: true });
-    //     })
     this.game_url("GB Sports");
-   
 }
   componentDidUpdate(prevProps){
     if (this.props.lang !== prevProps.lang && this.props.lang) {
       this.game_url("GB Sports");
     }
   }
+  
   game_url(gamename){
     var URL = "";
     var token = localStorage.getItem('token')  
@@ -153,7 +149,7 @@ export class gbsports extends React.Component {
               Game_URL = res.data.mobile_url;
             }
             
-            //console.log(Game_URL);
+            console.log(Game_URL);
             // this.state.url =Game_URL
             this.setState({url : Game_URL});
         })
@@ -186,7 +182,7 @@ export class gbsports extends React.Component {
               Game_URL = res.data.mobile_url;
             }
             
-            //console.log(Game_URL);
+            console.log(Game_URL);
             // console.log("fake");
             // console.log(Game_URL);
             // return Game_URL;
