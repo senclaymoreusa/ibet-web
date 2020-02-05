@@ -35,6 +35,28 @@ const styles = {
         paddingTop: 20,
         paddingBottom: 30,
     },
+    content: {
+        margin: 15,
+        width: 1000,
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingBottom: 50,
+        lineHeight: 2,
+        color: 'grey',
+    },
+    mainHeading: {
+        fontSize: 25,
+        color: 'orange',
+        textAlign: 'center',
+        paddingBottom: 15,
+        fontWeight: 500,
+    },
+    wrapper: {
+        fontWeight: 900,
+        borderLeft: '5px solid #FF9E00',
+        paddingLeft: 10,
+    },
 };
 
 
@@ -53,6 +75,11 @@ class VNSpecialEsportBonus extends React.Component {
                 </div>
 
                 <div className={classes.content}>
+                    
+                    <h3 className={classes.mainHeading}>1.5% HOÀN TRẢ HÀNG TUẦN KHÔNG GIỚI HẠN TẠI e-THỂ THAO</h3>
+                    <hr></hr>
+                    <p className={classes.wrapper}>Điều kiện và Điều khoản:</p>
+
                 </div>
 
                 <div className={classes.footer}>
