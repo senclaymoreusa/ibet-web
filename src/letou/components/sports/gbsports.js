@@ -149,7 +149,7 @@ export class gbsports extends React.Component {
               Game_URL = res.data.mobile_url;
             }
             
-            console.log(Game_URL);
+            // console.log(Game_URL);
             // this.state.url =Game_URL
             this.setState({url : Game_URL});
         })
@@ -182,7 +182,7 @@ export class gbsports extends React.Component {
               Game_URL = res.data.mobile_url;
             }
             
-            console.log(Game_URL);
+            // console.log(Game_URL);
             // console.log("fake");
             // console.log(Game_URL);
             // return Game_URL;

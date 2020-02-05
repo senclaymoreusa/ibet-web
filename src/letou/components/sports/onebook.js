@@ -205,7 +205,7 @@ handleOnebookClick() {
                   Game_URL = data.mobile_login;
                 }
                 
-                console.log(Game_URL)
+                // console.log(Game_URL)
                 // window.open(url, "onebook_url")
                 currentComponent.setState({url : Game_URL});
             });
