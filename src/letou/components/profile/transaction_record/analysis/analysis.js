@@ -137,7 +137,7 @@ const styles = theme => ({
             paddingTop: 20
         }
     },
-    chart:{
+    chart: {
         height: 20,
         [theme.breakpoints.down('md')]: {
             height: 100
@@ -371,6 +371,9 @@ export class Analysis extends Component {
             })
             .catch(err => {
                 sendingLog(err);
+                this.setState({
+                    loading: false
+                });
             });
     }
 
@@ -515,7 +518,7 @@ export class Analysis extends Component {
         return (
             <div className={classes.root}>
                 {loading && <CircularProgress className={classes.progress} />}
-                <div className={classes.main}>
+                <div className={classes.main} style={(loading === true) ? { pointerEvents: 'none' } : { pointerEvents: 'all' }} >
                     <Grid container>
                         <Grid item xs={12} className={classes.barRow}>
                             <div className={classes.prevCell}>{prevButton}</div>
@@ -591,7 +594,7 @@ export class Analysis extends Component {
                         </Grid>
                         <Grid item md={3} className={classes.desktop}></Grid>
                         <Grid item xs={12} className={classes.chartPane}>
-                            <Line data={data} options={options} className={classes.chart} height={70}/>
+                            <Line data={data} options={options} className={classes.chart} height={70} />
                         </Grid>
                         <Grid
                             item
@@ -643,10 +646,7 @@ export class Analysis extends Component {
                             <Button
                                 className={classes.button}
                                 onClick={() => {
-                                    this.props.callbackFromParent(
-                                        'sports',
-                                        currentDate
-                                    );
+                                    this.props.history.push(`/p/transaction-records/analysis/sports?date=${moment(currentDate).format('MM-YYYY')}`);
                                 }}
                             >
                                 <img
@@ -669,10 +669,7 @@ export class Analysis extends Component {
                             <Button
                                 className={classes.button}
                                 onClick={() => {
-                                    this.props.callbackFromParent(
-                                        'casino-spins',
-                                        currentDate
-                                    );
+                                    this.props.history.push(`/p/transaction-records/analysis/casino-spins?date=${moment(currentDate).format('MM-YYYY')}`);
                                 }}
                             >
                                 <img
@@ -695,10 +692,7 @@ export class Analysis extends Component {
                             <Button
                                 className={classes.button}
                                 onClick={() => {
-                                    this.props.callbackFromParent(
-                                        'live-casino-bets',
-                                        currentDate
-                                    );
+                                    this.props.history.push(`/p/transaction-records/analysis/live-casino-bets?date=${moment(currentDate).format('MM-YYYY')}`);
                                 }}
                             >
                                 <img
@@ -731,11 +725,7 @@ export class Analysis extends Component {
                             <Button
                                 className={classes.button}
                                 onClick={() => {
-                                    this.props.callbackFromParent(
-                                        'deposit-withdraw',
-                                        currentDate,
-                                        0
-                                    );
+                                    this.props.history.push(`/p/transaction-records/analysis/deposit-withdraw?date=${moment(currentDate).format('MM-YYYY')}`);
                                 }}
                             >
                                 <img
@@ -751,11 +741,7 @@ export class Analysis extends Component {
                             <Button
                                 className={classes.button}
                                 onClick={() => {
-                                    this.props.callbackFromParent(
-                                        'deposit-withdraw',
-                                        currentDate,
-                                        1
-                                    );
+                                    this.props.history.push(`/p/transaction-records/analysis/deposit-withdraw?date=${moment(currentDate).format('MM-YYYY')}`);
                                 }}
                             >
                                 <img
