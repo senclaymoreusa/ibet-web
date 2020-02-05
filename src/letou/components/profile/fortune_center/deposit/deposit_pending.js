@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import { authCheckState } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
-import Timer from 'react-compound-timer';
+import { images } from '../../../../../util_config';
 
 const styles = theme => ({
     root: {
@@ -153,7 +152,7 @@ export class DepositPending extends Component {
 
         return (
             <div className={classes.root}>
-                <Grid container>
+                <Grid container spacing={3} style={{ width: 700 }}>
                     {/* <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
                             {'Deposit Method'}
@@ -166,7 +165,15 @@ export class DepositPending extends Component {
                                 : this.getLabel('deposit-failed-text')}
                         </span>
                     </Grid> */}
-                    <Grid item xs={6} className={classes.row}>
+                    {/* <Grid item xs={12} className={classes.completeCell}>
+                        <div className={classes.completeDiv}>
+                            <img
+                                src={images.src + 'letou/ok.svg'}
+                                alt="checkmark"
+                            />
+                        </div>
+                    </Grid> */}
+                    <Grid item xs={12} className={classes.row}>
                         {pendingMessage}
                     </Grid>
                     {/* <Grid item xs={3} className={classes.row}>

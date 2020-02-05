@@ -747,7 +747,7 @@ export class DepositMain extends Component {
         else if (contentValue === 'inprogress')
             return <DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />;
         else if (contentValue === 'pending')
-            return <DepositPending callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />;
+            return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
 
         if (operationProp === 'alipay')
             return <AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
