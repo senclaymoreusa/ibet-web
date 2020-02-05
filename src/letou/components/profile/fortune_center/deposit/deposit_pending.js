@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
-import { images } from '../../../../../util_config';
+// import { images } from '../../../../../util_config';
 
 const styles = theme => ({
     root: {
