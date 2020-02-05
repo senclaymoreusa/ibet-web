@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -9,6 +9,12 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import { images } from '../../../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
+import { config } from '../../../../../util_config';
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -97,11 +103,40 @@ const styles = theme => ({
 });
 
 export class SportsBetDetails extends Component {
-    
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            transaction: null
+        };
+    }
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
+    }
+
+    componentDidMount() {
+        this.getBet();
+    }
+
+    getBet() {
+        const values = queryString.parse(this.props.location.search);
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        let apiURL = `accounting/api/transactions/get_transaction_by_id?transaction_id=${values.id}`;
+
+        axios
+            .get(API_URL + apiURL, config)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({ item: res.data });
+                }
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
     }
 
     render() {
@@ -118,7 +153,9 @@ export class SportsBetDetails extends Component {
                         <Button
                             className={classes.prevButton}
                             onClick={() => {
-                                this.props.callbackFromParent('main');
+                                this.props.history.push(
+                                    `/p/transaction-records/analysis/`
+                                );
                             }}
                         >
                             <img src={images.src + 'letou/close.svg'} alt="" />
@@ -219,5 +256,11 @@ const mapStateToProps = state => {
 };
 
 export default withStyles(styles)(
-    injectIntl(connect(mapStateToProps, { authCheckState })(SportsBetDetails))
+    withRouter(
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, sendingLog })(
+                SportsBetDetails
+            )
+        )
+    )
 );
