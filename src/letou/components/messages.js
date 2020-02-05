@@ -587,9 +587,14 @@ export const messages = {
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
         'safety-rate': 'Safety Rate',
-        'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
-        'account-number': 'Account Number',
+        'vn-localbank-placeholder-withdraw': '₫300,000 - 300,000,000',
+        'vn-moneypay-placeholder-withdraw': '₫300,000 - 300,000,000',
+        'page-not-found': 'Oops, this page does not exist',
+        'error-message': 'Oops, something went wrong',
+        'contact-message':
+            'if you have any question please contact cs@letou.me',
         'verification-status': 'Verification Status',
+        'account-number': 'Account Number',
         'error-label': 'Error',
         'withdrawal-balance': 'Withdrawal Balance',
         'locked-balance': 'Locked Balance',
@@ -600,11 +605,7 @@ export const messages = {
         'free-label': 'Free',
         'confirm-label': 'Confirm',
         'receive-amount': 'Receive Amount',
-        'page-not-found': 'Oops, this page does not exist',
-        'error-message': 'Oops, something went wrong',
         'APP-Download': 'APP Download',
-        'contact-message':
-            'if you have any question please contact cs@letou.me',
         'sport-description':
             'Football in football, insurance cashes in with zero risk. Mobile betting, mobile time difference',
         'live-casino-description':
@@ -1155,7 +1156,8 @@ export const messages = {
         'video-poker': '视频扑克',
         'fishing-games': '捕鱼游戏',
         'view-all': '查看全部 >',
-        'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
+        'vn-localbank-placeholder-withdraw': '₫300,000 - 300,000,000',
+        'vn-moneypay-placeholder-withdraw': '₫300,000 - 300,000,000',
         'page-not-found': '頁面不存在',
         'error-message': '內部異常',
         'contact-message': '如有任何疑问请发邮件到cs@letou.me',
