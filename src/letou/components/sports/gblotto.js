@@ -149,6 +149,7 @@ componentDidUpdate(prevProps){
         .then(res => {
           if(isMobile || isTablet){
             Game_URL = res.data.mobile_url;
+            window.open(Game_URL,"_self")
           }else{
             
             Game_URL = res.data.game_url;
@@ -181,6 +182,7 @@ componentDidUpdate(prevProps){
         .then(res => {
           if(isMobile || isTablet){
             Game_URL = res.data.mobile_url;
+            window.open(Game_URL,"_self")
           }else{
             
             Game_URL = res.data.game_url;

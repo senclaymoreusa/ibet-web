@@ -146,6 +146,7 @@ export class gbsports extends React.Component {
             if(isMobile || isTablet){
               
               Game_URL = res.data.mobile_url;
+              window.open(Game_URL,"_self")
             }else{
               Game_URL = res.data.game_url;
             }
@@ -179,6 +180,7 @@ export class gbsports extends React.Component {
           
             if(isMobile || isTablet){
               Game_URL = res.data.mobile_url;
+              window.open(Game_URL,"_self")
             }else{
               
               Game_URL = res.data.game_url;
