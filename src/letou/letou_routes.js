@@ -383,6 +383,7 @@ const BaseRouter = () => (
         <Route exact path="/vi/promotion/special_lottery" component={VNSpecialLotteryBonus} />
 
         <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
+        <Route exact path="/p/:type?/:sub?/:operation?/" component={Profile} />
         <Route exact path="/promotions" component={Promotion} />
         <Route path="*" component={NoMatch} />
         </Switch>

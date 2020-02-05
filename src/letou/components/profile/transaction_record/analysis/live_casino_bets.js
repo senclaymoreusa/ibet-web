@@ -207,7 +207,9 @@ export class LiveCasinoBets extends Component {
                         <Button
                             className={classes.prevButton}
                             onClick={() => {
-                                this.props.callbackFromParent('main');
+                                this.props.history.push(
+                                    `/p/transaction-records/analysis/`
+                                );
                             }}
                         >
                             <img src={images.src + 'letou/close.svg'} alt="" />

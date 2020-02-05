@@ -16,8 +16,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import moment from 'moment';
 import getSymbolFromCurrency from 'currency-symbol-map';
-
+import { config } from '../../../../../util_config';
 import axios from 'axios';
+import queryString from 'query-string';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -117,12 +119,14 @@ const styles = theme => ({
         lineHeight: 'normal',
         color: '#0091ff'
     },
-    tableRow:{
-        cursor:'pointer'
+    tableRow: {
+        cursor: 'pointer'
     }
 });
 
 export class DepositWithdraw extends Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
@@ -136,11 +140,13 @@ export class DepositWithdraw extends Component {
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+        this._isMounted = true;
 
         this.getTransactions();
     }
 
     componentWillUnmount() {
+        this._isMounted = false;
         window.removeEventListener('resize', this.updateWindowDimensions);
     }
 
@@ -154,20 +160,33 @@ export class DepositWithdraw extends Component {
     }
 
     getTransactions() {
-        const { user, date, opType } = this.props;
+        if (!this._isMounted) return;
 
-        let requestURL = `accounting/api/transactions/get_transactions?user_id=${user.userId}&type=${opType}`;
+        const { user } = this.props;
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
 
-        let fromStr = `&time_from=${date.startOf('month').format('l')}`;
-        let toStr = `&time_to=${date.endOf('month').format('l')}`;
+        let requestURL = `accounting/api/transactions/get_transactions?user_id=${user.userId}`;
+
+        let startStr = `&time_from=${moment()
+            .startOf('month')
+            .format('l')}`;
+        let endStr = `&time_to=${moment()
+            .endOf('month')
+            .format('l')}`;
+
+        const values = queryString.parse(this.props.location.search);
+
+        if (values.date) {
+            startStr = `&time_from=${moment(values.date, 'MM-YYYY').startOf('month').format('l')}`;
+            endStr = `&time_to=${moment(values.date, 'MM-YYYY').endOf('month').format('l')}`;
+        }
 
         axios
-            .get(API_URL + requestURL + fromStr + toStr)
+            .get(API_URL + requestURL + startStr + endStr)
             .then(res => {
                 if (res.status === 200) {
-                    this.setState({ items: res.data.results });
-                    console.log('items')
-                    console.log(res.data.results)
+                   this.setState({ items: res.data.results.filter(item => item.transaction_type.toLowerCase() == 'withdrawal' || item.transaction_type.toLowerCase() == 'deposit') });
                 } else {
                     this.setState({ items: [] });
                 }
@@ -193,7 +212,9 @@ export class DepositWithdraw extends Component {
                         <Button
                             className={classes.prevButton}
                             onClick={() => {
-                                this.props.callbackFromParent('main');
+                                this.props.history.push(
+                                    `/p/transaction-records/analysis/`
+                                );
                             }}
                         >
                             <img src={images.src + 'letou/close.svg'} alt="" />
@@ -251,9 +272,7 @@ export class DepositWithdraw extends Component {
                                         <TableRow
                                             key={row.transaction_id}
                                             onClick={() => {
-                                                this.props.callbackFromParent(
-                                                    row.transaction_id
-                                                );
+                                                this.props.history.push(`/p/transaction-records/analysis/transaction-detail?id=${row.transaction_id}`);
                                             }}
                                             className={classes.tableRow}
                                         >
@@ -272,20 +291,33 @@ export class DepositWithdraw extends Component {
                                                 </span>
                                             </StyledTableCell>
                                             <StyledTableCell>
-                                                <span className={classes.typeLabel}>
+                                                <span
+                                                    className={
+                                                        classes.typeLabel
+                                                    }
+                                                >
                                                     {row.transaction_type}
                                                 </span>
                                             </StyledTableCell>
                                             <StyledTableCell>
                                                 <span className={classes.label}>
-                                                    {getSymbolFromCurrency(user.currency)}
-                                                    {Number(row.amount).toFixed(2)}
+                                                    {getSymbolFromCurrency(
+                                                        user.currency
+                                                    )}
+                                                    {Number(row.amount).toFixed(
+                                                        2
+                                                    )}
                                                 </span>
                                             </StyledTableCell>
                                             <StyledTableCell>
                                                 <span className={classes.label}>
-                                                    ¥1,425
-                                            </span>
+                                                {getSymbolFromCurrency(
+                                                        user.currency
+                                                    )}
+                                                    {Number(row.balance).toFixed(
+                                                        2
+                                                    )}
+                                                </span>
                                             </StyledTableCell>
                                         </TableRow>
                                     ))}
