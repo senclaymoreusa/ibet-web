@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { config} from '../../../util_config';
 import axios from 'axios';
 import Iframe from 'react-iframe';
-import { isBrowser} from 'react-device-detect';
+import { isMobile, isTablet} from 'react-device-detect';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -143,13 +143,14 @@ export class gbsports extends React.Component {
         URL = API_URL + 'games/api/gb/generategameurl/?game=' + gamename
         axios.get(URL, config)
         .then(res => {
-            if(isBrowser){
-              Game_URL = res.data.game_url;
-            }else{
+            if(isMobile || isTablet){
+              
               Game_URL = res.data.mobile_url;
+            }else{
+              Game_URL = res.data.game_url;
             }
             
-            console.log(Game_URL);
+            //console.log(Game_URL);
             // this.state.url =Game_URL
             this.setState({url : Game_URL});
         })
@@ -176,13 +177,14 @@ export class gbsports extends React.Component {
         axios.get(URL, config)
         .then(res => {
           
-            if(isBrowser){
-              Game_URL = res.data.game_url;
-            }else{
+            if(isMobile || isTablet){
               Game_URL = res.data.mobile_url;
+            }else{
+              
+              Game_URL = res.data.game_url;
             }
             
-            console.log(Game_URL);
+            //console.log(Game_URL);
             // console.log("fake");
             // console.log(Game_URL);
             // return Game_URL;
@@ -211,7 +213,7 @@ export class gbsports extends React.Component {
               scrolling="auto"
               loading='auto' />
           </div>
-          <div className={classes.rootMobile}>
+          {/* <div className={classes.rootMobile}>
             <Iframe url={this.state.url}
                   width='100%'
                   height="1000px"
@@ -222,7 +224,7 @@ export class gbsports extends React.Component {
                   scrolling="auto"
                   loading='auto' />
 
-          </div>
+          </div> */}
         </div>
         
         

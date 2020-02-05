@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { config} from '../../../util_config';
 import axios from 'axios';
 import Iframe from 'react-iframe';
-import { isBrowser} from 'react-device-detect';
+import { isMobile, isTablet} from 'react-device-detect';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -161,14 +161,14 @@ handleOnebookClick() {
     let currentComponent = this;
     let token = localStorage.getItem('token');
     if(!token){
-        if(isBrowser){
-          Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language + '&act=esports';
-          
-        }else{
-          Game_URL = 'https://ismart.claymoreasia.com/DepositLogin/bfindex?lang=' + language + '&homeUrl=https://ibet-web-apdev.claymoreasia.com&signupUrl=https://ibet-web-apdev.claymoreasia.com/register&LoginUrl=https://ibet-web-apdev.claymoreasia.com&act=esports';
-        }
+      if(isMobile || isTablet){
+        Game_URL = 'https://ismart.claymoreasia.com/DepositLogin/bfindex?lang=' + language + '&homeUrl=https://ibet-web-apdev.claymoreasia.com&signupUrl=https://ibet-web-apdev.claymoreasia.com/register&LoginUrl=https://ibet-web-apdev.claymoreasia.com';
+        window.open(Game_URL,"_self")
+      }else{
+        Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language;
+      }
         
-        currentComponent.setState({url : Game_URL});
+      currentComponent.setState({url : Game_URL});
         // window.open(url, "onebook_url");
     }else{
         
@@ -198,10 +198,12 @@ handleOnebookClick() {
                 return res.json();
             }).then(function(data){
                 //console.log(data);
-                if(isBrowser){
-                  Game_URL = data.login_url;
-                }else{
+                if(isMobile || isTablet){
+                  
                   Game_URL = data.mobile_login;
+                  window.open(Game_URL,"_self")
+                }else{
+                  Game_URL = data.login_url;
                 }
                 //console.log(url)
                 // window.open(url, "onebook_url")
@@ -233,7 +235,7 @@ handleOnebookClick() {
 
           
           </div>
-          <div className={classes.rootMobile}>
+          {/* <div className={classes.rootMobile}>
             <Iframe url={this.state.url}
                   width='100%'
                   height="1000px"
@@ -244,7 +246,7 @@ handleOnebookClick() {
                   scrolling="auto"
                   loading='auto' />
 
-          </div>
+          </div> */}
         </div>
 
         
