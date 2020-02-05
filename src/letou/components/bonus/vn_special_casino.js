@@ -80,6 +80,24 @@ class VNSpecialCasinoBonus extends React.Component {
                     <hr></hr>
                     <p className={classes.wrapper}>Điều kiện và Điều khoản:</p>
 
+                    <ul>
+                        <li>1.Chương trình Khuyến mãi dành cho tất cả thành viên LETOU tham gia tại Casino trực tuyến và có đầy đủ thông tin đã được xác nhận:</li>
+                        <li>- Họ tên thật.</li>
+                        <li>- Số di động.</li>
+                        <li>- Địa chỉ email.</li>
+                        <li>2.Tiền hoàn trả sẽ dựa trên tổng số tiền đặt cược hợp lệ (doanh thu cược) của thành viên tại sản phẩm Casino trực tuyến theo từng kèo, từng trận đấu và từng cấp độ thành viên như sau:</li>
+                        <li>3.Không giới hạn mức hoàn trả tối thiểu và tối đa.</li>
+                        <li>4.Số tiền hoàn trả không cần cược lại.</li>
+                        <li>5.Mức hoàn trả được tính như sau:</li>
+                        <li>Tổng số tiền đặt cược của thành viên tại Casino trực tuyến: 20,000VND</li>
+                        <li>Tổng số tiền hoàn trả: 20,000 VND x 0.88% = 176 VND.</li>
+                        <li>6. Để nhận tiền hoàn trả, Thành viên cần nhấp vào nút GIÀNH tại mục Casino sau khi kết thúc cược. Số tiền hoàn trả sẽ được cập nhật trực tiếp vào tài khoản thành viên.</li>
+                        <li>7.Chương trình chỉ áp dụng cho các vé cược hợp lệ trong thời gian diễn ra Khuyến mãi tại các sảnh của Casino trực tuyến. Tất cả cược Hòa, cược Hủy, cược 2 BÊN, lũy tiến RNG Jackpots, lũy tiến RNG Slots, Bài và Game bàn chơi, Number Game, Thể thao Ảo sẽ không được tính trong tổng số tiền đặt cược.</li>
+                        <li>8.Chương trình Khuyến mãi có thể áp dụng cùng lúc với các chương trình Khuyến mãi tại Letou, ngoại trừ khuyến mãi trả sau.</li>
+                        <li>9.Letou có quyền chỉnh sửa, từ chối hoặc hủy bỏ chương trình Khuyến mãi này bất cứ thời gian nào mà không cần báo trước.</li>
+                        <li>10.Điều khoản & Điều kiện khuyến mãi chung được áp dụng.</li>
+                    </ul>
+
                 </div>
 
                 <div className={classes.footer}>

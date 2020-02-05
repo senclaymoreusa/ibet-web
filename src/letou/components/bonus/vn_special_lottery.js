@@ -57,6 +57,12 @@ const styles = {
         borderLeft: '5px solid #FF9E00',
         paddingLeft: 10,
     },
+    indentedContent: {
+        paddingLeft: 35,
+    },
+    bolded: {
+        fontWeight: 900,
+    },
 };
 
 
@@ -79,6 +85,29 @@ class VNSpecialLotteryBonus extends React.Component {
                     <h3 className={classes.mainHeading}>5% HOÀN TRẢ HÀNG TUẦN TẠI XỔ SỐ</h3>
                     <hr></hr>
                     <p className={classes.wrapper}>Điều kiện và Điều khoản:</p>
+
+                    <ul>
+                        <li>1. Chương trình Khuyến mãi dành cho tất cả thành viên LETOU tham gia tại Xổ số ( Lotto, SSC, PK10) và có đầy đủ thông tin đã được xác nhận:</li>
+                        <li>- Họ tên thật</li>
+                        <li>- Số di động</li>
+                        <li>- Địa chỉ email</li>
+                        <li>2. Tiền hoàn trả hàng tuần của thành viên sẽ dựa trên tổng số tiền đặt cược hợp lệ tính từ 00:00:00 (GMT+8) thứ 2 đến 23:59:59 (GMT+8) chủ nhật tại sản phẩm Xổ số sau:</li>
+                        <li>3. Tiền thưởng tối thiểu 1VND, tối đa hoàn trả 1,500VND.</li>
+                        <li>4. Số tiền hoàn trả không cần cược lại.</li>
+                        <li>5. Mức hoàn trả được tính như sau:</li>
+
+                        <div className={classes.indentedContent}>
+                            <li className={classes.bolded}>Ví dụ</li>
+                            <li>Tổng số tiền đặt cược của thành viên VIP tại Xổ số: 5,000VND</li>
+                            <li>Tổng số tiền hoàn trả: 5,000 x 5%= 250VND.</li>
+                        </div>
+
+                        <li>6. Số tiền khuyến mãi hoàn trả sẽ được cập nhật hàng tuần vào ngày thứ 2 của tuần kế tiếp.</li>
+                        <li>7. Chương trình chỉ áp dụng cho các vé cược hợp lệ trong thời gian diễn ra Khuyến mãi. Tất cả cược Hòa, cược Hủy, cược Hai bên sẽ không được tính trong tổng số tiền đặt cược.</li>
+                        <li>8. Letou có quyền chỉnh sửa, từ chối hoặc hủy bỏ chương trình Khuyến mãi này bất cứ thời gian nào mà không cần báo trước.</li>
+                        <li>9. Chương trình có thể áp dụng cùng lúc với tất cả các Khuyến mãi tại LETOU.</li>
+                        <li>10. Điều khoản & Điều kiện khuyến mãi chung được áp dụng.</li>
+                    </ul>
 
                 </div>
 

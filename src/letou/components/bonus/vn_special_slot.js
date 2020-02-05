@@ -57,6 +57,12 @@ const styles = {
         borderLeft: '5px solid #FF9E00',
         paddingLeft: 10,
     },
+    indentedContent: {
+        paddingLeft: 35,
+    },
+    bolded: {
+        fontWeight: 900,
+    },
 };
 
 
@@ -79,6 +85,29 @@ class VNSpecialSlotBonus extends React.Component {
                     <h3 className={classes.mainHeading}>SIÊU HOÀN TRẢ 1.3% TẠI SLOT GAMES</h3>
                     <hr></hr>
                     <p className={classes.wrapper}>Điều kiện và Điều khoản:</p>
+
+                    <ul>
+                        <li>1. Chương trình Khuyến mãi dành cho tất cả thành viên Việt Nam đăng ký tiền tệ VND tham gia tại Slot Games và có đầy đủ thông tin đã được xác nhận:</li>
+                        <li>- Họ tên thật.</li>
+                        <li>- Số di động.</li>
+                        <li>- Địa chỉ email.</li>
+                        <li>2. Tiền hoàn trả sẽ dựa trên tổng số tiền đặt cược hợp lệ (doanh thu cược) của thành viên tại sản phẩm Slot Games theo từng kèo, từng trận đấu và từng cấp độ thành viên như sau:</li>
+                        <li>3. Mức hoàn trả tối thiểu 0.01 VND và không giới hạn mức hoàn trả tối đa.</li>
+                        <li>4. Số tiền hoàn trả không cần cược lại.</li>
+                        <li>5. Mức hoàn trả được tính như sau:</li>
+
+                        <div className={classes.indentedContent}>
+                            <li className={classes.bolded}>Ví dụ</li>
+                            <li>Tổng số tiền đặt cược của thành viên tại Slot Games: 20,000 VND</li>
+                            <li>Tổng số tiền hoàn trả: 20,000VND x 1% = 200VND</li>
+                        </div>
+
+                        <li>6. Để nhận tiền hoàn trả, Thành viên cần nhấp vào nút GIÀNH tại mục Game sau khi kết thúc cược. Số tiền hoàn trả sẽ được tự động cập nhật vào tài khoản thành viên.</li>
+                        <li>7. Chương trình chỉ áp dụng cho các trò chơi máy xèng Slots tại Games. Tất cả cược Hòa, cược Hủy, lũy tiến RNG Jackpots, lũy tiến RNG Slots, Bài và Game bàn chơi ( Table Games), Poker Games, Scratchcard, Mini Games, Arcade, các trò không phải Slot tại Games sẽ không được tính trong tổng số tiền đặt cược.</li>
+                        <li>8. Chương trình Khuyến mãi có thể áp dụng cùng lúc với các chương trình Khuyến mãi tại Letou, ngoại trừ khuyến mãi trả sau.</li>
+                        <li>9. Letou có quyền chỉnh sửa, từ chối hoặc hủy bỏ chương trình Khuyến mãi này bất cứ thời gian nào mà không cần báo trước.</li>
+                        <li>10.Điều khoản & Điều kiện khuyến mãi chung được áp dụng.</li>
+                    </ul>
 
                 </div>
 

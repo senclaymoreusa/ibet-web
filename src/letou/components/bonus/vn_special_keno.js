@@ -80,6 +80,24 @@ class VNSpecialKenoBonus extends React.Component {
                     <hr></hr>
                     <p className={classes.wrapper}>Điều kiện và Điều khoản:</p>
 
+                    <ul>
+                        <li>1.Chương trình Khuyến mãi dành cho tất cả thành viên LETOU tham gia tại Keno và có đầy đủ thông tin đã được xác nhận:</li>
+                        <li>- Họ tên thật.</li>
+                        <li>- Số di động.</li>
+                        <li>- Địa chỉ email.</li>
+                        <li>2.Tiền hoàn trả hàng tuần của thành viên sẽ dựa trên tổng số tiền đặt cược hợp lệ (doanh thu cược) tính từ 12:00:00 ( GMT+8) ngày thứ 2 tuần này đến 11:59:59 ( GMT+8) thứ 2 tuần kế tiếp tại sản phẩm Keno theo từng kèo, từng trận đấu và từng cấp độ thành viên:</li>
+                        <li>3.Không giới hạn mức hoàn trả tối thiểu và tối đa.</li>
+                        <li>4.Số tiền hoàn trả không cần cược lại.</li>
+                        <li>5.Mức hoàn trả được tính như sau:</li>
+                        <li>Tổng số tiền đặt cược của thành viên tại Keno: 20,000VND</li>
+                        <li>Tổng số tiền hoàn trả: 20,000 VND x 1% = 200 VND.</li>
+                        <li>6.Số tiền Khuyến mãi hoàn trả sẽ được cập nhật tự động hàng tuần vào ngày thứ 2 của tuần kế tiếp.</li>
+                        <li>7.Chương trình chỉ áp dụng cho các vé cược hợp lệ trong thời gian diễn ra Khuyến mãi. Tất cả cược Hòa, cược Hủy, cược 2 BÊN sẽ không được tính trong tổng số tiền đặt cược.</li>
+                        <li>8.Chương trình Khuyến mãi có thể áp dụng cùng lúc với các chương trình Khuyến mãi tại Letou, ngoại trừ khuyến mãi trả sau.</li>
+                        <li>9.Letou có quyền chỉnh sửa, từ chối hoặc hủy bỏ chương trình Khuyến mãi này bất cứ thời gian nào mà không cần báo trước.</li>
+                        <li>10.Điều khoản & Điều kiện khuyến mãi chung được áp dụng.</li>
+                    </ul>
+
                 </div>
 
                 <div className={classes.footer}>
