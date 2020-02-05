@@ -117,7 +117,6 @@ class VNSpecialLotteryBonus extends React.Component {
                         <li>- Địa chỉ email</li>
                         <li>2. Tiền hoàn trả hàng tuần của thành viên sẽ dựa trên tổng số tiền đặt cược hợp lệ tính từ 00:00:00 (GMT+8) thứ 2 đến 23:59:59 (GMT+8) chủ nhật tại sản phẩm Xổ số sau:</li>
                         
-                        
                         <div>
                             <table className={classes.table}>
                                 <tr className={classes.tableHeader}>
@@ -137,11 +136,6 @@ class VNSpecialLotteryBonus extends React.Component {
                             </table>
                         </div>
 
-
-                        
-                        
-                        
-                        
                         <li>3. Tiền thưởng tối thiểu 1VND, tối đa hoàn trả 1,500VND.</li>
                         <li>4. Số tiền hoàn trả không cần cược lại.</li>
                         <li>5. Mức hoàn trả được tính như sau:</li>
@@ -158,7 +152,6 @@ class VNSpecialLotteryBonus extends React.Component {
                         <li>9. Chương trình có thể áp dụng cùng lúc với tất cả các Khuyến mãi tại LETOU.</li>
                         <li>10. Điều khoản & Điều kiện khuyến mãi chung được áp dụng.</li>
                     </ul>
-
                 </div>
 
                 <div className={classes.footer}>

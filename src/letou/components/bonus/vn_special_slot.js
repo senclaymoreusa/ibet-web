@@ -116,7 +116,6 @@ class VNSpecialSlotBonus extends React.Component {
                         <li>- Địa chỉ email.</li>
                         <li>2. Tiền hoàn trả sẽ dựa trên tổng số tiền đặt cược hợp lệ (doanh thu cược) của thành viên tại sản phẩm Slot Games theo từng kèo, từng trận đấu và từng cấp độ thành viên như sau:</li>
 
-
                         <div>
                             <table className={classes.table}>
                                 <tr className={classes.tableHeader}>
@@ -150,11 +149,6 @@ class VNSpecialSlotBonus extends React.Component {
                             </table>
                         </div>
 
-
-
-
-
-
                         <li>3. Mức hoàn trả tối thiểu 0.01 VND và không giới hạn mức hoàn trả tối đa.</li>
                         <li>4. Số tiền hoàn trả không cần cược lại.</li>
                         <li>5. Mức hoàn trả được tính như sau:</li>
@@ -171,7 +165,6 @@ class VNSpecialSlotBonus extends React.Component {
                         <li>9. Letou có quyền chỉnh sửa, từ chối hoặc hủy bỏ chương trình Khuyến mãi này bất cứ thời gian nào mà không cần báo trước.</li>
                         <li>10.Điều khoản & Điều kiện khuyến mãi chung được áp dụng.</li>
                     </ul>
-
                 </div>
 
                 <div className={classes.footer}>

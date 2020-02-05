@@ -110,7 +110,6 @@ class VNSpecialCasinoBonus extends React.Component {
                         <li>- Địa chỉ email.</li>
                         <li>2.Tiền hoàn trả sẽ dựa trên tổng số tiền đặt cược hợp lệ (doanh thu cược) của thành viên tại sản phẩm Casino trực tuyến theo từng kèo, từng trận đấu và từng cấp độ thành viên như sau:</li>
                         
-                        
                         <div>
                             <table className={classes.table}>
                                 <tr className={classes.tableHeader}>
@@ -144,9 +143,6 @@ class VNSpecialCasinoBonus extends React.Component {
                             </table>
                         </div>
 
-                        
-                        
-                        
                         <li>3.Không giới hạn mức hoàn trả tối thiểu và tối đa.</li>
                         <li>4.Số tiền hoàn trả không cần cược lại.</li>
                         <li>5.Mức hoàn trả được tính như sau:</li>

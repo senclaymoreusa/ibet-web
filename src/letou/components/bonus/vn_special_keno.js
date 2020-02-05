@@ -109,8 +109,7 @@ class VNSpecialKenoBonus extends React.Component {
                         <li>- Số di động.</li>
                         <li>- Địa chỉ email.</li>
                         <li>2.Tiền hoàn trả hàng tuần của thành viên sẽ dựa trên tổng số tiền đặt cược hợp lệ (doanh thu cược) tính từ 12:00:00 ( GMT+8) ngày thứ 2 tuần này đến 11:59:59 ( GMT+8) thứ 2 tuần kế tiếp tại sản phẩm Keno theo từng kèo, từng trận đấu và từng cấp độ thành viên:</li>
-                        
-                        
+
                         <div>
                             <table className={classes.table}>
                                 <tr className={classes.tableHeader}>
@@ -144,8 +143,6 @@ class VNSpecialKenoBonus extends React.Component {
                             </table>
                         </div>
 
-                        
-                        
                         <li>3.Không giới hạn mức hoàn trả tối thiểu và tối đa.</li>
                         <li>4.Số tiền hoàn trả không cần cược lại.</li>
                         <li>5.Mức hoàn trả được tính như sau:</li>
@@ -157,7 +154,6 @@ class VNSpecialKenoBonus extends React.Component {
                         <li>9.Letou có quyền chỉnh sửa, từ chối hoặc hủy bỏ chương trình Khuyến mãi này bất cứ thời gian nào mà không cần báo trước.</li>
                         <li>10.Điều khoản & Điều kiện khuyến mãi chung được áp dụng.</li>
                     </ul>
-
                 </div>
 
                 <div className={classes.footer}>
