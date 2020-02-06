@@ -264,6 +264,9 @@ export class BetDetails extends Component {
                         a.provider_name > b.provider_name ? 1 : -1
                     )
                 });
+
+                console.log(res.data.categories)
+                
                 this.setState({
                     categories: res.data.categories.sort((a, b) =>
                         a.name > b.name ? 1 : -1

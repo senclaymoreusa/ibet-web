@@ -80,6 +80,7 @@ const styles = theme => ({
         }
     },
     paper: {
+        backgroundColor:'#fff',
         overflowX: 'scroll',
         width: '100%',
         paddingLeft: 10,
@@ -186,7 +187,7 @@ export class DepositWithdraw extends Component {
             .get(API_URL + requestURL + startStr + endStr)
             .then(res => {
                 if (res.status === 200) {
-                   this.setState({ items: res.data.results.filter(item => item.transaction_type.toLowerCase() == 'withdrawal' || item.transaction_type.toLowerCase() == 'deposit') });
+                   this.setState({ items: res.data.results.filter(item => item.transaction_type.toLowerCase() === 'withdrawal' || item.transaction_type.toLowerCase() === 'deposit') });
                 } else {
                     this.setState({ items: [] });
                 }
