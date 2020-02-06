@@ -1370,7 +1370,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/btisports');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1396,7 +1396,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/onebook');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1420,7 +1420,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbesports');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1494,7 +1494,10 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        
+                                        this.chessOptions(
+                                            0
+                                        );
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1518,7 +1521,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbkeno');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1542,7 +1545,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gblotto');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1566,7 +1569,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbssc');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1590,7 +1593,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbpk10');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1614,7 +1617,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbk3');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
