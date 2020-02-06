@@ -31,7 +31,12 @@ const vn_bank_options = [
         img: 'letou/acb.png',
         code: 'VND'
     },
-    { value: 'AGB', label: 'Agribank', img: '', code: 'VND' },
+    {
+        value: 'AGB',
+        label: 'Agribank',
+        img: 'letou/Agribank-logo-big.png',
+        code: 'VND'
+    },
     {
         value: 'BIDV',
         label: 'Bank for Investment and Development of Vietnam',
@@ -51,7 +56,12 @@ const vn_bank_options = [
         img: 'letou/sacombank.png',
         code: 'VND'
     },
-    { value: 'SCMB', label: 'SAIGON Bank', img: '', code: 'VND' },
+    {
+        value: 'SCMB',
+        label: 'SAIGON Bank',
+        img: 'letou/saigonbank.png',
+        code: 'VND'
+    },
     {
         value: 'TCB',
         label: 'Techcom Bank',
