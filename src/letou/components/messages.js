@@ -218,8 +218,7 @@ export const messages = {
         'register-policy-text':
             'By clicking the button confirming the application. You confirm that you are 18 years old and you have read, accepted and agreed to the terms and conditions.',
         'rules-privacy-policy': 'LETOU Gambling Rules and Privacy Policy',
-        'username-limit':
-            'Username requires 8-16 digits with letters or numbers.',
+        'username-limit': 'Requires 8-16 digits with letters or numbers.',
         'please-strong-password':
             'Your password strength should be at least good.',
         'please-confirm-password': 'Please confirm your password.',
