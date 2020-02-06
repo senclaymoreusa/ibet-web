@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { config} from '../../../util_config';
 import axios from 'axios';
 import Iframe from 'react-iframe';
-import { isBrowser} from 'react-device-detect';
+import { isMobile, isTablet} from 'react-device-detect';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -144,14 +144,17 @@ componentDidUpdate(prevProps){
         URL = API_URL + 'games/api/gb/generategameurl/?game=' + gamename
         axios.get(URL, config)
         .then(res => {
-            if(isBrowser){
-              Game_URL = res.data.game_url;
-            }else{
-              Game_URL = res.data.mobile_url;
-            }
+          if(isMobile || isTablet){
+            Game_URL = res.data.mobile_url;
+            window.open(Game_URL,"_self")
+          }else{
+            
+            Game_URL = res.data.game_url;
+            this.setState({url : Game_URL});
+          }
             //console.log(Game_URL);
             // this.state.url =Game_URL
-            this.setState({url : Game_URL});
+          
         })
     }else{
       let language = '';
@@ -175,15 +178,18 @@ componentDidUpdate(prevProps){
         URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename + '&language=' + language
         axios.get(URL, config)
         .then(res => {
-            if(isBrowser){
-              Game_URL = res.data.game_url;
-            }else{
-              Game_URL = res.data.mobile_url;
-            }
+          if(isMobile || isTablet){
+            Game_URL = res.data.mobile_url;
+            window.open(Game_URL,"_self")
+          }else{
+            
+            Game_URL = res.data.game_url;
+            this.setState({url : Game_URL});
+          }
             // console.log("fake");
             // console.log(Game_URL);
             // return Game_URL;
-            this.setState({url : Game_URL});
+          
         })
     }
 }
@@ -195,10 +201,11 @@ componentDidUpdate(prevProps){
 
     return (
       <div className={classes.root}>
-        <TopNavbar />
+        
         
         <div className={classes.grow} >
           <div className={classes.rootDesktop}>
+            <TopNavbar />
             <Iframe url={this.state.url}
               width='100%'
               height="1500px"
@@ -208,8 +215,9 @@ componentDidUpdate(prevProps){
               position="relative"
               scrolling="auto"
               loading='auto' />
+            <Footer />
           </div>
-          <div className={classes.rootMobile}>
+          {/* <div className={classes.rootMobile}>
             <Iframe url={this.state.url}
                   width='100%'
                   height="1000px"
@@ -220,13 +228,13 @@ componentDidUpdate(prevProps){
                   scrolling="auto"
                   loading='auto' />
 
-          </div>
+          </div> */}
         </div>
         
 
         
         
-        <Footer />
+        
       </div>
       
     );
