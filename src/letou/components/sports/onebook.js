@@ -166,11 +166,10 @@ handleOnebookClick() {
           window.open(Game_URL,"_self")
         }else{
           Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language;
-          currentComponent.setState({url : Game_URL});
         }
         
         
-        
+        currentComponent.setState({url : Game_URL});
         // window.open(url, "onebook_url");
     }else{
         
@@ -206,12 +205,11 @@ handleOnebookClick() {
                   window.open(Game_URL,"_self")
                 }else{
                   Game_URL = data.login_url;
-                  currentComponent.setState({url : Game_URL});
                 }
                 
                 // console.log(Game_URL)
                 // window.open(url, "onebook_url")
-                
+                currentComponent.setState({url : Game_URL});
             });
         });
     }   
