@@ -135,7 +135,7 @@ const styles = theme => ({
             marginRight: 0
         },
         borderRadius: 4,
-        backgroundColor: '#ededed',
+        backgroundColor: '#f5f5f5',
         border: '1px solid #d4d4d4',
         '&:hover': {
             boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
@@ -148,7 +148,7 @@ const styles = theme => ({
         width: 200,
         maxWidth: 200,
         height: 140,
-        paddingTop:40,
+        paddingTop: 40,
         cursor: 'pointer',
         [theme.breakpoints.down('md')]: {
             width: '100%',
@@ -252,6 +252,7 @@ export class BankCards extends Component {
         super(props);
 
         this.state = {
+            cards: [],
             cardholder: '',
             cardNumber: '',
             password: '',
@@ -277,11 +278,37 @@ export class BankCards extends Component {
             } else {
                 const { user } = this.props;
 
+                this.getBanckCards();
+
                 this.setState({
-                    cardholder: user.firstName + '' + user.lastName
+                    cardholder: user.firstName + ' ' + user.lastName
                 });
             }
         });
+    }
+
+    getBanckCards() {
+        const { user } = this.props;
+        let requestURL = `accounting/api/transactions/get_withdraw_accs?id=${user.userId}`;
+
+        axios
+            .get(API_URL + requestURL)
+            .then(res => {
+                if (res.status === 200) {
+                    console.log('data')
+            console.log(res.data)
+                    this.setState({
+                        cards: res.data.results,
+                        activeSteps: res.data.results.length > 0 ? 0 : 1
+                    });
+
+                }
+            })
+            .catch(err => {
+                this.setState({ items: [] });
+                sendingLog(err);
+            });
+
     }
 
     handleSnackbarClose = (event, reason) => {
@@ -328,12 +355,36 @@ export class BankCards extends Component {
             });
     }
 
+    deleteCard(id) {
+        console.log('id:'+id)
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        let requestURL = `accounting/api/transactions/del_withdraw_acc`;
+
+        axios
+            .post(
+                API_URL + requestURL,
+                {
+                    user_id: this.props.user.userId,
+                    acc_id: id
+                },
+                config
+            )
+            .then(() => {
+                this.getBanckCards();
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
+    }
+
     createBankCard() {
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
 
         let bodyItem = {};
-
+       
         if (this.state.cardholder.length > 0)
             bodyItem = {
                 user_id: this.props.user.userId,
@@ -345,20 +396,24 @@ export class BankCards extends Component {
                 user_id: this.props.user.userId,
                 acc_no: this.state.cardNumber
             };
-
+            
+            console.log(bodyItem)
         axios
             .post(
                 API_URL + 'accounting/api/transactions/add_withdraw_acc',
                 bodyItem,
                 config
             )
-            .then(() => {
+            .then(res => {
+                console.log('res')
+                console.log(res)
                 this.setState({
                     snackType: 'success',
                     snackMessage: this.getLabel('add-account-success'),
                     showSnackbar: true,
-                    activeStep: 1
+                    activeStep: 0
                 });
+                this.getBanckCards();
             })
             .catch(err => {
                 sendingLog(err);
@@ -373,7 +428,7 @@ export class BankCards extends Component {
 
     render() {
         const { classes } = this.props;
-        const { cardholder, cardNumber, password, activeStep } = this.state;
+        const { cards, cardholder, cardNumber, password, activeStep } = this.state;
 
         return (
             <div className={classes.root}>
@@ -385,41 +440,51 @@ export class BankCards extends Component {
                             </span>
                         </Grid>
                         <Grid item xs={12} className={classes.row}>
-                            <div className={classes.account}>
-                                <Grid container>
-                                    <Grid item xs={12} className={classes.row} style={{ borderBottom: '1px solid #d4d4d4' }}>
-                                        <span className={classes.label}>
-                                            {this.getLabel('tail-number')}
-                                        </span>
-                                        <div className={classes.grow} />
-                                        <Button className={classes.action}>
-                                            {this.getLabel('inquire-label')}
-                                        </Button>
+                            {cards.map(card => (
+                                <div key={card.id} className={classes.account}>
+                                    <Grid container>
+                                        <Grid item xs={12} className={classes.row} style={{ borderBottom: '1px solid #d4d4d4' }}>
+                                            <span className={classes.label}>
+                                                {this.getLabel('card-number')}
+                                            </span>
+                                            <div className={classes.grow} />
+                                            <span className={classes.label}>
+                            {'...'}{card.account_no.substring(card.account_no.length-3)}
+                                            </span>
+                                        </Grid>
+                                        <Grid item xs={12} className={classes.accountRow}>
+                                            <span className={classes.label}>
+                                                {this.getLabel('transfer-records')}
+                                            </span>
+                                            <div className={classes.grow} />
+                                            <Button className={classes.action}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/p/transaction-records/account-details'
+                                                );
+                                            }}>
+                                                {this.getLabel('inquire-label')}
+                                            </Button>
+                                        </Grid>
+                                        <Grid item xs={12} className={classes.accountRow}>
+                                            <span className={classes.label}>
+                                                {this.getLabel('card-removal')}
+                                            </span>
+                                            <div className={classes.grow} />
+                                            <Button className={classes.action}
+                                            onClick={() => {
+                                                this.deleteCard(card.id)
+                                            }}>
+                                                {this.getLabel('delete-label')}
+                                            </Button>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12} className={classes.accountRow}>
-                                        <span className={classes.label}>
-                                            {this.getLabel('transfer-records')}
-                                        </span>
-                                        <div className={classes.grow} />
-                                        <Button className={classes.action}>
-                                            {this.getLabel('inquire-label')}
-                                        </Button>
-                                    </Grid>
-                                    <Grid item xs={12} className={classes.accountRow}>
-                                        <span className={classes.label}>
-                                            {this.getLabel('card-removal')}
-                                        </span>
-                                        <div className={classes.grow} />
-                                        <Button className={classes.action}>
-                                            {this.getLabel('delete-label')}
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </div>
+                                </div>
+                            ))}
                             <div className={classes.addAccount} onClick={() => {
-                        this.setState({activeStep: 1});
-                    }}>
-                                <img src={images.src + 'letou/add-account.png'} alt="" style={{marginBottom:10}}/>
+                                this.setState({ activeStep: 1 });
+                            }}>
+                                <img src={images.src + 'letou/add-account.png'} alt="" style={{ marginBottom: 10 }} />
                                 <span className={classes.action}>
                                     {this.getLabel('add-bank-card')}
                                 </span>
