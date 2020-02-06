@@ -107,6 +107,12 @@ class GameDetail extends Component {
                     } else if (data.provider.provider_name === 'PT') {
                         this.launchPTGame(gameId);
 
+                    } else if (data.provider.provider_name === 'MG' && !isBrowser) {
+                        gameUrl = LAUNCH_GAME_URL[providerName]['realmobile'];
+                        let token = localStorage.getItem('token');
+                        gameUrl = gameUrl.replace('{token}', token);
+                        gameUrl = gameUrl.replace('{gameId}', gameIdMobile);
+                        this.setState({ gameURL: gameUrl });
                     } else {
                         gameUrl = LAUNCH_GAME_URL[providerName]['real'];
                         let token = localStorage.getItem('token');
@@ -126,11 +132,16 @@ class GameDetail extends Component {
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         window.open(gameUrl);
                     } else if (data.provider.provider_name === 'FG' && !isBrowser) {
-                            gameUrl = LAUNCH_GAME_URL[providerName]['free'] + '&isMobile=true';
-                            gameUrl = gameUrl.replace('{lang}', 'en');
-                            gameUrl = gameUrl.replace('{gameId}', gameIdMobile);
-                            this.setState({ gameURL: gameUrl });
+                        gameUrl = LAUNCH_GAME_URL[providerName]['free'] + '&isMobile=true';
+                        gameUrl = gameUrl.replace('{lang}', 'en');
+                        gameUrl = gameUrl.replace('{gameId}', gameIdMobile);
+                        this.setState({ gameURL: gameUrl });
                         
+                    } else if (data.provider.provider_name === 'MG' && !isBrowser) {
+                        gameUrl = LAUNCH_GAME_URL[providerName]['freemobile'];
+                        gameUrl = gameUrl.replace('{token}', '');
+                        gameUrl = gameUrl.replace('{gameIdMob}', gameIdMobile);
+                        this.setState({ gameURL: gameUrl });
                     } else { 
                         gameUrl = LAUNCH_GAME_URL[providerName]['free'];
                         gameUrl = gameUrl.replace('{lang}', 'en');

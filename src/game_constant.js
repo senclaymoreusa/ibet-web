@@ -6,7 +6,9 @@ export const GAME_URLS = {
         },
         "MG": {
             "free": "https://redirector3.valueactive.eu/Casino/Default.aspx?applicationid=4023&ul={lang}&serverid=2712&sext1=demo&sext2=demo&variant=TNG-demo&gameid={gameId}",
-            "real": "https://redirector3.valueactive.eu/Casino/Default.aspx?applicationid=4023&ul={lang}&serverid=32100&variant=TNGUAT&gameid={gameId}&authtoken={token}"
+            "real": "https://redirector3.valueactive.eu/Casino/Default.aspx?applicationid=4023&ul={lang}&serverid=32100&variant=TNGUAT&gameid={gameId}&authtoken={token}",
+            "freemobile": "https://mobileX.gameassists.co.uk/MobileWebServices_40/casino/game/launch/LobbyName/GameName/en?casinoID={gameIdMob}&ispracticeplay=true&bankingURL=&loginType=VanguardSessionToken&authToken={token}&isRGI=true",
+            "realmobile": "https://mobileX.gameassists.co.uk/MobileWebServices_40/casino/game/launch/LobbyName/GameName/en?casinoID={gameIdNob}&bankingURL=&loginType=VanguardSessionToken&authToken={token}&isRGI=true"
         },
         "Betsoft": {
             "free": "https://claymoreasia-gp3.discreetgaming.com/cwguestlogin.do?bankId=4542&gameId={gameId}&lang={lang}",
@@ -24,7 +26,9 @@ export const GAME_URLS = {
         },
         "MG": {
             "free": "https://redirector3.valueactive.eu/Casino/Default.aspx?applicationid=4023&ul={lang}&serverid=2712&sext1=demo&sext2=demo&variant=TNG-demo&gameid={gameId}",
-            "real": "https://redirector3.valueactive.eu/Casino/Default.aspx?applicationid=4023&ul={lang}&serverid=32100&variant=TNGUAT&gameid={gameId}&authtoken={token}"
+            "real": "https://redirector3.valueactive.eu/Casino/Default.aspx?applicationid=4023&ul={lang}&serverid=32100&variant=TNGUAT&gameid={gameId}&authtoken={token}",
+            "freemobile": "https://mobileX.gameassists.co.uk/MobileWebServices_40/casino/game/launch/LobbyName/GameName/en?casinoID={gameIdMob}&ispracticeplay=true&bankingURL=&loginType=VanguardSessionToken&authToken={token}&isRGI=true",
+            "realmobile": "https://mobileX.gameassists.co.uk/MobileWebServices_40/casino/game/launch/LobbyName/GameName/en?casinoID={gameIdNob}&bankingURL=&loginType=VanguardSessionToken&authToken={token}&isRGI=true"
         },
         "Betsoft": {
             "free": "https://claymoreasia-gp3.betsoftgaming.com/cwguestlogin.do?bankId=4542&gameId={gameId}&lang={lang}",
