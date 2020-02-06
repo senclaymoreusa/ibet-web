@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../../actions';
+import { authCheckState, sendingLog} from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -15,6 +15,13 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import moment from 'moment';
+import queryString from 'query-string';
+import axios from 'axios';
+import { config } from '../../../../../util_config';
+
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -165,24 +172,114 @@ export class CasinoSpins extends Component {
     constructor(props) {
         super(props);
 
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.state = {
             type: 'game',
-            paperWidth: 0
+            items: [],
+            categoryId:''
         };
     }
 
     componentDidMount() {
-        this.updateWindowDimensions();
-        window.addEventListener('resize', this.updateWindowDimensions);
+        this._isMounted = true;
+
+        axios
+        .get(API_URL + 'games/api/bets/getprovandcats', config)
+        .then(res => {
+            this.setState({
+                categoryId: res.data.categories.filter((c) => c.name.toLowerCase() === 'games')[0].category_id
+            });
+
+            this.getCasinoSpinBets();
+        });   
+    }
+
+    getCasinoSpinBets() {
+        if (!this._isMounted) return;
+
+        const { user } = this.props;
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        let apiURL = `games/api/bets/getall?userid=${user.userId}&category=${this.state.categoryId}`;
+
+        let startStr = `&start=${moment()
+            .startOf('month')
+            .format('YYYY/MM/DD')}`;
+        let endStr = `&end=${moment()
+            .endOf('month')
+            .format('YYYY/MM/DD')}`;
+
+        const values = queryString.parse(this.props.location.search);
+
+        if (values.date) {
+            startStr = `&start=${moment(values.date, 'MM-YYYY')
+                .startOf('month')
+                .format('YYYY/MM/DD')}`;
+            endStr = `&end=${moment(values.date, 'MM-YYYY')
+                .endOf('month')
+                .format('YYYY/MM/DD')}`;
+        }
+
+        let requestURL = API_URL + apiURL + startStr + endStr;
+        
+        axios
+            .get(requestURL, config)
+            .then(res => {
+                if (res.status === 200) {
+                    let itemArray = [];
+                  
+                    console.log('datas')
+                    console.log(res.data)
+
+                   Object.keys(res.data.results).map(function (refNum) {
+                        let result = res.data.results[refNum];
+
+                        if (result.length === 1) {
+                            itemArray.push(result[0]);
+                        } else if (result.length > 1) {
+                            let temp1 = result.filter(r => {
+                                return r.outcome != null;
+                            })[0];
+
+                            let temp2 = result.filter(r => {
+                                return r.outcome == null;
+                            })[0];
+                            if (temp1 && temp2) {
+                                temp1['amount_wagered'] =
+                                    temp2['amount_wagered'];
+                                temp1['date'] = temp2['date'];
+                                itemArray.push(temp1);
+                            }
+                        }
+                        return null;
+                    });
+
+                    const items = itemArray.reduce(
+                        (itemSoFar, { date, ref_no, amount_won }) => {
+                            let d = moment(date).format('DD-MM-YYYY');
+
+                            if (!itemSoFar[d])
+                                itemSoFar[d] = [];
+
+                            itemSoFar[d].push({ date, ref_no, amount_won });
+
+                            return itemSoFar;
+                        },
+                        {}
+                    );
+
+                    this.setState({ items: items });
+
+                   
+                }
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions);
-    }
-
-    updateWindowDimensions() {
-        this.setState({ paperWidth: window.innerWidth - 20 });
+        this._isMounted = false;
     }
 
     getLabel(labelId) {
@@ -192,6 +289,7 @@ export class CasinoSpins extends Component {
 
     render() {
         const { classes } = this.props;
+        const { items } = this.state;
         const { type, paperWidth } = this.state;
 
         return (
@@ -499,13 +597,15 @@ export class CasinoSpins extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
     return {
-        lang: state.language.lang
+        user: user
     };
 };
 
+
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(CasinoSpins))
+        injectIntl(connect(mapStateToProps, { authCheckState, sendingLog })(CasinoSpins))
     )
 );
