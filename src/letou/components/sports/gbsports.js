@@ -149,11 +149,12 @@ export class gbsports extends React.Component {
               window.open(Game_URL,"_self")
             }else{
               Game_URL = res.data.game_url;
+              this.setState({url : Game_URL});
             }
             
             //console.log(Game_URL);
             // this.state.url =Game_URL
-            this.setState({url : Game_URL});
+            
         })
     }else{
       let language = '';
@@ -184,13 +185,14 @@ export class gbsports extends React.Component {
             }else{
               
               Game_URL = res.data.game_url;
+              this.setState({url : Game_URL});
             }
             
             //console.log(Game_URL);
             // console.log("fake");
             // console.log(Game_URL);
             // return Game_URL;
-            this.setState({url : Game_URL});
+            
         })
     }
 }
@@ -202,9 +204,10 @@ export class gbsports extends React.Component {
 
     return (
       <div className={classes.root}>
-        <TopNavbar />
+        
         <div className={classes.grow} >
           <div className={classes.rootDesktop}>
+            <TopNavbar />
             <Iframe url={this.state.url}
               width='100%'
               height="1500px"
@@ -214,6 +217,7 @@ export class gbsports extends React.Component {
               position="relative"
               scrolling="auto"
               loading='auto' />
+            <Footer />
           </div>
           {/* <div className={classes.rootMobile}>
             <Iframe url={this.state.url}
@@ -231,7 +235,7 @@ export class gbsports extends React.Component {
         
         
         
-        <Footer />
+        
       </div>
       
     );

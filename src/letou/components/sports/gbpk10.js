@@ -149,10 +149,11 @@ componentDidUpdate(prevProps){
           }else{
             
             Game_URL = res.data.game_url;
+            this.setState({url : Game_URL});
           }
             //console.log(Game_URL);
             // this.state.url =Game_URL
-          this.setState({url : Game_URL});
+          
         })
     }else{
       let language = '';
@@ -182,11 +183,12 @@ componentDidUpdate(prevProps){
           }else{
             
             Game_URL = res.data.game_url;
+            this.setState({url : Game_URL});
           }
             // console.log("fake");
             // console.log(Game_URL);
             // return Game_URL;
-          this.setState({url : Game_URL});
+          
         })
     }
 }
@@ -198,10 +200,11 @@ componentDidUpdate(prevProps){
 
     return (
       <div className={classes.root}>
-        <TopNavbar />
+        
         
         <div className={classes.grow} >
           <div className={classes.rootDesktop}>
+            <TopNavbar />
             <Iframe url={this.state.url}
               width='100%'
               height="1500px"
@@ -211,6 +214,7 @@ componentDidUpdate(prevProps){
               position="relative"
               scrolling="auto"
               loading='auto' />
+            <Footer />
           </div>
           {/* <div className={classes.rootMobile}>
             <Iframe url={this.state.url}
@@ -228,7 +232,7 @@ componentDidUpdate(prevProps){
 
         
         
-        <Footer />
+        
       </div>
       
     );

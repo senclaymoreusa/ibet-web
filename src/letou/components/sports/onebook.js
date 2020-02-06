@@ -166,10 +166,11 @@ handleOnebookClick() {
           window.open(Game_URL,"_self")
         }else{
           Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language;
+          currentComponent.setState({url : Game_URL});
         }
         
         
-        currentComponent.setState({url : Game_URL});
+        
         // window.open(url, "onebook_url");
     }else{
         
@@ -205,11 +206,12 @@ handleOnebookClick() {
                   window.open(Game_URL,"_self")
                 }else{
                   Game_URL = data.login_url;
+                  currentComponent.setState({url : Game_URL});
                 }
                 
                 // console.log(Game_URL)
                 // window.open(url, "onebook_url")
-                currentComponent.setState({url : Game_URL});
+                
             });
         });
     }   
@@ -221,9 +223,10 @@ handleOnebookClick() {
 
     return (
       <div className={classes.root}>
-        <TopNavbar />
+        
         <div className={classes.grow} >
           <div className={classes.rootDesktop}>
+            <TopNavbar />
             <Iframe url={this.state.url}
                 width='100%'
                 height="1500px"
@@ -234,7 +237,7 @@ handleOnebookClick() {
                 scrolling="auto"
                 loading='auto' />
 
-          
+            <Footer />
           </div>
           {/* <div className={classes.rootMobile}>
               {window.open(this.state.url,"_self")}
@@ -242,7 +245,7 @@ handleOnebookClick() {
           </div> */}
         </div>
        
-        <Footer />
+        
 
        
       </div>
