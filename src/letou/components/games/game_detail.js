@@ -5,6 +5,7 @@ import { config } from '../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 import Iframe from 'react-iframe';
 import { GAME_URLS } from '../../../game_constant';
+import { isBrowser} from 'react-device-detect';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 var LAUNCH_GAME_URL = '';
@@ -77,6 +78,7 @@ class GameDetail extends Component {
                 var data = res.data[0];
                 var providerName = data.provider.provider_name;
                 var gameId = data.smallgame_id;
+                var gameIdMobile = data.mobile_game_id;
                 var gameUrl = "";
                 data.categoryName = data.category_id.name;
                 if (token) {
@@ -87,7 +89,7 @@ class GameDetail extends Component {
                             this.setState({ user: res.data });
                         });
                     if (data.provider.provider_name === 'FG') {
-                        this.generateFGURL(gameId, providerName);
+                        this.generateFGURL(gameId, providerName,gameIdMobile);
                     } else if (data.provider.provider_name === 'QTech') {
                         this.generateQTURL(gameId, true);
                     } else if (data.provider.provider_name === 'PLAYNGO') {
@@ -123,7 +125,13 @@ class GameDetail extends Component {
                         gameUrl = gameUrl.replace('{lang}', 'en');
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         window.open(gameUrl);
-                    } else {
+                    } else if (data.provider.provider_name === 'FG' && !isBrowser) {
+                            gameUrl = LAUNCH_GAME_URL[providerName]['free'] + '&isMobile=true';
+                            gameUrl = gameUrl.replace('{lang}', 'en');
+                            gameUrl = gameUrl.replace('{gameId}', gameIdMobile);
+                            this.setState({ gameURL: gameUrl });
+                        
+                    } else { 
                         gameUrl = LAUNCH_GAME_URL[providerName]['free'];
                         gameUrl = gameUrl.replace('{lang}', 'en');
                         gameUrl = gameUrl.replace('{gameId}', gameId);
@@ -133,17 +141,26 @@ class GameDetail extends Component {
             });
     }
 
-    generateFGURL(gameId, providerName) {
+    generateFGURL(gameId, providerName, gameIdMobile) {
         axios
             .get(
                 API_URL + 'games/api/fg/getSessionKey?pk=' + this.state.user.pk
             )
             .then(res => {
+                console.log(res);
+                console.log("test...");
                 var gameUrl = LAUNCH_GAME_URL[providerName]['real'];
                 gameUrl = gameUrl.replace('{lang}', 'en');
-                gameUrl = gameUrl.replace('{gameId}', gameId);
+                
                 if (res.data.sessionKey != null && res.data.alive === 'true') {
-                    gameUrl = gameUrl + '&sessionKey=' + res.data.sessionKey;
+                    if (isBrowser) {
+                        console.log("test...");
+                        gameUrl = gameUrl.replace('{gameId}', gameId);
+                        gameUrl = gameUrl + '&sessionKey=' + res.data.sessionKey;
+                    } else {
+                        gameUrl = gameUrl.replace('{gameId}', gameIdMobile);
+                        gameUrl = gameUrl + '&sessionKey=' + res.data.sessionKey + '&isMobile=true';
+                    }
                     this.setState({ gameURL: gameUrl });
                 } else {
                     axios
@@ -153,8 +170,11 @@ class GameDetail extends Component {
                                 this.state.user.pk
                         )
                         .then(res => {
-                            gameUrl =
-                                gameUrl + '&sessionKey=' + res.data.sessionKey;
+                            if (isBrowser) {
+                                gameUrl = gameUrl + '&sessionKey=' + res.data.sessionKey;
+                            } else {
+                                gameUrl = gameUrl + '&sessionKey=' + res.data.sessionKey + '&isMobile=true';
+                            }
                             this.setState({ gameURL: gameUrl });
                         });
                 }
