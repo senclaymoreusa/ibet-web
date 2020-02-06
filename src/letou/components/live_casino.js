@@ -11,6 +11,15 @@ import Grid from '@material-ui/core/Grid';
 import sha256 from 'sha256';
 import { config} from '../../util_config';
 import axios from 'axios';
+import List from '@material-ui/core/List';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItem from '@material-ui/core/ListItem';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Icon from '@material-ui/core/Icon';
+import { isBrowser} from 'react-device-detect';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
   gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
@@ -98,7 +107,65 @@ const styles = theme => ({
   },
   PgHallBtnLeft:{
     float: "left",
+  },
+
+  rootDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        flexDirection: 'column'
+    }
+  },
+  rootMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+        display: 'none'
+    }
+  },
+  listRow1: {
+    height: '100%',
+    marginRight: 0,
+    MarginLeft: 0,
+    
+  },
+  image: {
+      float:'left',
+      width: '150px',
+      height: '100px',
+  },
+  listText: {
+    marginLeft:'10px',
+  },
+  mobileTitle: {
+    float: 'left',
+    width: '100%',
+    padding: '22px 0',
+    textAlign: 'center',
+  },
+  typography: {
+    fontSize: '1.6rem',
+    fontFamily: '微软雅黑',
+    letterSpacing: 0,
+    fontStyle : 'normal',
+    verticalAlign: 'middle',
+  },
+  paper: {
+    paddingBottom: 50,
+  },
+  listItemText:{
+      marginBottom: '18px'
+  },
+  app: {
+      position: 'absolute',
+      botton: '1px',
+      right: 0,
+      backgroundColor: '#ff9202',
+      padding: '4px 7px',
+      borderRadius: '50px',
+      textDecoration: 'none',
+      marginRight: '9px'
   }
+  
 });
 
 export class live_casino extends React.Component {
@@ -180,7 +247,12 @@ export class live_casino extends React.Component {
         if(!token) {
             this.props.history.push('/register');
         } else {
-            url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+            if(isBrowser){
+                url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+                
+            }else{
+                url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default&mobile=1";
+            }
             window.open(url, 'gdcasino','width=1000,height=800')
         }
     }
@@ -188,6 +260,7 @@ export class live_casino extends React.Component {
     handleAGClick(){
         
         var token = localStorage.getItem('token')
+        var url = "";
         if(token){
             var postData = {
                 "username": this.state.data.username,
@@ -211,7 +284,12 @@ export class live_casino extends React.Component {
             }).then(function (res){
                 return res.json();
             }).then(function(data) {
-                window.open(data.url, "aggames", 'width=1000,height=800');
+                if(isBrowser){
+                    url = data.url;
+                }else{
+                    url = data.mobile_url;
+                }
+                window.open(url, "aggames", 'width=1000,height=800');
             });
         } else {
             this.props.history.push('/register');
@@ -219,10 +297,16 @@ export class live_casino extends React.Component {
     }
 
 
-    handleEAClick() {
+    handleEAClick(mobile) {
         
         // console.log("lang: " + this.props.lang);
         // console.log(this.state.data);
+        
+        var domainUrl = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
+        if (mobile) {
+            domainUrl = "https://178-mobile.claymoreasia.com/mobile/src/mobile.php?userid=";
+        }
+
         var language = 3;
         if (this.props.lang === "zh") {
             language = 1;
@@ -234,15 +318,16 @@ export class live_casino extends React.Component {
             this.props.history.push('/register');
         } else {
         
-            url = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=" + username + "&uuid=" + token + "&lang=" + language;
+            url = domainUrl + username + "&uuid=" + token + "&lang=" + language;
             window.open(url, "ea-live",'width=1000,height=800')
         }
     }
 
-    handleGPIClick() {
+    handleGPIClick(gameName) {
         let token = localStorage.getItem('token');
         let gpiUrl = "";
         let language = 'us-en';
+        let suffix = "";
 
         if (this.props.lang === "zh") {
             language = "zh-cn";
@@ -254,13 +339,28 @@ export class live_casino extends React.Component {
             language = "vi-vn";
         }
 
+        if(gameName === "gpi-Baccarat") {
+            suffix = "&tab=5";
+        } else if(gameName === "gpi-Qixi") {
+            suffix = "&tab=8";
+        } else if(gameName === "gpi-Dai") {
+            suffix = "&tab=6";
+        } else if(gameName === "gpi-Sangong") {
+            suffix = "&tab=1";
+        } else if(gameName === "gpi-Black") {
+            suffix = "&tab=3";
+        } else if(gameName === "gpi-Super") {
+            suffix = "&tab=7";
+        }
+
         if (!token) {
             this.props.history.push('/register');
         } else {
-            gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language;
+            gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language + suffix;
             window.open(gpiUrl);
         }
     }
+    
     
     render() {
         const { classes } = this.props;
@@ -270,9 +370,10 @@ export class live_casino extends React.Component {
             <div className={classes.root}>
                 <TopNavbar />
                 <div className={classes.grow} >
-                <Grid container className={classes.mainGrid}>
+                    <div className={classes.rootDesktop}>
+                    <Grid container className={classes.mainGrid}>
                     <Grid item xs={12} className={classes.mainRow}>
-                    <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/banner.jpg" alt="live-casino banner" style={{ opacity: 1 }} className="BannerImg" />
+                    <img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/banner.jpg" alt="live-casino banner" style={{ opacity: 1 }} className="BannerImg" />
                     </Grid>
                     {/* main */}
                     <Grid item xs={12} className={classes.titleRow}>
@@ -286,24 +387,24 @@ export class live_casino extends React.Component {
 
                         <div className="PgHallTitle">{this.getLabel('ag-title')}</div>
                         <div className="PgHallPic">
-                        <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ag.jpg" alt="ag" style={{ opacity: 1 }} className="PgHallPicImg" />
+                        <img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ag.jpg" alt="ag" style={{ opacity: 1 }} className="PgHallPicImg" />
                         </div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('ag-words')}</p>
 
                         <ul>
 
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Jingmi')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Package')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-led')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
-                            <li><a href="/" onClick={(e) => {this.handleAGClick()}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Jingmi')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Package')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-led')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleAGClick();e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
                             
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/" onClick={(e) => {this.handleAGClick()}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/"  onClick={(e) => {this.handleAGClick();e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -311,7 +412,7 @@ export class live_casino extends React.Component {
 
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle">{this.getLabel('ab-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ab.jpg" alt="ab" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ab.jpg" alt="ab" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('ab-words')}</p>
                         <ul>
@@ -330,7 +431,7 @@ export class live_casino extends React.Component {
 
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle">{this.getLabel('EA-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/ea.jpg" alt="ea" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ea.jpg" alt="ea" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('EA-words')}</p>
                         <ul>
@@ -348,7 +449,7 @@ export class live_casino extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            {<a href="/" onClick={() => {this.handleEAClick()}} ><span>{this.getLabel('Real-money')}</span></a>}
+                            {<a href="/" onClick={(e) => {this.handleEAClick();e.preventDefault();}} ><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>}
                             {/* <a onClick={() => (this.state.data) ? window.open("https://178.claymoreasia.com/wkpibet/newlayout/index.php", "ealive"): this.props.history.push('/register')}><span><font style={{ verticalAlign: 'inherit' }}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</font></span></a> */}
                         </div>
                         </Grid>
@@ -358,7 +459,7 @@ export class live_casino extends React.Component {
 
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle">{this.getLabel('n2live-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/n2live.jpg" alt="n2" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/n2live.jpg" alt="n2" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('n2live-words')}</p>
                         <ul>
@@ -370,7 +471,7 @@ export class live_casino extends React.Component {
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                             {/* <a onClick={() => window.open("https://666.claymoreasia.com/", "n2live")}><span>{this.getLabel('Real-money')}</span></a> */}
-                            <a href="/" onClick={() => {this.handleN2Click(username)}}><span>{this.getLabel('Real-money')}</span></a>
+                            <a href="/" onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -378,7 +479,7 @@ export class live_casino extends React.Component {
 
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle">{this.getLabel('OPUS-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/opus.jpg" alt="opus" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/opus.jpg" alt="opus" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('OPUS-words')}</p>
                         <ul>
@@ -400,18 +501,18 @@ export class live_casino extends React.Component {
                 <Grid item xs={12}  className={classes.hallRow}> */}
                     <div className="PgHall">
                         <div className="PgHallTitle Color3">{this.getLabel('gd-title')}</div>
-                        <div className="PgHallPic"><img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/gd.jpg" alt="gd" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
+                        <div className="PgHallPic"><img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/gd.jpg" alt="gd" style={{ opacity: 1 }} className="PgHallPicImg" /></div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('gd-words')}</p>
                         <ul>
-                            <li><a href="/" onClick={(e) => {this.handleGDClick("Baccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
-                            <li><a href="/"  onClick={(e) => {this.handleGDClick("BidmeBaccarat")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
-                            <li><a href="/"  onClick={(e) => {this.handleGDClick("Roulette")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
-                            <li><a href="/"  onClick={(e) => {this.handleGDClick("SicBo")}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-baccarat')}</font></a></li>
+                            <li><a href="/"  onClick={(e) => {this.handleGDClick("BidmeBaccarat");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gd-Mi')}</font></a></li>
+                            <li><a href="/"  onClick={(e) => {this.handleGDClick("Roulette");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Roulette')}</font></a></li>
+                            <li><a href="/"  onClick={(e) => {this.handleGDClick("SicBo");e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('ag-Suibao')}</font></a></li>
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/" onClick={(e) => {this.handleGDClick("Baccarat")}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/" onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -421,7 +522,7 @@ export class live_casino extends React.Component {
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle Color3">{this.getLabel('bbin-title')}</div>
                         <div className="PgHallPic">
-                        <img src="https://static.qichuangtou.com/static/styles/desktop/images/casino/bbin.jpg" style={{ opacity: 1 }}  alt="bbin" className="PgHallPicImg" />
+                        <img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/bbin.jpg" style={{ opacity: 1 }}  alt="bbin" className="PgHallPicImg" />
                         </div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('bbin-words')}</p>
@@ -444,22 +545,22 @@ export class live_casino extends React.Component {
                     <div className="PgHall MarginLeft">
                         <div className="PgHallTitle Color3">{this.getLabel('gpi-title')}</div>
                         <div className="PgHallPic">
-                        <img src="https://www.178letou.com/static/styles/desktop/images/casino/gpi.jpg" style={{ opacity: 1 }}  alt="gpi" className="PgHallPicImg" />
+                        <img src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/gpi.jpg" style={{ opacity: 1 }}  alt="gpi" className="PgHallPicImg" />
                         </div>
                         <div className="PgHallArticle">
                         <p>{this.getLabel('gpi-words')}</p>
                         <ul>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Baccarat')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Qixi')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Dai')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Sangong')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Black')}</font></a></li>
-                            <li><a href="/" ><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Super')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Baccarat"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Baccarat')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Qixi"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Qixi')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Dai"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Dai')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Sangong"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Sangong')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Black"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Black')}</font></a></li>
+                            <li><a href="/" onClick={(e) => {this.handleGPIClick("gpi-Super"); e.preventDefault();}}><i></i><font style={{ verticalAlign: 'inherit' }}>{this.getLabel('gpi-Super')}</font></a></li>
                             
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/" onClick={(e) => {this.handleGPIClick()}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
+                            <a href="/" onClick={(e) => {this.handleGPIClick(); e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>                        </div>
                         </Grid>
                         </div>
                     </div>
@@ -552,9 +653,140 @@ export class live_casino extends React.Component {
                         </ul>
                     
                     </div>
-                    
-                
                 </Grid>
+                </div>
+                    <div className={classes.rootMobile}>
+                        <Paper square className={classes.paper}>
+                        <Typography className={classes.mobileTitle} style={{ textAlign: "center" ,fontSize: "1.3rem"}}>
+                        <Icon>
+                            <img alt='pcasino-icon' style={{width: '16px', height: '17px', marginTop: '-2px', marginRight: '9px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/casino-icon.png"/>
+                        </Icon>
+                            {this.getLabel('Live-casino')}
+                        </Typography>
+                        <List className={classes.listRow1}>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="ea" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ea.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText 
+                                        primary={this.getLabel('EA-title')}
+                                        secondary={
+                                            this.getLabel('EA-words')}
+                                    />
+                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick('mobile');e.preventDefault();}} >
+                                    <Icon>
+                                        <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                    </Icon>
+                                    <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>}
+                                </div>
+                                
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="ag" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ag.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText 
+                                        primary={this.getLabel('ag-title')}
+                                        secondary={this.getLabel('ag-words')}
+                                    />
+                                    <a href="/"  style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleAGClick();e.preventDefault();}}>
+                                    <Icon>
+                                        <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                    </Icon>
+                                    <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                                </div>
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="n2live" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/n2live.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText 
+                                        primary={this.getLabel('n2live-title')}
+                                        secondary={this.getLabel('n2live-words')}
+                                    />
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}>
+                                    <Icon>
+                                        <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                    </Icon>
+                                    <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span>
+                                    </a>
+                                    <a href="/" className={classes.app}>
+                                        <Icon>
+                                            <img alt='download-icon' style={{width: '12px', height: '12px', marginRight: '5px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/download-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#fff', verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{this.getLabel('APP-Download')}</span>
+                                    </a>
+                                </div>
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="bbin" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/bbin.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText
+                                        primary={this.getLabel('bbin-title')}
+                                        secondary={this.getLabel('bbin-words')}
+                                    />
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} >
+                                        <Icon>
+                                            <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span>
+                                    </a>
+                                    <a href="/" className={classes.app}>
+                                        <Icon>
+                                            <img alt='download-icon' style={{width: '12px', height: '12px', marginRight: '5px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/download-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#fff', verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{this.getLabel('APP-Download')}</span>
+                                    </a>
+                                </div>
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="gd" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/gd.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText
+                                        primary={this.getLabel('gd-title')}
+                                        secondary={this.getLabel('gd-words')}
+                                    />
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleGDClick("Baccarat");e.preventDefault();}}>
+                                        <Icon>
+                                            <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span>
+                                    </a>
+                                </div>
+                                
+                            </ListItem>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                    <Avatar variant="rounded" alt="ab" src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/ab.jpg" className={classes.image}/>
+                                </ListItemAvatar>
+                                <div className={classes.listText}>
+                                    <ListItemText 
+                                        primary={this.getLabel('ab-title')}
+                                        secondary={this.getLabel('ab-words')}
+                                    />
+                                    <a href="/" style={{textDecoration: 'none', marginBottom: 0}} >
+                                        <Icon>
+                                            <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
+                                        </Icon>
+                                        <span style={{color: '#3eace9',verticalAlign: 'middle', fontSize: '0.8rem', display: 'inline-block'}}>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span>
+                                    </a>
+
+                                </div>
+                                
+                            </ListItem>
+                            
+
+                        </List>
+                        </Paper>
+
+                    </div>
                 {/* main end */}
                 </div>
                 

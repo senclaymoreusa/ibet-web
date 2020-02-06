@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authCheckState } from '../../../../../actions';
@@ -94,11 +95,11 @@ const styles = theme => ({
         borderRadius: 22,
         backgroundColor: '#4DA9DF',
         color: '#fff',
-        "&:hover": {
+        '&:hover': {
             backgroundColor: '#57b9f2',
             color: '#fff'
         },
-        "&:focus": {
+        '&:focus': {
             backgroundColor: '#57b9f2',
             color: '#fff'
         },
@@ -155,10 +156,7 @@ export class WithdrawSuccess extends Component {
                         className={classes.successRow}
                         style={{ marginTop: 20, marginBottom: 50 }}
                     >
-                        <span className={classes.text}>
-                            {this.getLabel('withdraw-label')} {successMessage}{' '}
-                            {this.getLabel('submitted-label')}
-                        </span>
+                        <span className={classes.text}>{successMessage}</span>
                         <span className={classes.text}>
                             {this.getLabel('check-transaction-status')}
                         </span>
@@ -191,4 +189,10 @@ const mapStateToProps = state => {
     };
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(WithdrawSuccess))));
+export default withStyles(styles)(
+    withRouter(
+        injectIntl(
+            connect(mapStateToProps, { authCheckState })(WithdrawSuccess)
+        )
+    )
+);
