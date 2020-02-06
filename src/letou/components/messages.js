@@ -617,7 +617,22 @@ export const messages = {
         'promotion-description':
             'A variety of bonuses will support you, betting is not afraid of not backing up',
         'filter-label': 'Filter',
-        'sort-label': 'Sort'
+        'sort-label': 'Sort',
+        'add-bank-card':'Add Bank Card',
+        'card-holder':'Cardholder',
+        'bank-card-number': 'Bank Card Number',
+        'create-label':'Create',
+        'add-account-success':'Bank card successfuly added.',
+        'add-account-failed':'An error occured while adding account',
+        'wrong-withdraw-password':'Wrong withdraw password!',
+        'error-withdraw-password':'Error occured while checking withdraw password!',
+        'bank-card-management':'Bank Card Management',
+        'inquire-label':'Inquire',
+        'card-removal':'Card Removal',
+        'delete-label':'Delete',
+        'transfer-records':'Transfer Records',
+        'tail-number':'Tail Number'
+
     },
     zh: {
 
