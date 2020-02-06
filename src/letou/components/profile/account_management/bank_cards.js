@@ -382,7 +382,6 @@ export class BankCards extends Component {
         config.headers['Authorization'] = `Token ${token}`;
 
         let bodyItem = {};
-
         if (this.state.cardholder.length > 0)
             bodyItem = {
                 user_id: this.props.user.userId,
@@ -394,7 +393,6 @@ export class BankCards extends Component {
                 user_id: this.props.user.userId,
                 acc_no: this.state.cardNumber
             };
-
         axios
             .post(
                 API_URL + 'accounting/api/transactions/add_withdraw_acc',

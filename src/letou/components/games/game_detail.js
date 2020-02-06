@@ -200,14 +200,14 @@ class GameDetail extends Component {
         if (!isReal) {
             const script = document.createElement("script");
     
-            script.src = `https://csistage.playngonetwork.com/casino/js?div=pngCasinoGame&pid=8820&lang=${lang}&practice=1&height=786px&width=100%&gid=${gameId}`;
+            script.src = `https://csicw.playngonetwork.com/casino/js?div=pngCasinoGame&pid=8820&lang=${lang}&practice=1&height=786px&width=100%&gid=${gameId}`;
             script.async = true;
         
             document.body.appendChild(script);
         } else {
             const script = document.createElement("script");
     
-            script.src = `https://csistage.playngonetwork.com/casino/js?div=pngCasinoGame&pid=8820&lang=${lang}&practice=0&height=786px&width=100%&gid=${gameId}&username=${session}`;
+            script.src = `https://csicw.playngonetwork.com/casino/js?div=pngCasinoGame&pid=8820&lang=${lang}&practice=0&height=786px&width=100%&gid=${gameId}&username=${session}`;
             script.async = true;
         
             document.body.appendChild(script);
