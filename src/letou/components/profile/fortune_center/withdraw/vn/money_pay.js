@@ -71,7 +71,7 @@ const vn_bank_options = [
     {
         value: 'VIB',
         label: 'Vietnam International Bank',
-        img: '',
+        img: 'letou/VIB-Logo.png',
         code: 'VND'
     },
     {
