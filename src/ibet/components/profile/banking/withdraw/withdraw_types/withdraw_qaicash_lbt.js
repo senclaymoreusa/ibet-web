@@ -327,7 +327,7 @@ class WithdrawQaicashLBT extends Component {
                             },
                             body: formBody
                         }).then(function (res) {
-                            if(res.status == 200){
+                            if(res.status === 200){
                                 return res.json();
                             }else{
                                 currentComponent.props.callbackFromParent("error", "Transaction failed.");

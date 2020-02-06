@@ -32,7 +32,6 @@ const styles = theme => ({
     rootMobile: {
         minHeight: '100vh',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
@@ -171,10 +170,7 @@ const styles = theme => ({
 });
 
 export class Suggestions extends Component {
-    constructor(props) {
-        super(props);
-    }
-
+    
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });

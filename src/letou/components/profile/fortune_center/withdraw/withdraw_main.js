@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState,
-    AUTH_RESULT_FAIL,
-    sendingLog
+    authCheckState
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
-import { images } from '../../../../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
-import { config } from '../../../../../util_config';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
@@ -245,7 +239,6 @@ export class WithdrawMain extends Component {
         if (msg) this.setState({ withdrawMessage: msg });
 
         this.setState({ contentValue: page });
-        // this.setState({ tabValue: page });
     };
 
     withdrawWith(paymentMethod) {
@@ -260,14 +253,14 @@ export class WithdrawMain extends Component {
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
         const { width } = this.props;
-        console.log('width: ' + width);
+        
         switch (user.country.toLowerCase()) {
             case 'china':
                 return <div></div>;
             case 'thailand':
                 return (
                     <StyledTabs
-                        variant={width == 'xs' ? 'fullWidth' : 'standard'}
+                        variant={width === 'xs' ? 'fullWidth' : 'standard'}
                         className={classes.mainTab}
                         value={operationProp ? operationProp : 'none'}
                     >

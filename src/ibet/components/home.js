@@ -3,7 +3,7 @@ import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import ChatTool from "./chat_tool";
 import { connect } from 'react-redux';
-import { authCheckState, handle_referid, hide_landing_page, sendingLog } from '../../actions';
+import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
 import { FormattedMessage } from 'react-intl';
 import { config } from '../../util_config';
 
@@ -98,18 +98,20 @@ export class Home extends Component {
 
   game_url(event, item){
     event.preventDefault();
+    
     if (['Lotto', 'Keno', 'PK10', 'K3', 'SSC', 'GB Sports'].includes(item.name)){
       var token = localStorage.getItem('token')
+      var URL = "";
       if (token){
           config.headers["Authorization"] = `Token ${token}`;
-          var URL = API_URL + 'users/api/generategameurl/?game=' + item.name
+          URL = API_URL + 'users/api/generategameurl/?game=' + item.name
           axios.get(URL, config)
           .then(res => {
               var Game_URL = res.data.game_url
               window.open(Game_URL)
           })
       }else{
-          var URL = API_URL + 'users/api/generatefakeusergameurl/?game=' + item.name
+          URL = API_URL + 'users/api/generatefakeusergameurl/?game=' + item.name
           axios.get(URL, config)
           .then(res => {
               var Game_URL = res.data.game_url
@@ -117,17 +119,17 @@ export class Home extends Component {
           })
       }
     }else if (['AG'].includes(item.name)){
-      var token = localStorage.getItem('token')
+      token = localStorage.getItem('token')
       if (token){
           config.headers["Authorization"] = `Token ${token}`;
-          var URL = API_URL + 'users/api/generateagurl/' 
+          URL = API_URL + 'users/api/generateagurl/' 
           axios.get(URL, config)
           .then(res => {
               var Game_URL = res.data.game_url
               window.open(Game_URL)
           })
       }else{
-          var URL = API_URL + 'users/api/generateagfakeuserurl/'
+          URL = API_URL + 'users/api/generateagfakeuserurl/'
           axios.get(URL, config)
           .then(res => {
               var Game_URL = res.data.game_url

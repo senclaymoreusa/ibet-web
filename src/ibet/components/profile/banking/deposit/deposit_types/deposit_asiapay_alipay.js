@@ -300,7 +300,7 @@ class DepositAsiapayAlipay extends Component {
             .then(function(res) {
                 //console.log(res);
                 currentComponent.setState({ showLinearProgressBar: false });
-                if(res.status == 200){
+                if(res.status === 200){
                     return res.json();
                 }else{
                     currentComponent.props.callbackFromParent("error", "Transaction failed.");
@@ -349,7 +349,7 @@ class DepositAsiapayAlipay extends Component {
                                 }
                             )
                                 .then(function(res) {
-                                    if(res.status == 200){
+                                    if(res.status === 200){
                                         return res.json();
                                     }else{
                                         currentComponent.props.callbackFromParent("error", "Transaction failed.");
@@ -409,7 +409,7 @@ class DepositAsiapayAlipay extends Component {
                         }
                     }, 1000);
                 }else{
-                    if(data.StatusCode == ('00005' || '100504' || '100505' || '00800' || '100803' || '000008' || '100305' || '100306' || '100307'
+                    if(data.StatusCode === ('00005' || '100504' || '100505' || '00800' || '100803' || '000008' || '100305' || '100306' || '100307'
                         || '100606' || '100608' || '100603' || '100604' || '100605' || '100901' || '100902' || '100803' || '00050' || '00003' || '00002')){
                         currentComponent.props.callbackFromParent(
                                                         'error',

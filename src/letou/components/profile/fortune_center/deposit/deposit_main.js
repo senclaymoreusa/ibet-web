@@ -40,7 +40,7 @@ import WechatPay from './zh/wechat_pay';
 import QuickPay from './zh/quickpay';
 import UnionPayQr from './zh/unionpay_qr';
 import JDPay from './zh/jd_pay';
-import Astropay_CH from './zh/astro_pay';
+import AstropayCH from './zh/astro_pay';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -60,7 +60,6 @@ const styles = theme => ({
     rootMobile: {
         width: '100%',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
@@ -764,7 +763,7 @@ export class DepositMain extends Component {
         else if (operationProp === 'jdpay')
             return <JDPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
         else if (operationProp === 'astropay_ch')
-            return <Astropay_CH callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <AstropayCH callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
         else if (operationProp === 'vietnamhelp2pay')
             return <VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
         else if (operationProp === 'circlepay')

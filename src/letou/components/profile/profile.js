@@ -28,8 +28,7 @@ import SharingPlan from './sharing_plan/sharing_plan';
 import Button from '@material-ui/core/Button';
 import TransactionRecord from './transaction_record/transaction_record';
 import { images } from '../../../util_config';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
 import Person from '@material-ui/icons/Person';
 import Smartphone from '@material-ui/icons/PhoneAndroid';
 import Email from '@material-ui/icons/Email';
@@ -72,7 +71,6 @@ const styles = theme => ({
         width: '100%',
         minHeight: '100vh',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
@@ -378,7 +376,7 @@ export class Profile extends Component {
         if (user && user.emailVerified) rate += 33;
         if (user && user.nameVerified) rate += 33;
         if (user && user.nameVerified) rate += 33;
-        if (rate == 99) rate = 100;
+        if (rate === 99) rate = 100;
 
         return (
             <div className={classes.root}>

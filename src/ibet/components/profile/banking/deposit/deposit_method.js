@@ -159,26 +159,27 @@ export class DepositMethod extends Component {
                 if(res.ok){
                     return res.json();
                 }
-            }).then(function(data){
-                let qrcode = data.qrcode;
-                var request_time = data.request_time;
-                var request_day = request_time.split('T')[0].replace(/-/g, "")
-                //console.log(request_day);
-                request_time = request_time.split('T')[1].split('.')[0];
-                //console.log(request_time);
-                var today = new Date();
-                var current_time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                var current_day = today.getFullYear()+''+(today.getMonth()+1)+''+today.getDate();
-                //console.log(current_day);
-                //console.log(current_time);
-                if(current_day == request_day){
-                    var time_diff = current_time - request_time;
-                }else if(current_day - 1 == request_day){
-                    //if(current_time + 24 - request_time <= 3)
-                }
-                
-                
             })
+            //.then(function(data){
+                
+            //     var request_time = data.request_time;
+            //     var request_day = request_time.split('T')[0].replace(/-/g, "")
+            //     //console.log(request_day);
+            //     request_time = request_time.split('T')[1].split('.')[0];
+            //     //console.log(request_time);
+            //     var today = new Date();
+            //     var current_time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            //     var current_day = today.getFullYear()+''+(today.getMonth()+1)+''+today.getDate();
+            //     //console.log(current_day);
+            //     //console.log(current_time);
+            //     if(current_day == request_day){
+            //         var time_diff = current_time - request_time;
+            //     }else if(current_day - 1 == request_day){
+            //         //if(current_time + 24 - request_time <= 3)
+            //     }
+                
+                
+            // })
 
         
     }
