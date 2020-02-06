@@ -129,7 +129,8 @@ const styles = theme => ({
         maxWidth: 200,
         marginRight: 20,
         height: 140,
-        boxShadow: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+        boxShadow:
+            '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
             marginRight: 0
@@ -138,10 +139,12 @@ const styles = theme => ({
         backgroundColor: '#f5f5f5',
         border: '1px solid #d4d4d4',
         '&:hover': {
-            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
+            boxShadow:
+                '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
         },
         '&:focus': {
-            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
+            boxShadow:
+                '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
         }
     },
     addAccount: {
@@ -151,7 +154,7 @@ const styles = theme => ({
         paddingTop: 40,
         cursor: 'pointer',
         [theme.breakpoints.down('md')]: {
-            width: '100%',
+            width: '100%'
         },
         display: 'flex',
         flexDirection: 'column',
@@ -159,10 +162,10 @@ const styles = theme => ({
         borderRadius: 4,
         border: '1px dashed #acd',
         '&:hover': {
-            backgroundColor: '#dfeef7',
+            backgroundColor: '#dfeef7'
         },
         '&:focus': {
-            backgroundColor: '#dfeef7',
+            backgroundColor: '#dfeef7'
         }
     },
     accountRow: {
@@ -261,8 +264,7 @@ export class BankCards extends Component {
             activeStep: 0,
             showSnackbar: false,
             snackType: 'info',
-            snackMessage: '',
-
+            snackMessage: ''
         };
     }
 
@@ -295,20 +297,18 @@ export class BankCards extends Component {
             .get(API_URL + requestURL)
             .then(res => {
                 if (res.status === 200) {
-                    console.log('data')
-            console.log(res.data)
+                    console.log('data');
+                    console.log(res.data);
                     this.setState({
                         cards: res.data.results,
                         activeSteps: res.data.results.length > 0 ? 0 : 1
                     });
-
                 }
             })
             .catch(err => {
                 this.setState({ items: [] });
                 sendingLog(err);
             });
-
     }
 
     handleSnackbarClose = (event, reason) => {
@@ -317,7 +317,7 @@ export class BankCards extends Component {
         }
 
         this.setState({ showSnackbar: false });
-    }
+    };
 
     bankCardNumberChanged(event) {
         const re = /^[0-9\b]+$/;
@@ -356,7 +356,7 @@ export class BankCards extends Component {
     }
 
     deleteCard(id) {
-        console.log('id:'+id)
+        console.log('id:' + id);
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
 
@@ -384,7 +384,7 @@ export class BankCards extends Component {
         config.headers['Authorization'] = `Token ${token}`;
 
         let bodyItem = {};
-       
+
         if (this.state.cardholder.length > 0)
             bodyItem = {
                 user_id: this.props.user.userId,
@@ -396,8 +396,8 @@ export class BankCards extends Component {
                 user_id: this.props.user.userId,
                 acc_no: this.state.cardNumber
             };
-            
-            console.log(bodyItem)
+
+        console.log(bodyItem);
         axios
             .post(
                 API_URL + 'accounting/api/transactions/add_withdraw_acc',
@@ -405,8 +405,8 @@ export class BankCards extends Component {
                 config
             )
             .then(res => {
-                console.log('res')
-                console.log(res)
+                console.log('res');
+                console.log(res);
                 this.setState({
                     snackType: 'success',
                     snackMessage: this.getLabel('add-account-success'),
@@ -428,11 +428,17 @@ export class BankCards extends Component {
 
     render() {
         const { classes } = this.props;
-        const { cards, cardholder, cardNumber, password, activeStep } = this.state;
+        const {
+            cards,
+            cardholder,
+            cardNumber,
+            password,
+            activeStep
+        } = this.state;
 
         return (
             <div className={classes.root}>
-                {activeStep == 0 ?
+                {activeStep === 0 ? (
                     <Grid container>
                         <Grid item xs={12} className={classes.titleRow}>
                             <span className={classes.title}>
@@ -443,55 +449,88 @@ export class BankCards extends Component {
                             {cards.map(card => (
                                 <div key={card.id} className={classes.account}>
                                     <Grid container>
-                                        <Grid item xs={12} className={classes.row} style={{ borderBottom: '1px solid #d4d4d4' }}>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            className={classes.row}
+                                            style={{
+                                                borderBottom:
+                                                    '1px solid #d4d4d4'
+                                            }}
+                                        >
                                             <span className={classes.label}>
                                                 {this.getLabel('card-number')}
                                             </span>
                                             <div className={classes.grow} />
                                             <span className={classes.label}>
-                            {'...'}{card.account_no.substring(card.account_no.length-3)}
+                                                {'...'}
+                                                {card.account_no.substring(
+                                                    card.account_no.length - 3
+                                                )}
                                             </span>
                                         </Grid>
-                                        <Grid item xs={12} className={classes.accountRow}>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            className={classes.accountRow}
+                                        >
                                             <span className={classes.label}>
-                                                {this.getLabel('transfer-records')}
+                                                {this.getLabel(
+                                                    'transfer-records'
+                                                )}
                                             </span>
                                             <div className={classes.grow} />
-                                            <Button className={classes.action}
-                                            onClick={() => {
-                                                this.props.history.push(
-                                                    '/p/transaction-records/account-details'
-                                                );
-                                            }}>
+                                            <Button
+                                                className={classes.action}
+                                                onClick={() => {
+                                                    this.props.history.push(
+                                                        '/p/transaction-records/account-details'
+                                                    );
+                                                }}
+                                            >
                                                 {this.getLabel('inquire-label')}
                                             </Button>
                                         </Grid>
-                                        <Grid item xs={12} className={classes.accountRow}>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            className={classes.accountRow}
+                                        >
                                             <span className={classes.label}>
                                                 {this.getLabel('card-removal')}
                                             </span>
                                             <div className={classes.grow} />
-                                            <Button className={classes.action}
-                                            onClick={() => {
-                                                this.deleteCard(card.id)
-                                            }}>
+                                            <Button
+                                                className={classes.action}
+                                                onClick={() => {
+                                                    this.deleteCard(card.id);
+                                                }}
+                                            >
                                                 {this.getLabel('delete-label')}
                                             </Button>
                                         </Grid>
                                     </Grid>
                                 </div>
                             ))}
-                            <div className={classes.addAccount} onClick={() => {
-                                this.setState({ activeStep: 1 });
-                            }}>
-                                <img src={images.src + 'letou/add-account.png'} alt="" style={{ marginBottom: 10 }} />
+                            <div
+                                className={classes.addAccount}
+                                onClick={() => {
+                                    this.setState({ activeStep: 1 });
+                                }}
+                            >
+                                <img
+                                    src={images.src + 'letou/add-account.png'}
+                                    alt=""
+                                    style={{ marginBottom: 10 }}
+                                />
                                 <span className={classes.action}>
                                     {this.getLabel('add-bank-card')}
                                 </span>
                             </div>
                         </Grid>
                     </Grid>
-                    : <Grid container>
+                ) : (
+                    <Grid container>
                         <Grid item xs={12} className={classes.titleRow}>
                             <span className={classes.title}>
                                 {this.getLabel('add-bank-card')}
@@ -571,11 +610,12 @@ export class BankCards extends Component {
                                                             );
                                                         }}
                                                     >
-                                                        {this.state.showPassword ? (
+                                                        {this.state
+                                                            .showPassword ? (
                                                             <VisibilityOff />
                                                         ) : (
-                                                                <Visibility />
-                                                            )}
+                                                            <Visibility />
+                                                        )}
                                                     </IconButton>
                                                 </InputAdornment>
                                             )
@@ -590,8 +630,10 @@ export class BankCards extends Component {
                                             this
                                         )}
                                         disabled={
-                                            this.state.cardholder.length === 0 ||
-                                            this.state.cardNumber.length === 0 ||
+                                            this.state.cardholder.length ===
+                                                0 ||
+                                            this.state.cardNumber.length ===
+                                                0 ||
                                             this.state.password.length === 0
                                         }
                                     >
@@ -600,11 +642,12 @@ export class BankCards extends Component {
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>}
+                    </Grid>
+                )}
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',
-                        horizontal: 'center',
+                        horizontal: 'center'
                     }}
                     open={this.state.showSnackbar}
                     autoHideDuration={3000}
