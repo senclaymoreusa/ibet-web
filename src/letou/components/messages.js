@@ -635,9 +635,10 @@ export const messages = {
 
     },
     zh: {
-
+        'sports-label': '体育',
+        'gaming-label': '电竞',
         'help-letou': '我们在此竭诚服务',
-
+        'live-casino': '真人娱乐场',
         'APP-Download': 'APP下载',
         'help-title': '我们在此竭诚服务',
         'for-member': '供会员使用',
@@ -1185,6 +1186,9 @@ export const messages = {
         'help-service': '我们随时随刻为您服务'
     },
     th: {
+        'sports-label': 'พลศึกษา',
+        'gaming-label': 'อีสปอร์ต',
+        'live-casino': 'คาสิโน ล็อตเตอรี่',
         'help-title': 'เราพร้อมให้ความช่วยเหลือ',
         'for-member': 'สำหรับสมาชิก',
         'aboutUs-detail-text-one':
@@ -1692,6 +1696,9 @@ export const messages = {
     },    
 
     vi: {
+        'sports-label': 'Giáo dục thể chất',
+        'gaming-label': 'Esport',
+        'live-casino': 'Casino Xổ Số',
     },
 
 };

@@ -42,6 +42,7 @@ import PasswordStrengthMeter from '../../../commons/PasswordStrengthMeter';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
@@ -292,10 +293,12 @@ export class Register extends Component {
     }
 
     componentDidMount() {
+       
         if (!this.props.signup_phone) {
             axios.get('https://ipapi.co/json/').then(res => {
                 this.setState({
-                    phoneCode: res.data.country_calling_code
+                    phoneCode: res.data.country_calling_code,
+                    country: res.data.country_name
                 });
             });
         }
@@ -370,14 +373,15 @@ export class Register extends Component {
                 phoneNum,
                 undefined,
                 undefined,
-                'china',
+                'thailand',
                 undefined,
                 undefined,
                 true,
                 this.props.lang,
                 this.state.referralCode.length !== 0
                     ? this.state.referralCode
-                    : undefined
+                    : undefined,
+                2
             )
             .then(() => {
                 // this.props.show_letou_login();
