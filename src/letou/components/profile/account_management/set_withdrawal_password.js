@@ -489,6 +489,10 @@ export class SetWithdrawalPassword extends Component {
                                         style={{ marginTop: 10 }}
                                         value={this.state.confirmPassword}
                                         onChange={this.confirmPasswordChanged.bind(this)}
+                                        onPaste={event => {
+                                            event.preventDefault();
+                                            return false;
+                                        }}
                                         type={this.state.showConfirmPassword ? '' : 'password'}
                                         error={this.state.confirmPasswordInvalid}
                                         helperText={this.state.confirmPasswordInvalid ? this.getLabel('password-not-match') : ''}

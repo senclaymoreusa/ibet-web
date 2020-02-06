@@ -450,6 +450,10 @@ export class Register extends Component {
             });
     }
 
+    onCountryCodeClose = () => {
+        console.log('close')
+    }
+
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
@@ -540,6 +544,9 @@ export class Register extends Component {
                                                         : ' '
                                                 }
                                                 InputProps={{
+                                                    inputProps: {
+                                                        maxLength: 16
+                                                    },
                                                     disableUnderline: true,
                                                     startAdornment: (
                                                         <InputAdornment position="start">
@@ -786,13 +793,17 @@ export class Register extends Component {
                                         <Grid item xs={12}>
                                             <FormControl>
                                                 <Select
-                                                    onClick={() => {
+                                                    value={this.state.phoneCode}
+                                                    onClose={event => {
                                                         this.setState({
-                                                            formOpen: !this
-                                                                .state.formOpen
+                                                            formOpen: false
                                                         });
                                                     }}
-                                                    value={this.state.phoneCode}
+                                                    onOpen={event => {
+                                                        this.setState({
+                                                            formOpen: true
+                                                        });
+                                                    }}
                                                     onChange={event => {
                                                         this.setState({
                                                             phoneCode:
@@ -867,6 +878,9 @@ export class Register extends Component {
                                                         : ' '
                                                 }
                                                 InputProps={{
+                                                    inputProps: {
+                                                        maxLength: 11
+                                                    },
                                                     disableUnderline: true,
                                                     startAdornment: (
                                                         <InputAdornment position="start">
