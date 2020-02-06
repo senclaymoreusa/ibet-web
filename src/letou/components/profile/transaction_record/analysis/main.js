@@ -37,11 +37,10 @@ export class Main extends Component {
 
     render() {
         const { classes, operationProp } = this.props;
-        const { contentValue, dateValue, operationType } = this.state;
 
         return (
             <div className={classes.root}>
-                {(operationProp == undefined || operationProp == '') && <Analysis callbackFromParent={this.setContent} />}
+                {(operationProp === undefined || operationProp === '') && <Analysis callbackFromParent={this.setContent} />}
                 {operationProp === 'sports' && <SportsBets />}
                 {operationProp === 'bet-detail' && <BetDetails />}
                 {operationProp === 'deposit-withdraw' && <DepositWithdraw />}
