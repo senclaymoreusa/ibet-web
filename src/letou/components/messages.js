@@ -216,8 +216,7 @@ export const messages = {
         'register-policy-text':
             'By clicking the button confirming the application. You confirm that you are 18 years old and you have read, accepted and agreed to the terms and conditions.',
         'rules-privacy-policy': 'LETOU Gambling Rules and Privacy Policy',
-        'username-limit':
-            'Username requires 8-16 digits with letters or numbers.',
+        'username-limit': 'Requires 8-16 digits with letters or numbers.',
         'please-strong-password':
             'Your password strength should be at least good.',
         'please-confirm-password': 'Please confirm your password.',
@@ -587,7 +586,7 @@ export const messages = {
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
         'safety-rate': 'Safety Rate',
-        'vn-localbank-placeholder-withdraw': '₫300,000 - 300,000,000',
+        'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
         'vn-moneypay-placeholder-withdraw': '₫300,000 - 300,000,000',
         'page-not-found': 'Oops, this page does not exist',
         'error-message': 'Oops, something went wrong',
@@ -636,8 +635,10 @@ export const messages = {
         'my-card': 'My Bank Card',
         },
     zh: {
+        'sports-label': '体育',
+        'gaming-label': '电竞',
         'help-letou': '我们在此竭诚服务',
-
+        'live-casino': '真人娱乐场',
         'APP-Download': 'APP下载',
         'help-title': '我们在此竭诚服务',
         'for-member': '供会员使用',
@@ -1185,6 +1186,9 @@ export const messages = {
         'help-service': '我们随时随刻为您服务'
     },
     th: {
+        'sports-label': 'พลศึกษา',
+        'gaming-label': 'อีสปอร์ต',
+        'live-casino': 'คาสิโน ล็อตเตอรี่',
         'help-title': 'เราพร้อมให้ความช่วยเหลือ',
         'for-member': 'สำหรับสมาชิก',
         'aboutUs-detail-text-one':
@@ -1720,4 +1724,9 @@ export const messages = {
     },
 
     vi: {}
+        'view-all': 'ดูทั้งหมด',
+        'sports-label': 'Giáo dục thể chất',
+        'gaming-label': 'Esport',
+        'live-casino': 'Casino Xổ Số',
+    }
 };

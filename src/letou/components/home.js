@@ -134,7 +134,8 @@ export class Home extends Component {
       images.src + 'letou/banner1.jpg',
       images.src + 'letou/banner2.jpg',
       images.src + 'letou/banner3.jpg',
-      images.src + 'letou/banner4.jpg'
+      images.src + 'letou/banner4.jpg',
+      images.src + 'letou/banner5.jpg',
     ];
 
     const bannerProperties = {

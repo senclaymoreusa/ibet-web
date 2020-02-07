@@ -440,7 +440,7 @@ export class BankCards extends Component {
 
         return (
             <div className={classes.root}>
-                {activeStep == 0 ?
+                {activeStep === 0 ?
                     <Grid container>
                         <Grid item xs={12} className={classes.titleRow}>
                             <span className={classes.title}>
