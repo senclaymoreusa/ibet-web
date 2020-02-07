@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
@@ -6,7 +7,11 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { authCheckState, AUTH_RESULT_FAIL } from '../../../../../../actions';
+import {
+    authCheckState,
+    AUTH_RESULT_FAIL,
+    sendingLog
+} from '../../../../../../actions';
 import { withRouter } from 'react-router-dom';
 import { Divider } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
@@ -16,6 +21,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
+import Bank_Info from '../../../../../../commons/bank_info';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -81,6 +87,9 @@ const styles = () => ({
         '&:focus': {
             border: 'solid 1px #717171'
         }
+    },
+    grow: {
+        flexGrow: 1
     },
     buttonCell: {
         display: 'flex',
@@ -167,6 +176,29 @@ const styles = () => ({
         backgroundColor: '#cffcea',
         justifyContent: 'center'
     },
+    accountRow: {
+        cursor: 'pointer',
+        height: 50,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%'
+    },
+    column: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%'
+    },
+    accountInfo: {
+        fontSize: 16,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 1.33,
+        letterSpacing: -0.15,
+        color: '#252525'
+    },
     forgot: {
         fontSize: 12,
         fontWeight: 'normal',
@@ -184,7 +216,9 @@ class BankAccounts extends Component {
         super(props);
 
         this.state = {
-            activeStep: 0,
+            activeStep: 4,
+            cards: [],
+            card: null,
 
             alreadyHaveWithdrawPassword: false,
             withdrawPassword: '',
@@ -197,14 +231,6 @@ class BankAccounts extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            }
-        });
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -212,20 +238,65 @@ class BankAccounts extends Component {
             }
         });
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            console.log(res.data);
-            this.setState({
-                name:
-                    res.data.first_name.trim() + ' ' + res.data.last_name.trim()
-            });
+        this.getBankCards();
 
-            this.setState({
-                alreadyHaveWithdrawPassword:
-                    res.data.withdraw_password.length > 0
+        // const token = localStorage.getItem('token');
+        // config.headers['Authorization'] = `Token ${token}`;
+        // axios.get(API_URL + 'users/api/user/', config).then(res => {
+        //     console.log(res.data);
+        //     this.setState({
+        //         name:
+        //             res.data.first_name.trim() + ' ' + res.data.last_name.trim()
+        //     });
+
+        //     this.setState({
+        //         alreadyHaveWithdrawPassword:
+        //             res.data.withdraw_password.length > 0
+        //     });
+        // });
+    }
+
+    getBankCards() {
+        const { user } = this.props;
+        let requestURL = `accounting/api/transactions/get_withdraw_accs?id=${user.userId}`;
+
+        axios
+            .get(API_URL + requestURL)
+            .then(res => {
+                if (res.status === 200) {
+                    let items = res.data.results;
+
+                    for (const card of items) {
+                        let bi = Bank_Info['Bank_Info']
+                            .filter(b => {
+                                return b.CardLength == card.account_no.length;
+                            })
+                            .filter(b => {
+                                return (
+                                    b.BINCode ==
+                                    card.account_no.substring(
+                                        0,
+                                        b.BINCodeLength
+                                    )
+                                );
+                            })[0];
+
+                        if (bi) {
+                            card.BankName = bi.BankName;
+                        } else {
+                            card.BankName = this.getLabel('my-card');
+                        }
+                    }
+
+                    this.setState({
+                        cards: items
+                    });
+                }
+            })
+            .catch(err => {
+                this.setState({ cards: [] });
+                sendingLog(err);
             });
-        });
     }
 
     getLabel(labelId) {
@@ -247,10 +318,34 @@ class BankAccounts extends Component {
         this.setState({ activeStep: 2 });
     }
 
+    deleteCard(id) {
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        let requestURL = `accounting/api/transactions/del_withdraw_acc`;
+
+        axios
+            .post(
+                API_URL + requestURL,
+                {
+                    user_id: this.props.user.userId,
+                    acc_id: id
+                },
+                config
+            )
+            .then(() => {
+                this.getBankCards();
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
+    }
+
     getContent() {
-        const { classes } = this.props;
+        const { classes, user } = this.props;
         const {
             activeStep,
+            cards,
             withdrawPassword,
             showWithdrawPassword,
             confirmWithdrawPassword,
@@ -274,10 +369,59 @@ class BankAccounts extends Component {
                             <Divider style={{ marginTop: 10 }} />
                             <span
                                 className={classes.desc}
-                                style={{ marginTop: 10, marginbottom: 20 }}
+                                style={{ marginTop: 10, marginBottom: 10 }}
                             >
                                 {this.getLabel('add-bank-account-text')}
                             </span>
+                            {cards.length > 0 && (
+                                <Divider
+                                    variant="fullWidth"
+                                    light={true}
+                                    style={{ width: '100%' }}
+                                />
+                            )}
+
+                            {cards.map(card => (
+                                <div
+                                    key={card.account_no}
+                                    className={classes.column}
+                                    onClick={() => {
+                                        this.setState({
+                                            activeStep: (user.hasWithdrawPassword ? 3 : 1)
+                                        });
+                                    }}
+                                >
+                                    <div className={classes.accountRow}>
+                                        <span className={classes.accountInfo}>
+                                            {card.BankName}
+                                            {' - '}
+                                            {card.account_no.substring(
+                                                card.account_no.length - 3
+                                            )}
+                                        </span>
+                                        <div className={classes.grow} />
+                                        <Button
+                                            className={classes.action}
+                                            onClick={() => {
+                                                this.deleteCard(card.id);
+                                            }}
+                                        >
+                                            <img
+                                                src={
+                                                    images.src +
+                                                    'letou/delete-btn.svg'
+                                                }
+                                                alt=""
+                                            />
+                                        </Button>
+                                    </div>
+                                    <Divider
+                                        variant="fullWidth"
+                                        light={true}
+                                        style={{ width: '100%' }}
+                                    />
+                                </div>
+                            ))}
                             <Button
                                 className={classes.addButton}
                                 onClick={event => {
@@ -615,13 +759,19 @@ class BankAccounts extends Component {
 }
 
 const mapStateToProps = state => {
+    const { token, user } = state.auth;
     return {
-        language: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
     };
 };
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(BankAccounts))
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, sendingLog })(
+                BankAccounts
+            )
+        )
     )
 );
