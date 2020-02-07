@@ -143,7 +143,8 @@ export const authSignup = (
     zipcode,
     over_eighteen,
     language,
-    referralCode
+    referralCode,
+    currency
 ) => {
     return dispatch => {
         const body = JSON.stringify({
@@ -160,7 +161,8 @@ export const authSignup = (
             zipcode,
             over_eighteen,
             language,
-            referralCode
+            referralCode,
+            currency
         });
 
         return axios
