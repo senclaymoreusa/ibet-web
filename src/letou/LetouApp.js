@@ -26,15 +26,19 @@ class LetouApp extends Component {
         var language = 'en';
         axios.get('https://ipapi.co/json/')
         .then(res => {
-            
-            var location = res.data.country;
-            if (location === 'CN') {
-                language = 'zh';
-            } else if (location === 'TH') {
-                language = 'th';
-            } else if (location === 'VN') {
-                language = 'vi';
-            } else {
+            try {
+                var location = res.data.country;
+                if (location === 'CN') {
+                    language = 'zh';
+                } else if (location === 'TH') {
+                    language = 'th';
+                } else if (location === 'VN') {
+                    language = 'vi';
+                } else {
+                    language = 'en';
+                }
+            }
+            catch{
                 language = 'en';
             }
         })
