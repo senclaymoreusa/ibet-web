@@ -294,14 +294,20 @@ export class Register extends Component {
 
     componentDidMount() {
        
-        if (!this.props.signup_phone) {
-            axios.get('https://ipapi.co/json/').then(res => {
+        // if (!this.props.signup_phone) {
+        //     axios.get('https://ipapi.co/json/').then(res => {
+        //         this.setState({
+        //             phoneCode: res.data.country_calling_code,
+        //             country: res.data.country_name
+        //         });
+        //     });
+        // }
+        axios.get('https://ipapi.co/json/').then(res => {
                 this.setState({
                     phoneCode: res.data.country_calling_code,
                     country: res.data.country_name
                 });
             });
-        }
     }
 
     usernameChanged(event) {
@@ -359,6 +365,26 @@ export class Register extends Component {
     }
 
     onFormSubmit(event) {
+        let phoneCode = this.state.phoneCode;
+        let country = '';
+        let currency = 0;
+        
+        if(phoneCode === '+1'){
+            country = 'United State';
+        }else if(phoneCode === '+84'){
+            country = 'vietnam';
+            currency = 7;
+        }else if(phoneCode === '+66'){
+            country = 'thailand';
+            currency = 2;
+        }else if(phoneCode === '+86'){
+            country = 'china';
+            currency = 0;
+        }else{
+            country = 'thailand';
+            currency = 2;
+        }
+        
         event.preventDefault();
 
         this.setState({ errorMessage: '' });
@@ -373,7 +399,7 @@ export class Register extends Component {
                 phoneNum,
                 undefined,
                 undefined,
-                'thailand',
+                country,
                 undefined,
                 undefined,
                 true,
@@ -381,7 +407,7 @@ export class Register extends Component {
                 this.state.referralCode.length !== 0
                     ? this.state.referralCode
                     : undefined,
-                2
+                currency
             )
             .then(() => {
                 // this.props.show_letou_login();

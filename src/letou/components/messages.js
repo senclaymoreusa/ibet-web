@@ -1726,7 +1726,5 @@ export const messages = {
         'sports-label': 'Giáo dục thể chất',
         'gaming-label': 'Esport',
         'live-casino': 'Casino Xổ Số',
-    },
-
-    vi: {}
+    }
 };
