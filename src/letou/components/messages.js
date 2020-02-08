@@ -1723,7 +1723,7 @@ export const messages = {
         'view-all': 'ดูทั้งหมด'
     },
 
-    vi: {}
+    vi: {
         'view-all': 'ดูทั้งหมด',
         'sports-label': 'Giáo dục thể chất',
         'gaming-label': 'Esport',
