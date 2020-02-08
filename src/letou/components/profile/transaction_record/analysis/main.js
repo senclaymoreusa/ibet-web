@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { authCheckState } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 
 import Analysis from './analysis';
 import SportsBets from './sports_bets';
-import SportsBetDetails from './sports_bet_detail';
+import BetDetails from './bet_detail';
 import CasinoSpins from './casino_spins';
 import LiveCasinoBets from './live_casino_bets';
 import DepositWithdraw from './deposit_withdraw';
@@ -35,27 +36,35 @@ export class Main extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const { contentValue, dateValue, operationType } = this.state;
+        const { classes, operationProp } = this.props;
 
         return (
             <div className={classes.root}>
-                {contentValue === 'main' && <Analysis callbackFromParent={this.setContent} />}
-                {contentValue === 'sports' && <SportsBets callbackFromParent={this.setContent} date={dateValue} />}
-                {contentValue === 'sports-detail' && <SportsBetDetails callbackFromParent={this.setContent} />}
-                {contentValue === 'casino-spins' && <CasinoSpins callbackFromParent={this.setContent} />}
-                {contentValue === 'live-casino-bets' && <LiveCasinoBets callbackFromParent={this.setContent} />}
-                {contentValue === 'deposit-withdraw' && <DepositWithdraw callbackFromParent={this.setContent} date={dateValue} opType={operationType}/>}
-                {contentValue === 'deposit-withdraw-detail' && <DepositWithdrawDetails callbackFromParent={this.setContent} />}
+                {(operationProp === undefined || operationProp === '') && <Analysis callbackFromParent={this.setContent} />}
+                {operationProp === 'sports' && <SportsBets />}
+                {operationProp === 'bet-detail' && <BetDetails />}
+                {operationProp === 'deposit-withdraw' && <DepositWithdraw />}
+                {operationProp === 'transaction-detail' && <DepositWithdrawDetails />}
+                {operationProp === 'casino-spins' && <CasinoSpins />}
+                {operationProp === 'live-casino-bets' && <LiveCasinoBets />}
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+    const { user } = state.auth;
+
     return {
-        lang: state.language.lang
-    }
+        user: user,
+        operationProp: ownProps.match.params.operation
+    };
 }
 
-export default withStyles(styles)(injectIntl(connect(mapStateToProps, { authCheckState })(Main)));
+export default withStyles(styles)(
+    withRouter(
+        injectIntl(
+            connect(mapStateToProps, { authCheckState })(Main)
+        )
+    )
+);

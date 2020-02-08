@@ -171,7 +171,20 @@ import GameDetail from './components/games/game_detail';
 import Promotion from './components/promotion';
 import NoMatch from './ErrorBoundary/NoMatch';
 
-import VNFirst200SlotBonus from './components/bonus/vn_first_200_slots';
+import VNFirstTime200SlotBonus from './components/bonus/vn_first_time_200_slots';
+import VNFirstTimeGameBonus from './components/bonus/vn_first_time_game';
+import VNFirstTime120SportsBonus from './components/bonus/vn_first_time_120_sports';
+import VNFirstTimeSportsBookBonus from './components/bonus/vn_first_time_sports_book';
+import VNFirstTime100LiveCasinoBonus from './components/bonus/vn_first_time_100_live_casino';
+import VNFirstTime200ScratchCardBonus from './components/bonus/vn_first_time_200_scratch_card';
+import VNFirstTime200FGOBonus from './components/bonus/vn_first_time_200_fgo';
+
+import VNSpecialEsportBonus from './components/bonus/vn_special_esport';
+import VNSpecialSportsBookBonus from './components/bonus/vn_special_sports_book';
+import VNSpecialKenoBonus from './components/bonus/vn_special_keno';
+import VNSpecialCasinoBonus from './components/bonus/vn_special_casino';
+import VNSpecialSlotBonus from './components/bonus/vn_special_slot';
+import VNSpecialLotteryBonus from './components/bonus/vn_special_lottery';
 
 const containerStyle = {
     minHeight: '100%'
@@ -354,9 +367,23 @@ const BaseRouter = () => (
         <Route exact path="/vi/promotion" component={VNPromotion} />
 
 
-        <Route exact path="/vi/promotion/first_time_200Slotgames" component={VNFirst200SlotBonus} />
+        <Route exact path="/vi/promotion/first_time_200Slotgames" component={VNFirstTime200SlotBonus} />
+        <Route exact path="/vi/promotion/first_time_game" component={VNFirstTimeGameBonus} />
+        <Route exact path="/vi/promotion/first_time_120sports" component={VNFirstTime120SportsBonus} />
+        <Route exact path="/vi/promotion/first_time_sports_book" component={VNFirstTimeSportsBookBonus} />
+        <Route exact path="/vi/promotion/first_time_100live_casion" component={VNFirstTime100LiveCasinoBonus} />
+        <Route exact path="/vi/promotion/first_time_200scratchcard" component={VNFirstTime200ScratchCardBonus} />
+        <Route exact path="/vi/promotion/first_time_200FGo" component={VNFirstTime200FGOBonus} />
+
+        <Route exact path="/vi/promotion/special_esport" component={VNSpecialEsportBonus} />
+        <Route exact path="/vi/promotion/special_sports_book" component={VNSpecialSportsBookBonus} />
+        <Route exact path="/vi/promotion/special_keno" component={VNSpecialKenoBonus} />
+        <Route exact path="/vi/promotion/speicial_casino" component={VNSpecialCasinoBonus} />
+        <Route exact path="/vi/promotion/special_slot" component={VNSpecialSlotBonus} />
+        <Route exact path="/vi/promotion/special_lottery" component={VNSpecialLotteryBonus} />
 
         <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
+        <Route exact path="/p/:type?/:sub?/:operation?/" component={Profile} />
         <Route exact path="/promotions" component={Promotion} />
         <Route path="*" component={NoMatch} />
         </Switch>

@@ -112,12 +112,12 @@ class btisports extends React.Component {
         if (process.env.REACT_APP_NODE_ENV === 'development') {
             this.setState({
                 url:
-                    'http://wkibph.staging.btisports.io/en/sports/?stoken=' +
+                    'https://wkibph.staging.btisports.io/en/sports/?stoken=' +
                     token
             });
         } else {
             this.setState({
-                url: 'http://wkibph.btisports.io/en/sports/?stoken=' + token
+                url: 'https://wkibph.btisports.io/en/sports/?stoken=' + token
             });
         }
     }

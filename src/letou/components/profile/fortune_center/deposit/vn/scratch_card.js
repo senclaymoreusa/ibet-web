@@ -205,9 +205,9 @@ const styles = theme => ({
 });
 
 const providers = [
-    { value: 'KKR', label: 'Mobifone', img: 'letou/mobifone.png' },
-    { value: 'SCB', label: 'Viettel', img: 'letou/vettel.svg' },
-    { value: 'KTB', label: 'Vinaphone', img: 'letou/vinaphone.png' }
+    { value: 'vms', label: 'Mobifone', img: 'letou/mobifone.png' },
+    { value: 'vtt', label: 'Viettel', img: 'letou/vettel.svg' },
+    { value: 'vnp', label: 'Vinaphone', img: 'letou/vinaphone.png' }
 ];
 
 const BootstrapInput = withStyles(theme => ({
@@ -272,30 +272,36 @@ class ScratchCard extends Component {
 
         this.state = {
             amount: 'none',
-            provider: 'none',
-            cardNumber: '',
+            operator: 'none',
+
+            pinNumber: '',
+            pinNumberFocused: false,
+            pinNumberInvalid: true,
+
             serialNumber: '',
+            serialNumberFocused: false,
+            numberInvalid: true,
             isFavorite: false
         };
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
-                    this.setState({
-                        isFavorite:
-                            res.data.favorite_payment_method === 'scratchcard'
-                    });
-                });
-            }
-        });
-    }
+    // componentWillReceiveProps(props) {
+    //     this.props.authCheckState().then(res => {
+    //         if (res === AUTH_RESULT_FAIL) {
+    //             this.props.history.push('/');
+    //         } else {
+    //             const token = localStorage.getItem('token');
+    //             config.headers['Authorization'] = `Token ${token}`;
+    //             axios.get(API_URL + 'users/api/user/', config).then(res => {
+    //                 this.setState({ data: res.data });
+    //                 this.setState({
+    //                     isFavorite:
+    //                         res.data.favorite_payment_method === 'scratchcard'
+    //                 });
+    //             });
+    //         }
+    //     });
+    // }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
@@ -326,90 +332,92 @@ class ScratchCard extends Component {
             this.setState({ bankAccountNumber: '' });
     }
 
-    handleClick() {
+    handleClick(event) {
         let currentComponent = this;
+        currentComponent.setState({ showLinearProgressBar: true });
+        event.preventDefault();
+        const { serialNumber, pinNumber, amount, operator, data } = this.state;
 
-        let pin = this.state.pin;
-        let serial = this.state.serial;
-        let username = this.state.data.username;
-
-        var postData = {
-            pin: pin,
-            user: username,
-            serial: serial
-        };
         const token = localStorage.getItem('token');
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + '=' + encodedValue);
+
+        if (!token) {
+            console.log('no token -- user is not logged in');
         }
-        formBody = formBody.join('&');
-        return fetch(API_URL + 'accounting/api/fgate/chargeCard', {
-            method: 'POST',
-            withCredentials: true,
-            headers: {
-                'content-type':
-                    'application/x-www-form-urlencoded; charset=UTF-8',
-                Authorization: 'Token ' + token
-            },
-            body: formBody
-        })
-            .then(function (res) {
-                return res.json();
-            })
-            .then(function (data) {
-                if (data.errorCode) {
-                    currentComponent.props.postLogout();
-                    return;
-                }
-                if (data.error_code === '00' && data.status === '0') {
+        config.headers['Authorization'] = `Token ${token}`;
+
+        let postData = {
+            serial: serialNumber.replace(/\s/g, ''),
+            pin: pinNumber.replace(/\s/g, ''),
+            operator: operator,
+            amount: amount
+        };
+        console.log(postData);
+        axios
+            .post(
+                API_URL + 'accounting/api/scratchcard/deposit',
+                postData,
+                config
+            )
+            .then(res => {
+                console.log('result of deposit: ');
+                console.log(res);
+                if (res.data.errorCode) {
+                    console.log(res.data);
                     currentComponent.props.callbackFromParent(
                         'error',
-                        data.message
+                        'Something is wrong.'
                     );
-                } else if (data.error_code === '00' && data.status === '1') {
-                    const body = JSON.stringify({
-                        type: 'add',
-                        username: username,
-                        balance: data.amount
-                    });
-                    axios
-                        .post(
-                            API_URL + `users/api/addorwithdrawbalance/`,
-                            body,
-                            config
-                        )
-                        .then(res => {
-                            if (res.data === 'Failed') {
-                                currentComponent.props.callbackFromParent(
-                                    'error',
-                                    'Transaction failed.'
-                                );
-                            } else if (
-                                res.data === 'The balance is not enough'
-                            ) {
-                                currentComponent.props.callbackFromParent(
-                                    'error',
-                                    'Cannot deposit this amount.'
-                                );
-                            } else {
-                                currentComponent.props.authUserUpdate();
-                                currentComponent.props.callbackFromParent(
-                                    'success',
-                                    data.amount
-                                );
-                            }
+                }
+                if (res.status === 200) {
+                    if (res.data.status === 6) {
+                        this.setState({
+                            receive_response: true,
+                            response_msg:
+                                'Deposit request is processing. Please check your transaction history for updates to your balance once we finish processing',
+                            error: false,
+                            error_msg: ''
                         });
+                    } else if (res.data.status === 1) {
+                        const body = JSON.stringify({
+                            type: 'add',
+                            username: data.username || '',
+                            balance: amount
+                        });
+                        axios
+                            .post(
+                                API_URL + 'users/api/addorwithdrawbalance/',
+                                body,
+                                config
+                            )
+                            .then(res => {
+                                if (res.data === 'Failed') {
+                                    this.setState({ error: true });
+                                } else if (
+                                    res.data === 'The balance is not enough'
+                                ) {
+                                    alert('cannot withdraw this amount');
+                                } else {
+                                    alert('your balance is updated');
+                                    // window.location.reload();
+                                }
+                            });
+                    } else {
+                        currentComponent.props.callbackFromParent(
+                            'error',
+                            res.data.msg.eng + ' | ' + res.data.msg.vn
+                        );
+                    }
+                    currentComponent.setState({ showLinearProgressBar: false });
                 } else {
-                    currentComponent.props.callbackFromParent(
-                        'error',
-                        data.error_message
-                    );
+                    this.setState({
+                        error: true,
+                        error_msg:
+                            'Could not communicate with iBet servers. Error code: ' +
+                            res.status
+                    });
                 }
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 currentComponent.props.callbackFromParent(
                     'error',
                     'Something is wrong.'
@@ -434,7 +442,7 @@ class ScratchCard extends Component {
                 this.setState({ isFavorite: !this.state.isFavorite });
                 this.props.checkFavoriteMethod();
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 sendingLog(err);
             });
     }
@@ -452,16 +460,16 @@ class ScratchCard extends Component {
         const { classes } = this.props;
         const {
             amount,
-            cardNumber,
+            operator,
+            pinNumber,
             serialNumber,
-            provider,
             isFavorite
         } = this.state;
 
         return (
             <div className={classes.root}>
                 <Grid container spacing={2} className={classes.contentGrid}>
-                    <Grid
+                    {/* <Grid
                         item
                         xs={12}
                         className={classes.detailRow}
@@ -470,24 +478,24 @@ class ScratchCard extends Component {
                         <span className={classes.info}>
                             {this.getLabel('fgo-enter')}
                         </span>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12}>
                         <Select
                             className={classes.select}
-                            placeholder={this.getLabel('select-provider')}
-                            value={provider}
+                            placeholder={this.getLabel('select-operator')}
+                            value={operator}
                             onChange={event => {
-                                this.setState({ provider: event.target.value });
+                                this.setState({ operator: event.target.value });
                             }}
                             input={
                                 <BootstrapInput
-                                    name="provider"
+                                    name="operator"
                                     id="provider-select"
                                 />
                             }
                         >
                             <MenuItem key="none" value="none" disabled>
-                                <span>{this.getLabel('select-provider')}</span>
+                                <span>{this.getLabel('select-operator')}</span>
                             </MenuItem>
                             {providers.map(p => (
                                 <MenuItem key={p.value} value={p.value}>
@@ -533,27 +541,31 @@ class ScratchCard extends Component {
                     <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
-                            placeholder={this.getLabel('card-number')}
+                            placeholder={this.getLabel('serial-number')}
                             onChange={event => {
-                                this.setState({ cardNumberFocused: true });
                                 this.setState({
-                                    cardNumber: event.target.value
+                                    serialNumberFocused: true,
+                                    serialNumber: event.target.value,
+                                    numberInvalid:
+                                        event.target.value.toString().length <
+                                            10 ||
+                                        event.target.value.toString().length >
+                                            17
                                 });
                             }}
-                            value={cardNumber}
+                            value={serialNumber}
                             error={
-                                this.state.cardNumberFocused &&
-                                cardNumber.length === 0
+                                this.state.serialNumberFocused &&
+                                this.state.numberInvalid
                             }
                             helperText={
-                                this.state.cardNumberFocused &&
-                                    cardNumber.length === 0
-                                    ? this.getLabel('invalid-card-number')
+                                this.state.serialNumberFocused &&
+                                this.state.numberInvalid
+                                    ? this.getLabel('invalid-serial-number')
                                     : ' '
                             }
                             InputProps={{
                                 disableUnderline: true,
-
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <img
@@ -577,26 +589,32 @@ class ScratchCard extends Component {
                     >
                         <TextField
                             className={classes.detailText}
-                            placeholder={this.getLabel('serial-number')}
+                            placeholder={'PIN'}
                             onChange={event => {
-                                this.setState({ serialNumberFocused: true });
                                 this.setState({
-                                    serialNumber: event.target.value
+                                    pinNumberFocused: true,
+                                    pinNumber: event.target.value,
+                                    pinNumberInvalid:
+                                        event.target.value.toString().length <
+                                            10 ||
+                                        event.target.value.toString().length >
+                                            17
                                 });
                             }}
-                            value={serialNumber}
+                            value={pinNumber}
                             error={
-                                this.state.serialNumberFocused &&
-                                serialNumber.length === 0
+                                this.state.pinNumberFocused &&
+                                this.state.pinNumberInvalid
                             }
                             helperText={
-                                this.state.serialNumberFocused &&
-                                    serialNumber.length === 0
-                                    ? this.getLabel('invalid-serial-number')
+                                this.state.pinNumberFocused &&
+                                this.state.pinNumberInvalid
+                                    ? this.getLabel('invalid-pin')
                                     : ' '
                             }
                             InputProps={{
                                 disableUnderline: true,
+
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <img
@@ -628,8 +646,8 @@ class ScratchCard extends Component {
                             disabled={
                                 this.state.provider === 'none' ||
                                 this.state.amount === 'none' ||
-                                this.state.cardNumber.length === 0 ||
-                                this.state.serialNumber.length === 0
+                                this.state.pinNumberInvalid ||
+                                this.state.numberInvalid
                             }
                         >
                             {this.getLabel('deposit-label')}
@@ -650,7 +668,7 @@ class ScratchCard extends Component {
                             label={this.getLabel('add-favourite-deposit')}
                         />
                     </Grid>
-                    <Grid
+                    {/* <Grid
                         item
                         xs={12}
                         className={classes.detailRow}
@@ -664,7 +682,7 @@ class ScratchCard extends Component {
                         <span className={classes.info}>
                             {this.getLabel('fgo-wrong')}
                         </span>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </div>
         );

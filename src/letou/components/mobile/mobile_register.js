@@ -487,6 +487,9 @@ export class MobileRegister extends Component {
                                         : ' '
                                 }
                                 InputProps={{
+                                    inputProps: {
+                                        maxLength: 16
+                                    },
                                     disableUnderline: true,
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -695,7 +698,6 @@ export class MobileRegister extends Component {
                                     ))}
                                 </Select>
                             </FormControl>
-
                             <TextField
                                 value={this.state.phone}
                                 className={classes.phoneField}
@@ -717,6 +719,9 @@ export class MobileRegister extends Component {
                                         : ' '
                                 }
                                 InputProps={{
+                                    inputProps: {
+                                        maxLength: 11
+                                    },
                                     disableUnderline: true,
                                     startAdornment: (
                                         <InputAdornment position="start">
