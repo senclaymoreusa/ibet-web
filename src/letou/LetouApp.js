@@ -41,6 +41,7 @@ class LetouApp extends Component {
             catch{
                 language = 'en';
             }
+            this.props.setLanguage(language);
         })
         // const script = document.createElement("script");
         // script.type = "text/javascript";
@@ -82,7 +83,7 @@ class LetouApp extends Component {
 
         //         })
         // }
-        this.props.setLanguage(language)
+      
 
     }
 
