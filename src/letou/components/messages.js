@@ -367,6 +367,7 @@ export const messages = {
         'placeholder-link': 'Placeholder Link',
         'thai-localbank-placeholder': 'Deposit ฿200 - ฿950,000',
         'thai-localbank-placeholder-withdraw': 'Withdraw ฿200 - ฿500,000',
+        'zh-localbank-placeholder-withdraw': '¥100 - ¥50,000',
         'astropay-placeholder': 'Deposit ฿10 - ฿500,000',
         'help2pay-placeholder': 'Deposit ฿500 - ฿500,000',
         'help2pay-withdraw-placeholder': 'Withdraw ฿500 - ฿500,000',
@@ -1089,7 +1090,7 @@ export const messages = {
         'select-provider': '选择厂商',
         'select-operator': 'Select Operator',
 
-        'circlepay-placeholder': '存入 ₫20,000 - ₫100,000,000',
+        'circlepay-placeholder': '存入 ₫20,0005₫5,000,000',
         'vn-localbank-placeholder': '存入 ₫200,000 - ₫100,000,000',
         'qr-will-needed':
             '您的 QR 码只需使用一次，请确保您的存款金额与 QR 码上的金额相符，以避免任何问题.',
@@ -1236,7 +1237,7 @@ export const messages = {
             'LETOU ให้บริการลูกค้าตลอด 24 ชั่วโมง 365 วันต่อปีด้วยความตั้งใจที่จะแก้ปัญหาต่าง ๆ สำหรับลูกค้า LETOU เสนอการแข่งขัน 500 ประเภทที่แตกต่างกันทุกวันครอบคลุมกีฬาที่สำคัญทั่วโลกรวมถึงฟุตบอลบาสเก็ตบอลเทนนิสเบสบอล บิลเลียดกอล์ฟ ฯลฯ ยังมีเกมดิจิตอลเกมเสมือนจริงเกมแคชชวลและบริการคาสิโนออนไลน์สด LETOU เป็น บริษัท มืออาชีพที่ปฏิบัติตามข้อกำหนดของรัฐบาลฟิลิปปินส์อย่างเคร่งครัดและกำหนดเงินฝากและถอนเงินภายใต้ข้อกำหนดของหน่วยงานบริหารการเงินของรัฐบาล การรักษาความปลอดภัยของกองทุนและการปฏิบัติตามกฎหมายต่อต้านการฟอกเงิน (AML) ที่กำหนดโดยรัฐบาลเพื่อให้มีสภาพแวดล้อมทางการเงินที่โปร่งใสในระดับสูงสุดสำหรับการกำกับดูแลของรัฐบาลและเพื่อให้แน่ใจว่าผลประโยชน์ของลูกค้าในเวลาเดียวกัน LETOU ผู้เล่นมีความคิดในเกมที่ดี',
         'aboutUs-detail-stext-four':
             'ลูกค้ารายแรกเป็นหลักการของเราเสมอ! เป็นเวลานาน LETOU ให้ความสำคัญกับผู้ใช้เสมอในอนาคตเราจะทำงานร่วมกับเพื่อน ๆ เพื่อสร้างอนาคตที่ดีขึ้น!',
-        story: 'Letouเรื่องราวของแบรนด์',
+        'story': 'Letouเรื่องราวของแบรนด์',
         'about-letou': 'about Letou',
         'become-partner': 'ร่วมเป็นพันธมิตร',
         'line-center': 'เส้น-ตรงกลาง',
@@ -1636,7 +1637,7 @@ export const messages = {
         'change-mobile': 'เปลี่ยนเบอร์โทร',
         'through-original': 'เบอร์โทรเดิม',
         ' select-provider': 'กรุณาเลือกช่องทาง',
-        'circlepay-placeholder': 'ยอดเงิน ₫200000 - ₫100000000',
+        'circlepay-placeholder': 'ยอดเงิน ₫200000 - ₫5000000',
         'vn-localbank-placeholder': 'ยอดเงิน ₫200000 - ₫100000000',
         'qr-will-needed':
             'QR Code สามารถใช้ได้เพียงแต่ครั้งเดียว โปรดตรวจสอบยอดเงินให้ถูกต้องเพื่อป้องกันปัญหาที่อาจจะเกิดขึ้น',
@@ -1749,7 +1750,7 @@ export const messages = {
         'bonuses-label': 'โบนัส',
         'records-label': 'บันทึก',
         'total-balance': 'ยอดเงินทั้งหมด',
-        recommended: 'แนะนำ',
+        'recommended': 'แนะนำ',
         'top-games': 'เกมฮิต',
         'slot-machine': 'สล็อต',
         'cumulative-award': 'รางวัลสะสม',

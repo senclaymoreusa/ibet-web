@@ -14,6 +14,7 @@ import {
     sendingLog,
     authUserUpdate
 } from '../../../../../../actions';
+import getSymbolFromCurrency from 'currency-symbol-map';
 import { withRouter } from 'react-router-dom';
 import { Divider } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
@@ -24,6 +25,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
 import zxcvbn from 'zxcvbn';
+import NumberFormat from 'react-number-format';
 import Bank_Info from '../../../../../../commons/bank_info';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -75,6 +77,15 @@ const styles = () => ({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         color: '#292929'
+    },
+    totalBalance: {
+        fontSize: 36,
+        fontWeight: 300,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#4a4a4a'
     },
     addButton: {
         marginTop: 20,
@@ -154,6 +165,28 @@ const styles = () => ({
         borderRadius: 22,
 
         textTransform: 'capitalize'
+    },
+    amountText: {
+        fontSize: 14,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#292929',
+        height: 44,
+        paddingLeft: 6,
+        paddingRight: 10,
+        paddingTop: 6,
+        width: '100%',
+        borderRadius: 4,
+        border: 'solid 1px #e4e4e4',
+        '&:hover': {
+            border: '1px solid #717171'
+        },
+        '&:focus': {
+            border: '1px solid #717171'
+        }
     },
     detailText: {
         fontSize: 14,
@@ -243,8 +276,64 @@ const styles = () => ({
         color: '#53abe0',
         marginTop: 3,
         textTransform: 'capitalize'
+    },
+    row: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    button: {
+        borderRadius: 4,
+        backgroundColor: '#f28f22',
+        marginBottom: 15,
+        width: 80,
+        height: 44,
+        fontSize: 15,
+        color: '#fff',
+        opacity: 0.5,
+        '&:hover': {
+            backgroundColor: '#f28f22',
+            opacity: 1
+        },
+        '&:focus': {
+            backgroundColor: '#f28f22',
+            opacity: 1
+        }
+    },
+    selected: {
+        backgroundColor: '#f28f22',
+        opacity: 1
     }
 });
+
+const amounts = Object.freeze([250, 500, 1000, 2500]);
+
+function NumberFormatCustom(props) {
+    const { currency, inputRef, onChange, ...other } = props;
+
+    return (
+        <NumberFormat
+            {...other}
+            getInputRef={inputRef}
+            onValueChange={values => {
+                onChange({
+                    target: {
+                        value: values.value
+                    }
+                });
+            }}
+            thousandSeparator
+            decimalSeparator="."
+            decimalScale={2}
+            fixedDecimalScale
+            prefix={currency}
+        />
+    );
+}
+
+NumberFormatCustom.propTypes = {
+    inputRef: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
+};
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -316,14 +405,15 @@ LetouSnackbarContentWrapper.propTypes = {
     variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired
 };
 
-class BankAccounts extends Component {
+class ChinaLocalBank extends Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
         this.state = {
             activeStep: 0,
             cards: [],
-            card: null,
 
             alreadyHaveWithdrawPassword: false,
             withdrawPassword: '',
@@ -341,11 +431,16 @@ class BankAccounts extends Component {
             createWithdrawPassword: '',
             createWithdrawPasswordInvalid: false,
             createConfirmWithdrawPassword: '',
-            createConfirmWithdrawPasswordInvalid: false
+            createConfirmWithdrawPasswordInvalid: false,
+
+            selectedCard: null,
+            amount: ''
         };
     }
 
     componentDidMount() {
+        this._isMounted = true;
+
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
@@ -354,13 +449,20 @@ class BankAccounts extends Component {
 
         const { user } = this.props;
 
-        this.getBankCards();
 
-        this.setState({
-            cardholder: user.firstName + ' ' + user.lastName
-        });
+        if (this._isMounted && user) {
+            this.getBankCards();
+
+            this.setState({
+                cardholder: user.firstName + ' ' + user.lastName
+            });
+        }
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+    
     getBankCards() {
         const { user } = this.props;
         let requestURL = `accounting/api/transactions/get_withdraw_accs?id=${user.userId}`;
@@ -425,6 +527,14 @@ class BankAccounts extends Component {
             cardholder: '',
             cardNumber: '',
             withdrawPassword: ''
+        });
+    }
+
+    cancelWithdrawClicked() {
+        this.setState({
+            activeStep: 0,
+            amount: '',
+            selectedCard: '',
         });
     }
 
@@ -586,17 +696,146 @@ class BankAccounts extends Component {
         });
     }
 
+    amountChanged(event) {
+        this.setState({ amountFocused: true });
+
+        if (event.target.value.length === 0) {
+            this.setState({ amount: '', amountInvalid: true });
+        } else {
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
+
+            if (re.test(event.target.value)) {
+                this.setState({
+                    amount: event.target.value,
+                    amountInvalid:
+                        parseFloat(event.target.value) < 100 ||
+                        parseFloat(event.target.value) > 50000
+                });
+            } else {
+                this.setState({ amountInvalid: true });
+            }
+        }
+    }
+
+    confirmWithdraw() {
+        let currentComponent = this;
+
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        const body = JSON.stringify({
+            bank: this.state.selectedCard.BankName,
+            bank_acc_no: this.state.selectedCard.account_no,
+            real_name:
+                this.props.user.firstName + ' ' + this.props.user.lastName,
+            username: this.props.user.username,
+            amount: this.state.amount,
+            currency: 0,
+            type: '1'
+        });
+        console.log(body)
+        return axios
+            .post(
+                API_URL + 'accounting/api/transactions/save_transaction',
+                body,
+                config
+            )
+            .then(res => {
+                if (res.statusText === 'OK') {
+                    return res.data;
+                } else {
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        'Transaction failed.'
+                    );
+                }
+            })
+            .then(function (data) {
+                let status = data.success;
+                if (status) {
+                    const sbody = JSON.stringify({
+                        type: 'withdraw',
+                        username: currentComponent.props.user.username,
+                        balance: currentComponent.state.amount
+                    });
+                    axios
+                        .post(
+                            API_URL + `users/api/addorwithdrawbalance/`,
+                            sbody,
+                            config
+                        )
+                        .then(res => {
+                            if (res.data === 'Failed') {
+                                //this.setState({ error: true });
+                                currentComponent.props.callbackFromParent(
+                                    'error',
+                                    'Transaction failed!'
+                                );
+                            } else if (
+                                res.data === 'The balance is not enough'
+                            ) {
+                                currentComponent.props.callbackFromParent(
+                                    'error',
+                                    'Cannot withdraw this amount!'
+                                );
+                            } else {
+                                currentComponent.props.authUserUpdate();
+                                currentComponent.props.callbackFromParent(
+                                    'success',
+                                    'Your balance is updated.'
+                                );
+                            }
+                        });
+                } else {
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        'Somthing is wrong'
+                    );
+                }
+            })
+            .catch(err => {
+                currentComponent.props.callbackFromParent(
+                    'error',
+                    'Something is wrong.'
+                );
+                sendingLog(err);
+            });
+    }
+
     getContent() {
         const { classes, user } = this.props;
         const {
             activeStep,
             cards,
+            selectedCard,
+            amount,
             withdrawPassword,
             createWithdrawPassword,
             createConfirmWithdrawPassword,
             cardholder,
             cardNumber
         } = this.state;
+
+        if (activeStep === 4) {
+            for (const card of cards) {
+                let bi = Bank_Info['Bank_Info']
+                    .filter(b => {
+                        return b.CardLength == card.account_no.length;
+                    })
+                    .filter(b => {
+                        return (
+                            b.BINCode ==
+                            card.account_no.substring(0, b.BINCodeLength)
+                        );
+                    })[0];
+
+                if (bi) {
+                    card.BankName = bi.BankName;
+                } else {
+                    card.BankName = this.getLabel('my-card');
+                }
+            }
+        }
 
         switch (activeStep) {
             case 0:
@@ -634,8 +873,9 @@ class BankAccounts extends Component {
                                         <div className={classes.row} style={{ width: '100%' }}
                                             onClick={() => {
                                                 this.setState({
+                                                    selectedCard: card,
                                                     activeStep: user.hasWithdrawPassword
-                                                        ? 2
+                                                        ? 4
                                                         : 1
                                                 });
                                             }}>
@@ -1015,8 +1255,248 @@ class BankAccounts extends Component {
                 );
             case 4:
                 return (
-                        <div/>
-                    );
+                    <Grid container className={classes.contentGrid} spacing={2}>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.detailRow}
+                            style={{ borderBottom: '1px solid #e7e7e7' }}
+                        >
+                            <span
+                                className={classes.text}
+                                style={{ marginLeft: 10 }}
+                            >
+                                {selectedCard.BankName}
+                                {' - '}
+                                {selectedCard.account_no.substring(
+                                    selectedCard.account_no.length - 3
+                                )}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row} style={{ textAlign: 'center' }}>
+                            <span className={classes.text}>
+                                {this.getLabel('total-balance')}
+                            </span>
+                            <img
+                                src={images.src + 'letou/info-icon.svg'}
+                                alt=""
+                                style={{ marginLeft: 10 }}
+                                className={classes.bankIcon}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            style={{
+                                textAlign: 'center',
+                                borderBottom: '1px solid #e7e7e7',
+                                paddingTop: 15,
+                                paddingBottom: 20
+                            }}
+                        >
+                            <span className={classes.totalBalance}>
+                                {getSymbolFromCurrency(user.currency)}
+                                {Number(user.balance).toFixed(2)}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <span className={classes.detailLabel}>
+                                {this.getLabel('withdrawal-balance')}
+                            </span>
+                            <img
+                                src={images.src + 'letou/info-icon.svg'}
+                                alt=""
+                                style={{ marginLeft: 6 }}
+                                className={classes.bankIcon}
+                                style={{ marginLeft: 10 }}
+                            />
+                            <div className={classes.grow} />
+                            <span className={classes.text}>
+                                {getSymbolFromCurrency(user.currency)}
+                                {Number(user.balance).toFixed(2)}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <span className={classes.detailLabel}>
+                                {this.getLabel('locked-balance')}
+                            </span>
+                            <img
+                                src={images.src + 'letou/info-icon.svg'}
+                                alt=""
+                                style={{ marginLeft: 6 }}
+                                className={classes.bankIcon}
+                            />
+                            <div className={classes.grow} />
+                            <span className={classes.text}>
+                                {getSymbolFromCurrency(user.currency)}
+                                {Number(user.balance).toFixed(2)}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.row}>
+                            <span className={classes.detailLabel}>
+                                {this.getLabel('free-withdrawals-remaining')}
+                            </span>
+                            <img
+                                src={images.src + 'letou/info-icon.svg'}
+                                alt=""
+                                style={{ marginLeft: 6 }}
+                                className={classes.bankIcon}
+                            />
+                            <div className={classes.grow} />
+                            <span className={classes.text}>0</span>
+                        </Grid>
+                        {amounts.map((x, i) => {
+                            return (
+                                <Grid
+                                    item
+                                    xs={3}
+                                    key={i}
+                                    style={{ paddingTop: 20 }}
+                                >
+                                    <Button
+                                        className={clsx({
+                                            [classes.button]: true,
+                                            [classes.selected]: x === amount
+                                        })}
+                                        onClick={() =>
+                                            this.setState({
+                                                amount: x,
+                                                amountInvalid: false,
+                                                amountFocused: false
+                                            })
+                                        }
+                                    >
+                                        {x}
+                                    </Button>
+                                </Grid>
+                            );
+                        })}
+                        <Grid item xs={12} className={classes.detailRow}>
+                            <span className={classes.desc}>
+                                {this.getLabel('withdraw-fee-text')}
+                            </span>
+                        </Grid>
+                        <Grid item xs={12} className={classes.detailRow}>
+                            <TextField
+                                className={classes.amountText}
+                                placeholder={this.getLabel(
+                                    'zh-localbank-placeholder-withdraw'
+                                )}
+                                onChange={this.amountChanged.bind(this)}
+                                value={amount}
+                                error={
+                                    this.state.amountInvalid &&
+                                    this.state.amountFocused
+                                }
+                                helperText={
+                                    this.state.amountInvalid &&
+                                        this.state.amountFocused
+                                        ? this.getLabel('valid-amount')
+                                        : ' '
+                                }
+                                InputProps={{
+                                    disableUnderline: true,
+                                    inputComponent: NumberFormatCustom,
+                                    inputProps: {
+                                        step: 10,
+                                        min: 100,
+                                        max: 50000,
+                                        style: { textAlign: 'right' },
+                                        currency: getSymbolFromCurrency(user.currency)
+                                    },
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <span className={classes.label}>
+                                                {this.getLabel('amount-label')}
+                                            </span>
+                                        </InputAdornment>
+                                    )
+                                }}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.detailRow}
+                            style={{ paddingBottom: 0 }}
+                        >
+                            <div
+                                style={{
+                                    border: '1px solid #e7e7e7',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    padding: 12,
+                                    borderTopLeftRadius: 3,
+                                    borderTopRightRadius: 3
+                                }}
+                            >
+                                <span className={classes.detailLabel}>
+                                    {this.getLabel('fees-label')}
+                                </span>
+                                <div className={classes.grow} />
+                                <span className={classes.text}>
+                                    {this.getLabel('free-label')}
+                                </span>
+                            </div>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.detailRow}
+                            style={{ paddingTop: 0 }}
+                        >
+                            <div
+                                style={{
+                                    borderLeft: '1px solid #e7e7e7',
+                                    borderRight: '1px solid #e7e7e7',
+                                    borderBottom: '1px solid #e7e7e7',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    padding: 12,
+                                    borderBottomLeftRadius: 3,
+                                    borderBottomRightRadius: 3
+                                }}
+                            >
+                                <span className={classes.detailLabel}>
+                                    {this.getLabel('receive-amount')}
+                                </span>
+                                <div className={classes.grow} />
+                                <span className={classes.text}>
+                                    {amount === ''
+                                        ? ''
+                                        : getSymbolFromCurrency(user.currency)}
+                                    {amount === ''
+                                        ? ''
+                                        : Number(amount).toFixed(2)}
+                                </span>
+                            </div>
+                        </Grid>
+                        <Grid item xs={6} className={classes.buttonCell}>
+                            <Button
+                                variant="contained"
+                                className={classes.cancelButton}
+                                onClick={this.cancelWithdrawClicked.bind(this)}
+                            >
+                                {this.getLabel('cancel-label')}
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6} className={classes.buttonCell}>
+                            <Button
+                                className={classes.actionButton}
+                                onClick={this.confirmWithdraw.bind(this)}
+                                disabled={
+                                    amount === '' || this.state.amountInvalid
+                                }
+                            >
+                                {this.getLabel('confirm-label')}
+                            </Button>
+                        </Grid>
+                    </Grid>
+                );
         }
     }
 
@@ -1101,7 +1581,7 @@ export default withStyles(styles)(
     withRouter(
         injectIntl(
             connect(mapStateToProps, { authCheckState, sendingLog, authUserUpdate })(
-                BankAccounts
+                ChinaLocalBank
             )
         )
     )

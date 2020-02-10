@@ -21,7 +21,7 @@ import ThaiLocalBank from './th/local_bank';
 import Help2Pay from './th/help2pay';
 import SetWithdrawalPassword from '../../account_management/set_withdrawal_password';
 import MoneyPay from './vn/money_pay';
-import ChinaWithdraw from './zh/withdraw';
+import ChinaLocalBank from './zh/local_bank';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
@@ -235,6 +235,30 @@ export class WithdrawMain extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        const { user, operationProp } = this.props;
+
+        if (!operationProp) {
+            switch (user.country.toLowerCase()) {
+                case 'thailand':
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/thlocalbank'
+                    );
+                    break;
+                case 'vietnam':
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/vnlocalbank'
+                    );
+                    break;
+                case 'china':
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/zhlocalbank'
+                    );
+                    break;
+            }
+        }
+    }
+
     setPage = (page, msg) => {
         if (msg) this.setState({ withdrawMessage: msg });
 
@@ -254,7 +278,11 @@ export class WithdrawMain extends Component {
         const { classes, user, operationProp } = this.props;
         const { width } = this.props;
 
-        switch (user.country.toLowerCase()) {
+        var country = "";
+        if (user && user.country) {
+            country = user.country;
+        }
+        switch (country.toLowerCase()) {
             case 'china':
                 return <div></div>;
             case 'thailand':
@@ -369,7 +397,7 @@ export class WithdrawMain extends Component {
         else if (operationProp === 'moneypay')
             return <MoneyPay callbackFromParent={this.setPage} />;
         else if (operationProp === 'zhlocalbank')
-            return <ChinaWithdraw callbackFromParent={this.setPage} />;
+            return <ChinaLocalBank callbackFromParent={this.setPage} />;
     }
 
     render() {
