@@ -62,10 +62,10 @@ class GameDetail extends Component {
 
     componentDidMount() {
 
-        // const script = document.createElement("script");
-        // script.type = "text/javascript";
-        // script.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
-        // document.body.appendChild(script);
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
+        document.body.appendChild(script);
 
         const { id } = this.props.match.params;
         // console.log(id);
@@ -218,16 +218,17 @@ class GameDetail extends Component {
     }
 
     launchPTGame(gameId) {
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
-        document.body.appendChild(script);
+        // const script = document.createElement("script");
+        // script.type = "text/javascript";
+        // script.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
+        // document.body.appendChild(script);
         axios.get(API_URL + 'games/api/pt/get_player?username=' + this.state.user.username)
         .then(res => {
             // console.log(res.data)
             if (res.data.status === 0) {
                 // balance enough, can launch game.
                 // ptLogintest(1, res.data.playername, this.state.user.username)
+                console.log("pt user success")
                 window.iapiSetCallout('Login', ptCalloutLogin(window.iapiLogin(res.data.playername, this.state.user.username, 1, "en"), gameId)); 
             } else if (res.data.state === 1) {
                 alert("General error in launchPT!");
