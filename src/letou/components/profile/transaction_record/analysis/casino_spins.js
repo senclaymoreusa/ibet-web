@@ -287,7 +287,6 @@ export class CasinoSpins extends Component {
 
     render() {
         const { classes } = this.props;
-        // const { items } = this.state;
         const { type, paperWidth } = this.state;
 
         return (

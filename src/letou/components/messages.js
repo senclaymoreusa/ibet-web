@@ -216,8 +216,7 @@ export const messages = {
         'register-policy-text':
             'By clicking the button confirming the application. You confirm that you are 18 years old and you have read, accepted and agreed to the terms and conditions.',
         'rules-privacy-policy': 'LETOU Gambling Rules and Privacy Policy',
-        'username-limit':
-            'Username requires 8-16 digits with letters or numbers.',
+        'username-limit': 'Requires 8-16 digits with letters or numbers.',
         'please-strong-password':
             'Your password strength should be at least good.',
         'please-confirm-password': 'Please confirm your password.',
@@ -587,7 +586,7 @@ export const messages = {
         'transfer-message':
             'Transfered [amount] from [fromWallet] to [toWallet]',
         'safety-rate': 'Safety Rate',
-        'vn-localbank-placeholder-withdraw': '₫300,000 - 300,000,000',
+        'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
         'vn-moneypay-placeholder-withdraw': '₫300,000 - 300,000,000',
         'page-not-found': 'Oops, this page does not exist',
         'error-message': 'Oops, something went wrong',
@@ -618,25 +617,28 @@ export const messages = {
             'A variety of bonuses will support you, betting is not afraid of not backing up',
         'filter-label': 'Filter',
         'sort-label': 'Sort',
-        'add-bank-card':'Add Bank Card',
-        'card-holder':'Cardholder',
+        'add-bank-card': 'Add Bank Card',
+        'card-holder': 'Cardholder',
         'bank-card-number': 'Bank Card Number',
-        'create-label':'Create',
-        'add-account-success':'Bank card successfuly added.',
-        'add-account-failed':'An error occured while adding account',
-        'wrong-withdraw-password':'Wrong withdraw password!',
-        'error-withdraw-password':'Error occured while checking withdraw password!',
-        'bank-card-management':'Bank Card Management',
-        'inquire-label':'Inquire',
-        'card-removal':'Card Removal',
-        'delete-label':'Delete',
-        'transfer-records':'Transfer Records',
-        'tail-number':'Tail Number'
-
+        'create-label': 'Create',
+        'add-account-success': 'Bank card successfuly added.',
+        'add-account-failed': 'An error occured while adding account',
+        'wrong-withdraw-password': 'Wrong withdraw password!',
+        'error-withdraw-password':
+            'Error occured while checking withdraw password!',
+        'bank-card-management': 'Bank Card Management',
+        'inquire-label': 'Inquire',
+        'card-removal': 'Card Removal',
+        'delete-label': 'Delete',
+        'transfer-records': 'Transfer Records',
+        'tail-number': 'Tail Number',
+        'my-card': 'My Bank Card'
     },
     zh: {
+        'sports-label': '体育',
+        'gaming-label': '电竞',
         'help-letou': '我们在此竭诚服务',
-
+        'live-casino': '真人娱乐场',
         'APP-Download': 'APP下载',
         'help-title': '我们在此竭诚服务',
         'for-member': '供会员使用',
@@ -1184,6 +1186,9 @@ export const messages = {
         'help-service': '我们随时随刻为您服务'
     },
     th: {
+        'sports-label': 'พลศึกษา',
+        'gaming-label': 'อีสปอร์ต',
+        'live-casino': 'คาสิโน ล็อตเตอรี่',
         'help-title': 'เราพร้อมให้ความช่วยเหลือ',
         'for-member': 'สำหรับสมาชิก',
         'aboutUs-detail-text-one':
@@ -1194,6 +1199,7 @@ export const messages = {
             'LETOU ให้บริการลูกค้าตลอด 24 ชั่วโมง 365 วันต่อปีด้วยความตั้งใจที่จะแก้ปัญหาต่าง ๆ สำหรับลูกค้า LETOU เสนอการแข่งขัน 500 ประเภทที่แตกต่างกันทุกวันครอบคลุมกีฬาที่สำคัญทั่วโลกรวมถึงฟุตบอลบาสเก็ตบอลเทนนิสเบสบอล บิลเลียดกอล์ฟ ฯลฯ ยังมีเกมดิจิตอลเกมเสมือนจริงเกมแคชชวลและบริการคาสิโนออนไลน์สด LETOU เป็น บริษัท มืออาชีพที่ปฏิบัติตามข้อกำหนดของรัฐบาลฟิลิปปินส์อย่างเคร่งครัดและกำหนดเงินฝากและถอนเงินภายใต้ข้อกำหนดของหน่วยงานบริหารการเงินของรัฐบาล การรักษาความปลอดภัยของกองทุนและการปฏิบัติตามกฎหมายต่อต้านการฟอกเงิน (AML) ที่กำหนดโดยรัฐบาลเพื่อให้มีสภาพแวดล้อมทางการเงินที่โปร่งใสในระดับสูงสุดสำหรับการกำกับดูแลของรัฐบาลและเพื่อให้แน่ใจว่าผลประโยชน์ของลูกค้าในเวลาเดียวกัน LETOU ผู้เล่นมีความคิดในเกมที่ดี',
         'aboutUs-detail-stext-four':
             'ลูกค้ารายแรกเป็นหลักการของเราเสมอ! เป็นเวลานาน LETOU ให้ความสำคัญกับผู้ใช้เสมอในอนาคตเราจะทำงานร่วมกับเพื่อน ๆ เพื่อสร้างอนาคตที่ดีขึ้น!',
+        story: 'Letouเรื่องราวของแบรนด์',
         'about-letou': 'about Letou',
         'become-partner': 'ร่วมเป็นพันธมิตร',
         'line-center': 'เส้น-ตรงกลาง',
@@ -1717,5 +1723,10 @@ export const messages = {
         'view-all': 'ดูทั้งหมด'
     },
 
-    vi: {}
+    vi: {
+        'view-all': 'ดูทั้งหมด',
+        'sports-label': 'Giáo dục thể chất',
+        'gaming-label': 'Esport',
+        'live-casino': 'Casino Xổ Số'
+    }
 };
