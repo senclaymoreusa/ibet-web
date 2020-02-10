@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
@@ -22,6 +23,21 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
 import Bank_Info from '../../../../../../commons/bank_info';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import WarningIcon from '@material-ui/icons/Warning';
+import clsx from 'clsx';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -211,12 +227,82 @@ const styles = () => ({
     }
 });
 
+const variantIcon = {
+    success: CheckCircleIcon,
+    warning: WarningIcon,
+    error: ErrorIcon,
+    info: InfoIcon
+};
+
+const snackStyles = makeStyles(theme => ({
+    success: {
+        backgroundColor: '#21e496'
+    },
+    error: {
+        backgroundColor: '#fa2054'
+    },
+    info: {
+        backgroundColor: '#53abe0'
+    },
+    warning: {
+        backgroundColor: '#f28f22'
+    },
+    icon: {
+        fontSize: 20
+    },
+    iconVariant: {
+        opacity: 0.9,
+        marginRight: theme.spacing(1)
+    },
+    message: {
+        display: 'flex',
+        alignItems: 'center'
+    }
+}));
+
+function LetouSnackbarContentWrapper(props) {
+    const classes = snackStyles();
+    const { className, message, onClose, variant, ...other } = props;
+    const Icon = variantIcon[variant];
+
+    return (
+        <SnackbarContent
+            className={clsx(classes[variant], className)}
+            aria-describedby="client-snackbar"
+            message={
+                <span id="client-snackbar" className={classes.message}>
+                    <Icon className={clsx(classes.icon, classes.iconVariant)} />
+                    {message}
+                </span>
+            }
+            action={[
+                <IconButton
+                    key="close"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={onClose}
+                >
+                    <CloseIcon className={classes.icon} />
+                </IconButton>
+            ]}
+            {...other}
+        />
+    );
+}
+
+LetouSnackbarContentWrapper.propTypes = {
+    className: PropTypes.string,
+    message: PropTypes.string,
+    onClose: PropTypes.func,
+    variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired
+};
+
 class BankAccounts extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            activeStep: 4,
+            activeStep: 0,
             cards: [],
             card: null,
 
@@ -225,9 +311,16 @@ class BankAccounts extends Component {
             showWithdrawPassword: false,
             confirmWithdrawPassword: '',
 
-            name: '',
-            bankAccountNumber: '',
-            password: ''
+            cardholder: '',
+            cardNumber: '',
+
+            showSnackbar: false,
+            snackType: 'info',
+            snackMessage: '',
+
+            currentIdForRemoving: '',
+            openConfirm: false,
+
         };
     }
 
@@ -238,22 +331,13 @@ class BankAccounts extends Component {
             }
         });
 
+        const { user } = this.props;
+
         this.getBankCards();
 
-        // const token = localStorage.getItem('token');
-        // config.headers['Authorization'] = `Token ${token}`;
-        // axios.get(API_URL + 'users/api/user/', config).then(res => {
-        //     console.log(res.data);
-        //     this.setState({
-        //         name:
-        //             res.data.first_name.trim() + ' ' + res.data.last_name.trim()
-        //     });
-
-        //     this.setState({
-        //         alreadyHaveWithdrawPassword:
-        //             res.data.withdraw_password.length > 0
-        //     });
-        // });
+        this.setState({
+            cardholder: user.firstName + ' ' + user.lastName
+        });
     }
 
     getBankCards() {
@@ -304,12 +388,6 @@ class BankAccounts extends Component {
         return formatMessage({ id: labelId });
     }
 
-    addAccountClicked() {
-        if (this.state.alreadyHaveWithdrawPassword)
-            this.setState({ activeStep: 2 });
-        else this.setState({ activeStep: 1 });
-    }
-
     cancelClicked() {
         this.setState({ activeStep: 0 });
     }
@@ -334,10 +412,92 @@ class BankAccounts extends Component {
                 config
             )
             .then(() => {
+                this.setState({ currentIdForRemoving: '' })
                 this.getBankCards();
             })
             .catch(err => {
                 sendingLog(err);
+            });
+    }
+
+    bankCardNumberChanged(event) {
+        const re = /^[0-9\b]+$/;
+
+        if (re.test(event.target.value)) {
+            this.setState({ cardNumber: event.target.value });
+        } else if (event.target.value.length === 0)
+            this.setState({ cardNumber: '' });
+    }
+
+    checkWithdrawalPassword() {
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        axios
+            .post(
+                API_URL + 'users/api/check-withdraw-password/',
+                {
+                    user_id: this.props.user.userId,
+                    password: this.state.withdrawPassword
+                },
+                config
+            )
+            .then(() => {
+                this.deleteCard(this.state.currentIdForRemoving);
+
+            })
+            .catch(err => {
+                sendingLog(err);
+
+                this.setState({
+                    snackMessage: this.getLabel('error-withdraw-password'),
+                    snackType: 'error',
+                    showSnackbar: true
+                });
+            });
+    }
+
+    createBankCard() {
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        let bodyItem = {};
+
+        if (this.state.cardholder.length > 0)
+            bodyItem = {
+                user_id: this.props.user.userId,
+                acc_no: this.state.cardNumber,
+                full_name: this.state.cardholder
+            };
+        else
+            bodyItem = {
+                user_id: this.props.user.userId,
+                acc_no: this.state.cardNumber
+            };
+
+        axios
+            .post(
+                API_URL + 'accounting/api/transactions/add_withdraw_acc',
+                bodyItem,
+                config
+            )
+            .then(res => {
+                this.setState({
+                    snackType: 'success',
+                    snackMessage: this.getLabel('add-account-success'),
+                    showSnackbar: true,
+                    activeStep: 0
+                });
+                this.getBankCards();
+            })
+            .catch(err => {
+                sendingLog(err);
+
+                this.setState({
+                    snackMessage: this.getLabel('add-account-failed'),
+                    snackType: 'error',
+                    showSnackbar: true
+                });
             });
     }
 
@@ -347,11 +507,9 @@ class BankAccounts extends Component {
             activeStep,
             cards,
             withdrawPassword,
-            showWithdrawPassword,
             confirmWithdrawPassword,
-            name,
-            bankAccountNumber,
-            password
+            cardholder,
+            cardNumber
         } = this.state;
 
         switch (activeStep) {
@@ -387,7 +545,9 @@ class BankAccounts extends Component {
                                     className={classes.column}
                                     onClick={() => {
                                         this.setState({
-                                            activeStep: (user.hasWithdrawPassword ? 3 : 1)
+                                            activeStep: user.hasWithdrawPassword
+                                                ? 3
+                                                : 1
                                         });
                                     }}
                                 >
@@ -403,7 +563,10 @@ class BankAccounts extends Component {
                                         <Button
                                             className={classes.action}
                                             onClick={() => {
-                                                this.deleteCard(card.id);
+                                                this.setState({
+                                                    currentIdForRemoving: card.id,
+                                                    openConfirm: true
+                                                });
                                             }}
                                         >
                                             <img
@@ -425,7 +588,11 @@ class BankAccounts extends Component {
                             <Button
                                 className={classes.addButton}
                                 onClick={event => {
-                                    this.addAccountClicked(event);
+                                    this.setState({
+                                        activeStep: user.hasWithdrawPassword
+                                            ? 2
+                                            : 1
+                                    });
                                 }}
                             >
                                 <img
@@ -504,10 +671,10 @@ class BankAccounts extends Component {
                                             >
                                                 {this.state
                                                     .showWithdrawPassword ? (
-                                                    <VisibilityOff />
-                                                ) : (
-                                                    <Visibility />
-                                                )}
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
                                             </IconButton>
                                         </InputAdornment>
                                     )
@@ -542,18 +709,18 @@ class BankAccounts extends Component {
                                         <InputAdornment position="end">
                                             {withdrawPassword ===
                                                 confirmWithdrawPassword &&
-                                            confirmWithdrawPassword.length ===
+                                                confirmWithdrawPassword.length ===
                                                 8 ? (
-                                                <img
-                                                    src={
-                                                        images.src +
-                                                        'letou/confirmation-ok.svg'
-                                                    }
-                                                    alt=""
-                                                />
-                                            ) : (
-                                                <span></span>
-                                            )}
+                                                    <img
+                                                        src={
+                                                            images.src +
+                                                            'letou/confirmation-ok.svg'
+                                                        }
+                                                        alt=""
+                                                    />
+                                                ) : (
+                                                    <span></span>
+                                                )}
                                         </InputAdornment>
                                     )
                                 }}
@@ -605,8 +772,13 @@ class BankAccounts extends Component {
                         >
                             <TextField
                                 className={classes.detailText}
-                                placeholder={this.getLabel('name-label')}
-                                value={name}
+                                placeholder={this.getLabel('card-holder')}
+                                value={cardholder}
+                                onChange={event => {
+                                    this.setState({
+                                        cardholder: event.target.value
+                                    });
+                                }}
                                 InputProps={{
                                     disableUnderline: true,
                                     endAdornment: (
@@ -634,13 +806,11 @@ class BankAccounts extends Component {
                         <Grid item xs={12} className={classes.detailRow}>
                             <TextField
                                 className={classes.detailText}
-                                placeholder={this.getLabel('bank-number')}
-                                onChange={event => {
-                                    this.setState({
-                                        bankAccountNumber: event.target.value
-                                    });
-                                }}
-                                value={bankAccountNumber}
+                                placeholder={this.getLabel('bank-card-number')}
+                                onChange={this.bankCardNumberChanged.bind(
+                                    this
+                                )}
+                                value={cardNumber}
                                 InputProps={{
                                     disableUnderline: true,
                                     endAdornment: (
@@ -697,10 +867,10 @@ class BankAccounts extends Component {
                                                 >
                                                     {this.state
                                                         .showWithdrawPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
-                                                        <Visibility />
-                                                    )}
+                                                            <VisibilityOff />
+                                                        ) : (
+                                                            <Visibility />
+                                                        )}
                                                 </Tooltip>
                                             </IconButton>
                                         </InputAdornment>
@@ -724,9 +894,14 @@ class BankAccounts extends Component {
                         <Grid item xs={6} className={classes.buttonCell}>
                             <Button
                                 className={classes.actionButton}
-                                onClick={event => {
-                                    this.setState({ activeStep: 3 });
-                                }}
+                                onClick={this.checkWithdrawalPassword.bind(
+                                    this
+                                )}
+                                disabled={
+                                    this.state.cardholder.length === 0 ||
+                                    this.state.cardNumber.length === 0 ||
+                                    this.state.withdrawPassword.length === 0
+                                }
                             >
                                 {this.getLabel('next-label')}
                             </Button>
@@ -751,10 +926,75 @@ class BankAccounts extends Component {
         }
     }
 
+    handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({ showSnackbar: false });
+    }
+
     render() {
         const { classes } = this.props;
 
-        return <div className={classes.root}>{this.getContent()}</div>;
+        return (
+            <div className={classes.root}>
+                {this.getContent()}
+                <Dialog
+                    open={this.state.openConfirm}
+                    onClose={() => {
+                        this.setState({
+                            openConfirm: false
+                        })
+                    }}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{this.getLabel('are-you-sure')}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {this.getLabel('about-delete-card')}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() => {
+                                this.setState({
+                                    openConfirm: false,
+                                    currentIdForRemoving: ''
+                                })
+                            }}
+                            color="primary">
+                            {this.getLabel('cancel-label')}
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                this.checkWithdrawalPassword.bind(
+                                    this
+                                )
+                            }}
+                            color="primary" autoFocus>
+                            {this.getLabel('remove-label')}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center'
+                    }}
+                    open={this.state.showSnackbar}
+                    autoHideDuration={3000}
+                    onClose={this.handleSnackbarClose}
+                >
+                    <LetouSnackbarContentWrapper
+                        onClose={this.handleSnackbarClose}
+                        variant={this.state.snackType}
+                        message={this.state.snackMessage}
+                    />
+                </Snackbar>
+            </div >
+        );
     }
 }
 

@@ -662,7 +662,11 @@ export const messages = {
         'card-removal': 'Card Removal',
         'delete-label': 'Delete',
         'transfer-records': 'Transfer Records',
-        'tail-number': 'Tail Number'
+        'tail-number': 'Tail Number',
+        'are-you-sure':'Are you sure?',
+        'about-delete-card':'You are about to remove your bank card from the system.',
+        'remove-label':'Remove',
+        
     },
     zh: {
         'sports-label': '体育',
