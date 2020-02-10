@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog} from '../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -19,7 +19,6 @@ import moment from 'moment';
 import queryString from 'query-string';
 import axios from 'axios';
 import { config } from '../../../../../util_config';
-
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -168,14 +167,14 @@ const styles = theme => ({
 
 export class CasinoSpins extends Component {
     _isMounted = false;
-    
+
     constructor(props) {
         super(props);
 
         this.state = {
             type: 'game',
             items: [],
-            categoryId:''
+            categoryId: ''
         };
     }
 
@@ -183,14 +182,16 @@ export class CasinoSpins extends Component {
         this._isMounted = true;
 
         axios
-        .get(API_URL + 'games/api/bets/getprovandcats', config)
-        .then(res => {
-            this.setState({
-                categoryId: res.data.categories.filter((c) => c.name.toLowerCase() === 'games')[0].category_id
-            });
+            .get(API_URL + 'games/api/bets/getprovandcats', config)
+            .then(res => {
+                this.setState({
+                    categoryId: res.data.categories.filter(
+                        c => c.name.toLowerCase() === 'games'
+                    )[0].category_id
+                });
 
-            this.getCasinoSpinBets();
-        });   
+                this.getCasinoSpinBets();
+            });
     }
 
     getCasinoSpinBets() {
@@ -198,7 +199,7 @@ export class CasinoSpins extends Component {
 
         const { user } = this.props;
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
+        config.headers['Authorization'] = `Token ${token}`;
 
         let apiURL = `games/api/bets/getall?userid=${user.userId}&category=${this.state.categoryId}`;
 
@@ -221,17 +222,17 @@ export class CasinoSpins extends Component {
         }
 
         let requestURL = API_URL + apiURL + startStr + endStr;
-        
+
         axios
             .get(requestURL, config)
             .then(res => {
                 if (res.status === 200) {
                     let itemArray = [];
-                  
-                    console.log('datas')
-                    console.log(res.data)
 
-                   Object.keys(res.data.results).map(function (refNum) {
+                    console.log('datas');
+                    console.log(res.data);
+
+                    Object.keys(res.data.results).map(function(refNum) {
                         let result = res.data.results[refNum];
 
                         if (result.length === 1) {
@@ -258,8 +259,7 @@ export class CasinoSpins extends Component {
                         (itemSoFar, { date, ref_no, amount_won }) => {
                             let d = moment(date).format('DD-MM-YYYY');
 
-                            if (!itemSoFar[d])
-                                itemSoFar[d] = [];
+                            if (!itemSoFar[d]) itemSoFar[d] = [];
 
                             itemSoFar[d].push({ date, ref_no, amount_won });
 
@@ -269,8 +269,6 @@ export class CasinoSpins extends Component {
                     );
 
                     this.setState({ items: items });
-
-                   
                 }
             })
             .catch(err => {
@@ -289,7 +287,6 @@ export class CasinoSpins extends Component {
 
     render() {
         const { classes } = this.props;
-        
         const { type, paperWidth } = this.state;
 
         return (
@@ -603,9 +600,12 @@ const mapStateToProps = state => {
     };
 };
 
-
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState, sendingLog })(CasinoSpins))
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, sendingLog })(
+                CasinoSpins
+            )
+        )
     )
 );
