@@ -253,7 +253,7 @@ export class WithdrawMain extends Component {
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
         const { width } = this.props;
-        
+
         switch (user.country.toLowerCase()) {
             case 'china':
                 return <div></div>;
@@ -411,14 +411,16 @@ export class WithdrawMain extends Component {
                         </Toolbar>
                     </AppBar>
                 </div>
-                {user && user.hasWithdrawPassword
+                {this.getAvailablePaymentMethods()}
+                {this.getPaymentMethodContent()}
+                {/* {user && user.hasWithdrawPassword
                     ? this.getAvailablePaymentMethods()
                     : null}
                 {user && user.hasWithdrawPassword ? (
                     this.getPaymentMethodContent()
                 ) : (
                         <SetWithdrawalPassword />
-                    )}
+                    )} */}
             </div>
         );
     }

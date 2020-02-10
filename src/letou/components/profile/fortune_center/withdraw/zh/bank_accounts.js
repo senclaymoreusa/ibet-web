@@ -11,7 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
     AUTH_RESULT_FAIL,
-    sendingLog
+    sendingLog,
+    authUserUpdate
 } from '../../../../../../actions';
 import { withRouter } from 'react-router-dom';
 import { Divider } from '@material-ui/core';
@@ -22,6 +23,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
+import zxcvbn from 'zxcvbn';
 import Bank_Info from '../../../../../../commons/bank_info';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -38,6 +40,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import PasswordStrengthMeter from '../../../../../../commons/PasswordStrengthMeter';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -128,6 +131,22 @@ const styles = () => ({
             color: '#fff'
         },
         textTransform: 'capitalize'
+    },
+    hintText: {
+        fontSize: 12,
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        letterSpacing: 'normal',
+        color: '#212121',
+    },
+    hintContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        marginTop: 25,
+        paddingLeft: 10,
     },
     cancelButton: {
         width: '100%',
@@ -308,8 +327,6 @@ class BankAccounts extends Component {
 
             alreadyHaveWithdrawPassword: false,
             withdrawPassword: '',
-            showWithdrawPassword: false,
-            confirmWithdrawPassword: '',
 
             cardholder: '',
             cardNumber: '',
@@ -321,6 +338,10 @@ class BankAccounts extends Component {
             currentIdForRemoving: '',
             openConfirm: false,
 
+            createWithdrawPassword: '',
+            createWithdrawPasswordInvalid: false,
+            createConfirmWithdrawPassword: '',
+            createConfirmWithdrawPasswordInvalid: false
         };
     }
 
@@ -388,31 +409,76 @@ class BankAccounts extends Component {
         return formatMessage({ id: labelId });
     }
 
-    cancelClicked() {
-        this.setState({ activeStep: 0 });
+    cancelCreatePasswordClicked() {
+        this.setState({
+            activeStep: 0,
+            createWithdrawPassword: '',
+            createWithdrawPasswordInvalid: false,
+            createConfirmWithdrawPassword: '',
+            createConfirmWithdrawPasswordInvalid: false
+        });
     }
 
-    createPassword() {
-        this.setState({ activeStep: 2 });
+    cancelCreateBankCardClicked() {
+        this.setState({
+            activeStep: 0,
+            cardholder: '',
+            cardNumber: '',
+            withdrawPassword: ''
+        });
     }
 
-    deleteCard(id) {
+    createWithdrawPassword() {
+        let currentComponent = this;
+
+        const token = localStorage.getItem('token');
+        config.headers["Authorization"] = `Token ${token}`;
+
+        axios.post(API_URL + 'users/api/setting-withdraw-password/',
+            {
+                'userId': this.props.user.userId,
+                'withdrawPassword': this.state.createWithdrawPassword
+            }, config)
+            .then(() => {
+                this.setState({
+                    snackType: 'success',
+                    snackMessage: this.getLabel('withdrawal-password-success'),
+                    showSnackbar: true,
+                    activeStep: 0
+                });
+
+                currentComponent.props.authUserUpdate();
+            }).catch(err => {
+                sendingLog(err);
+
+                this.setState({
+                    snackMessage: this.getLabel('password-update-failed'),
+                    snackType: 'error',
+                    showSnackbar: true
+                });
+            })
+    }
+
+    deleteCard() {
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
 
         let requestURL = `accounting/api/transactions/del_withdraw_acc`;
-
+        console.log(requestURL)
         axios
             .post(
                 API_URL + requestURL,
                 {
                     user_id: this.props.user.userId,
-                    acc_id: id
+                    acc_id: this.state.currentIdForRemoving
                 },
                 config
             )
             .then(() => {
-                this.setState({ currentIdForRemoving: '' })
+                this.setState({
+                    currentIdForRemoving: '',
+                    openConfirm: false
+                })
                 this.getBankCards();
             })
             .catch(err => {
@@ -501,13 +567,33 @@ class BankAccounts extends Component {
             });
     }
 
+    createPasswordChanged(event) {
+        this.setState({ createWithdrawPassword: event.target.value });
+
+        let testedResult = zxcvbn(event.target.value);
+        console.log('testedResult:' + testedResult)
+        this.setState({
+            createWithdrawPasswordInvalid: !(testedResult.score === 3 || testedResult.score === 4),
+            createConfirmWithdrawPasswordInvalid: (event.target.value !== this.state.createConfirmWithdrawPassword) && this.state.createConfirmWithdrawPasswordFocused
+        });
+    }
+
+    createConfirmPasswordChanged(event) {
+        this.setState({
+            createConfirmWithdrawPassword: event.target.value,
+            createConfirmWithdrawPasswordFocused: true,
+            createConfirmWithdrawPasswordInvalid: (this.state.createWithdrawPassword !== event.target.value)
+        });
+    }
+
     getContent() {
         const { classes, user } = this.props;
         const {
             activeStep,
             cards,
             withdrawPassword,
-            confirmWithdrawPassword,
+            createWithdrawPassword,
+            createConfirmWithdrawPassword,
             cardholder,
             cardNumber
         } = this.state;
@@ -543,23 +629,25 @@ class BankAccounts extends Component {
                                 <div
                                     key={card.account_no}
                                     className={classes.column}
-                                    onClick={() => {
-                                        this.setState({
-                                            activeStep: user.hasWithdrawPassword
-                                                ? 3
-                                                : 1
-                                        });
-                                    }}
                                 >
                                     <div className={classes.accountRow}>
-                                        <span className={classes.accountInfo}>
-                                            {card.BankName}
-                                            {' - '}
-                                            {card.account_no.substring(
-                                                card.account_no.length - 3
-                                            )}
-                                        </span>
-                                        <div className={classes.grow} />
+                                        <div className={classes.row} style={{ width: '100%' }}
+                                            onClick={() => {
+                                                this.setState({
+                                                    activeStep: user.hasWithdrawPassword
+                                                        ? 2
+                                                        : 1
+                                                });
+                                            }}>
+                                            <span className={classes.accountInfo}>
+                                                {card.BankName}
+                                                {' - '}
+                                                {card.account_no.substring(
+                                                    card.account_no.length - 3
+                                                )}
+                                            </span>
+                                            <div className={classes.grow} />
+                                        </div>
                                         <Button
                                             className={classes.action}
                                             onClick={() => {
@@ -634,24 +722,22 @@ class BankAccounts extends Component {
                             item
                             xs={6}
                             style={{
-                                marginBottom: 40,
                                 display: 'flex',
                                 flexDirection: 'row'
                             }}
                         >
                             <TextField
                                 className={classes.passwordField}
-                                value={withdrawPassword}
-                                onChange={event => {
-                                    this.setState({
-                                        withdrawPassword: event.target.value
-                                    });
-                                }}
+                                placeholder={this.getLabel('password-label')}
+                                value={createWithdrawPassword}
+                                onChange={this.createPasswordChanged.bind(this)}
                                 type={
-                                    this.state.showWithdrawPassword
+                                    this.state.showCreateWithdrawPassword
                                         ? ''
                                         : 'password'
                                 }
+                                error={this.state.createWithdrawPasswordInvalid}
+                                helperText={this.state.createWithdrawPasswordInvalid ? this.getLabel('please-strong-password') : ''}
                                 InputProps={{
                                     disableUnderline: true,
                                     endAdornment: (
@@ -659,18 +745,18 @@ class BankAccounts extends Component {
                                             <IconButton
                                                 size="small"
                                                 disabled={
-                                                    withdrawPassword.length ===
+                                                    createWithdrawPassword.length ===
                                                     0
                                                 }
                                                 aria-label="Toggle password visibility"
                                                 onClick={() => {
                                                     this.setState(state => ({
-                                                        showWithdrawPassword: !state.showWithdrawPassword
+                                                        showCreateWithdrawPassword: !state.showCreateWithdrawPassword
                                                     }));
                                                 }}
                                             >
                                                 {this.state
-                                                    .showWithdrawPassword ? (
+                                                    .showCreateWithdrawPassword ? (
                                                         <VisibilityOff />
                                                     ) : (
                                                         <Visibility />
@@ -692,45 +778,45 @@ class BankAccounts extends Component {
                                 />
                             </Tooltip>
                         </Grid>
-                        <Grid item xs={6} style={{ marginBottom: 40 }}>
+                        <Grid item xs={6}>
                             <TextField
                                 className={classes.passwordField}
-                                value={confirmWithdrawPassword}
-                                onChange={event => {
-                                    this.setState({
-                                        confirmWithdrawPassword:
-                                            event.target.value
-                                    });
-                                }}
-                                type="password"
+                                placeholder={this.getLabel('confirm-password')}
+                                value={createConfirmWithdrawPassword}
+                                onChange={this.createConfirmPasswordChanged.bind(this)}
+                                type={this.state.showConfirmPassword ? '' : 'password'}
+                                error={this.state.createConfirmWithdrawPasswordInvalid}
+                                helperText={this.state.createConfirmWithdrawPasswordInvalid ? this.getLabel('password-not-match') : ''}
                                 InputProps={{
                                     disableUnderline: true,
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            {withdrawPassword ===
-                                                confirmWithdrawPassword &&
-                                                confirmWithdrawPassword.length ===
-                                                8 ? (
-                                                    <img
-                                                        src={
-                                                            images.src +
-                                                            'letou/confirmation-ok.svg'
-                                                        }
-                                                        alt=""
-                                                    />
-                                                ) : (
-                                                    <span></span>
-                                                )}
+                                            {(!this.state.createConfirmWithdrawPasswordInvalid && this.state.createConfirmWithdrawPasswordFocused) ? <img
+                                                src={images.src + 'letou/circle-confirmation.svg'}
+                                                alt=""
+                                            />
+                                                : <div />}
                                         </InputAdornment>
-                                    )
+                                    ),
                                 }}
                             />
+                        </Grid>
+                        <Grid item xs={12}>
+                            {
+                                createWithdrawPassword && <div className={classes.hintContainer}>
+                                    <PasswordStrengthMeter password={createWithdrawPassword} />
+                                    <span className={classes.hintText}>{this.getLabel('register-hint1')}</span>
+                                    <span className={classes.hintText}>{this.getLabel('register-hint2')}</span>
+                                    <span className={classes.hintText}>{this.getLabel('register-hint3')}</span>
+                                    <span className={classes.hintText}>{this.getLabel('register-hint4')}</span>
+                                </div>
+                            }
                         </Grid>
                         <Grid item xs={6} className={classes.buttonCell}>
                             <Button
                                 variant="contained"
                                 className={classes.cancelButton}
-                                onClick={this.cancelClicked.bind(this)}
+                                onClick={this.cancelCreatePasswordClicked.bind(this)}
                             >
                                 {this.getLabel('cancel-label')}
                             </Button>
@@ -738,7 +824,11 @@ class BankAccounts extends Component {
                         <Grid item xs={6} className={classes.buttonCell}>
                             <Button
                                 className={classes.actionButton}
-                                onClick={this.createPassword.bind(this)}
+                                onClick={this.createWithdrawPassword.bind(this)}
+                                disabled={this.state.createWithdrawPasswordInvalid
+                                    || this.state.createWithdrawPassword.length === 0
+                                    || this.state.createConfirmWithdrawPasswordInvalid
+                                    || this.state.createConfirmWithdrawPassword.length === 0}
                             >
                                 {this.getLabel('next-label')}
                             </Button>
@@ -886,7 +976,7 @@ class BankAccounts extends Component {
                             <Button
                                 variant="contained"
                                 className={classes.cancelButton}
-                                onClick={this.cancelClicked.bind(this)}
+                                onClick={this.cancelCreateBankCardClicked.bind(this)}
                             >
                                 {this.getLabel('cancel-label')}
                             </Button>
@@ -923,6 +1013,10 @@ class BankAccounts extends Component {
                         </Grid>
                     </Grid>
                 );
+            case 4:
+                return (
+                        <div/>
+                    );
         }
     }
 
@@ -968,11 +1062,8 @@ class BankAccounts extends Component {
                             {this.getLabel('cancel-label')}
                         </Button>
                         <Button
-                            onClick={() => {
-                                this.checkWithdrawalPassword.bind(
-                                    this
-                                )
-                            }}
+                            onClick={
+                                this.deleteCard.bind(this)}
                             color="primary" autoFocus>
                             {this.getLabel('remove-label')}
                         </Button>
@@ -1009,7 +1100,7 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(mapStateToProps, { authCheckState, sendingLog })(
+            connect(mapStateToProps, { authCheckState, sendingLog, authUserUpdate })(
                 BankAccounts
             )
         )

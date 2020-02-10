@@ -663,10 +663,13 @@ export const messages = {
         'delete-label': 'Delete',
         'transfer-records': 'Transfer Records',
         'tail-number': 'Tail Number',
-        'are-you-sure':'Are you sure?',
-        'about-delete-card':'You are about to remove your bank card from the system.',
-        'remove-label':'Remove',
-        
+        'are-you-sure': 'Are you sure?',
+        'about-delete-card':
+            'You are about to remove your bank card from the system.',
+        'remove-label': 'Remove',
+        'my-card': 'My Bank Card',
+        'password-label': 'Password',
+        'confirm-password': 'Confirm Password',
     },
     zh: {
         'sports-label': '体育',
@@ -1754,12 +1757,13 @@ export const messages = {
         'gaming-room': 'ห้องเล่นเกม',
         'video-poker': 'วีดีโอโป๊กเกอร์',
         'ﬁshing-games': 'เกมยิงปลา',
-        'view-all': 'ดูทั้งหมด',
-    },    
+        'view-all': 'ดูทั้งหมด'
+    },
 
     vi: {
+        'view-all': 'ดูทั้งหมด',
         'sports-label': 'Giáo dục thể chất',
         'gaming-label': 'Esport',
-        'live-casino': 'Casino Xổ Số',
+        'live-casino': 'Casino Xổ Số'
     }
 };

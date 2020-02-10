@@ -26,6 +26,7 @@ import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import clsx from 'clsx';
+import Bank_Info from '../../../../commons/bank_info';
 import { config, images } from '../../../../util_config';
 import axios from 'axios';
 
@@ -295,8 +296,6 @@ export class BankCards extends Component {
             .get(API_URL + requestURL)
             .then(res => {
                 if (res.status === 200) {
-                    console.log('data')
-            console.log(res.data)
                     this.setState({
                         cards: res.data.results,
                         activeSteps: res.data.results.length > 0 ? 0 : 1
@@ -356,7 +355,6 @@ export class BankCards extends Component {
     }
 
     deleteCard(id) {
-        console.log('id:'+id)
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
 
@@ -384,7 +382,6 @@ export class BankCards extends Component {
         config.headers['Authorization'] = `Token ${token}`;
 
         let bodyItem = {};
-       
         if (this.state.cardholder.length > 0)
             bodyItem = {
                 user_id: this.props.user.userId,
@@ -396,8 +393,6 @@ export class BankCards extends Component {
                 user_id: this.props.user.userId,
                 acc_no: this.state.cardNumber
             };
-            
-            console.log(bodyItem)
         axios
             .post(
                 API_URL + 'accounting/api/transactions/add_withdraw_acc',
@@ -405,8 +400,6 @@ export class BankCards extends Component {
                 config
             )
             .then(res => {
-                console.log('res')
-                console.log(res)
                 this.setState({
                     snackType: 'success',
                     snackMessage: this.getLabel('add-account-success'),
@@ -430,6 +423,21 @@ export class BankCards extends Component {
         const { classes } = this.props;
         const { cards, cardholder, cardNumber, password, activeStep } = this.state;
 
+        for (const card of cards) {
+            let bi = Bank_Info['Bank_Info'].filter(b => {
+                return b.CardLength == card.account_no.length;
+            })
+                .filter(b => {
+                    return b.BINCode == card.account_no.substring(0, b.BINCodeLength);
+                })[0];
+
+            if (bi) {
+                card.BankName = bi.BankName;
+            } else {
+                card.BankName = this.getLabel('my-card');
+            }
+        }
+
         return (
             <div className={classes.root}>
                 {activeStep === 0 ?
@@ -445,11 +453,12 @@ export class BankCards extends Component {
                                     <Grid container>
                                         <Grid item xs={12} className={classes.row} style={{ borderBottom: '1px solid #d4d4d4' }}>
                                             <span className={classes.label}>
-                                                {this.getLabel('card-number')}
+                                                {card.BankName}
                                             </span>
                                             <div className={classes.grow} />
                                             <span className={classes.label}>
-                            {'...'}{card.account_no.substring(card.account_no.length-3)}
+                                                {'...'}
+                                                {card.account_no.substring(card.account_no.length - 3)}
                                             </span>
                                         </Grid>
                                         <Grid item xs={12} className={classes.accountRow}>
@@ -458,11 +467,11 @@ export class BankCards extends Component {
                                             </span>
                                             <div className={classes.grow} />
                                             <Button className={classes.action}
-                                            onClick={() => {
-                                                this.props.history.push(
-                                                    '/p/transaction-records/account-details'
-                                                );
-                                            }}>
+                                                onClick={() => {
+                                                    this.props.history.push(
+                                                        '/p/transaction-records/account-details'
+                                                    );
+                                                }}>
                                                 {this.getLabel('inquire-label')}
                                             </Button>
                                         </Grid>
@@ -472,9 +481,9 @@ export class BankCards extends Component {
                                             </span>
                                             <div className={classes.grow} />
                                             <Button className={classes.action}
-                                            onClick={() => {
-                                                this.deleteCard(card.id)
-                                            }}>
+                                                onClick={() => {
+                                                    this.deleteCard(card.id)
+                                                }}>
                                                 {this.getLabel('delete-label')}
                                             </Button>
                                         </Grid>
