@@ -186,6 +186,8 @@ import VNSpecialCasinoBonus from './components/bonus/vn_special_casino';
 import VNSpecialSlotBonus from './components/bonus/vn_special_slot';
 import VNSpecialLotteryBonus from './components/bonus/vn_special_lottery';
 
+import TH120FTDSlotBonus from './components/bonus/th_120_ftd_slots';
+
 const containerStyle = {
     minHeight: '100%'
 };
@@ -381,6 +383,8 @@ const BaseRouter = () => (
         <Route exact path="/vi/promotion/speicial_casino" component={VNSpecialCasinoBonus} />
         <Route exact path="/vi/promotion/special_slot" component={VNSpecialSlotBonus} />
         <Route exact path="/vi/promotion/special_lottery" component={VNSpecialLotteryBonus} />
+
+        <Route exact path="/th/promotion/120_FTD_slots_games" component={TH120FTDSlotBonus} />
 
         <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
         <Route exact path="/p/:type?/:sub?/:operation?/" component={Profile} />
