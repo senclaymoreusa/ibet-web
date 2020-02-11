@@ -203,11 +203,17 @@ const styles = theme => ({
     }
 });
 
-const bank_options = [
+const vn_bank_options = [
     {
         value: 'ACB',
         label: 'Asia Commercial Bank',
         img: 'letou/acb.png',
+        code: 'VND'
+    },
+    {
+        value: 'AGB',
+        label: 'Agribank',
+        img: 'letou/Agribank-logo-big.png',
         code: 'VND'
     },
     {
@@ -230,9 +236,21 @@ const bank_options = [
         code: 'VND'
     },
     {
+        value: 'SCMB',
+        label: 'SAIGON Bank',
+        img: 'letou/saigonbank.png',
+        code: 'VND'
+    },
+    {
         value: 'TCB',
         label: 'Techcom Bank',
         img: 'letou/techcombank.png',
+        code: 'VND'
+    },
+    {
+        value: 'VIB',
+        label: 'Vietnam International Bank',
+        img: 'letou/VIB-Logo.png',
         code: 'VND'
     },
     {
@@ -573,7 +591,7 @@ class VietnamLocalBank extends Component {
                             <MenuItem key="none" value="none" disabled>
                                 <span>{this.getLabel('choose-bank')}</span>
                             </MenuItem>
-                            {bank_options.map(bank => (
+                            {vn_bank_options.map(bank => (
                                 <MenuItem key={bank.label} value={bank.value}>
                                     <div style={{ width: 100 }}>
                                         <img

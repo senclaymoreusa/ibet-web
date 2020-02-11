@@ -449,7 +449,7 @@ export const messages = {
         'vn-local-withdraw-text':
             'Please select your bank below or add a new bank to make a withdrawal',
         'other-label': 'Other',
-        'circlepay-placeholder': 'Deposit ₫20,000 - ₫100,000,000',
+        'circlepay-placeholder': 'Deposit ₫20,000 - ₫5,000,000',
         'vn-localbank-placeholder': 'Deposit ₫200,000 - ₫100,000,000',
         'qr-will-needed':
             'Your QR code needs to be used once only, please ensure the amount you deposit matches what is on the QR code to avoid any issues.',
@@ -632,8 +632,8 @@ export const messages = {
         'delete-label': 'Delete',
         'transfer-records': 'Transfer Records',
         'tail-number': 'Tail Number',
-        'my-card': 'My Bank Card',
-        },
+        'my-card': 'My Bank Card'
+    },
     zh: {
         'sports-label': '体育',
         'gaming-label': '电竞',
@@ -1052,7 +1052,7 @@ export const messages = {
         'select-provider': '选择厂商',
         'select-operator': 'Select Operator',
 
-        'circlepay-placeholder': '存入 ₫20,000 - ₫100,000,000',
+        'circlepay-placeholder': '存入 ₫20,0005₫5,000,000',
         'vn-localbank-placeholder': '存入 ₫200,000 - ₫100,000,000',
         'qr-will-needed':
             '您的 QR 码只需使用一次，请确保您的存款金额与 QR 码上的金额相符，以避免任何问题.',
@@ -1599,7 +1599,7 @@ export const messages = {
         'change-mobile': 'เปลี่ยนเบอร์โทร',
         'through-original': 'เบอร์โทรเดิม',
         ' select-provider': 'กรุณาเลือกช่องทาง',
-        'circlepay-placeholder': 'ยอดเงิน ₫200000 - ₫100000000',
+        'circlepay-placeholder': 'ยอดเงิน ₫200000 - ₫5000000',
         'vn-localbank-placeholder': 'ยอดเงิน ₫200000 - ₫100000000',
         'qr-will-needed':
             'QR Code สามารถใช้ได้เพียงแต่ครั้งเดียว โปรดตรวจสอบยอดเงินให้ถูกต้องเพื่อป้องกันปัญหาที่อาจจะเกิดขึ้น',
