@@ -389,41 +389,55 @@ export class live_casino extends React.Component {
     }
 
     handleGPIClick(gameName) {
-        let token = localStorage.getItem('token');
-        let gpiUrl = "";
-        let language = 'us-en';
-        let suffix = "";
+        var username = this.state.data.username;
+        axios({
+            method: 'get',
+            url: API_URL + 'games/api/gpi/getbalance/?username=' + username,
+        }).then(
+            res => {
+                var balance = res.data.resp.balance;
+                if(balance <= 10){
+                    this.props.show_letou_transfer();
+                }else{
+                    let token = localStorage.getItem('token');
+                    let gpiUrl = "";
+                    let language = 'us-en';
+                    let suffix = "";
 
-        if (this.props.lang === "zh") {
-            language = "zh-cn";
-        }
-        else if (this.props.lang === "th") {
-            language = "th-th";
-        }
-        else if (this.props.lang === "vi") {
-            language = "vi-vn";
-        }
+                    if (this.props.lang === "zh") {
+                        language = "zh-cn";
+                    }
+                    else if (this.props.lang === "th") {
+                        language = "th-th";
+                    }
+                    else if (this.props.lang === "vi") {
+                        language = "vi-vn";
+                    }
 
-        if(gameName === "gpi-Baccarat") {
-            suffix = "&tab=5";
-        } else if(gameName === "gpi-Qixi") {
-            suffix = "&tab=8";
-        } else if(gameName === "gpi-Dai") {
-            suffix = "&tab=6";
-        } else if(gameName === "gpi-Sangong") {
-            suffix = "&tab=1";
-        } else if(gameName === "gpi-Black") {
-            suffix = "&tab=3";
-        } else if(gameName === "gpi-Super") {
-            suffix = "&tab=7";
-        }
+                    if(gameName === "gpi-Baccarat") {
+                        suffix = "&tab=5";
+                    } else if(gameName === "gpi-Qixi") {
+                        suffix = "&tab=8";
+                    } else if(gameName === "gpi-Dai") {
+                        suffix = "&tab=6";
+                    } else if(gameName === "gpi-Sangong") {
+                        suffix = "&tab=1";
+                    } else if(gameName === "gpi-Black") {
+                        suffix = "&tab=3";
+                    } else if(gameName === "gpi-Super") {
+                        suffix = "&tab=7";
+                    }
 
-        if (!token) {
-            this.props.history.push('/register');
-        } else {
-            gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language + suffix;
-            window.open(gpiUrl);
-        }
+                    if (!token) {
+                        this.props.history.push('/register');
+                    } else {
+                        gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language + suffix;
+                        window.open(gpiUrl);
+                    }
+                }
+            }
+        )
+        
     }
     
     
