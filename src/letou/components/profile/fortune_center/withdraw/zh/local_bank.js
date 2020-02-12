@@ -476,11 +476,11 @@ class ChinaLocalBank extends Component {
                     for (const card of items) {
                         let bi = Bank_Info['Bank_Info']
                             .filter(b => {
-                                return b.CardLength == card.account_no.length;
+                                return b.CardLength === card.account_no.length;
                             })
                             .filter(b => {
                                 return (
-                                    b.BINCode ==
+                                    b.BINCode ===
                                     card.account_no.substring(
                                         0,
                                         b.BINCodeLength
@@ -820,11 +820,11 @@ class ChinaLocalBank extends Component {
             for (const card of cards) {
                 let bi = Bank_Info['Bank_Info']
                     .filter(b => {
-                        return b.CardLength == card.account_no.length;
+                        return b.CardLength === card.account_no.length;
                     })
                     .filter(b => {
                         return (
-                            b.BINCode ==
+                            b.BINCode ===
                             card.account_no.substring(0, b.BINCodeLength)
                         );
                     })[0];
@@ -1308,7 +1308,7 @@ class ChinaLocalBank extends Component {
                                 alt=""
                                 style={{ marginLeft: 6 }}
                                 className={classes.bankIcon}
-                                style={{ marginLeft: 10 }}
+                               
                             />
                             <div className={classes.grow} />
                             <span className={classes.text}>
@@ -1497,6 +1497,11 @@ class ChinaLocalBank extends Component {
                         </Grid>
                     </Grid>
                 );
+            default:
+                return (
+                    <div></div>
+                );
+                
         }
     }
 

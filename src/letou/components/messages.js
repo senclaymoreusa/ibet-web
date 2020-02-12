@@ -669,6 +669,9 @@ export const messages = {
             'You are about to remove your bank card from the system.',
         'remove-label': 'Remove',
         'my-card': 'My Bank Card',
+        'transfer-title': 'Request Transfer',
+        'dont-have-enough-balance': 'The current game account balance is less than 10, please transfer money to ensure smooth game play.',
+        'transfer-redirect': 'Go to transfer page',
         'password-label': 'Password',
         'confirm-password': 'Confirm Password',
     },
@@ -1221,7 +1224,10 @@ export const messages = {
         'lottery-description': '独家支持任何倍投追号功能，盈利不再复杂',
         'promotion-description': '各种红利流水为您撑腰，投注不怕没靠山',
         'help-problem': '遇到问题吗？',
-        'help-service': '我们随时随刻为您服务'
+        'help-service': '我们随时随刻为您服务',
+        'transfer-title': '申请转账',
+        'dont-have-enough-balance': '目前此游戏账户余额低于10，请转帐以保证游戏顺畅。',
+        'transfer-redirect': '跳转到转账页',
     },
     th: {
         'sports-label': 'พลศึกษา',

@@ -19,14 +19,12 @@ import WithdrawError from './withdraw_error';
 import VietnamLocalBank from './vn/local_bank';
 import ThaiLocalBank from './th/local_bank';
 import Help2Pay from './th/help2pay';
-import SetWithdrawalPassword from '../../account_management/set_withdrawal_password';
 import MoneyPay from './vn/money_pay';
 import ChinaLocalBank from './zh/local_bank';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -231,6 +229,12 @@ export class WithdrawMain extends Component {
                         '/p/fortune-center/withdraw/zhlocalbank'
                     );
                     break;
+                default:
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/zhlocalbank'
+                    );
+                    break;
+
             }
         }
     }
@@ -251,6 +255,11 @@ export class WithdrawMain extends Component {
                     );
                     break;
                 case 'china':
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/zhlocalbank'
+                    );
+                    break;
+                default:
                     this.props.history.push(
                         '/p/fortune-center/withdraw/zhlocalbank'
                     );
@@ -401,7 +410,7 @@ export class WithdrawMain extends Component {
     }
 
     render() {
-        const { classes, user } = this.props;
+        const { classes } = this.props;
 
         return (
             <div className={classes.root}>
