@@ -69,17 +69,19 @@ export const messages = {
             'This website is licensed for operation by the Curaçao government for sports betting and casino products - license number: 1668/JAZ for operations and support.',
         'footer-text4':
             '© 2004-2019 Letou All rights reserved, gambling can be addictive, please be responsible for the betting.',
-        'letou-story': 'Letou Brand Story',
-        'for-partner': 'For partners',
-        'help-title': 'Help',
+        'for-member': '供会员使用',
+        story: '乐投品牌故事',
+        'for-partner': '供合作伙伴使用',
+        'help-title': '我们在此竭诚服务',
         'aboutUs-detail-text-one':
-            'Established in 2004, LETOU is the first entertainment company in Asia to offer cash-based online gambling services.',
+            'LETOU成立于2004年，是亚洲首家提供现金制在线博彩服务的娱乐公司。',
         'aboutUs-detail-text-two':
-            'Over the years, we have always implemented the concept of honesty, pragmatic management, adhering to the principle of customer first, and have a large number of friends from all over the world. Thanks to the support of our friends, we continue to grow and develop, step by step to today. LETOU warmly welcomes new friends to join, and also hopes to continue to support the old friends! Today is the result of the strong support of new and old friends. Letou will continue to work hard to provide a better game experience for our friends.',
+            '多年来我们始终贯彻诚信为本，务实经营的理念，秉承用户至上的原则，拥有了大批来自世界各国的朋友。正是有了各位朋友的支持，我们不断发展壮大，一步步走到今天。LETOU热烈欢迎新朋友的加入，同时也希望得到老朋友的继续支持！我们的今天是各位新老朋友大力支持的结果，LETOU将继续努力，竭诚为广大朋友提供更好的游戏体验',
         'aboutUs-detail-text-three':
-            'LETOU provides customers with services 24 hours a day, 365 days a year, and solves various problems attentively for customers. LETOU provides 500 different types of matches every day, covering major sports around the world, including football, basketball, tennis, baseball , Billiards, golf, etc., while providing digital games, virtual games, casual games and online live casino services; LETOU is a professional company that strictly follows the requirements of the Philippine government and designates deposits and withdrawals under the requirements of government financial management authorities to ensure that The safety of customer funds and compliance with the anti-money laundering law (AML) principles set by the government provide the most transparent financial environment for government supervision and ensuring the interests of customers; at the same time, LETOU also actively calls that gambling is only a form of entertainment. It is recommended that players have a good game mentality.',
+            'LETOU全年365天，每天24小时为客户提供服务，用心为客户解决各种问题；LETOU每天提供500种不同类别的比赛赛事，涵盖世界范围内主要体育运动，包括足球、篮球、网球、棒球、桌球、高尔夫球等，同时提供数字游戏、虚拟游戏、休闲游戏以及在线真人娱乐场服务；LETOU是严格遵循菲律宾政府的要求，在政府财务管理当局的要求下指定存款、取款的专业公司，确保客户资金安全以及符合政府所规定的反洗钱法（AML）原则，最大程度地提供透明的财务环境，以供政府监管并确保客户利益；同时LETOU也积极呼吁，博彩只是一种娱乐消遣的方式，建议玩家拥有一个良好的游戏心态。',
         'aboutUs-detail-text-four':
-            'Customer first is always our principle! For a long time, LETOU has always put users first. In the future, we will continue to work with friends for a better tomorrow!',
+            '用户至上一向是我们秉承的原则！长久以来，LETOU始终将用户放在第一位，未来我们将继续与朋友们一起，共创美好明天！',
+        'letou-story': 'Letou Brand Story',
         'Live-casino': 'Live casino',
         'ag-title': 'AG Extreme Square',
         'ag-words':
@@ -365,6 +367,7 @@ export const messages = {
         'placeholder-link': 'Placeholder Link',
         'thai-localbank-placeholder': 'Deposit ฿200 - ฿950,000',
         'thai-localbank-placeholder-withdraw': 'Withdraw ฿200 - ฿500,000',
+        'zh-localbank-placeholder-withdraw': '¥100 - ¥50,000',
         'astropay-placeholder': 'Deposit ฿10 - ฿500,000',
         'help2pay-placeholder': 'Deposit ฿500 - ฿500,000',
         'help2pay-withdraw-placeholder': 'Withdraw ฿500 - ฿500,000',
@@ -449,7 +452,41 @@ export const messages = {
         'vn-local-withdraw-text':
             'Please select your bank below or add a new bank to make a withdrawal',
         'other-label': 'Other',
-        'circlepay-placeholder': 'Deposit ₫20,000 - ₫5,000,000',
+        'add-bank-account-text':
+            'Please add bank account in order to make a withdrawal',
+        'add-bank-account': 'Add Bank Account',
+        'create-withdrawal-password': 'Create Withdrawal Password',
+        'create-withdrawal-password-text':
+            'Please create a withdrawal password, this will need  to be entered every time you add a new bank account or payment method for security purposes.',
+        'bank-details-withdraw':
+            'Please enter your bank details below in order to make a withdrawal',
+        'account-added': 'Account added!',
+        'account-name-tooltip':
+            'Bank account holder’s name must match that of ibet registered member.',
+        'withdraw-password-tooltip':
+            'Please enter your 8 digit withdrawal password',
+        'eight-characters-warning': 'Please use 8 characters for pin.',
+        'withdrawal-amount-allowed':
+            '% based on the maximum withdrawal amount allowed by your bank.',
+        'confirm-label': 'Confirm',
+        'total-balance': 'Total Balance',
+        'withdrawal-balance': 'Withdrawal Balance',
+        'locked-balance': 'Locked Balance',
+        'free-withdrawals': 'Free Withdrawals Remaining',
+        'china-withdrawal-placeholder': 'Withdraw ¥100 - ¥100,00',
+        'fees-label': 'Fees',
+        'receive-amount': 'Receive Amount',
+        'china-withdrawal-message':
+            'Withdrawals over ¥10,000 are all free of charge. 1% charge fee on withdrawals under ¥10,000.',
+        'total-withdrawal-tooltip':
+            'This is your total balance across your main and other wallets',
+        'withdrawal-tooltip':
+            'This is your current balance in your main wallet, to increase this you need to first transfer your balance using the transfer feature.',
+        'locked-balance-tooltip':
+            'This is related to a bonus and cannot be withdrawn until condition fulfilled.',
+        'free-withdrawal-tooltip':
+            'Total number of free withdrawals remaining for this period.',
+        'circlepay-placeholder': 'Deposit ₫20,000 - ₫100,000,000',
         'vn-localbank-placeholder': 'Deposit ₫200,000 - ₫100,000,000',
         'qr-will-needed':
             'Your QR code needs to be used once only, please ensure the amount you deposit matches what is on the QR code to avoid any issues.',
@@ -564,7 +601,6 @@ export const messages = {
             'If you have any suggestions, please feel free to contact us',
         'dedicated-line': '24-hour Domestic Dedicated Line',
         'records-label': 'Records',
-        'total-balance': 'Total Balance',
         'bet-label': 'Bet',
         'win-label': 'Win',
         'biggest-win': 'Biggest Win',
@@ -587,23 +623,19 @@ export const messages = {
             'Transfered [amount] from [fromWallet] to [toWallet]',
         'safety-rate': 'Safety Rate',
         'vn-localbank-placeholder-withdraw': '₫200 - 50,000',
-        'vn-moneypay-placeholder-withdraw': '₫300,000 - 300,000,000',
         'page-not-found': 'Oops, this page does not exist',
-        'error-message': 'Oops, something went wrong',
+        'error-message ': 'Oops, something went wrong',
         'contact-message':
             'if you have any question please contact cs@letou.me',
         'verification-status': 'Verification Status',
+        'vn-moneypay-placeholder-withdraw': '₫300,000 - 300,000,000',
+        'error-message': 'Oops, something went wrong',
         'account-number': 'Account Number',
         'error-label': 'Error',
-        'withdrawal-balance': 'Withdrawal Balance',
-        'locked-balance': 'Locked Balance',
         'free-withdrawals-remaining': 'Free Withdrawals Remaining',
         'withdraw-fee-text':
             '% based on the maximum withdrawal amount allowed by your bank.',
-        'fees-label': 'Fees',
         'free-label': 'Free',
-        'confirm-label': 'Confirm',
-        'receive-amount': 'Receive Amount',
         'APP-Download': 'APP Download',
         'sport-description':
             'Football in football, insurance cashes in with zero risk. Mobile betting, mobile time difference',
@@ -632,7 +664,13 @@ export const messages = {
         'delete-label': 'Delete',
         'transfer-records': 'Transfer Records',
         'tail-number': 'Tail Number',
-        'my-card': 'My Bank Card'
+        'are-you-sure': 'Are you sure?',
+        'about-delete-card':
+            'You are about to remove your bank card from the system.',
+        'remove-label': 'Remove',
+        'my-card': 'My Bank Card',
+        'password-label': 'Password',
+        'confirm-password': 'Confirm Password',
     },
     zh: {
         'sports-label': '体育',
