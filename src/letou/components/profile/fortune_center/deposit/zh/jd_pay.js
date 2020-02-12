@@ -358,7 +358,7 @@ class JDPay extends Component {
             .then(() => {
                 this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
+                //this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
                 sendingLog(err);

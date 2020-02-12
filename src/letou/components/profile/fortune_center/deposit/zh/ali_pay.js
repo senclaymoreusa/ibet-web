@@ -378,10 +378,7 @@ class AliPay extends Component {
                                 
                                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
                                     .then(res => {
-                                        
                                         if (res.data === 'Failed') {
-                                            //currentComponent.setState({ error: true });
-                                            
                                             currentComponent.props.callbackFromParent("error", 'Transaction failed.');
                                         } else if (res.data === 'The balance is not enough') {
                                             currentComponent.props.callbackFromParent("error", 'Cannot deposit this amount.');
@@ -578,7 +575,7 @@ class AliPay extends Component {
             .then(res => {
                 this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
+                //this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
                 sendingLog(err);

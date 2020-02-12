@@ -439,9 +439,9 @@ class Payzod extends Component {
             payment: event.target.checked ? 'payzod' : null,
         })
             .then(() => {
-                this.props.authUserUpdate();    
-                                        this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
+                this.props.authUserUpdate();
+                this.setState({ isFavorite: !this.state.isFavorite });
+                //this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
                 sendingLog(err);

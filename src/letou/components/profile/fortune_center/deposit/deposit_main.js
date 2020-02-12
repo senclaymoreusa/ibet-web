@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState, sendingLog
+    authCheckState, sendingLog, AUTH_RESULT_FAIL
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
@@ -14,9 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
 import PropTypes from 'prop-types';
-import { config } from '../../../../../util_config';
 import ThaiLocalBank from './th/local_bank';
 import Payzod from './th/payzod';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -42,8 +40,6 @@ import QuickPay from './zh/quickpay';
 import UnionPayQr from './zh/unionpay_qr';
 import JDPay from './zh/jd_pay';
 import AstropayCH from './zh/astro_pay';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -89,7 +85,7 @@ const styles = theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         position: 'relative',
-        width:100
+        width: 100
     },
     row: {
         display: 'flex',
@@ -240,40 +236,20 @@ export class DepositMain extends Component {
 
         this.setPage = this.setPage.bind(this);
         this.depositWith = this.depositWith.bind(this);
-        this.checkFavoriteMethod = this.checkFavoriteMethod.bind(this);
     }
 
     componentDidMount() {
-    
-    }
-
-    checkFavoriteMethod() {
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers["Authorization"] = `Token ${token}`;
-            axios.get(API_URL + 'users/api/user/', config)
-                .then(res => {
-                    this.setState({ contentValue: this.state.user.favoriteDepositMethod });
-                    //this.setState({ contentValue: res.data.favorite_payment_method });
-                });
-        }
-
-    }
-
-    setContent() {
-        var url = this.props.history.location.pathname;
-        var parts = url.split('/');
-
-        if (parts.length > 4) {
-            if (parts[4].length > 0) {
-                this.setState({ contentValue: parts[4] })
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                if (this.props.user && this.props.user.favoriteDepositMethod)
+                    this.depositWith(this.props.user.favoriteDepositMethod)
             }
-        } else
-            this.setState({ contentValue: '' })
+        })
     }
 
     setPage = (page, msg) => {
-        // console.log(page);
         if (msg)
             this.setState({ depositMessage: msg });
 
@@ -288,8 +264,6 @@ export class DepositMain extends Component {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
     }
-
-    
 
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
@@ -482,7 +456,7 @@ export class DepositMain extends Component {
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/bank-icon.svg'} alt="" height="18" />
                                         {user.favoriteDepositMethod === 'chinabanktransfer' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
-                                   </div>}
+                                    </div>}
                                     onClick={() => {
                                         if (operationProp !== 'chinabanktransfer') {
                                             this.depositWith('chinabanktransfer');
@@ -502,7 +476,7 @@ export class DepositMain extends Component {
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/unionpayqr.svg'} alt="" height="18" />
                                         {user.favoriteDepositMethod === 'unionpayqr' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
-                                   </div>}
+                                    </div>}
                                     onClick={() => {
                                         if (operationProp !== 'unionpayqr') {
                                             this.depositWith('unionpayqr');
@@ -512,7 +486,7 @@ export class DepositMain extends Component {
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/alipay@3x.png'} alt="" height="18" />
                                         {user.favoriteDepositMethod === 'alipay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
-                                   </div>}
+                                    </div>}
                                     onClick={() => {
                                         if (operationProp !== 'alipay') {
                                             this.depositWith('alipay');
@@ -522,7 +496,7 @@ export class DepositMain extends Component {
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/onlinepay.svg'} alt="" height="18" />
                                         {user.favoriteDepositMethod === 'onlinepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
-                                   </div>}
+                                    </div>}
                                     onClick={() => {
                                         if (operationProp !== 'onlinepay') {
                                             this.depositWith('onlinepay');
@@ -532,7 +506,7 @@ export class DepositMain extends Component {
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/wechatpay.svg'} alt="" height="26" />
                                         {user.favoriteDepositMethod === 'wechatpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
-                                   </div>}
+                                    </div>}
                                     onClick={() => {
                                         if (operationProp !== 'wechatpay') {
                                             this.depositWith('wechatpay');
@@ -542,7 +516,7 @@ export class DepositMain extends Component {
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/jdpay.svg'} alt="" height="18" />
                                         {user.favoriteDepositMethod === 'jdpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
-                                   </div>}
+                                    </div>}
                                     onClick={() => {
                                         if (operationProp !== 'jdpay') {
                                             this.depositWith('jdpay');
@@ -552,7 +526,7 @@ export class DepositMain extends Component {
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
                                         {user.favoriteDepositMethod === 'bitcoin' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
-                                   </div>}
+                                    </div>}
                                     onClick={() => {
                                         if (operationProp !== 'bitcoin') {
                                             this.depositWith('bitcoin');
@@ -562,7 +536,7 @@ export class DepositMain extends Component {
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/astropay.svg'} alt="" height="18" />
                                         {user.favoriteDepositMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
-                                   </div>}
+                                    </div>}
                                     onClick={() => {
                                         if (operationProp !== 'astropay') {
                                             this.depositWith('astropay');
@@ -574,74 +548,79 @@ export class DepositMain extends Component {
                 );
             case 'thailand':
                 return (
-                    <div className={classes.rootDesktop}>
-                        <Grid container className={classes.methodGrid} spacing={4}>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.paymentButton}
-                                    onClick={() => {
-                                        this.depositWith('thailocalbank');
-                                    }}
-                                >
-                                    <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
-                                    {user.favoriteDepositMethod === 'thailocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'thailocalbank'),
-                                })}>{this.getLabel('local-bank')}</span>
-                                {contentValue === 'thailocalbank' && <div className={classes.selected} />}
+                    <div>
+                        <div className={classes.rootDesktop}>
+                            <Grid container className={classes.methodGrid} spacing={4}>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('thailocalbank');
+                                        }}
+                                    >
+                                        <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                        {user.favoriteDepositMethod === 'thailocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'thailocalbank'),
+                                    })}>{this.getLabel('local-bank')}</span>
+                                    {contentValue === 'thailocalbank' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('help2pay');
+                                        }}
+                                    >
+                                        <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="32" />
+                                        {user.favoriteDepositMethod === 'help2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'help2pay'),
+                                    })}>{this.getLabel('help-pay')}</span>
+                                    {contentValue === 'help2pay' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('payzod');
+                                        }}
+                                    >
+                                        <img src={images.src + 'letou/payzod-1@3x.png'} alt="" height="36" />
+                                        {user.favoriteDepositMethod === 'payzod' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'payzod'),
+                                    })}>{this.getLabel('payzod-pay')}</span>
+                                    {contentValue === 'payzod' && <div className={classes.selected} />}
+                                </Grid>
+                                <Grid item xs={1} className={classes.methodColumn}>
+                                    <Button
+                                        className={classes.paymentButton}
+                                        onClick={() => {
+                                            this.depositWith('astropay');
+                                        }}
+                                    >
+                                        <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                        {user.favoriteDepositMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                    </Button>
+                                    <span className={clsx(classes.title, {
+                                        [classes.active]: (contentValue === 'astropay'),
+                                    })}>{this.getLabel('astro-pay')}</span>
+                                    {contentValue === 'astropay' && <div className={classes.selected} />}
+                                </Grid>
                             </Grid>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.paymentButton}
-                                    onClick={() => {
-                                        this.depositWith('help2pay');
-                                    }}
-                                >
-                                    <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="32" />
-                                    {user.favoriteDepositMethod === 'help2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'help2pay'),
-                                })}>{this.getLabel('help-pay')}</span>
-                                {contentValue === 'help2pay' && <div className={classes.selected} />}
-                            </Grid>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.paymentButton}
-                                    onClick={() => {
-                                        this.depositWith('payzod');
-                                    }}
-                                >
-                                    <img src={images.src + 'letou/payzod-1@3x.png'} alt="" height="36" />
-                                    {user.favoriteDepositMethod === 'payzod' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'payzod'),
-                                })}>{this.getLabel('payzod-pay')}</span>
-                                {contentValue === 'payzod' && <div className={classes.selected} />}
-                            </Grid>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.paymentButton}
-                                    onClick={() => {
-                                        this.depositWith('astropay');
-                                    }}
-                                >
-                                    <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
-                                    {user.favoriteDepositMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'astropay'),
-                                })}>{this.getLabel('astro-pay')}</span>
-                                {contentValue === 'astropay' && <div className={classes.selected} />}
-                            </Grid>
-                        </Grid>
+                        </div>
+                        <div className={classes.rootMobile}>
+
+                        </div>
                     </div>
                 );
             case 'vietnam':
                 return (
-                    <div className={classes.rootDesktop}>
+                    <div><div className={classes.rootDesktop}>
                         <Grid container className={classes.methodGrid} spacing={4}>
                             <Grid item xs={1} className={classes.methodColumn}>
                                 <Button
@@ -729,6 +708,10 @@ export class DepositMain extends Component {
                             </Grid>
                         </Grid>
                     </div>
+                        <div className={classes.rootMobile}>
+
+                        </div>
+                    </div>
                 );
             default:
                 return <div></div>;
@@ -738,8 +721,8 @@ export class DepositMain extends Component {
     getPaymentMethodContent() {
         const { operationProp } = this.props;
         const { contentValue } = this.state;
-        
-        
+
+
         if (contentValue === 'error')
             return <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />;
         else if (contentValue === 'success')
@@ -750,48 +733,48 @@ export class DepositMain extends Component {
             return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
 
         if (operationProp === 'alipay')
-            return <AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <AliPay callbackFromParent={this.setPage} />;
         else if (operationProp === 'onlinepay')
-            return <OnlinePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <OnlinePay callbackFromParent={this.setPage} />;
         else if (operationProp === 'chinabanktransfer')
-            return <Banktransfer callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <Banktransfer callbackFromParent={this.setPage} />;
         else if (operationProp === 'wechatpay')
-            return <WechatPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <WechatPay callbackFromParent={this.setPage} />;
         else if (operationProp === 'quickpay')
             return <QuickPay callbackFromParent={this.setPage} />;
-        // else if (operationProp === 'bitcoin')
-        //     return <BitcoinDeposit callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+        else if (operationProp === 'bitcoin')
+            return <div />;
         else if (operationProp === 'unionpayqr')
-            return <UnionPayQr callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <UnionPayQr callbackFromParent={this.setPage} />;
         else if (operationProp === 'jdpay')
-            return <JDPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <JDPay callbackFromParent={this.setPage} />;
         else if (operationProp === 'astropay_ch')
-            return <AstropayCH callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <AstropayCH callbackFromParent={this.setPage} />;
         else if (operationProp === 'vietnamhelp2pay')
-            return <VietnamHelp2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <VietnamHelp2pay callbackFromParent={this.setPage} />;
         else if (operationProp === 'circlepay')
-            return <CirclePay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <CirclePay callbackFromParent={this.setPage} />;
         else if (operationProp === 'fgocard')
-            return <FgoCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <FgoCard callbackFromParent={this.setPage} />;
         else if (operationProp === 'vietnamlocalbank')
-            return <VietnamLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <VietnamLocalBank callbackFromParent={this.setPage} />;
         else if (operationProp === 'momopay')
-            return <MomoPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <MomoPay callbackFromParent={this.setPage} />;
         else if (operationProp === 'scratchcard')
-            return <ScratchCard callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <ScratchCard callbackFromParent={this.setPage} />;
         else if (operationProp === 'thailocalbank')
-            return <ThaiLocalBank callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <ThaiLocalBank callbackFromParent={this.setPage} />;
         else if (operationProp === 'payzod')
-            return <Payzod callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <Payzod callbackFromParent={this.setPage} />;
         else if (operationProp === 'astropay')
-            return <Astropay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;
+            return <Astropay callbackFromParent={this.setPage} />;
         else if (operationProp === 'help2pay')
-            return <Help2pay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;    
+            return <Help2pay callbackFromParent={this.setPage} />;
     }
 
     render() {
         const { classes } = this.props;
-        
+
         return (
             <div className={classes.root}>
                 {this.getAvailablePaymentMethods()}
