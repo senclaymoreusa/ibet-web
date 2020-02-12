@@ -299,7 +299,7 @@ export class live_casino extends React.Component {
                 //console.log(res);
                 var balance = res.data.balance;
                 //console.log(balance);
-                if(balance <= 0){
+                if(balance <= 10){
                     //console.log("popup");
                     this.props.show_letou_transfer();
                     // this.setState({ showModal: true });
@@ -350,29 +350,42 @@ export class live_casino extends React.Component {
 
 
     handleEAClick(mobile) {
-        
-        // console.log("lang: " + this.props.lang);
-        // console.log(this.state.data);
-        
-        var domainUrl = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
-        if (mobile) {
-            domainUrl = "https://178-mobile.claymoreasia.com/mobile/src/mobile.php?userid=";
-        }
+        let user_id = this.state.data.pk;
+        axios({
+            method: 'get',
+            url: API_URL + 'games/api/ea/get-balance/?user_id=' + user_id,
+        }).then(
+            res => {
+                var balance = res.data.current_balance;
+                if(balance <= 10){
+                    this.props.show_letou_transfer();
+                }else{
+                    // console.log("lang: " + this.props.lang);
+                    // console.log(this.state.data);
+                    
+                    var domainUrl = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
+                    if (mobile) {
+                        domainUrl = "https://178-mobile.claymoreasia.com/mobile/src/mobile.php?userid=";
+                    }
 
-        var language = 3;
-        if (this.props.lang === "zh") {
-            language = 1;
-        }
-        var username = this.state.data.username;
-        var token = localStorage.getItem('token');
-        var url = "";
-        if (!token) {
-            this.props.history.push('/register');
-        } else {
+                    var language = 3;
+                    if (this.props.lang === "zh") {
+                        language = 1;
+                    }
+                    var username = this.state.data.username;
+                    var token = localStorage.getItem('token');
+                    var url = "";
+                    if (!token) {
+                        this.props.history.push('/register');
+                    } else {
+                    
+                        url = domainUrl + username + "&uuid=" + token + "&lang=" + language;
+                        window.open(url, "ea-live",'width=1000,height=800')
+                    }
+                }
+            }
+        )
         
-            url = domainUrl + username + "&uuid=" + token + "&lang=" + language;
-            window.open(url, "ea-live",'width=1000,height=800')
-        }
     }
 
     handleGPIClick(gameName) {
