@@ -8,6 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 import DepositSuccess from './deposit_success';
 import DepositError from './deposit_error';
 import DepositInprogress from './deposit_inprogress';
+import DepositPending from './deposit_pending';
+import MomoPayPending from './deposit_momo_pay';
 import { images } from '../../../../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -745,6 +747,10 @@ export class DepositMain extends Component {
             return <DepositSuccess callbackFromParent={this.setPage} successMessage={this.state.depositMessage} />;
         else if (contentValue === 'inprogress')
             return <DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />;
+        else if (contentValue === 'pending')
+            return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
+        else if (contentValue === 'momopay')
+            return <MomoPayPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
 
         if (operationProp === 'alipay')
             return <AliPay callbackFromParent={this.setPage} checkFavoriteMethod={this.checkFavoriteMethod} />;

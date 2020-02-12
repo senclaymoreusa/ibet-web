@@ -86,6 +86,8 @@ export const authUserUpdate = () => {
         config.headers['Authorization'] = `Token ${getState().auth.token}`;
 
         axios.get(API_URL + 'users/api/user/', config).then(res => {
+            console.log('UPDATE')
+
             dispatch(authGetUser(parseUser(res.data)));
         });
     };
