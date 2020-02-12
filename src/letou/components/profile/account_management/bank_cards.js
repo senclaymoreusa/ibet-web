@@ -425,10 +425,10 @@ export class BankCards extends Component {
 
         for (const card of cards) {
             let bi = Bank_Info['Bank_Info'].filter(b => {
-                return b.CardLength == card.account_no.length;
+                return b.CardLength === card.account_no.length;
             })
                 .filter(b => {
-                    return b.BINCode == card.account_no.substring(0, b.BINCodeLength);
+                    return b.BINCode === card.account_no.substring(0, b.BINCodeLength);
                 })[0];
 
             if (bi) {

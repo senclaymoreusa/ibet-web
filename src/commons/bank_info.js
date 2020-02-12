@@ -2021,7 +2021,7 @@ export const Bank_Info = [
    { BankName: "BC卡公司", CardName: "中国通卡", CardType: "贷记卡", BINCode: "625111", BINCodeLength: 6, CardLength: 16 },
    { BankName: "BC卡公司", CardName: "中国通卡", CardType: "贷记卡", BINCode: "625132", BINCodeLength: 6, CardLength: 16 },
    { BankName: "莫斯科人民储蓄银行", CardName: "cup-unioncard", CardType: "借记卡", BINCode: "621040", BINCodeLength: 6, CardLength: 16 },
-   { BankName: "丝绸之路银行", CardName: "Classic\/Gold", CardType: "借记卡", BINCode: "621045", BINCodeLength: 6, CardLength: 16 },
+   { BankName: "丝绸之路银行", CardName: "Classic/Gold", CardType: "借记卡", BINCode: "621045", BINCodeLength: 6, CardLength: 16 },
    { BankName: "俄罗斯远东商业银行", CardName: "借记卡", CardType: "借记卡", BINCode: "621264", BINCodeLength: 6, CardLength: 16 },
    { BankName: "CSC", CardName: "贷记卡", CardType: "贷记卡", BINCode: "622356", BINCodeLength: 6, CardLength: 16 },
    { BankName: "CSC", CardName: "CSC借记卡", CardType: "借记卡", BINCode: "621234", BINCodeLength: 6, CardLength: 16 },

@@ -69,3 +69,18 @@ export const hide_letou_mobile_signup = () => {
         type: 'HIDE_LETOU_MOBILE_SIGNUP'
     };
 };
+
+export const show_letou_transfer = () => {
+    return {
+        type: 'SHOW_LETOU_TRANSFER'
+    };
+};
+
+export const hide_letou_transfer = () => {
+    return {
+        type: 'HIDE_LETOU_TRANSFER'
+    };
+};
+
+
+
