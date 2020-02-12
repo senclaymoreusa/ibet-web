@@ -20,7 +20,6 @@ import { config } from '../../../../../util_config';
 import axios from 'axios';
 import queryString from 'query-string';
 
-
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const StyledTableCell = withStyles(theme => ({
@@ -80,7 +79,7 @@ const styles = theme => ({
         }
     },
     paper: {
-        backgroundColor:'#fff',
+        backgroundColor: '#fff',
         overflowX: 'scroll',
         width: '100%',
         paddingLeft: 10,
@@ -165,7 +164,7 @@ export class DepositWithdraw extends Component {
 
         const { user } = this.props;
         const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
+        config.headers['Authorization'] = `Token ${token}`;
 
         let requestURL = `accounting/api/transactions/get_transactions?user_id=${user.userId}`;
 
@@ -179,15 +178,27 @@ export class DepositWithdraw extends Component {
         const values = queryString.parse(this.props.location.search);
 
         if (values.date) {
-            startStr = `&time_from=${moment(values.date, 'MM-YYYY').startOf('month').format('l')}`;
-            endStr = `&time_to=${moment(values.date, 'MM-YYYY').endOf('month').format('l')}`;
+            startStr = `&time_from=${moment(values.date, 'MM-YYYY')
+                .startOf('month')
+                .format('l')}`;
+            endStr = `&time_to=${moment(values.date, 'MM-YYYY')
+                .endOf('month')
+                .format('l')}`;
         }
 
         axios
             .get(API_URL + requestURL + startStr + endStr)
             .then(res => {
                 if (res.status === 200) {
-                   this.setState({ items: res.data.results.filter(item => item.transaction_type.toLowerCase() === 'withdrawal' || item.transaction_type.toLowerCase() === 'deposit') });
+                    this.setState({
+                        items: res.data.results.filter(
+                            item =>
+                                item.transaction_type.toLowerCase() ===
+                                    'withdrawal' ||
+                                item.transaction_type.toLowerCase() ===
+                                    'deposit'
+                        )
+                    });
                 } else {
                     this.setState({ items: [] });
                 }
@@ -273,7 +284,9 @@ export class DepositWithdraw extends Component {
                                         <TableRow
                                             key={row.transaction_id}
                                             onClick={() => {
-                                                this.props.history.push(`/p/transaction-records/analysis/transaction-detail?id=${row.transaction_id}`);
+                                                this.props.history.push(
+                                                    `/p/transaction-records/analysis/transaction-detail?id=${row.transaction_id}`
+                                                );
                                             }}
                                             className={classes.tableRow}
                                         >
@@ -312,12 +325,12 @@ export class DepositWithdraw extends Component {
                                             </StyledTableCell>
                                             <StyledTableCell>
                                                 <span className={classes.label}>
-                                                {getSymbolFromCurrency(
+                                                    {getSymbolFromCurrency(
                                                         user.currency
                                                     )}
-                                                    {Number(row.balance).toFixed(
-                                                        2
-                                                    )}
+                                                    {Number(
+                                                        row.balance
+                                                    ).toFixed(2)}
                                                 </span>
                                             </StyledTableCell>
                                         </TableRow>

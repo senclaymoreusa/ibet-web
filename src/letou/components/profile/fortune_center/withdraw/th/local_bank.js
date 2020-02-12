@@ -442,7 +442,7 @@ class ThaiLocalBank extends Component {
                     );
                 }
             })
-            .then(function(data) {
+            .then(function (data) {
                 let status = data.success;
                 if (status) {
                     const sbody = JSON.stringify({
@@ -598,7 +598,7 @@ class ThaiLocalBank extends Component {
                                 }
                                 helperText={
                                     this.state.accountNumberFocused &&
-                                    accountNumber.length === 0
+                                        accountNumber.length === 0
                                         ? this.getLabel('invalid-bank-number')
                                         : ' '
                                 }
@@ -647,8 +647,8 @@ class ThaiLocalBank extends Component {
                                                 {this.state.showPassword ? (
                                                     <VisibilityOff />
                                                 ) : (
-                                                    <Visibility />
-                                                )}
+                                                        <Visibility />
+                                                    )}
                                             </IconButton>
                                         </InputAdornment>
                                     )
@@ -839,7 +839,7 @@ class ThaiLocalBank extends Component {
                                 }
                                 helperText={
                                     this.state.amountInvalid &&
-                                    this.state.amountFocused
+                                        this.state.amountFocused
                                         ? this.getLabel('valid-amount')
                                         : ' '
                                 }

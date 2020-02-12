@@ -16,11 +16,10 @@ import DepositWithdrawDetails from './deposit_withdraw_detail';
 const styles = () => ({
     root: {
         width: '100%'
-    },
+    }
 });
 
 export class Main extends Component {
-
     constructor(props) {
         super(props);
 
@@ -28,23 +27,31 @@ export class Main extends Component {
             contentValue: 'main',
             dateValue: null,
             operationType: ''
-        }
+        };
     }
 
     setContent = (content, date, operation) => {
-        this.setState({ contentValue: content, dateValue: date, operationType: operation });
-    }
+        this.setState({
+            contentValue: content,
+            dateValue: date,
+            operationType: operation
+        });
+    };
 
     render() {
         const { classes, operationProp } = this.props;
 
         return (
             <div className={classes.root}>
-                {(operationProp === undefined || operationProp === '') && <Analysis callbackFromParent={this.setContent} />}
+                {(operationProp === undefined || operationProp === '') && (
+                    <Analysis callbackFromParent={this.setContent} />
+                )}
                 {operationProp === 'sports' && <SportsBets />}
                 {operationProp === 'bet-detail' && <BetDetails />}
                 {operationProp === 'deposit-withdraw' && <DepositWithdraw />}
-                {operationProp === 'transaction-detail' && <DepositWithdrawDetails />}
+                {operationProp === 'transaction-detail' && (
+                    <DepositWithdrawDetails />
+                )}
                 {operationProp === 'casino-spins' && <CasinoSpins />}
                 {operationProp === 'live-casino-bets' && <LiveCasinoBets />}
             </div>
@@ -59,12 +66,8 @@ const mapStateToProps = (state, ownProps) => {
         user: user,
         operationProp: ownProps.match.params.operation
     };
-}
+};
 
 export default withStyles(styles)(
-    withRouter(
-        injectIntl(
-            connect(mapStateToProps, { authCheckState })(Main)
-        )
-    )
+    withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Main)))
 );
