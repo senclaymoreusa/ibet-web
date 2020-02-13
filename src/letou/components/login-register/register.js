@@ -42,6 +42,7 @@ import PasswordStrengthMeter from '../../../commons/PasswordStrengthMeter';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 
+
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
@@ -292,13 +293,21 @@ export class Register extends Component {
     }
 
     componentDidMount() {
-        if (!this.props.signup_phone) {
-            axios.get('https://ipapi.co/json/').then(res => {
+       
+        // if (!this.props.signup_phone) {
+        //     axios.get('https://ipapi.co/json/').then(res => {
+        //         this.setState({
+        //             phoneCode: res.data.country_calling_code,
+        //             country: res.data.country_name
+        //         });
+        //     });
+        // }
+        axios.get('https://ipapi.co/json/').then(res => {
                 this.setState({
-                    phoneCode: res.data.country_calling_code
+                    phoneCode: res.data.country_calling_code,
+                    country: res.data.country_name
                 });
             });
-        }
     }
 
     usernameChanged(event) {
@@ -356,6 +365,26 @@ export class Register extends Component {
     }
 
     onFormSubmit(event) {
+        let phoneCode = this.state.phoneCode;
+        let country = '';
+        let currency = 0;
+        
+        if(phoneCode === '+1'){
+            country = 'United State';
+        }else if(phoneCode === '+84'){
+            country = 'vietnam';
+            currency = 7;
+        }else if(phoneCode === '+66'){
+            country = 'thailand';
+            currency = 2;
+        }else if(phoneCode === '+86'){
+            country = 'china';
+            currency = 0;
+        }else{
+            country = 'thailand';
+            currency = 2;
+        }
+        
         event.preventDefault();
 
         this.setState({ errorMessage: '' });
@@ -370,14 +399,15 @@ export class Register extends Component {
                 phoneNum,
                 undefined,
                 undefined,
-                'china',
+                country,
                 undefined,
                 undefined,
                 true,
                 this.props.lang,
                 this.state.referralCode.length !== 0
                     ? this.state.referralCode
-                    : undefined
+                    : undefined,
+                currency
             )
             .then(() => {
                 // this.props.show_letou_login();
@@ -444,6 +474,10 @@ export class Register extends Component {
                     });
                 }
             });
+    }
+
+    onCountryCodeClose = () => {
+        console.log('close')
     }
 
     getLabel(labelId) {
@@ -536,6 +570,9 @@ export class Register extends Component {
                                                         : ' '
                                                 }
                                                 InputProps={{
+                                                    inputProps: {
+                                                        maxLength: 16
+                                                    },
                                                     disableUnderline: true,
                                                     startAdornment: (
                                                         <InputAdornment position="start">
@@ -782,13 +819,17 @@ export class Register extends Component {
                                         <Grid item xs={12}>
                                             <FormControl>
                                                 <Select
-                                                    onClick={() => {
+                                                    value={this.state.phoneCode}
+                                                    onClose={event => {
                                                         this.setState({
-                                                            formOpen: !this
-                                                                .state.formOpen
+                                                            formOpen: false
                                                         });
                                                     }}
-                                                    value={this.state.phoneCode}
+                                                    onOpen={event => {
+                                                        this.setState({
+                                                            formOpen: true
+                                                        });
+                                                    }}
                                                     onChange={event => {
                                                         this.setState({
                                                             phoneCode:
@@ -863,6 +904,9 @@ export class Register extends Component {
                                                         : ' '
                                                 }
                                                 InputProps={{
+                                                    inputProps: {
+                                                        maxLength: 11
+                                                    },
                                                     disableUnderline: true,
                                                     startAdornment: (
                                                         <InputAdornment position="start">

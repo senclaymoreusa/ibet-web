@@ -47,6 +47,7 @@ const INITIAL_STATE = {
     show_letou_mobile_menu: false,
     show_letou_mobile_login: false,
     show_letou_mobile_signup: false,
+    show_letou_transfer: false,
 
     onc_click_username: '',
     one_click_password: '',
@@ -290,6 +291,10 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, show_letou_mobile_signup: true };
         case 'HIDE_LETOU_MOBILE_SIGNUP':
             return { ...state, show_letou_mobile_signup: false };
+        case 'SHOW_LETOU_TRANSFER':
+            return { ...state, show_letou_transfer: true };
+        case 'HIDE_LETOU_TRANSFER':
+            return { ...state, show_letou_transfer: false };
 
         default:
             return state;

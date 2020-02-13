@@ -3,7 +3,7 @@ import Footer from "./footer";
 import TopNavbar from "./top_navbar";
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { authCheckState, handle_referid, hide_landing_page } from '../../actions';
+import { authCheckState, handle_referid, hide_landing_page,sendingLog, show_letou_transfer} from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import '../css/banner.css';
 import { withRouter } from 'react-router-dom';
@@ -19,6 +19,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
+import { isBrowser} from 'react-device-detect';
+import Modal from '@material-ui/core/Modal';
+import LiveCasinoTransfer from "./liveCasinoTransfer";
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL,
   gdcasino_code = process.env.REACT_APP_GDCASINO_STAGING_CODE,
@@ -163,7 +166,20 @@ const styles = theme => ({
       borderRadius: '50px',
       textDecoration: 'none',
       marginRight: '9px'
-  }
+  },
+  modal: {
+    display: 'flex',
+    padding: theme.spacing(1),
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modelPaper: {
+    position: 'absolute',
+    padding: 0,
+    '&:focus': {
+        outline: 'none'
+    }
+  },
   
 });
 
@@ -172,15 +188,16 @@ export class live_casino extends React.Component {
         super(props);
 
         this.state = {
-        data: '',
-        currencyValue: '',
+            data: '',
+            currencyValue: '',
+            showModal: false
 
         };
 
         this.getLabel = this.getLabel.bind(this);
         this.handleEAClick = this.handleEAClick.bind(this);
     }
-
+    
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
@@ -237,6 +254,18 @@ export class live_casino extends React.Component {
         // var accessKey = gdcasino_accessKey;
         //console.log(this.state.data)
         var currency = this.state.data.currency;
+        var language = '';
+        if(currency === 'CNY'){
+            language = 'zh-cn';
+        }else if(currency === 'THB'){
+            language = 'th';
+        }else if(currency === 'VND'){
+            language = 'vi';
+        }else{
+            language = 'en';
+        }
+        
+        
         // currency = currencyConversion[currency];
         // console.log(currency)
         var username = this.state.data.username;
@@ -246,102 +275,169 @@ export class live_casino extends React.Component {
         if(!token) {
             this.props.history.push('/register');
         } else {
-            url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=zh-cn&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+            if(isBrowser){
+                url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=" + language + "&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default";
+                
+            }else{
+                url = "https://gdcasino.claymoreasia.com/main.php?OperatorCode=" + gdcasino_code + "&Currency=" + currency + "&playerid=" + username + "&lang=" + language + "&LoginTokenID=" + token + "&theme=default&Key="+ key + "&view=" + direct_view[view] + "&mode=real&PlayerGroup=default&mobile=1";
+            }
             window.open(url, 'gdcasino','width=1000,height=800')
         }
     }
 
     handleAGClick(){
-        
-        var token = localStorage.getItem('token')
-        if(token){
-            var postData = {
-                "username": this.state.data.username,
-                "actype" : '1',
-                "gameType": '0',
-            }
-            var formBody = [];
-            for (var pd in postData) {
-                var encodedKey = encodeURIComponent(pd);
-                var encodedValue = encodeURIComponent(postData[pd]);
-                formBody.push(encodedKey + "=" + encodedValue);
-            }
-            formBody = formBody.join("&");
 
-            return fetch(API_URL + 'games/api/ag/forward_game', {
-                method: "POST",
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                },
-                body: formBody
-            }).then(function (res){
-                return res.json();
-            }).then(function(data) {
-                
-                window.open(data.url, "aggames", 'width=1000,height=800');
+        var bodyFormData = new FormData();
+        bodyFormData.set('username', this.state.data.username);
+        axios({
+            method: 'post',
+            url: API_URL + 'games/api/ag/get_balance',
+            data: bodyFormData,
+            headers: {'Content-Type': 'multipart/form-data'} 
+        }).then(
+            res => {
+                //console.log(res);
+                var balance = res.data.balance;
+                //console.log(balance);
+                if(balance <= 10){
+                    //console.log("popup");
+                    this.props.show_letou_transfer();
+                    // this.setState({ showModal: true });
+                    
+                }else{
+                    var token = localStorage.getItem('token')
+                    var url = "";
+                    if(token){
+                        var postData = {
+                            "username": this.state.data.username,
+                            "actype" : '1',
+                            "gameType": '0',
+                        }
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
+
+                        return fetch(API_URL + 'games/api/ag/forward_game', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: formBody
+                        }).then(function (res){
+                            return res.json();
+                        }).then(function(data) {
+                            if(isBrowser){
+                                url = data.url;
+                            }else{
+                                url = data.mobile_url;
+                            }
+                            window.open(url, "aggames", 'width=1000,height=800');
+                        });
+                    } else {
+                        this.props.history.push('/register');
+                    }
+                }
+            }).catch(function (error) {
+                // handle error
+                sendingLog(error);
             });
-        } else {
-            this.props.history.push('/register');
-        }
+        
     }
 
 
-    handleEAClick() {
+    handleEAClick(mobile) {
+        let user_id = this.state.data.pk;
+        axios({
+            method: 'get',
+            url: API_URL + 'games/api/ea/get-balance/?user_id=' + user_id,
+        }).then(
+            res => {
+                var balance = res.data.current_balance;
+                if(balance <= 10){
+                    this.props.show_letou_transfer();
+                }else{
+                    // console.log("lang: " + this.props.lang);
+                    // console.log(this.state.data);
+                    
+                    var domainUrl = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
+                    if (mobile) {
+                        domainUrl = "https://178-mobile.claymoreasia.com/mobile/src/mobile.php?userid=";
+                    }
+
+                    var language = 3;
+                    if (this.props.lang === "zh") {
+                        language = 1;
+                    }
+                    var username = this.state.data.username;
+                    var token = localStorage.getItem('token');
+                    var url = "";
+                    if (!token) {
+                        this.props.history.push('/register');
+                    } else {
+                    
+                        url = domainUrl + username + "&uuid=" + token + "&lang=" + language;
+                        window.open(url, "ea-live",'width=1000,height=800')
+                    }
+                }
+            }
+        )
         
-        // console.log("lang: " + this.props.lang);
-        // console.log(this.state.data);
-        var language = 3;
-        if (this.props.lang === "zh") {
-            language = 1;
-        }
-        var username = this.state.data.username;
-        var token = localStorage.getItem('token');
-        var url = "";
-        if (!token) {
-            this.props.history.push('/register');
-        } else {
-        
-            url = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=" + username + "&uuid=" + token + "&lang=" + language;
-            window.open(url, "ea-live",'width=1000,height=800')
-        }
     }
 
     handleGPIClick(gameName) {
-        let token = localStorage.getItem('token');
-        let gpiUrl = "";
-        let language = 'us-en';
-        let suffix = "";
+        var username = this.state.data.username;
+        axios({
+            method: 'get',
+            url: API_URL + 'games/api/gpi/getbalance/?username=' + username,
+        }).then(
+            res => {
+                var balance = res.data.resp.balance;
+                if(balance <= 10){
+                    this.props.show_letou_transfer();
+                }else{
+                    let token = localStorage.getItem('token');
+                    let gpiUrl = "";
+                    let language = 'us-en';
+                    let suffix = "";
 
-        if (this.props.lang === "zh") {
-            language = "zh-cn";
-        }
-        else if (this.props.lang === "th") {
-            language = "th-th";
-        }
-        else if (this.props.lang === "vi") {
-            language = "vi-vn";
-        }
+                    if (this.props.lang === "zh") {
+                        language = "zh-cn";
+                    }
+                    else if (this.props.lang === "th") {
+                        language = "th-th";
+                    }
+                    else if (this.props.lang === "vi") {
+                        language = "vi-vn";
+                    }
 
-        if(gameName === "gpi-Baccarat") {
-            suffix = "&tab=5";
-        } else if(gameName === "gpi-Qixi") {
-            suffix = "&tab=8";
-        } else if(gameName === "gpi-Dai") {
-            suffix = "&tab=6";
-        } else if(gameName === "gpi-Sangong") {
-            suffix = "&tab=1";
-        } else if(gameName === "gpi-Black") {
-            suffix = "&tab=3";
-        } else if(gameName === "gpi-Super") {
-            suffix = "&tab=7";
-        }
+                    if(gameName === "gpi-Baccarat") {
+                        suffix = "&tab=5";
+                    } else if(gameName === "gpi-Qixi") {
+                        suffix = "&tab=8";
+                    } else if(gameName === "gpi-Dai") {
+                        suffix = "&tab=6";
+                    } else if(gameName === "gpi-Sangong") {
+                        suffix = "&tab=1";
+                    } else if(gameName === "gpi-Black") {
+                        suffix = "&tab=3";
+                    } else if(gameName === "gpi-Super") {
+                        suffix = "&tab=7";
+                    }
 
-        if (!token) {
-            this.props.history.push('/register');
-        } else {
-            gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language + suffix;
-            window.open(gpiUrl);
-        }
+                    if (!token) {
+                        this.props.history.push('/register');
+                    } else {
+                        gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language + suffix;
+                        window.open(gpiUrl);
+                    }
+                }
+            }
+        )
+        
     }
     
     
@@ -389,7 +485,19 @@ export class live_casino extends React.Component {
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
                             <a href="/"  onClick={(e) => {this.handleAGClick();e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
+                        <Modal 
+                            aria-labelledby="simple-modal-title"
+                            aria-describedby="simple-modal-description"
+                            open={this.props.showTransfer}
+                            className={classes.modal}
+                            >
+                            <Paper className={classes.modelPaper}>
+                                <LiveCasinoTransfer/>
+                            </Paper>
+                            
+                        </Modal>
                         </Grid>
+                        
                         </div>
                     </div>
 
@@ -457,6 +565,7 @@ export class live_casino extends React.Component {
                             <a href="/" onClick={(e) => {this.handleN2Click(username);e.preventDefault();}}><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
+                        
                         </div>
                     </div>
 
@@ -657,7 +766,7 @@ export class live_casino extends React.Component {
                                         secondary={
                                             this.getLabel('EA-words')}
                                     />
-                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick();e.preventDefault();}} >
+                                    {<a href="/" style={{textDecoration: 'none', marginBottom: 0}} onClick={(e) => {this.handleEAClick('mobile');e.preventDefault();}} >
                                     <Icon>
                                         <img alt='play-icon' style={{width: '14px', height: '14px', marginRight: '6px'}} src="https://ibet-web.s3-us-west-1.amazonaws.com/Games/live-casino/play-icon.png"/>
                                     </Icon>
@@ -776,7 +885,7 @@ export class live_casino extends React.Component {
                 <Footer />
             </div>
         
-        );
+        ); 
     }
 }
 
@@ -785,7 +894,9 @@ const mapStateToProps = (state) => {
     return {
         isAuthenticated: (token !== null && token !== undefined),
         lang: state.language.lang,
+        showTransfer: state.general.show_letou_transfer,
+        
     }
 }
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(live_casino))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page,sendingLog, show_letou_transfer})(live_casino))));

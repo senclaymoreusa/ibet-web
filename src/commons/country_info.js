@@ -959,8 +959,8 @@ export const Country_Info = [
         name: 'Zimbabwe',
         code: '+263'
     }
-]
+];
 
 export default {
     Country_Info
-}
+};

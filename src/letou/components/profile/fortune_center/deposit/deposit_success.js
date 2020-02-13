@@ -94,11 +94,11 @@ const styles = theme => ({
         borderRadius: 22,
         backgroundColor: '#4DA9DF',
         color: '#fff',
-        "&:hover": {
+        '&:hover': {
             backgroundColor: '#57b9f2',
             color: '#fff'
         },
-        "&:focus": {
+        '&:focus': {
             backgroundColor: '#57b9f2',
             color: '#fff'
         },
@@ -156,8 +156,8 @@ export class DepositSuccess extends Component {
                         style={{ marginTop: 20, marginBottom: 50 }}
                     >
                         <span className={classes.text}>
-                            {this.getLabel('deposit-label')} {successMessage}{' '}
-                            {this.getLabel('submitted-label')}
+                            {/* {this.getLabel('deposit-label')}  */}
+                            {successMessage}
                         </span>
                         <span className={classes.text}>
                             {this.getLabel('check-transaction-status')}
@@ -191,4 +191,8 @@ const mapStateToProps = state => {
     };
 };
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(DepositSuccess))));
+export default withStyles(styles)(
+    withRouter(
+        injectIntl(connect(mapStateToProps, { authCheckState })(DepositSuccess))
+    )
+);
