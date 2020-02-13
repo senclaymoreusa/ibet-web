@@ -57,7 +57,7 @@ const styles = {
     },
 };
 
-class TH120FTDSlotBonus extends React.Component {
+class THDepositAstropayBonus extends React.Component {
 
     render() {
         const { classes } = this.props;
@@ -71,7 +71,7 @@ class TH120FTDSlotBonus extends React.Component {
                     </div>
                 </div>
 
-                <img className={classes.bannerImg} src={ images.src + "letou/bonus_images/TH120FTDSlots.jpg" } alt="Banner"/>
+                <img className={classes.bannerImg} src={ images.src + "letou/bonus_images/THDepositAstropay.jpg" } alt="Banner"/>
 
                 <div className={classes.content}>
                     
@@ -90,4 +90,4 @@ class TH120FTDSlotBonus extends React.Component {
     }
 }
 
-export default withStyles(styles)(TH120FTDSlotBonus);
+export default withStyles(styles)(THDepositAstropayBonus);
