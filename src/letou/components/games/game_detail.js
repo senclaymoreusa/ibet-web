@@ -78,6 +78,7 @@ class GameDetail extends Component {
                 var providerName = data.provider.provider_name;
                 var gameId = data.smallgame_id;
                 var gameUrl = "";
+                var isFree = data.is_free;
                 data.categoryName = data.category_id.name;
                 if (token) {
                     config.headers['Authorization'] = `Token ${token}`;
@@ -114,20 +115,22 @@ class GameDetail extends Component {
                         this.setState({ gameURL: gameUrl });
                     }
                 } else {
-                    if (data.provider.provider_name === 'QTech') {
-                        this.generateQTURL(gameId, false);
-                    } else if (data.provider.provider_name === 'PLAYNGO') {
-                        this.launchPNGGame(gameId, 'en_GB', '', false);
-                    } else if (data.provider.provider_name === 'PT') {
-                        gameUrl = LAUNCH_GAME_URL[providerName]['free'];
-                        gameUrl = gameUrl.replace('{lang}', 'en');
-                        gameUrl = gameUrl.replace('{gameId}', gameId);
-                        window.open(gameUrl);
-                    } else {
-                        gameUrl = LAUNCH_GAME_URL[providerName]['free'];
-                        gameUrl = gameUrl.replace('{lang}', 'en');
-                        gameUrl = gameUrl.replace('{gameId}', gameId);
-                        this.setState({ gameURL: gameUrl });
+                    if (isFree !== 'false') {
+                        if (data.provider.provider_name === 'QTech') {
+                            this.generateQTURL(gameId, false);
+                        } else if (data.provider.provider_name === 'PLAYNGO') {
+                            this.launchPNGGame(gameId, 'en_GB', '', false);
+                        } else if (data.provider.provider_name === 'PT') {
+                            gameUrl = LAUNCH_GAME_URL[providerName]['free'];
+                            gameUrl = gameUrl.replace('{lang}', 'en');
+                            gameUrl = gameUrl.replace('{gameId}', gameId);
+                            window.open(gameUrl);
+                        } else {
+                            gameUrl = LAUNCH_GAME_URL[providerName]['free'];
+                            gameUrl = gameUrl.replace('{lang}', 'en');
+                            gameUrl = gameUrl.replace('{gameId}', gameId);
+                            this.setState({ gameURL: gameUrl });
+                        }
                     }
                 }
             });
