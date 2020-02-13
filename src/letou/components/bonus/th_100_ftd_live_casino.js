@@ -44,16 +44,52 @@ const styles = {
         textAlign: 'center',
         paddingBottom: 15,
         fontWeight: 900,
-    },
-    content: {
-        margin: 15,
         width: 1000,
         display: 'block',
         marginLeft: 'auto',
         marginRight: 'auto',
-        paddingBottom: 50,
+    },
+    content: {
+        marginTop: 15,
         lineHeight: 2,
         color: 'grey',
+    },
+    mainInfo: {
+        borderTop: '1px solid #ddd',
+        backgroundColor: '#FFFCFA',
+        paddingTop: 30,
+        paddingBottom: 30,
+    },
+    mainInfoText: {
+        width: 1000,
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    wrapper: {
+        fontWeight: 900,
+        borderLeft: '5px solid #FF9E00',
+        paddingLeft: 10,
+        fontSize: 22,
+        marginBottom: 15,
+    },
+    tableHeader: {
+        backgroundColor: 'orange',
+        color: 'white',
+    },
+    table: {
+        borderSpacing: 0,
+        marginTop: 25,
+        marginBottom: 25,
+    },
+    tableCell: {
+        border: '1px solid grey',
+        width: 350,
+        textAlign: 'center',
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 6,
+        paddingBottom: 6,
     },
 };
 
@@ -76,8 +112,58 @@ class TH100FTDLiveCasinoBonus extends React.Component {
                 <div className={classes.content}>
                     
                     <h3 className={classes.mainHeading}>
+                        สมาชิกใหม่ ฝากครั้งแรกรับโบนัส 100% สำหรับคาสิโนสด (Live Casino)
+                        สูงสุด 1,800 บาท
                     </h3>
 
+                    <div className={classes.mainInfo}>
+                        <div className={classes.mainInfoText}>
+                            <div className={classes.wrapper}>
+                                ผลิตภัณฑ์และโบนัส
+                            </div>
+
+                            <div>
+                                <table className={classes.table}>
+                                    <tr className={classes.tableHeader}>
+                                        <th className={classes.tableCell}>ผลิตภัณฑ์</th>
+                                        <th className={classes.tableCell}>โบนัสสูงสุด</th>
+                                        <th className={classes.tableCell}>เทิร์นโอเวอร์</th>
+                                    </tr>
+                                    <tr>
+                                        <td className={classes.tableCell}>คาสิโนสดทุกแบรนด์</td>
+                                        <td className={classes.tableCell}>1,800 บาท</td>
+                                        <td className={classes.tableCell}>26 เท่า</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div className={classes.wrapper}>
+                                เงื่อนไขและข้อกำหนด
+                            </div>
+
+                            <ul>
+                                <li>1. สำหรับสมาชิกใหม่นั้น ต้องไม่มีฐานข้อมูลซ้ำกับของเราเช่น ชื่อ เบอร์โทร บัญชีธนาคาร ไอพี หรืออื่นๆ</li>
+                                <li>2. โบนัสนี้สามารถรับได้ 1 ครั้ง ต่อ 1 ยูสเซอร์ </li>
+                                <li>3. ต้องทำรายการ ฝาก 200 บาท ขึ้นไป ถึงจะมีสิทธิ์รับโบนัสนี้</li>
+                                <li>4. โบนัสนี้จะใช้ได้เฉพาะการวางเดิมใน คาสิโนสด เท่านั้น</li>
+                                <li>5. สมาชิกใหม่ฝากเงินครั้งแรก ได้รับ 100% สูงสุด 1,800 บาท และจะต้องทำเทิร์นโอเวอร์ 26 เท่าจากยอดฝาก+โบนัส</li>
+                                <li>6. ห้ามแทงสวน เพื่อปั่นยอดเทิร์น รวมถึงใช้ หลายยูสเซอร์แทงสวนกันเพื่อปั่นยอดเทิร์น</li>
+                                <li>7. เทิร์นโอเวอร์ จะนับเฉพาะบิลที่มีผลเดิมพันเป็น แพ้ หรือ ชนะ เท่านั้น</li>
+                                <li>8. สำหรับการวางเดิมพันครั้งแรก!! ไม่สามารถเดิมพันเกินจำนวนยอดฝาก มิฉะนั้น จะริบยอดชนะทั้งหมด</li>
+                                <li>- เช่น ฝากมา 200 บาท รับโบนัส 200 บาท การวางเดิมพันบิลแรก จะไม่สามารถวางเดิมพันเกิน 200 บาท ได้</li>
+                                <li>9. ไม่สามารถเดิมพันด้วยยอดเงินทั้งหมด หรือไม่สามารถเดิมพันมากกว่า 80 % ของยอดเงินทั้งหมดที่สมาชิกมีอยู่ (แทงทบ/All-In) จนกว่าจะทำเทิร์นโอเวอร์ครบตามจำนวน</li>
+                                <li>10. สมาชิกต้องทำยอดเทิร์นภายใน 14 วัน นับตั้งแต่ขอรับโบนัสไปหรือทำผิด เราขอสงวนสิทธิ์ขอเรียกคืนเงินโบนัสและเงินชนะ รวมถึงค่าใช้จ่ายอื่นๆได้</li>
+                                <li>11. การตัดสินของ Letou Thai ถือเป็นที่สิ้นสุด และขอสงวนสิทธิ์ในการเปลี่ยนแปลงโปรโมชั่นนี้ได้โดยไม่ต้องแจ้งให้ทราบล่วงหน้า</li>
+                            </ul>
+
+                            <br/>
+
+                            <p>
+                                **ข้อควรระวัง**: กรุณาตรวจสอบกับเจ้าหน้าที่ก่อนทุกครั้งในการขอรับโบนัส หากท่านทำการสมัครและขอรับโบนัสในที่สาธารณะ เช่น ที่ทำงาน, ร้านอินเตอร์เน็ต, มือถือ & แท็บเล็ตเครื่องเดียวกัน หรือ หอพัก เนื่องจากทั้งหมดที่กล่าวมาอาจจะทำให้เป็นการรับโบนัสซ้ำซ้อนและถูกริบเงินรางวัลในภายหลังหากมีการตรวจสอบพบ
+                            </p>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div className={classes.footer}>
@@ -91,3 +177,4 @@ class TH100FTDLiveCasinoBonus extends React.Component {
 }
 
 export default withStyles(styles)(TH100FTDLiveCasinoBonus);
+
