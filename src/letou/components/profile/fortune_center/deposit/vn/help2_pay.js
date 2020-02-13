@@ -508,7 +508,7 @@ class VietnamHelp2pay extends Component {
 
         var postData = {
             amount: this.state.amount,
-            user_id: this.state.data.pk,
+            user_id: this.props.user.userId,
             currency: 8,
             bank: this.state.selectedBankOption,
             language: 'en-Us',
@@ -558,7 +558,7 @@ class VietnamHelp2pay extends Component {
     setAsFavorite(event) {
         axios
             .post(API_URL + `users/api/favorite-payment-setting/`, {
-                user_id: this.state.data.pk,
+                user_id: this.props.user.userId,
                 payment: event.target.checked ? 'vietnamhelp2pay' : null
             })
             .then(res => {

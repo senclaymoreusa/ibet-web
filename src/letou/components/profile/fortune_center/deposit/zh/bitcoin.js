@@ -300,15 +300,15 @@ class BitcoinDeposit extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
+        let userid = this.props.user.userId;
         var postData = {
             "amount": this.state.amount,
-            "userid": this.state.data.pk,
+            "userid": this.props.user.userId,
             "currency": "0",
             "PayWay": "30", //在线支付
             "method": "38", //wechat
         }
-        //console.log(this.state.data.pk)
+        
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -403,7 +403,7 @@ class BitcoinDeposit extends Component {
 
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
+            user_id: this.props.user.userId,
             payment: event.target.checked ? 'bitcoin' : null,
         })
             .then(res => {

@@ -25,9 +25,15 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430,
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingTop: 50,
@@ -102,7 +108,7 @@ const styles = theme => ({
         borderRadius: 4,
         backgroundColor: '#f28f22',
         marginBottom: 15,
-        width: 90,
+        width: 80,
         height: 44,
         fontSize: 15,
         color: '#fff',
@@ -240,41 +246,23 @@ class AliPay extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
-
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'alipay' });
-                    });
-            }
-        })
-    }
-
     componentDidMount() {
-
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'alipay' });
+                if (this.props.user) {
+                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
+                        isFavorite:
+                            this.props.user.favoriteDepositMethod ===
+                            'alipay'
                     });
+                }
             }
         })
-
     }
 
     amountChanged = e => {
@@ -294,7 +282,7 @@ class AliPay extends Component {
             }
         }
     };
-    //qaicash alipay
+    
     handleClick_Qaicash() { 
         
         let currentComponent = this;
@@ -303,13 +291,12 @@ class AliPay extends Component {
 
         var postData = {
             "amount": this.state.amount,
-            "user_id": this.state.data.pk,
+            "user_id": this.props.user.userId,
             "currency": "0",
             "language": "zh-Hans",
             "method": "ALIPAY",
         }
-        //console.log(this.state.amount)
-        //console.log(this.state.data.pk)
+        
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -328,21 +315,15 @@ class AliPay extends Component {
         }).then(function (data) {
             if(data.errorCode){
                 currentComponent.props.postLogout();
-                // postLogout();
                 return;
             }
             let redirectUrl = data.paymentPageSession.paymentPageUrl
-            //console.log(redirectUrl)
-
-
+        
             if (redirectUrl != null) {
                 const mywin = window.open(redirectUrl, 'qaicash-Alipay');
-                //currentComponent.props.callbackFromParent("inprogress", {"trans_ID": data.depositTransaction.transactionId,"method": data.depositTransaction.depositMethod});
                 var timer = setInterval(function () {
-                    //console.log('checking..')
                     
                     if (mywin.closed) {
-                        //console.log(mywin.closed)
                         clearInterval(timer);
                         var postData = {
                             "trans_id": data.paymentPageSession.orderId
@@ -366,10 +347,7 @@ class AliPay extends Component {
                         }).then(function (res) {
                             return res.json();
                         }).then(function (data) {
-                            //console.log(data.status)
-                            //console.log(currentComponent.props)
                             if (data.status === 0) {
-                                //alert('Transaction is approved.');
                                 const body = JSON.stringify({
                                     type: 'add',
                                     username: currentComponent.state.data.username,
@@ -403,14 +381,13 @@ class AliPay extends Component {
         });
     }
 
-    //asiapay alipay
     handleClick_alipay() {
         let currentComponent = this;
 
-        let userid = this.state.data.pk;
+        let userid = this.props.user.userId;
         var postData = {
             amount: this.state.amount,
-            userid: this.state.data.pk,
+            userid: this.props.user.userId,
             currency: '0',
             PayWay: '42', //qrcode
             method: '41', //alipay
@@ -569,13 +546,12 @@ class AliPay extends Component {
 
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
+            user_id:this.props.user.userId,
             payment: event.target.checked ? 'alipay' : null,
         })
             .then(res => {
                 this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                //this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
                 sendingLog(err);
@@ -676,10 +652,12 @@ class AliPay extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang,
-    }
-}
+        user: user
+    };
+};
 
 export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(AliPay))));

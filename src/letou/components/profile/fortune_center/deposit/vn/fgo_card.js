@@ -33,31 +33,20 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingTop: 50,
         paddingBottom: 50
     },
-    // actionButton: {
-    //     width: 324,
-    //     height: 44,
-    //     borderRadius: 22,
-    //     backgroundColor: '#4DA9DF',
-    //     color: '#fff',
-    //     '&:hover': {
-    //         backgroundColor: '#57b9f2',
-    //         color: '#fff'
-    //     },
-    //     '&:focus': {
-    //         backgroundColor: '#57b9f2',
-    //         color: '#fff'
-    //     },
-    //     textTransform: 'capitalize'
-    // },
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
@@ -315,38 +304,17 @@ class FgoCard extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
-                    this.setState({
-                        isFavorite:
-                            res.data.favorite_payment_method === 'fgocard'
-                    });
-                });
-            }
-        });
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
             } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
+                if (this.props.user) {
                     this.setState({
                         isFavorite:
-                            res.data.favorite_payment_method === 'fgocard'
+                            this.props.user.favoriteDepositMethod === 'fgocard'
                     });
-                });
+                }
             }
         });
     }
@@ -458,13 +426,12 @@ class FgoCard extends Component {
     setAsFavorite(event) {
         axios
             .post(API_URL + `users/api/favorite-payment-setting/`, {
-                user_id: this.state.data.pk,
+                user_id: this.props.user.userId,
                 payment: event.target.checked ? 'fgocard' : null
             })
             .then(() => {
                 this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                //this.props.checkFavoriteMethod();
             })
             .catch(function(err) {
                 sendingLog(err);
@@ -561,12 +528,7 @@ class FgoCard extends Component {
                             }}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        className={classes.detailRow}
-                        style={{ marginBottom: 30 }}
-                    >
+                    <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
                             placeholder={this.getLabel('serial-number')}
@@ -604,6 +566,21 @@ class FgoCard extends Component {
                             }}
                         />
                     </Grid>
+                    <Grid item xs={12} style={{ marginBottom: 30 }}>
+                        <FormControlLabel
+                            className={classes.checkbox}
+                            control={
+                                <CustomCheckbox
+                                    checked={isFavorite}
+                                    value="checkedA"
+                                    onClick={event => {
+                                        this.setAsFavorite(event);
+                                    }}
+                                />
+                            }
+                            label={this.getLabel('add-favourite-deposit')}
+                        />
+                    </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button
                             variant="contained"
@@ -624,21 +601,6 @@ class FgoCard extends Component {
                         >
                             {this.getLabel('deposit-label')}
                         </Button>
-                    </Grid>
-                    <Grid item xs={12} style={{ marginBottom: 30 }}>
-                        <FormControlLabel
-                            className={classes.checkbox}
-                            control={
-                                <CustomCheckbox
-                                    checked={isFavorite}
-                                    value="checkedA"
-                                    onClick={event => {
-                                        this.setAsFavorite(event);
-                                    }}
-                                />
-                            }
-                            label={this.getLabel('add-favourite-deposit')}
-                        />
                     </Grid>
                     <Grid
                         item
@@ -662,8 +624,10 @@ class FgoCard extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang
+        user: user
     };
 };
 

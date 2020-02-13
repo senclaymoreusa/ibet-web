@@ -22,7 +22,6 @@ import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import Astropay from './th/astro_pay';
 import Help2pay from './th/help2_pay';
 import FgoCard from './vn/fgo_card';
-import MomoPay from './vn/momo_pay';
 import CirclePay from './vn/circle_pay';
 import VietnamHelp2pay from './vn/help2_pay';
 import ScratchCard from './vn/scratch_card';
@@ -69,10 +68,12 @@ const styles = theme => ({
         textTransform: 'capitalize'
     },
     paymentButton: {
-        width: 87,
+        width: 80,
+        maxWidth:80,
         padding: 0,
         height: 58,
         marginBottom: 32,
+        position:'relative',
         backgroundColor: '#efefef',
         display: 'inline-block',
         '&:hover': {
@@ -85,17 +86,16 @@ const styles = theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         position: 'relative',
-        width: 100
+        width: 100,
     },
     row: {
         display: 'flex',
         flexDirection: 'row',
-        borderBottom: '1px solid #eff3f4',
+        alignItems: 'center'
     },
     methodGrid: {
-        marginBottom: 30,
-        marginLeft: 10,
-        marginRight: 10
+        borderBottom: '1px solid #d8d8d8',
+        marginBottom: 30
     },
     mobileBar: {
         paddingLeft: 0,
@@ -113,6 +113,7 @@ const styles = theme => ({
     },
     title: {
         fontSize: 12,
+        marginBottom:10,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -149,26 +150,22 @@ const styles = theme => ({
         position: 'absolute',
         bottom: 0
     },
-    favourite: {
+    heart: {
         position: 'absolute',
         right: -9,
         bottom: 0
-    },
-    mobileFavourite: {
-        position: 'absolute',
-        right: 2,
-        bottom: 32
     },
     mobileTabIcon: {
         backgroundColor: '#e4e4e4',
         height: 40,
         maxHeight: 40,
         width: 60,
-        maxWidth: 60,
+        minWidth:60,
         borderRadius: 3,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        position:'relative'
     }
 });
 
@@ -267,7 +264,6 @@ export class DepositMain extends Component {
 
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
-        const { contentValue } = this.state;
         var country = "";
         if (user && user.country) {
             country = user.country;
@@ -277,7 +273,7 @@ export class DepositMain extends Component {
                 return (
                     <div>
                         <div className={classes.rootDesktop}>
-                            <Grid container className={classes.methodGrid} spacing={4}>
+                            <Grid container className={classes.methodGrid} >
                                 <Grid item xs={12} className={classes.row}>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -286,12 +282,12 @@ export class DepositMain extends Component {
                                                 this.depositWith('chinabanktransfer');
                                             }}>
                                             <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
-                                            {user.favoriteDepositMethod === 'chinabanktransfer' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                            {user.favoriteDepositMethod === 'chinabanktransfer' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (contentValue === 'chinabanktransfer'),
+                                            [classes.active]: (operationProp === 'chinabanktransfer'),
                                         })}>{this.getLabel('bank-transfer')}</span>
-                                        {contentValue === 'chinabanktransfer' && <div className={classes.selected} />}
+                                        {operationProp === 'chinabanktransfer' && <div className={classes.selected} />}
                                     </div>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -300,12 +296,12 @@ export class DepositMain extends Component {
                                                 this.depositWith('quickpay');
                                             }}>
                                             <img src={images.src + 'letou/unionpay.svg'} alt="" height="26" />
-                                            {user.favoriteDepositMethod === 'quickpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                            {user.favoriteDepositMethod === 'quickpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (contentValue === 'quickpay'),
+                                            [classes.active]: (operationProp === 'quickpay'),
                                         })}>{this.getLabel('quick-pay')}</span>
-                                        {contentValue === 'quickpay' && <div className={classes.selected} />}
+                                        {operationProp === 'quickpay' && <div className={classes.selected} />}
                                     </div>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -314,12 +310,12 @@ export class DepositMain extends Component {
                                                 this.depositWith('unionpayqr');
                                             }}>
                                             <img src={images.src + 'letou/unionpayqr.svg'} alt="" height="26" />
-                                            {user.favoriteDepositMethod === 'unionpayqr' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                            {user.favoriteDepositMethod === 'unionpayqr' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (contentValue === 'unionpayqr'),
+                                            [classes.active]: (operationProp === 'unionpayqr'),
                                         })}>{this.getLabel('union-pay-qr')}</span>
-                                        {contentValue === 'unionpayqr' && <div className={classes.selected} />}
+                                        {operationProp === 'unionpayqr' && <div className={classes.selected} />}
                                     </div>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -328,12 +324,12 @@ export class DepositMain extends Component {
                                                 this.depositWith('alipay');
                                             }}>
                                             <img src={images.src + 'letou/alipay@3x.png'} alt="" height="26" />
-                                            {user.favoriteDepositMethod === 'alipay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                            {user.favoriteDepositMethod === 'alipay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (contentValue === 'alipay'),
+                                            [classes.active]: (operationProp === 'alipay'),
                                         })}>{this.getLabel('ali-pay')}</span>
-                                        {contentValue === 'alipay' && <div className={classes.selected} />}
+                                        {operationProp === 'alipay' && <div className={classes.selected} />}
                                     </div>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -342,12 +338,12 @@ export class DepositMain extends Component {
                                                 this.depositWith('onlinepay');
                                             }}>
                                             <img src={images.src + 'letou/onlinepay.svg'} alt="" height="26" />
-                                            {user.favoriteDepositMethod === 'onlinepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                            {user.favoriteDepositMethod === 'onlinepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (contentValue === 'onlinepay'),
+                                            [classes.active]: (operationProp === 'onlinepay'),
                                         })}>{this.getLabel('online-pay')}</span>
-                                        {contentValue === 'onlinepay' && <div className={classes.selected} />}
+                                        {operationProp === 'onlinepay' && <div className={classes.selected} />}
                                     </div>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -356,12 +352,12 @@ export class DepositMain extends Component {
                                                 this.depositWith('wechatpay');
                                             }}>
                                             <img src={images.src + 'letou/wechatpay.svg'} alt="" height="40" />
-                                            {user.favoriteDepositMethod === 'wechatpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                            {user.favoriteDepositMethod === 'wechatpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (contentValue === 'wechatpay'),
+                                            [classes.active]: (operationProp === 'wechatpay'),
                                         })}>{this.getLabel('we-chat-pay')}</span>
-                                        {contentValue === 'wechatpay' && <div className={classes.selected} />}
+                                        {operationProp === 'wechatpay' && <div className={classes.selected} />}
                                     </div>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -370,12 +366,12 @@ export class DepositMain extends Component {
                                                 this.depositWith('jdpay');
                                             }}>
                                             <img src={images.src + 'letou/jdpay.svg'} alt="" height="28" />
-                                            {user.favoriteDepositMethod === 'jdpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                            {user.favoriteDepositMethod === 'jdpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (contentValue === 'jdpay'),
+                                            [classes.active]: (operationProp === 'jdpay'),
                                         })}>{this.getLabel('jd-pay')}</span>
-                                        {contentValue === 'jdpay' && <div className={classes.selected} />}
+                                        {operationProp === 'jdpay' && <div className={classes.selected} />}
                                     </div>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -384,12 +380,12 @@ export class DepositMain extends Component {
                                                 this.depositWith('bitcoin');
                                             }}>
                                             <img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
-                                            {user.favoriteDepositMethod === 'bitcoin' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                            {user.favoriteDepositMethod === 'bitcoin' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (contentValue === 'bitcoin'),
+                                            [classes.active]: (operationProp === 'bitcoin'),
                                         })}>{this.getLabel('bit-coin')}</span>
-                                        {contentValue === 'bitcoin' && <div className={classes.selected} />}
+                                        {operationProp === 'bitcoin' && <div className={classes.selected} />}
                                     </div>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -398,50 +394,17 @@ export class DepositMain extends Component {
                                                 this.depositWith('astropay_ch');
                                             }}>
                                             <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
-                                            {user.favoriteDepositMethod === 'astropay_ch' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
+                                            {user.favoriteDepositMethod === 'astropay_ch' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (contentValue === 'astropay_ch'),
+                                            [classes.active]: (operationProp === 'astropay_ch'),
                                         })}>{this.getLabel('astro-pay')}</span>
-                                        {contentValue === 'astropay_ch' && <div className={classes.selected} />}
+                                        {operationProp === 'astropay_ch' && <div className={classes.selected} />}
                                     </div>
                                 </Grid>
                             </Grid>
                         </div>
                         <div className={classes.rootMobile}>
-                            <AppBar position="static" className={classes.mobileRow}>
-                                <Toolbar className={classes.mobileBar}>
-                                    <Grid container>
-                                        <Grid item xs={3}>
-                                            <Button
-                                                className={classes.mobileMenuButton}
-                                                onClick={() => {
-                                                    this.props.history.push('/p/');
-                                                }}
-                                            >
-                                                <ArrowBackIos style={{ width: 16 }} />
-                                                {this.getLabel('back-label')}
-                                            </Button>
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            xs={6}
-                                            style={{
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center',
-                                                textAlign: 'center'
-                                            }}
-                                        >
-                                            <span className={classes.mobileTitle}>
-                                                {this.getLabel('deposit-label')}
-                                            </span>
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                        </Grid>
-                                    </Grid>
-                                </Toolbar>
-                            </AppBar>
                             <StyledTabs
                                 value={operationProp ? operationProp : 'none'}
                                 variant="scrollable"
@@ -455,7 +418,7 @@ export class DepositMain extends Component {
                                     value="chinabanktransfer"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/bank-icon.svg'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'chinabanktransfer' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
+                                        {user.favoriteDepositMethod === 'chinabanktransfer' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
                                         if (operationProp !== 'chinabanktransfer') {
@@ -465,7 +428,7 @@ export class DepositMain extends Component {
                                 <StyledTab label={this.getLabel('quick-pay')} value="quickpay"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/unionpay.svg'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'quickpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
+                                        {user.favoriteDepositMethod === 'quickpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
                                         if (operationProp !== 'quickpay') {
@@ -475,7 +438,7 @@ export class DepositMain extends Component {
                                 <StyledTab label={this.getLabel('union-pay-qr')} value="unionpayqr"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/unionpayqr.svg'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'unionpayqr' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
+                                        {user.favoriteDepositMethod === 'unionpayqr' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
                                         if (operationProp !== 'unionpayqr') {
@@ -485,7 +448,7 @@ export class DepositMain extends Component {
                                 <StyledTab label={this.getLabel('ali-pay')} value="alipay"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/alipay@3x.png'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'alipay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
+                                        {user.favoriteDepositMethod === 'alipay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
                                         if (operationProp !== 'alipay') {
@@ -495,7 +458,7 @@ export class DepositMain extends Component {
                                 <StyledTab label={this.getLabel('online-pay')} value="onlinepay"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/onlinepay.svg'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'onlinepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
+                                        {user.favoriteDepositMethod === 'onlinepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
                                         if (operationProp !== 'onlinepay') {
@@ -505,7 +468,7 @@ export class DepositMain extends Component {
                                 <StyledTab label={this.getLabel('we-chat-pay')} value="wechatpay"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/wechatpay.svg'} alt="" height="26" />
-                                        {user.favoriteDepositMethod === 'wechatpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
+                                        {user.favoriteDepositMethod === 'wechatpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
                                         if (operationProp !== 'wechatpay') {
@@ -515,7 +478,7 @@ export class DepositMain extends Component {
                                 <StyledTab label={this.getLabel('jd-pay')} value="jdpay"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/jdpay.svg'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'jdpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
+                                        {user.favoriteDepositMethod === 'jdpay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
                                         if (operationProp !== 'jdpay') {
@@ -525,7 +488,7 @@ export class DepositMain extends Component {
                                 <StyledTab label={this.getLabel('bit-coin')} value="bitcoin"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/bitcoin.svg'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'bitcoin' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
+                                        {user.favoriteDepositMethod === 'bitcoin' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
                                         if (operationProp !== 'bitcoin') {
@@ -535,7 +498,7 @@ export class DepositMain extends Component {
                                 <StyledTab label={this.getLabel('astro-pay')} value="astropay"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/astropay.svg'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.mobileFavourite} />}
+                                        {user.favoriteDepositMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
                                         if (operationProp !== 'astropay') {
@@ -550,166 +513,267 @@ export class DepositMain extends Component {
                 return (
                     <div>
                         <div className={classes.rootDesktop}>
-                            <Grid container className={classes.methodGrid} spacing={4}>
-                                <Grid item xs={1} className={classes.methodColumn}>
-                                    <Button
-                                        className={classes.paymentButton}
-                                        onClick={() => {
-                                            this.depositWith('thailocalbank');
-                                        }}
-                                    >
-                                        <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
-                                        {user.favoriteDepositMethod === 'thailocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                    </Button>
-                                    <span className={clsx(classes.title, {
-                                        [classes.active]: (contentValue === 'thailocalbank'),
-                                    })}>{this.getLabel('local-bank')}</span>
-                                    {contentValue === 'thailocalbank' && <div className={classes.selected} />}
-                                </Grid>
-                                <Grid item xs={1} className={classes.methodColumn}>
-                                    <Button
-                                        className={classes.paymentButton}
-                                        onClick={() => {
-                                            this.depositWith('help2pay');
-                                        }}
-                                    >
-                                        <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="32" />
-                                        {user.favoriteDepositMethod === 'help2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                    </Button>
-                                    <span className={clsx(classes.title, {
-                                        [classes.active]: (contentValue === 'help2pay'),
-                                    })}>{this.getLabel('help-pay')}</span>
-                                    {contentValue === 'help2pay' && <div className={classes.selected} />}
-                                </Grid>
-                                <Grid item xs={1} className={classes.methodColumn}>
-                                    <Button
-                                        className={classes.paymentButton}
-                                        onClick={() => {
-                                            this.depositWith('payzod');
-                                        }}
-                                    >
-                                        <img src={images.src + 'letou/payzod-1@3x.png'} alt="" height="36" />
-                                        {user.favoriteDepositMethod === 'payzod' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                    </Button>
-                                    <span className={clsx(classes.title, {
-                                        [classes.active]: (contentValue === 'payzod'),
-                                    })}>{this.getLabel('payzod-pay')}</span>
-                                    {contentValue === 'payzod' && <div className={classes.selected} />}
-                                </Grid>
-                                <Grid item xs={1} className={classes.methodColumn}>
-                                    <Button
-                                        className={classes.paymentButton}
-                                        onClick={() => {
-                                            this.depositWith('astropay');
-                                        }}
-                                    >
-                                        <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
-                                        {user.favoriteDepositMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                    </Button>
-                                    <span className={clsx(classes.title, {
-                                        [classes.active]: (contentValue === 'astropay'),
-                                    })}>{this.getLabel('astro-pay')}</span>
-                                    {contentValue === 'astropay' && <div className={classes.selected} />}
+                            <Grid container className={classes.methodGrid} >
+                                <Grid item xs={12} className={classes.row}>
+                                    <div className={classes.methodColumn}>
+                                        <Button
+                                            className={classes.paymentButton}
+                                            onClick={() => {
+                                                this.depositWith('thlocalbank');
+                                            }}
+                                        >
+                                            <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                            {user.favoriteDepositMethod === 'thlocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        </Button>
+                                        <span className={clsx(classes.title, {
+                                            [classes.active]: (operationProp === 'thlocalbank'),
+                                        })}>{this.getLabel('local-bank')}</span>
+                                        {operationProp === 'thlocalbank' && <div className={classes.selected} />}
+                                    </div>
+                                    <div className={classes.methodColumn}>
+                                        <Button
+                                            className={classes.paymentButton}
+                                            onClick={() => {
+                                                this.depositWith('help2pay');
+                                            }}
+                                        >
+                                            <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="32" />
+                                            {user.favoriteDepositMethod === 'help2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        </Button>
+                                        <span className={clsx(classes.title, {
+                                            [classes.active]: (operationProp === 'help2pay'),
+                                        })}>{this.getLabel('help-pay')}</span>
+                                        {operationProp === 'help2pay' && <div className={classes.selected} />}
+                                    </div>
+                                    <div className={classes.methodColumn}>
+                                        <Button
+                                            className={classes.paymentButton}
+                                            onClick={() => {
+                                                this.depositWith('payzod');
+                                            }}
+                                        >
+                                            <img src={images.src + 'letou/payzod-1@3x.png'} alt="" height="36" />
+                                            {user.favoriteDepositMethod === 'payzod' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        </Button>
+                                        <span className={clsx(classes.title, {
+                                            [classes.active]: (operationProp === 'payzod'),
+                                        })}>{this.getLabel('payzod-pay')}</span>
+                                        {operationProp === 'payzod' && <div className={classes.selected} />}
+                                    </div>
+                                    <div className={classes.methodColumn}>
+                                        <Button
+                                            className={classes.paymentButton}
+                                            onClick={() => {
+                                                this.depositWith('astropay');
+                                            }}
+                                        >
+                                            <img src={images.src + 'letou/astropay.svg'} alt="" height="26" />
+                                            {user.favoriteDepositMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        </Button>
+                                        <span className={clsx(classes.title, {
+                                            [classes.active]: (operationProp === 'astropay'),
+                                        })}>{this.getLabel('astro-pay')}</span>
+                                        {operationProp === 'astropay' && <div className={classes.selected} />}
+                                    </div>
                                 </Grid>
                             </Grid>
                         </div>
                         <div className={classes.rootMobile}>
-
+                            <StyledTabs
+                                value={operationProp ? operationProp : 'none'}
+                                variant="scrollable"
+                                scrollButtons="auto"
+                            >
+                                <StyledTab
+                                    style={{ width: 0, minWidth: 0, maxWidth: 0, padding: 0 }}
+                                    value="none"
+                                />
+                                <StyledTab label={this.getLabel('local-bank')}
+                                    value="thlocalbank"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/bank-icon.svg'} alt="" height="18" />
+                                        {user.favoriteDepositMethod === 'thlocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                    </div>}
+                                    onClick={() => {
+                                        if (operationProp !== 'thlocalbank') {
+                                            this.depositWith('thlocalbank');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('help-pay')} value="help2pay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="18" />
+                                        {user.favoriteDepositMethod === 'help2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                    </div>}
+                                    onClick={() => {
+                                        if (operationProp !== 'help2pay') {
+                                            this.depositWith('help2pay');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('payzod-pay')} value="payzod"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/payzod-1@3x.png'} alt="" height="18" />
+                                        {user.favoriteDepositMethod === 'payzod' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                    </div>}
+                                    onClick={() => {
+                                        if (operationProp !== 'payzod') {
+                                            this.depositWith('payzod');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('astro-pay')} value="astropay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/astropay.svg'} alt="" height="18" />
+                                        {user.favoriteDepositMethod === 'astropay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                    </div>}
+                                    onClick={() => {
+                                        if (operationProp !== 'astropay') {
+                                            this.depositWith('astropay');
+                                        }
+                                    }} />
+                            </StyledTabs>
                         </div>
                     </div>
                 );
             case 'vietnam':
                 return (
-                    <div><div className={classes.rootDesktop}>
-                        <Grid container className={classes.methodGrid} spacing={4}>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.paymentButton}
-                                    onClick={() => {
-                                        this.depositWith('vietnamlocalbank');
-                                    }}>
-                                    <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
-                                    {user.favoriteDepositMethod === 'vietnamlocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'vietnamlocalbank'),
-                                })}>{this.getLabel('local-bank')}</span>
-                                {contentValue === 'vietnamlocalbank' && <div className={classes.selected} />}
+                    <div>
+                        <div className={classes.rootDesktop}>
+                            <Grid container className={classes.methodGrid} >
+                                <Grid item xs={12} className={classes.row}>
+                                    <div className={classes.methodColumn}>
+                                        <Button
+                                            className={classes.paymentButton}
+                                            onClick={() => {
+                                                this.depositWith('vnlocalbank');
+                                            }}>
+                                            <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
+                                            {user.favoriteDepositMethod === 'vnlocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        </Button>
+                                        <span className={clsx(classes.title, {
+                                            [classes.active]: (operationProp === 'vnlocalbank'),
+                                        })}>{this.getLabel('local-bank')}</span>
+                                        {operationProp === 'vnlocalbank' && <div className={classes.selected} />}
+                                    </div>
+                                    <div className={classes.methodColumn}>
+                                        <Button
+                                            className={classes.paymentButton}
+                                            onClick={() => {
+                                                this.depositWith('circlepay');
+                                            }}>
+                                            <img src={images.src + 'letou/circlepay.svg'} alt="" height="26" />
+                                            {user.favoriteDepositMethod === 'circlepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        </Button>
+                                        <span className={clsx(classes.title, {
+                                            [classes.active]: (operationProp === 'circlepay'),
+                                        })}>{this.getLabel('circle-pay')}</span>
+                                        {operationProp === 'circlepay' && <div className={classes.selected} />}
+                                    </div>
+                                    <div className={classes.methodColumn}>
+                                        <Button
+                                            className={classes.paymentButton}
+                                            onClick={() => {
+                                                this.depositWith('momopay');
+                                            }}>
+                                            <img src={images.src + 'letou/momo.png'} alt="" height="26" />
+                                            {user.favoriteDepositMethod === 'momopay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        </Button>
+                                        <span className={clsx(classes.title, {
+                                            [classes.active]: (operationProp === 'momopay'),
+                                        })}>{this.getLabel('momo-pay')}</span>
+                                        {operationProp === 'momopay' && <div className={classes.selected} />}
+                                    </div>
+                                    <div className={classes.methodColumn}>
+                                        <Button
+                                            className={classes.paymentButton}
+                                            onClick={() => {
+                                                this.depositWith('scratchcard');
+                                            }}>
+                                            <img src={images.src + 'letou/scratchcard.svg'} alt="" height="26" />
+                                            {user.favoriteDepositMethod === 'scratchcard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        </Button>
+                                        <span className={clsx(classes.title, {
+                                            [classes.active]: (operationProp === 'scratchcard'),
+                                        })}>{this.getLabel('scratch-card')}</span>
+                                        {operationProp === 'scratchcard' && <div className={classes.selected} />}
+                                    </div>
+                                    <div className={classes.methodColumn}>
+                                        <Button
+                                            className={classes.paymentButton}
+                                            onClick={() => {
+                                                this.depositWith('fgocard');
+                                            }}>
+                                            <img src={images.src + 'letou/fgocard.png'} alt="" height="26" />
+                                            {user.favoriteDepositMethod === 'fgocard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        </Button>
+                                        <span className={clsx(classes.title, {
+                                            [classes.active]: (operationProp === 'fgocard'),
+                                        })}>{this.getLabel('fgo-card')}</span>
+                                        {operationProp === 'fgocard' && <div className={classes.selected} />}
+                                    </div>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.addButton}
-                                    onClick={() => {
-                                        this.depositWith('circlepay');
-                                    }}>
-                                    <img src={images.src + 'letou/circlepay.svg'} alt="" height="26" />
-                                    {user.favoriteDepositMethod === 'circlepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'circlepay'),
-                                })}>{this.getLabel('circle-pay')}</span>
-                                {contentValue === 'circlepay' && <div className={classes.selected} />}
-                            </Grid>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.addButton}
-                                    onClick={() => {
-                                        this.depositWith('vietnamhelp2pay');
-                                    }}>
-                                    <img src={images.src + 'letou/help-2-pay@3x.png'} alt="" height="26" />
-                                    {user.favoriteDepositMethod === 'vietnamhelp2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'vietnamhelp2pay'),
-                                })}>{this.getLabel('help-pay')}</span>
-                                {contentValue === 'vietnamhelp2pay' && <div className={classes.selected} />}
-                            </Grid>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.addButton}
-                                    onClick={() => {
-                                        this.depositWith('momopay');
-                                    }}>
-                                    <img src={images.src + 'letou/momo.png'} alt="" height="26" />
-                                    {user.favoriteDepositMethod === 'momopay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'momopay'),
-                                })}>{this.getLabel('momo-pay')}</span>
-                                {contentValue === 'momopay' && <div className={classes.selected} />}
-                            </Grid>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.addButton}
-                                    onClick={() => {
-                                        this.depositWith('scratchcard');
-                                    }}>
-                                    <img src={images.src + 'letou/scratchcard.svg'} alt="" height="26" />
-                                    {user.favoriteDepositMethod === 'scratchcard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'scratchcard'),
-                                })}>{this.getLabel('scratch-card')}</span>
-                                {contentValue === 'scratchcard' && <div className={classes.selected} />}
-                            </Grid>
-                            <Grid item xs={1} className={classes.methodColumn}>
-                                <Button
-                                    className={classes.addButton}
-                                    onClick={() => {
-                                        this.depositWith('fgocard');
-                                    }}>
-                                    <img src={images.src + 'letou/fgocard.png'} alt="" height="26" />
-                                    {user.favoriteDepositMethod === 'fgocard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.favourite} />}
-                                </Button>
-                                <span className={clsx(classes.title, {
-                                    [classes.active]: (contentValue === 'fgocard'),
-                                })}>{this.getLabel('fgo-card')}</span>
-                                {contentValue === 'fgocard' && <div className={classes.selected} />}
-                            </Grid>
-                        </Grid>
-                    </div>
+                        </div>
                         <div className={classes.rootMobile}>
-
+                            <StyledTabs
+                                value={operationProp ? operationProp : 'none'}
+                                variant="scrollable"
+                                scrollButtons="auto"
+                            >
+                                <StyledTab
+                                    style={{ width: 0, minWidth: 0, maxWidth: 0, padding: 0 }}
+                                    value="none"
+                                />
+                                <StyledTab label={this.getLabel('local-bank')}
+                                    value="vnlocalbank"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/bank-icon.svg'} alt="" height="18" />
+                                        {user.favoriteDepositMethod === 'vnlocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                    </div>}
+                                    onClick={() => {
+                                        if (operationProp !== 'vnlocalbank') {
+                                            this.depositWith('vnlocalbank');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('circle-pay')} value="circlepay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/circlepay.svg'} alt="" height="18" />
+                                        {user.favoriteDepositMethod === 'circlepay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                    </div>}
+                                    onClick={() => {
+                                        if (operationProp !== 'circlepay') {
+                                            this.depositWith('circlepay');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('momo-pay')} value="momopay"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/momo.png'} alt="" height="18" />
+                                        {user.favoriteDepositMethod === 'momopay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                    </div>}
+                                    onClick={() => {
+                                        if (operationProp !== 'momopay') {
+                                            this.depositWith('momopay');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('scratch-card')} value="scratchcard"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/scratchcard.svg'} alt="" height="18" />
+                                        {user.favoriteDepositMethod === 'scratchcard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                    </div>}
+                                    onClick={() => {
+                                        if (operationProp !== 'scratchcard') {
+                                            this.depositWith('scratchcard');
+                                        }
+                                    }} />
+                                <StyledTab label={this.getLabel('fgo-card')} value="fgocard"
+                                    icon={<div className={classes.mobileTabIcon}>
+                                        <img src={images.src + 'letou/fgocard.png'} alt="" height="18" />
+                                        {user.favoriteDepositMethod === 'fgocard' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                    </div>}
+                                    onClick={() => {
+                                        if (operationProp !== 'fgocard') {
+                                            this.depositWith('fgocard');
+                                        }
+                                    }} />
+                            </StyledTabs>
                         </div>
                     </div>
                 );
@@ -721,7 +785,6 @@ export class DepositMain extends Component {
     getPaymentMethodContent() {
         const { operationProp } = this.props;
         const { contentValue } = this.state;
-
 
         if (contentValue === 'error')
             return <DepositError callbackFromParent={this.setPage} errorMessage={this.state.depositMessage} />;
@@ -756,13 +819,13 @@ export class DepositMain extends Component {
             return <CirclePay callbackFromParent={this.setPage} />;
         else if (operationProp === 'fgocard')
             return <FgoCard callbackFromParent={this.setPage} />;
-        else if (operationProp === 'vietnamlocalbank')
+        else if (operationProp === 'vnlocalbank')
             return <VietnamLocalBank callbackFromParent={this.setPage} />;
         else if (operationProp === 'momopay')
-            return <MomoPay callbackFromParent={this.setPage} />;
+            return <div />;
         else if (operationProp === 'scratchcard')
             return <ScratchCard callbackFromParent={this.setPage} />;
-        else if (operationProp === 'thailocalbank')
+        else if (operationProp === 'thlocalbank')
             return <ThaiLocalBank callbackFromParent={this.setPage} />;
         else if (operationProp === 'payzod')
             return <Payzod callbackFromParent={this.setPage} />;
@@ -777,9 +840,44 @@ export class DepositMain extends Component {
 
         return (
             <div className={classes.root}>
+                <div className={classes.rootMobile}>
+                    <AppBar position="static" className={classes.mobileRow}>
+                        <Toolbar className={classes.mobileBar}>
+                            <Grid container>
+                                <Grid item xs={3}>
+                                    <Button
+                                        className={classes.mobileMenuButton}
+                                        onClick={() => {
+                                            this.props.history.push('/p/');
+                                        }}
+                                    >
+                                        <ArrowBackIos style={{ width: 16 }} />
+                                        {this.getLabel('back-label')}
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={6}
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        textAlign: 'center'
+                                    }}
+                                >
+                                    <span className={classes.mobileTitle}>
+                                        {this.getLabel('deposit-label')}
+                                    </span>
+                                </Grid>
+                                <Grid item xs={3}>
+                                </Grid>
+                            </Grid>
+                        </Toolbar>
+                    </AppBar>
+                </div>
                 {this.getAvailablePaymentMethods()}
                 {this.getPaymentMethodContent()}
-            </div >
+            </div>
         );
     }
 }

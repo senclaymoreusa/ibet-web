@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -25,9 +24,15 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430,
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingTop: 50,
@@ -102,7 +107,7 @@ const styles = theme => ({
         borderRadius: 4,
         backgroundColor: '#f28f22',
         marginBottom: 15,
-        width: 90,
+        width: 80,
         height: 44,
         fontSize: 15,
         color: '#fff',
@@ -240,37 +245,21 @@ class JDPay extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
-
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'jdpay' });
-                    });
-            }
-        })
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'jdpay' });
+                if (this.props.user) {
+                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
+                        isFavorite:
+                            this.props.user.favoriteDepositMethod ===
+                            'jdpay'
                     });
+                }
             }
         })
     }
@@ -298,13 +287,13 @@ class JDPay extends Component {
 
         var postData = {
             amount: this.state.amount,
-            userid: this.state.data.pk,
+            userid: this.props.user.userId,
             currency: "0",
             PayWay: "42", //QRcode
             method: "49", //京东支付
             RealName: this.state.data.last_name + this.state.data.first_name,
         }
-        
+
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -329,10 +318,10 @@ class JDPay extends Component {
         }).then(function (data) {
             if (data.errorCode) {
                 currentComponent.props.postLogout();
-                 return;
+                return;
             }
             let qrurl = data.qr;
-            
+
             if (qrurl != null) {
                 currentComponent.setState({ qr_code: qrurl });
             } else {
@@ -352,13 +341,12 @@ class JDPay extends Component {
 
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
+            user_id: this.props.user.userId,
             payment: event.target.checked ? 'jdpay' : null,
         })
             .then(() => {
                 this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                //this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
                 sendingLog(err);
@@ -459,10 +447,12 @@ class JDPay extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang,
-    }
-}
+        user: user
+    };
+};
 
 export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(JDPay))));
