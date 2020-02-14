@@ -28,16 +28,20 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430,
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingTop: 50,
         paddingBottom: 50,
     },
-    
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
@@ -300,37 +304,21 @@ class ThaiLocalBank extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'thailocalbank' });
-                    });
-            }
-        })
-
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'thailocalbank' });
+                if (this.props.user) {
+                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
+                        isFavorite:
+                            this.props.user.favoriteDepositMethod ===
+                            'thlocalbank'
                     });
+                }
             }
         })
 
@@ -368,15 +356,14 @@ class ThaiLocalBank extends Component {
     handleClick = () => {
         let currentComponent = this;
 
-        let userid = this.state.data.pk;
+        let userid = this.props.user.userId;
         var postData = {
             "amount": this.state.amount,
-            "userid": this.state.data.pk,
+            "userid": this.props.user.userId,
             "currency": "0",
             "PayWay": "30", //在线支付
             "method": "38", //wechat
         }
-        //console.log(this.state.data.pk)
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -395,9 +382,7 @@ class ThaiLocalBank extends Component {
             return res.json();
 
         }).then(function (data) {
-            //console.log(data)
             let qrurl = data.qr;
-            //console.log(qrurl)
             if (qrurl != null) {
                 const mywin = window.open(qrurl, 'asiapay-wechatpay')
                 var timer = setInterval(function () {
@@ -468,19 +453,17 @@ class ThaiLocalBank extends Component {
 
     setAsFavourite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
-            payment: event.target.checked ? 'thailocalbank' : null,
+            user_id: this.props.user.userId,
+            payment: event.target.checked ? 'thlocalbank' : null,
         })
             .then(() => {
                 this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
-            })
+             })
             .catch(function (err) {
                 sendingLog(err);
             });
     }
-
 
     cancelClicked() {
         var url = this.props.history.location.pathname
@@ -620,10 +603,12 @@ class ThaiLocalBank extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang,
-    }
-}
+        user: user
+    };
+};
 
 export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(ThaiLocalBank))));
