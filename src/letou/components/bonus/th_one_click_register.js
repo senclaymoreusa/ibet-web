@@ -99,15 +99,12 @@ class THOneClickRegisterBonus extends React.Component {
                         <li>• หมายเลขโทรศัทพ์</li>
                         <li>• รหัสตัวแทน (กรอกเฉพาะในกรณีที่เพื่อนเป็นผู้แนะนำมาเล่น)</li>
 
-
-
                         <br/>
                         <img className={classes.contentImages} src={ images.src + "letou/bonus_images/one_click_register/THOneClick01.jpg" } alt="THOneClick01"/>
 
                         <li>ระบบ "One Click" เป็นระบบใหม่ ที่จะอำนวยความสะดวกแก่ผู้เล่น ให้สามารถรับยูสเซอร์และพาสเวิร์ดทันทีภายในคลิกเดียว</li>
                         <li>โดยที่ไม่ต้องลงทะเบียนเต็มรูปแบบ ใช้งานได้ง่ายๆ ดังนี้ :</li>
                         <li>1.คลิกที่ปุ่ม [คลิกที่นี่ เพื่อรับยูสทันที]</li>
-
 
                         <img className={classes.contentImages} src={ images.src + "letou/bonus_images/one_click_register/THOneClick02.jpg" } alt="THOneClick02"/>
 
@@ -116,37 +113,25 @@ class THOneClickRegisterBonus extends React.Component {
                         <li>•ผู้เล่นสามารถทำการส่งข้อมูล ยูสเซอร์และพาสเวิร์ดไปที่อีเมล์ หรือ SMS ไปที่โทรศัพท์มือถือได้</li>
                         <li>(เพื่อเป็นการบันทึกไว้ หรือในกรณีที่ผู้เล่นลืมยูสเซอร์และพาสเวิร์ด)</li>
 
-
                         <img className={classes.contentImages} src={ images.src + "letou/bonus_images/one_click_register/THOneClick03.jpg" } alt="THOneClick03"/>
-
 
                         <li>ผู้เล่นสามารถเลือกส่งยูสเซอร์และพาสเวิร์ดไปที่อีเมล์ได้</li>
 
                         <img className={classes.contentImages} src={ images.src + "letou/bonus_images/one_click_register/THOneClick04.jpg" } alt="THOneClick04"/>
 
-
                         <li>ผู้เล่นสามารถเลือกส่งยูสเซอร์และพาสเวิร์ดไปที่โทรศัพท์ ผ่าน SMS ได้ (การใส่หมายเลขโทรศัพท์มือถือ ต้องตัด "0" ตัวแรกออก)</li>
 
-
                         <img className={classes.contentImages} src={ images.src + "letou/bonus_images/one_click_register/THOneClick05.jpg" } alt="THOneClick05"/>
-
-
 
                         <li>หลังจากคลิก "ฝากเพื่อเล่นทันที" ผู้เล่นต้องกรอกข้อมูลชื่อและนามสกุลจริง ก่อนการฝาก (ทำเพียงครั้งแรกครั้งเดียว)</li>
 
                         <img className={classes.contentImages} src={ images.src + "letou/bonus_images/one_click_register/THOneClick06.jpg" } alt="THOneClick06"/>
 
-
-
                         <li>กรอกชื่อจริง นามสกุลจริง และคลิกที่ [ขั้นต่อไป]</li>
 
                         <img className={classes.contentImages} src={ images.src + "letou/bonus_images/one_click_register/THOneClick07.jpg" } alt="THOneClick07"/>
 
-
-
                         <li>หลังจากนั้นเป็นขั้นตอนการฝาก สมาชิกสามารถเลือกการฝากได้ดังนี้ : [ฝากผ่านบัญชีธนาคาร], [ฝากอัตโนมัติ (อินเตอร์เน็ตแบงค์)] และ [ฝากผ่าน QR Code] ได้ทันที</li>
-
-
                     </ul>
 
                     <img className={classes.centeredImages} src={ images.src + "letou/bonus_images/one_click_register/THOneClick08.jpg" } alt="THOneClick08"/>
