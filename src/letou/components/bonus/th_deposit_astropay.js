@@ -118,6 +118,7 @@ class THDepositAstropayBonus extends React.Component {
                     </h3>
 
                     <img className={classes.contentImages} src={ images.src + "letou/bonus_images/deposit_astropay/THAstropay04.jpg" } alt="THAstropay04"/>
+                    <br/>
                     <p className={classes.centeredText}>เลือกที่ "ฝากเงิน"</p>
                     <img className={classes.contentImages} src={ images.src + "letou/bonus_images/deposit_astropay/THAstropay05.jpg" } alt="THAstropay05"/>
                     <p className={classes.centeredText}>เลือกที่ "AstroPay"</p>

@@ -117,6 +117,7 @@ class THDepositAutoFreeBonus extends React.Component {
                     
                     <h3 className={classes.mainHeading}>
                         ฝากเงินผ่าน Help2Pay รับโบนัสเพิ่มทันที 5%
+                        <br/>
                         สูงสุดถึง 300 บาท!
                     </h3>
 

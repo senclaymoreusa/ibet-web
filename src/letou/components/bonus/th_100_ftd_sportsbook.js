@@ -113,6 +113,7 @@ class TH100FTDSportsbookBonus extends React.Component {
                     
                     <h3 className={classes.mainHeading}>
                         สมาชิกใหม่ ฝากครั้งแรกรับโบนัส 100% สำหรับกีฬา (Sport)
+                        <br/>
                         สูงสุด 2,500 บาท
                     </h3>
 
