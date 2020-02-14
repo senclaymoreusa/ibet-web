@@ -1,54 +1,50 @@
+/* eslint-disable react/jsx-no-undef */
+/* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
-import axios from 'axios';
 import { config, images } from '../../../../../../util_config';
 import { connect } from 'react-redux';
-import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
-    sendingLog,
     AUTH_RESULT_FAIL,
+    sendingLog,
     authUserUpdate
 } from '../../../../../../actions';
+import getSymbolFromCurrency from 'currency-symbol-map';
+import { withRouter } from 'react-router-dom';
+import { Divider } from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { TextField } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Tooltip from '@material-ui/core/Tooltip';
-import Select from '@material-ui/core/Select';
+import axios from 'axios';
 import zxcvbn from 'zxcvbn';
+import NumberFormat from 'react-number-format';
+import Bank_Info from '../../../../../../commons/bank_info';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import InputBase from '@material-ui/core/InputBase';
-import MenuItem from '@material-ui/core/MenuItem';
-import NumberFormat from 'react-number-format';
-import PropTypes from 'prop-types';
-import Snackbar from '@material-ui/core/Snackbar';
-
-import { withRouter } from 'react-router-dom';
-import getSymbolFromCurrency from 'currency-symbol-map';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { Divider } from '@material-ui/core';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
 import clsx from 'clsx';
-import Bank_Info from '../../../../../../commons/bank_info';
+import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import PasswordStrengthMeter from '../../../../../../commons/PasswordStrengthMeter';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
-
-const amounts = Object.freeze([250, 500, 1000, 2500]);
 
 const styles = () => ({
     root: {
@@ -72,27 +68,6 @@ const styles = () => ({
         borderBottomLeftRadius: 4,
         textAlign: 'center',
         paddingTop: 12
-    },
-    select: {
-        fontSize: 14,
-        fontWeight: 500,
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 'normal',
-        color: '#292929',
-        height: 44,
-        width: '100%'
-    },
-    selectLabel: {
-        marginLeft: 10,
-        fontSize: 15,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        fontStretch: 'normal',
-        lineHeight: 'normal',
-        letterSpacing: 'normal',
-        color: '#292929'
     },
     desc: {
         fontSize: 12,
@@ -275,11 +250,7 @@ const styles = () => ({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%',
-        padding: 8,
-        marginBottom: 8,
-        borderRadius: 4,
-        border: '1px solid #e4e4e4'
+        width: '100%'
     },
     column: {
         display: 'flex',
@@ -289,17 +260,12 @@ const styles = () => ({
     },
     accountInfo: {
         fontSize: 16,
-        marginLeft: 15,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
         lineHeight: 1.33,
         letterSpacing: -0.15,
         color: '#252525'
-    },
-    bankIcon: {
-        height: 20,
-        maxWidth: 100
     },
     forgot: {
         fontSize: 12,
@@ -314,12 +280,6 @@ const styles = () => ({
     row: {
         display: 'flex',
         flexDirection: 'row',
-    },
-    savedAccountRow: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%'
     },
     button: {
         borderRadius: 4,
@@ -345,99 +305,7 @@ const styles = () => ({
     }
 });
 
-
-const bank_options = [
-    {
-        value: 'KKR',
-        label: 'Kasikorn Bank (K-Bank)',
-        img: 'letou/kasikornbank.png',
-        code: 2
-    },
-    {
-        value: 'BBL',
-        label: 'Bangkok Bank',
-        img: 'letou/bangkok-bank.png',
-        code: 2
-    },
-    {
-        value: 'SCB',
-        label: 'Siam Commercial Bank',
-        img: 'letou/scb.png',
-        code: 2
-    },
-    {
-        value: 'KTB',
-        label: 'Krung Thai Bank',
-        img: 'letou/krungthai.png',
-        code: 2
-    },
-    {
-        value: 'BOA',
-        label: 'Bank of Ayudhya (Krungsri)',
-        img: 'letou/bay.png',
-        code: 2
-    },
-    {
-        value: 'GSB',
-        label: 'Government Savings Bank',
-        img: 'letou/gov-saving.png',
-        code: 2
-    },
-    {
-        value: 'TMB',
-        label: 'TMB Bank Public Company Limited',
-        img: 'letou/tmb.png',
-        code: 2
-    },
-    {
-        value: 'CIMBT',
-        label: 'CIMB Thai',
-        img: 'letou/cimb.png',
-        code: 2
-    },
-    {
-        value: 'KNK',
-        label: 'Kiatnakin Bank',
-        img: 'letou/kiat.png',
-        code: 2
-    }
-];
-
-const BootstrapInput = withStyles(theme => ({
-    root: {
-        'label + &': {
-            marginTop: theme.spacing(3)
-        }
-    },
-    input: {
-        borderRadius: 4,
-        position: 'relative',
-        backgroundColor: theme.palette.background.paper,
-        border: '1px solid #ced4da',
-        fontSize: 16,
-        padding: '10px 2px 10px 12px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-        display: 'flex',
-        flexDirection: 'row',
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"'
-        ].join(','),
-        '&:focus': {
-            borderRadius: 4,
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
-        }
-    }
-}))(InputBase);
+const amounts = Object.freeze([250, 500, 1000, 2500]);
 
 function NumberFormatCustom(props) {
     const { currency, inputRef, onChange, ...other } = props;
@@ -537,7 +405,7 @@ LetouSnackbarContentWrapper.propTypes = {
     variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired
 };
 
-class ThaiLocalBank extends Component {
+class ChinaLocalBank extends Component {
     _isMounted = false;
 
     constructor(props) {
@@ -550,7 +418,6 @@ class ThaiLocalBank extends Component {
             withdrawPassword: '',
 
             cardholder: '',
-            selectedBank: 'none',
             cardNumber: '',
 
             showSnackbar: false,
@@ -593,7 +460,7 @@ class ThaiLocalBank extends Component {
     componentWillUnmount() {
         this._isMounted = false;
     }
-
+    
     getBankCards() {
         const { user } = this.props;
         let requestURL = `accounting/api/transactions/get_withdraw_accs?id=${user.userId}`;
@@ -602,120 +469,37 @@ class ThaiLocalBank extends Component {
             .get(API_URL + requestURL)
             .then(res => {
                 if (res.status === 200) {
+                    let items = res.data.results;
+
+                    for (const card of items) {
+                        let bi = Bank_Info['Bank_Info']
+                            .filter(b => {
+                                return b.CardLength === card.account_no.length;
+                            })
+                            .filter(b => {
+                                return (
+                                    b.BINCode ===
+                                    card.account_no.substring(
+                                        0,
+                                        b.BINCodeLength
+                                    )
+                                );
+                            })[0];
+
+                        if (bi) {
+                            card.BankName = bi.BankName;
+                        } else {
+                            card.BankName = this.getLabel('my-card');
+                        }
+                    }
+
                     this.setState({
-                        cards: res.data.results
+                        cards: items
                     });
                 }
             })
             .catch(err => {
                 this.setState({ cards: [] });
-                sendingLog(err);
-            });
-    }
-
-    amountChanged(event) {
-        this.setState({ amountFocused: true });
-
-        if (event.target.value.length === 0) {
-            this.setState({ amount: '', amountInvalid: true });
-        } else {
-            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
-
-            if (re.test(event.target.value)) {
-                this.setState({
-                    amount: event.target.value,
-                    amountInvalid:
-                        parseFloat(event.target.value) < 200 ||
-                        parseFloat(event.target.value) > 500000
-                });
-            } else {
-                this.setState({ amountInvalid: true });
-            }
-        }
-    }
-
-    confirmWithdraw() {
-        let currentComponent = this;
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        const body = JSON.stringify({
-            bank: bank_options.filter(b => {
-                return b.value == this.state.selectedBank;
-            })[0].label,
-            bank_acc_no: this.state.selectedCard.account_no,
-            real_name:
-                this.props.user.firstName + ' ' + this.props.user.lastName,
-            username: this.props.user.username,
-            amount: this.state.amount,
-            currency: 2,
-            type: '1'
-        });
-
-        return axios
-            .post(
-                API_URL + 'accounting/api/transactions/save_transaction',
-                body,
-                config
-            )
-            .then(res => {
-                if (res.statusText === 'OK') {
-                    return res.data;
-                } else {
-                    currentComponent.props.callbackFromParent(
-                        'error',
-                        'Transaction failed.'
-                    );
-                }
-            })
-            .then(function (data) {
-                let status = data.success;
-                if (status) {
-                    const sbody = JSON.stringify({
-                        type: 'withdraw',
-                        username: currentComponent.props.user.username,
-                        balance: currentComponent.state.amount
-                    });
-                    axios
-                        .post(
-                            API_URL + `users/api/addorwithdrawbalance/`,
-                            sbody,
-                            config
-                        )
-                        .then(res => {
-                            if (res.data === 'Failed') {
-                                currentComponent.props.callbackFromParent(
-                                    'error',
-                                    'Transaction failed!'
-                                );
-                            } else if (
-                                res.data === 'The balance is not enough'
-                            ) {
-                                currentComponent.props.callbackFromParent(
-                                    'error',
-                                    'Cannot withdraw this amount!'
-                                );
-                            } else {
-                                currentComponent.props.authUserUpdate();
-                                currentComponent.props.callbackFromParent(
-                                    'success',
-                                    'Your balance is updated.'
-                                );
-                            }
-                        });
-                } else {
-                    currentComponent.props.callbackFromParent(
-                        'error',
-                        'Somthing is wrong'
-                    );
-                }
-            })
-            .catch(err => {
-                currentComponent.props.callbackFromParent(
-                    'error',
-                    'Something is wrong.'
-                );
                 sendingLog(err);
             });
     }
@@ -783,6 +567,33 @@ class ThaiLocalBank extends Component {
             })
     }
 
+    deleteCard() {
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        let requestURL = `accounting/api/transactions/del_withdraw_acc`;
+        console.log(requestURL)
+        axios
+            .post(
+                API_URL + requestURL,
+                {
+                    user_id: this.props.user.userId,
+                    acc_id: this.state.currentIdForRemoving
+                },
+                config
+            )
+            .then(() => {
+                this.setState({
+                    currentIdForRemoving: '',
+                    openConfirm: false
+                })
+                this.getBankCards();
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
+    }
+
     bankCardNumberChanged(event) {
         const re = /^[0-9\b]+$/;
 
@@ -830,14 +641,12 @@ class ThaiLocalBank extends Component {
             bodyItem = {
                 user_id: this.props.user.userId,
                 acc_no: this.state.cardNumber,
-                bank_code: this.state.selectedBank,
                 full_name: this.state.cardholder
             };
         else
             bodyItem = {
                 user_id: this.props.user.userId,
-                acc_no: this.state.cardNumber,
-                bank_code: this.state.selectedBank
+                acc_no: this.state.cardNumber
             };
 
         axios
@@ -885,29 +694,108 @@ class ThaiLocalBank extends Component {
         });
     }
 
-    deleteCard() {
+    amountChanged(event) {
+        this.setState({ amountFocused: true });
+
+        if (event.target.value.length === 0) {
+            this.setState({ amount: '', amountInvalid: true });
+        } else {
+            const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
+
+            if (re.test(event.target.value)) {
+                this.setState({
+                    amount: event.target.value,
+                    amountInvalid:
+                        parseFloat(event.target.value) < 100 ||
+                        parseFloat(event.target.value) > 50000
+                });
+            } else {
+                this.setState({ amountInvalid: true });
+            }
+        }
+    }
+
+    confirmWithdraw() {
+        let currentComponent = this;
+
         const token = localStorage.getItem('token');
         config.headers['Authorization'] = `Token ${token}`;
 
-        let requestURL = `accounting/api/transactions/del_withdraw_acc`;
-        console.log(requestURL)
-        axios
+        const body = JSON.stringify({
+            bank: this.state.selectedCard.BankName,
+            bank_acc_no: this.state.selectedCard.account_no,
+            real_name:
+                this.props.user.firstName + ' ' + this.props.user.lastName,
+            username: this.props.user.username,
+            amount: this.state.amount,
+            currency: 0,
+            type: '1'
+        });
+        
+        return axios
             .post(
-                API_URL + requestURL,
-                {
-                    user_id: this.props.user.userId,
-                    acc_id: this.state.currentIdForRemoving
-                },
+                API_URL + 'accounting/api/transactions/save_transaction',
+                body,
                 config
             )
-            .then(() => {
-                this.setState({
-                    currentIdForRemoving: '',
-                    openConfirm: false
-                })
-                this.getBankCards();
+            .then(res => {
+                if (res.statusText === 'OK') {
+                    return res.data;
+                } else {
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        'Transaction failed.'
+                    );
+                }
+            })
+            .then(function (data) {
+                let status = data.success;
+                if (status) {
+                    const sbody = JSON.stringify({
+                        type: 'withdraw',
+                        username: currentComponent.props.user.username,
+                        balance: currentComponent.state.amount
+                    });
+                    axios
+                        .post(
+                            API_URL + `users/api/addorwithdrawbalance/`,
+                            sbody,
+                            config
+                        )
+                        .then(res => {
+                            if (res.data === 'Failed') {
+                                //this.setState({ error: true });
+                                currentComponent.props.callbackFromParent(
+                                    'error',
+                                    'Transaction failed!'
+                                );
+                            } else if (
+                                res.data === 'The balance is not enough'
+                            ) {
+                                currentComponent.props.callbackFromParent(
+                                    'error',
+                                    'Cannot withdraw this amount!'
+                                );
+                            } else {
+                                currentComponent.props.authUserUpdate();
+                                currentComponent.props.callbackFromParent(
+                                    'success',
+                                    'Your balance is updated.'
+                                );
+                            }
+                        });
+                } else {
+                    currentComponent.props.callbackFromParent(
+                        'error',
+                        'Somthing is wrong'
+                    );
+                }
             })
             .catch(err => {
+                currentComponent.props.callbackFromParent(
+                    'error',
+                    'Something is wrong.'
+                );
                 sendingLog(err);
             });
     }
@@ -918,7 +806,6 @@ class ThaiLocalBank extends Component {
             activeStep,
             cards,
             selectedCard,
-            selectedBank,
             amount,
             withdrawPassword,
             createWithdrawPassword,
@@ -967,6 +854,13 @@ class ThaiLocalBank extends Component {
                             >
                                 {this.getLabel('add-bank-account-text')}
                             </span>
+                            {cards.length > 0 && (
+                                <Divider
+                                    variant="fullWidth"
+                                    light={true}
+                                    style={{ width: '100%' }}
+                                />
+                            )}
 
                             {cards.map(card => (
                                 <div
@@ -974,28 +868,20 @@ class ThaiLocalBank extends Component {
                                     className={classes.column}
                                 >
                                     <div className={classes.accountRow}>
-                                        <div className={classes.savedAccountRow}
+                                        <div className={classes.row} style={{ width: '100%' }}
                                             onClick={() => {
                                                 this.setState({
                                                     selectedCard: card,
-                                                    selectedBank: card.bank_code,
                                                     activeStep: user.hasWithdrawPassword
                                                         ? 4
                                                         : 1
                                                 });
                                             }}>
-                                            <img
-                                                src={
-                                                    images.src + bank_options.filter(b => {
-                                                        return b.value == card.bank_code;
-                                                    })[0].img
-                                                }
-                                                alt=""
-                                                className={classes.bankIcon}
-                                            />
                                             <span className={classes.accountInfo}>
+                                                {card.BankName}
+                                                {' - '}
                                                 {card.account_no.substring(
-                                                    card.account_no.length - 4
+                                                    card.account_no.length - 3
                                                 )}
                                             </span>
                                             <div className={classes.grow} />
@@ -1018,6 +904,11 @@ class ThaiLocalBank extends Component {
                                             />
                                         </Button>
                                     </div>
+                                    <Divider
+                                        variant="fullWidth"
+                                        light={true}
+                                        style={{ width: '100%' }}
+                                    />
                                 </div>
                             ))}
                             <Button
@@ -1218,7 +1109,6 @@ class ThaiLocalBank extends Component {
                                 }}
                                 InputProps={{
                                     disableUnderline: true,
-                                    readOnly: cardholder.length > 0,
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <Tooltip
@@ -1240,46 +1130,6 @@ class ThaiLocalBank extends Component {
                                     )
                                 }}
                             />
-                        </Grid>
-                        <Grid item xs={12} className={classes.detailRow}>
-                            <Select
-                                className={classes.select}
-                                value={selectedBank}
-                                onChange={event => {
-                                    this.setState({
-                                        selectedBank: event.target.value
-                                    });
-                                }}
-                                input={
-                                    <BootstrapInput
-                                        name="bank"
-                                        id="bank-select"
-                                    />
-                                }
-                            >
-                                <MenuItem key="none" value="none" disabled>
-                                    <span className={classes.selectLabel}>
-                                        {this.getLabel('choose-bank')}
-                                    </span>
-                                </MenuItem>
-                                {bank_options.map(bank => (
-                                    <MenuItem
-                                        key={bank.label}
-                                        value={bank.value}
-                                    >
-                                        <div style={{ width: 100 }}>
-                                            <img
-                                                src={images.src + bank.img}
-                                                alt=""
-                                                className={classes.bankIcon}
-                                            />
-                                        </div>
-                                        <span className={classes.selectLabel}>
-                                            {bank.label}
-                                        </span>
-                                    </MenuItem>
-                                ))}
-                            </Select>
                         </Grid>
                         <Grid item xs={12} className={classes.detailRow}>
                             <TextField
@@ -1407,21 +1257,14 @@ class ThaiLocalBank extends Component {
                         <Grid
                             item
                             xs={12}
-                            className={classes.savedAccountRow}
+                            className={classes.detailRow}
                             style={{ borderBottom: '1px solid #e7e7e7' }}
                         >
-                            <img
-                                src={
-                                    images.src + bank_options.filter(b => {
-                                        return b.value == this.state.selectedBank;
-                                    })[0].img
-                                }
-                                alt=""
-                                className={classes.bankIcon}
-                            />
                             <span
-                                className={classes.accountInfo}
+                                className={classes.text}
+                                style={{ marginLeft: 10 }}
                             >
+                                {selectedCard.BankName}
                                 {' - '}
                                 {selectedCard.account_no.substring(
                                     selectedCard.account_no.length - 3
@@ -1463,7 +1306,7 @@ class ThaiLocalBank extends Component {
                                 alt=""
                                 style={{ marginLeft: 6 }}
                                 className={classes.bankIcon}
-
+                               
                             />
                             <div className={classes.grow} />
                             <span className={classes.text}>
@@ -1656,6 +1499,7 @@ class ThaiLocalBank extends Component {
                 return (
                     <div></div>
                 );
+                
         }
     }
 
@@ -1668,7 +1512,7 @@ class ThaiLocalBank extends Component {
     }
 
     render() {
-        const { classes, user } = this.props;
+        const { classes } = this.props;
 
         return (
             <div className={classes.root}>
@@ -1739,11 +1583,9 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(mapStateToProps, {
-                authCheckState,
-                sendingLog,
-                authUserUpdate
-            })(ThaiLocalBank)
+            connect(mapStateToProps, { authCheckState, sendingLog, authUserUpdate })(
+                ChinaLocalBank
+            )
         )
     )
 );

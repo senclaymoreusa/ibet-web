@@ -25,10 +25,15 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430,
+        width: '100%',
+        maxWidth: 430
     },
     qrGrid: {
         paddingLeft: 30,
@@ -314,36 +319,21 @@ class Payzod extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
-                    });
-            }
-        })
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
             } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'payzod' });
+                if (this.props.user) {
+                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
+                        isFavorite:
+                            this.props.user.favoriteDepositMethod ===
+                            'payzod'
                     });
+                }
             }
         })
     }
@@ -435,13 +425,12 @@ class Payzod extends Component {
 
     setAsFavourite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
+            user_id: this.props.user.userId,
             payment: event.target.checked ? 'payzod' : null,
         })
             .then(() => {
-                this.props.authUserUpdate();    
-                                        this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
+                this.props.authUserUpdate();
+                this.setState({ isFavorite: !this.state.isFavorite });
             })
             .catch(function (err) {
                 sendingLog(err);
@@ -588,11 +577,12 @@ class Payzod extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    const { user } = state.auth;
 
-const mapStateToProps = (state) => {
     return {
-        language: state.language.lang,
-    }
-}
+        user: user
+    };
+};
 
 export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(Payzod))));
