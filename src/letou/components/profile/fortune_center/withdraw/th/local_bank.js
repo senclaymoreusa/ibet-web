@@ -1218,6 +1218,7 @@ class ThaiLocalBank extends Component {
                                 }}
                                 InputProps={{
                                     disableUnderline: true,
+                                    readOnly: cardholder.length > 0,
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <Tooltip
@@ -1406,7 +1407,7 @@ class ThaiLocalBank extends Component {
                         <Grid
                             item
                             xs={12}
-                            className={classes.detailRow}
+                            className={classes.savedAccountRow}
                             style={{ borderBottom: '1px solid #e7e7e7' }}
                         >
                             <img
