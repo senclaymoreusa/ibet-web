@@ -31,10 +31,15 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingTop: 50,
@@ -285,38 +290,18 @@ class ScratchCard extends Component {
         };
     }
 
-    // componentWillReceiveProps(props) {
-    //     this.props.authCheckState().then(res => {
-    //         if (res === AUTH_RESULT_FAIL) {
-    //             this.props.history.push('/');
-    //         } else {
-    //             const token = localStorage.getItem('token');
-    //             config.headers['Authorization'] = `Token ${token}`;
-    //             axios.get(API_URL + 'users/api/user/', config).then(res => {
-    //                 this.setState({ data: res.data });
-    //                 this.setState({
-    //                     isFavorite:
-    //                         res.data.favorite_payment_method === 'scratchcard'
-    //                 });
-    //             });
-    //         }
-    //     });
-    // }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
             } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
+                if (this.props.user) {
                     this.setState({
                         isFavorite:
-                            res.data.favorite_payment_method === 'scratchcard'
+                            this.props.user.favoriteDepositMethod ===
+                            'scratchcard'
                     });
-                });
+                }
             }
         });
     }
@@ -434,13 +419,12 @@ class ScratchCard extends Component {
     setAsFavorite(event) {
         axios
             .post(API_URL + `users/api/favorite-payment-setting/`, {
-                user_id: this.state.data.pk,
+                user_id: this.props.user.userId,
                 payment: event.target.checked ? 'scratchcard' : null
             })
             .then(() => {
                 this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
             })
             .catch(function(err) {
                 sendingLog(err);
@@ -469,16 +453,6 @@ class ScratchCard extends Component {
         return (
             <div className={classes.root}>
                 <Grid container spacing={2} className={classes.contentGrid}>
-                    {/* <Grid
-                        item
-                        xs={12}
-                        className={classes.detailRow}
-                        style={{ marginBottom: 30 }}
-                    >
-                        <span className={classes.info}>
-                            {this.getLabel('fgo-enter')}
-                        </span>
-                    </Grid> */}
                     <Grid item xs={12}>
                         <Select
                             className={classes.select}
@@ -581,12 +555,7 @@ class ScratchCard extends Component {
                             }}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        className={classes.detailRow}
-                        style={{ marginBottom: 30 }}
-                    >
+                    <Grid item xs={12} className={classes.detailRow}>
                         <TextField
                             className={classes.detailText}
                             placeholder={'PIN'}
@@ -630,6 +599,21 @@ class ScratchCard extends Component {
                             }}
                         />
                     </Grid>
+                    <Grid item xs={12} style={{ marginBottom: 30 }}>
+                        <FormControlLabel
+                            className={classes.checkbox}
+                            control={
+                                <CustomCheckbox
+                                    checked={isFavorite}
+                                    value="checkedA"
+                                    onClick={event => {
+                                        this.setAsFavorite(event);
+                                    }}
+                                />
+                            }
+                            label={this.getLabel('add-favourite-deposit')}
+                        />
+                    </Grid>
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button
                             variant="contained"
@@ -653,36 +637,6 @@ class ScratchCard extends Component {
                             {this.getLabel('deposit-label')}
                         </Button>
                     </Grid>
-                    <Grid item xs={12} style={{ marginBottom: 30 }}>
-                        <FormControlLabel
-                            className={classes.checkbox}
-                            control={
-                                <CustomCheckbox
-                                    checked={isFavorite}
-                                    value="checkedA"
-                                    onClick={event => {
-                                        this.setAsFavorite(event);
-                                    }}
-                                />
-                            }
-                            label={this.getLabel('add-favourite-deposit')}
-                        />
-                    </Grid>
-                    {/* <Grid
-                        item
-                        xs={12}
-                        className={classes.detailRow}
-                        style={{ marginBottom: 30 }}
-                    >
-                        <span className={classes.info}>
-                            {this.getLabel('fgo-ensure')}
-                        </span>
-                    </Grid>
-                    <Grid item xs={12} className={classes.detailRow}>
-                        <span className={classes.info}>
-                            {this.getLabel('fgo-wrong')}
-                        </span>
-                    </Grid> */}
                 </Grid>
             </div>
         );
@@ -690,8 +644,10 @@ class ScratchCard extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang
+        user: user
     };
 };
 
