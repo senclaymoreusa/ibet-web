@@ -48,7 +48,7 @@ import PasswordStrengthMeter from '../../../../../../commons/PasswordStrengthMet
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
-const amounts = Object.freeze([200, 500, 1000, 2500]);
+const amounts = Object.freeze([250, 500, 1000, 2500]);
 
 const styles = () => ({
     root: {
@@ -344,6 +344,7 @@ const styles = () => ({
         opacity: 1
     }
 });
+
 
 const bank_options = [
     {
@@ -648,14 +649,14 @@ class VietnamLocalBank extends Component {
 
         const body = JSON.stringify({
             bank: bank_options.filter(b => {
-                return b.value == this.state.selectedBank;
+                return b.value === this.state.selectedBank;
             })[0].label,
             bank_acc_no: this.state.selectedCard.account_no,
             real_name:
                 this.props.user.firstName + ' ' + this.props.user.lastName,
             username: this.props.user.username,
             amount: this.state.amount,
-            currency: 2,
+            currency: 7,
             type: '1'
         });
 
@@ -876,7 +877,7 @@ class VietnamLocalBank extends Component {
         this.setState({ createWithdrawPassword: event.target.value });
 
         let testedResult = zxcvbn(event.target.value);
-        console.log('testedResult:' + testedResult)
+       
         this.setState({
             createWithdrawPasswordInvalid: !(testedResult.score === 3 || testedResult.score === 4),
             createConfirmWithdrawPasswordInvalid: (event.target.value !== this.state.createConfirmWithdrawPassword) && this.state.createConfirmWithdrawPasswordFocused
@@ -896,7 +897,7 @@ class VietnamLocalBank extends Component {
         config.headers['Authorization'] = `Token ${token}`;
 
         let requestURL = `accounting/api/transactions/del_withdraw_acc`;
-        console.log(requestURL)
+      
         axios
             .post(
                 API_URL + requestURL,
@@ -993,7 +994,7 @@ class VietnamLocalBank extends Component {
                                             <img
                                                 src={
                                                     images.src + bank_options.filter(b => {
-                                                        return b.value == card.bank_code;
+                                                        return b.value === card.bank_code;
                                                     })[0].img
                                                 }
                                                 alt=""
@@ -1224,6 +1225,7 @@ class VietnamLocalBank extends Component {
                                 }}
                                 InputProps={{
                                     disableUnderline: true,
+                                    readOnly: cardholder.length > 0,
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <Tooltip
@@ -1412,13 +1414,13 @@ class VietnamLocalBank extends Component {
                         <Grid
                             item
                             xs={12}
-                            className={classes.detailRow}
-                            style={{ borderBottom: '1px solid #e7e7e7' }}
+                            className={classes.savedAccountRow}
+                            style={{ borderBottom: '1px solid #e7e7e7', textAlign: 'center' }}
                         >
                             <img
                                 src={
                                     images.src + bank_options.filter(b => {
-                                        return b.value == this.state.selectedBank;
+                                        return b.value === this.state.selectedBank;
                                     })[0].img
                                 }
                                 alt=""
@@ -1540,7 +1542,7 @@ class VietnamLocalBank extends Component {
                             <TextField
                                 className={classes.amountText}
                                 placeholder={this.getLabel(
-                                    'zh-localbank-placeholder-withdraw'
+                                    'vn-localbank-placeholder-withdraw'
                                 )}
                                 onChange={this.amountChanged.bind(this)}
                                 value={amount}
@@ -1673,7 +1675,7 @@ class VietnamLocalBank extends Component {
     }
 
     render() {
-        const { classes, user } = this.props;
+        const { classes } = this.props;
 
         return (
             <div className={classes.root}>
@@ -1734,9 +1736,8 @@ class VietnamLocalBank extends Component {
 }
 
 const mapStateToProps = state => {
-    const { token, user } = state.auth;
+    const { user } = state.auth;
     return {
-        isAuthenticated: token !== null && token !== undefined,
         user: user
     };
 };
