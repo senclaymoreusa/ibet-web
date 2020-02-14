@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import {
     authLogin, authCheckState, AUTH_RESULT_SUCCESS, hide_letou_forgot_password,
-    hide_letou_login, show_signup, sendingLog} from '../../../actions';
+    hide_letou_login, show_signup, sendingLog
+} from '../../../actions';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -15,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Grid } from '@material-ui/core';
 import PermIdentity from '@material-ui/icons/PermIdentity';
 import Clear from '@material-ui/icons/Clear';
+import clsx from 'clsx';
 
 import { images, config } from '../../../util_config';
 
@@ -41,6 +43,18 @@ const styles = () => ({
         textAlign: 'center',
         color: 'black',
         marginTop: 8,
+    },
+    row: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: 10,
+        paddingBottom: 10
+    },
+    column: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
     },
     closeCell: {
         paddingLeft: 10,
@@ -94,12 +108,27 @@ const styles = () => ({
             border: 'solid 1px #717171',
         },
     },
+    retrieveOption: {
+        width: '100%',
+        height: 44,
+        borderRadius: 4,
+        backgroundColor: '#F1941A',
+        color: 'white',
+        textTransform: 'capitalize',
+        "&:hover": {
+            backgroundColor: '#f79c25',
+        },
+        "&:focus": {
+            backgroundColor: '#f79c25',
+        },
+    },
     loginButton: {
         width: '100%',
         height: 44,
         borderRadius: 4,
         backgroundColor: '#F1941A',
         color: 'white',
+        textTransform: 'capitalize',
         "&:hover": {
             backgroundColor: '#f79c25',
         },
@@ -120,6 +149,13 @@ const styles = () => ({
         letterSpacing: 'normal',
         color: '#212121',
     },
+    optionLabel: {
+        fontSize: 10,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        color: '#212121',
+    },
     loginQuestionText: {
         fontSize: 12,
         fontWeight: 500,
@@ -128,20 +164,35 @@ const styles = () => ({
         lineHeight: 1.5,
         color: '#212121',
     },
+    orange:{
+        color: '#F1941A',
+    },
     retrieveMethods: {
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'center',
+        textAlign: 'center'
     },
-    retrieveButtons: {
-        width: '100%',
-        height: 150,
-        borderRadius: 4,
-        color: 'white',
+    retrieveOption: {
+        display: 'flex',
+        flexDirection: 'column',
+        textAlign: 'center',
+        width: 88,
+        height: 88,
+        marginLeft: 10,
+        marginRight: 10,
+        padding: 0,
+        backgroundColor: '#f9f9f9',
+        border: '1px solid #e7e8e7',
+        borderRadius: 88,
+        fontSize: 12,
+        textTransform: 'capitalize',
+        color: '#292929',
         "&:hover": {
-            backgroundColor: '#f79c25',
+            backgroundColor: '#f9f9f9',
         },
         "&:focus": {
-            backgroundColor: '#f79c25',
+            backgroundColor: '#f9f9f9',
         },
     }
 });
@@ -152,7 +203,13 @@ export class ForgotPassword extends React.Component {
         super(props);
 
         this.state = {
+            activeStep: 0,
             username: '',
+
+            hasQuestion: false,
+            phoneVerified: false,
+            emailVerified: false,
+
             password: '',
             hidden: true,
 
@@ -163,9 +220,9 @@ export class ForgotPassword extends React.Component {
             showPassword: false,
 
             usernameInvalid: true,
-     
+
             usernameFocused: false,
-      
+
             loginDisabled: true,
             wrongPasswordError: false,
             userBlocked: false
@@ -176,6 +233,26 @@ export class ForgotPassword extends React.Component {
         this.handle_one_click = this.handle_one_click.bind(this);
     }
 
+    submitUsername() {
+        let apiURL = `users/api/retrievepasswordmethod?ref_no=${this.state.username}`;
+
+        axios
+            .get(API_URL + apiURL, config)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({
+                        hasQuestion: res.data.question,
+                        phoneVerified: res.data.phone,
+                        emailVerified: res.data.email,
+                        activeStep: 1
+                    });
+
+                }
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
+    }
 
     handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }));
@@ -272,13 +349,13 @@ export class ForgotPassword extends React.Component {
                             })
                             .catch(err => {
                                 sendingLog(err);
-                                
+
                                 //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
                             })
                     })
                     .catch(err => {
                         sendingLog(err);
-                        
+
                         //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
                     })
             })
@@ -303,8 +380,8 @@ export class ForgotPassword extends React.Component {
                     this.setState({ wrongPasswordError: true, userBlocked: false })
                 }
                 sendingLog(err);
-                
-                
+
+
                 //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
 
             });
@@ -316,13 +393,12 @@ export class ForgotPassword extends React.Component {
     }
 
     render() {
-
         const { classes } = this.props;
-
+        const { activeStep, username } = this.state;
 
         return (
             <div className={classes.root}>
-                <Grid container>
+                {activeStep == 0 && <Grid container>
                     <Grid item xs={2} >
                     </Grid>
                     <Grid item xs={8} className={classes.titleRow}>
@@ -337,46 +413,45 @@ export class ForgotPassword extends React.Component {
                             <Clear />
                         </IconButton>
                     </Grid>
-                    <form onSubmit={this.onFormSubmit.bind(this)} style={{ width: '100%' }}>
-                        <Grid item xs={12} style={{ paddingBottom: 20, paddingTop: 20 }}>
-                            <TextField
-                                className={classes.usernameText}
-                                placeholder={this.getLabel('user-name')}
-                                onChange={(event) => {
-                                    this.setState({ username: event.target.value });
-                                    this.setState({ usernameInvalid: event.target.value.length === 0 });
-
-                                }}
-                                onFocus={() => {
-                                    this.setState({ usernameFocused: true });
-                                }}
-                                error={this.state.usernameInvalid && this.state.usernameFocused}
-                                helperText={(this.state.usernameInvalid && this.state.usernameFocused) ? this.getLabel('enter-valid-username') : ' '}
-                                InputProps={{
-                                    disableUnderline: true,
-                                    startAdornment: <InputAdornment position="start">
-                                        <PermIdentity />
-                                    </InputAdornment>,
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={12} >
-                            <Button className={classes.loginButton}
-                                onClick={this.handleClick}
-                                disabled={this.state.usernameInvalid}
-                            >{this.getLabel('retrieve-password')}</Button>
-                        </Grid>
-                    </form>
-                   <Grid item xs={12} style={{ paddingTop: 10 }}>
+                    <Grid item xs={12} className={classes.row} >
+                        <span className={classes.loginText}>
+                            {this.getLabel('fill-username')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12} style={{ paddingBottom: 20, paddingTop: 20 }}>
+                        <TextField
+                            className={classes.usernameText}
+                            placeholder={this.getLabel('user-name')}
+                            value={username}
+                            onChange={(event) => {
+                                this.setState({ username: event.target.value });
+                            }}
+                            InputProps={{
+                                inputProps: { maxLength: 24 },
+                                disableUnderline: true,
+                                startAdornment: <InputAdornment position="start">
+                                    <PermIdentity />
+                                </InputAdornment>,
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Button className={classes.loginButton}
+                            onClick={this.submitUsername.bind(this)}
+                            disabled={username.length == 0}
+                        >{this.getLabel('retrieve-password')}</Button>
+                    </Grid>
+                    <Grid item xs={12} style={{ paddingTop: 10 }}>
                         <span className={classes.loginQuestionText}>{this.getLabel('login-question-text')}</span>
                     </Grid>
                 </Grid>
-                <Grid container>
+                }
+                {activeStep == 1 && <Grid container>
                     <Grid item xs={2} >
                     </Grid>
                     <Grid item xs={8} className={classes.titleRow}>
                         <span className={classes.title}>
-                            {this.getLabel('forgot-password')}
+                            {this.getLabel('retrieve-password')}
                         </span>
                     </Grid>
                     <Grid item xs={2} className={classes.closeCell}>
@@ -386,39 +461,62 @@ export class ForgotPassword extends React.Component {
                             <Clear />
                         </IconButton>
                     </Grid>
+                    <Grid item xs={12} className={classes.row} style={{ textAlign: 'center', marginBottom: 15 }}>
+                        <span className={classes.loginText}>
+                            {this.getLabel('select-verification-method')}
+                        </span>
+                    </Grid>
                     <Grid item xs={12} className={classes.retrieveMethods}>
-                        <Button className={classes.retrieveButtons}
+                        <Button className={classes.retrieveOption}
                             onClick={this.handleClick}
-                            disabled={this.state.usernameInvalid}
-                            >
+                            disabled={!this.state.hasQuestion}
+                        >
+                            <div className={classes.column}>
                                 <img
                                     src={images.src + 'check_circle-24px.svg'}
                                     alt='letou'
-                                />   
+                                    className={clsx({
+                                        [classes.orange]: this.state.hasQuestion
+                                    })}
+                                />
+                                <span className={classes.optionLabel}> {this.getLabel('safety-question')}</span>
+                            </div>
                         </Button>
-                        <Button className={classes.retrieveButtons}
+                        <Button className={classes.retrieveOption}
                             onClick={this.handleClick}
-                            disabled={this.state.usernameInvalid}
-                            >
+                            disabled={!this.state.emailVerified}
+                        >
+                            <div className={classes.column}>
                                 <img
                                     src={images.src + 'email-24px.svg'}
                                     alt='letou'
+                                    className={clsx({
+                                        [classes.orange]: this.state.emailVerified
+                                    })}
                                 />
+                                <span className={classes.optionLabel}> {this.getLabel('email-label')}</span>
+                            </div>
                         </Button>
-                        <Button className={classes.retrieveButtons}
-                            onClick={this.handleClick}
-                            disabled={this.state.usernameInvalid}
-                            >
+                        <Button className={classes.retrieveOption}
+                            onClick={this.submitUsername}
+                            disabled={!this.state.phoneVerified}
+                        >
+                            <div className={classes.column}>
                                 <img
                                     src={images.src + 'phone_iphone-24px.svg'}
                                     alt='letou'
+                                    className={clsx({
+                                        [classes.orange]: this.state.phoneVerified
+                                    })}
                                 />
+                                <span className={classes.optionLabel}> {this.getLabel('phone-label')}</span>
+                            </div>
                         </Button>
                     </Grid>
-                   <Grid item xs={12} style={{ paddingTop: 10 }}>
+                    <Grid item xs={12} style={{ paddingTop: 10 }}>
                         <span className={classes.loginQuestionText}>{this.getLabel('login-question-text')}</span>
                     </Grid>
-                </Grid>
+                </Grid>}
             </div >
         );
     }
@@ -432,4 +530,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authLogin, authCheckState, hide_letou_login, show_signup, hide_letou_forgot_password  })(ForgotPassword))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authLogin, authCheckState, hide_letou_login, show_signup, hide_letou_forgot_password })(ForgotPassword))));

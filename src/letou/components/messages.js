@@ -670,10 +670,16 @@ export const messages = {
         'remove-label': 'Remove',
         'my-card': 'My Bank Card',
         'transfer-title': 'Request Transfer',
-        'dont-have-enough-balance': 'The current game account balance is less than 10, please transfer money to ensure smooth game play.',
+        'dont-have-enough-balance':
+            'The current game account balance is less than 10, please transfer money to ensure smooth game play.',
         'transfer-redirect': 'Go to transfer page',
         'password-label': 'Password',
         'confirm-password': 'Confirm Password',
+        'fill-username': 'Please fill in the username you wish to retrieve',
+        'select-verification-method':
+            'Please select a verification method (invalid verification methods are grayed out)',
+            'safety-question':'Safety Question',
+            
     },
     zh: {
         'sports-label': '体育',
@@ -1226,8 +1232,9 @@ export const messages = {
         'help-problem': '遇到问题吗？',
         'help-service': '我们随时随刻为您服务',
         'transfer-title': '申请转账',
-        'dont-have-enough-balance': '目前此游戏账户余额低于10，请转帐以保证游戏顺畅。',
-        'transfer-redirect': '跳转到转账页',
+        'dont-have-enough-balance':
+            '目前此游戏账户余额低于10，请转帐以保证游戏顺畅。',
+        'transfer-redirect': '跳转到转账页'
     },
     th: {
         'sports-label': 'พลศึกษา',
@@ -1243,7 +1250,7 @@ export const messages = {
             'LETOU ให้บริการลูกค้าตลอด 24 ชั่วโมง 365 วันต่อปีด้วยความตั้งใจที่จะแก้ปัญหาต่าง ๆ สำหรับลูกค้า LETOU เสนอการแข่งขัน 500 ประเภทที่แตกต่างกันทุกวันครอบคลุมกีฬาที่สำคัญทั่วโลกรวมถึงฟุตบอลบาสเก็ตบอลเทนนิสเบสบอล บิลเลียดกอล์ฟ ฯลฯ ยังมีเกมดิจิตอลเกมเสมือนจริงเกมแคชชวลและบริการคาสิโนออนไลน์สด LETOU เป็น บริษัท มืออาชีพที่ปฏิบัติตามข้อกำหนดของรัฐบาลฟิลิปปินส์อย่างเคร่งครัดและกำหนดเงินฝากและถอนเงินภายใต้ข้อกำหนดของหน่วยงานบริหารการเงินของรัฐบาล การรักษาความปลอดภัยของกองทุนและการปฏิบัติตามกฎหมายต่อต้านการฟอกเงิน (AML) ที่กำหนดโดยรัฐบาลเพื่อให้มีสภาพแวดล้อมทางการเงินที่โปร่งใสในระดับสูงสุดสำหรับการกำกับดูแลของรัฐบาลและเพื่อให้แน่ใจว่าผลประโยชน์ของลูกค้าในเวลาเดียวกัน LETOU ผู้เล่นมีความคิดในเกมที่ดี',
         'aboutUs-detail-stext-four':
             'ลูกค้ารายแรกเป็นหลักการของเราเสมอ! เป็นเวลานาน LETOU ให้ความสำคัญกับผู้ใช้เสมอในอนาคตเราจะทำงานร่วมกับเพื่อน ๆ เพื่อสร้างอนาคตที่ดีขึ้น!',
-        'story': 'Letouเรื่องราวของแบรนด์',
+        story: 'Letouเรื่องราวของแบรนด์',
         'about-letou': 'about Letou',
         'become-partner': 'ร่วมเป็นพันธมิตร',
         'line-center': 'เส้น-ตรงกลาง',
@@ -1756,7 +1763,7 @@ export const messages = {
         'bonuses-label': 'โบนัส',
         'records-label': 'บันทึก',
         'total-balance': 'ยอดเงินทั้งหมด',
-        'recommended': 'แนะนำ',
+        recommended: 'แนะนำ',
         'top-games': 'เกมฮิต',
         'slot-machine': 'สล็อต',
         'cumulative-award': 'รางวัลสะสม',
@@ -1831,10 +1838,13 @@ export const messages = {
         'casino-rules': 'Luật chơi casino',
         'video-game-rules': 'Slot games',
         'world-lotto-rules': 'LOTTO Thế giới',
-        'footer-text1': '"Letou.com là công ty cá cược trực tuyến hàng đầu châu Á',
-        'footer-text3': '"Trang web này đã được cấp phép kinh doanh cá cược trực tuyến bởi chính phủ Curacao',
-        'footer-text4': '"© 2004-2020 Mọi bản quyền thuộc về Letou，cá cược có thể gây nghiện',
-        'story': 'Nhãn hiệu Letou',
+        'footer-text1':
+            '"Letou.com là công ty cá cược trực tuyến hàng đầu châu Á',
+        'footer-text3':
+            '"Trang web này đã được cấp phép kinh doanh cá cược trực tuyến bởi chính phủ Curacao',
+        'footer-text4':
+            '"© 2004-2020 Mọi bản quyền thuộc về Letou，cá cược có thể gây nghiện',
+        story: 'Nhãn hiệu Letou',
         'for-partner': 'Dành cho đối tác',
         'help-title': 'Hỗ trợ',
         'Live-casino': 'Live casino',
@@ -1883,7 +1893,8 @@ export const messages = {
         'bbin-Texas': 'Texas Poker',
         'bbin-Color': 'Color disc',
         'gpi-title': 'Sòng GPI',
-        'gpi-words': 'Độc quyền Super 98 Baccarat & trò chơi Casino trực tuyến hấp dẫn',
+        'gpi-words':
+            'Độc quyền Super 98 Baccarat & trò chơi Casino trực tuyến hấp dẫn',
         'gpi-Baccarat': 'Baccarat',
         'gpi-Qixi': '7up Baccarat',
         'gpi-Dai': 'Color Sicbo',
@@ -1938,7 +1949,8 @@ export const messages = {
         'modify-login-password': 'Thay đổi mật khẩu đăng nhập',
         'set-login-password-desc': 'Cài lại mật khẩu đăng nhập',
         'withdrawal-password': 'Mật khẩu rút tiền',
-        'withdrawal-password-desc': 'Thiết lập mật khẩu rút tiền để bảo mật hơn',
+        'withdrawal-password-desc':
+            'Thiết lập mật khẩu rút tiền để bảo mật hơn',
         'registration-time': 'Thời gian đăng ký',
         'bank-card': 'Thẻ ngân hàng',
         'binding-card-number': 'Số thẻ liên kết',
@@ -1949,7 +1961,8 @@ export const messages = {
         'enter-valid-username': 'Vui lòng nhập tài khoản hợp lệ',
         'enter-password': 'Vui lòng nhập đúng mật khẩu',
         'forgot-password': 'Quên mật khẩu?',
-        'login-question-text': 'Trang Web này sử dụng máy chủ SSL 128/256 bit được mã hóa tiên tiến nhất. Vui lòng liên hệ HỖ TRỢ TRỰC TUYẾN 24/7 của chúng tôi nếu bạn gặp bất cứ sự cố.',
+        'login-question-text':
+            'Trang Web này sử dụng máy chủ SSL 128/256 bit được mã hóa tiên tiến nhất. Vui lòng liên hệ HỖ TRỢ TRỰC TUYẾN 24/7 của chúng tôi nếu bạn gặp bất cứ sự cố.',
         'dont-have-account': 'Không có tài khoản',
         'register-here': 'Đăng ký tại đây',
         'login-here': 'Đăng nhập tại đây',
@@ -1957,8 +1970,10 @@ export const messages = {
         'already-have-account': 'Tài khoản đã tồn tại',
         'password-conﬁrm': 'Xác nhận mật khẩu',
         'register-policy-text': '"Để hoàn tất đăng ký tài khoản',
-        'rules-privacy-policy': ' ĐIỀU KIỆN & ĐIỀU KHOẢN VÀ CÁC CHÍNH SÁCH BẢO MẬT',
-        'username-limit': 'Tên tài khoản phải bao gồm từ 8-16 ký tự chữ hoặc số',
+        'rules-privacy-policy':
+            ' ĐIỀU KIỆN & ĐIỀU KHOẢN VÀ CÁC CHÍNH SÁCH BẢO MẬT',
+        'username-limit':
+            'Tên tài khoản phải bao gồm từ 8-16 ký tự chữ hoặc số',
         'please-strong-password': '"Mật khẩu yếu',
         'please-conﬁrm-password': 'Xác nhận mật khẩu',
         'register-hint1': 'Đề nghị sử dụng',
@@ -2007,7 +2022,8 @@ export const messages = {
         'answer-label': 'Đáp án',
         'veriﬁcation-data-incorrect': 'Dữ liệu xác minh không đúng',
         'jiufu-password-title': 'Mật khẩu đăng nhập Jiufu Temple APP',
-        'jiufu-password-text': '"Thiết lập mật khẩu an toàn bằng cách kết hợp chữ',
+        'jiufu-password-text':
+            '"Thiết lập mật khẩu an toàn bằng cách kết hợp chữ',
         'letou-login-password': 'Mật khẩu đăng nhập Letou',
         'suggestion-text': '"Nếu gặp bất cứ vấn đề gì',
         'exclusive-support': 'Hỗ trợ khách hàng tốt nhất',
@@ -2032,7 +2048,8 @@ export const messages = {
         'security-question-desc': 'Xác minh thân phận để bảo mật hơn',
         'modify-security-issues': 'Thay đổi câu hỏi bảo mật',
         'intimate-reminder': 'Letou nhắc bạn',
-        'intimate-reminder-text': 'Sau khi thiết lập câu hỏi bảo mật nếu gặp bất kì vấn đề gì hãy liên hệ ngay với chúng tôi 400-120-8588 hoặc CSKH',
+        'intimate-reminder-text':
+            'Sau khi thiết lập câu hỏi bảo mật nếu gặp bất kì vấn đề gì hãy liên hệ ngay với chúng tôi 400-120-8588 hoặc CSKH',
         'register-succes': 'Chúc mừng! Bạn đã đăng ký thành công',
         'name-veriﬁcation': 'Xác minh họ tên',
         'phone-veriﬁcation': 'Xác minh điện thoại',
@@ -2046,7 +2063,8 @@ export const messages = {
         'enter-veriﬁcation-code': 'Nhập mã xác minh',
         'email-has-sent': 'Email đã được gửi đến hòm thư của bạn',
         'not-get-email': 'Vẫn chưa nhận được email xác nhận?',
-        'check-in-spam': 'Vui lòng kiểm tra hòm thư rác. Nếu vẫn chưa nhận được vui lòng gửi lại',
+        'check-in-spam':
+            'Vui lòng kiểm tra hòm thư rác. Nếu vẫn chưa nhận được vui lòng gửi lại',
         'back-label': 'Quay lại',
         'transfer-label': 'Chuyển quỹ',
         'total_assets-label': 'Tổng tài sản',
@@ -2063,7 +2081,8 @@ export const messages = {
         'invalid-transfer-value': 'Số tiền chuyển vượt quá số dư trong ví',
         'ok-label': 'OK',
         'cancel-label': 'Hủy bỏ',
-        'are-u-sure-transfer': 'Bạn có chắc muốn chuyển tất cả tiền về ví chính?',
+        'are-u-sure-transfer':
+            'Bạn có chắc muốn chuyển tất cả tiền về ví chính?',
         'local-bank': 'Ngân hàng địa phương',
         'bank-transfer': 'Chuyển khoản ngân hàng',
         'quick-pay': 'Quick pay',
@@ -2080,7 +2099,6 @@ export const messages = {
         'back-banking': 'Quay về ngân hàng',
         'bitcoin-placeholder': 'Nạp từ ¥100 - ¥100000',
         'alipay-placeholder': 'Nạp từ ¥500 - ¥5000',
-        'payzod-placeholder': 'Nạp từ ฿500 - ฿500000',
-
+        'payzod-placeholder': 'Nạp từ ฿500 - ฿500000'
     }
 };
