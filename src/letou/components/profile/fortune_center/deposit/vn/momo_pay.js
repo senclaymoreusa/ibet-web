@@ -480,7 +480,7 @@ class MomoPay extends Component {
                     </Grid> */}
                     <Grid item xs={12} className={classes.infoRow}>
                         <span className={classes.info}>
-                            {this.getLabel('momo-pay')}
+                            {this.getLabel('momopay')}
                         </span>
                         <span className={classes.fee}>
                             {this.getLabel('momo-fee')}
