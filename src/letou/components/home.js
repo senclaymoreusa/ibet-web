@@ -15,11 +15,11 @@ import { Slide } from 'react-slideshow-image';
 import { images } from '../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
+//import axios from 'axios';
 
 document.body.style = 'background: #f1f1f1;';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+//const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
   root: {
@@ -125,37 +125,38 @@ export class Home extends Component {
   componentWillReceiveProps(props) {
     window.addEventListener("resize", this.handleResize);
   }
+  componentWillMount(){
+    // var bbData = window.IGLOO.getBlackbox();
+    
+    // if (bbData.finished) {
+    //   // clearTimeout(timeoutId);
+    //   var blackBoxString = bbData.blackbox;
+    //   axios
+    //       .get(
+    //           API_URL + 'users/api/login-device-info?bb=' + blackBoxString
+    //       ).then(
+    //         res => {
+    //           //console.log(res.data);
+    //           const ip = res.data.details.realIp.address;
+    //           const countryCode = res.data.details.realIp.ipLocation.countryCode;
+              
+    //           localStorage.setItem('ip', ip);
+    //           localStorage.setItem('countryCode', countryCode);
+    //           if(countryCode === ('US' || 'CN' || 'TH' || 'VN')){
 
+    //           }
+    //           // var user_ip = localStorage.getItem('ip');
+    //           // console.log(user_ip);
+
+    //         }
+    //       );
+    // }
+  }
   componentDidMount() {
     this.setState({ width: window.innerWidth });
 
     window.addEventListener("resize", this.handleResize);
 
-    
-
-    var bbData = window.IGLOO.getBlackbox();
-    
-    if (bbData.finished) {
-      // clearTimeout(timeoutId);
-      var blackBoxString = bbData.blackbox;
-      axios
-          .get(
-              API_URL + 'users/api/login-device-info?bb=' + blackBoxString
-          ).then(
-            res => {
-              //console.log(res.data);
-              const ip = res.data.details.realIp.address;
-              const countryCode = res.data.details.realIp.ipLocation.countryCode;
-              
-              localStorage.setItem('ip', ip);
-              localStorage.setItem('countryCode', countryCode);
-
-              // var user_ip = localStorage.getItem('ip');
-              // console.log(user_ip);
-
-            }
-          );
-    }
   }
 
   render() {
