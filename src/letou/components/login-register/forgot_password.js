@@ -397,7 +397,27 @@ export class ForgotPassword extends React.Component {
             .get(API_URL + apiURL, config)
             .then(res => {
                 if (res.status === 200) {
-                    console.log(res.data);
+                    this.setState({
+                        hasQuestion: res.data.question,
+                        phoneVerified: res.data.phone,
+                        emailVerified: res.data.email,
+                        activeStep: step
+                    });
+                }
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
+        this.setState({activeStep: step});
+    }
+
+    handleRetrieveMethod(step) {
+        let apiURL = `users/api/confirmretrievemethod?username=${this.state.username}`;
+
+        axios
+            .get(API_URL + apiURL, config)
+            .then(res => {
+                if (res.status === 200) {
                     this.setState({
                         hasQuestion: res.data.question,
                         phoneVerified: res.data.phone,
@@ -574,7 +594,7 @@ export class ForgotPassword extends React.Component {
                     <Grid item xs={12} style={{ paddingBottom: 20, paddingTop: 20 }}>
                         <TextField
                             className={classes.usernameText}
-                            placeholder={this.getLabel('Your answer')}
+                            placeholder={this.getLabel('answer-label')}
                             onChange={(event) => {
                                 this.setState({ username: event.target.value });
                             }}
@@ -620,7 +640,7 @@ export class ForgotPassword extends React.Component {
                     <Grid item xs={12} style={{ paddingBottom: 20, paddingTop: 20 }}>
                         <TextField
                             className={classes.usernameText}
-                            placeholder={this.getLabel('Your answer')}
+                            placeholder={this.getLabel('answer-label')}
                             onChange={(event) => {
                                 this.setState({ username: event.target.value });
                             }}
@@ -666,7 +686,7 @@ export class ForgotPassword extends React.Component {
                     <Grid item xs={12} style={{ paddingBottom: 20, paddingTop: 20 }}>
                         <TextField
                             className={classes.usernameText}
-                            placeholder={this.getLabel('Your answer')}
+                            placeholder={this.getLabel('answer-label')}
                             onChange={(event) => {
                                 this.setState({ username: event.target.value });
                             }}
