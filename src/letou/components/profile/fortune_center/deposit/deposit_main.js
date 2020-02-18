@@ -249,13 +249,26 @@ export class DepositMain extends Component {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             } else {
-                if (user && user.favoriteDepositMethod) {
-                    this.depositWith(user.favoriteDepositMethod)
-                }
                 if (user && user.country) {
                     country = user.country;
                 }
-        
+                
+                if (user && user.favoriteDepositMethod) {
+                    this.depositWith(user.favoriteDepositMethod)
+                }else{
+                    switch(country.toLowerCase()){
+                        case 'china':
+                            this.depositWith('zhlocalbank');
+                            break;
+                        case 'thailand':
+                            this.depositWith('thlocalbank');
+                            break;
+                        case 'vietnam':
+                            this.depositWith('vnlocalbank');
+                            break;
+                    }
+               }
+
                 let available = {
                     'methods': [],
                     'channels': []
@@ -386,7 +399,7 @@ export class DepositMain extends Component {
         if (user && user.country) {
             country = user.country;
         }
-        console.log(psps);
+        
         switch (country.toLowerCase()) {
             case 'china':
                 return (
@@ -398,15 +411,15 @@ export class DepositMain extends Component {
                                         <Button
                                             className={classes.paymentButton}
                                             onClick={() => {
-                                                this.depositWith('chinabanktransfer');
+                                                this.depositWith('zhlocalbank');
                                             }}>
                                             <img src={images.src + 'letou/bank-icon.svg'} alt="" height="26" />
-                                            {user.favoriteDepositMethod === 'chinabanktransfer' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                            {user.favoriteDepositMethod === 'zhlocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                         </Button>
                                         <span className={clsx(classes.title, {
-                                            [classes.active]: (operationProp === 'chinabanktransfer'),
+                                            [classes.active]: (operationProp === 'zhlocalbank'),
                                         })}>{this.getLabel('bank-transfer')}</span>
-                                        {operationProp === 'chinabanktransfer' && <div className={classes.selected} />}
+                                        {operationProp === 'zhlocalbank' && <div className={classes.selected} />}
                                     </div>
                                     <div className={classes.methodColumn}>
                                         <Button
@@ -534,14 +547,14 @@ export class DepositMain extends Component {
                                     value="none"
                                 />
                                 <StyledTab label={this.getLabel('bank-transfer')}
-                                    value="chinabanktransfer"
+                                    value="zhlocalbank"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/bank-icon.svg'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'chinabanktransfer' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        {user.favoriteDepositMethod === 'zhlocalbank' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
-                                        if (operationProp !== 'chinabanktransfer') {
-                                            this.depositWith('chinabanktransfer');
+                                        if (operationProp !== 'zhlocalbank') {
+                                            this.depositWith('zhlocalbank');
                                         }
                                     }} />
                                 <StyledTab label={this.getLabel('quick-pay')} value="quickpay"
@@ -827,7 +840,7 @@ export class DepositMain extends Component {
             return <AliPay callbackFromParent={this.setPage} />;
         else if (operationProp === 'onlinepay')
             return <OnlinePay callbackFromParent={this.setPage} />;
-        else if (operationProp === 'chinabanktransfer')
+        else if (operationProp === 'zhlocalbank')
             return <Banktransfer callbackFromParent={this.setPage} />;
         else if (operationProp === 'wechatpay')
             return <WechatPay callbackFromParent={this.setPage} />;
@@ -917,7 +930,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         user: user,
-        operationProp: ownProps.match.params.operation,
+        operationProp: ownProps.match.params.operation
     };
 };
 

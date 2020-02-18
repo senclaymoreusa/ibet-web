@@ -380,13 +380,13 @@ export class TotalAssets extends Component {
         this._isMounted = false;
     }
 
-    getWalletsByUsername(userId) {
+    async getWalletsByUsername(userId) {
        axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
             .then(res => {
                 if (res.status === 200) {
                     let total = res.data.reduce((totalBalance, wallet) => totalBalance + parseFloat(wallet.amount), 0);
  
-                     this.setState({
+                    this._isMounted  && this.setState({
                          walletObjs: res.data,
                          totalBalance: total
                      });
@@ -396,9 +396,9 @@ export class TotalAssets extends Component {
  
                  }
 
-                this.setState({ loading: false });
+                 this._isMounted  && this.setState({ loading: false });
             }).catch(function (err) {
-                this.setState({ loading: false });
+                this._isMounted  && this.setState({ loading: false });
                 sendingLog(err);
             });
     }
