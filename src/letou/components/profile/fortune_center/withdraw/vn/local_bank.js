@@ -50,16 +50,21 @@ const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const amounts = Object.freeze([250, 500, 1000, 2500]);
 
-const styles = () => ({
+const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430
+        width: '100%',
+        maxWidth: 430
     },
     label: {
         backgroundColor: '#f8f8f8',

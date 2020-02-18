@@ -353,6 +353,9 @@ export class TotalAssets extends Component {
             walletObjs: [],
             totalBalance: 0
         };
+
+        this.getWalletsByUsername = this.getWalletsByUsername.bind(this);
+
     }
 
     componentDidMount() {

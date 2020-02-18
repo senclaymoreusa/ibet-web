@@ -338,6 +338,7 @@ function parseUser(data) {
         balance: data.main_wallet,
         phone: data.phone,
         email: data.email,
+        mainWallet: data.main_wallet,
         nameVerified: data.id_verified,
         emailVerified: data.email_verified,
         phoneVerified: data.phone_verified,

@@ -984,7 +984,10 @@ class ThaiLocalBank extends Component {
                                                         : 1
                                                 });
                                             }}>
-                                            <img
+                                            {images.src + bank_options.filter(b => {
+                                                        return b.value == card.bank_code;
+                                                    }).length > 0 &&
+                                                    <img
                                                 src={
                                                     images.src + bank_options.filter(b => {
                                                         return b.value == card.bank_code;
@@ -992,7 +995,7 @@ class ThaiLocalBank extends Component {
                                                 }
                                                 alt=""
                                                 className={classes.bankIcon}
-                                            />
+                                            />}
                                             <span className={classes.accountInfo}>
                                                 {card.account_no.substring(
                                                     card.account_no.length - 4
