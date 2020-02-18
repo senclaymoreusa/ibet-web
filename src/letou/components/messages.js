@@ -401,7 +401,7 @@ export const messages = {
         momopay: 'MoMo Pay',
         scratchcard: 'Scratch Card',
         fgocard: 'F-Go Card',
-        help2pay: "Help2Pay",
+        help2pay: 'Help2Pay',
         'fgo-enter': 'Please enter the following and hit submit when done',
         'fgo-ensure':
             'Please ensure that you fill out the correct information from the scratch card',
@@ -487,7 +487,7 @@ export const messages = {
             'This is related to a bonus and cannot be withdrawn until condition fulfilled.',
         'free-withdrawal-tooltip':
             'Total number of free withdrawals remaining for this period.',
-        'circlepay-placeholder': 'Deposit ₫20,000 - ₫100,000,000',
+        'circlepay-placeholder': 'Deposit ₫20 - ₫100,000',
         'vn-localbank-placeholder': 'Deposit ₫200,000 - ₫100,000,000',
         'qr-will-needed':
             'Your QR code needs to be used once only, please ensure the amount you deposit matches what is on the QR code to avoid any issues.',
@@ -1055,7 +1055,7 @@ export const messages = {
         momopay: 'MoMo Pay',
         scratchcard: 'Scratch Card',
         fgocard: 'F-Go Card',
-        help2pay: "Help2Pay",
+        help2pay: 'Help2Pay',
         'fgo-enter': '请输入以下内容，完成后点击提交',
         'fgo-ensure': '请确保您填写了刮刮卡中的正确信息',
         'fgo-wrong': '如果您填写了错误的信息，您的存款将失败',
@@ -1607,7 +1607,7 @@ export const messages = {
         momopay: 'MoMo Pay',
         scratchcard: 'บัตรเติมเงิน',
         fgocard: 'บัตร F-Go',
-        help2pay: "Help2Pay",
+        help2pay: 'Help2Pay',
         'fgo-enter': 'กรอกหมายเลขบัตรเติมเงินและกดตกลงเพื่อดำเนินการถัดไป',
         'fgo-ensure': 'กรุณาตรวจสอบหมายเลขบัตรเติมเงินให้ถูกต้อง',
         'fgo-wrong': 'คุณกรอกข้อมูลไม่ถูกต้อง การฝากเงินล้มเหลว',

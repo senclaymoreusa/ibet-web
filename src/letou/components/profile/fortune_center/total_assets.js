@@ -50,7 +50,7 @@ const styles = theme => ({
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
-        },
+        }
     },
     title: {
         fontSize: 20,
@@ -59,7 +59,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 1.29,
         letterSpacing: -0.24,
-        color: '#000',
+        color: '#000'
     },
     titleRow: {
         paddingTop: 10,
@@ -87,7 +87,7 @@ const styles = theme => ({
         color: '#057aff'
     },
     walletColumn: {
-        maxWidth: 362,
+        maxWidth: 362
     },
     mobileMenuButton: {
         [theme.breakpoints.up('md')]: {
@@ -112,12 +112,11 @@ const styles = theme => ({
         border: '1px dashed #e1e1e1',
         width: 110,
         height: 60,
-        textTransform: 'capitalize',
-
+        textTransform: 'capitalize'
     },
     arrow: {
         marginLeft: 23,
-        marginRight: 23,
+        marginRight: 23
     },
     amountField: {
         fontSize: 14,
@@ -141,8 +140,8 @@ const styles = theme => ({
             border: 'solid 1px #717171'
         },
         '&::placeholder': {
-            fontStyle: 'italic',
-        },
+            fontStyle: 'italic'
+        }
     },
     label: {
         backgroundColor: '#f8f8f8',
@@ -154,7 +153,7 @@ const styles = theme => ({
         borderTopLeftRadius: 4,
         borderBottomLeftRadius: 4,
         textAlign: 'center',
-        paddingTop: 12,
+        paddingTop: 12
     },
     nextButton: {
         borderRadius: 18,
@@ -165,16 +164,14 @@ const styles = theme => ({
         whiteSpace: 'nowrap',
         backgroundColor: '#4DA9DF',
         color: '#fff',
-        "&:hover": {
+        '&:hover': {
             backgroundColor: '#57b9f2',
-            color: '#fff',
-
+            color: '#fff'
         },
-        "&:focus": {
+        '&:focus': {
             backgroundColor: '#57b9f2',
-            color: '#fff',
-
-        },
+            color: '#fff'
+        }
     },
     chartColumn: {
         paddingTop: 20,
@@ -201,7 +198,7 @@ const styles = theme => ({
     balanceContainer: {
         position: 'absolute',
         left: '50%',
-        transform: 'translateX(-50%)',
+        transform: 'translateX(-50%)'
     },
     balanceInnerContainer: {
         display: 'flex',
@@ -215,7 +212,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#292929',
+        color: '#292929'
     },
     text: {
         fontSize: 16,
@@ -224,7 +221,7 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         letterSpacing: 'normal',
-        color: '#292929',
+        color: '#292929'
     }
 });
 
@@ -305,11 +302,14 @@ function LetouWallet(props) {
                     {wallet.amount}
                 </Typography>
                 <Typography className={classes.name}>
-
-                    {wallet.isMain === 'true' ?
-                        <FormattedMessage id="main-wallet" defaultMessage="Main Wallet" />
-                        :
-                        wallet.code}
+                    {wallet.isMain === 'true' ? (
+                        <FormattedMessage
+                            id="main-wallet"
+                            defaultMessage="Main Wallet"
+                        />
+                    ) : (
+                        wallet.code
+                    )}
                 </Typography>
                 {closeClick !== undefined && (
                     <Button className={classes.close} onClick={closeClick}>
@@ -358,50 +358,57 @@ export class TotalAssets extends Component {
     componentDidMount() {
         this._isMounted = true;
 
-        this.props.authCheckState()
-            .then(res => {
-                if (res === AUTH_RESULT_FAIL) {
-                    sendingLog('authentication failure!!!');
-                } else {
-                    const { user } = this.props;
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                sendingLog('authentication failure!!!');
+            } else {
+                const { user } = this.props;
 
-                    if (this._isMounted) {
-                        this.setState({
-                            loading: true,
-                            currency: getSymbolFromCurrency(user.currency)
-                        });
-                        this.getWalletsByUsername(user.userId);
-                    }
+                if (this._isMounted) {
+                    this.setState({
+                        loading: true,
+                        currency: getSymbolFromCurrency(user.currency)
+                    });
+                    this.getWalletsByUsername(user.userId);
                 }
-            });
+            }
+        });
     }
 
     componentWillUnmount() {
         this._isMounted = false;
     }
 
-    getWalletsByUsername(userId) {
-       axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
+    getWalletsByUsername = userId => {
+        axios
+            .get(
+                API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId,
+                config
+            )
             .then(res => {
                 if (res.status === 200) {
-                    let total = res.data.reduce((totalBalance, wallet) => totalBalance + parseFloat(wallet.amount), 0);
- 
-                     this.setState({
-                         walletObjs: res.data,
-                         totalBalance: total
-                     });
- 
-                     if (this.props.walletColors.length == 0)
-                         this.props.setWalletColors(res.data);
- 
-                 }
+                    let total = res.data.reduce(
+                        (totalBalance, wallet) =>
+                            totalBalance + parseFloat(wallet.amount),
+                        0
+                    );
+
+                    this.setState({
+                        walletObjs: res.data,
+                        totalBalance: total
+                    });
+
+                    if (this.props.walletColors.length == 0)
+                        this.props.setWalletColors(res.data);
+                }
 
                 this.setState({ loading: false });
-            }).catch(function (err) {
+            })
+            .catch(function(err) {
                 this.setState({ loading: false });
                 sendingLog(err);
             });
-    }
+    };
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
@@ -420,12 +427,11 @@ export class TotalAssets extends Component {
             <LetouWallet
                 wallet={mainWalletObj}
                 currency={currency}
-                colorObj={walletColors.filter(wc => {
-                    return (
-                        wc.code ===
-                        mainWalletObj.code
-                    );
-                })[0]}
+                colorObj={
+                    walletColors.filter(wc => {
+                        return wc.code === mainWalletObj.code;
+                    })[0]
+                }
             />
         ) : null;
 
@@ -433,49 +439,75 @@ export class TotalAssets extends Component {
             <div className={classes.root}>
                 {loading && <CircularProgress className={classes.progress} />}
 
-
-                <div className={classes.rootDesktop} style={
-                    loading === true
-                        ? { pointerEvents: 'none' }
-                        : { pointerEvents: 'all' }
-                }>
+                <div
+                    className={classes.rootDesktop}
+                    style={
+                        loading === true
+                            ? { pointerEvents: 'none' }
+                            : { pointerEvents: 'all' }
+                    }
+                >
                     <Grid container>
                         <Grid item xs={12} className={classes.titleRow}>
-                            <span className={classes.title} >
+                            <span className={classes.title}>
                                 {this.getLabel('total-assets')}
                             </span>
                         </Grid>
-                        <Grid item xs={7} >
+                        <Grid item xs={7}>
                             <Grid container>
-                                <Grid item xs={12} style={{ paddingTop: 20, paddingBottom: 20 }}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    style={{
+                                        paddingTop: 20,
+                                        paddingBottom: 20
+                                    }}
+                                >
                                     {mainWallet}
                                 </Grid>
-                                <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 30 }}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    style={{
+                                        borderTop: '1px solid #979797',
+                                        paddingTop: 30
+                                    }}
+                                >
                                     <Grid container spacing={2}>
                                         {otherWalletObjs.map(walletObj => (
-                                            <Grid item xs={4} key={walletObj.code}>
-                                                <LetouWallet wallet={walletObj} 
-                                                currency={currency} 
-                                                colorObj={walletColors.filter(wc => {
-                                                    return (
-                                                        wc.code ===
-                                                        walletObj.code
-                                                    );
-                                                })[0]}/>
+                                            <Grid
+                                                item
+                                                xs={4}
+                                                key={walletObj.code}
+                                            >
+                                                <LetouWallet
+                                                    wallet={walletObj}
+                                                    currency={currency}
+                                                    colorObj={
+                                                        walletColors.filter(
+                                                            wc => {
+                                                                return (
+                                                                    wc.code ===
+                                                                    walletObj.code
+                                                                );
+                                                            }
+                                                        )[0]
+                                                    }
+                                                />
                                             </Grid>
                                         ))}
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={5} >
+                        <Grid item xs={5}>
                             <ReactMinimalPieChart
                                 animate={true}
                                 animationDuration={500}
                                 animationEasing="ease-out"
                                 cx={50}
                                 cy={50}
-                                data={walletObjs.map(function (item) {
+                                data={walletObjs.map(function(item) {
                                     return {
                                         title: item.code,
                                         value: parseFloat(item.amount),
@@ -524,20 +556,24 @@ export class TotalAssets extends Component {
                                         {this.getLabel('total-assets')}
                                     </span>
                                 </Grid>
-                                <Grid item xs={3}>
-                                </Grid>
+                                <Grid item xs={3}></Grid>
                             </Grid>
                         </Toolbar>
                     </AppBar>
                     <Grid container className={classes.mobileGrid}>
-                        <Grid item xs={12} className={classes.chartColumn} style={{ marginTop: 20 }}>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.chartColumn}
+                            style={{ marginTop: 20 }}
+                        >
                             <ReactMinimalPieChart
                                 animate={true}
                                 animationDuration={500}
                                 animationEasing="ease-out"
                                 cx={50}
                                 cy={50}
-                                data={walletObjs.map(function (item) {
+                                data={walletObjs.map(function(item) {
                                     return {
                                         title: item.code,
                                         value: parseFloat(item.amount),
@@ -557,25 +593,50 @@ export class TotalAssets extends Component {
                             />
                             <div className={classes.balanceContainer}>
                                 <div className={classes.balanceInnerContainer}>
-                                    <span className={classes.totalBalance}>{currency}{totalBalance}</span>
-                                    <FormattedMessage id='total-balance' defaultMessage='Total Balance' />
+                                    <span className={classes.totalBalance}>
+                                        {currency}
+                                        {totalBalance}
+                                    </span>
+                                    <FormattedMessage
+                                        id="total-balance"
+                                        defaultMessage="Total Balance"
+                                    />
                                 </div>
                             </div>
                         </Grid>
-                        <Grid item xs={12} className={classes.row} style={{ textAlign: 'center' }}>
-                            <span className={classes.boldText} >
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.row}
+                            style={{ textAlign: 'center' }}
+                        >
+                            <span className={classes.boldText}>
                                 {this.getLabel('tap-transfer')}
                             </span>
                         </Grid>
                         <Grid item xs={12} style={{ paddingBottom: 20 }}>
                             {mainWallet}
                         </Grid>
-                        <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 30 }}>
+                        <Grid
+                            item
+                            xs={12}
+                            style={{
+                                borderTop: '1px solid #979797',
+                                paddingTop: 30
+                            }}
+                        >
                             <Grid container spacing={2}>
                                 {otherWalletObjs.map(walletObj => (
                                     <Grid item xs={4} key={walletObj.code}>
-                                        <LetouWallet wallet={walletObj} currency={currency}
-                                            onClick={() => { this.handleWalletClick(walletObj.code) }} />
+                                        <LetouWallet
+                                            wallet={walletObj}
+                                            currency={currency}
+                                            onClick={() => {
+                                                this.handleWalletClick(
+                                                    walletObj.code
+                                                );
+                                            }}
+                                        />
                                     </Grid>
                                 ))}
                             </Grid>
@@ -587,18 +648,22 @@ export class TotalAssets extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     const { user } = state.auth;
     const { walletColors } = state.general;
 
     return {
         user: user,
         walletColors: walletColors
-    }
-}
+    };
+};
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState, setWalletColors })(TotalAssets))
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, setWalletColors })(
+                TotalAssets
+            )
+        )
     )
 );

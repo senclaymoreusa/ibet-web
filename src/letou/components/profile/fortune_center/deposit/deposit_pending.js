@@ -5,7 +5,9 @@ import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
-// import { images } from '../../../../../util_config';
+import { images } from '../../../../../util_config';
+import Timer from 'react-compound-timer';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     root: {
@@ -125,14 +127,14 @@ export class DepositPending extends Component {
         super(props);
 
         this.cancelClicked = this.cancelClicked.bind(this);
-        this.tryAgainClicked = this.tryAgainClicked.bind(this);
+        this.confirmTransaction = this.confirmTransaction.bind(this);
     }
 
     cancelClicked() {
         this.props.history.push('/');
     }
 
-    tryAgainClicked() {
+    confirmTransaction() {
         var url = this.props.history.location.pathname;
         var parts = url.split('/');
         url = '/';
@@ -153,52 +155,48 @@ export class DepositPending extends Component {
         return (
             <div className={classes.root}>
                 <Grid container spacing={3} style={{ width: 700 }}>
-                    {/* <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {'Deposit Method'}
-                        </span>
-                    </Grid>
-                    <Grid item xs={6} className={classes.row}>
-                        <span className={classes.value}>
-                            {InprogressMessage['method']
-                                ? InprogressMessage['method']
-                                : this.getLabel('deposit-failed-text')}
-                        </span>
-                    </Grid> */}
-                    {/* <Grid item xs={12} className={classes.completeCell}>
+                    <Grid item xs={12} className={classes.completeCell}>
                         <div className={classes.completeDiv}>
                             <img
                                 src={images.src + 'letou/ok.svg'}
                                 alt="checkmark"
                             />
                         </div>
-                    </Grid> */}
-                    <Grid item xs={12} className={classes.row}>
-                        {pendingMessage}
                     </Grid>
-                    {/* <Grid item xs={3} className={classes.row}>
+                    <Grid item xs={3} className={classes.row}>
                         <span className={classes.label}>
-                            {this.getLabel('Order Number')}
+                            {'Transaction ID'}
                         </span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
-                            {InprogressMessage['trans_ID']
-                                ? InprogressMessage['trans_ID']
+                            {pendingMessage.trans_id
+                                ? pendingMessage.trans_id
                                 : this.getLabel('deposit-failed-text')}
                         </span>
                     </Grid>
                     <Grid item xs={3} className={classes.row}></Grid>
+                    {/* <Grid item xs={12} className={classes.row}>
+                        {pendingMessage}
+                    </Grid> */}
                     <Grid item xs={3} className={classes.row}>
-                        <span className={classes.label}>
-                            {this.getLabel('Order Number')}
-                        </span>
+                        <span className={classes.label}>Amount</span>
                     </Grid>
                     <Grid item xs={6} className={classes.row}>
-                        <Timer initialTime={180000} direction="backward">
+                        <span className={classes.value}>
+                            {pendingMessage['amount'] ||
+                                this.getLabel('deposit-failed-text')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={3} className={classes.row}></Grid>
+                    <Grid item xs={3} className={classes.row}>
+                        <span className={classes.label}>Remaining Time</span>
+                    </Grid>
+                    <Grid item xs={9} className={classes.row}>
+                        <Timer initialTime={600000} direction="backward">
                             {() => (
                                 <React.Fragment>
-                                    <Timer.Minutes /> minutes
+                                    <Timer.Minutes /> {'minutes '}
                                     <Timer.Seconds /> seconds
                                 </React.Fragment>
                             )}
@@ -207,7 +205,7 @@ export class DepositPending extends Component {
                     <Grid item xs={6} className={classes.row}>
                         <span className={classes.value}>
                             {
-                                'Please open the app, scan the QR code. Once you have completed the payment please click confirm below.'
+                                'Please continue through the opened window and follow the instructions to complete your payment. Please click "Confirm" below after you are done'
                             }
                         </span>
                     </Grid>
@@ -217,11 +215,11 @@ export class DepositPending extends Component {
                     <Grid item xs={6} className={classes.buttonCell}>
                         <Button
                             className={classes.button}
-                            onClick={this.tryAgainClicked}
+                            onClick={this.confirmTransaction}
                         >
-                            {'check transaction records'}
+                            {'Confirm'}
                         </Button>
-                    </Grid> */}
+                    </Grid>
                 </Grid>
             </div>
         );
