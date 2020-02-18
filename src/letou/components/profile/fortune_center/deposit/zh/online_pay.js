@@ -38,9 +38,15 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430,
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingTop: 50,
@@ -115,7 +121,7 @@ const styles = theme => ({
         borderRadius: 4,
         backgroundColor: '#f28f22',
         marginBottom: 15,
-        width: 90,
+        width: 80,
         height: 44,
         fontSize: 15,
         color: '#fff',
@@ -298,36 +304,21 @@ class OnlinePay extends Component {
         };
     }
     
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'onlinepay' });
-                    });
-            }
-        })
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
             } else {
-                const token = localStorage.getItem('token');
-                config.headers["Authorization"] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ data: res.data });
-                        this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                        this.setState({ isFavorite: res.data.favorite_payment_method === 'onlinepay' });
+                if (this.props.user) {
+                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
+                        isFavorite:
+                            this.props.user.favoriteDepositMethod ===
+                            'onlinepay'
                     });
+                }
             }
         })
     }
@@ -353,11 +344,11 @@ class OnlinePay extends Component {
     handleClick() {
         let currentComponent = this;
         currentComponent.setState({ showLinearProgressBar: true });
-        //console.log(currentComponent.state.data);
-        let userid = currentComponent.state.data.pk
+       
+        let userid = this.props.user.userId;
         var postData = {
             amount: currentComponent.state.amount,
-            userid: currentComponent.state.data.pk,
+            userid: this.props.user.userId,
             currency: '0',
             PayWay: '30', //online bank
             method: currentComponent.state.bankid, //银行卡
@@ -485,7 +476,6 @@ class OnlinePay extends Component {
                     }
                 }, 1000);
             }).catch(function (err) {  
-            //console.log('Request failed', err);
             currentComponent.props.callbackFromParent("error", "Something is wrong.");
             sendingLog(err);
         });
@@ -498,13 +488,12 @@ class OnlinePay extends Component {
 
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
+            user_id: this.props.user.userId,
             payment: event.target.checked ? 'onlinepay' : null,
         })
             .then(() => {
                 this.props.authUserUpdate();      
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
                 sendingLog(err);
@@ -632,10 +621,12 @@ class OnlinePay extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang,
-    }
-}
+        user: user
+    };
+};
 
 export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState,authUserUpdate })(OnlinePay))));

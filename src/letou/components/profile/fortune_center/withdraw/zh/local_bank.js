@@ -415,7 +415,6 @@ class ChinaLocalBank extends Component {
             activeStep: 0,
             cards: [],
 
-            alreadyHaveWithdrawPassword: false,
             withdrawPassword: '',
 
             cardholder: '',
@@ -448,7 +447,6 @@ class ChinaLocalBank extends Component {
         });
 
         const { user } = this.props;
-
 
         if (this._isMounted && user) {
             this.getBankCards();
@@ -619,7 +617,7 @@ class ChinaLocalBank extends Component {
                 config
             )
             .then(() => {
-                this.deleteCard(this.state.currentIdForRemoving);
+                this.createBankCard();
 
             })
             .catch(err => {
@@ -733,7 +731,7 @@ class ChinaLocalBank extends Component {
             currency: 0,
             type: '1'
         });
-        console.log(body)
+        
         return axios
             .post(
                 API_URL + 'accounting/api/transactions/save_transaction',
@@ -1111,6 +1109,7 @@ class ChinaLocalBank extends Component {
                                 }}
                                 InputProps={{
                                     disableUnderline: true,
+                                    readOnly: cardholder.length > 0,
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <Tooltip
@@ -1259,7 +1258,7 @@ class ChinaLocalBank extends Component {
                         <Grid
                             item
                             xs={12}
-                            className={classes.detailRow}
+                            className={classes.savedAccountRow}
                             style={{ borderBottom: '1px solid #e7e7e7' }}
                         >
                             <span

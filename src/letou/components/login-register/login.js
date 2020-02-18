@@ -14,6 +14,7 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { config } from '../../../util_config';
 
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -268,7 +269,6 @@ export class Login extends React.Component {
                             sendingLog(err);
                         });
                 });
-            // Your code to handle blackBoxString
         }
     }
 

@@ -82,5 +82,33 @@ export const hide_letou_transfer = () => {
     };
 };
 
+export const saveWalletColors = colors => {
+    return {
+        type: 'SET_WALLET_COLORS',
+        walletColors: colors
+    };
+};
 
+export const setWalletColors = wallets => {
+    return dispatch => {
+        var randomColor = require('randomcolor');
+        let colors = [];
 
+        wallets.map(function(wallet) {
+            parseFloat(wallet.amount) !== 0.0
+                ? colors.push({
+                      code: wallet.code,
+                      color: randomColor({
+                          luminosity: 'bright',
+                          hue: 'random'
+                      })
+                  })
+                : colors.push({
+                      code: wallet.code,
+                      color: '#d9d9d9'
+                  });
+        });
+
+        dispatch(saveWalletColors(colors));
+    };
+};
