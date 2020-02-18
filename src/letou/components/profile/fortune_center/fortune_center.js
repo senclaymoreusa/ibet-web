@@ -201,9 +201,11 @@ export class FortuneCenter extends Component {
                 axios
                     .get(API_URL + 'users/api/user/', config)
                     .then(res => {
-                        this.setState({ username: res.data.username });
-                        this.setState({ mainWallet: res.data.main_wallet });
-                        this.setState({ currency: res.data.currency });
+                        this.setState({
+                            username: res.data.username,
+                            mainWallet: res.data.main_wallet,
+                            currency: res.data.currency
+                        });
                     })
                     .catch(function (err) {
                         sendingLog(err);
@@ -211,7 +213,7 @@ export class FortuneCenter extends Component {
             }
         })
 
-        
+
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -244,7 +246,7 @@ export class FortuneCenter extends Component {
             }
         })
 
-        
+
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -292,7 +294,7 @@ export class FortuneCenter extends Component {
     getMobileContent() {
         const { subProp } = this.props;
         const { classes } = this.props;
-        
+
         switch (subProp) {
             case 'deposit':
                 return <DepositMain />;

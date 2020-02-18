@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    setWalletColors
 } from '../../../../actions';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
@@ -43,7 +44,7 @@ const styles = theme => ({
     },
     rootMobile: {
         minHeight: '100vh',
-        paddingBottom:60,
+        paddingBottom: 60,
         display: 'flex',
         backgroundColor: '#f2f3f5',
         flexDirection: 'column',
@@ -286,7 +287,7 @@ const walletStyles = makeStyles(() => ({
 
 function LetouWallet(props) {
     const classes = walletStyles();
-    const { wallet, currency, onClick, closeClick, ...other } = props;
+    const { wallet, currency, colorObj, onClick, closeClick, ...other } = props;
 
     return (
         <Paper
@@ -323,7 +324,7 @@ function LetouWallet(props) {
             <div
                 style={{
                     height: 6,
-                    backgroundColor: wallet.color,
+                    backgroundColor: colorObj ? colorObj.color : '#d9d9d9',
                     borderBottomLeftRadius: 3,
                     borderBottomRightRadius: 3
                 }}
@@ -337,7 +338,8 @@ LetouWallet.propTypes = {
     onClick: PropTypes.func,
     closeClick: PropTypes.func,
     wallet: PropTypes.object,
-    currency: PropTypes.string
+    currency: PropTypes.string,
+    colorObj: PropTypes.object
 };
 
 export class TotalAssets extends Component {
@@ -364,8 +366,10 @@ export class TotalAssets extends Component {
                     const { user } = this.props;
 
                     if (this._isMounted) {
-                        this.setState({ loading: true });
-                        this.setState({ currency: getSymbolFromCurrency(user.currency) });
+                        this.setState({
+                            loading: true,
+                            currency: getSymbolFromCurrency(user.currency)
+                        });
                         this.getWalletsByUsername(user.userId);
                     }
                 }
@@ -377,32 +381,24 @@ export class TotalAssets extends Component {
     }
 
     getWalletsByUsername(userId) {
-        var randomColor = require('randomcolor');
-
-        let currentComponent = this;
-
-        axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
+       axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
             .then(res => {
                 if (res.status === 200) {
-                    this.setState({ walletObjs: res.data });
-
                     let total = res.data.reduce((totalBalance, wallet) => totalBalance + parseFloat(wallet.amount), 0);
+ 
+                     this.setState({
+                         walletObjs: res.data,
+                         totalBalance: total
+                     });
+ 
+                     if (this.props.walletColors.length == 0)
+                         this.props.setWalletColors(res.data);
+ 
+                 }
 
-                    this.setState({ totalBalance: total });
-
-                    this.setState(prevState => ({
-                        walletObjs: prevState.walletObjs.map(
-                            obj => (parseFloat(obj.amount) !== 0.00
-                                ?
-                                Object.assign(obj, { color: randomColor({ luminosity: 'bright', hue: 'random' }) })
-                                :
-                                Object.assign(obj, { color: '#d9d9d9' }))
-                        )
-                    }));
-                }
-                currentComponent.setState({ loading: false });
+                this.setState({ loading: false });
             }).catch(function (err) {
-                currentComponent.setState({ loading: false });
+                this.setState({ loading: false });
                 sendingLog(err);
             });
     }
@@ -413,7 +409,7 @@ export class TotalAssets extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, walletColors } = this.props;
         const { walletObjs, currency, totalBalance, loading } = this.state;
 
         let mainWalletObj = walletObjs.filter(item => item.isMain === true)[0];
@@ -424,6 +420,12 @@ export class TotalAssets extends Component {
             <LetouWallet
                 wallet={mainWalletObj}
                 currency={currency}
+                colorObj={walletColors.filter(wc => {
+                    return (
+                        wc.code ===
+                        mainWalletObj.code
+                    );
+                })[0]}
             />
         ) : null;
 
@@ -452,7 +454,14 @@ export class TotalAssets extends Component {
                                     <Grid container spacing={2}>
                                         {otherWalletObjs.map(walletObj => (
                                             <Grid item xs={4} key={walletObj.code}>
-                                                <LetouWallet wallet={walletObj} currency={currency} />
+                                                <LetouWallet wallet={walletObj} 
+                                                currency={currency} 
+                                                colorObj={walletColors.filter(wc => {
+                                                    return (
+                                                        wc.code ===
+                                                        walletObj.code
+                                                    );
+                                                })[0]}/>
                                             </Grid>
                                         ))}
                                     </Grid>
@@ -578,16 +587,18 @@ export class TotalAssets extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    const { token, user } = state.auth;
+const mapStateToProps = (state) => {
+    const { user } = state.auth;
+    const { walletColors } = state.general;
+
     return {
-        isAuthenticated: token !== null && token !== undefined,
-        user: user
-    };
-};
+        user: user,
+        walletColors: walletColors
+    }
+}
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(TotalAssets))
+        injectIntl(connect(mapStateToProps, { authCheckState, setWalletColors })(TotalAssets))
     )
 );
