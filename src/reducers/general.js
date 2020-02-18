@@ -47,6 +47,7 @@ const INITIAL_STATE = {
     show_letou_mobile_menu: false,
     show_letou_mobile_login: false,
     show_letou_mobile_signup: false,
+    show_letou_transfer: false,
 
     onc_click_username: '',
     one_click_password: '',
@@ -69,7 +70,8 @@ const INITIAL_STATE = {
     forget_email: '',
 
     inbox: 0,
-    show_landing_page: true
+    show_landing_page: true,
+    walletColors: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -290,6 +292,15 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, show_letou_mobile_signup: true };
         case 'HIDE_LETOU_MOBILE_SIGNUP':
             return { ...state, show_letou_mobile_signup: false };
+        case 'SHOW_LETOU_TRANSFER':
+            return { ...state, show_letou_transfer: true };
+        case 'HIDE_LETOU_TRANSFER':
+            return { ...state, show_letou_transfer: false };
+        case 'SET_WALLET_COLORS':
+            return {
+                ...state,
+                walletColors: action.walletColors
+            };
 
         default:
             return state;

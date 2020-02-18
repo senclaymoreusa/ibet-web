@@ -4,14 +4,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
-import axios from 'axios';
-import { config } from '../../util_config';
+
+
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import { withRouter } from 'react-router-dom';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+
 
 class SelectFieldExampleMultiSelect extends Component {
     constructor(props) {
@@ -230,49 +230,49 @@ class SelectFieldExampleMultiSelect extends Component {
     }
 
     async componentWillReceiveProps(props) {
-        // console.log('componentWillReceiveProps');
-        // console.log(props);
+        console.log('componentWillReceiveProps');
+        console.log(props);
 
-        var { filter } = props.match.params;
-        if (!filter) {
-            // console.log("!!!! filter is empty");
-            this.setState({ categoryFilter: [] });
-            this.setState({ jackpotFilter: [] });
-            this.setState({ providerFilter: [] });
-            this.setState({ featuresFilter: [] });
-            this.setState({ themeFilter: [] });
-            this.setState({ sortFilter: [] });
-        } else {
-            // console.log("filter: " + filter);  
-            var filterList = filter.split('&');
-            // console.log('list: ' + filterList);
-            //var list = [];
-            for (var i = 0; i < filterList.length; i++) {
-                var index = filterList[i].indexOf('=');
-                var length = filterList[i].length;
-                var filterName = filterList[i].slice(0, index);
-                var filterValue = filterList[i].slice(index + 1, index + length + 1);
-                var filterValueList = filterValue.split('%2B');
-                if (filterName === 'category') {
-                    this.setState({ categoryFilter: filterValueList });
-                }
-                if (filterName === 'jackpot') {
-                    this.setState({ jackpotFilter: filterValueList });
-                }
-                if (filterName === 'provider') {
-                    this.setState({ providerFilter: filterValueList });
-                }
-                if (filterName === 'feature') {
-                    this.setState({ featuresFilter: filterValueList });
-                }
-                if (filterName === 'theme') {
-                    this.setState({ themeFilter: filterValueList });
-                }
-                if (filterName === 'Sort by') {
-                    this.setState({ sortFilter: filterValueList });
-                }
-            }
-        }
+        // var { filter } = props.match.params;
+        // if (!filter) {
+        //     // console.log("!!!! filter is empty");
+        //     this.setState({ categoryFilter: [] });
+        //     this.setState({ jackpotFilter: [] });
+        //     this.setState({ providerFilter: [] });
+        //     this.setState({ featuresFilter: [] });
+        //     this.setState({ themeFilter: [] });
+        //     this.setState({ sortFilter: [] });
+        // } else {
+        //     // console.log("filter: " + filter);  
+        //     var filterList = filter.split('&');
+        //     // console.log('list: ' + filterList);
+        //     //var list = [];
+        //     for (var i = 0; i < filterList.length; i++) {
+        //         var index = filterList[i].indexOf('=');
+        //         var length = filterList[i].length;
+        //         var filterName = filterList[i].slice(0, index);
+        //         var filterValue = filterList[i].slice(index + 1, index + length + 1);
+        //         var filterValueList = filterValue.split('%2B');
+        //         if (filterName === 'category') {
+        //             this.setState({ categoryFilter: filterValueList });
+        //         }
+        //         if (filterName === 'jackpot') {
+        //             this.setState({ jackpotFilter: filterValueList });
+        //         }
+        //         if (filterName === 'provider') {
+        //             this.setState({ providerFilter: filterValueList });
+        //         }
+        //         if (filterName === 'feature') {
+        //             this.setState({ featuresFilter: filterValueList });
+        //         }
+        //         if (filterName === 'theme') {
+        //             this.setState({ themeFilter: filterValueList });
+        //         }
+        //         if (filterName === 'Sort by') {
+        //             this.setState({ sortFilter: filterValueList });
+        //         }
+        //     }
+        // }
 
     }
 
@@ -321,12 +321,12 @@ class SelectFieldExampleMultiSelect extends Component {
             }
         }
 
-        this.setState({ url: this.props.history.location.pathname });
-        var URL = API_URL + 'games/api/filter/';
-        await axios.get(URL, config)
-            .then(res => {
-                this.setState({ filterOptions: res.data });
-            })
+        // this.setState({ url: this.props.history.location.pathname });
+        // var URL = API_URL + 'games/api/filter/';
+        // await axios.get(URL, config)
+        //     .then(res => {
+        //         this.setState({ filterOptions: res.data });
+        //     })
         // console.log(this.state.filterOptions);
         // console.log(this.state.url);
     }

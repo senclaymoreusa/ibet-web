@@ -309,11 +309,9 @@ class DepositHelp2pay extends Component {
 
     amountChanged(event) {
         if (event.target.value.length === 0 || parseInt(event.target.value) > 500000 || parseInt(event.target.value) < 500) {
-            this.setState({ amount: 0 });
-            this.setState({ amountInvalid: true });
+            this.setState({ amount: 0, amountInvalid: true });
         } else {
-            this.setState({ amount: event.target.value });
-            this.setState({ amountInvalid: false });
+            this.setState({ amount: event.target.value, amountInvalid: false });
         }
     }
 
@@ -322,15 +320,12 @@ class DepositHelp2pay extends Component {
         config.headers["Authorization"] = `Token ${token}`;
         axios.get(API_URL + 'users/api/user/', config)
             .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currencyValue: res.data.currency });
+                this.setState({ data: res.data, currencyValue: res.data.currency  });
             });
     }
 
     handleCurrencyChange = event => {
-        this.setState({ selectedCurrencyOption: event.target.value });
-        this.setState({ selectedBankOption: 'none' });
-
+        this.setState({ selectedCurrencyOption: event.target.value, selectedBankOption: 'none' });
     };
 
     amountFocused(event) {
@@ -375,9 +370,9 @@ class DepositHelp2pay extends Component {
             body: formBody
         }).then(function (res) {
         
-            if (res.status == 200) {
+            if (res.status === 200) {
                 return res.text();
-            }else if(res.status == 401){
+            }else if(res.status === 401){
                 currentComponent.props.logout();
                 postLogout();
                 return;

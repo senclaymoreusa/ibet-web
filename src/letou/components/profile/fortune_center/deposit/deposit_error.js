@@ -111,12 +111,18 @@ export class DepositError extends Component {
     }
 
     tryAgainClicked() {
-        var url = this.props.history.location.pathname;
-        var parts = url.split('/');
-        url = '/';
-        var path = parts.slice(1, 5).join('/');
-        url = url + path;
-        this.props.history.push(url);
+        const { operationProp } = this.props;
+        // var url = this.props.history.location.pathname;
+        // console.log("url:" + url)
+        // var parts = url.split('/');
+        // url = '/';
+        // var path = parts.slice(1, 5).join('/');
+        // url = url + path;
+        // console.log("error:" + url)
+        
+        //this.props.history.push(url);
+        
+        this.props.callbackFromParent(operationProp);
         //console.log("error",url)
     }
 

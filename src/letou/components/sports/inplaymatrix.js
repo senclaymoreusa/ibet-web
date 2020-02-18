@@ -129,7 +129,7 @@ export class gbesports extends React.Component {
                     if(res.status == 200) {
                         if(res.data.StatusCode === 0 && res.data.StatusDesc === "Success") {
                             // let launchUrl = "https://imes.claymoreasia.com/?token=" + String(token);
-                            let launchUrl = "https://imes.claymoreasia.com/?token=e789cd6b4cc84f9ff8de0bee5a0bf8f5485c6d9f";
+                            let launchUrl = "https://imes.claymoreasia.com/?token=a7d7eadf40d6364c17a7416b766497ff57fb84e2";
                             console.log(launchUrl);
                             this.setState({url: launchUrl});
                         }

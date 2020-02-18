@@ -69,3 +69,46 @@ export const hide_letou_mobile_signup = () => {
         type: 'HIDE_LETOU_MOBILE_SIGNUP'
     };
 };
+
+export const show_letou_transfer = () => {
+    return {
+        type: 'SHOW_LETOU_TRANSFER'
+    };
+};
+
+export const hide_letou_transfer = () => {
+    return {
+        type: 'HIDE_LETOU_TRANSFER'
+    };
+};
+
+export const saveWalletColors = colors => {
+    return {
+        type: 'SET_WALLET_COLORS',
+        walletColors: colors
+    };
+};
+
+export const setWalletColors = wallets => {
+    return dispatch => {
+        var randomColor = require('randomcolor');
+        let colors = [];
+
+        wallets.map(function(wallet) {
+            parseFloat(wallet.amount) !== 0.0
+                ? colors.push({
+                      code: wallet.code,
+                      color: randomColor({
+                          luminosity: 'bright',
+                          hue: 'random'
+                      })
+                  })
+                : colors.push({
+                      code: wallet.code,
+                      color: '#d9d9d9'
+                  });
+        });
+
+        dispatch(saveWalletColors(colors));
+    };
+};

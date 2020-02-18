@@ -25,6 +25,7 @@ import ForgotPassword from './login-register/forgot_password';
 import NewReleases from '@material-ui/icons/NewReleases';
 import Clear from '@material-ui/icons/Clear';
 import List from '@material-ui/core/List';
+import getSymbolFromCurrency from 'currency-symbol-map';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -32,8 +33,9 @@ import Dehaze from '@material-ui/icons/Dehaze';
 import Fab from '@material-ui/core/Fab';
 import Person from '@material-ui/icons/Person';
 import Avatar from '@material-ui/core/Avatar';
-import axios from 'axios'
+import axios from 'axios';
 import { config } from '../../util_config';
+import Typography from '@material-ui/core/Typography';
 
 import {
     logout,
@@ -51,7 +53,7 @@ import {
 import '../css/top_navbar.scss';
 import { errors } from './errors';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -121,20 +123,41 @@ const styles = theme => ({
         }
     },
     topLinkButton: {
-        margin: theme.spacing(1),
+        margin: 4,
         textTransform: 'capitalize',
         cursor: 'pointer',
         maxHeight: 32
+    },
+    usernameText: {
+        display: 'inline-block',
+        color: '#212121',
+        fontWeight: 600,
+        fontSize: 13
     },
     mobileMenuButton: {
         [theme.breakpoints.up('md')]: {
             margin: theme.spacing(1)
         }
     },
-    secondRowButton: {
+    signUpButton: {
         borderRadius: 18,
         margin: theme.spacing(1),
-        textTransform: 'capitalize'
+        textTransform: 'capitalize',
+        backgroundColor: '#ff9e00',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#FF7E05'
+        }
+    },
+    loginButton: {
+        borderRadius: 18,
+        margin: theme.spacing(1),
+        textTransform: 'capitalize',
+        backgroundColor: '#64bced',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#36A3E6'
+        }
     },
     secondRowDropdown: {
         height: '100%',
@@ -190,13 +213,27 @@ const styles = theme => ({
     },
     profileIcon: {
         margin: theme.spacing(1),
-        marginLeft: 30,
+        marginLeft: 20,
         backgroundColor: '#F1941A',
-        height: 30,
-        width: 36,
+        color: 'white',
+        height: 40,
+        width: 40,
         '&:hover': {
             backgroundColor: '#F1941A'
         }
+    },
+    depositIcon: {
+        marginLeft: 5,
+        backgroundColor: '#F1941A',
+        textTransform: 'capitalize',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#FF7E05'
+        }
+    },
+    depositValue: {
+        fontSize: 13,
+        fontWeight: 'normal'
     },
     margin: {
         margin: theme.spacing(1)
@@ -235,7 +272,7 @@ const styles = theme => ({
     }
 });
 
-export class TopNavbar extends React.Component {
+class TopNavbar extends React.Component {
     constructor(props) {
         super(props);
 
@@ -243,12 +280,22 @@ export class TopNavbar extends React.Component {
             anchorEl: null,
             anchorElLang: null,
             dropdownMenu: 'none',
-            showLoggedinStatus: false,
-            kyUrl: null
+            kyUrl: null,
+            currency: 'USD'
         };
 
         this.getLabel = this.getLabel.bind(this);
         // this.handleOnebookClick = this.handleOnebookClick.bind(this);
+    }
+
+    componentDidUpdate(prev) {
+        if (this.props.isAuthenticated !== prev.isAuthenticated) {
+            this.props.authCheckState();
+        }
+    }
+
+    componentDidMount() {
+        this.props.authCheckState();
     }
 
     langMenuClicked(langValue) {
@@ -273,47 +320,48 @@ export class TopNavbar extends React.Component {
         return formatMessage({ id: labelId });
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(() => {
-            this.setState({ showLoggedinStatus: true });
-        });
-    }
-
-    componentDidMount() {
-        this.props.authCheckState().then(() => {
-            this.setState({ showLoggedinStatus: true });
-        });
-    }
-
     chessOptions(game_id) {
-        if(!this.props.isAuthenticated) {
+        if (!this.props.isAuthenticated) {
             this.props.show_letou_login();
-        }
-        else {
+        } else {
             let token = localStorage.getItem('token');
             config.headers['Authorization'] = `Token ${token}`;
-            axios.get(API_URL + 'users/api/user/', config)
+            axios
+                .get(API_URL + 'users/api/user/', config)
                 .then(res => {
                     let user_name = res.data.username;
-                    axios.post(API_URL + 'games/api/ky/games/', {s: 0, account: String(user_name), money: "0", KindID: String(game_id)}, config)
-                    .then(res => {
-                        if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                            this.props.logout();
-                            postLogout();
-                            return;
-                        }
-    
-                        if(res.status === 200) {
-                            this.setState({kyUrl: res.data.d.url});
-                            window.open(this.state.kyUrl, "kaiyuan gaming");
-                        }
-    
-                    }).catch(err => {
-                        sendingLog(err);
-                    })
-                }).catch(err => {
-                    sendingLog(err);
+                    axios
+                        .post(
+                            API_URL + 'games/api/ky/games/',
+                            {
+                                s: 0,
+                                account: String(user_name),
+                                money: '0',
+                                KindID: String(game_id)
+                            },
+                            config
+                        )
+                        .then(res => {
+                            // console.log("response: ", res);
+                            if (res.data.errorCode === errors.USER_IS_BLOCKED) {
+                                // this.props.logout();
+                                this.props.postLogout();
+                                return;
+                            }
+
+                            if (res.status === 200) {
+                                // console.log(res.data);
+                                this.setState({ kyUrl: res.data.d.url });
+                                window.open(this.state.kyUrl, 'kaiyuan gaming');
+                            }
+                        })
+                        .catch(err => {
+                            sendingLog(err);
+                        });
                 })
+                .catch(err => {
+                    sendingLog(err);
+                });
         }
     }
 
@@ -383,6 +431,7 @@ export class TopNavbar extends React.Component {
     render() {
         const { classes } = this.props;
         const { anchorEl, anchorElLang, dropdownMenu } = this.state;
+        
 
         let flag = '';
 
@@ -437,7 +486,8 @@ export class TopNavbar extends React.Component {
                     >
                         <Flag country="US" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-english')}
+                            {/* {this.getLabel('lang-english')} */}
+                            English
                         </div>
                     </MenuItem>
                     <MenuItem
@@ -453,7 +503,8 @@ export class TopNavbar extends React.Component {
                     >
                         <Flag country="CN" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-chinese')}
+                            {/* {this.getLabel('lang-chinese')} */}
+                            中文
                         </div>
                     </MenuItem>
                     <MenuItem
@@ -466,7 +517,8 @@ export class TopNavbar extends React.Component {
                     >
                         <Flag country="TH" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-thai')}
+                            {/* {this.getLabel('lang-thai')} */}
+                            ประเทศไทย
                         </div>
                     </MenuItem>
                     <MenuItem
@@ -479,7 +531,8 @@ export class TopNavbar extends React.Component {
                     >
                         <Flag country="VN" className={classes.listItemFlag} />
                         <div className={classes.listItemText}>
-                            {this.getLabel('lang-vietnamese')}
+                            {/* {this.getLabel('lang-vietnamese')} */}
+                            Tiếng Việt
                         </div>
                     </MenuItem>
                 </Menu>
@@ -543,7 +596,63 @@ export class TopNavbar extends React.Component {
                                     <Announcements />
                                 </Paper>
                             </Modal>
+
                             <div className={classes.grow} />
+                            {this.props.isAuthenticated && (
+                                <div className={classes.topLinkButton}>
+                                    <Typography
+                                        className={classes.usernameText}
+                                    >
+                                        Hi,{' '}
+                                    </Typography>
+                                    <Typography
+                                        className={classes.usernameText}
+                                    >
+                                        {this.props.username}
+                                    </Typography>
+                                </div>
+                            )}
+                            {this.props.isAuthenticated && (
+                                <div>
+                                    <Button
+                                        size="small"
+                                        onClick={() => {
+                                            this.props.history.push(
+                                                '/p/account-management/message-notification'
+                                            );
+                                        }}
+                                    >
+                                        <div>
+                                            <img
+                                                src={images.src + 'email.png'}
+                                                alt=""
+                                            />
+                                        </div>
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
+                                            this.props.history.push(
+                                                '/p/fortune-center/withdraw'
+                                            );
+                                        }}
+                                    >
+                                        {this.getLabel('withdraw-label')}
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
+                                            this.props.history.push(
+                                                '/p/fortune-center/transfer'
+                                            );
+                                        }}
+                                    >
+                                        {this.getLabel('transfer-label')}
+                                    </Button>
+                                </div>
+                            )}
                             <Button
                                 size="small"
                                 className={classes.topLinkButton}
@@ -552,37 +661,29 @@ export class TopNavbar extends React.Component {
                             >
                                 {this.getLabel('online-service')}
                             </Button>
-                            {this.props.isAuthenticated
-                                ? this.state.showLoggedinStatus && (
-                                    <div>
-                                      <Button
-                                          size="small"
-                                          onClick={() => {
-                                              this.props.history.push('/p/account-management/message-notification')
-                                          }}
-                                      >
-                                          <div>
-                                              <img src={images.src + 'email.png'} alt="" />
-                                          </div>
-                                      </Button>
-                                      <Button
-                                          size="small"
-                                          className={classes.topLinkButton}
-                                          onClick={() => {
-                                              this.props.logout();
-                                              postLogout();
-                                          }}
-                                      >
-                                          {this.getLabel('log-out')}
-                                      </Button>
-                                    </div>
-                                  )
-                                : null}
+                            {this.props.isAuthenticated && (
+                                <div>
+                                    <Button
+                                        size="small"
+                                        className={classes.topLinkButton}
+                                        onClick={() => {
+                                            this.props.postLogout();
+                                        }}
+                                    >
+                                        {this.getLabel('log-out')}
+                                    </Button>
+                                </div>
+                            )}
                         </Toolbar>
                     </AppBar>
                     <AppBar position="static" className={classes.secondRow}>
                         <Toolbar className={classes.secondBar}>
-                            <IconButton href="/" className={classes.logo}>
+                            <IconButton
+                                className={classes.logo}
+                                onClick={() => {
+                                    this.props.history.push('/');
+                                }}
+                            >
                                 <img
                                     src={
                                         images.src +
@@ -621,8 +722,11 @@ export class TopNavbar extends React.Component {
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'sports');
                                 }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
+                                }}
                             >
-                                {this.getLabel('nav-sports')}
+                                {this.getLabel('sports-label')}
                             </Button>
                             <Popper
                                 open={dropdownMenu === 'sports'}
@@ -654,9 +758,11 @@ export class TopNavbar extends React.Component {
                                                         )}
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={this.closeMainMenu.bind(
-                                                            this
-                                                        )}
+                                                        onClick={() => {
+                                                            this.props.history.push(
+                                                                '/btisports'
+                                                            );
+                                                        }}
                                                     >
                                                         {this.getLabel(
                                                             'international-sports'
@@ -706,8 +812,11 @@ export class TopNavbar extends React.Component {
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'gaming');
                                 }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
+                                }}
                             >
-                                {this.getLabel('nav-gaming')}
+                                {this.getLabel('gaming-label')}
                             </Button>
                             <Popper
                                 open={dropdownMenu === 'gaming'}
@@ -778,14 +887,11 @@ export class TopNavbar extends React.Component {
                                         ? classes.activeSecondRowDropdown
                                         : classes.secondRowDropdown
                                 }
-                                onMouseEnter={event => {
-                                    this.openMainMenu(event, 'live-casino');
-                                }}
                                 onClick={() => {
                                     this.props.history.push('/live_casino');
                                 }}
                             >
-                                {this.getLabel('nav-live-casino')}
+                                {this.getLabel('live-casino')}
                             </Button>
                             <Button
                                 variant="contained"
@@ -796,6 +902,9 @@ export class TopNavbar extends React.Component {
                                 }
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'chess');
+                                }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('nav-chess')}
@@ -820,7 +929,9 @@ export class TopNavbar extends React.Component {
                                                 <MenuList>
                                                     <MenuItem
                                                         onClick={() => {
-                                                            this.chessOptions(220);
+                                                            this.chessOptions(
+                                                                220
+                                                            );
                                                         }}
                                                     >
                                                         {this.getLabel(
@@ -829,7 +940,9 @@ export class TopNavbar extends React.Component {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
-                                                            this.chessOptions(600);
+                                                            this.chessOptions(
+                                                                600
+                                                            );
                                                         }}
                                                     >
                                                         {this.getLabel(
@@ -838,7 +951,9 @@ export class TopNavbar extends React.Component {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
-                                                            this.chessOptions(830);
+                                                            this.chessOptions(
+                                                                830
+                                                            );
                                                         }}
                                                     >
                                                         {this.getLabel(
@@ -847,7 +962,9 @@ export class TopNavbar extends React.Component {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
-                                                            this.chessOptions(620);
+                                                            this.chessOptions(
+                                                                620
+                                                            );
                                                         }}
                                                     >
                                                         {this.getLabel(
@@ -856,7 +973,9 @@ export class TopNavbar extends React.Component {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
-                                                            this.chessOptions(0);
+                                                            this.chessOptions(
+                                                                0
+                                                            );
                                                         }}
                                                     >
                                                         {this.getLabel(
@@ -878,6 +997,9 @@ export class TopNavbar extends React.Component {
                                 }
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'lottery');
+                                }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('nav-lottery')}
@@ -973,11 +1095,8 @@ export class TopNavbar extends React.Component {
                                         ? classes.activeSecondRowDropdown
                                         : classes.secondRowDropdown
                                 }
-                                onMouseEnter={event => {
-                                    this.openMainMenu(event, 'games');
-                                }}
                                 onClick={() => {
-                                    this.props.history.push('/game');
+                                    this.props.history.push('/game/all');
                                 }}
                             >
                                 {this.getLabel('nav-games')}
@@ -991,6 +1110,9 @@ export class TopNavbar extends React.Component {
                                 }
                                 onMouseEnter={event => {
                                     this.openMainMenu(event, 'offer');
+                                }}
+                                onMouseLeave={() => {
+                                    this.closeMainMenu.bind(this);
                                 }}
                             >
                                 {this.getLabel('nav-offer')}
@@ -1038,47 +1160,85 @@ export class TopNavbar extends React.Component {
                                 )}
                             </Popper>
                             {this.props.isAuthenticated ? (
-                                this.state.showLoggedinStatus && (
-                                    <Fab
-                                        color="primary"
-                                        aria-label="add"
-                                        className={classes.profileIcon}
-                                        onClick={() => {
-                                            // window.open(window.location.origin + "/p/fortune-center/deposit",
-                                            //     "Letou profile",
-                                            //     "resizable,scrollbars,status");
-                                            this.props.history.push(
-                                                '/p/fortune-center/deposit'
-                                            );
+                                <div>
+                                    <div
+                                        style={{
+                                            display: 'inline-block',
+                                            backgroundColor: '#fff7ec',
+                                            borderRadius: 18,
+                                            padding: 5
                                         }}
+                                    // style={{ backgroundColor: "#64bced", color: "white" }}
                                     >
-                                        <Person />
-                                    </Fab>
-                                )
-                            ) : (
-                                <div style={{ marginLeft: 20 }}>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.history.push(
-                                                '/register'
-                                            );
-                                        }}
-                                    >
-                                        {this.getLabel('sign-up')}
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        className={classes.secondRowButton}
-                                        onClick={() => {
-                                            this.props.show_letou_login();
-                                        }}
-                                    >
-                                        {this.getLabel('log-in')}
-                                    </Button>
+                                        <div
+                                            style={{
+                                                float: 'left',
+                                                display: 'inline',
+                                                color: 'black',
+                                                paddingTop: '8px'
+                                            }}
+                                        >
+                                            <span
+                                                className={classes.depositValue}
+                                            >
+                                                {getSymbolFromCurrency(
+                                                    this.props.currency
+                                                )}
+                                                {this.props.balance}
+                                            </span>
+                                        </div>
+                                        <div style={{ display: 'inline' }}>
+                                            <Fab
+                                                variant="extended"
+                                                size="small"
+                                                className={classes.depositIcon}
+                                                onClick={() => {
+                                                    this.props.history.push(
+                                                        '/p/fortune-center/deposit'
+                                                    );
+                                                }}
+                                            >
+                                                {this.getLabel('deposit-label')}
+                                            </Fab>
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'inline' }}>
+                                        <Fab
+                                            className={classes.profileIcon}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/p/fortune-center/deposit'
+                                                );
+                                            }}
+                                        >
+                                            <Person />
+                                        </Fab>
+                                    </div>
                                 </div>
-                            )}
+                            ) : (
+                                    <div style={{ marginLeft: 20 }}>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.signUpButton}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    '/register'
+                                                );
+                                            }}
+                                        >
+                                            {this.getLabel('sign-up')}
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.loginButton}
+                                            onClick={() => {
+                                                this.props.show_letou_login();
+                                            }}
+                                        >
+                                            {this.getLabel('log-in')}
+                                        </Button>
+                                    </div>
+                                )}
                         </Toolbar>
                     </AppBar>
                     <Modal
@@ -1212,7 +1372,7 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/btisports');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1238,7 +1398,7 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/onebook');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1262,7 +1422,7 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbesports');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1288,7 +1448,7 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/live_casino');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1306,15 +1466,13 @@ export class TopNavbar extends React.Component {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={this.getLabel(
-                                            'nav-live-casino'
-                                        )}
+                                        primary={this.getLabel('live-casino')}
                                     />
                                 </ListItem>
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/game/all');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1338,7 +1496,10 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        
+                                        this.chessOptions(
+                                            0
+                                        );
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1362,7 +1523,7 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbkeno');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1386,7 +1547,7 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gblotto');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1410,7 +1571,7 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbssc');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1434,7 +1595,7 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbpk10');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1458,7 +1619,7 @@ export class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        this.props.history.push('/');
+                                        this.props.history.push('/gbk3');
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
@@ -1526,15 +1687,19 @@ export class TopNavbar extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const { token } = state.auth;
+    const { token, user } = state.auth;
     return {
         isAuthenticated: token !== null && token !== undefined,
+        user: user,
         error: state.auth.error,
         lang: state.language.lang,
         showAnnouncements: state.general.show_letou_announcements,
         showLogin: state.general.show_letou_login,
         showForgotPassword: state.general.show_letou_forgot_password,
-        showMobileMenu: state.general.show_letou_mobile_menu
+        showMobileMenu: state.general.show_letou_mobile_menu,
+        balance: user ? Number(user.balance).toFixed(2) : '',
+        username: user ? user.username : '',
+        currency: user ? user.currency : 'USD'
     };
 };
 

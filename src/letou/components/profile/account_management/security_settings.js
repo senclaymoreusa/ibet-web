@@ -6,17 +6,13 @@ import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { config, images } from '../../../../util_config';
-import axios from 'axios';
+import { images } from '../../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -35,7 +31,6 @@ const styles = theme => ({
     },
     rootMobile: {
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
@@ -159,34 +154,9 @@ const styles = theme => ({
 });
 
 export class SecuritySettings extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            lastLoginTime: '',
-            securityQuestionHasBeenset: false,
-            withdrawalPasswordHasBeenset: false
-        };
-    }
-
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
-    }
-
-    componentWillReceiveProps(prevProps) {
-        this.props.authCheckState().then(res => {
-            if (res === 1) {
-                this.props.history.push('/');
-            }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ lastLoginTime: res.data.last_login_time });
-        });
     }
 
     componentDidMount() {
@@ -195,32 +165,10 @@ export class SecuritySettings extends Component {
                 this.props.history.push('/');
             }
         });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ lastLoginTime: res.data.last_login_time });
-            this.setState({
-                securityQuestionHasBeenset: res.data.security_question
-                    ? true
-                    : false
-            });
-            this.setState({
-                withdrawalPasswordHasBeenset: res.data.withdraw_password
-                    ? true
-                    : false
-            });
-        });
     }
 
     render() {
-        const { classes } = this.props;
-        const {
-            lastLoginTime,
-            securityQuestionHasBeenset,
-            withdrawalPasswordHasBeenset
-        } = this.state;
+        const { classes, user } = this.props;
 
         return (
             <div className={classes.root}>
@@ -233,7 +181,7 @@ export class SecuritySettings extends Component {
                         </Grid>
                         <Grid item xs={9} className={classes.row}>
                             <span className={classes.value}>
-                                {moment(lastLoginTime).format('llll')}
+                                {moment(user.lastLoginTime).format('llll')}
                             </span>
                         </Grid>
 
@@ -273,11 +221,11 @@ export class SecuritySettings extends Component {
                         </Grid>
                         <Grid item xs={6} className={classes.row}>
                             <span className={classes.value}>
-                                {securityQuestionHasBeenset
+                                {user.hasWithdrawPassword
                                     ? this.getLabel('you-have-set-password')
                                     : this.getLabel(
-                                        'password-you-need-withdrawing'
-                                    )}
+                                          'password-you-need-withdrawing'
+                                      )}
                             </span>
                         </Grid>
                         <Grid
@@ -296,7 +244,7 @@ export class SecuritySettings extends Component {
                                     );
                                 }}
                             >
-                                {securityQuestionHasBeenset
+                                {user.hasWithdrawPassword
                                     ? this.getLabel('edit-label')
                                     : this.getLabel('setup-now')}
                             </Button>
@@ -308,11 +256,11 @@ export class SecuritySettings extends Component {
                         </Grid>
                         <Grid item xs={6} className={classes.row}>
                             <span className={classes.value}>
-                                {securityQuestionHasBeenset
+                                {user.hasSecurityQuestion
                                     ? this.getLabel('you-have-set-question')
                                     : this.getLabel(
-                                        'set-security-question-text'
-                                    )}
+                                          'set-security-question-text'
+                                      )}
                             </span>
                         </Grid>
                         <Grid
@@ -331,7 +279,7 @@ export class SecuritySettings extends Component {
                                 }}
                                 className={classes.editButton}
                             >
-                                {securityQuestionHasBeenset
+                                {user.hasSecurityQuestion
                                     ? this.getLabel('edit-label')
                                     : this.getLabel('setup-now')}
                             </Button>
@@ -454,7 +402,7 @@ export class SecuritySettings extends Component {
                                     </span>
                                     <div className={classes.grow} />
                                     <span className={classes.value}>
-                                        {this.state.actualName}
+                                        {user.firstName + ' ' + user.lastName}
                                     </span>
                                 </Grid>
                                 <Grid
@@ -467,7 +415,7 @@ export class SecuritySettings extends Component {
                                     </span>
                                     <div className={classes.grow} />
                                     <span className={classes.value}>
-                                        {this.state.email}
+                                        {user.email}
                                     </span>
                                 </Grid>
                                 <Grid
@@ -480,7 +428,7 @@ export class SecuritySettings extends Component {
                                     </span>
                                     <div className={classes.grow} />
                                     <span className={classes.value}>
-                                        {this.state.phone}
+                                        {user.phone}
                                     </span>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -694,8 +642,10 @@ export class SecuritySettings extends Component {
 }
 
 const mapStateToProps = state => {
+    const { token, user } = state.auth;
     return {
-        lang: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
     };
 };
 

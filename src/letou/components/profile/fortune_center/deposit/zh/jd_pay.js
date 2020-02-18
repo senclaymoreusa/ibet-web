@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import PropTypes from 'prop-types';
@@ -16,9 +14,9 @@ import NumberFormat from 'react-number-format';
 import { withRouter } from 'react-router-dom';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { authCheckState, sendingLog, logout, postLogout } from '../../../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate } from '../../../../../../actions';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -26,9 +24,15 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430,
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingTop: 50,
@@ -103,7 +107,7 @@ const styles = theme => ({
         borderRadius: 4,
         backgroundColor: '#f28f22',
         marginBottom: 15,
-        width: 90,
+        width: 80,
         height: 44,
         fontSize: 15,
         color: '#fff',
@@ -241,26 +245,23 @@ class JDPay extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'jdpay' });
-            });
-    }
-
     componentDidMount() {
-        const token = localStorage.getItem('token');
-        config.headers["Authorization"] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ data: res.data });
-                this.setState({ currency: getSymbolFromCurrency(res.data.currency) });
-                this.setState({ isFavorite: res.data.favorite_payment_method === 'jdpay' });
-            });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) {
+                this.props.history.push('/')
+            } else {
+                if (this.props.user) {
+                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
+                        isFavorite:
+                            this.props.user.favoriteDepositMethod ===
+                            'jdpay'
+                    });
+                }
+            }
+        })
     }
 
     amountChanged = e => {
@@ -284,18 +285,15 @@ class JDPay extends Component {
     handleClick = () => {
         let currentComponent = this;
 
-        currentComponent.setState({ showLinearProgressBar: true });
-        let userid = this.state.data.pk;
         var postData = {
             amount: this.state.amount,
-            userid: this.state.data.pk,
+            userid: this.props.user.userId,
             currency: "0",
             PayWay: "42", //QRcode
             method: "49", //京东支付
             RealName: this.state.data.last_name + this.state.data.first_name,
         }
-        //console.log(this.state.amount)
-        //console.log(this.state.data.pk)
+
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -310,103 +308,30 @@ class JDPay extends Component {
             },
             body: formBody
         }).then(function (res) {
-            //console.log(res.status);
-            
-            currentComponent.setState({ showLinearProgressBar: false });
-            if(res.status === 200){
+            if (res.status === 200) {
                 return res.json();
-            }else{
+            } else {
                 currentComponent.props.callbackFromParent("error", "Transaction failed.");
                 return res.json();
 
             }
-            
-            
-
         }).then(function (data) {
-            //console.log(data)
-            if(data.errorCode){
-                currentComponent.props.logout();
-                postLogout();
+            if (data.errorCode) {
+                currentComponent.props.postLogout();
                 return;
             }
             let qrurl = data.qr;
-            //console.log(qrurl)
-            if(qrurl != null){
-                currentComponent.setState({ qr_code: qrurl });
-                // const mywin = window.open(qrurl, 'asiapay-alipay')
-                // var timer = setInterval(function () {
-                //     console.log('checking..')
-                //     if (mywin.closed) {
-                //         clearInterval(timer);
-                //         var postData = {
-                //             "order_id": data.oid,
-                //             "userid": "n" + userid,
-                //             "CmdType": "01",
-                //         }
-                //         var formBody = [];
-                //         for (var pd in postData) {
-                //             var encodedKey = encodeURIComponent(pd);
-                //             var encodedValue = encodeURIComponent(postData[pd]);
-                //             formBody.push(encodedKey + "=" + encodedValue);
-                //         }
-                //         formBody = formBody.join("&");
 
-                //         return fetch(API_URL + 'accounting/api/asiapay/orderStatus', {
-                //             method: "POST",
-                //             headers: {
-                //                 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                //             },
-                //             body: formBody
-                //         }).then(function (res) {
-                //             return res.json();
-                //         }).then(function (data) {
-                //             console.log(data.status)
-                //             if (data.status === "001") {
-                //                 //alert('Transaction is approved.');
-                //                 const body = JSON.stringify({
-                //                     type: 'add',
-                //                     username: currentComponent.state.data.username,
-                //                     balance: currentComponent.state.amount,
-                //                 });
-                //                 console.log(body)
-                //                 axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                //                     .then(res => {
-                //                         if (res.data === 'Failed') {
-                //                             //currentComponent.setState({ error: true });
-                //                             currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                //                         } else if (res.data === "The balance is not enough") {
-                //                             currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                //                         } else {
-                //                             currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                //                         } });
-                //             } else {
-                //                 currentComponent.props.callbackFromParent("error", data.StatusMsg);
-                //             }
-                //         });
-                //     }
-                // }, 1000);
-                
-            }else{
+            if (qrurl != null) {
+                currentComponent.setState({ qr_code: qrurl });
+            } else {
                 currentComponent.props.callbackFromParent("error", data.StatusMsg);
             }
-            // currentComponent.setState({ qr: data.qr });
-            // currentComponent.setState({ showLinearProgressBar: false });
-
-            // if (data.code == 'ERROR') {
-            //     alert(data.message);
-            // } else {
-            //     currentComponent.setState({ value: currentComponent.state.qr, show_qrcode: true })
-            // }
         }).catch(function (err) {
             currentComponent.props.callbackFromParent("error", "Something is wrong.");
-
-            //console.log('Request failed', err);
-
-            // axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(res => { });
             sendingLog(err);
         });
-    
+
     }
 
     getLabel(labelId) {
@@ -416,12 +341,12 @@ class JDPay extends Component {
 
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
-            user_id: this.state.data.pk,
+            user_id: this.props.user.userId,
             payment: event.target.checked ? 'jdpay' : null,
         })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
             })
             .catch(function (err) {
                 sendingLog(err);
@@ -522,10 +447,12 @@ class JDPay extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        language: state.language.lang,
-    }
-}
+const mapStateToProps = state => {
+    const { user } = state.auth;
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(JDPay))));
+    return {
+        user: user
+    };
+};
+
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(JDPay))));

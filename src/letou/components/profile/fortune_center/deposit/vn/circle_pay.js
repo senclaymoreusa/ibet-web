@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
@@ -11,7 +12,7 @@ import {
     authCheckState,
     sendingLog,
     AUTH_RESULT_FAIL,
-    postLogout
+    authUserUpdate
 } from '../../../../../../actions';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import NumberFormat from 'react-number-format';
@@ -32,10 +33,15 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingLeft: 263,
@@ -216,7 +222,8 @@ const styles = theme => ({
         }
     },
     infoGrid: {
-        width: 430,
+        width: '100%',
+        maxWidth: 430,
         border: '1px solid #e4e4e4',
         borderRadius: 3,
         paddingLeft: 16,
@@ -351,51 +358,29 @@ class CirclePay extends Component {
             amountFocused: false,
             amountInvalid: true,
 
-            currency: 'THB',
-            currencyCode: 'THB',
+            currency: 'VND',
+            currencyCode: 'VND',
             isFavorite: false
         };
-    }
-
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                currency: getSymbolFromCurrency(res.data.currency)
-            });
-            this.setState({ currencyCode: res.data.currency });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'circlepay'
-            });
-        });
     }
 
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                if (this.props.user) {
+                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
+                        currencyCode: this.props.user.currency,
+                        isFavorite:
+                            this.props.user.favoriteDepositMethod ===
+                            'circlepay'
+                    });
+                }
             }
-        });
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                currency: getSymbolFromCurrency(res.data.currency)
-            });
-            this.setState({ currencyCode: res.data.currency });
-            this.setState({
-                isFavorite: res.data.favorite_payment_method === 'circlepay'
-            });
         });
     }
 
@@ -408,11 +393,11 @@ class CirclePay extends Component {
             const re = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
 
             if (re.test(event.target.value)) {
-                this.setState({ amount: event.target.value });
                 this.setState({
+                    amount: event.target.value,
                     amountInvalid:
                         parseFloat(event.target.value) < 20000 ||
-                        parseFloat(event.target.value) > 100000000
+                        parseFloat(event.target.value) > 5000000
                 });
             } else {
                 this.setState({ amountInvalid: true });
@@ -486,8 +471,6 @@ class CirclePay extends Component {
                 config
             )
             .then(res => {
-                console.log('result of deposit: ');
-                console.log(res);
                 if (res.status !== 200) {
                     this.setState({
                         error: true,
@@ -498,13 +481,33 @@ class CirclePay extends Component {
                         JSON.stringify(res)
                     );
                 } else {
-                    console.log(res);
-                    if (res.data.errorCode) {
-                        currentComponent.props.logout();
-                        postLogout();
-                        return;
-                    }
-                    window.open(postURL);
+                    currentComponent.props.authUserUpdate();
+
+                    // if (res.data.errorCode) {
+                    //     currentComponent.props.postLogout();
+                    //     return;
+                    // }
+
+                    let newwin = window.open(
+                        postURL,
+                        'CirclePay Portal',
+                        'location=no'
+                    );
+                    console.log('opening window');
+                    currentComponent.props.callbackFromParent(
+                        'pending',
+                        'Please continue through the pop-up portal and make sure to follow the instructions'
+                    );
+                    let timer = setInterval(function() {
+                        if (newwin.closed) {
+                            clearInterval(timer);
+                            console.log('closed window');
+                            currentComponent.props.callbackFromParent(
+                                'success',
+                                'Transaction processing. Please check your balance for updates'
+                            );
+                        }
+                    }, 1000);
                 }
             })
             .catch(function(err) {
@@ -524,12 +527,12 @@ class CirclePay extends Component {
     setAsFavorite(event) {
         axios
             .post(API_URL + `users/api/favorite-payment-setting/`, {
-                user_id: this.state.data.pk,
+                user_id: this.props.user.userId,
                 payment: event.target.checked ? 'circlepay' : null
             })
             .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
             })
             .catch(function(err) {
                 sendingLog(err);
@@ -570,7 +573,7 @@ class CirclePay extends Component {
                     </Grid>
                     <Grid item xs={12} className={classes.infoRow}>
                         <span className={classes.info}>
-                            {this.getLabel('momo-pay')}
+                            {this.getLabel('momopay')}
                         </span>
                         <span className={classes.fee}>
                             {this.getLabel('momo-fee')}
@@ -654,18 +657,19 @@ class CirclePay extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang
+        user: user
     };
 };
 
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState }
-            )(CirclePay)
+            connect(mapStateToProps, { authCheckState, authUserUpdate })(
+                CirclePay
+            )
         )
     )
 );

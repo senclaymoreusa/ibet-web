@@ -19,12 +19,7 @@ const styles = () => ({
 
 export class SharingPlan extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
-  
-
+    
     render() {
         const { classes } = this.props;
 

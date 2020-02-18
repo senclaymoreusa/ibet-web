@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
@@ -17,7 +18,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -31,16 +33,20 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingTop: 50,
         paddingBottom: 50
     },
-
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
@@ -201,11 +207,17 @@ const styles = theme => ({
     }
 });
 
-const bank_options = [
+const vn_bank_options = [
     {
         value: 'ACB',
         label: 'Asia Commercial Bank',
         img: 'letou/acb.png',
+        code: 'VND'
+    },
+    {
+        value: 'AGB',
+        label: 'Agribank',
+        img: 'letou/Agribank-logo-big.png',
         code: 'VND'
     },
     {
@@ -228,9 +240,21 @@ const bank_options = [
         code: 'VND'
     },
     {
+        value: 'SCMB',
+        label: 'SAIGON Bank',
+        img: 'letou/saigonbank.png',
+        code: 'VND'
+    },
+    {
         value: 'TCB',
         label: 'Techcom Bank',
         img: 'letou/techcombank.png',
+        code: 'VND'
+    },
+    {
+        value: 'VIB',
+        label: 'Vietnam International Bank',
+        img: 'letou/VIB-Logo.png',
         code: 'VND'
     },
     {
@@ -339,43 +363,22 @@ class VietnamLocalBank extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            }
-        });
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                currency: getSymbolFromCurrency(res.data.currency)
-            });
-            this.setState({
-                isFavorite:
-                    res.data.favorite_payment_method === 'vietnamlocalbank'
-            });
-        });
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
+            } else {
+                if (this.props.user) {
+                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
+                        isFavorite:
+                            this.props.user.favoriteDepositMethod ===
+                            'vnlocalbank'
+                    });
+                }
             }
-        });
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-        axios.get(API_URL + 'users/api/user/', config).then(res => {
-            this.setState({ data: res.data });
-            this.setState({
-                currency: getSymbolFromCurrency(res.data.currency)
-            });
-            this.setState({
-                isFavorite:
-                    res.data.favorite_payment_method === 'vietnamlocalbank'
-            });
         });
     }
 
@@ -405,142 +408,40 @@ class VietnamLocalBank extends Component {
 
         const re = /^[0-9\b]+$/;
 
-        if (re.test(event.target.value))
+        if (re.test(event.target.value)) {
             this.setState({ bankAccountNumber: event.target.value });
-        else if (event.target.value.length === 0)
+        } else if (event.target.value.length === 0)
             this.setState({ bankAccountNumber: '' });
     }
 
     handleClick() {
-        let currentComponent = this;
+        const token = localStorage.getItem('token');
 
-        let userid = this.state.data.pk;
+        if (!token) {
+            console.log('no token -- user is not logged in');
+            alert('Please log in');
+            this.props.history.push('/');
+        }
+        config.headers['Authorization'] = `Token ${token}`;
+        let userid = this.props.user.userId;
         var postData = {
             amount: this.state.amount,
-            userid: this.state.data.pk,
-            currency: 8,
-            PayWay: '30', //在线支付
-            method: '38' //wechat
+            userid: userid,
+            currency: 7,
+            real_name: this.state.name,
+            bank_acc_no: this.state.bankAccountNumber,
+            bank: this.state.bank,
+            type: 0 // 0 = deposit
         };
-        //console.log(this.state.data.pk)
-        var formBody = [];
-        for (var pd in postData) {
-            var encodedKey = encodeURIComponent(pd);
-            var encodedValue = encodeURIComponent(postData[pd]);
-            formBody.push(encodedKey + '=' + encodedValue);
-        }
-        formBody = formBody.join('&');
-        return fetch(API_URL + 'accounting/api/asiapay/deposit', {
-            method: 'POST',
-            headers: {
-                'content-type':
-                    'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            body: formBody
-        })
-            .then(function (res) {
-                return res.json();
-            })
-            .then(function (data) {
-                //console.log(data)
-                let qrurl = data.qr;
-                //console.log(qrurl)
-                if (qrurl != null) {
-                    const mywin = window.open(qrurl, 'asiapay-wechatpay');
-                    var timer = setInterval(function () {
-                        if (mywin.closed) {
-                            clearInterval(timer);
-                            var postData = {
-                                order_id: data.oid,
-                                userid: 'n' + userid,
-                                CmdType: '01'
-                            };
-                            var formBody = [];
-                            for (var pd in postData) {
-                                var encodedKey = encodeURIComponent(pd);
-                                var encodedValue = encodeURIComponent(
-                                    postData[pd]
-                                );
-                                formBody.push(encodedKey + '=' + encodedValue);
-                            }
-                            formBody = formBody.join('&');
 
-                            return fetch(
-                                API_URL + 'accounting/api/asiapay/orderStatus',
-                                {
-                                    method: 'POST',
-                                    headers: {
-                                        'content-type':
-                                            'application/x-www-form-urlencoded; charset=UTF-8'
-                                    },
-                                    body: formBody
-                                }
-                            )
-                                .then(function (res) {
-                                    return res.json();
-                                })
-                                .then(function (data) {
-                                    //console.log(data.status)
-                                    if (data.status === '001') {
-                                        //alert('Transaction is approved.');
-                                        const body = JSON.stringify({
-                                            type: 'add',
-                                            username:
-                                                currentComponent.state.data
-                                                    .username,
-                                            balance:
-                                                currentComponent.state.amount
-                                        });
-                                        //console.log(body)
-                                        axios
-                                            .post(
-                                                API_URL +
-                                                `users/api/addorwithdrawbalance/`,
-                                                body,
-                                                config
-                                            )
-                                            .then(res => {
-                                                if (res.data === 'Failed') {
-                                                    //currentComponent.setState({ error: true });
-                                                    currentComponent.props.callbackFromParent(
-                                                        'error',
-                                                        'Transaction failed.'
-                                                    );
-                                                } else if (
-                                                    res.data ===
-                                                    'The balance is not enough'
-                                                ) {
-                                                    currentComponent.props.callbackFromParent(
-                                                        'error',
-                                                        'Cannot deposit this amount.'
-                                                    );
-                                                } else {
-                                                    currentComponent.props.callbackFromParent(
-                                                        'success',
-                                                        currentComponent.state
-                                                            .amount
-                                                    );
-                                                }
-                                            });
-                                    } else {
-                                        currentComponent.props.callbackFromParent(
-                                            'error',
-                                            data.StatusMsg
-                                        );
-                                    }
-                                });
-                        }
-                    }, 1000);
-                } else {
-                    currentComponent.props.callbackFromParent(
-                        'error',
-                        data.StatusMsg
-                    );
-                }
-            })
-            .catch(function (err) {
-                currentComponent.props.callbackFromParent('error', err.message);
-                sendingLog(err);
+        return axios
+            .post(
+                API_URL + 'accounting/api/transactions/save_transaction',
+                postData,
+                config
+            )
+            .then(res => {
+                console.log(res);
             });
     }
 
@@ -552,14 +453,14 @@ class VietnamLocalBank extends Component {
     setAsFavorite(event) {
         axios
             .post(API_URL + `users/api/favorite-payment-setting/`, {
-                user_id: this.state.data.pk,
-                payment: event.target.checked ? 'vietnamlocalbank' : null
+                user_id: this.props.user.userId,
+                payment: event.target.checked ? 'vnlocalbank' : null
             })
             .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 sendingLog(err);
             });
     }
@@ -632,7 +533,7 @@ class VietnamLocalBank extends Component {
                             }
                             helperText={
                                 this.state.bankAccountNumberFocused &&
-                                    bankAccountNumber.length === 0
+                                bankAccountNumber.length === 0
                                     ? this.getLabel('invalid-bank-number')
                                     : ' '
                             }
@@ -668,7 +569,7 @@ class VietnamLocalBank extends Component {
                             <MenuItem key="none" value="none" disabled>
                                 <span>{this.getLabel('choose-bank')}</span>
                             </MenuItem>
-                            {bank_options.map(bank => (
+                            {vn_bank_options.map(bank => (
                                 <MenuItem key={bank.label} value={bank.value}>
                                     <div style={{ width: 100 }}>
                                         <img
@@ -698,7 +599,7 @@ class VietnamLocalBank extends Component {
                             }
                             helperText={
                                 this.state.amountInvalid &&
-                                    this.state.amountFocused
+                                this.state.amountFocused
                                     ? this.getLabel('valid-amount')
                                     : ' '
                             }
@@ -766,18 +667,19 @@ class VietnamLocalBank extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang
+        user: user
     };
 };
 
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(
-                mapStateToProps,
-                { authCheckState }
-            )(VietnamLocalBank)
+            connect(mapStateToProps, { authCheckState, authUserUpdate })(
+                VietnamLocalBank
+            )
         )
     )
 );

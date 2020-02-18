@@ -5,11 +5,6 @@ import { injectIntl, FormattedNumber } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
-
-import DepositMain from './deposit/deposit_main';
-import TotalAssets from './total_assets';
-import Transfer from './transfer';
-import Withdrawal from './withdrawal';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -23,18 +18,23 @@ import FlightLandOutlined from '@material-ui/icons/FlightLandOutlined';
 import FlightTakeoffOutlined from '@material-ui/icons/FlightTakeoffOutlined';
 import LoopOutlined from '@material-ui/icons/LoopOutlined';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+import DepositMain from './deposit/deposit_main';
+import TotalAssets from './total_assets';
+import Transfer from './transfer';
+import WithdrawMain from './withdraw/withdraw_main';
 
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh'
+        alignItems: 'center'
     },
     rootDesktop: {
-        height: 92,
+        maxWidth: 1400,
+        width: '100%',
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'flex',
@@ -42,9 +42,9 @@ const styles = theme => ({
         }
     },
     rootMobile: {
+        width: '100%',
         minHeight: '100vh',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
@@ -99,9 +99,7 @@ const styles = theme => ({
     },
     content: {
         flexGrow: 1,
-        paddingLeft: 10,
-        paddingTop: 10,
-        paddingBottom: 10
+        paddingLeft: 10
     },
     mobileMenuButton: {
         [theme.breakpoints.up('md')]: {
@@ -190,49 +188,6 @@ export class FortuneCenter extends Component {
             mainWallet: 0,
             currency: 'CNY'
         }
-
-        this.handleTabChange = this.handleTabChange.bind(this);
-    }
-
-    handleTabChange(event, newValue) {
-        this.setState({ desktopContent: newValue });
-        this.setState({ desktopTabValue: newValue });
-
-        var url = this.state.urlPath;
-        var parts = url.split('/');
-
-        url = '/';
-        var path = parts.slice(1, 3).join('/');
-        url = url + path;
-
-        url = url + '/' + newValue;
-        this.props.history.push(url);
-    }
-
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            }
-        })
-
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
-
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ username: res.data.username });
-                this.setState({ mainWallet: res.data.main_wallet });
-                this.setState({ currency: res.data.currency });
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
-
-        this.setState({ urlPath: this.props.history.location.pathname });
-
-        this.initializeContent();
     }
 
     componentDidMount() {
@@ -244,22 +199,24 @@ export class FortuneCenter extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/')
+            } else {
+                const token = localStorage.getItem('token');
+                config.headers['Authorization'] = `Token ${token}`;
+
+                axios
+                    .get(API_URL + 'users/api/user/', config)
+                    .then(res => {
+                        this.setState({ username: res.data.username });
+                        this.setState({ mainWallet: res.data.main_wallet });
+                        this.setState({ currency: res.data.currency });
+                    })
+                    .catch(function (err) {
+                        sendingLog(err);
+                    });
             }
         })
 
-        const token = localStorage.getItem('token');
-        config.headers['Authorization'] = `Token ${token}`;
 
-        axios
-            .get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                this.setState({ username: res.data.username });
-                this.setState({ mainWallet: res.data.main_wallet });
-                this.setState({ currency: res.data.currency });
-            })
-            .catch(function (err) {
-                sendingLog(err);
-            });
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -304,50 +261,21 @@ export class FortuneCenter extends Component {
         return formatMessage({ id: labelId });
     }
 
-    render() {
+    getMobileContent() {
+        const { subProp } = this.props;
         const { classes } = this.props;
-        const { desktopContent, desktopTabValue } = this.state;
-      
-        return (
-            <div className={classes.root}>
-                <div className={classes.rootDesktop}>
-                    <Grid container className={classes.mainGrid}>
-                        <Grid item xs={12} className={classes.titleRow}>
-                            <span className={classes.title}>{this.getLabel('fortune-center')}</span>
-                        </Grid>
-                        <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
-                            <div className={classes.leftPane}>
-                                <Button className={(desktopTabValue === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'total-assets')}>
-                                    <AccountBalanceOutlined style={{ marginRight: 8 }} />
-                                    {this.getLabel('total-assets')}
-                                </Button>
-                                <Button className={(desktopTabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'deposit')}>
-                                    <FlightLandOutlined style={{ marginRight: 8 }} />
-                                    {this.getLabel('deposit-label')}
-                                </Button>
-                                <Button className={(desktopTabValue === 'withdrawal') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'withdrawal')}>
-                                    <FlightTakeoffOutlined style={{ marginRight: 8 }} />
-                                    {this.getLabel('title-withdrawal')}
-                                </Button>
-                                <Button className={(desktopTabValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
-                                    onClick={(evt) => this.handleTabChange(evt, 'transfer')}>
-                                    <LoopOutlined style={{ marginRight: 8 }} />
-                                    {this.getLabel('title-transfer')}
-                                </Button>
-                            </div>
-                            <div className={classes.content}>
-                                {desktopContent === 'deposit' && <DepositMain />}
-                                {desktopContent === 'total-assets' && <TotalAssets />}
-                                {desktopContent === 'transfer' && <Transfer />}
-                                {desktopContent === 'withdrawal' && <Withdrawal />}
-                            </div>
-                        </Grid>
-                    </Grid>
-                </div>
-                <div className={classes.rootMobile}>
+
+        switch (subProp) {
+            case 'deposit':
+                return <DepositMain />;
+            case 'withdraw':
+                return <WithdrawMain />;
+            case 'transfer':
+                return <Transfer />;
+            case 'total-assets':
+                return <TotalAssets />;
+            default:
+                return (<div>
                     <AppBar position="static" className={classes.mobileRow}>
                         <Toolbar className={classes.mobileBar}>
                             <Grid container>
@@ -429,7 +357,7 @@ export class FortuneCenter extends Component {
                         <Grid item xs={12} className={classes.row}
                             onClick={() => {
                                 this.props.history.push(
-                                    '/p/fortune-center/withdrawal'
+                                    '/p/fortune-center/withdraw'
                                 );
                             }}>
                             <img
@@ -439,7 +367,7 @@ export class FortuneCenter extends Component {
                                 className={classes.listImage}
                             />
                             <span className={classes.label}>
-                                {this.getLabel('title-withdrawal')}
+                                {this.getLabel('withdraw-label')}
                             </span>
                             <div className={classes.grow} />
                             <KeyboardArrowRight />
@@ -485,18 +413,66 @@ export class FortuneCenter extends Component {
                             <KeyboardArrowRight />
                         </Grid>
                     </Grid>
+                </div>);
+        }
+    }
+
+    render() {
+        const { classes } = this.props;
+        const { desktopContent, desktopTabValue } = this.state;
+
+        return (
+            <div className={classes.root}>
+                <div className={classes.rootDesktop}>
+                    <Grid container className={classes.mainGrid}>
+                        <Grid item xs={12} className={classes.titleRow}>
+                            <span className={classes.title}>{this.getLabel('fortune-center')}</span>
+                        </Grid>
+                        <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
+                            <div className={classes.leftPane}>
+                                <Button className={(desktopTabValue === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                    onClick={() => this.props.history.push('/p/fortune-center/total-assets')}>
+                                    <AccountBalanceOutlined style={{ marginRight: 8 }} />
+                                    {this.getLabel('total-assets')}
+                                </Button>
+                                <Button className={(desktopTabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                    onClick={() => this.props.history.push('/p/fortune-center/deposit')}>
+                                    <FlightLandOutlined style={{ marginRight: 8 }} />
+                                    {this.getLabel('deposit-label')}
+                                </Button>
+                                <Button className={(desktopTabValue === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                    onClick={() => this.props.history.push('/p/fortune-center/withdraw')}>
+                                    <FlightTakeoffOutlined style={{ marginRight: 8 }} />
+                                    {this.getLabel('withdraw-label')}
+                                </Button>
+                                <Button className={(desktopTabValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                    onClick={() => this.props.history.push('/p/fortune-center/transfer')}>
+                                    <LoopOutlined style={{ marginRight: 8 }} />
+                                    {this.getLabel('title-transfer')}
+                                </Button>
+                            </div>
+                            <div className={classes.content}>
+                                {desktopContent === 'deposit' && <DepositMain />}
+                                {desktopContent === 'total-assets' && <TotalAssets />}
+                                {desktopContent === 'transfer' && <Transfer />}
+                                {desktopContent === 'withdraw' && <WithdrawMain />}
+                            </div>
+                        </Grid>
+                    </Grid>
+                </div>
+                <div className={classes.rootMobile}>
+                    {this.getMobileContent()}
                 </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     const { token } = state.auth;
     return {
         isAuthenticated: token !== null && token !== undefined,
-        error: state.auth.error,
-        lang: state.language.lang
+        subProp: ownProps.match.params.sub
     };
 };
 
